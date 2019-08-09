@@ -1,0 +1,8 @@
+.full-width {
+	width: 100%;
+}
+
+.action-buttons {
+	display: flex;
+	justify-content: flex-end;
+}
