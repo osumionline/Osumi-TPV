@@ -1,0 +1,53 @@
+.toolbar{
+  justify-content: space-between;
+}
+
+.toolbar-options{
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toolbar-btn{
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  outline: 0;
+}
+
+.toolbar-btn:hover{
+  background-color: #ddd;
+}
+
+.toolbar-btn > span{
+  display: inline-block;
+  font-size: 12pt;
+  margin-left: 8px;
+}
+
+.toolbar-btn-selected{
+  background-color: #eee;
+  border: 2px solid #888;
+}
+
+.options{
+  width: 100%;
+  height: calc(100% - 64px);
+  position: absolute;
+  top: 64px;
+  left: 0;
+}
+
+.options > *{
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
+.option-show{
+  display: block !important;
+}
