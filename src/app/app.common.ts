@@ -1,10 +1,12 @@
 /*
  * Páginas
  */
-import { MainComponent } from './pages/main/main.component';
+import { MainComponent }         from './pages/main/main.component';
+import { InstallationComponent } from './pages/installation/installation.component';
 
 export const PAGES: any[] = [
-	MainComponent
+	MainComponent,
+	InstallationComponent
 ];
 
 /*
@@ -13,11 +15,17 @@ export const PAGES: any[] = [
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
 import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
+import { VentasComponent }        from './components/ventas/ventas.component';
+import { ArticulosComponent }     from './components/articulos/articulos.component';
+import { PedidosComponent }       from './components/pedidos/pedidos.component';
 
 export const COMPONENTS: any[] = [
 	ConfirmDialogComponent,
 	AlertDialogComponent,
-	FormDialogComponent
+	FormDialogComponent,
+	VentasComponent,
+	ArticulosComponent,
+	PedidosComponent
 ];
 
 /*

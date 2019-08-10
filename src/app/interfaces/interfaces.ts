@@ -12,3 +12,14 @@ export interface DialogOptions {
   ok: string;
   cancel?: string;
 }
+
+export interface AppData {
+  ventaOnline: boolean;
+  ivaList: number[];
+}
+
+export interface StartDataResult {
+  status: string;
+  opened: boolean;
+  appData: AppData;
+}
