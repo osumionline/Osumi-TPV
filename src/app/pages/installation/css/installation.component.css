@@ -1,0 +1,80 @@
+:host{
+  background-color: #eee;
+}
+
+.main{
+  margin: 16px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.option-margin{
+  margin-left: 16px;
+}
+
+.select-list-wrapper{
+  margin: 16px;
+  width: 50%;
+}
+
+.select-list-header{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.select-list-body{
+  display: flex;
+  flex-direction: row;
+}
+
+.select-list-col{
+  flex: 2;
+}
+
+.select-list-buttons{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.select-list-item{
+  line-height: 32px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  padding-left: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.select-list-item:hover{
+  border: 1px solid #888;
+}
+
+.select-list-selected{
+  background-color: #ff8800;
+  color: #fff;
+}
+
+.margin-list{
+  margin: 16px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.margin-list li{
+  margin-bottom: 8px;
+}
+
+.end-actions{
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
