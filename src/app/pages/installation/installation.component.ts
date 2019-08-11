@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../../services/dialog.service';
+import { Router }            from '@angular/router';
+import { DialogService }     from '../../services/dialog.service';
+import { ApiService }        from '../../services/api.service';
+import { AppData }           from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-installation',
@@ -40,7 +43,7 @@ export class InstallationComponent implements OnInit {
   hasOnline: string = '0';
   hasExpiryDate: string = '0';
 
-  constructor(private dialog: DialogService) {}
+  constructor(private dialog: DialogService, private as: ApiService, private router: Router) {}
   ngOnInit() {
     this.optionsList = [...this.ivaOptionsList];
   }
@@ -87,13 +90,50 @@ export class InstallationComponent implements OnInit {
     this.selectedOptionInList = null;
   }
   
+  selectAllMargins(){
+    for (let i in this.marginList){
+      this.marginList[i].checked = true;
+    }
+  }
+  
+  selectNoneMargins(){
+    for (let i in this.marginList){
+      this.marginList[i].checked = false;
+    }
+  }
+  
   saveConfiguration(){
     if (this.selectedOptionsList.length==0){
       this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'}).subscribe(result => {});
       return false;
     }
     
-    const selectedMargins = this.marginList.filter(x => x.checked);
-    console.log(selectedMargins);
+    const selectedMargins = this.marginList.filter(x => x.checked).map(v => v.value);
+    if (selectedMargins.length==0){
+      this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de margenes de beneficio!', ok: 'Continuar'}).subscribe(result => {});
+      return false;
+    }
+    
+    const data = {
+      tipoIva: this.selectedOption,
+      ivaList: this.selectedOptionsList,
+      marginList: selectedMargins,
+      ventaOnline: (this.hasOnline=='1'),
+      fechaCad: (this.hasExpiryDate=='1')
+    } as AppData;
+    
+    this.as.saveInstallation(data).subscribe(result => {
+      if (result.status==='ok'){
+        this.dialog.alert({title: 'Información', content: 'Los datos han sido guardados, puedes continuar con la aplicación. ', ok: 'Continuar'}).subscribe(result => {
+          this.router.navigate(['/']);
+        });
+      }
+      else{
+        this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar los datos!', ok: 'Continuar'}).subscribe(result => {});
+        return false;
+      }
+    });
+    
+    console.log(data);
   }
 }

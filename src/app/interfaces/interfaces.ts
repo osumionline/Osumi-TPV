@@ -14,12 +14,19 @@ export interface DialogOptions {
 }
 
 export interface AppData {
-  ventaOnline: boolean;
+  tipoIva: string;
   ivaList: number[];
+  marginList: number[];
+  ventaOnline: boolean;
+  fechaCad: boolean;
 }
 
 export interface StartDataResult {
   status: string;
   opened: boolean;
   appData: AppData;
+}
+
+export interface StatusResult {
+  status: string;
 }

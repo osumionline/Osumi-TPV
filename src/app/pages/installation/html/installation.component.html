@@ -42,6 +42,11 @@
       </li>
     </ul>
     
+    <p>
+      <button mat-raised-button class="option-margin" color="primary" (click)="selectAllMargins()">Marcar todos</button>
+      <button mat-raised-button class="option-margin" color="primary" (click)="selectNoneMargins()">Desmarcar todos</button>
+    </p>
+    
     <p>¿La aplicación se enlazará con una tienda online?</p>
     
     <mat-radio-group class="option-margin" aria-label="Venta online" [(ngModel)]="hasOnline">
