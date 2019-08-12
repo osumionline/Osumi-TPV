@@ -30,3 +30,17 @@ export interface StartDataResult {
 export interface StatusResult {
   status: string;
 }
+
+export interface Marca {
+  id: number;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+  email: string;
+  web: string;
+  observaciones: string;
+}
+
+export interface MarcasResult {
+  list: Marca[];
+}

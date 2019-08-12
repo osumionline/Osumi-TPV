@@ -2,6 +2,15 @@
   <img src="assets/loading.svg" alt="Cargando...">
 </div>
 
+<div class="not-opened" *ngIf="!loading && !isOpened">
+  <mat-card>
+    <h1>Osumi TPV</h1>
+    <div class="not-opened-button">
+      <button mat-raised-button color="primary" (click)="openBox()">Abrir caja</button>
+    </div>
+  </mat-card>
+</div>
+
 <mat-toolbar color="primary" class="toolbar">
   <span>Osumi TPV</span>
   <div class="toolbar-options">
@@ -25,7 +34,7 @@
 </mat-toolbar>
 
 <div class="options">
-  <app-ventas [ngClass]="{'option-show': selectedOption=='sales'}"></app-ventas>
-  <app-articulos [ngClass]="{'option-show': selectedOption=='items'}"></app-articulos>
-  <app-pedidos [ngClass]="{'option-show': selectedOption=='orders'}"></app-pedidos>
+  <app-ventas [ngClass]="{'option-show': selectedOption=='sales'}" #ventas></app-ventas>
+  <app-articulos [ngClass]="{'option-show': selectedOption=='items'}" #articulos></app-articulos>
+  <app-pedidos [ngClass]="{'option-show': selectedOption=='orders'}" #pedidos></app-pedidos>
 </div>

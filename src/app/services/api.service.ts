@@ -6,7 +6,8 @@ import { environment }             from '../../environments/environment';
 import {
   StartDataResult,
   AppData,
-  StatusResult
+  StatusResult,
+  MarcasResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -23,5 +24,13 @@ export class ApiService {
   
   saveInstallation(data: AppData): Observable<StatusResult> {
     return this.http.post<StatusResult>(this.apiUrl + 'saveInstallation', data);
+  }
+  
+  openBox(): Observable<StatusResult> {
+    return this.http.post<StatusResult>(this.apiUrl + 'openBox', {});
+  }
+  
+  getMarcas(): Observable<MarcasResult> {
+    return this.http.post<MarcasResult>(this.apiUrl + 'getMarcas', {});
   }
 }

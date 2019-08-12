@@ -1,1 +1,122 @@
-<p>articulos works!</p>
+<mat-card class="card-margin">
+  <mat-card-header>
+    <mat-card-title>Nuevo artículo</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group dynamicHeight>
+      <mat-tab label="General">
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Localizador</mat-label>
+            <input matInput placeholder="Localizador">
+          </mat-form-field>
+          <mat-form-field class="margin-left nombre-label" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>PUC</mat-label>
+            <input matInput placeholder="Precio Unitario de Compra">
+          </mat-form-field>
+          <mat-form-field class="margin-left" appearance="outline">
+            <mat-label>PVP</mat-label>
+            <input matInput placeholder="Precio de Venta al Público">
+          </mat-form-field>
+          <mat-form-field class="margin-left" appearance="outline">
+            <mat-label>Margen</mat-label>
+            <input matInput placeholder="Margen">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput placeholder="Stock">
+          </mat-form-field>
+          <mat-form-field class="margin-left" appearance="outline">
+            <mat-label>Stock mínimo</mat-label>
+            <input matInput placeholder="Stock mínimo">
+          </mat-form-field>
+          <mat-form-field class="margin-left" appearance="outline">
+            <mat-label>Stock máximo</mat-label>
+            <input matInput placeholder="Stock máximo">
+          </mat-form-field>
+          <mat-form-field class="margin-left" appearance="outline">
+            <mat-label>Lote óptimo</mat-label>
+            <input matInput placeholder="Lote óptimo">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Marca</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let marca of marcas" [value]="marca.id">
+                {{marca.nombre | urldecode}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="margin-left">
+            <mat-label>{{ivaLabel}}</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let iva of ivaList" [value]="iva">
+                {{iva}} %
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="mostrarWeb">
+          <mat-slide-toggle color="primary">Venta online</mat-slide-toggle>
+        </div>
+      </mat-tab>
+      <mat-tab label="Auxiliar">
+        <p>Auxiliar</p>
+        <p>
+          proveedor [+]
+          <br>
+          fec cad
+          <br>
+          referencia
+          <br>
+          categoria [+]
+          <br>
+          estadisticas venta + estadisticas web
+        </p>
+      </mat-tab>
+      <mat-tab label="Códigos de barras">
+        <p>Códigos de barras</p>
+        <p>
+          cod barras [+]
+        </p>
+      </mat-tab>
+      <mat-tab label="Web" *ngIf="mostrarWeb">
+        <p>Web</p>
+        <p>
+          fotos
+          <br>
+          desc corta
+          <br>
+          desc
+        </p>
+      </mat-tab>
+      <mat-tab label="Histórico">
+        <p>Histórico</p>
+        <p>
+          
+        </p>
+      </mat-tab>
+      <mat-tab label="Observaciones">
+        <p>Observaciones</p>
+        <p>
+          observaciones
+        </p>
+      </mat-tab>
+      <mat-tab label="Baja">
+        <p>Baja</p>
+        <p>
+          
+        </p>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

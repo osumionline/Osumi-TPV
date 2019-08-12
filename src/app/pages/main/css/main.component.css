@@ -11,6 +11,33 @@
   justify-content: center;
 }
 
+.not-opened{
+  background-color: rgba(0,0,0,0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-opened-button{
+  width: 400px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-opened-button > button{
+  width: 300px;
+  height: 100px;
+  font-size: 1.8em;
+}
+
 .toolbar{
   justify-content: space-between;
 }
