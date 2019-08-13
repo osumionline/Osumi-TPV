@@ -29,6 +29,7 @@ export class ArticulosComponent implements OnInit {
     mostrarObservaciones: false,
     referencia: null,
     ventaOnline: false,
+    mostrarEnWeb: false,
     idCategoria: null,
     descCorta: null,
     desc: null

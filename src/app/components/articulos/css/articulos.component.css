@@ -3,7 +3,7 @@
 }
 
 .nombre-label{
-  width: 632px;
+  width: 800px;
 }
 
 .form-field{
@@ -17,10 +17,44 @@
   font-weight: bold;
 }
 
+.form-field-left{
+  display: inline-block;
+  margin-right: 48px;
+}
+
+.form-field-left > label{
+  display: inline-block;
+  line-height: 24px;
+  font-weight: bold;
+  margin-right: 16px;
+  min-width: 90px;
+  text-align: right;
+}
+
 .margin-left{
   margin-left: 16px;
 }
 
+.margin-right{
+  margin-right: 60px;
+}
+
+.margin-bottom{
+  margin-bottom: 24px;
+}
+
+.align-right{
+  text-align: right;
+}
+
 .campo-numero{
   width: 100px;
+}
+
+.tab-icon{
+  margin-left: 8px;
+}
+
+.hidden{
+  visibility: hidden;
 }

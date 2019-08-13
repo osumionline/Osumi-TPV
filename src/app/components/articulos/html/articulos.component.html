@@ -3,12 +3,12 @@
     <mat-card-title>{{ articulo.nombre }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group animationDuration="0ms" dynamicHeight>
       <mat-tab label="General">
         <div>
           <div class="form-field">
             <label>Localizador</label>
-            <mat-form-field appearance="outline">
+            <mat-form-field class="campo-numero" appearance="outline">
               <input matInput placeholder="Localizador" [(ngModel)]="articulo.localizador">
             </mat-form-field>
           </div>
@@ -19,54 +19,8 @@
             </mat-form-field>
           </div>
         </div>
-        <div>
-          <div class="form-field">
-            <label>PUC</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Precio Unitario de Compra" [(ngModel)]="articulo.puc">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>PVP</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Precio de Venta al Público" [(ngModel)]="articulo.pvp">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>Margen</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Margen" [(ngModel)]="articulo.margen">
-            </mat-form-field>
-          </div>
-        </div>
-        <div>
-          <div class="form-field">
-            <label>Stock</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Stock" [(ngModel)]="articulo.stock">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>Stock mínimo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>Stock máximo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Stock máximo" [(ngModel)]="articulo.stockMax">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>Lote óptimo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
-              <input matInput placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo">
-            </mat-form-field>
-          </div>
-        </div>
-        <div>
-          <div class="form-field">
+        <div class="margin-bottom">
+          <div class="form-field margin-right">
             <label>Marca</label>
             <mat-form-field>
               <mat-select>
@@ -79,7 +33,7 @@
               <mat-icon>add_circle_outline</mat-icon>
             </button>
           </div>
-          <div class="form-field">
+          <div class="form-field margin-right">
             <label>{{ivaLabel}}</label>
             <mat-form-field>
               <mat-select [(ngModel)]="articulo.iva">
@@ -89,11 +43,69 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
-        <div *ngIf="mostrarWeb">
-          <div class="form-field">
+          <div class="form-field" *ngIf="mostrarWeb">
             <label>Venta online</label>
             <mat-slide-toggle color="primary" [(ngModel)]="articulo.ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+          </div>
+        </div>
+        <div>
+          <div class="form-field-left">
+            <label>PVP</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Precio de Venta al Público" [(ngModel)]="articulo.pvp" class="align-right">
+            </mat-form-field>
+            €
+          </div>
+          <div class="form-field-left">
+            <label>Stock</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock" [(ngModel)]="articulo.stock" class="align-right">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field-left">
+            <label>PUC</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Precio Unitario de Compra" [(ngModel)]="articulo.puc" class="align-right">
+            </mat-form-field>
+            €
+          </div>
+          <div class="form-field-left">
+            <label>Stock mínimo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" class="align-right">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+           <div class="form-field-left">
+            <label>Margen</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Margen" [(ngModel)]="articulo.margen" class="align-right">
+            </mat-form-field>
+            %
+          </div>
+          <div class="form-field-left">
+            <label>Stock máximo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" class="align-right">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field-left hidden">
+            <label>Invisible</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Lote óptimo" class="align-right">
+            </mat-form-field>
+            %
+          </div>
+          <div class="form-field-left">
+            <label>Lote óptimo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo" class="align-right">
+            </mat-form-field>
           </div>
         </div>
       </mat-tab>
@@ -141,9 +153,15 @@
           cod barras [+]
         </p>
       </mat-tab>
-      <mat-tab label="Web" *ngIf="mostrarWeb">
+      <mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
+        <ng-template mat-tab-label>
+          Web
+          <mat-icon *ngIf="articulo.mostrarEnWeb" class="tab-icon">check_circle</mat-icon>
+        </ng-template>
         <p>Web</p>
         <p>
+          mostrar en web
+          <br>
           fotos
           <br>
           desc corta

@@ -90,6 +90,7 @@ export interface Articulo {
   mostrarObservaciones: boolean;
   referencia: string;
   ventaOnline: boolean;
+  mostrarEnWeb: boolean;
   idCategoria: number;
   descCorta: string;
   desc: string;
