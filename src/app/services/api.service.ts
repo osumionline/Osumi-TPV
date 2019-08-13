@@ -7,7 +7,9 @@ import {
   StartDataResult,
   AppData,
   StatusResult,
-  MarcasResult
+  MarcasResult,
+  ProveedoresResult,
+  CategoriasResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -32,5 +34,13 @@ export class ApiService {
   
   getMarcas(): Observable<MarcasResult> {
     return this.http.post<MarcasResult>(this.apiUrl + 'getMarcas', {});
+  }
+  
+  getProveedores(): Observable<ProveedoresResult> {
+    return this.http.post<ProveedoresResult>(this.apiUrl + 'getProveedores', {});
+  }
+  
+  getCategorias(): Observable<CategoriasResult> {
+    return this.http.post<CategoriasResult>(this.apiUrl + 'getCategorias', {});
   }
 }

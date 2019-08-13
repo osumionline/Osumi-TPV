@@ -2,10 +2,25 @@
   margin: 16px;
 }
 
+.nombre-label{
+  width: 632px;
+}
+
+.form-field{
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.form-field > label{
+  display: block;
+  line-height: 24px;
+  font-weight: bold;
+}
+
 .margin-left{
   margin-left: 16px;
 }
 
-.nombre-label{
-  width: 632px;
+.campo-numero{
+  width: 100px;
 }

@@ -1,84 +1,136 @@
 <mat-card class="card-margin">
   <mat-card-header>
-    <mat-card-title>Nuevo artículo</mat-card-title>
+    <mat-card-title>{{ articulo.nombre }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-tab-group dynamicHeight>
       <mat-tab label="General">
         <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Localizador</mat-label>
-            <input matInput placeholder="Localizador">
-          </mat-form-field>
-          <mat-form-field class="margin-left nombre-label" appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre">
-          </mat-form-field>
+          <div class="form-field">
+            <label>Localizador</label>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Localizador" [(ngModel)]="articulo.localizador">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Nombre</label>
+            <mat-form-field class="nombre-label" appearance="outline">
+              <input matInput placeholder="Nombre" [(ngModel)]="articulo.nombre">
+            </mat-form-field>
+          </div>
         </div>
         <div>
-          <mat-form-field appearance="outline">
-            <mat-label>PUC</mat-label>
-            <input matInput placeholder="Precio Unitario de Compra">
-          </mat-form-field>
-          <mat-form-field class="margin-left" appearance="outline">
-            <mat-label>PVP</mat-label>
-            <input matInput placeholder="Precio de Venta al Público">
-          </mat-form-field>
-          <mat-form-field class="margin-left" appearance="outline">
-            <mat-label>Margen</mat-label>
-            <input matInput placeholder="Margen">
-          </mat-form-field>
+          <div class="form-field">
+            <label>PUC</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Precio Unitario de Compra" [(ngModel)]="articulo.puc">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>PVP</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Precio de Venta al Público" [(ngModel)]="articulo.pvp">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Margen</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Margen" [(ngModel)]="articulo.margen">
+            </mat-form-field>
+          </div>
         </div>
         <div>
-          <mat-form-field appearance="outline">
-            <mat-label>Stock</mat-label>
-            <input matInput placeholder="Stock">
-          </mat-form-field>
-          <mat-form-field class="margin-left" appearance="outline">
-            <mat-label>Stock mínimo</mat-label>
-            <input matInput placeholder="Stock mínimo">
-          </mat-form-field>
-          <mat-form-field class="margin-left" appearance="outline">
-            <mat-label>Stock máximo</mat-label>
-            <input matInput placeholder="Stock máximo">
-          </mat-form-field>
-          <mat-form-field class="margin-left" appearance="outline">
-            <mat-label>Lote óptimo</mat-label>
-            <input matInput placeholder="Lote óptimo">
-          </mat-form-field>
+          <div class="form-field">
+            <label>Stock</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock" [(ngModel)]="articulo.stock">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Stock mínimo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Stock máximo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Stock máximo" [(ngModel)]="articulo.stockMax">
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Lote óptimo</label>
+            <mat-form-field appearance="outline" class="campo-numero">
+              <input matInput placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo">
+            </mat-form-field>
+          </div>
         </div>
         <div>
-          <mat-form-field>
-            <mat-label>Marca</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let marca of marcas" [value]="marca.id">
-                {{marca.nombre | urldecode}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="margin-left">
-            <mat-label>{{ivaLabel}}</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let iva of ivaList" [value]="iva">
-                {{iva}} %
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="form-field">
+            <label>Marca</label>
+            <mat-form-field>
+              <mat-select>
+                <mat-option *ngFor="let marca of marcas" [value]="marca.id">
+                  {{marca.nombre | urldecode}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button aria-label="Añadir nueva marca" title="Añadir nueva marca">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+          <div class="form-field">
+            <label>{{ivaLabel}}</label>
+            <mat-form-field>
+              <mat-select [(ngModel)]="articulo.iva">
+                <mat-option *ngFor="let iva of ivaList" [value]="iva">
+                  {{iva}} %
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <div *ngIf="mostrarWeb">
-          <mat-slide-toggle color="primary">Venta online</mat-slide-toggle>
+          <div class="form-field">
+            <label>Venta online</label>
+            <mat-slide-toggle color="primary" [(ngModel)]="articulo.ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+          </div>
         </div>
       </mat-tab>
       <mat-tab label="Auxiliar">
-        <p>Auxiliar</p>
+        <div>
+          <div class="form-field">
+            <label>Proveedor</label>
+            <mat-form-field>
+              <mat-select>
+                <mat-option *ngFor="let prov of proveedores" [value]="prov.id">
+                  {{prov.nombre | urldecode}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button aria-label="Añadir nuevo proveedor" title="Añadir nuevo proveedor">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+          <div class="form-field">
+            <label>Categoría</label>
+            <mat-form-field>
+              <mat-select>
+                <mat-option *ngFor="let cat of categoriesPlain" [value]="cat.id">
+                  <span style="display: block;" [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre | urldecode}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
         <p>
-          proveedor [+]
+          - proveedor [+]
           <br>
           fec cad
           <br>
           referencia
           <br>
-          categoria [+]
+          - categoria [+]
           <br>
           estadisticas venta + estadisticas web
         </p>
