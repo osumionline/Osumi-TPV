@@ -87,7 +87,8 @@ export interface Articulo {
   fechaCaducidad: string;
   mostrarFecCad: boolean;
   observaciones: string;
-  mostrarObservaciones: boolean;
+  mostrarObsPedidos: boolean;
+  mostrarObsVentas: boolean;
   referencia: string;
   ventaOnline: boolean;
   mostrarEnWeb: boolean;

@@ -31,6 +31,19 @@
   text-align: right;
 }
 
+.form-field-left-short{
+  display: inline-block;
+  margin-right: 48px;
+  margin-bottom: 16px;
+}
+
+.form-field-left-short > label{
+  display: inline-block;
+  line-height: 24px;
+  font-weight: bold;
+  margin-right: 16px;
+}
+
 .margin-left{
   margin-left: 16px;
 }
@@ -57,4 +70,16 @@
 
 .hidden{
   visibility: hidden;
+}
+
+.max-width{
+  width: 100%;
+}
+
+.month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.month-picker .mat-calendar-arrow {
+  display: none;
 }

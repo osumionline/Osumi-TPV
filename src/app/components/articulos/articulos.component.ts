@@ -1,12 +1,36 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl}         from '@angular/forms';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
 import { AppData, Marca, Proveedor, Articulo, Categoria } from '../../interfaces/interfaces';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as _moment from 'moment';
+import {default as _rollupMoment, Moment} from 'moment';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-articulos',
   templateUrl: './html/articulos.component.html',
-  styleUrls: ['./css/articulos.component.css']
+  styleUrls: ['./css/articulos.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class ArticulosComponent implements OnInit {
   articulo = {
@@ -26,12 +50,13 @@ export class ArticulosComponent implements OnInit {
     fechaCaducidad: null,
     mostrarFecCad: false,
     observaciones: null,
-    mostrarObservaciones: false,
+    mostrarObsPedidos: false,
+    mostrarObsVentas: false,
     referencia: null,
     ventaOnline: false,
     mostrarEnWeb: false,
     idCategoria: null,
-    descCorta: null,
+    descCorta: '',
     desc: null
   } as Articulo;
   mostrarWeb: boolean = false;
@@ -40,6 +65,7 @@ export class ArticulosComponent implements OnInit {
   ivaLabel: string = 'IVA';
   ivaList: number[] = [];
   categoriesPlain = [];
+  date = new FormControl(moment());
 
   constructor(private as: ApiService, private dss: DataShareService) {}
 
@@ -85,10 +111,22 @@ export class ArticulosComponent implements OnInit {
   }
   
   loadCategoriesPlain(catList:Categoria[]=null){
-    console.log(catList);
     for (let cat of catList){
       this.categoriesPlain.push({id: cat.id, nombre: cat.nombre, profundidad: cat.profundidad});
       this.loadCategoriesPlain(cat.hijos);
     }
+  }
+  
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.date.value;
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.date.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
   }
 }

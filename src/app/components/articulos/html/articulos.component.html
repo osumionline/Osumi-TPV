@@ -8,13 +8,13 @@
         <div>
           <div class="form-field">
             <label>Localizador</label>
-            <mat-form-field class="campo-numero" appearance="outline">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Localizador" [(ngModel)]="articulo.localizador">
             </mat-form-field>
           </div>
           <div class="form-field">
             <label>Nombre</label>
-            <mat-form-field class="nombre-label" appearance="outline">
+            <mat-form-field class="nombre-label">
               <input matInput placeholder="Nombre" [(ngModel)]="articulo.nombre">
             </mat-form-field>
           </div>
@@ -23,7 +23,7 @@
           <div class="form-field margin-right">
             <label>Marca</label>
             <mat-form-field>
-              <mat-select>
+              <mat-select [(ngModel)]="articulo.idMarca">
                 <mat-option *ngFor="let marca of marcas" [value]="marca.id">
                   {{marca.nombre | urldecode}}
                 </mat-option>
@@ -51,14 +51,14 @@
         <div>
           <div class="form-field-left">
             <label>PVP</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Precio de Venta al Público" [(ngModel)]="articulo.pvp" class="align-right">
             </mat-form-field>
             €
           </div>
           <div class="form-field-left">
             <label>Stock</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Stock" [(ngModel)]="articulo.stock" class="align-right">
             </mat-form-field>
           </div>
@@ -66,14 +66,14 @@
         <div>
           <div class="form-field-left">
             <label>PUC</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Precio Unitario de Compra" [(ngModel)]="articulo.puc" class="align-right">
             </mat-form-field>
             €
           </div>
           <div class="form-field-left">
             <label>Stock mínimo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" class="align-right">
             </mat-form-field>
           </div>
@@ -81,14 +81,14 @@
         <div>
            <div class="form-field-left">
             <label>Margen</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Margen" [(ngModel)]="articulo.margen" class="align-right">
             </mat-form-field>
             %
           </div>
           <div class="form-field-left">
             <label>Stock máximo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" class="align-right">
             </mat-form-field>
           </div>
@@ -96,14 +96,14 @@
         <div>
           <div class="form-field-left hidden">
             <label>Invisible</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Lote óptimo" class="align-right">
             </mat-form-field>
             %
           </div>
           <div class="form-field-left">
             <label>Lote óptimo</label>
-            <mat-form-field appearance="outline" class="campo-numero">
+            <mat-form-field class="campo-numero">
               <input matInput placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo" class="align-right">
             </mat-form-field>
           </div>
@@ -114,7 +114,7 @@
           <div class="form-field">
             <label>Proveedor</label>
             <mat-form-field>
-              <mat-select>
+              <mat-select [(ngModel)]="articulo.idProveedor">
                 <mat-option *ngFor="let prov of proveedores" [value]="prov.id">
                   {{prov.nombre | urldecode}}
                 </mat-option>
@@ -127,7 +127,7 @@
           <div class="form-field">
             <label>Categoría</label>
             <mat-form-field>
-              <mat-select>
+              <mat-select [(ngModel)]="articulo.idCategoria">
                 <mat-option *ngFor="let cat of categoriesPlain" [value]="cat.id">
                   <span style="display: block;" [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre | urldecode}}</span>
                 </mat-option>
@@ -135,15 +135,28 @@
             </mat-form-field>
           </div>
         </div>
+        <div>
+          <div class="form-field">
+            <label>Fecha de caducidad</label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="dp" placeholder="Fecha de caducidad" [formControl]="date">
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="multi-year"
+                              (yearSelected)="chosenYearHandler($event)"
+                              (monthSelected)="chosenMonthHandler($event, dp)"
+                              panelClass="month-picker">
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Referencia</label>
+            <mat-form-field>
+              <input matInput placeholder="Referencia" [(ngModel)]="articulo.referencia">
+            </mat-form-field>
+          </div>
+        </div>
         <p>
-          - proveedor [+]
-          <br>
-          fec cad
-          <br>
-          referencia
-          <br>
-          - categoria [+]
-          <br>
           estadisticas venta + estadisticas web
         </p>
       </mat-tab>
@@ -158,15 +171,36 @@
           Web
           <mat-icon *ngIf="articulo.mostrarEnWeb" class="tab-icon">check_circle</mat-icon>
         </ng-template>
-        <p>Web</p>
+        <div>
+          <div class="form-field-left-short">
+            <label>Mostrar en web</label>
+            <mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarEnWeb">{{ articulo.mostrarEnWeb ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+          </div>
+        </div>
+        <div>
+          <div class="form-field max-width">
+            <label>Descripción corta</label>
+            <mat-form-field class="max-width">
+              <textarea matInput placeholder="Descripción corta" [(ngModel)]="articulo.descCorta" rows="5"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field max-width">
+            <label>Descripción larga</label>
+            <mat-form-field class="max-width">
+              <textarea matInput placeholder="Descripción larga" [(ngModel)]="articulo.desc" rows="25"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
         <p>
-          mostrar en web
+          - mostrar en web
           <br>
           fotos
           <br>
-          desc corta
+          - desc corta
           <br>
-          desc
+          - desc
         </p>
       </mat-tab>
       <mat-tab label="Histórico">
@@ -176,10 +210,21 @@
         </p>
       </mat-tab>
       <mat-tab label="Observaciones">
-        <p>Observaciones</p>
-        <p>
-          observaciones
-        </p>
+        <div>
+          <div class="form-field max-width">
+            <label>Observaciones</label>
+            <mat-form-field class="max-width">
+              <textarea matInput placeholder="Observaciones" [(ngModel)]="articulo.observaciones" rows="30"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field-left-short">
+            <label>Mostrar en:</label>
+            <mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarObsPedidos">Pedidos</mat-slide-toggle>
+            <mat-slide-toggle class="margin-left" color="primary" [(ngModel)]="articulo.mostrarObsVentas">Ventas</mat-slide-toggle>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab label="Baja">
         <p>Baja</p>

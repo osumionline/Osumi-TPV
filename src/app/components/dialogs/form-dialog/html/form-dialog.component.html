@@ -2,7 +2,7 @@
 <div mat-dialog-content>
 	<p>{{ content }}</p>
 	<p *ngFor="let field of fields">
-		<mat-form-field appearance="outline" class="full-width">
+		<mat-form-field class="full-width">
 			<mat-label>{{field.title}}</mat-label>
 			<input matInput [type]="field.type" [(ngModel)]="field.value">
 			<mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
