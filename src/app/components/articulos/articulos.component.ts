@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl}         from '@angular/forms';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
-import { AppData, Marca, Proveedor, Articulo, Categoria } from '../../interfaces/interfaces';
+import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras } from '../../interfaces/interfaces';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -57,7 +57,8 @@ export class ArticulosComponent implements OnInit {
     mostrarEnWeb: false,
     idCategoria: null,
     descCorta: '',
-    desc: null
+    desc: null,
+    codigosBarras: []
   } as Articulo;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
@@ -69,7 +70,16 @@ export class ArticulosComponent implements OnInit {
 
   constructor(private as: ApiService, private dss: DataShareService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    for (let i=0; i<10; i++){
+      this.articulo.codigosBarras.push({
+        id: null,
+        codigoBarras: null,
+        porDefecto: false,
+        fixed: false
+      } as CodigoBarras);
+    }
+  }
   
   loadAppData(appData: AppData){
     this.mostrarWeb = appData.ventaOnline;
@@ -128,5 +138,22 @@ export class ArticulosComponent implements OnInit {
     ctrlValue.month(normalizedMonth.month());
     this.date.setValue(ctrlValue);
     datepicker.close();
+  }
+  
+  fixCodBarras(codBarras: CodigoBarras, ev){
+    if (ev.keyCode==13){
+      codBarras.fixed = true;
+    }
+  }
+  
+  deleteCodBarras(codBarras: CodigoBarras){
+    let ind = this.articulo.codigosBarras.findIndex(x => x.codigoBarras = codBarras.codigoBarras);
+    let newCodBarras = {
+      id: null,
+      codigoBarras: null,
+      porDefecto: false,
+      fixed: false
+    } as CodigoBarras;
+    this.articulo.codigosBarras[ind] = newCodBarras;
   }
 }

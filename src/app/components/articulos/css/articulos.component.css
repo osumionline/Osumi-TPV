@@ -83,3 +83,50 @@
 .month-picker .mat-calendar-arrow {
   display: none;
 }
+
+.cod-barras-list {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.cod-barras-list > div {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.cod-barras-list > div:last-child {
+  border-bottom: 0;
+}
+
+.cod-barras-item{
+  height: 55px;
+  line-height: 55px;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0 .75em 0 .75em;
+  width: 100%;
+  box-sizing: border-box;
+  transition: .4s border;
+  font-size: 1.2em;
+}
+
+.cod-barras-item:hover{
+  border: 2px solid #000;
+}
+
+.cod-barras-item:focus{
+  border: 2px solid #3f56af;
+}
+
+.cod-barras-fixed{
+  border: 2px solid #000;
+  width: 95%;
+  background-color: #eee;
+  cursor: default;
+  margin-right: 16px;
+}
+
+.cod-barras-fixed:focus{
+  border: 2px solid #000 !important;
+}

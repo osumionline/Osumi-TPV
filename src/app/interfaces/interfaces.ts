@@ -70,6 +70,13 @@ export interface CategoriasResult {
   list: Categoria;
 }
 
+export interface CodigoBarras {
+  id: number;
+  codigoBarras: string;
+  porDefecto: boolean;
+  fixed?: boolean;
+}
+
 export interface Articulo {
   id: number;
   localizador: number;
@@ -95,4 +102,5 @@ export interface Articulo {
   idCategoria: number;
   descCorta: string;
   desc: string;
+  codigosBarras: CodigoBarras[];
 }

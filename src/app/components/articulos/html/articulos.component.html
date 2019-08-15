@@ -161,10 +161,14 @@
         </p>
       </mat-tab>
       <mat-tab label="Códigos de barras">
-        <p>Códigos de barras</p>
-        <p>
-          cod barras [+]
-        </p>
+        <div class="cod-barras-list">
+          <div *ngFor="let codBarras of articulo.codigosBarras">
+            <input class="cod-barras-item" type="text" placeholder="Código de barras" [(ngModel)]="codBarras.codigoBarras" [disabled]="codBarras.fixed" [ngClass]="{'cod-barras-fixed':codBarras.fixed}" (keyup)="fixCodBarras(codBarras, $event)">
+            <button mat-icon-button aria-label="Borrar código de barras" title="Borrar código de barras" *ngIf="codBarras.fixed" (click)="deleteCodBarras(codBarras)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
         <ng-template mat-tab-label>
