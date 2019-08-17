@@ -231,10 +231,10 @@
         </div>
       </mat-tab>
       <mat-tab label="Baja">
-        <p>Baja</p>
-        <p>
-          
-        </p>
+        <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados historicos.</p>
+        <div class="dar-de-baja">
+          <button mat-raised-button color="warn" (click)="darDeBaja()">Dar de baja</button>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

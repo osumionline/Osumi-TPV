@@ -156,4 +156,8 @@ export class ArticulosComponent implements OnInit {
     } as CodigoBarras;
     this.articulo.codigosBarras[ind] = newCodBarras;
   }
+  
+  darDeBaja(){
+    
+  }
 }
