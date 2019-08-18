@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl}         from '@angular/forms';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
+import { DialogService }     from '../../services/dialog.service';
 import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras } from '../../interfaces/interfaces';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -58,7 +59,8 @@ export class ArticulosComponent implements OnInit {
     idCategoria: null,
     descCorta: '',
     desc: null,
-    codigosBarras: []
+    codigosBarras: [],
+    activo: true
   } as Articulo;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
@@ -67,8 +69,10 @@ export class ArticulosComponent implements OnInit {
   ivaList: number[] = [];
   categoriesPlain = [];
   date = new FormControl(moment());
+  confirmarDarDeBaja: boolean = false;
+  darDeBajaLoading: boolean = false;
 
-  constructor(private as: ApiService, private dss: DataShareService) {}
+  constructor(private dialog: DialogService, private as: ApiService, private dss: DataShareService) {}
 
   ngOnInit() {
     for (let i=0; i<10; i++){
@@ -80,7 +84,7 @@ export class ArticulosComponent implements OnInit {
       } as CodigoBarras);
     }
   }
-  
+
   loadAppData(appData: AppData){
     this.mostrarWeb = appData.ventaOnline;
     if (appData.tipoIva=='iva'){
@@ -127,6 +131,39 @@ export class ArticulosComponent implements OnInit {
     }
   }
   
+  newArticulo(){
+    this.articulo = {
+      id: null,
+      localizador: null,
+      nombre: 'Nuevo artículo',
+      puc: 0,
+      pvp: 0,
+      margen: 0,
+      idMarca: null,
+      idProveedor: null,
+      stock: 0,
+      stockMin: 0,
+      stockMax: 0,
+      loteOptimo: 0,
+      iva: null,
+      fechaCaducidad: null,
+      mostrarFecCad: false,
+      observaciones: null,
+      mostrarObsPedidos: false,
+      mostrarObsVentas: false,
+      referencia: null,
+      ventaOnline: false,
+      mostrarEnWeb: false,
+      idCategoria: null,
+      descCorta: '',
+      desc: null,
+      codigosBarras: [],
+      activo: true
+    } as Articulo;
+    
+    this.date = new FormControl(moment());
+  }
+  
   chosenYearHandler(normalizedYear: Moment) {
     const ctrlValue = this.date.value;
     ctrlValue.year(normalizedYear.year());
@@ -156,8 +193,27 @@ export class ArticulosComponent implements OnInit {
     } as CodigoBarras;
     this.articulo.codigosBarras[ind] = newCodBarras;
   }
-  
+
   darDeBaja(){
-    
+    this.confirmarDarDeBaja = true;
+  }
+
+  darDeBajaCerrar(ev){
+    ev.preventDefault();
+    this.confirmarDarDeBaja = false;
+  }
+
+  darDeBajaOk(){
+    this.darDeBajaLoading = true;
+    this.as.disableProduct(this.articulo.id).subscribe(response => {
+      if (response.status=='ok'){
+        this.dialog.alert({title: 'Éxito', content: 'El artículo "'+this.articulo.nombre+'" ha sido dado de baja.', ok: 'Continuar'}).subscribe(result => {
+          this.newArticulo();
+        });
+      }
+      else{
+        this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al dar de baja el artículo!', ok: 'Continuar'}).subscribe(result => {});
+      }
+    });
   }
 }

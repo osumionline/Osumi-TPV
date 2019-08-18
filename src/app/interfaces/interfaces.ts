@@ -103,4 +103,5 @@ export interface Articulo {
   descCorta: string;
   desc: string;
   codigosBarras: CodigoBarras[];
+  activo: boolean;
 }

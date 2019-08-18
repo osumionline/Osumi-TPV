@@ -43,4 +43,8 @@ export class ApiService {
   getCategorias(): Observable<CategoriasResult> {
     return this.http.post<CategoriasResult>(this.apiUrl + 'getCategorias', {});
   }
+  
+  disableProduct(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(this.apiUrl + 'disableProduct', {id});
+  }
 }

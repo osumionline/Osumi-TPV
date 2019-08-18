@@ -230,12 +230,33 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Baja">
+      <mat-tab label="Baja" *ngIf="articulo.id!=null">
         <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados historicos.</p>
         <div class="dar-de-baja">
           <button mat-raised-button color="warn" (click)="darDeBaja()">Dar de baja</button>
         </div>
       </mat-tab>
     </mat-tab-group>
+    <div class="articulo-save">
+      <button mat-button (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+    </div>
   </mat-card-content>
 </mat-card>
+
+<div class="confirmar-dar-de-baja" *ngIf="confirmarDarDeBaja">
+  <div class="confirmar-dar-de-baja-box">
+    <div class="confirmar-dar-de-baja-header">
+      Confirmar
+      <a href="#" (click)="darDeBajaCerrar($event)">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
+    <div class="confirmar-dar-de-baja-body">
+      Por favor, confirma que quieres dar de baja el artículo "{{articulo.nombre}}":
+      <div class="confirmar-dar-de-baja-btn">
+        <button mat-raised-button color="warn" (click)="darDeBajaOk()" [disabled]="darDeBajaLoading">Dar de baja</button>
+      </div>
+    </div>
+  </div>
+</div>
