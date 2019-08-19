@@ -84,6 +84,7 @@ export interface Articulo {
   puc: number;
   pvp: number;
   margen: number;
+  palb: number;
   idMarca: number;
   idProveedor: number;
   stock: number;

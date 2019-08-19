@@ -31,6 +31,12 @@
   text-align: right;
 }
 
+.form-field-left > span{
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+
 .form-field-left-short{
   display: inline-block;
   margin-right: 48px;

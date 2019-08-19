@@ -3,6 +3,7 @@ import {FormControl}         from '@angular/forms';
 import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
 import { DialogService }     from '../../services/dialog.service';
+import { CommonService }     from '../../services/common.service';
 import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras } from '../../interfaces/interfaces';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -41,6 +42,7 @@ export class ArticulosComponent implements OnInit {
     puc: 0,
     pvp: 0,
     margen: 0,
+    palb: 0,
     idMarca: null,
     idProveedor: null,
     stock: 0,
@@ -62,6 +64,7 @@ export class ArticulosComponent implements OnInit {
     codigosBarras: [],
     activo: true
   } as Articulo;
+  selectedTab: number = 0;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   proveedores: Proveedor[] = [];
@@ -72,7 +75,10 @@ export class ArticulosComponent implements OnInit {
   confirmarDarDeBaja: boolean = false;
   darDeBajaLoading: boolean = false;
 
-  constructor(private dialog: DialogService, private as: ApiService, private dss: DataShareService) {}
+  constructor(private dialog: DialogService,
+              private as: ApiService,
+              private dss: DataShareService,
+              private cs: CommonService) {}
 
   ngOnInit() {
     for (let i=0; i<10; i++){
@@ -139,6 +145,7 @@ export class ArticulosComponent implements OnInit {
       puc: 0,
       pvp: 0,
       margen: 0,
+      palb: 0,
       idMarca: null,
       idProveedor: null,
       stock: 0,
@@ -162,6 +169,10 @@ export class ArticulosComponent implements OnInit {
     } as Articulo;
     
     this.date = new FormControl(moment());
+  }
+  
+  setTwoNumberDecimal($event) {
+    $event.target.value = ($event.target.value!='') ? parseFloat($event.target.value).toFixed(2) : '0.00';
   }
   
   chosenYearHandler(normalizedYear: Moment) {
@@ -209,11 +220,35 @@ export class ArticulosComponent implements OnInit {
       if (response.status=='ok'){
         this.dialog.alert({title: 'Éxito', content: 'El artículo "'+this.articulo.nombre+'" ha sido dado de baja.', ok: 'Continuar'}).subscribe(result => {
           this.newArticulo();
+          this.selectedTab = 0;
         });
       }
       else{
         this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al dar de baja el artículo!', ok: 'Continuar'}).subscribe(result => {});
       }
     });
+  }
+  
+  guardar(){
+    this.articulo.stock      = this.articulo.stock      || 0;
+    this.articulo.stockMin   = this.articulo.stockMin   || 0;
+    this.articulo.stockMax   = this.articulo.stockMax   || 0;
+    this.articulo.loteOptimo = this.articulo.loteOptimo || 0;
+    
+    console.log(this.articulo);
+    
+    if (!this.articulo.idMarca){
+      this.dialog.alert({title: 'Error', content: '¡No has elegido la marca del artículo!', ok: 'Continuar'}).subscribe(result => {});
+      this.selectedTab = 0;
+      return false;
+    }
+    
+    if (!this.articulo.iva){
+      this.dialog.alert({title: 'Error', content: '¡No has elegido IVA para el artículo!', ok: 'Continuar'}).subscribe(result => {});
+      this.selectedTab = 0;
+      return false;
+    }
+    
+    
   }
 }
