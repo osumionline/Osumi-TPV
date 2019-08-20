@@ -29,7 +29,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button aria-label="Añadir nueva marca" title="Añadir nueva marca">
+            <button mat-icon-button aria-label="Añadir nueva marca" title="Añadir nueva marca" (click)="newMarca()">
               <mat-icon>add_circle_outline</mat-icon>
             </button>
           </div>
@@ -259,6 +259,20 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<div class="nueva-marca" *ngIf="nuevaMarca">
+  <div class="nueva-marca-box">
+    <div class="confirmar-dar-de-baja-header">
+      Confirmar
+      <a href="#" (click)="darDeBajaCerrar($event)">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
+    <div class="confirmar-dar-de-baja-body">
+      
+    </div>
+  </div>
+</div>
 
 <div class="confirmar-dar-de-baja" *ngIf="confirmarDarDeBaja">
   <div class="confirmar-dar-de-baja-box">

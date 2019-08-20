@@ -49,6 +49,7 @@ export class MainComponent implements OnInit {
   }
   
   selectOptionItems(){
+    this.articulosComponent.newArticulo();
     this.selectOption('items');
   }
   

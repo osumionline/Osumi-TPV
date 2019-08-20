@@ -64,9 +64,11 @@ export class ArticulosComponent implements OnInit {
     codigosBarras: [],
     activo: true
   } as Articulo;
+
   selectedTab: number = 0;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
+  nuevaMarca: boolean = false;
   proveedores: Proveedor[] = [];
   ivaLabel: string = 'IVA';
   ivaList: number[] = [];
@@ -128,6 +130,8 @@ export class ArticulosComponent implements OnInit {
     this.as.getCategorias().subscribe(result => {
       this.loadCategoriesPlain([result.list]);
     });
+    
+    this.newArticulo();
   }
   
   loadCategoriesPlain(catList:Categoria[]=null){
@@ -169,6 +173,10 @@ export class ArticulosComponent implements OnInit {
     } as Articulo;
     
     this.date = new FormControl(moment());
+  }
+  
+  newMarca() {
+    this.nuevaMarca = true;
   }
   
   setTwoNumberDecimal($event) {
