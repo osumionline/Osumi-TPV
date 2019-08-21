@@ -34,7 +34,6 @@ export interface StatusResult {
 export interface Marca {
   id: number;
   nombre: string;
-  direccion: string;
   telefono: string;
   email: string;
   web: string;
@@ -43,6 +42,11 @@ export interface Marca {
 
 export interface MarcasResult {
   list: Marca[];
+}
+
+export interface MarcaSaveResult {
+  status: string;
+  id: number;
 }
 
 export interface Proveedor {

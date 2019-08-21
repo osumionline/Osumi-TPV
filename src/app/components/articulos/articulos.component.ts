@@ -64,6 +64,15 @@ export class ArticulosComponent implements OnInit {
     codigosBarras: [],
     activo: true
   } as Articulo;
+  
+  marca = {
+    id: null,
+    nombre: null,
+    telefono: null,
+    email: null,
+    web: null,
+    observaciones: null
+  } as Marca;
 
   selectedTab: number = 0;
   mostrarWeb: boolean = false;
@@ -82,16 +91,7 @@ export class ArticulosComponent implements OnInit {
               private dss: DataShareService,
               private cs: CommonService) {}
 
-  ngOnInit() {
-    for (let i=0; i<10; i++){
-      this.articulo.codigosBarras.push({
-        id: null,
-        codigoBarras: null,
-        porDefecto: false,
-        fixed: false
-      } as CodigoBarras);
-    }
-  }
+  ngOnInit() {}
 
   loadAppData(appData: AppData){
     this.mostrarWeb = appData.ventaOnline;
@@ -107,6 +107,14 @@ export class ArticulosComponent implements OnInit {
   }
   
   loadData(){
+    this.loadMarcas();
+    this.loadProveedores();
+    this.loadCategorias();
+    
+    this.newArticulo();
+  }
+
+  loadMarcas() {
     const marcasList = this.dss.getGlobal('marcas');
     if (marcasList){
       this.marcas = marcasList;
@@ -117,6 +125,9 @@ export class ArticulosComponent implements OnInit {
         this.dss.setGlobal('marcas', result.list);
       });
     }
+  }
+
+  loadProveedores() {
     const proveedoresList = this.dss.getGlobal('proveedores');
     if (proveedoresList){
       this.proveedores = proveedoresList;
@@ -127,17 +138,29 @@ export class ArticulosComponent implements OnInit {
         this.dss.setGlobal('proveedores', result.list);
       });
     }
+  }
+
+  loadCategorias() {
     this.as.getCategorias().subscribe(result => {
       this.loadCategoriesPlain([result.list]);
     });
-    
-    this.newArticulo();
   }
-  
+
   loadCategoriesPlain(catList:Categoria[]=null){
     for (let cat of catList){
       this.categoriesPlain.push({id: cat.id, nombre: cat.nombre, profundidad: cat.profundidad});
       this.loadCategoriesPlain(cat.hijos);
+    }
+  }
+  
+  loadCodigosBarras(){
+    for (let i=0; i<10; i++){
+      this.articulo.codigosBarras.push({
+        id: null,
+        codigoBarras: null,
+        porDefecto: false,
+        fixed: false
+      } as CodigoBarras);
     }
   }
   
@@ -173,10 +196,49 @@ export class ArticulosComponent implements OnInit {
     } as Articulo;
     
     this.date = new FormControl(moment());
+    this.loadCodigosBarras();
+    this.selectedTab = 0;
   }
   
   newMarca() {
+    this.marca = {
+      id: null,
+      nombre: null,
+      telefono: null,
+      email: null,
+      web: null,
+      observaciones: null
+    } as Marca;
+    
     this.nuevaMarca = true;
+  }
+  
+  newMarcaCerrar(ev=null) {
+    if (ev){
+      ev.preventDefault();
+    }
+    this.nuevaMarca = false;
+  }
+  
+  guardarMarca() {
+    console.log(this.marca);
+    if (!this.marca.nombre){
+      this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre de la marca en blanco!', ok: 'Continuar'}).subscribe(result => {});
+      return false;
+    }
+    
+    this.as.saveMarca(this.marca).subscribe(result => {
+      if (result.status=='ok'){
+        this.articulo.idMarca = result.id;
+        this.dss.removeGlobal('marcas');
+        this.loadMarcas();
+        this.newMarcaCerrar();
+      }
+      else{
+        this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la nueva marca', ok: 'Continuar'}).subscribe(result => {});
+        return false;
+      }
+    });
   }
   
   setTwoNumberDecimal($event) {
@@ -228,7 +290,6 @@ export class ArticulosComponent implements OnInit {
       if (response.status=='ok'){
         this.dialog.alert({title: 'Éxito', content: 'El artículo "'+this.articulo.nombre+'" ha sido dado de baja.', ok: 'Continuar'}).subscribe(result => {
           this.newArticulo();
-          this.selectedTab = 0;
         });
       }
       else{

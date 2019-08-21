@@ -7,7 +7,9 @@ import {
   StartDataResult,
   AppData,
   StatusResult,
+  Marca,
   MarcasResult,
+  MarcaSaveResult,
   ProveedoresResult,
   CategoriasResult
 } from '../interfaces/interfaces';
@@ -46,5 +48,9 @@ export class ApiService {
   
   disableProduct(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(this.apiUrl + 'disableProduct', {id});
+  }
+  
+  saveMarca(marca: Marca): Observable<MarcaSaveResult> {
+    return this.http.post<MarcaSaveResult>(this.apiUrl + 'saveMarca', marca);
   }
 }

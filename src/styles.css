@@ -6,3 +6,46 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 .mat-tab-body-content{
   padding: 16px;
 }
+
+.modal-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box{
+  width: 600px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
+}
+
+.modal-header{
+  font-size: 24px;
+  padding: 16px;
+  line-height: 24px;
+}
+
+.modal-header a{
+  vertical-align: bottom;
+  display: block;
+  float: right;
+  height: 24px;
+}
+
+.modal-body{
+  padding: 16px;
+}
+
+.modal-actions{
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -8,7 +8,8 @@
 
 .form-field{
   display: inline-block;
-  margin-right: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
 }
 
 .form-field > label{
@@ -78,6 +79,10 @@
   visibility: hidden;
 }
 
+.half-width{
+  width: 50%;
+}
+
 .max-width{
   width: 100%;
 }
@@ -90,18 +95,8 @@
   display: none;
 }
 
-.cod-barras-list {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
 .cod-barras-list > div {
   padding: 8px;
-  border-bottom: 1px solid #ccc;
-}
-
-.cod-barras-list > div:last-child {
-  border-bottom: 0;
 }
 
 .cod-barras-item{
@@ -148,43 +143,6 @@
   width: 200px;
   height: 100px;
   font-size: 1.8em;
-}
-
-.confirmar-dar-de-baja{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.confirmar-dar-de-baja-box{
-  width: 600px;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
-}
-
-.confirmar-dar-de-baja-header{
-  font-size: 24px;
-  padding: 16px;
-  line-height: 24px;
-}
-
-.confirmar-dar-de-baja-header a{
-  vertical-align: bottom;
-  display: block;
-  float: right;
-  height: 24px;
-}
-
-.confirmar-dar-de-baja-body{
-  padding: 16px;
 }
 
 .confirmar-dar-de-baja-btn{

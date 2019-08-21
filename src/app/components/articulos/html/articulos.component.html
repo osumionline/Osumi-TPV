@@ -260,29 +260,71 @@
   </mat-card-content>
 </mat-card>
 
-<div class="nueva-marca" *ngIf="nuevaMarca">
-  <div class="nueva-marca-box">
-    <div class="confirmar-dar-de-baja-header">
-      Confirmar
-      <a href="#" (click)="darDeBajaCerrar($event)">
+<div class="modal-bg" *ngIf="nuevaMarca">
+  <div class="modal-box">
+    <div class="modal-header">
+      Nueva marca
+      <a href="#" (click)="newMarcaCerrar($event)">
         <mat-icon>close</mat-icon>
       </a>
     </div>
-    <div class="confirmar-dar-de-baja-body">
-      
+    <div class="modal-body">
+      <div>
+        <div class="form-field max-width">
+          <label>Nombre</label>
+          <mat-form-field class="max-width">
+            <input matInput placeholder="Nombre" [(ngModel)]="marca.nombre">
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="form-field max-width">
+          <label>Email</label>
+          <mat-form-field class="max-width">
+            <input matInput placeholder="Email" [(ngModel)]="marca.email">
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="form-field max-width">
+          <label>Web</label>
+          <mat-form-field class="max-width">
+            <input matInput placeholder="Web" [(ngModel)]="marca.web">
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="form-field half-width">
+          <label>Teléfono</label>
+          <mat-form-field class="max-width">
+            <input matInput placeholder="Teléfono" [(ngModel)]="marca.telefono">
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="form-field max-width">
+          <label>Observaciones</label>
+          <mat-form-field class="max-width">
+            <textarea matInput placeholder="Observaciones" [(ngModel)]="marca.observaciones" rows="5"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button mat-raised-button color="primary" (click)="guardarMarca()">Guardar</button>
     </div>
   </div>
 </div>
 
-<div class="confirmar-dar-de-baja" *ngIf="confirmarDarDeBaja">
-  <div class="confirmar-dar-de-baja-box">
-    <div class="confirmar-dar-de-baja-header">
+<div class="modal-bg" *ngIf="confirmarDarDeBaja">
+  <div class="modal-box">
+    <div class="modal-header">
       Confirmar
       <a href="#" (click)="darDeBajaCerrar($event)">
         <mat-icon>close</mat-icon>
       </a>
     </div>
-    <div class="confirmar-dar-de-baja-body">
+    <div class="modal-body">
       Por favor, confirma que quieres dar de baja el artículo "{{articulo.nombre}}":
       <div class="confirmar-dar-de-baja-btn">
         <button mat-raised-button color="warn" (click)="darDeBajaOk()" [disabled]="darDeBajaLoading">Dar de baja</button>
