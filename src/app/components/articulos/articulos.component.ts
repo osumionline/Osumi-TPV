@@ -105,7 +105,7 @@ export class ArticulosComponent implements OnInit {
 
   ngOnInit() {}
 
-  loadAppData(appData: AppData){
+  loadAppData(appData: AppData) {
     this.mostrarWeb = appData.ventaOnline;
     if (appData.tipoIva=='iva'){
       this.ivaLabel = 'IVA';
@@ -118,7 +118,7 @@ export class ArticulosComponent implements OnInit {
     this.loadData();
   }
   
-  loadData(){
+  loadData() {
     this.loadMarcas();
     this.loadProveedores();
     this.loadCategorias();
@@ -158,14 +158,14 @@ export class ArticulosComponent implements OnInit {
     });
   }
 
-  loadCategoriesPlain(catList:Categoria[]=null){
+  loadCategoriesPlain(catList:Categoria[]=null) {
     for (let cat of catList){
       this.categoriesPlain.push({id: cat.id, nombre: cat.nombre, profundidad: cat.profundidad});
       this.loadCategoriesPlain(cat.hijos);
     }
   }
   
-  loadCodigosBarras(){
+  loadCodigosBarras() {
     for (let i=0; i<10; i++){
       this.articulo.codigosBarras.push({
         id: null,
@@ -176,7 +176,7 @@ export class ArticulosComponent implements OnInit {
     }
   }
   
-  newArticulo(){
+  newArticulo() {
     this.articulo = {
       id: null,
       localizador: null,
@@ -274,7 +274,7 @@ export class ArticulosComponent implements OnInit {
     this.nuevoProveedor = false;
   }
   
-  addMarcaToProveedor(marca: Marca, ev){
+  addMarcaToProveedor(marca: Marca, ev) {
     let ind = this.proveedor.marcas.findIndex(x => x==marca.id);
 
     if (ev.checked){
@@ -307,7 +307,7 @@ export class ArticulosComponent implements OnInit {
     }
   }
   
-  guardarProveedorContinue(){
+  guardarProveedorContinue() {
     this.as.saveProveedor(this.proveedor).subscribe(result => {
       if (result.status=='ok'){
         this.articulo.idProveedor = result.id;
@@ -339,13 +339,13 @@ export class ArticulosComponent implements OnInit {
     datepicker.close();
   }
   
-  fixCodBarras(codBarras: CodigoBarras, ev){
+  fixCodBarras(codBarras: CodigoBarras, ev) {
     if (ev.keyCode==13){
       codBarras.fixed = true;
     }
   }
   
-  deleteCodBarras(codBarras: CodigoBarras){
+  deleteCodBarras(codBarras: CodigoBarras) {
     let ind = this.articulo.codigosBarras.findIndex(x => x.codigoBarras = codBarras.codigoBarras);
     let newCodBarras = {
       id: null,
@@ -356,16 +356,16 @@ export class ArticulosComponent implements OnInit {
     this.articulo.codigosBarras[ind] = newCodBarras;
   }
 
-  darDeBaja(){
+  darDeBaja() {
     this.confirmarDarDeBaja = true;
   }
 
-  darDeBajaCerrar(ev){
+  darDeBajaCerrar(ev) {
     ev.preventDefault();
     this.confirmarDarDeBaja = false;
   }
 
-  darDeBajaOk(){
+  darDeBajaOk() {
     this.darDeBajaLoading = true;
     this.as.disableProduct(this.articulo.id).subscribe(response => {
       if (response.status=='ok'){
@@ -379,7 +379,11 @@ export class ArticulosComponent implements OnInit {
     });
   }
   
-  guardar(){
+  cancelar() {
+    
+  }
+  
+  guardar() {
     this.articulo.stock      = this.articulo.stock      || 0;
     this.articulo.stockMin   = this.articulo.stockMin   || 0;
     this.articulo.stockMax   = this.articulo.stockMax   || 0;
