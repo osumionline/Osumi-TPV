@@ -64,7 +64,7 @@ export class ArticulosComponent implements OnInit {
     codigosBarras: [],
     activo: true
   } as Articulo;
-  
+
   marca = {
     id: null,
     nombre: null,
@@ -74,11 +74,22 @@ export class ArticulosComponent implements OnInit {
     observaciones: null
   } as Marca;
 
+  proveedor = {
+    id: null,
+    nombre: null,
+    direccion: null,
+    telefono: null,
+    email: null,
+    web: null,
+    observaciones: null
+  } as Proveedor;
+
   selectedTab: number = 0;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
   proveedores: Proveedor[] = [];
+  nuevoProveedor: boolean = false;
   ivaLabel: string = 'IVA';
   ivaList: number[] = [];
   categoriesPlain = [];
@@ -221,7 +232,6 @@ export class ArticulosComponent implements OnInit {
   }
   
   guardarMarca() {
-    console.log(this.marca);
     if (!this.marca.nombre){
       this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre de la marca en blanco!', ok: 'Continuar'}).subscribe(result => {});
       return false;
@@ -236,6 +246,47 @@ export class ArticulosComponent implements OnInit {
       }
       else{
         this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar la nueva marca', ok: 'Continuar'}).subscribe(result => {});
+        return false;
+      }
+    });
+  }
+  
+  newProveedor() {
+    this.proveedor = {
+      id: null,
+      nombre: null,
+      direccion: null,
+      telefono: null,
+      email: null,
+      web: null,
+      observaciones: null
+    } as Proveedor;
+    
+    this.nuevoProveedor = true;
+  }
+  
+  newProveedorCerrar(ev=null) {
+    if (ev){
+      ev.preventDefault();
+    }
+    this.nuevoProveedor = false;
+  }
+  
+  guardarProveedor() {
+    if (!this.proveedor.nombre){
+      this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del proveedor en blanco!', ok: 'Continuar'}).subscribe(result => {});
+      return false;
+    }
+    
+    this.as.saveProveedor(this.proveedor).subscribe(result => {
+      if (result.status=='ok'){
+        this.articulo.idProveedor = result.id;
+        this.dss.removeGlobal('proveedores');
+        this.loadProveedores();
+        this.newProveedorCerrar();
+      }
+      else{
+        this.dialog.alert({title: 'Error', content: 'Ocurrió un error al guardar el nuevo proveedor', ok: 'Continuar'}).subscribe(result => {});
         return false;
       }
     });

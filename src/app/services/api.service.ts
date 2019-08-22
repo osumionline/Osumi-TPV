@@ -9,8 +9,9 @@ import {
   StatusResult,
   Marca,
   MarcasResult,
-  MarcaSaveResult,
+  Proveedor,
   ProveedoresResult,
+  IdSaveResult,
   CategoriasResult
 } from '../interfaces/interfaces';
 
@@ -50,7 +51,11 @@ export class ApiService {
     return this.http.post<StatusResult>(this.apiUrl + 'disableProduct', {id});
   }
   
-  saveMarca(marca: Marca): Observable<MarcaSaveResult> {
-    return this.http.post<MarcaSaveResult>(this.apiUrl + 'saveMarca', marca);
+  saveMarca(marca: Marca): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(this.apiUrl + 'saveMarca', marca);
+  }
+  
+  saveProveedor(proveedor: Proveedor): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(this.apiUrl + 'saveProveedor', proveedor);
   }
 }

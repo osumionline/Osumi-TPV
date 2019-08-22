@@ -136,7 +136,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button aria-label="Añadir nuevo proveedor" title="Añadir nuevo proveedor">
+            <button mat-icon-button aria-label="Añadir nuevo proveedor" title="Añadir nuevo proveedor" (click)="newProveedor()">
               <mat-icon>add_circle_outline</mat-icon>
             </button>
           </div>
@@ -312,6 +312,67 @@
     </div>
     <div class="modal-actions">
       <button mat-raised-button color="primary" (click)="guardarMarca()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" *ngIf="nuevoProveedor">
+  <div class="modal-box">
+    <div class="modal-header">
+      Nuevo proveedor
+      <a href="#" (click)="newProveedorCerrar($event)">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
+    <div class="modal-body cols">
+      <div class="half-col">
+        <div>
+          <div class="form-field max-width">
+            <label>Nombre</label>
+            <mat-form-field class="max-width">
+              <input matInput placeholder="Nombre" [(ngModel)]="proveedor.nombre">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field max-width">
+            <label>Email</label>
+            <mat-form-field class="max-width">
+              <input matInput placeholder="Email" [(ngModel)]="proveedor.email">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field max-width">
+            <label>Web</label>
+            <mat-form-field class="max-width">
+              <input matInput placeholder="Web" [(ngModel)]="proveedor.web">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field half-width">
+            <label>Teléfono</label>
+            <mat-form-field class="max-width">
+              <input matInput placeholder="Teléfono" [(ngModel)]="proveedor.telefono">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field max-width">
+            <label>Observaciones</label>
+            <mat-form-field class="max-width">
+              <textarea matInput placeholder="Observaciones" [(ngModel)]="proveedor.observaciones" rows="5"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="half-col">
+        
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button mat-raised-button color="primary" (click)="guardarProveedor()">Guardar</button>
     </div>
   </div>
 </div>

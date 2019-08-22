@@ -44,7 +44,7 @@ export interface MarcasResult {
   list: Marca[];
 }
 
-export interface MarcaSaveResult {
+export interface IdSaveResult {
   status: string;
   id: number;
 }

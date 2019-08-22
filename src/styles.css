@@ -21,7 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 }
 
 .modal-box{
-  width: 600px;
+  min-width: 600px;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
@@ -48,4 +48,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   padding: 16px;
   display: flex;
   justify-content: flex-end;
+}
+
+.cols{
+  display: flex;
+  flex-direction: row;
+}
+
+.half-col{
+  width: 50%;
 }
