@@ -81,7 +81,8 @@ export class ArticulosComponent implements OnInit {
     telefono: null,
     email: null,
     web: null,
-    observaciones: null
+    observaciones: null,
+    marcas: []
   } as Proveedor;
 
   selectedTab: number = 0;
@@ -259,7 +260,8 @@ export class ArticulosComponent implements OnInit {
       telefono: null,
       email: null,
       web: null,
-      observaciones: null
+      observaciones: null,
+      marcas: []
     } as Proveedor;
     
     this.nuevoProveedor = true;
@@ -272,12 +274,40 @@ export class ArticulosComponent implements OnInit {
     this.nuevoProveedor = false;
   }
   
+  addMarcaToProveedor(marca: Marca, ev){
+    let ind = this.proveedor.marcas.findIndex(x => x==marca.id);
+
+    if (ev.checked){
+      if (ind==-1){
+        this.proveedor.marcas.push(marca.id);
+      }
+    }
+    else{
+      if (ind!=-1){
+        this.proveedor.marcas.splice(ind, 1);
+      }
+    }
+  }
+  
   guardarProveedor() {
     if (!this.proveedor.nombre){
       this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del proveedor en blanco!', ok: 'Continuar'}).subscribe(result => {});
       return false;
     }
     
+    if (this.proveedor.marcas.length==0){
+      this.dialog.confirm({title: 'Confirmar', content: 'No has elegido ninguna marca para el proveedor, ¿quieres continuar?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
+        if (result===true){
+          this.guardarProveedorContinue();
+        }
+      });
+    }
+    else{
+      this.guardarProveedorContinue();
+    }
+  }
+  
+  guardarProveedorContinue(){
     this.as.saveProveedor(this.proveedor).subscribe(result => {
       if (result.status=='ok'){
         this.articulo.idProveedor = result.id;

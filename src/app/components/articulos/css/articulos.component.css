@@ -171,3 +171,20 @@
   height: 60px;
   margin-left: 24px;
 }
+
+.prov-marcas-list{
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 4px;
+  max-height: 470px;
+  overflow: auto;
+}
+
+.prov-marcas-item{
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.prov-marcas-item:last-child{
+  border-bottom: 0;
+}

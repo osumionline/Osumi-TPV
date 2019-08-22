@@ -57,6 +57,7 @@ export interface Proveedor {
   email: string;
   web: string;
   observaciones: string;
+  marcas: number[];
 }
 
 export interface ProveedoresResult {

@@ -27,6 +27,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
 }
 
+.modal-wide{
+  min-width: 900px;
+}
+
 .modal-header{
   font-size: 24px;
   padding: 16px;
