@@ -56,7 +56,7 @@
 }
 
 .margin-right{
-  margin-right: 60px;
+  display: block;
 }
 
 .margin-bottom{
@@ -69,6 +69,14 @@
 
 .campo-numero{
   width: 100px;
+}
+
+.articulo-precios{
+  display: inline-block;
+}
+
+.articulo-stocks{
+  display: inline-block;
 }
 
 .tab-icon{
@@ -187,4 +195,10 @@
 
 .prov-marcas-item:last-child{
   border-bottom: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .margin-right{
+    margin-right: 60px;
+  }
 }

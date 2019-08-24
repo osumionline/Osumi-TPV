@@ -48,7 +48,8 @@
             <mat-slide-toggle color="primary" [(ngModel)]="articulo.ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
           </div>
         </div>
-        <div>
+        
+        <div class="articulo-precios">
           <div class="form-field-left">
             <label>PVP</label>
             <mat-form-field class="campo-numero">
@@ -61,14 +62,6 @@
             <span>€</span>
           </div>
           <div class="form-field-left">
-            <label>Stock</label>
-            <mat-form-field class="campo-numero">
-              <input matInput type="number" step="1" placeholder="Stock" [(ngModel)]="articulo.stock" class="align-right">
-            </mat-form-field>
-          </div>
-        </div>
-        <div>
-          <div class="form-field-left">
             <label>PUC</label>
             <mat-form-field class="campo-numero">
               <input matInput type="number" step="0.01" placeholder="Precio Unitario de Compra" class="align-right"
@@ -80,14 +73,6 @@
             <span>€</span>
           </div>
           <div class="form-field-left">
-            <label>Stock mínimo</label>
-            <mat-form-field class="campo-numero">
-              <input matInput type="number" step="1" placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" class="align-right">
-            </mat-form-field>
-          </div>
-        </div>
-        <div>
-           <div class="form-field-left">
             <label>Margen</label>
             <mat-form-field class="campo-numero">
               <input matInput type="number" step="0.01" placeholder="Margen" class="align-right"
@@ -99,14 +84,6 @@
             <span>%</span>
           </div>
           <div class="form-field-left">
-            <label>Stock máximo</label>
-            <mat-form-field class="campo-numero">
-              <input matInput type="number" step="1" placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" class="align-right">
-            </mat-form-field>
-          </div>
-        </div>
-        <div>
-          <div class="form-field-left">
             <label>Precio albarán</label>
             <mat-form-field class="campo-numero">
               <input matInput type="number" step="0.01" placeholder="Precio albarán" class="align-right"
@@ -116,6 +93,26 @@
                 [ngModel]="articulo.palb | number:'1.2-2'">
             </mat-form-field>
             <span>€</span>
+          </div>
+        </div>
+        <div class="articulo-stocks">
+          <div class="form-field-left">
+            <label>Stock</label>
+            <mat-form-field class="campo-numero">
+              <input matInput type="number" step="1" placeholder="Stock" [(ngModel)]="articulo.stock" class="align-right">
+            </mat-form-field>
+          </div>
+          <div class="form-field-left">
+            <label>Stock mínimo</label>
+            <mat-form-field class="campo-numero">
+              <input matInput type="number" step="1" placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" class="align-right">
+            </mat-form-field>
+          </div>
+          <div class="form-field-left">
+            <label>Stock máximo</label>
+            <mat-form-field class="campo-numero">
+              <input matInput type="number" step="1" placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" class="align-right">
+            </mat-form-field>
           </div>
           <div class="form-field-left">
             <label>Lote óptimo</label>
