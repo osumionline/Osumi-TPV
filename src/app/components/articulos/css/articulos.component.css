@@ -71,12 +71,13 @@
   width: 100px;
 }
 
-.articulo-precios{
-  display: inline-block;
+.articulo-numbers{
+  display: block;
 }
 
-.articulo-stocks{
-  display: inline-block;
+.articulo-col{
+  display: flex;
+  flex-direction: column;
 }
 
 .tab-icon{
@@ -130,7 +131,7 @@
 
 .cod-barras-fixed{
   border: 2px solid #000;
-  width: 95%;
+  width: 75%;
   background-color: #eee;
   cursor: default;
   margin-right: 16px;
@@ -138,6 +139,11 @@
 
 .cod-barras-fixed:focus{
   border: 2px solid #000 !important;
+}
+
+.show-check{
+  display: block;
+  margin-top: 16px;
 }
 
 .dar-de-baja{
@@ -200,5 +206,11 @@
 @media screen and (min-width: 1024px) {
   .margin-right{
     margin-right: 60px;
+  }
+  .cod-barras-fixed{
+    width: 95%;
+  }
+  .articulo-numbers{
+    display: inline-block;
   }
 }

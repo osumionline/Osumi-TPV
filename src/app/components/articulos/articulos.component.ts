@@ -346,7 +346,7 @@ export class ArticulosComponent implements OnInit {
   }
   
   deleteCodBarras(codBarras: CodigoBarras) {
-    let ind = this.articulo.codigosBarras.findIndex(x => x.codigoBarras = codBarras.codigoBarras);
+    let ind = this.articulo.codigosBarras.findIndex(x => x.codigoBarras == codBarras.codigoBarras);
     let newCodBarras = {
       id: null,
       codigoBarras: null,

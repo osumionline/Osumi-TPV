@@ -43,7 +43,7 @@
 }
 
 .toolbar-options{
-  width: 25%;
+  width: 40%;
   display: flex;
   justify-content: space-between;
 }
@@ -92,7 +92,10 @@
   display: block !important;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1024px){
+  .toolbar-options{
+    width: 25%;
+  }
   .toolbar-btn > span{
     display: inline-block;
   }
