@@ -28,7 +28,8 @@
   line-height: 24px;
   font-weight: bold;
   margin-right: 16px;
-  min-width: 90px;
+  min-width: auto;
+  width: 80px;
   text-align: right;
 }
 
@@ -213,6 +214,10 @@
 }
 
 @media screen and (min-width: 1024px) {
+  .form-field-left > label{
+    min-width: 90px;
+    width: auto;
+  }
   .nombre-label{
     width: 800px;
   }
