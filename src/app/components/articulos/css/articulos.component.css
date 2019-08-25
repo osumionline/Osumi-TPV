@@ -3,7 +3,7 @@
 }
 
 .nombre-label{
-  width: 800px;
+  width: 280px;
 }
 
 .form-field{
@@ -203,7 +203,19 @@
   border-bottom: 0;
 }
 
+.articulo-proveedor-cols{
+  display: flex;
+  flex-direction: column;
+}
+
+.articulo-proveedor-cols > div{
+  width: 100%;
+}
+
 @media screen and (min-width: 1024px) {
+  .nombre-label{
+    width: 800px;
+  }
   .margin-right{
     margin-right: 60px;
   }
@@ -212,5 +224,12 @@
   }
   .articulo-numbers{
     display: inline-block;
+  }
+  .articulo-proveedor-cols{
+    display: flex;
+    flex-direction: row;
+  }
+  .articulo-proveedor-cols > div{
+    width: 50%;
   }
 }

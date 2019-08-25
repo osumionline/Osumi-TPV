@@ -21,14 +21,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 }
 
 .modal-box{
-  min-width: 600px;
+  width: 95%;
+  max-height: 95%;
+  overflow: auto;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
 }
 
 .modal-wide{
-  min-width: 900px;
+  min-width: auto;
 }
 
 .modal-header{
@@ -54,11 +56,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   justify-content: flex-end;
 }
 
-.cols{
-  display: flex;
-  flex-direction: row;
-}
-
-.half-col{
-  width: 50%;
+@media screen and (min-width: 1024px) {
+  .modal-box{
+    width: auto;
+    min-width: 600px;
+  }
+  .modal-wide{
+    min-width: 900px;
+  }
 }
