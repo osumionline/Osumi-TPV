@@ -427,9 +427,8 @@ export class ArticulosComponent implements OnInit {
       this.articulo.fechaCaducidad = ((this.fecCadMonth<10) ? '0'+this.fecCadMonth : this.fecCadMonth) + '/' + this.fecCadYear;
     }
 
-    console.log(this.articulo);
     this.as.saveArticulo(this.articulo).subscribe(result => {
-      
+      this.articulo.localizador = result.localizador;
     });
   }
 }

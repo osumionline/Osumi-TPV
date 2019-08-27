@@ -117,7 +117,7 @@ export interface Articulo {
   activo: boolean;
 }
 
-export interface LocalizadorResult {
+export interface ArticuloSaveResult {
   status: string;
-  localizador: string;
+  localizador: number;
 }
