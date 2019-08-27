@@ -13,6 +13,11 @@ export interface DialogOptions {
   cancel?: string;
 }
 
+export interface Month {
+  id: number;
+  name: string;
+}
+
 export interface AppData {
   tipoIva: string;
   ivaList: number[];
@@ -110,4 +115,9 @@ export interface Articulo {
   desc: string;
   codigosBarras: CodigoBarras[];
   activo: boolean;
+}
+
+export interface LocalizadorResult {
+  status: string;
+  localizador: string;
 }

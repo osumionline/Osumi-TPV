@@ -151,25 +151,36 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
-        <div>
-          <div class="form-field">
-            <label>Fecha de caducidad</label>
-            <mat-form-field>
-              <input matInput [matDatepicker]="dp" placeholder="Fecha de caducidad" [formControl]="date">
-              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-              <mat-datepicker #dp
-                              startView="multi-year"
-                              (yearSelected)="chosenYearHandler($event)"
-                              (monthSelected)="chosenMonthHandler($event, dp)"
-                              panelClass="month-picker">
-              </mat-datepicker>
-            </mat-form-field>
-          </div>
           <div class="form-field">
             <label>Referencia</label>
             <mat-form-field>
               <input matInput placeholder="Referencia" [(ngModel)]="articulo.referencia">
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="form-field">
+            <label>¿Artículo con caducidad?</label>
+            <mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarFecCad" (change)="updateFecCaducidad()">{{ articulo.mostrarFecCad ? 'Si' : 'No' }}</mat-slide-toggle>
+          </div>
+          <div class="form-field">
+            <label>Fecha de caducidad (mes)</label>
+            <mat-form-field>
+              <mat-select [(ngModel)]="fecCadMonth" [disabled]="!articulo.mostrarFecCad">
+                <mat-option *ngFor="let month of monthList" [value]="month.id">
+                  {{month.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-field">
+            <label>Fecha de caducidad (año)</label>
+            <mat-form-field>
+              <mat-select [(ngModel)]="fecCadYear" [disabled]="!articulo.mostrarFecCad">
+                <mat-option *ngFor="let year of yearList" [value]="year">
+                  {{year}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>

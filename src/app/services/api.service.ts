@@ -12,7 +12,9 @@ import {
   Proveedor,
   ProveedoresResult,
   IdSaveResult,
-  CategoriasResult
+  CategoriasResult,
+  Articulo,
+  LocalizadorResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -57,5 +59,9 @@ export class ApiService {
   
   saveProveedor(proveedor: Proveedor): Observable<IdSaveResult> {
     return this.http.post<IdSaveResult>(this.apiUrl + 'saveProveedor', proveedor);
+  }
+  
+  saveArticulo(articulo: Articulo): Observable<LocalizadorResult> {
+    return this.http.post<LocalizadorResult>(this.apiUrl + 'saveArticulo', articulo);
   }
 }

@@ -4,7 +4,7 @@ import { ApiService }        from '../../services/api.service';
 import { DataShareService }  from '../../services/data-share.service';
 import { DialogService }     from '../../services/dialog.service';
 import { CommonService }     from '../../services/common.service';
-import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras } from '../../interfaces/interfaces';
+import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } from '../../interfaces/interfaces';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -94,7 +94,23 @@ export class ArticulosComponent implements OnInit {
   ivaLabel: string = 'IVA';
   ivaList: number[] = [];
   categoriesPlain = [];
-  date = new FormControl(moment());
+  fecCadMonth: number = null;
+  fecCadYear: number = null;
+  monthList: Month[] = [
+    {id: 1, name: 'Enero'},
+    {id: 2, name: 'Febrero'},
+    {id: 3, name: 'Marzo'},
+    {id: 4, name: 'Abril'},
+    {id: 5, name: 'Mayo'},
+    {id: 6, name: 'Junio'},
+    {id: 7, name: 'Julio'},
+    {id: 8, name: 'Agosto'},
+    {id: 9, name: 'Septiembre'},
+    {id: 10, name: 'Octubre'},
+    {id: 11, name: 'Noviembre'},
+    {id: 12, name: 'Diciembre'}
+  ];
+  yearList: number[] = [];
   confirmarDarDeBaja: boolean = false;
   darDeBajaLoading: boolean = false;
 
@@ -103,7 +119,12 @@ export class ArticulosComponent implements OnInit {
               private dss: DataShareService,
               private cs: CommonService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const d = new Date();
+    for (let y = d.getFullYear(); y<(d.getFullYear()+5); y++){
+      this.yearList.push(y);
+    }
+  }
 
   loadAppData(appData: AppData) {
     this.mostrarWeb = appData.ventaOnline;
@@ -164,7 +185,7 @@ export class ArticulosComponent implements OnInit {
       this.loadCategoriesPlain(cat.hijos);
     }
   }
-  
+
   loadCodigosBarras() {
     for (let i=0; i<10; i++){
       this.articulo.codigosBarras.push({
@@ -175,7 +196,7 @@ export class ArticulosComponent implements OnInit {
       } as CodigoBarras);
     }
   }
-  
+
   newArticulo() {
     this.articulo = {
       id: null,
@@ -206,8 +227,7 @@ export class ArticulosComponent implements OnInit {
       codigosBarras: [],
       activo: true
     } as Articulo;
-    
-    this.date = new FormControl(moment());
+
     this.loadCodigosBarras();
     this.selectedTab = 0;
   }
@@ -322,21 +342,13 @@ export class ArticulosComponent implements OnInit {
     });
   }
   
-  setTwoNumberDecimal($event) {
-    $event.target.value = ($event.target.value!='') ? parseFloat($event.target.value).toFixed(2) : '0.00';
+  updateFecCaducidad(){
+    this.fecCadMonth = null;
+    this.fecCadYear = null;
   }
   
-  chosenYearHandler(normalizedYear: Moment) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
-  }
-
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+  setTwoNumberDecimal($event) {
+    $event.target.value = ($event.target.value!='') ? parseFloat($event.target.value).toFixed(2) : '0.00';
   }
   
   fixCodBarras(codBarras: CodigoBarras, ev) {
@@ -388,21 +400,36 @@ export class ArticulosComponent implements OnInit {
     this.articulo.stockMin   = this.articulo.stockMin   || 0;
     this.articulo.stockMax   = this.articulo.stockMax   || 0;
     this.articulo.loteOptimo = this.articulo.loteOptimo || 0;
-    
-    console.log(this.articulo);
-    
+
     if (!this.articulo.idMarca){
       this.dialog.alert({title: 'Error', content: '¡No has elegido la marca del artículo!', ok: 'Continuar'}).subscribe(result => {});
       this.selectedTab = 0;
       return false;
     }
-    
+
     if (!this.articulo.iva){
       this.dialog.alert({title: 'Error', content: '¡No has elegido IVA para el artículo!', ok: 'Continuar'}).subscribe(result => {});
       this.selectedTab = 0;
       return false;
     }
-    
-    
+
+    if (this.articulo.mostrarFecCad){
+      if (!this.fecCadMonth){
+        this.dialog.alert({title: 'Error', content: 'Has indicado que el artículo tiene fecha de caducidad, pero no has elegido el mes.', ok: 'Continuar'}).subscribe(result => {});
+        this.selectedTab = 1;
+        return false;
+      }
+      if (!this.fecCadYear){
+        this.dialog.alert({title: 'Error', content: 'Has indicado que el artículo tiene fecha de caducidad, pero no has elegido el año.', ok: 'Continuar'}).subscribe(result => {});
+        this.selectedTab = 1;
+        return false;
+      }
+      this.articulo.fechaCaducidad = ((this.fecCadMonth<10) ? '0'+this.fecCadMonth : this.fecCadMonth) + '/' + this.fecCadYear;
+    }
+
+    console.log(this.articulo);
+    this.as.saveArticulo(this.articulo).subscribe(result => {
+      
+    });
   }
 }
