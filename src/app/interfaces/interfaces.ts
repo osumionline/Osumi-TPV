@@ -82,7 +82,7 @@ export interface CategoriasResult {
 
 export interface CodigoBarras {
   id: number;
-  codigoBarras: string;
+  codigoBarras: number;
   porDefecto: boolean;
   fixed?: boolean;
 }
@@ -120,4 +120,9 @@ export interface Articulo {
 export interface ArticuloSaveResult {
   status: string;
   localizador: number;
+}
+
+export interface ArticuloResult {
+  status: string;
+  articulo: Articulo;
 }

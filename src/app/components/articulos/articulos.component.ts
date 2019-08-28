@@ -85,7 +85,7 @@ export class ArticulosComponent implements OnInit {
     marcas: []
   } as Proveedor;
 
-  selectedTab: number = 0;
+  selectedTab: number = -1;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -187,7 +187,7 @@ export class ArticulosComponent implements OnInit {
   }
 
   loadCodigosBarras() {
-    for (let i=0; i<10; i++){
+    for (let i=0; i<5; i++){
       this.articulo.codigosBarras.push({
         id: null,
         codigoBarras: null,
@@ -195,6 +195,54 @@ export class ArticulosComponent implements OnInit {
         fixed: false
       } as CodigoBarras);
     }
+  }
+  
+  checkLocalizador(ev) {
+    if (ev.keyCode==13 && this.articulo.localizador.toString().length==6){
+      this.loadArticulo();
+    }
+  }
+  
+  loadArticulo() {
+    this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
+      console.log(result);
+      
+      this.articulo = {
+        id: result.articulo.id,
+        localizador: result.articulo.localizador,
+        nombre: this.cs.urldecode(result.articulo.nombre),
+        puc: result.articulo.puc,
+        pvp: result.articulo.pvp,
+        margen: result.articulo.margen,
+        palb: result.articulo.palb,
+        idMarca: result.articulo.idMarca,
+        idProveedor: result.articulo.idProveedor,
+        stock: result.articulo.stock,
+        stockMin: result.articulo.stockMin,
+        stockMax: result.articulo.stockMax,
+        loteOptimo: result.articulo.loteOptimo,
+        iva: result.articulo.iva,
+        fechaCaducidad: result.articulo.fechaCaducidad,
+        mostrarFecCad: result.articulo.mostrarFecCad,
+        observaciones: this.cs.urldecode(result.articulo.observaciones),
+        mostrarObsPedidos: result.articulo.mostrarObsPedidos,
+        mostrarObsVentas: result.articulo.mostrarObsVentas,
+        referencia: result.articulo.referencia,
+        ventaOnline: result.articulo.ventaOnline,
+        mostrarEnWeb: result.articulo.mostrarEnWeb,
+        idCategoria: result.articulo.idCategoria,
+        descCorta: result.articulo.descCorta,
+        desc: result.articulo.desc,
+        codigosBarras: [],
+        activo: result.articulo.activo
+      } as Articulo;
+  
+      this.loadCodigosBarras();
+      for (let ind in result.articulo.codigosBarras){
+        this.articulo.codigosBarras[ind] = result.articulo.codigosBarras[ind];
+      }
+      this.selectedTab = 0;
+    });
   }
 
   newArticulo() {
@@ -429,6 +477,9 @@ export class ArticulosComponent implements OnInit {
 
     this.as.saveArticulo(this.articulo).subscribe(result => {
       this.articulo.localizador = result.localizador;
+      this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {
+        this.loadArticulo();
+      });
     });
   }
 }

@@ -14,7 +14,8 @@ import {
   IdSaveResult,
   CategoriasResult,
   Articulo,
-  ArticuloSaveResult
+  ArticuloSaveResult,
+  ArticuloResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -63,5 +64,9 @@ export class ApiService {
   
   saveArticulo(articulo: Articulo): Observable<ArticuloSaveResult> {
     return this.http.post<ArticuloSaveResult>(this.apiUrl + 'saveArticulo', articulo);
+  }
+  
+  loadArticulo(localizador: number): Observable<ArticuloResult> {
+    return this.http.post<ArticuloResult>(this.apiUrl + 'loadArticulo', {localizador});
   }
 }

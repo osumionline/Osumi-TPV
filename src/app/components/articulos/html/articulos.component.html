@@ -1,24 +1,21 @@
 <mat-card class="card-margin">
-  <mat-card-header>
-    <mat-card-title>{{ articulo.nombre }}</mat-card-title>
-  </mat-card-header>
   <mat-card-content>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" dynamicHeight>
-      <mat-tab label="General">
-        <div>
-          <div class="form-field">
-            <label>Localizador</label>
-            <mat-form-field class="campo-numero">
-              <input matInput placeholder="Localizador" [(ngModel)]="articulo.localizador">
-            </mat-form-field>
-          </div>
-          <div class="form-field">
-            <label>Nombre</label>
-            <mat-form-field class="nombre-label">
-              <input matInput placeholder="Nombre" [(ngModel)]="articulo.nombre">
-            </mat-form-field>
-          </div>
-        </div>
+    <div>
+      <div class="form-field">
+        <label>Localizador</label>
+        <mat-form-field class="campo-numero">
+          <input type="number" step="1" matInput placeholder="Localizador" [(ngModel)]="articulo.localizador" (keyup)="checkLocalizador($event)">
+        </mat-form-field>
+      </div>
+      <div class="form-field">
+        <label>Nombre</label>
+        <mat-form-field class="nombre-label">
+          <input matInput placeholder="Nombre" [(ngModel)]="articulo.nombre">
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event" dynamicHeight>
+      <mat-tab label="GENERAL">
         <div class="margin-bottom">
           <div class="form-field margin-right">
             <label>Marca</label>
@@ -126,7 +123,7 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Auxiliar">
+      <mat-tab label="AUXILIAR">
         <div>
           <div class="form-field">
             <label>Proveedor</label>
@@ -188,7 +185,7 @@
           estadisticas venta + estadisticas web
         </p>
       </mat-tab>
-      <mat-tab label="Códigos de barras">
+      <mat-tab label="CÓDIGOS DE BARRAS">
         <div class="cod-barras-list">
           <div *ngFor="let codBarras of articulo.codigosBarras">
             <input class="cod-barras-item" type="text" placeholder="Código de barras" [(ngModel)]="codBarras.codigoBarras" [disabled]="codBarras.fixed" [ngClass]="{'cod-barras-fixed':codBarras.fixed}" (keyup)="fixCodBarras(codBarras, $event)">
@@ -200,7 +197,7 @@
       </mat-tab>
       <mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
         <ng-template mat-tab-label>
-          Web
+          WEB
           <mat-icon *ngIf="articulo.mostrarEnWeb" class="tab-icon">check_circle</mat-icon>
         </ng-template>
         <div>
@@ -235,13 +232,13 @@
           - desc
         </p>
       </mat-tab>
-      <mat-tab label="Histórico">
-        <p>Histórico</p>
+      <mat-tab label="HISTÓRICO" *ngIf="articulo.id!=null">
+        <p>HISTÓRICO</p>
         <p>
           
         </p>
       </mat-tab>
-      <mat-tab label="Observaciones">
+      <mat-tab label="OBSERVACIONES">
         <div>
           <div class="form-field max-width">
             <label>Observaciones</label>
@@ -258,7 +255,7 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Baja" *ngIf="articulo.id!=null">
+      <mat-tab label="BAJA" *ngIf="articulo.id!=null">
         <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados historicos.</p>
         <div class="dar-de-baja">
           <button mat-raised-button color="warn" (click)="darDeBaja()">Dar de baja</button>
