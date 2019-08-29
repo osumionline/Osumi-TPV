@@ -71,7 +71,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule }    from '@angular/material/checkbox';
 import { MatRadioModule }       from '@angular/material/radio';
 import { MatDatepickerModule }  from '@angular/material/datepicker';
-import { MatMomentDateModule }  from '@angular/material-moment-adapter';
 
 export const MATERIAL: any[] = [
 	MatToolbarModule,
@@ -88,6 +87,5 @@ export const MATERIAL: any[] = [
 	MatSlideToggleModule,
 	MatCheckboxModule,
 	MatRadioModule,
-	MatDatepickerModule,
-	MatMomentDateModule
+	MatDatepickerModule
 ];

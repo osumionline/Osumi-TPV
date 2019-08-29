@@ -1,38 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl}         from '@angular/forms';
-import { ApiService }        from '../../services/api.service';
-import { DataShareService }  from '../../services/data-share.service';
-import { DialogService }     from '../../services/dialog.service';
-import { CommonService }     from '../../services/common.service';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl }      from '@angular/forms';
+import { ApiService }       from '../../services/api.service';
+import { DataShareService } from '../../services/data-share.service';
+import { DialogService }    from '../../services/dialog.service';
+import { CommonService }    from '../../services/common.service';
 import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } from '../../interfaces/interfaces';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
-import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
-
-const moment = _rollupMoment || _moment;
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-articulos',
   templateUrl: './html/articulos.component.html',
-  styleUrls: ['./css/articulos.component.css'],
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ]
+  styleUrls: ['./css/articulos.component.css']
 })
 export class ArticulosComponent implements OnInit {
   articulo = {
@@ -85,7 +62,9 @@ export class ArticulosComponent implements OnInit {
     marcas: []
   } as Proveedor;
 
+  loading: boolean = false;
   selectedTab: number = -1;
+  @ViewChild('localizadorBox', { static: true }) localizadorBox:ElementRef;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -198,15 +177,15 @@ export class ArticulosComponent implements OnInit {
   }
   
   checkLocalizador(ev) {
-    if (ev.keyCode==13 && this.articulo.localizador.toString().length==6){
+    if (ev.keyCode==13){
       this.loadArticulo();
     }
   }
   
   loadArticulo() {
+    this.loading = true;
+
     this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
-      console.log(result);
-      
       this.articulo = {
         id: result.articulo.id,
         localizador: result.articulo.localizador,
@@ -242,6 +221,7 @@ export class ArticulosComponent implements OnInit {
         this.articulo.codigosBarras[ind] = result.articulo.codigosBarras[ind];
       }
       this.selectedTab = 0;
+      this.loading = false;
     });
   }
 
@@ -278,6 +258,9 @@ export class ArticulosComponent implements OnInit {
 
     this.loadCodigosBarras();
     this.selectedTab = 0;
+    setTimeout(() => {
+      this.localizadorBox.nativeElement.focus();
+    }, 200);
   }
   
   newMarca() {
