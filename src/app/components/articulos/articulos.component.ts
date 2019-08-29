@@ -90,6 +90,7 @@ export class ArticulosComponent implements OnInit {
     {id: 12, name: 'Diciembre'}
   ];
   yearList: number[] = [];
+  newCodBarras: number = null;
   confirmarDarDeBaja: boolean = false;
   darDeBajaLoading: boolean = false;
 
@@ -165,23 +166,12 @@ export class ArticulosComponent implements OnInit {
     }
   }
 
-  loadCodigosBarras() {
-    for (let i=0; i<5; i++){
-      this.articulo.codigosBarras.push({
-        id: null,
-        codigoBarras: null,
-        porDefecto: false,
-        fixed: false
-      } as CodigoBarras);
-    }
-  }
-  
   checkLocalizador(ev) {
     if (ev.keyCode==13){
       this.loadArticulo();
     }
   }
-  
+
   loadArticulo() {
     this.loading = true;
 
@@ -215,10 +205,16 @@ export class ArticulosComponent implements OnInit {
         codigosBarras: [],
         activo: result.articulo.activo
       } as Articulo;
-  
-      this.loadCodigosBarras();
-      for (let ind in result.articulo.codigosBarras){
-        this.articulo.codigosBarras[ind] = result.articulo.codigosBarras[ind];
+
+      if (this.articulo.mostrarFecCad){
+        const fecCad = this.articulo.fechaCaducidad.split('/');
+
+        this.fecCadMonth = parseInt(fecCad[0]);
+        this.fecCadYear  = parseInt(fecCad[1]);
+      }
+
+      for (let cb of result.articulo.codigosBarras){
+        this.articulo.codigosBarras.push(cb);
       }
       this.selectedTab = 0;
       this.loading = false;
@@ -256,7 +252,6 @@ export class ArticulosComponent implements OnInit {
       activo: true
     } as Articulo;
 
-    this.loadCodigosBarras();
     this.selectedTab = 0;
     setTimeout(() => {
       this.localizadorBox.nativeElement.focus();
@@ -382,9 +377,27 @@ export class ArticulosComponent implements OnInit {
     $event.target.value = ($event.target.value!='') ? parseFloat($event.target.value).toFixed(2) : '0.00';
   }
   
-  fixCodBarras(codBarras: CodigoBarras, ev) {
-    if (ev.keyCode==13){
-      codBarras.fixed = true;
+  fixCodBarras(ev=null) {
+    if (ev){
+      if (ev.keyCode==13){
+        this.addNewCodBarras();
+      }
+    }
+    else{
+      this.addNewCodBarras();
+    }
+  }
+  
+  addNewCodBarras(){
+    if (this.newCodBarras){
+      const cb = {
+        id: null,
+        codigoBarras: this.newCodBarras,
+        porDefecto: false
+      } as CodigoBarras;
+      
+      this.articulo.codigosBarras.push(cb);
+      this.newCodBarras = null;
     }
   }
   

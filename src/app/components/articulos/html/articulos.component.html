@@ -190,9 +190,19 @@
         </p>
       </mat-tab>
       <mat-tab label="CÓDIGOS DE BARRAS">
+        <div class="new-cod-barras">
+          <input type="number" class="new-cod-barras-item" placeholder="Nuevo código de barras" [(ngModel)]="newCodBarras" (keyup)="fixCodBarras($event)">
+          <button mat-raised-button color="primary" (click)="fixCodBarras()">Añadir</button>
+        </div>
+        
+        <div class="cod-barras-empty" *ngIf="articulo.codigosBarras.length==0">
+          Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador que se le asigne.
+        </div>
+      
         <div class="cod-barras-list">
-          <div *ngFor="let codBarras of articulo.codigosBarras">
-            <input class="cod-barras-item" type="text" placeholder="Código de barras" [(ngModel)]="codBarras.codigoBarras" [disabled]="codBarras.fixed" [ngClass]="{'cod-barras-fixed':codBarras.fixed}" (keyup)="fixCodBarras(codBarras, $event)">
+          <div class="cod-barras-item" *ngFor="let codBarras of articulo.codigosBarras">
+            <ngx-barcode [bc-value]="codBarras.codigoBarras" [bc-display-value]="true"></ngx-barcode>
+            <div class="cod-barras-item-cod">{{ codBarras.codigoBarras }}</div>
             <button mat-icon-button aria-label="Borrar código de barras" title="Borrar código de barras" *ngIf="codBarras.fixed" (click)="deleteCodBarras(codBarras)">
               <mat-icon>delete</mat-icon>
             </button>

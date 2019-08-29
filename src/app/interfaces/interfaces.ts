@@ -84,7 +84,6 @@ export interface CodigoBarras {
   id: number;
   codigoBarras: number;
   porDefecto: boolean;
-  fixed?: boolean;
 }
 
 export interface Articulo {
