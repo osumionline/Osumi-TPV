@@ -403,13 +403,7 @@ export class ArticulosComponent implements OnInit {
   
   deleteCodBarras(codBarras: CodigoBarras) {
     let ind = this.articulo.codigosBarras.findIndex(x => x.codigoBarras == codBarras.codigoBarras);
-    let newCodBarras = {
-      id: null,
-      codigoBarras: null,
-      porDefecto: false,
-      fixed: false
-    } as CodigoBarras;
-    this.articulo.codigosBarras[ind] = newCodBarras;
+    this.articulo.codigosBarras.splice(ind, 1);
   }
 
   darDeBaja() {

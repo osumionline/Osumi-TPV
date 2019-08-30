@@ -65,7 +65,7 @@
 }
 
 .campo-numero{
-  width: 100px;
+  width: 120px;
 }
 
 .articulo-numbers{
@@ -94,7 +94,7 @@
 }
 
 .new-cod-barras{
-  width: 30%;
+  width: 100%;
   margin: 0 auto;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -112,10 +112,10 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 0 .75em 0 .75em;
-  width: 75%;
+  width: 60%;
   box-sizing: border-box;
   transition: .4s border;
-  font-size: 1.2em;
+  font-size: 0.9em;
 }
 
 .new-cod-barras-item:hover{
@@ -143,23 +143,29 @@
 }
 
 .cod-barras-item{
-  width: 30%;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 6px;
   align-items: center;
   padding: 8px;
+  text-align: center;
   margin-bottom: 16px;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 }
 
 .cod-barras-item ngx-barcode{
-  display: block;
-  margin: 0 auto;
-  width: 50%;
+  display: inline-block;
 }
 
 .cod-barras-item-cod{
-  
+  line-height: 24px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.cod-barras-item-remove{
+  float: right;
 }
 
 .show-check{
@@ -244,8 +250,15 @@
   .margin-right{
     margin-right: 60px;
   }
-  .cod-barras-fixed{
-    width: 95%;
+  .new-cod-barras{
+    width: 30%;
+  }
+  .new-cod-barras-item{
+    font-size: 1.2em;
+    width: 75%;
+  }
+  .cod-barras-item{
+    width: 30%;
   }
   .articulo-numbers{
     display: inline-block;

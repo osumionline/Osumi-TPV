@@ -201,11 +201,13 @@
       
         <div class="cod-barras-list">
           <div class="cod-barras-item" *ngFor="let codBarras of articulo.codigosBarras">
-            <ngx-barcode [bc-value]="codBarras.codigoBarras" [bc-display-value]="true"></ngx-barcode>
-            <div class="cod-barras-item-cod">{{ codBarras.codigoBarras }}</div>
-            <button mat-icon-button aria-label="Borrar código de barras" title="Borrar código de barras" *ngIf="codBarras.fixed" (click)="deleteCodBarras(codBarras)">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <ngx-barcode [bc-value]="codBarras.codigoBarras" [bc-display-value]="false"></ngx-barcode>
+            <div class="cod-barras-item-cod">
+              {{ codBarras.codigoBarras }}
+              <button class="cod-barras-item-remove" mat-icon-button aria-label="Borrar código de barras" title="Borrar código de barras" (click)="deleteCodBarras(codBarras)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
       </mat-tab>
