@@ -36,8 +36,9 @@
 }
 
 .toolbar-btn{
-  background-color: #eee;
-  border: 2px solid #ccc;
+  background-color: #3f51b5;
+  border: 2px solid transparent;
+  color: #fff;
   border-radius: 6px;
   padding: 6px 12px;
   display: flex;
@@ -47,7 +48,7 @@
 }
 
 .toolbar-btn:hover{
-  background-color: #ddd;
+  border: 2px solid #fff;
 }
 
 .toolbar-btn > span{
@@ -59,6 +60,7 @@
 .toolbar-btn-selected{
   background-color: #fff;
   border: 2px solid #000;
+  color: #000;
 }
 
 .options{
