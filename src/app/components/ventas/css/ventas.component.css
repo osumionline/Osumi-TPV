@@ -1,0 +1,56 @@
+.ventas-header{
+  display: flex;
+  flex-direction: row;
+}
+
+.ventas-header > div{
+  line-height: 32px;
+  padding: 0 16px;
+  text-align: center;
+  background-color: #ccc;
+}
+
+.col-localizador{
+  flex: 1;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-descripcion{
+  flex: 2;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-stock{
+  flex: 1;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-cantidad{
+  flex: 1;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-pvp{
+  flex: 1;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-importe{
+  flex: 1;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-descuentos{
+  flex: 1;
+  border-bottom: 1px solid #888;
+}
+
+.lineas-ventas{
+  
+}
