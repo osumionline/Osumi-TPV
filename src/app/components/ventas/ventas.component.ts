@@ -9,7 +9,7 @@ import { Tabs } from '../../interfaces/interfaces';
 export class VentasComponent implements OnInit {
   tabs = {
     selected: 0,
-	names: ['VENTA 1', 'VENTA 2', 'VENTA 3']
+	names: ['VENTA 1', 'VENTA 2', 'VENTA 3', 'VENTA 4', 'VENTA 5']
   } as Tabs;
 
   constructor() {}
