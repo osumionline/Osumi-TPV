@@ -7,7 +7,7 @@ import { CommonService }    from '../../services/common.service';
 import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } from '../../interfaces/interfaces';
 
 @Component({
-  selector: 'app-articulos',
+  selector: 'otpv-articulos',
   templateUrl: './html/articulos.component.html',
   styleUrls: ['./css/articulos.component.css']
 })

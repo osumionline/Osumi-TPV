@@ -125,3 +125,8 @@ export interface ArticuloResult {
   status: string;
   articulo: Articulo;
 }
+
+export interface Tabs {
+  selected: number;
+  names: string[];
+}

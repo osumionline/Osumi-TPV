@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-pedidos',
+  selector: 'otpv-pedidos',
   templateUrl: './html/pedidos.component.html',
   styleUrls: ['./css/pedidos.component.css']
 })

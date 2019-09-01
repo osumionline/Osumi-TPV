@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Tabs } from '../../interfaces/interfaces';
 
 @Component({
-  selector: 'app-ventas',
+  selector: 'otpv-ventas',
   templateUrl: './html/ventas.component.html',
   styleUrls: ['./css/ventas.component.css']
 })
 export class VentasComponent implements OnInit {
+  tabs = {
+    selected: 0,
+	names: ['VENTA 1', 'VENTA 2', 'VENTA 3']
+  } as Tabs;
+
   constructor() {}
   ngOnInit() {}
 }

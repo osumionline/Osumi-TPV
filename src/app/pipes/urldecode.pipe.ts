@@ -5,11 +5,9 @@ import { CommonService } from '../services/common.service';
   name: 'urldecode'
 })
 export class UrldecodePipe implements PipeTransform {
-	
 	constructor(private cs: CommonService) { }
 
 	transform(str: string): string {
 		return this.cs.urldecode(str);
 	}
-  
 }

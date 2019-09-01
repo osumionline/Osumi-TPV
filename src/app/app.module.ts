@@ -16,6 +16,7 @@ import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
 import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -26,7 +27,8 @@ const appearance: MatFormFieldDefaultOptions = {
     AppComponent,
     ...PAGES,
     ...COMPONENTS,
-    ...PIPES
+    ...PIPES,
+    TabsComponent
   ],
   imports: [
     BrowserModule,

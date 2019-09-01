@@ -5,7 +5,7 @@ import { ApiService }        from '../../services/api.service';
 import { AppData }           from '../../interfaces/interfaces';
 
 @Component({
-  selector: 'app-installation',
+  selector: 'otpv-installation',
   templateUrl: './html/installation.component.html',
   styleUrls: ['./css/installation.component.css']
 })

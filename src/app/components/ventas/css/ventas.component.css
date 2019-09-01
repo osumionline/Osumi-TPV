@@ -1,6 +1,7 @@
 .ventas-header{
   display: flex;
   flex-direction: row;
+  border-top: 1px solid #888;
 }
 
 .ventas-header > div{

@@ -7,7 +7,7 @@ import { ArticulosComponent } from '../../components/articulos/articulos.compone
 import { PedidosComponent }   from '../../components/pedidos/pedidos.component';
 
 @Component({
-  selector: 'app-main',
+  selector: 'otpv-main',
   templateUrl: './html/main.component.html',
   styleUrls: ['./css/main.component.css']
 })
