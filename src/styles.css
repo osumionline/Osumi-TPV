@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #eee; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #eee; -webkit-appearance: none; border-radius: 0; }
 
 .loading{
   position: fixed;
@@ -19,6 +24,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 .mat-tab-body-content{
   padding: 16px;
 }
+
+/* Estilos para ventanas modales */
 
 .modal-bg{
   position: fixed;
@@ -67,6 +74,49 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   padding: 16px;
   display: flex;
   justify-content: flex-end;
+}
+
+/* Estilos para líneas de ventas */
+
+.col-localizador{
+  width: 10%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-descripcion{
+  width: 55%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-stock{
+  width: 5%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-cantidad{
+  width: 5%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-pvp{
+  width: 10%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-importe{
+  width: 10%;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.col-descuentos{
+  width: 5%;
+  border-bottom: 1px solid #888;
 }
 
 @media screen and (min-width: 1024px) {

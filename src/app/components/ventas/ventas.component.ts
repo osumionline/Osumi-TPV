@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Tabs, Venta }       from '../../interfaces/interfaces';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Tabs, Venta, LineaVenta } from '../../interfaces/interfaces';
+import { UnaVentaComponent } from '../una-venta/una-venta.component';
 
 @Component({
   selector: 'otpv-ventas',
@@ -12,32 +13,32 @@ export class VentasComponent implements OnInit {
 	names: []
   } as Tabs;
   ventas: Venta[] = [];
+  
+  @ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 
   constructor() {}
   ngOnInit() {
     this.newVenta();
   }
-  
-  cerrarVenta(ind: number){
+
+  cerrarVenta(ind: number) {
     if (this.tabs.selected==ind){
       this.tabs.selected = 0;
     }
     this.tabs.names.splice(ind, 1);
 	this.ventas.splice(ind, 1);
-	
-	console.log(this.tabs);
-	console.log(this.ventas);
   }
-  
-  newVenta(){
+
+  newVenta() {
     this.tabs.names.push('VENTA '+(this.tabs.names.length+1));
 	this.tabs.selected = (this.tabs.names.length-1);
 	this.ventas.push({
       lineas: [],
       importe: 0
 	} as Venta);
-	
-	console.log(this.tabs);
-	console.log(this.ventas);
+
+	setTimeout(() => {
+	  this.venta.addLineaVenta();
+	}, 200);
   }
 }

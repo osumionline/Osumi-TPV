@@ -8,7 +8,7 @@ import { DialogService } from '../../services/dialog.service';
   styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent {
-  @Input() tabs : Tabs = {
+  @Input() tabs: Tabs = {
     selected: 0,
 	names: []
   };
@@ -17,11 +17,11 @@ export class TabsComponent {
 
   constructor(private dialog: DialogService) {}
   
-  selectTab(ind: number){
+  selectTab(ind: number) {
     this.tabs.selected = ind;
   }
   
-  closeTab(ind: number){
+  closeTab(ind: number) {
     this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer cerrar esta venta?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
       if (result===true){
 		this.closeTabEvent.emit(ind)

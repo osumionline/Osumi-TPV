@@ -1,0 +1,28 @@
+<div class="lineas-ventas">
+  <div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
+    <div class="col-localizador">
+	  <input type="number" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
+	</div>
+    <div class="col-descripcion">
+      <span *ngIf="!linea.descripcion">&nbsp;</span>
+      <span *ngIf="linea.descripcion">{{linea.descripcion}}</span>
+    </div>
+    <div class="col-stock">
+      <span *ngIf="!linea.stock">&nbsp;</span>
+      <span *ngIf="linea.stock">{{linea.stock}}</span>
+    </div>
+    <div class="col-cantidad">
+      <span *ngIf="!linea.cantidad">&nbsp;</span>
+      <span *ngIf="linea.cantidad">{{linea.cantidad}}</span>
+    </div>
+    <div class="col-pvp">
+      <span *ngIf="!linea.pvp">&nbsp;</span>
+      <span *ngIf="linea.pvp">{{linea.pvp}} €</span>
+    </div>
+    <div class="col-importe">
+      <span *ngIf="!linea.importe">&nbsp;</span>
+      <span *ngIf="linea.importe">{{linea.importe}} €</span>
+    </div>
+    <div class="col-descuentos">a</div>
+  </div>
+</div>
