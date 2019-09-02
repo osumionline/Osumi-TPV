@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'otpv-confirm-dialog',
-  templateUrl: './html/confirm-dialog.component.html',
+  templateUrl: './confirm-dialog.component.html',
   styleUrls: ['../css/dialog.component.css']
 })
 export class ConfirmDialogComponent {

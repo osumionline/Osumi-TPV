@@ -3,8 +3,8 @@ import { Tabs } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'otpv-ventas',
-  templateUrl: './html/ventas.component.html',
-  styleUrls: ['./css/ventas.component.css']
+  templateUrl: './ventas.component.html',
+  styleUrls: ['./ventas.component.css']
 })
 export class VentasComponent implements OnInit {
   tabs = {
