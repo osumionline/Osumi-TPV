@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Tabs }             from '../../interfaces/interfaces';
-import { DialogService }    from '../../services/dialog.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Tabs }          from '../../interfaces/interfaces';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'otpv-tabs',
@@ -13,6 +13,7 @@ export class TabsComponent {
 	names: []
   };
   @Input() showClose: boolean = false;
+  @Output() closeTabEvent = new EventEmitter<number>();
 
   constructor(private dialog: DialogService) {}
   
@@ -23,10 +24,7 @@ export class TabsComponent {
   closeTab(ind: number){
     this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer cerrar esta venta?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
       if (result===true){
-        if (this.tabs.selected==ind){
-          this.tabs.selected = 0;
-		}
-        this.tabs.names.splice(ind, 1);
+		this.closeTabEvent.emit(ind)
 	  }
 	});
   }

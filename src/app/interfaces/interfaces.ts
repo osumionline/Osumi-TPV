@@ -130,3 +130,18 @@ export interface Tabs {
   selected: number;
   names: string[];
 }
+
+export interface LineaVenta {
+  localizador: number;
+  descripcion: string;
+  stock: number;
+  cantidad: number;
+  pvp: number;
+  importe: number;
+  
+}
+
+export interface Venta {
+  lineas: LineaVenta[];
+  importe: number;
+}
