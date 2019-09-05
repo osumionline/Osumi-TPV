@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Venta, LineaVenta } from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { CommonService }     from '../../services/common.service';
@@ -9,8 +9,6 @@ import { CommonService }     from '../../services/common.service';
   styleUrls: ['./una-venta.component.css']
 })
 export class UnaVentaComponent {
-  @ViewChild('ventaLoc', {static: false}) ventaLoc: ElementRef;
-
   @Input() venta: Venta = {
     lineas: [],
     importe: 0
@@ -28,7 +26,8 @@ export class UnaVentaComponent {
       importe: null
 	} as LineaVenta);
 	setTimeout(() => {
-      this.ventaLoc.nativeElement.focus();
+	  const loc: HTMLInputElement = document.getElementById('loc-'+(this.venta.lineas.length-1)) as HTMLInputElement
+      loc.focus();
 	}, 200);
   }
   

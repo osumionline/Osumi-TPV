@@ -1,7 +1,7 @@
 <div class="lineas-ventas">
   <div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
     <div class="col-localizador">
-	  <input type="number" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
+	  <input type="number" id="loc-{{i}}" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
 	</div>
     <div class="col-descripcion">
       <span *ngIf="!linea.descripcion">&nbsp;</span>
