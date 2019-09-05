@@ -132,6 +132,7 @@ export interface Tabs {
 }
 
 export interface LineaVenta {
+  idArticulo: number;
   localizador: number;
   descripcion: string;
   stock: number;

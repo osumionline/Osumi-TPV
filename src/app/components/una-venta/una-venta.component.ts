@@ -18,6 +18,7 @@ export class UnaVentaComponent {
   
   addLineaVenta() {
     this.venta.lineas.push({
+      idArticulo: null,
       localizador: null,
       descripcion: null,
       stock: null,
@@ -34,6 +35,7 @@ export class UnaVentaComponent {
   checkLocalizador(ev, ind) {
     if (ev.keyCode==13){
       this.as.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
+        this.venta.lineas[ind].idArticulo = result.articulo.id;
         this.venta.lineas[ind].descripcion = this.cs.urldecode(result.articulo.nombre);
         this.venta.lineas[ind].stock = result.articulo.stock;
         this.venta.lineas[ind].cantidad = 1;
