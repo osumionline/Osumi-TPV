@@ -9,7 +9,7 @@ import { MAT_DATE_LOCALE }         from '@angular/material/core';
 import { AppRoutingModule }        from './app-routing.module';
 import { AppComponent }            from './app.component';
 import { environment }             from '../environments/environment';
-import { NgxBarcodeModule }        from 'ngx-barcode';
+import { NgxBarcode6Module }       from 'ngx-barcode6';
 
 import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
 
@@ -36,7 +36,7 @@ const appearance: MatFormFieldDefaultOptions = {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgxBarcodeModule,
+    NgxBarcode6Module,
     ...MATERIAL
   ],
   entryComponents: [ConfirmDialogComponent, AlertDialogComponent, FormDialogComponent],
