@@ -46,4 +46,8 @@ export class UnaVentaComponent {
       });
     }
   }
+  
+  goToArticulos(loc){
+    console.log(loc);
+  }
 }

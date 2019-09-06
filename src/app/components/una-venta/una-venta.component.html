@@ -6,7 +6,7 @@
 	</div>
     <div class="col-descripcion">
       <span *ngIf="!linea.descripcion">&nbsp;</span>
-      <span *ngIf="linea.descripcion">{{linea.descripcion}}</span>
+      <span *ngIf="linea.descripcion" (dblclick)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
     </div>
     <div class="col-stock">
       <span *ngIf="!linea.stock">&nbsp;</span>
