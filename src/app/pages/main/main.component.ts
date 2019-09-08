@@ -61,4 +61,9 @@ export class MainComponent implements OnInit {
   selectOption(option: string){
     this.selectedOption = option;
   }
+  
+  showDetails(loc: number) {
+    this.articulosComponent.showDetails(loc);
+	this.selectedOption = 'items';
+  }
 }

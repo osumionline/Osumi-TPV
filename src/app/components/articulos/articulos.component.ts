@@ -165,6 +165,11 @@ export class ArticulosComponent implements OnInit {
       this.loadCategoriesPlain(cat.hijos);
     }
   }
+  
+  showDetails(loc: number) {
+    this.articulo.localizador = loc;
+	this.loadArticulo();
+  }
 
   checkLocalizador(ev) {
     if (ev.keyCode==13){

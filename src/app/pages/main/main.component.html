@@ -34,7 +34,7 @@
 </mat-toolbar>
 
 <div class="options">
-  <otpv-ventas [ngClass]="{'option-show': selectedOption=='sales'}" #ventas></otpv-ventas>
+  <otpv-ventas [ngClass]="{'option-show': selectedOption=='sales'}" (showDetailsEvent)="showDetails($event)" #ventas></otpv-ventas>
   <otpv-articulos [ngClass]="{'option-show': selectedOption=='items'}" #articulos></otpv-articulos>
   <otpv-pedidos [ngClass]="{'option-show': selectedOption=='orders'}" #pedidos></otpv-pedidos>
 </div>

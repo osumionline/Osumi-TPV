@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Tabs, Venta, LineaVenta } from '../../interfaces/interfaces';
-import { UnaVentaComponent } from '../una-venta/una-venta.component';
+import { UnaVentaComponent }       from '../una-venta/una-venta.component';
 
 @Component({
   selector: 'otpv-ventas',
@@ -15,6 +15,7 @@ export class VentasComponent implements OnInit {
   ventas: Venta[] = [];
   
   @ViewChild('venta', { static: true }) venta: UnaVentaComponent;
+  @Output() showDetailsEvent = new EventEmitter<number>();
 
   constructor() {}
   ngOnInit() {
@@ -49,5 +50,9 @@ export class VentasComponent implements OnInit {
   deleteVentaLinea(ind: number) {
     this.ventas[this.tabs.selected].lineas.splice(ind, 1);
 	this.startFocus();
+  }
+  
+  showDetails(loc: number) {
+    this.showDetailsEvent.emit(loc);
   }
 }

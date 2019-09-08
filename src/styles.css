@@ -98,6 +98,7 @@ input[type=number] {
   width: 55%;
   border-right: 1px solid #888;
   border-bottom: 1px solid #888;
+  user-select: none;
 }
 
 .col-stock{

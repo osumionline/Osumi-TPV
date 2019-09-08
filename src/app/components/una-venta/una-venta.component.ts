@@ -15,6 +15,7 @@ export class UnaVentaComponent {
     importe: 0
   };
   @Output() deleteVentaLineaEvent = new EventEmitter<number>();
+  @Output() showDetailsEvent = new EventEmitter<number>();
 
   constructor(private as: ApiService, private cs: CommonService, private dialog: DialogService) {}
   
@@ -55,7 +56,7 @@ export class UnaVentaComponent {
   }
   
   goToArticulos(loc) {
-    console.log(loc);
+	this.showDetailsEvent.emit(loc);
   }
   
   borraLinea(ind: number) {
