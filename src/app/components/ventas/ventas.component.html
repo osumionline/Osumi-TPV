@@ -8,4 +8,4 @@
   <div class="col-importe">Importe</div>
   <div class="col-descuentos">Desc.</div>
 </div>
-<otpv-una-venta [venta]="ventas[tabs.selected]" #venta></otpv-una-venta>
+<otpv-una-venta [venta]="ventas[tabs.selected]" (deleteVentaLineaEvent)="deleteVentaLinea($event)" #venta></otpv-una-venta>

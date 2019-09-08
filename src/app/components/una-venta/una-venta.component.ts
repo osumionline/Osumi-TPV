@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Venta, LineaVenta } from '../../interfaces/interfaces';
 import { ApiService }        from '../../services/api.service';
 import { CommonService }     from '../../services/common.service';
+import { DialogService }     from '../../services/dialog.service';
 
 @Component({
   selector: 'otpv-una-venta',
@@ -13,8 +14,9 @@ export class UnaVentaComponent {
     lineas: [],
     importe: 0
   };
+  @Output() deleteVentaLineaEvent = new EventEmitter<number>();
 
-  constructor(private as: ApiService, private cs: CommonService) {}
+  constructor(private as: ApiService, private cs: CommonService, private dialog: DialogService) {}
   
   addLineaVenta() {
     this.venta.lineas.push({
@@ -27,14 +29,19 @@ export class UnaVentaComponent {
       importe: null
 	} as LineaVenta);
 	setTimeout(() => {
-	  const loc: HTMLInputElement = document.getElementById('loc-'+(this.venta.lineas.length-1)) as HTMLInputElement
-      loc.focus();
+	  this.setFocus();
 	}, 200);
+  }
+  
+  setFocus() {
+    const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement
+    loc.focus();
   }
   
   checkLocalizador(ev, ind) {
     if (ev.keyCode==13){
       this.as.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
+        this.venta.lineas[ind].localizador = result.articulo.localizador;
         this.venta.lineas[ind].idArticulo = result.articulo.id;
         this.venta.lineas[ind].descripcion = this.cs.urldecode(result.articulo.nombre);
         this.venta.lineas[ind].stock = result.articulo.stock;
@@ -47,7 +54,15 @@ export class UnaVentaComponent {
     }
   }
   
-  goToArticulos(loc){
+  goToArticulos(loc) {
     console.log(loc);
+  }
+  
+  borraLinea(ind: number) {
+    this.dialog.confirm({title: '¡Atención!', content: '¿Está seguro de querer borrar esta línea?', ok: 'Confirmar', cancel: 'Cancelar'}).subscribe(result => {
+      if (result===true){
+        this.deleteVentaLineaEvent.emit(ind);
+      }
+	});
   }
 }

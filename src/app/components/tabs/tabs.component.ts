@@ -24,7 +24,7 @@ export class TabsComponent {
   closeTab(ind: number) {
     this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer cerrar esta venta?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
       if (result===true){
-		this.closeTabEvent.emit(ind)
+		this.closeTabEvent.emit(ind);
 	  }
 	});
   }

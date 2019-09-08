@@ -18,3 +18,10 @@
   outline: 0;
   padding: 0 5px;
 }
+
+.delete-linea{
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  cursor: pointer;
+}

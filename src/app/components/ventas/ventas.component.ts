@@ -20,6 +20,10 @@ export class VentasComponent implements OnInit {
   ngOnInit() {
     this.newVenta();
   }
+  
+  startFocus() {
+    this.venta.setFocus();
+  }
 
   cerrarVenta(ind: number) {
     if (this.tabs.selected==ind){
@@ -40,5 +44,10 @@ export class VentasComponent implements OnInit {
 	setTimeout(() => {
 	  this.venta.addLineaVenta();
 	}, 200);
+  }
+  
+  deleteVentaLinea(ind: number) {
+    this.ventas[this.tabs.selected].lineas.splice(ind, 1);
+	this.startFocus();
   }
 }

@@ -1,8 +1,9 @@
 <div class="lineas-ventas">
   <div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
     <div class="col-localizador">
-	  <input *ngIf="!linea.idArticulo" type="number" id="loc-{{i}}" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
+	  <input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
 	  <span *ngIf="linea.idArticulo">{{linea.localizador}}</span>
+	  <mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
 	</div>
     <div class="col-descripcion">
       <span *ngIf="!linea.descripcion">&nbsp;</span>

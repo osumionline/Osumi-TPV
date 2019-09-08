@@ -41,6 +41,7 @@ export class MainComponent implements OnInit {
   openBox(){
     this.as.openBox().subscribe(result => {
       this.isOpened = true;
+	  this.ventasComponent.startFocus();
     });
   }
   
