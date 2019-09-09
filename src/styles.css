@@ -101,6 +101,17 @@ input[type=number] {
   user-select: none;
 }
 
+.col-descripcion span{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.col-descripcion span:hover{
+  cursor: pointer;
+  background-color: #845EC2;
+}
+
 .col-stock{
   width: 5%;
   border-right: 1px solid #888;

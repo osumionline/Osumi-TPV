@@ -19,9 +19,37 @@
   padding: 0 5px;
 }
 
+.linea-cantidad{
+  width: 100%;
+  height: 32px;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  text-align: center;
+  font-size: 1.1em;
+}
+
 .delete-linea{
   position: absolute;
   left: 6px;
   top: 4px;
   cursor: pointer;
+}
+
+.importe{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  border-top: 1px solid #888;
+}
+
+.total-importe{
+
+}
+
+.controles-venta{
+
 }

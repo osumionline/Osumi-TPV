@@ -49,7 +49,9 @@ export class UnaVentaComponent {
         this.venta.lineas[ind].cantidad = 1;
         this.venta.lineas[ind].pvp = result.articulo.pvp;
         this.venta.lineas[ind].importe = result.articulo.pvp;
-		
+
+		this.updateImporte();
+
 		this.addLineaVenta();
       });
     }
@@ -65,5 +67,20 @@ export class UnaVentaComponent {
         this.deleteVentaLineaEvent.emit(ind);
       }
 	});
+  }
+  
+  updateCantidad(ind: number) {
+	if (!this.venta.lineas[ind].cantidad){
+      this.venta.lineas[ind].cantidad = 1;
+    }
+	this.updateImporte();
+  }
+  
+  updateImporte() {
+    let cant = 0;
+	for (let i in this.venta.lineas){
+      cant += (this.venta.lineas[i].cantidad * this.venta.lineas[i].pvp);
+	}
+	this.venta.importe = cant;
   }
 }

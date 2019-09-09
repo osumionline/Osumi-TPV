@@ -2,29 +2,37 @@
   <div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
     <div class="col-localizador">
 	  <input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" #ventaLoc>
-	  <span *ngIf="linea.idArticulo">{{linea.localizador}}</span>
+	  <ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
 	  <mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
 	</div>
     <div class="col-descripcion">
-      <span *ngIf="!linea.descripcion">&nbsp;</span>
-      <span *ngIf="linea.descripcion" (dblclick)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
+      <ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
+      <span *ngIf="linea.descripcion" (click)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
     </div>
     <div class="col-stock">
-      <span *ngIf="!linea.stock">&nbsp;</span>
+      <ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
       <span *ngIf="linea.stock">{{linea.stock}}</span>
     </div>
     <div class="col-cantidad">
-      <span *ngIf="!linea.cantidad">&nbsp;</span>
-      <span *ngIf="linea.cantidad">{{linea.cantidad}}</span>
+	  <input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)">
     </div>
     <div class="col-pvp">
-      <span *ngIf="!linea.pvp">&nbsp;</span>
+      <ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
       <span *ngIf="linea.pvp">{{linea.pvp}} €</span>
     </div>
     <div class="col-importe">
-      <span *ngIf="!linea.importe">&nbsp;</span>
+      <ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
       <span *ngIf="linea.importe">{{linea.importe}} €</span>
     </div>
     <div class="col-descuentos">a</div>
+  </div>
+</div>
+
+<div class="importe">
+  <div class="total-importe">
+    {{venta.importe}}
+  </div>
+  <div class="controles-venta">
+    
   </div>
 </div>
