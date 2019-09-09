@@ -26,7 +26,6 @@
   border: 0;
   outline: 0;
   text-align: center;
-  font-size: 1.1em;
 }
 
 .delete-linea{
@@ -41,15 +40,22 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 108px;
   background-color: #fff;
   border-top: 1px solid #888;
 }
 
 .total-importe{
-
+  text-align: right;
+  padding: 8px;
+  font-size: 2.5em;
 }
 
 .controles-venta{
+  text-align: right;
+  padding: 0 8px 8px 8px;
+}
 
+.end-btn{
+  margin-left: 16px;
 }
