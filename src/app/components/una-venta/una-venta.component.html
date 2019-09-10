@@ -14,7 +14,7 @@
       <span *ngIf="linea.stock">{{linea.stock}}</span>
     </div>
     <div class="col-cantidad">
-	  <input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)">
+	  <input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
     </div>
     <div class="col-pvp">
       <ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>

@@ -78,9 +78,13 @@ export class UnaVentaComponent {
   
   updateImporte() {
     let cant = 0;
-	for (let i in this.venta.lineas){
-      cant += (this.venta.lineas[i].cantidad * this.venta.lineas[i].pvp);
-	}
-	this.venta.importe = cant;
+  	for (let i in this.venta.lineas){
+        cant += (this.venta.lineas[i].cantidad * this.venta.lineas[i].pvp);
+  	}
+  	this.venta.importe = cant;
+  }
+  
+  selectCantidad(ev){
+    ev.target.select();
   }
 }

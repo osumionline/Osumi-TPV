@@ -12,20 +12,22 @@
 
 .linea-localizador{
   width: 100%;
-  height: 32px;
+  height: 30px;
   background-color: transparent;
   border: 0;
   outline: 0;
   padding: 0 5px;
+  font-size: inherit
 }
 
 .linea-cantidad{
   width: 100%;
-  height: 32px;
+  height: 30px;
   background-color: transparent;
   border: 0;
   outline: 0;
   text-align: center;
+  font-size: inherit;
 }
 
 .delete-linea{
@@ -37,18 +39,21 @@
 
 .importe{
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 108px;
+  bottom: 10px;
+  right: 10px;
+  width: 20%;
   background-color: #fff;
-  border-top: 1px solid #888;
+  border: 1px solid #888;
+  border-radius: 6px;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 }
 
 .total-importe{
   text-align: right;
   padding: 8px;
   font-size: 2.5em;
+  margin: 8px;
+  background-color: #eee;
 }
 
 .controles-venta{

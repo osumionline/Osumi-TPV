@@ -47,3 +47,19 @@
 .tab-icon:hover{
   color: #f00;
 }
+
+.new-tab{
+  display: inline-flex;
+  width: 50px;
+  justify-content: center;
+  height: 48px;
+  border-bottom: 2px solid transparent;
+  align-items: center;
+  vertical-align: bottom;
+  cursor: pointer;
+}
+
+.new-tab:hover{
+  background-color: #ddd;
+  border-radius: 6px;
+}
