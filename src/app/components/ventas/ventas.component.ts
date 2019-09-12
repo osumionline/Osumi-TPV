@@ -10,7 +10,7 @@ import { UnaVentaComponent }       from '../una-venta/una-venta.component';
 export class VentasComponent implements OnInit {
   tabs = {
     selected: 0,
-	names: []
+    names: []
   } as Tabs;
   ventas: Venta[] = [];
   
@@ -31,25 +31,26 @@ export class VentasComponent implements OnInit {
       this.tabs.selected = 0;
     }
     this.tabs.names.splice(ind, 1);
-	this.ventas.splice(ind, 1);
+    this.ventas.splice(ind, 1);
   }
 
   newVenta() {
     this.tabs.names.push('VENTA '+(this.tabs.names.length+1));
-	this.tabs.selected = (this.tabs.names.length-1);
-	this.ventas.push({
+    this.tabs.selected = (this.tabs.names.length-1);
+    this.ventas.push({
       lineas: [],
       importe: 0
-	} as Venta);
-
-	setTimeout(() => {
-	  this.venta.addLineaVenta();
-	}, 200);
+  	} as Venta);
+  
+  	setTimeout(() => {
+  	  this.venta.addLineaVenta();
+  	}, 200);
   }
   
   deleteVentaLinea(ind: number) {
     this.ventas[this.tabs.selected].lineas.splice(ind, 1);
-	this.startFocus();
+    this.venta.updateImporte();
+    this.startFocus();
   }
   
   showDetails(loc: number) {
