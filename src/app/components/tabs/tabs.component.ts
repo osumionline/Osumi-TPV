@@ -15,11 +15,13 @@ export class TabsComponent {
   @Input() showClose: boolean = false;
   @Output() closeTabEvent = new EventEmitter<number>();
   @Output() newTabEvent = new EventEmitter<number>();
+  @Output() changeTabEvent = new EventEmitter<number>();
 
   constructor(private dialog: DialogService) {}
   
   selectTab(ind: number) {
     this.tabs.selected = ind;
+	this.changeTabEvent.emit(ind);
   }
   
   closeTab(ind: number) {

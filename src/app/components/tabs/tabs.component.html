@@ -4,7 +4,7 @@
       {{tab}}
   	<mat-icon *ngIf="showClose" class="tab-icon" (click)="closeTab(i)">close</mat-icon>
     </div>
-    <div class="new-tab">
+    <div class="new-tab" (click)="newTab()">
       <mat-icon>add</mat-icon>
     </div>
   </div>

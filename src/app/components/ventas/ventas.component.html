@@ -1,4 +1,4 @@
-<otpv-tabs [tabs]="tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)"></otpv-tabs>
+<otpv-tabs [tabs]="tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()"></otpv-tabs>
 <div class="ventas-header">
   <div class="col-localizador">Localizador</div>
   <div class="col-descripcion">Descripción</div>
