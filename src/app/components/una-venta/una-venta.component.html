@@ -37,3 +37,20 @@
     <button class="end-btn" mat-raised-button color="primary">Terminar</button>
   </div>
 </div>
+
+<div class="modal-bg" *ngIf="muestraDescuento">
+  <div class="modal-box">
+    <div class="modal-header">
+      Descuento
+      <a href="#" (click)="darDeBajaCerrar($event)">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
+    <div class="modal-body">
+      Por favor, confirma que quieres dar de baja el artículo "{{articulo.nombre}}":
+      <div class="confirmar-dar-de-baja-btn">
+        <button mat-raised-button color="warn" (click)="darDeBajaOk()" [disabled]="darDeBajaLoading">Dar de baja</button>
+      </div>
+    </div>
+  </div>
+</div>

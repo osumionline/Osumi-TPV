@@ -17,6 +17,7 @@ export class UnaVentaComponent {
   @Output() deleteVentaLineaEvent = new EventEmitter<number>();
   @Output() showDetailsEvent = new EventEmitter<number>();
   searching: boolean = false;
+  muestraDescuento: boolean = false;
 
   constructor(private as: ApiService, private cs: CommonService, private dialog: DialogService) {}
   
