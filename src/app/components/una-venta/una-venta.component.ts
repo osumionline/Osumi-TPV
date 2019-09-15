@@ -99,4 +99,9 @@ export class UnaVentaComponent {
   selectCantidad(ev){
     ev.target.select();
   }
+  
+  cerrarDescuento(ev) {
+  	ev.preventDefault();
+  	this.muestraDescuento = false;
+  }
 }
