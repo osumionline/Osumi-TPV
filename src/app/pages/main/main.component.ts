@@ -12,9 +12,9 @@ import { PedidosComponent }   from '../../components/pedidos/pedidos.component';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  @ViewChild('ventas',    {static: false}) ventasComponent:    VentasComponent;
-  @ViewChild('articulos', {static: false}) articulosComponent: ArticulosComponent;
-  @ViewChild('pedidos',   {static: false}) pedidosComponent:   PedidosComponent;
+  @ViewChild('ventas') ventasComponent:    VentasComponent;
+  @ViewChild('articulos') articulosComponent: ArticulosComponent;
+  @ViewChild('pedidos') pedidosComponent:   PedidosComponent;
   
   loading: boolean = true;
   selectedOption: string = 'sales';
