@@ -5,7 +5,7 @@ import { UnaVentaComponent }       from '../una-venta/una-venta.component';
 @Component({
   selector: 'otpv-ventas',
   templateUrl: './ventas.component.html',
-  styleUrls: ['./ventas.component.css']
+  styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
   tabs = {

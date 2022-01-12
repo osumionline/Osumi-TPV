@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'otpv-alert-dialog',
   templateUrl: './alert-dialog.component.html',
-  styleUrls: ['../css/dialog.component.css']
+  styleUrls: ['../scss/dialog.component.scss']
 })
 export class AlertDialogComponent {
     public title: string;

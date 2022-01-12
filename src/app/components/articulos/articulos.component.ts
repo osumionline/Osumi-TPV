@@ -9,7 +9,7 @@ import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } f
 @Component({
   selector: 'otpv-articulos',
   templateUrl: './articulos.component.html',
-  styleUrls: ['./articulos.component.css']
+  styleUrls: ['./articulos.component.scss']
 })
 export class ArticulosComponent implements OnInit {
   articulo = {

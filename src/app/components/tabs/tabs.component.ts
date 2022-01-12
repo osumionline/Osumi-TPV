@@ -5,7 +5,7 @@ import { DialogService } from '../../services/dialog.service';
 @Component({
   selector: 'otpv-tabs',
   templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.css']
+  styleUrls: ['./tabs.component.scss']
 })
 export class TabsComponent {
   @Input() tabs: Tabs = {

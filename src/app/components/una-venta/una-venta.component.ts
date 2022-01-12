@@ -7,7 +7,7 @@ import { DialogService }     from '../../services/dialog.service';
 @Component({
   selector: 'otpv-una-venta',
   templateUrl: './una-venta.component.html',
-  styleUrls: ['./una-venta.component.css']
+  styleUrls: ['./una-venta.component.scss']
 })
 export class UnaVentaComponent {
   @Input() venta: Venta = {

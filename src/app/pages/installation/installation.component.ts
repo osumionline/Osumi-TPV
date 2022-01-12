@@ -7,7 +7,7 @@ import { AppData }           from '../../interfaces/interfaces';
 @Component({
   selector: 'otpv-installation',
   templateUrl: './installation.component.html',
-  styleUrls: ['./installation.component.css']
+  styleUrls: ['./installation.component.scss']
 })
 export class InstallationComponent implements OnInit {
   ivareOptions = [{id: 'iva', name: 'IVA'}, {id: 're', name: 'Recargo de equivalencia'}];

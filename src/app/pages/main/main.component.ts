@@ -9,7 +9,7 @@ import { PedidosComponent }   from '../../components/pedidos/pedidos.component';
 @Component({
   selector: 'otpv-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
   @ViewChild('ventas') ventasComponent:    VentasComponent;
