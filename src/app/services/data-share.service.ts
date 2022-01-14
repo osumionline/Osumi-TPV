@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataShareService {
 
-  saveLocalStorage = true;
+  saveLocalStorage: boolean = true;
   globals = {};
 
   constructor() { }
-  
-  setSaveLocalStorage(mode){
+
+  setSaveLocalStorage(mode: boolean){
 	  this.saveLocalStorage = mode;
   }
 
@@ -32,7 +32,7 @@ export class DataShareService {
       localStorage.setItem(key, JSON.stringify(obj));
     }
   }
-  
+
   getGlobal(key:string){
     if (!this.saveLocalStorage){
       if (!this.globals[key]){
@@ -61,7 +61,7 @@ export class DataShareService {
       return this.globals[key];
     }
   }
-  
+
   removeGlobal(key:string){
     if (this.globals[key]){
 		  delete this.globals[key];
@@ -70,7 +70,7 @@ export class DataShareService {
       localStorage.removeItem(key);
     }
   }
-  
+
   resetGlobals(){
     this.globals = {};
     if (this.saveLocalStorage){

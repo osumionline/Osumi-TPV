@@ -1,40 +1,40 @@
 <div class="loading" *ngIf="loading">
-  <img src="assets/loading.svg" alt="Cargando...">
+	<img src="assets/loading.svg" alt="Cargando...">
 </div>
 
 <div class="not-opened" *ngIf="!loading && !isOpened">
-  <mat-card>
-    <h1>Osumi TPV</h1>
-    <div class="not-opened-button">
-      <button mat-raised-button color="primary" (click)="openBox()">Abrir caja</button>
-    </div>
-  </mat-card>
+	<mat-card>
+		<h1>Osumi TPV</h1>
+		<div class="not-opened-button">
+			<button mat-raised-button color="primary" (click)="openBox()">Abrir caja</button>
+		</div>
+	</mat-card>
 </div>
 
 <mat-toolbar color="primary" class="toolbar">
-  <span>Osumi TPV</span>
-  <div class="toolbar-options">
-    <button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='sales'}" (click)="selectOptionSales()">
-      <mat-icon>local_atm</mat-icon>
-      <span>Ventas</span>
-    </button>
-    <button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='items'}" (click)="selectOptionItems()">
-      <mat-icon>card_giftcard</mat-icon>
-      <span>Artículos</span>
-    </button>
-    <button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='orders'}" (click)="selectOptionOrders()">
-      <mat-icon>assignment</mat-icon>
-      <span>Pedidos</span>
-    </button>
-  </div>
-  <button class="toolbar-btn">
-    <mat-icon>settings</mat-icon>
-    <span>Gestión</span>
-  </button>
+	<span>Osumi TPV</span>
+	<div class="toolbar-options">
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='sales'}" (click)="selectOptionSales()">
+			<mat-icon>local_atm</mat-icon>
+			<span>Ventas</span>
+		</button>
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='items'}" (click)="selectOptionItems()">
+			<mat-icon>card_giftcard</mat-icon>
+			<span>Artículos</span>
+		</button>
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='orders'}" (click)="selectOptionOrders()">
+			<mat-icon>assignment</mat-icon>
+			<span>Pedidos</span>
+		</button>
+	</div>
+	<button class="toolbar-btn">
+		<mat-icon>settings</mat-icon>
+		<span>Gestión</span>
+	</button>
 </mat-toolbar>
 
 <div class="options">
-  <otpv-ventas [ngClass]="{'option-show': selectedOption=='sales'}" (showDetailsEvent)="showDetails($event)" #ventas></otpv-ventas>
-  <otpv-articulos [ngClass]="{'option-show': selectedOption=='items'}" #articulos></otpv-articulos>
-  <otpv-pedidos [ngClass]="{'option-show': selectedOption=='orders'}" #pedidos></otpv-pedidos>
+	<otpv-ventas [ngClass]="{'option-show': selectedOption=='sales'}" (showDetailsEvent)="showDetails($event)" #ventas></otpv-ventas>
+	<otpv-articulos [ngClass]="{'option-show': selectedOption=='items'}" #articulos></otpv-articulos>
+	<otpv-pedidos [ngClass]="{'option-show': selectedOption=='orders'}" #pedidos></otpv-pedidos>
 </div>
