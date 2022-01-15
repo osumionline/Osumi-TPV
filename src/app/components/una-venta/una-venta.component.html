@@ -1,53 +1,53 @@
 <div class="lineas-ventas">
-  <div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
-    <div class="col-localizador">
-	  <input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" #ventaLoc>
-	  <ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
-	  <mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
+	<div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
+		<div class="col-localizador">
+			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" #ventaLoc>
+			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
+			<mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
+		</div>
+		<div class="col-descripcion">
+			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
+			<span *ngIf="linea.descripcion" (click)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
+		</div>
+		<div class="col-stock">
+			<ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
+			<span *ngIf="linea.stock">{{linea.stock}}</span>
+		</div>
+		<div class="col-cantidad">
+			<input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
+		</div>
+		<div class="col-pvp">
+			<ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
+			<span *ngIf="linea.pvp">{{linea.pvp}} €</span>
+		</div>
+		<div class="col-importe">
+			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
+			<span *ngIf="linea.importe">{{linea.importe}} €</span>
+		</div>
+		<div class="col-descuentos">a</div>
 	</div>
-    <div class="col-descripcion">
-      <ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
-      <span *ngIf="linea.descripcion" (click)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
-    </div>
-    <div class="col-stock">
-      <ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
-      <span *ngIf="linea.stock">{{linea.stock}}</span>
-    </div>
-    <div class="col-cantidad">
-	  <input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
-    </div>
-    <div class="col-pvp">
-      <ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
-      <span *ngIf="linea.pvp">{{linea.pvp}} €</span>
-    </div>
-    <div class="col-importe">
-      <ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
-      <span *ngIf="linea.importe">{{linea.importe}} €</span>
-    </div>
-    <div class="col-descuentos">a</div>
-  </div>
 </div>
 
 <div class="importe">
-  <div class="total-importe">
-    {{venta.importe | fixedNumber}} €
-  </div>
-  <div class="controles-venta">
-    <button mat-stroked-button>Cancelar</button>
-    <button class="end-btn" mat-raised-button color="primary">Terminar</button>
-  </div>
+	<div class="total-importe">
+		{{venta.importe | fixedNumber}} €
+	</div>
+	<div class="controles-venta">
+		<button mat-stroked-button>Cancelar</button>
+		<button class="end-btn" mat-raised-button color="primary">Terminar</button>
+	</div>
 </div>
 
 <div class="modal-bg" *ngIf="muestraDescuento">
-  <div class="modal-box">
-    <div class="modal-header">
-      Descuento
-      <a href="#" (click)="cerrarDescuento($event)">
-        <mat-icon>close</mat-icon>
-      </a>
-    </div>
-    <div class="modal-body">
-    
-    </div>
-  </div>
+	<div class="modal-box">
+		<div class="modal-header">
+			Descuento
+			<a href="#" (click)="cerrarDescuento($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body">
+
+		</div>
+	</div>
 </div>

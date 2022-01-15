@@ -1,11 +1,11 @@
 <otpv-tabs [tabs]="tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()"></otpv-tabs>
 <div class="ventas-header">
-  <div class="col-localizador">Localizador</div>
-  <div class="col-descripcion">Descripción</div>
-  <div class="col-stock">Stock</div>
-  <div class="col-cantidad">Cantidad</div>
-  <div class="col-pvp">PVP</div>
-  <div class="col-importe">Importe</div>
-  <div class="col-descuentos">Desc.</div>
+	<div class="col-localizador">Localizador</div>
+	<div class="col-descripcion">Descripción</div>
+	<div class="col-stock">Stock</div>
+	<div class="col-cantidad">Cantidad</div>
+	<div class="col-pvp">PVP</div>
+	<div class="col-importe">Importe</div>
+	<div class="col-descuentos">Desc.</div>
 </div>
 <otpv-una-venta [venta]="ventas[tabs.selected]" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (showDetailsEvent)="showDetails($event)" #venta></otpv-una-venta>

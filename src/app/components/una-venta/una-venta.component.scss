@@ -1,71 +1,71 @@
-.linea-venta{
-  border-top: 1px solid #888;
+.linea-venta {
+	border-top: 1px solid #888;
+
+	& > div {
+		display: inline-block;
+		line-height: 32px;
+		text-align: center;
+		background-color: #fff;
+		height: 32px;
+
+		.linea-localizador {
+			width: 100%;
+			height: 30px;
+			background-color: transparent;
+			border: 0;
+			outline: 0;
+			padding: 0 5px;
+			font-size: inherit;
+
+			&:disabled {
+				background-color: #ccc;
+				cursor: default;
+			}
+		}
+
+		.delete-linea {
+			position: absolute;
+			left: 6px;
+			top: 4px;
+			cursor: pointer;
+		}
+
+		.linea-cantidad {
+			width: 100%;
+			height: 30px;
+			background-color: transparent;
+			border: 0;
+			outline: 0;
+			text-align: center;
+			font-size: inherit;
+		}
+	}
 }
 
-.linea-venta > div{
-  display: inline-block;
-  line-height: 32px;
-  text-align: center;
-  background-color: #fff;
-  height: 32px;
-}
+.importe {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 20%;
+	background-color: #fff;
+	border: 1px solid #888;
+	border-radius: 6px;
+	box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 
-.linea-localizador{
-  width: 100%;
-  height: 30px;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
-  padding: 0 5px;
-  font-size: inherit
-}
+	.total-importe {
+		text-align: right;
+		padding: 8px;
+		font-size: 2.5em;
+		margin: 8px;
+		background-color: #eee;
+	}
 
-.linea-localizador:disabled{
-  background-color: #ccc;
-  cursor: default;
-}
+	.controles-venta {
+		text-align: right;
+		padding: 0 8px 8px 8px;
 
-.linea-cantidad{
-  width: 100%;
-  height: 30px;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
-  text-align: center;
-  font-size: inherit;
-}
-
-.delete-linea{
-  position: absolute;
-  left: 6px;
-  top: 4px;
-  cursor: pointer;
-}
-
-.importe{
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  width: 20%;
-  background-color: #fff;
-  border: 1px solid #888;
-  border-radius: 6px;
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
-}
-
-.total-importe{
-  text-align: right;
-  padding: 8px;
-  font-size: 2.5em;
-  margin: 8px;
-  background-color: #eee;
-}
-
-.controles-venta{
-  text-align: right;
-  padding: 0 8px 8px 8px;
-}
-
-.end-btn{
-  margin-left: 16px;
+		.end-btn {
+			margin-left: 16px;
+		}
+	}
 }

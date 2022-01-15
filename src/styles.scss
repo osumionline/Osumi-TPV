@@ -1,7 +1,7 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 html, body { height: 100%; }
@@ -9,144 +9,146 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance:textfield;
+	-moz-appearance:textfield;
 }
 
-.loading{
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: rgba(255,255,255,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.loading {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: rgba(255,255,255,0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.mat-tab-body-content{
-  padding: 16px;
+.mat-tab-body-content {
+	padding: 16px;
 }
 
 /* Estilos para ventanas modales */
 
-.modal-bg{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.modal-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-.modal-box{
-  width: 95%;
-  max-height: 95%;
-  overflow: auto;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
-}
+	.modal-box {
+		width: 95%;
+		max-height: 95%;
+		overflow: auto;
+		background-color: #fff;
+		border-radius: 6px;
+		box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
 
-.modal-wide{
-  min-width: auto;
-}
+		.modal-header {
+			font-size: 24px;
+			padding: 16px;
+			line-height: 24px;
 
-.modal-header{
-  font-size: 24px;
-  padding: 16px;
-  line-height: 24px;
-}
+			a {
+				vertical-align: bottom;
+				display: block;
+				float: right;
+				height: 24px;
+			}
+		}
 
-.modal-header a{
-  vertical-align: bottom;
-  display: block;
-  float: right;
-  height: 24px;
-}
+		.modal-body {
+			padding: 16px;
+		}
 
-.modal-body{
-  padding: 16px;
-}
+		.modal-actions {
+			padding: 16px;
+			display: flex;
+			justify-content: flex-end;
+		}
+	}
 
-.modal-actions{
-  padding: 16px;
-  display: flex;
-  justify-content: flex-end;
+	.modal-wide {
+		min-width: auto;
+	}
 }
 
 /* Estilos para líneas de ventas */
 
-.col-localizador{
-  width: 10%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
-  position: relative;
+.col-localizador {
+	width: 10%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
+	position: relative;
 }
 
-.col-descripcion{
-  width: 55%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
-  user-select: none;
+.col-descripcion {
+	width: 55%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
+	user-select: none;
+
+	span {
+		display: block;
+		width: 100%;
+		height: 100%;
+
+		&:hover {
+			cursor: pointer;
+			background-color: #C7C8FF;
+		}
+	}
 }
 
-.col-descripcion span{
-  display: block;
-  width: 100%;
-  height: 100%;
+.col-stock {
+	width: 5%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
 }
 
-.col-descripcion span:hover{
-  cursor: pointer;
-  background-color: #C7C8FF;
+.col-cantidad {
+	width: 5%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
 }
 
-.col-stock{
-  width: 5%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
+.col-pvp {
+	width: 10%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
 }
 
-.col-cantidad{
-  width: 5%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
+.col-importe {
+	width: 10%;
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
 }
 
-.col-pvp{
-  width: 10%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
-}
-
-.col-importe{
-  width: 10%;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
-}
-
-.col-descuentos{
-  width: 5%;
-  border-bottom: 1px solid #888;
+.col-descuentos {
+	width: 5%;
+	border-bottom: 1px solid #888;
 }
 
 @media screen and (min-width: 1024px) {
-  .modal-box{
-    width: auto;
-    min-width: 600px;
-  }
-  .modal-wide{
-    min-width: 900px;
-  }
+	.modal-bg {
+		.modal-box {
+			width: auto;
+			min-width: 600px;
+		}
+		.modal-wide {
+			min-width: 900px;
+		}
+	}
 }
