@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'fixedNumber'
+	name: 'fixedNumber'
 })
 export class FixedNumberPipe implements PipeTransform {
-  transform(num: number): string {
-    return num.toFixed(2);
-  }
+	transform(num: number): string {
+		return num.toFixed(2);
+	}
 }
