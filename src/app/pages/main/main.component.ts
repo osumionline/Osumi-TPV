@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router }             from '@angular/router';
 import { ApiService }         from 'src/app/services/api.service';
+import { ConfigService }      from 'src/app/services/config.service';
 import { DataShareService }   from 'src/app/services/data-share.service';
 import { VentasComponent }    from 'src/app/components/ventas/ventas.component';
 import { ArticulosComponent } from 'src/app/components/articulos/articulos.component';
@@ -22,6 +23,7 @@ export class MainComponent implements OnInit {
 
 	constructor(
 		private as: ApiService,
+		private config: ConfigService,
 		private router: Router,
 		private dss: DataShareService
 	) {}
@@ -34,9 +36,9 @@ export class MainComponent implements OnInit {
 				this.router.navigate(['/installation']);
 			}
 			else {
-				this.dss.setGlobal('appData', result.appData);
+				this.config.load(result.appData);
 				this.isOpened = result.opened;
-				this.articulosComponent.loadAppData(result.appData);
+				this.articulosComponent.loadAppData();
 			}
 			this.loading = false;
 		});

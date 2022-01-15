@@ -18,7 +18,7 @@ export interface Month {
 	name: string;
 }
 
-export interface AppData {
+export interface AppDataInterface {
 	tipoIva: string;
 	ivaList: number[];
 	marginList: number[];
@@ -26,17 +26,17 @@ export interface AppData {
 	fechaCad: boolean;
 }
 
-export interface StartDataResult {
+export interface StartDataInterface {
 	status: string;
 	opened: boolean;
-	appData: AppData;
+	appData: AppDataInterface;
 }
 
 export interface StatusResult {
 	status: string;
 }
 
-export interface Marca {
+export interface MarcaInterface {
 	id: number;
 	nombre: string;
 	telefono: string;
@@ -46,7 +46,7 @@ export interface Marca {
 }
 
 export interface MarcasResult {
-	list: Marca[];
+	list: MarcaInterface[];
 }
 
 export interface IdSaveResult {
@@ -54,7 +54,7 @@ export interface IdSaveResult {
 	id: number;
 }
 
-export interface Proveedor {
+export interface ProveedorInterface {
 	id: number;
 	nombre: string;
 	direccion: string;
@@ -66,27 +66,27 @@ export interface Proveedor {
 }
 
 export interface ProveedoresResult {
-	list: Proveedor[];
+	list: ProveedorInterface[];
 }
 
-export interface Categoria {
+export interface CategoriaInterface {
 	id: number;
 	nombre: string;
 	profundidad: number;
-	hijos: Categoria[];
+	hijos: CategoriaInterface[];
 }
 
 export interface CategoriasResult {
-	list: Categoria;
+	list: CategoriaInterface;
 }
 
-export interface CodigoBarras {
+export interface CodigoBarrasInterface {
 	id: number;
 	codigoBarras: number;
 	porDefecto: boolean;
 }
 
-export interface Articulo {
+export interface ArticuloInterface {
 	id: number;
 	localizador: number;
 	nombre: string;
@@ -112,7 +112,7 @@ export interface Articulo {
 	idCategoria: number;
 	descCorta: string;
 	desc: string;
-	codigosBarras: CodigoBarras[];
+	codigosBarras: CodigoBarrasInterface[];
 	activo: boolean;
 }
 
@@ -123,7 +123,7 @@ export interface ArticuloSaveResult {
 
 export interface ArticuloResult {
 	status: string;
-	articulo: Articulo;
+	articulo: ArticuloInterface;
 }
 
 export interface Tabs {

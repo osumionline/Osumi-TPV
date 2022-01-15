@@ -26,7 +26,7 @@
 						<mat-form-field>
 							<mat-select [(ngModel)]="articulo.idMarca">
 								<mat-option *ngFor="let marca of marcas" [value]="marca.id">
-									{{marca.nombre | urldecode}}
+									{{marca.nombre}}
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
@@ -134,7 +134,7 @@
 						<mat-form-field>
 							<mat-select [(ngModel)]="articulo.idProveedor">
 								<mat-option *ngFor="let prov of proveedores" [value]="prov.id">
-									{{prov.nombre | urldecode}}
+									{{prov.nombre}}
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
@@ -147,7 +147,7 @@
 						<mat-form-field>
 							<mat-select [(ngModel)]="articulo.idCategoria">
 								<mat-option *ngFor="let cat of categoriesPlain" [value]="cat.id">
-									<span style="display: block;" [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre | urldecode}}</span>
+									<span style="display: block;" [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
 								</mat-option>
 							</mat-select>
 						</mat-form-field>

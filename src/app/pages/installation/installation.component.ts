@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 import { DialogService }     from '../../services/dialog.service';
 import { ApiService }        from '../../services/api.service';
-import { AppData }           from '../../interfaces/interfaces';
+import { AppDataInterface }  from '../../interfaces/interfaces';
 
 @Component({
 	selector: 'otpv-installation',
@@ -114,7 +114,7 @@ export class InstallationComponent implements OnInit {
 			return;
 		}
 
-		const data: AppData = {
+		const data: AppDataInterface = {
 			tipoIva: this.selectedOption,
 			ivaList: this.selectedOptionsList,
 			marginList: selectedMargins,

@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import {
-	StartDataResult,
-	AppData,
+	StartDataInterface,
+	AppDataInterface,
 	StatusResult,
-	Marca,
 	MarcasResult,
-	Proveedor,
+  MarcaInterface,
+	ProveedorInterface,
 	ProveedoresResult,
 	IdSaveResult,
 	CategoriasResult,
-	Articulo,
+	ArticuloInterface,
 	ArticuloSaveResult,
 	ArticuloResult
 } from '../interfaces/interfaces';
@@ -26,11 +26,11 @@ export class ApiService {
 
 	constructor(private http : HttpClient){}
 
-	checkStart(date: string): Observable<StartDataResult> {
-		return this.http.post<StartDataResult>(this.apiUrl + 'checkStart', {date});
+	checkStart(date: string): Observable<StartDataInterface> {
+		return this.http.post<StartDataInterface>(this.apiUrl + 'checkStart', {date});
 	}
 
-	saveInstallation(data: AppData): Observable<StatusResult> {
+	saveInstallation(data: AppDataInterface): Observable<StatusResult> {
 		return this.http.post<StatusResult>(this.apiUrl + 'saveInstallation', data);
 	}
 
@@ -54,15 +54,15 @@ export class ApiService {
 		return this.http.post<StatusResult>(this.apiUrl + 'disableProduct', {id});
 	}
 
-	saveMarca(marca: Marca): Observable<IdSaveResult> {
+	saveMarca(marca: MarcaInterface): Observable<IdSaveResult> {
 		return this.http.post<IdSaveResult>(this.apiUrl + 'saveMarca', marca);
 	}
 
-	saveProveedor(proveedor: Proveedor): Observable<IdSaveResult> {
+	saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
 		return this.http.post<IdSaveResult>(this.apiUrl + 'saveProveedor', proveedor);
 	}
 
-	saveArticulo(articulo: Articulo): Observable<ArticuloSaveResult> {
+	saveArticulo(articulo: ArticuloInterface): Observable<ArticuloSaveResult> {
 		return this.http.post<ArticuloSaveResult>(this.apiUrl + 'saveArticulo', articulo);
 	}
 

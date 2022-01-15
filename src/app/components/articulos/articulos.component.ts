@@ -1,10 +1,19 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { ApiService }        from 'src/app/services/api.service';
-import { DataShareService }  from 'src/app/services/data-share.service';
-import { DialogService }     from 'src/app/services/dialog.service';
-import { CommonService }     from 'src/app/services/common.service';
-import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } from 'src/app/interfaces/interfaces';
+import { MatCheckboxChange }  from '@angular/material/checkbox';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { MarcasService }      from 'src/app/services/marcas.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { CategoriasService }  from 'src/app/services/categorias.service';
+import { ConfigService }      from 'src/app/services/config.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { CommonService }      from 'src/app/services/common.service';
+import { Month }              from 'src/app/interfaces/interfaces';
+import { Marca }              from 'src/app/model/marca.model';
+import { Proveedor }          from 'src/app/model/proveedor.model';
+import { Categoria }          from 'src/app/model/categoria.model';
+import { Articulo }           from 'src/app/model/articulo.model';
+import { CodigoBarras }       from 'src/app/model/codigobarras.model';
 
 @Component({
 	selector: 'otpv-articulos',
@@ -12,55 +21,10 @@ import { AppData, Marca, Proveedor, Articulo, Categoria, CodigoBarras, Month } f
 	styleUrls: ['./articulos.component.scss']
 })
 export class ArticulosComponent implements OnInit {
-	articulo: Articulo = {
-		id: null,
-		localizador: null,
-		nombre: 'Nuevo artículo',
-		puc: 0,
-		pvp: 0,
-		margen: 0,
-		palb: 0,
-		idMarca: null,
-		idProveedor: null,
-		stock: 0,
-		stockMin: 0,
-		stockMax: 0,
-		loteOptimo: 0,
-		iva: null,
-		fechaCaducidad: null,
-		mostrarFecCad: false,
-		observaciones: null,
-		mostrarObsPedidos: false,
-		mostrarObsVentas: false,
-		referencia: null,
-		ventaOnline: false,
-		mostrarEnWeb: false,
-		idCategoria: null,
-		descCorta: '',
-		desc: null,
-		codigosBarras: [],
-		activo: true
-	};
+	articulo: Articulo = new Articulo();
 
-	marca: Marca = {
-		id: null,
-		nombre: null,
-		telefono: null,
-		email: null,
-		web: null,
-		observaciones: null
-	};
-
-	proveedor: Proveedor = {
-		id: null,
-		nombre: null,
-		direccion: null,
-		telefono: null,
-		email: null,
-		web: null,
-		observaciones: null,
-		marcas: []
-	};
+	marca: Marca = new Marca();
+	proveedor: Proveedor = new Proveedor();
 
 	loading: boolean = false;
 	selectedTab: number = -1;
@@ -72,7 +36,7 @@ export class ArticulosComponent implements OnInit {
 	nuevoProveedor: boolean = false;
 	ivaLabel: string = 'IVA';
 	ivaList: number[] = [];
-	categoriesPlain = [];
+	categoriesPlain: Categoria[] = [];
 	fecCadMonth: number = null;
 	fecCadYear: number = null;
 	monthList: Month[] = [
@@ -94,10 +58,16 @@ export class ArticulosComponent implements OnInit {
 	confirmarDarDeBaja: boolean = false;
 	darDeBajaLoading: boolean = false;
 
-	constructor(private dialog: DialogService,
-                private as: ApiService,
-                private dss: DataShareService,
-                private cs: CommonService) {}
+	constructor(
+		private dialog: DialogService,
+        private as: ApiService,
+        private cs: CommonService,
+		private config: ConfigService,
+		private cms: ClassMapperService,
+		private ms: MarcasService,
+		private ps: ProveedoresService,
+		private css: CategoriasService
+	) {}
 
 	ngOnInit(): void {
 		const d = new Date();
@@ -106,15 +76,15 @@ export class ArticulosComponent implements OnInit {
 		}
 	}
 
-	loadAppData(appData: AppData): void {
-		this.mostrarWeb = appData.ventaOnline;
-		if (appData.tipoIva=='iva') {
+	loadAppData(): void {
+		this.mostrarWeb = this.config.ventaOnline;
+		if (this.config.tipoIva=='iva') {
 			this.ivaLabel = 'IVA';
 		}
 		else {
 			this.ivaLabel = 'Recargo de equivalencia';
 		}
-		this.ivaList = appData.ivaList;
+		this.ivaList = this.config.ivaList;
 
 		this.loadData();
 	}
@@ -128,40 +98,39 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	loadMarcas(): void {
-		const marcasList = this.dss.getGlobal('marcas');
-		if (marcasList) {
-			this.marcas = marcasList;
+		if (this.ms.loaded) {
+			this.marcas = this.ms.marcas;
 		}
 		else {
 			this.as.getMarcas().subscribe(result => {
-				this.marcas = result.list;
-				this.dss.setGlobal('marcas', result.list);
+				this.marcas = this.cms.getMarcas(result.list);
+				this.ms.loadMarcas(this.marcas);
 			});
 		}
 	}
 
 	loadProveedores(): void {
-		const proveedoresList = this.dss.getGlobal('proveedores');
-		if (proveedoresList) {
-			this.proveedores = proveedoresList;
+		if (this.ps.loaded) {
+			this.proveedores = this.ps.proveedores;
 		}
 		else {
 			this.as.getProveedores().subscribe(result => {
-				this.proveedores = result.list;
-				this.dss.setGlobal('proveedores', result.list);
+				this.proveedores = this.cms.getProveedores(result.list);
+				this.ps.loadProveedores(this.proveedores);
 			});
 		}
 	}
 
 	loadCategorias(): void {
 		this.as.getCategorias().subscribe(result => {
-			this.loadCategoriesPlain([result.list]);
+			const list: Categoria[] = this.cms.getCategorias([result.list]);
+			this.loadCategoriesPlain(list);
 		});
 	}
 
 	loadCategoriesPlain(catList:Categoria[]=null): void {
 		for (let cat of catList) {
-			this.categoriesPlain.push({id: cat.id, nombre: cat.nombre, profundidad: cat.profundidad});
+			this.categoriesPlain.push( new Categoria(cat.id, cat.nombre, cat.profundidad) );
 			this.loadCategoriesPlain(cat.hijos);
 		}
 	}
@@ -181,35 +150,7 @@ export class ArticulosComponent implements OnInit {
 		this.loading = true;
 
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
-			this.articulo = {
-				id: result.articulo.id,
-				localizador: result.articulo.localizador,
-				nombre: this.cs.urldecode(result.articulo.nombre),
-				puc: result.articulo.puc,
-				pvp: result.articulo.pvp,
-				margen: result.articulo.margen,
-				palb: result.articulo.palb,
-				idMarca: result.articulo.idMarca,
-				idProveedor: result.articulo.idProveedor,
-				stock: result.articulo.stock,
-				stockMin: result.articulo.stockMin,
-				stockMax: result.articulo.stockMax,
-				loteOptimo: result.articulo.loteOptimo,
-				iva: result.articulo.iva,
-				fechaCaducidad: result.articulo.fechaCaducidad,
-				mostrarFecCad: result.articulo.mostrarFecCad,
-				observaciones: this.cs.urldecode(result.articulo.observaciones),
-				mostrarObsPedidos: result.articulo.mostrarObsPedidos,
-				mostrarObsVentas: result.articulo.mostrarObsVentas,
-				referencia: result.articulo.referencia,
-				ventaOnline: result.articulo.ventaOnline,
-				mostrarEnWeb: result.articulo.mostrarEnWeb,
-				idCategoria: result.articulo.idCategoria,
-				descCorta: result.articulo.descCorta,
-				desc: result.articulo.desc,
-				codigosBarras: [],
-				activo: result.articulo.activo
-			};
+			this.articulo = this.cms.getArticulo(result.articulo);
 
 			if (this.articulo.mostrarFecCad) {
 				const fecCad = this.articulo.fechaCaducidad.split('/');
@@ -218,45 +159,13 @@ export class ArticulosComponent implements OnInit {
 				this.fecCadYear  = parseInt(fecCad[1]);
 			}
 
-			for (let cb of result.articulo.codigosBarras) {
-				this.articulo.codigosBarras.push(cb);
-			}
 			this.selectedTab = 0;
 			this.loading = false;
 		});
 	}
 
 	newArticulo(): void {
-		this.articulo = {
-			id: null,
-			localizador: null,
-			nombre: 'Nuevo artículo',
-			puc: 0,
-			pvp: 0,
-			margen: 0,
-			palb: 0,
-			idMarca: null,
-			idProveedor: null,
-			stock: 0,
-			stockMin: 0,
-			stockMax: 0,
-			loteOptimo: 0,
-			iva: null,
-			fechaCaducidad: null,
-			mostrarFecCad: false,
-			observaciones: null,
-			mostrarObsPedidos: false,
-			mostrarObsVentas: false,
-			referencia: null,
-			ventaOnline: false,
-			mostrarEnWeb: false,
-			idCategoria: null,
-			descCorta: '',
-			desc: null,
-			codigosBarras: [],
-			activo: true
-		};
-
+		this.articulo = new Articulo();
 		this.selectedTab = 0;
 		setTimeout(() => {
 			this.localizadorBox.nativeElement.focus();
@@ -264,15 +173,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	newMarca(): void {
-		this.marca = {
-			id: null,
-			nombre: null,
-			telefono: null,
-			email: null,
-			web: null,
-			observaciones: null
-		};
-
+		this.marca = new Marca();
 		this.nuevaMarca = true;
 	}
 
@@ -287,10 +188,10 @@ export class ArticulosComponent implements OnInit {
 			return;
 		}
 
-		this.as.saveMarca(this.marca).subscribe(result => {
+		this.as.saveMarca(this.marca.toInterface()).subscribe(result => {
 			if (result.status=='ok') {
 				this.articulo.idMarca = result.id;
-				this.dss.removeGlobal('marcas');
+				this.ms.loaded = false;
 				this.loadMarcas();
 				this.newMarcaCerrar();
 			}
@@ -302,17 +203,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	newProveedor(): void {
-		this.proveedor = {
-			id: null,
-			nombre: null,
-			direccion: null,
-			telefono: null,
-			email: null,
-			web: null,
-			observaciones: null,
-			marcas: []
-		};
-
+		this.proveedor = new Proveedor();
 		this.nuevoProveedor = true;
 	}
 
@@ -355,10 +246,10 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	guardarProveedorContinue(): void {
-		this.as.saveProveedor(this.proveedor).subscribe(result => {
+		this.as.saveProveedor(this.proveedor.toInterface()).subscribe(result => {
 			if (result.status=='ok') {
 				this.articulo.idProveedor = result.id;
-				this.dss.removeGlobal('proveedores');
+				this.ps.loaded = false;
 				this.loadProveedores();
 				this.newProveedorCerrar();
 			}
@@ -392,11 +283,11 @@ export class ArticulosComponent implements OnInit {
 
 	addNewCodBarras(): void {
 		if (this.newCodBarras) {
-			const cb: CodigoBarras = {
-				id: null,
-				codigoBarras: this.newCodBarras,
-				porDefecto: false
-			};
+			const cb: CodigoBarras = new CodigoBarras(
+				null,
+				this.newCodBarras,
+				false
+			);
 
 			this.articulo.codigosBarras.push(cb);
 			this.newCodBarras = null;
