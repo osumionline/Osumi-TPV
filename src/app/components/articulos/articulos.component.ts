@@ -7,7 +7,6 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { CategoriasService }  from 'src/app/services/categorias.service';
 import { ConfigService }      from 'src/app/services/config.service';
 import { DialogService }      from 'src/app/services/dialog.service';
-import { CommonService }      from 'src/app/services/common.service';
 import { Month }              from 'src/app/interfaces/interfaces';
 import { Marca }              from 'src/app/model/marca.model';
 import { Proveedor }          from 'src/app/model/proveedor.model';
@@ -61,7 +60,6 @@ export class ArticulosComponent implements OnInit {
 	constructor(
 		private dialog: DialogService,
         private as: ApiService,
-        private cs: CommonService,
 		private config: ConfigService,
 		private cms: ClassMapperService,
 		private ms: MarcasService,
@@ -124,15 +122,10 @@ export class ArticulosComponent implements OnInit {
 	loadCategorias(): void {
 		this.as.getCategorias().subscribe(result => {
 			const list: Categoria[] = this.cms.getCategorias([result.list]);
-			this.loadCategoriesPlain(list);
-		});
-	}
+			this.css.loadCategorias(list);
 
-	loadCategoriesPlain(catList:Categoria[]=null): void {
-		for (let cat of catList) {
-			this.categoriesPlain.push( new Categoria(cat.id, cat.nombre, cat.profundidad) );
-			this.loadCategoriesPlain(cat.hijos);
-		}
+			this.categoriesPlain = this.css.categoriasPlain;
+		});
 	}
 
 	showDetails(loc: number): void {

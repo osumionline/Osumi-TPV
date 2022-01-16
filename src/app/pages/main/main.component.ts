@@ -53,6 +53,7 @@ export class MainComponent implements OnInit {
 
 	selectOptionSales(): void {
 		this.selectOption('sales');
+    this.ventasComponent.startFocus();
 	}
 
 	selectOptionItems(): void {

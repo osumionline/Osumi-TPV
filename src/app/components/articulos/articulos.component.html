@@ -406,7 +406,7 @@
 						<label>Marcas del proveedor</label>
 						<div class="prov-marcas-list">
 							<div class="prov-marcas-item" *ngFor="let marca of marcas">
-								<mat-checkbox (change)="addMarcaToProveedor(marca, $event)">{{ marca.nombre | urldecode }}</mat-checkbox>
+								<mat-checkbox (change)="addMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
 							</div>
 						</div>
 					</div>

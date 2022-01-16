@@ -38,7 +38,9 @@ export class UnaVentaComponent {
 
 	setFocus(): void {
 		const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement;
-		loc.focus();
+		setTimeout(() => {
+			loc.focus();
+		}, 200);
 	}
 
 	checkLocalizador(ev:  KeyboardEvent, ind: number) {
