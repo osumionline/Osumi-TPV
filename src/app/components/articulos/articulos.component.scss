@@ -1,6 +1,19 @@
 .card-margin {
 	margin: 16px;
 
+	.articulo-header {
+		display: flex;
+
+		.articulos-space {
+			flex: 1;
+		}
+
+		.articulos-find {
+			display: inline-flex;
+			align-items: center;
+		}
+	}
+
 	.articulo-numbers {
 		display: block;
 

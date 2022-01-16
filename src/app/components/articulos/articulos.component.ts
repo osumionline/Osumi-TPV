@@ -56,6 +56,11 @@ export class ArticulosComponent implements OnInit {
 	newCodBarras: number = null;
 	confirmarDarDeBaja: boolean = false;
 	darDeBajaLoading: boolean = false;
+	mostrarBuscador: boolean = false;
+
+	searchName: string = '';
+	searchMarca: number = null;
+	searchResult: Articulo[] = [];
 
 	constructor(
 		private dialog: DialogService,
@@ -356,6 +361,29 @@ export class ArticulosComponent implements OnInit {
 			this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {
 				this.loadArticulo();
 			});
+		});
+	}
+
+	abrirBuscador(): void {
+		this.searchName = '';
+		this.searchMarca = null;
+		this.searchResult = [];
+		this.mostrarBuscador = true;
+	}
+
+	cerrarBuscador(ev: MouseEvent): void {
+		ev.preventDefault();
+		this.mostrarBuscador = false;
+	}
+
+	searchArticulos(): void {
+		this.as.searchArticulos(this.searchName, this.searchMarca).subscribe(result => {
+			if (result.status === 'ok') {
+				this.searchResult = this.cms.getArticulos(result.list);
+			}
+			else {
+				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al buscar los artículos.', ok: 'Continuar'}).subscribe(result => {});
+			}
 		});
 	}
 }

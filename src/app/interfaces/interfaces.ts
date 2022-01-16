@@ -126,6 +126,11 @@ export interface ArticuloResult {
 	articulo: ArticuloInterface;
 }
 
+export interface SearchArticulosResult {
+	status: string;
+	list: ArticuloInterface[];
+}
+
 export interface Tabs {
 	selected: number;
 	names: string[];

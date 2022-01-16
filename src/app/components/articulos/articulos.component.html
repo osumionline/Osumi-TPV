@@ -4,7 +4,7 @@
 
 <mat-card class="card-margin">
 	<mat-card-content>
-		<div>
+		<div class="articulo-header">
 			<div class="form-field">
 				<label>Localizador</label>
 				<mat-form-field class="campo-numero">
@@ -16,6 +16,13 @@
 				<mat-form-field class="nombre-label">
 					<input matInput placeholder="Nombre" [(ngModel)]="articulo.nombre">
 				</mat-form-field>
+			</div>
+			<div class="articulos-space"></div>
+			<div class="articulos-find">
+				<button mat-raised-button color="primary" (click)="abrirBuscador()">
+					<mat-icon>search</mat-icon>
+					Buscar
+				</button>
 			</div>
 		</div>
 		<mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event" dynamicHeight>
@@ -242,10 +249,6 @@
 					- mostrar en web
 					<br>
 					fotos
-					<br>
-					- desc corta
-					<br>
-					- desc
 				</p>
 			</mat-tab>
 			<mat-tab label="HISTÓRICO" *ngIf="articulo.id!=null">
@@ -432,6 +435,32 @@
 			<div class="confirmar-dar-de-baja-btn">
 				<button mat-raised-button color="warn" (click)="darDeBajaOk()" [disabled]="darDeBajaLoading">Dar de baja</button>
 			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-bg" *ngIf="mostrarBuscador">
+	<div class="modal-box">
+		<div class="modal-header">
+			Buscar
+			<a href="#" (click)="cerrarBuscador($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body">
+			<mat-form-field>
+				<input matInput placeholder="Nombre del artículo" [(ngModel)]="searchName" (keyup)="searchArticulos()">
+			</mat-form-field>
+			<mat-form-field>
+				<mat-select [(ngModel)]="searchMarca" (change)="searchArticulos()">
+					<mat-option [value]="null">
+						Elige marca
+					</mat-option>
+					<mat-option *ngFor="let marca of marcas" [value]="marca.id">
+						{{marca.nombre}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
 		</div>
 	</div>
 </div>

@@ -8,14 +8,15 @@ import {
 	AppDataInterface,
 	StatusResult,
 	MarcasResult,
-  MarcaInterface,
+	MarcaInterface,
 	ProveedorInterface,
 	ProveedoresResult,
 	IdSaveResult,
 	CategoriasResult,
 	ArticuloInterface,
 	ArticuloSaveResult,
-	ArticuloResult
+	ArticuloResult,
+	SearchArticulosResult
 } from '../interfaces/interfaces';
 
 @Injectable({
@@ -68,5 +69,9 @@ export class ApiService {
 
 	loadArticulo(localizador: number): Observable<ArticuloResult> {
 		return this.http.post<ArticuloResult>(this.apiUrl + 'loadArticulo', {localizador});
+	}
+
+	searchArticulos(name: string, idMarca: number): Observable<SearchArticulosResult> {
+		return this.http.post<SearchArticulosResult>(this.apiUrl + 'searchArticulos', {name, idMarca});
 	}
 }
