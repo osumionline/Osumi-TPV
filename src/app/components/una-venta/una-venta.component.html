@@ -24,7 +24,10 @@
 			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
 			<span *ngIf="linea.importe">{{linea.importe}} €</span>
 		</div>
-		<div class="col-descuentos">a</div>
+		<div class="col-descuentos">
+			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
+			<span *ngIf="linea.descuento !== null">{{linea.descuento}} %</span>
+		</div>
 	</div>
 </div>
 

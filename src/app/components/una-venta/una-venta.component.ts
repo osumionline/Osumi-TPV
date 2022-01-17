@@ -87,6 +87,10 @@ export class UnaVentaComponent {
 		(ev.target as HTMLInputElement).select();
 	}
 
+	abreDescuento(): void {
+		this.muestraDescuento = true;
+	}
+
 	cerrarDescuento(ev: MouseEvent): void {
 		ev.preventDefault();
 		this.muestraDescuento = false;

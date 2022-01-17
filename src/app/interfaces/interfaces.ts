@@ -144,6 +144,7 @@ export interface LineaVentaInterface {
 	cantidad: number;
 	pvp: number;
 	importe: number;
+	descuento: number;
 }
 
 export interface VentaInterface {

@@ -9,7 +9,8 @@ export class LineaVenta {
 		public stock: number = null,
 		public cantidad: number = null,
 		public pvp: number = null,
-		public importe: number = null
+		public importe: number = null,
+		public descuento: number = null
 	) {}
 
 	fromArticulo(a: Articulo): LineaVenta {
@@ -20,6 +21,7 @@ export class LineaVenta {
 		this.cantidad = 1;
 		this.pvp = a.pvp;
 		this.importe = a.pvp;
+		this.descuento = 0;
 
 		return this;
 	}
@@ -32,6 +34,7 @@ export class LineaVenta {
 		this.cantidad = lv.cantidad;
 		this.pvp = lv.pvp;
 		this.importe = lv.importe;
+		this.descuento = lv.descuento;
 
 		return this;
 	}
@@ -44,7 +47,8 @@ export class LineaVenta {
 			stock: this.stock,
 			cantidad: this.cantidad,
 			pvp: this.pvp,
-			importe: this.importe
+			importe: this.importe,
+			descuento: this.descuento
 		};
 	}
 }
