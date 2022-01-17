@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Venta, LineaVenta } from '../../interfaces/interfaces';
-import { ApiService }        from '../../services/api.service';
-import { CommonService }     from '../../services/common.service';
-import { DialogService }     from '../../services/dialog.service';
+import { ApiService }    from 'src/app/services/api.service';
+import { CommonService } from 'src/app/services/common.service';
+import { DialogService } from 'src/app/services/dialog.service';
+import { Venta }         from 'src/app/model/venta.model';
+import { LineaVenta }    from 'src/app/model/lineaventa.model';
 
 @Component({
 	selector: 'otpv-una-venta',
@@ -10,10 +11,7 @@ import { DialogService }     from '../../services/dialog.service';
 	styleUrls: ['./una-venta.component.scss']
 })
 export class UnaVentaComponent {
-	@Input() venta: Venta = {
-		lineas: [],
-		importe: 0
-	};
+	@Input() venta: Venta = new Venta();
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() showDetailsEvent = new EventEmitter<number>();
 	searching: boolean = false;
@@ -22,15 +20,7 @@ export class UnaVentaComponent {
 	constructor(private as: ApiService, private cs: CommonService, private dialog: DialogService) {}
 
 	addLineaVenta(): void {
-		this.venta.lineas.push({
-			idArticulo: null,
-			localizador: null,
-			descripcion: null,
-			stock: null,
-			cantidad: null,
-			pvp: null,
-			importe: null
-		});
+		this.venta.lineas.push(new LineaVenta());
 		setTimeout(() => {
 			this.setFocus();
 		}, 200);

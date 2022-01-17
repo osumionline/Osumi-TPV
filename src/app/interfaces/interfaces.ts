@@ -136,7 +136,7 @@ export interface Tabs {
 	names: string[];
 }
 
-export interface LineaVenta {
+export interface LineaVentaInterface {
 	idArticulo: number;
 	localizador: number;
 	descripcion: string;
@@ -146,7 +146,7 @@ export interface LineaVenta {
 	importe: number;
 }
 
-export interface Venta {
-	lineas: LineaVenta[];
+export interface VentaInterface {
+	lineas: LineaVentaInterface[];
 	importe: number;
 }

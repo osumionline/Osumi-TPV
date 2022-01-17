@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { Tabs, Venta, LineaVenta } from '../../interfaces/interfaces';
-import { UnaVentaComponent }       from '../una-venta/una-venta.component';
+import { Tabs }              from 'src/app/interfaces/interfaces';
+import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
+import { Venta }             from 'src/app/model/venta.model';
 
 @Component({
 	selector: 'otpv-ventas',
@@ -37,10 +38,7 @@ export class VentasComponent implements OnInit {
 	newVenta(): void {
 		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
 		this.tabs.selected = (this.tabs.names.length - 1);
-		this.ventas.push({
-			lineas: [],
-			importe: 0
-		});
+		this.ventas.push(new Venta());
 
 		setTimeout(() => {
 			this.venta.addLineaVenta();
