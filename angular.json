@@ -72,6 +72,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+		  "options": {
+            "browserTarget": "TPV:build",
+            "port": 5200
+          },
           "configurations": {
             "production": {
               "browserTarget": "TPV:build:production"

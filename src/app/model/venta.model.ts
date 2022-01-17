@@ -7,6 +7,14 @@ export class Venta {
 		public importe: number = 0
 	) {}
 
+	updateImporte(): void {
+		let cant: number = 0;
+		for (let i in this.lineas) {
+			cant += (this.lineas[i].cantidad * this.lineas[i].pvp);
+		}
+		this.importe = cant;
+	}
+
 	fromInterface(v: VentaInterface, lineas: LineaVenta[]): Venta {
 		this.lineas = lineas;
 		this.importe = v.importe;

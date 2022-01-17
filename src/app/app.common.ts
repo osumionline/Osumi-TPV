@@ -35,11 +35,9 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
-import { UrldecodePipe }   from './pipes/urldecode.pipe';
 import { FixedNumberPipe } from './pipes/fixed-number.pipe';
 
 export const PIPES: any[] = [
-	UrldecodePipe,
 	FixedNumberPipe
 ];
 
@@ -47,7 +45,6 @@ export const PIPES: any[] = [
  * Servicios
  */
 import { ConfigService }      from './services/config.service';
-import { CommonService }      from './services/common.service';
 import { ApiService }         from './services/api.service';
 import { DataShareService }   from './services/data-share.service';
 import { DialogService }      from './services/dialog.service';
@@ -58,7 +55,6 @@ import { ProveedoresService } from './services//proveedores.service';
 
 export const SERVICES: any[] = [
 	ConfigService,
-	CommonService,
 	ApiService,
 	DataShareService,
 	DialogService,

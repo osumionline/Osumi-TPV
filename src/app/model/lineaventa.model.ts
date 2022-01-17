@@ -1,4 +1,5 @@
 import { LineaVentaInterface } from 'src/app/interfaces/interfaces';
+import { Articulo } from './articulo.model';
 
 export class LineaVenta {
 	constructor(
@@ -10,6 +11,18 @@ export class LineaVenta {
 		public pvp: number = null,
 		public importe: number = null
 	) {}
+
+	fromArticulo(a: Articulo): LineaVenta {
+		this.idArticulo = a.id;
+		this.localizador = a.localizador;
+		this.descripcion = a.nombre;
+		this.stock = a.stock;
+		this.cantidad = 1;
+		this.pvp = a.pvp;
+		this.importe = a.pvp;
+
+		return this;
+	}
 
 	fromInterface(lv: LineaVentaInterface): LineaVenta {
 		this.idArticulo = lv.idArticulo;

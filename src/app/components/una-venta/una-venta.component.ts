@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ApiService }    from 'src/app/services/api.service';
-import { CommonService } from 'src/app/services/common.service';
-import { DialogService } from 'src/app/services/dialog.service';
-import { Venta }         from 'src/app/model/venta.model';
-import { LineaVenta }    from 'src/app/model/lineaventa.model';
+import { ApiService }         from 'src/app/services/api.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { Venta }              from 'src/app/model/venta.model';
+import { LineaVenta }         from 'src/app/model/lineaventa.model';
 
 @Component({
 	selector: 'otpv-una-venta',
@@ -17,7 +17,7 @@ export class UnaVentaComponent {
 	searching: boolean = false;
 	muestraDescuento: boolean = false;
 
-	constructor(private as: ApiService, private cs: CommonService, private dialog: DialogService) {}
+	constructor(private as: ApiService, private cms: ClassMapperService, private dialog: DialogService) {}
 
 	addLineaVenta(): void {
 		this.venta.lineas.push(new LineaVenta());
@@ -39,17 +39,20 @@ export class UnaVentaComponent {
 			this.as.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
 				this.searching = false;
 				if (result.status === 'ok') {
-					this.venta.lineas[ind].localizador = result.articulo.localizador;
-					this.venta.lineas[ind].idArticulo = result.articulo.id;
-					this.venta.lineas[ind].descripcion = this.cs.urldecode(result.articulo.nombre);
-					this.venta.lineas[ind].stock = result.articulo.stock;
-					this.venta.lineas[ind].cantidad = 1;
-					this.venta.lineas[ind].pvp = result.articulo.pvp;
-					this.venta.lineas[ind].importe = result.articulo.pvp;
+					const articulo = this.cms.getArticulo(result.articulo);
+					const indArticulo = this.venta.lineas.findIndex(x => x.idArticulo === articulo.id);
+					
+					if (indArticulo === -1) {
+						this.venta.lineas[ind] = new LineaVenta().fromArticulo(articulo);
+						this.addLineaVenta();
+					}
+					else {
+						this.venta.lineas[indArticulo].cantidad++;
+						this.venta.lineas[ind].localizador = null;
+						this.setFocus();
+					}
 
-					this.updateImporte();
-
-					this.addLineaVenta();
+					this.venta.updateImporte();
 				}
 				else {
 					this.dialog.alert({title: 'Error', content: '¡El código introducido no se encuentra!', ok: 'Continuar'}).subscribe(result => {
@@ -77,15 +80,7 @@ export class UnaVentaComponent {
 		if (!this.venta.lineas[ind].cantidad) {
 			this.venta.lineas[ind].cantidad = 1;
 		}
-		this.updateImporte();
-	}
-
-	updateImporte(): void {
-		let cant: number = 0;
-		for (let i in this.venta.lineas) {
-			cant += (this.venta.lineas[i].cantidad * this.venta.lineas[i].pvp);
-		}
-		this.venta.importe = cant;
+		this.venta.updateImporte();
 	}
 
 	selectCantidad(ev: MouseEvent): void {

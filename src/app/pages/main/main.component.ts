@@ -6,6 +6,7 @@ import { DataShareService }   from 'src/app/services/data-share.service';
 import { VentasComponent }    from 'src/app/components/ventas/ventas.component';
 import { ArticulosComponent } from 'src/app/components/articulos/articulos.component';
 import { PedidosComponent }   from 'src/app/components/pedidos/pedidos.component';
+import { environment }        from 'src/environments/environment';
 
 @Component({
 	selector: 'otpv-main',
@@ -13,6 +14,8 @@ import { PedidosComponent }   from 'src/app/components/pedidos/pedidos.component
 	styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
+	title: string = environment.name;
+
 	@ViewChild('ventas') ventasComponent:    VentasComponent;
 	@ViewChild('articulos') articulosComponent: ArticulosComponent;
 	@ViewChild('pedidos') pedidosComponent:   PedidosComponent;

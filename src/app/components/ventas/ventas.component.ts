@@ -47,7 +47,7 @@ export class VentasComponent implements OnInit {
 
 	deleteVentaLinea(ind: number): void {
 		this.ventas[this.tabs.selected].lineas.splice(ind, 1);
-		this.venta.updateImporte();
+		this.venta.venta.updateImporte();
 		this.startFocus();
 	}
 
