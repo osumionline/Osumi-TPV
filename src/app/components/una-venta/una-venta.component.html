@@ -38,7 +38,7 @@
 	</div>
 </div>
 
-<div class="modal-bg" *ngIf="muestraDescuento">
+<div class="modal-bg"  [ngClass]="{'show': muestraDescuento}">
 	<div class="modal-box">
 		<div class="modal-header">
 			Descuento
