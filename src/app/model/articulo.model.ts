@@ -3,6 +3,9 @@ import { ArticuloInterface, CodigoBarrasInterface } from 'src/app/interfaces/int
 import { Utils } from './utils.class';
 
 export class Articulo {
+	marca: string = '';
+	proveedor: string = '';
+
 	constructor(
 		public id: number = null,
 		public localizador: number = null,

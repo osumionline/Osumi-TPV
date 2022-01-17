@@ -288,7 +288,7 @@
 	</mat-card-content>
 </mat-card>
 
-<div class="modal-bg" *ngIf="nuevaMarca">
+<div class="modal-bg" [ngClass]="{'show': nuevaMarca}">
 	<div class="modal-box">
 		<div class="modal-header">
 			Nueva marca
@@ -344,7 +344,7 @@
 	</div>
 </div>
 
-<div class="modal-bg" *ngIf="nuevoProveedor">
+<div class="modal-bg" [ngClass]="{'show': nuevoProveedor}">
 	<div class="modal-box modal-wide">
 		<div class="modal-header">
 			Nuevo proveedor
@@ -422,7 +422,7 @@
 	</div>
 </div>
 
-<div class="modal-bg" *ngIf="confirmarDarDeBaja">
+<div class="modal-bg" [ngClass]="{'show': confirmarDarDeBaja}">
 	<div class="modal-box">
 		<div class="modal-header">
 			Confirmar
@@ -439,7 +439,7 @@
 	</div>
 </div>
 
-<div class="modal-bg" *ngIf="mostrarBuscador">
+<div class="modal-bg" [ngClass]="{'show': mostrarBuscador}">
 	<div class="modal-box">
 		<div class="modal-header">
 			Buscar
@@ -447,20 +447,48 @@
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
-		<div class="modal-body">
-			<mat-form-field>
-				<input matInput placeholder="Nombre del artículo" [(ngModel)]="searchName" (keyup)="searchArticulos()">
-			</mat-form-field>
-			<mat-form-field>
-				<mat-select [(ngModel)]="searchMarca" (change)="searchArticulos()">
-					<mat-option [value]="null">
-						Elige marca
-					</mat-option>
-					<mat-option *ngFor="let marca of marcas" [value]="marca.id">
-						{{marca.nombre}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
+		<div class="modal-body search-box">
+			<div class="search-box-header">
+				<mat-form-field>
+					<input matInput placeholder="Nombre del artículo" [(ngModel)]="searchName" (input)="searchStart()" #searchBoxName>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-select [(ngModel)]="searchMarca" (selectionChange)="searchArticulos()">
+						<mat-option [value]="-1">
+							Elige marca
+						</mat-option>
+						<mat-option *ngFor="let marca of marcas" [value]="marca.id">
+							{{marca.nombre}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div class="search-box-result" *ngIf="searchResult.length">
+				<div class="search-box-result-header">
+					<div class="search-box-col-nombre">
+						Nombre
+					</div>
+					<div class="search-box-col-marca">
+						Marca
+					</div>
+					<div class="search-box-col-stock">
+						Stock
+					</div>
+				</div>
+				<div class="search-box-list">
+					<div class="search-box-list-item" *ngFor="let articulo of searchResult" (click)="selectSearch(articulo)">
+						<div class="search-box-col-nombre">
+							{{articulo.nombre}}
+						</div>
+						<div class="search-box-col-marca">
+							{{articulo.marca}}
+						</div>
+						<div class="search-box-col-stock">
+							{{articulo.stock}}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

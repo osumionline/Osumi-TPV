@@ -58,8 +58,11 @@ export class ArticulosComponent implements OnInit {
 	darDeBajaLoading: boolean = false;
 	mostrarBuscador: boolean = false;
 
+	searchTimer: number = null;
+	searching: boolean = false;
 	searchName: string = '';
-	searchMarca: number = null;
+	@ViewChild('searchBoxName', { static: true }) searchBoxName:ElementRef;
+	searchMarca: number = -1;
 	searchResult: Articulo[] = [];
 
 	constructor(
@@ -366,24 +369,54 @@ export class ArticulosComponent implements OnInit {
 
 	abrirBuscador(): void {
 		this.searchName = '';
-		this.searchMarca = null;
+		this.searchMarca = -1;
 		this.searchResult = [];
 		this.mostrarBuscador = true;
+		setTimeout(() => {
+			this.searchBoxName.nativeElement.focus();
+		}, 200);
 	}
 
-	cerrarBuscador(ev: MouseEvent): void {
-		ev.preventDefault();
+	cerrarBuscador(ev: MouseEvent = null): void {
+		ev && ev.preventDefault();
 		this.mostrarBuscador = false;
+	}
+	
+	searchStart(): void {
+		clearTimeout(this.searchTimer);
+		this.searchTimer = window.setTimeout(() => {this.searchArticulos();}, 500);
 	}
 
 	searchArticulos(): void {
+		if (this.searching) {
+			return;
+		}
+		this.searchResult = [];
+		if ((this.searchName === null || this.searchName === '') && this.searchMarca === -1) {
+			return;
+		}
+		this.searching = true;
 		this.as.searchArticulos(this.searchName, this.searchMarca).subscribe(result => {
+			this.searching = false;
 			if (result.status === 'ok') {
-				this.searchResult = this.cms.getArticulos(result.list);
+				const articulos: Articulo[] = this.cms.getArticulos(result.list);
+				for (let articulo of articulos) {
+					let marca: Marca = this.ms.findById(articulo.idMarca);
+					articulo.marca = (marca !== null) ? marca.nombre : '';
+					let proveedor = this.ps.findById(articulo.idProveedor);
+					articulo.proveedor = (proveedor !== null) ? proveedor.nombre : '';
+					this.searchResult.push(articulo);
+				}
 			}
 			else {
 				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al buscar los artículos.', ok: 'Continuar'}).subscribe(result => {});
 			}
 		});
+	}
+
+	selectSearch(articulo: Articulo): void {
+		this.articulo.localizador = articulo.localizador;
+		this.loadArticulo();
+		this.cerrarBuscador();
 	}
 }

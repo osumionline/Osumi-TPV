@@ -14,4 +14,12 @@ export class MarcasService {
 		this.marcas = marcas;
 		this.loaded = true;
 	}
+
+	findById(id: number): Marca {
+		const ind = this.marcas.findIndex(x => x.id === id);
+		if (ind !== -1) {
+			return this.marcas[ind];
+		}
+		return null;
+	}
 }
