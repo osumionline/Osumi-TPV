@@ -3,9 +3,15 @@ import { VentaInterface, LineaVentaInterface } from 'src/app/interfaces/interfac
 
 export class Venta {
 	constructor(
+		public id: number = null,
 		public lineas: LineaVenta[] = [],
 		public importe: number = 0
-	) {}
+	) {
+		if (this.id === null) {
+			const d: Date = new Date();
+			this.id = d.getTime();
+		}
+	}
 
 	updateImporte(): void {
 		let cant: number = 0;

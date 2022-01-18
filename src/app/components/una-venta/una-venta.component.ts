@@ -14,6 +14,7 @@ export class UnaVentaComponent {
 	@Input() venta: Venta = new Venta();
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() showDetailsEvent = new EventEmitter<number>();
+	@Output() endVentaEvent = new EventEmitter<number>();
 	searching: boolean = false;
 	muestraDescuento: boolean = false;
 	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -116,5 +117,9 @@ export class UnaVentaComponent {
 				this.addLineaVenta();
 			}
 		});
+	}
+
+	terminarVenta(): void {
+		this.endVentaEvent.emit(this.venta.id);
 	}
 }

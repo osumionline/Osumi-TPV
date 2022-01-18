@@ -17,8 +17,24 @@ export class VentasComponent implements OnInit {
 
 	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 	@Output() showDetailsEvent = new EventEmitter<number>();
+	
+	showFinalizarVenta: boolean = false;
+
+	tiposTarjetas = [
+		{id: 'visa', nombre: 'VISA'},
+		{id: 'mc', nombre: 'MasterCard'}
+	];
+
+	fin = {
+		efectivo: 0,
+		cambio: 0,
+		tarjeta: 0,
+		tipoTarjeta: 'visa',
+		total: 0
+	};
 
 	constructor() {}
+
 	ngOnInit(): void {
 		this.newVenta();
 	}
@@ -53,5 +69,15 @@ export class VentasComponent implements OnInit {
 
 	showDetails(loc: number): void {
 		this.showDetailsEvent.emit(loc);
+	}
+
+	endVenta(id: number): void {
+		const ind = this.ventas.findIndex(x => x.id === id);
+		console.log(this.ventas[ind]);
+		this.showFinalizarVenta = true;
+	}
+
+	cerrarFinalizarVenta(): void {
+		this.showFinalizarVenta = false;
 	}
 }
