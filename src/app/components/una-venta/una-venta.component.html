@@ -37,8 +37,8 @@
 		{{venta.importe | fixedNumber}} €
 	</div>
 	<div class="controles-venta">
-		<button mat-stroked-button>Cancelar</button>
-		<button class="end-btn" mat-raised-button color="primary">Terminar</button>
+		<button mat-stroked-button [disabled]="venta.lineas.length===1" (click)="cancelarVenta()">Cancelar</button>
+		<button class="end-btn" mat-raised-button color="primary" [disabled]="venta.lineas.length===1">Terminar</button>
 	</div>
 </div>
 

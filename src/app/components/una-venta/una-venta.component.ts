@@ -107,4 +107,14 @@ export class UnaVentaComponent {
 		this.venta.updateImporte();
 		this.cerrarDescuento();
 	}
+
+	cancelarVenta(): void {
+		this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer cancelar esta venta?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
+			if (result===true) {
+				this.venta.lineas = [];
+				this.venta.updateImporte();
+				this.addLineaVenta();
+			}
+		});
+	}
 }
