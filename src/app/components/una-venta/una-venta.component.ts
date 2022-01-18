@@ -16,6 +16,8 @@ export class UnaVentaComponent {
 	@Output() showDetailsEvent = new EventEmitter<number>();
 	searching: boolean = false;
 	muestraDescuento: boolean = false;
+	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+	descuentoSelected: number = null;
 
 	constructor(private as: ApiService, private cms: ClassMapperService, private dialog: DialogService) {}
 
@@ -41,7 +43,7 @@ export class UnaVentaComponent {
 				if (result.status === 'ok') {
 					const articulo = this.cms.getArticulo(result.articulo);
 					const indArticulo = this.venta.lineas.findIndex(x => x.idArticulo === articulo.id);
-					
+
 					if (indArticulo === -1) {
 						this.venta.lineas[ind] = new LineaVenta().fromArticulo(articulo);
 						this.addLineaVenta();
@@ -87,7 +89,8 @@ export class UnaVentaComponent {
 		(ev.target as HTMLInputElement).select();
 	}
 
-	abreDescuento(): void {
+	abreDescuento(linea: LineaVenta): void {
+		this.descuentoSelected = linea.idArticulo;
 		this.muestraDescuento = true;
 	}
 

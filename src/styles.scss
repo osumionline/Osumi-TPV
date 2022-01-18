@@ -1,3 +1,12 @@
+:root {
+	--main-color: #3f51b5;
+	--main-color-contrast: #fff;
+	--modal-bg-color: rgba(0, 0, 0, 0.6);
+	--close-icon: #000;
+	--close-icon-hover: #f00;
+	--table-border: #888;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -24,7 +33,7 @@ input[type=number] {
 	width: 100%;
 	height: 100%;
 	z-index: 10;
-	background-color: rgba(255,255,255,0.6);
+	background-color: rgba(255, 255, 255, 0.6);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,11 +52,11 @@ input[type=number] {
 	width: 100%;
 	height: 100%;
 	z-index: 10;
-	background-color: rgba(0,0,0,0.6);
+	background-color: var(--modal-bg-color);
 	display: none;
 	justify-content: center;
 	align-items: center;
-	
+
 	&.show {
 		display: flex;
 	}
@@ -58,7 +67,7 @@ input[type=number] {
 		overflow: auto;
 		background-color: #fff;
 		border-radius: 6px;
-		box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.6);
+		box-shadow: 4px 4px 5px 0px var(--modal-bg-color);
 
 		.modal-header {
 			font-size: 24px;
@@ -72,10 +81,10 @@ input[type=number] {
 				height: 24px;
 
 				mat-icon {
-					color: #000;
-					
+					color: var(--close-icon);
+
 					&:hover {
-						color: #f00;
+						color: var(--close-icon-hover);
 					}
 				}
 			}
@@ -101,15 +110,15 @@ input[type=number] {
 
 .col-localizador {
 	width: 10%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
 	position: relative;
 }
 
 .col-descripcion {
 	width: 55%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
 	user-select: none;
 
 	span {
@@ -119,40 +128,50 @@ input[type=number] {
 
 		&:hover {
 			cursor: pointer;
-			background-color: #3f51b5;
-			color: #fff;
+			background-color: var(--main-color);
+			color: var(--main-color-contrast);
 		}
 	}
 }
 
 .col-stock {
 	width: 5%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
 }
 
 .col-cantidad {
 	width: 5%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
+
+	input {
+		&:hover {
+			background-color: rgba(63, 80, 181, 0.2);
+		}
+
+		&:focus {
+			background-color: rgba(63, 80, 181, 0.1);
+		}
+	}
 }
 
 .col-pvp {
 	width: 10%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
 }
 
 .col-importe {
 	width: 10%;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
+	border-right: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
 }
 
 .col-descuentos {
 	width: 5%;
-	border-bottom: 1px solid #888;
-	
+	border-bottom: 1px solid var(--table-border);
+
 	span {
 		display: block;
 		width: 100%;
@@ -160,8 +179,8 @@ input[type=number] {
 
 		&:hover {
 			cursor: pointer;
-			background-color: #3f51b5;
-			color: #fff;
+			background-color: var(--main-color);
+			color: var(--main-color-contrast);
 		}
 	}
 }

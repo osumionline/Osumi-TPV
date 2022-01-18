@@ -14,7 +14,8 @@
 			<span *ngIf="linea.stock">{{linea.stock}}</span>
 		</div>
 		<div class="col-cantidad">
-			<input type="number" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
+			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
+			<input type="number" *ngIf="linea.idArticulo !== null" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
 		</div>
 		<div class="col-pvp">
 			<ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
@@ -26,7 +27,7 @@
 		</div>
 		<div class="col-descuentos">
 			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
-			<span *ngIf="linea.descuento !== null">{{linea.descuento}} %</span>
+			<span *ngIf="linea.descuento !== null" (click)="abreDescuento(linea)">{{linea.descuento}} %</span>
 		</div>
 	</div>
 </div>
@@ -49,8 +50,8 @@
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
-		<div class="modal-body">
-
+		<div class="modal-body descuento-options">
+			<button mat-raised-button color="primary" *ngFor="let descuento of descuentoOptions">{{descuento}} %</button>
 		</div>
 	</div>
 </div>
