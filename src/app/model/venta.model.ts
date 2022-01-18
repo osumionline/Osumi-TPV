@@ -10,7 +10,7 @@ export class Venta {
 	updateImporte(): void {
 		let cant: number = 0;
 		for (let i in this.lineas) {
-			cant += (this.lineas[i].cantidad * this.lineas[i].pvp);
+			cant += this.lineas[i].total;
 		}
 		this.importe = cant;
 	}

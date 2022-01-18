@@ -18,6 +18,7 @@ export class UnaVentaComponent {
 	muestraDescuento: boolean = false;
 	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 	descuentoSelected: number = null;
+	descuentoOtro: number = null;
 
 	constructor(private as: ApiService, private cms: ClassMapperService, private dialog: DialogService) {}
 
@@ -91,11 +92,19 @@ export class UnaVentaComponent {
 
 	abreDescuento(linea: LineaVenta): void {
 		this.descuentoSelected = linea.idArticulo;
+		this.descuentoOtro = null;
 		this.muestraDescuento = true;
 	}
 
-	cerrarDescuento(ev: MouseEvent): void {
-		ev.preventDefault();
+	cerrarDescuento(ev: MouseEvent = null): void {
+		ev && ev.preventDefault();
 		this.muestraDescuento = false;
+	}
+	
+	selectDescuento(descuento: number): void {
+		const ind = this.venta.lineas.findIndex(x => x.idArticulo === this.descuentoSelected);
+		this.venta.lineas[ind].descuento = descuento;
+		this.venta.updateImporte();
+		this.cerrarDescuento();
 	}
 }

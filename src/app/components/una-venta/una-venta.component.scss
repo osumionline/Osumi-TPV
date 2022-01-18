@@ -69,9 +69,28 @@
 	}
 }
 
-.descuento-options {
-	button {
-		display: inline-block;
-		margin-right: 16px;
+.descuento-box {
+	.descuento-options {
+		button {
+			display: inline-block;
+			margin-right: 16px;
+
+			&:last-child {
+				margin: 0;
+			}
+		}
+	}
+
+	.descuento-otros {
+		display: flex;
+		justify-content: center;
+		height: 50px;
+		margin: 32px 0;
+
+		button {
+			margin-left: 16px;
+			display: inline-block;
+			margin-top: 5px;
+		}
 	}
 }

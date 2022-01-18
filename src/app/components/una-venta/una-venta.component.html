@@ -23,7 +23,7 @@
 		</div>
 		<div class="col-importe">
 			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
-			<span *ngIf="linea.importe">{{linea.importe}} €</span>
+			<span *ngIf="linea.importe">{{linea.total | fixedNumber}} €</span>
 		</div>
 		<div class="col-descuentos">
 			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
@@ -50,8 +50,16 @@
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
-		<div class="modal-body descuento-options">
-			<button mat-raised-button color="primary" *ngFor="let descuento of descuentoOptions">{{descuento}} %</button>
+		<div class="modal-body descuento-box">
+			<div class="descuento-options">
+				<button mat-raised-button color="primary" *ngFor="let descuento of descuentoOptions" (click)="selectDescuento(descuento)">{{descuento}} %</button>
+			</div>
+			<div class="descuento-otros">
+				<mat-form-field>
+					<input matInput type="number" min="0" max="100" step="1" placeholder="Otro" [(ngModel)]="descuentoOtro">
+				</mat-form-field>
+				<button mat-raised-button color="primary">Continuar</button>
+			</div>
 		</div>
 	</div>
 </div>

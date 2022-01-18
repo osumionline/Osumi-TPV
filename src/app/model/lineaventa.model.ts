@@ -13,6 +13,10 @@ export class LineaVenta {
 		public descuento: number = null
 	) {}
 
+	get total(): number {
+		return ( (this.cantidad * this.pvp) * (1 - (this.descuento / 100) ) );
+	}
+
 	fromArticulo(a: Articulo): LineaVenta {
 		this.idArticulo = a.id;
 		this.localizador = a.localizador;
