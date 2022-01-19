@@ -4,7 +4,8 @@ import { Proveedor }    from 'src/app/model/proveedor.model';
 import { Categoria }    from 'src/app/model/categoria.model';
 import { Articulo }     from 'src/app/model/articulo.model';
 import { CodigoBarras } from 'src/app/model/codigobarras.model';
-import { MarcaInterface, ProveedorInterface, CategoriaInterface, ArticuloInterface, CodigoBarrasInterface } from 'src/app/interfaces/interfaces';
+import { Tarjeta }      from 'src/app/model/tarjeta.model';
+import { MarcaInterface, ProveedorInterface, CategoriaInterface, ArticuloInterface, CodigoBarrasInterface, TarjetaInterface } from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -84,5 +85,19 @@ export class ClassMapperService {
 		}
 
 		return articulos;
+	}
+
+	getTarjeta(t: TarjetaInterface): Tarjeta {
+		return new Tarjeta().fromInterface(t);
+	}
+
+	getTarjetas(ts: TarjetaInterface[]): Tarjeta[] {
+		const tarjetas: Tarjeta[] = [];
+
+		for (let t of ts) {
+			tarjetas.push(this.getTarjeta(t));
+		}
+
+		return tarjetas;
 	}
 }

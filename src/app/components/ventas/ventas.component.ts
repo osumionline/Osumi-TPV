@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ConfigService }     from 'src/app/services/config.service';
 import { Tabs }              from 'src/app/interfaces/interfaces';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { Venta }             from 'src/app/model/venta.model';
+import { Tarjeta }           from 'src/app/model/tarjeta.model';
 
 @Component({
 	selector: 'otpv-ventas',
@@ -20,20 +22,15 @@ export class VentasComponent implements OnInit {
 	
 	showFinalizarVenta: boolean = false;
 
-	tiposTarjetas = [
-		{id: 'visa', nombre: 'VISA'},
-		{id: 'mc', nombre: 'MasterCard'}
-	];
-
 	fin = {
 		efectivo: 0,
 		cambio: 0,
 		tarjeta: 0,
-		tipoTarjeta: 'visa',
+		tipoTarjeta: null,
 		total: 0
 	};
 
-	constructor() {}
+	constructor(public config: ConfigService) {}
 
 	ngOnInit(): void {
 		this.newVenta();
@@ -74,6 +71,9 @@ export class VentasComponent implements OnInit {
 	endVenta(id: number): void {
 		const ind = this.ventas.findIndex(x => x.id === id);
 		console.log(this.ventas[ind]);
+		const tipoTarjeta: Tarjeta = this.config.tarjetas.find(x => x.porDefecto === true);
+		this.fin.tipoTarjeta = tipoTarjeta.id;
+		console.log(this.fin);
 		this.showFinalizarVenta = true;
 	}
 

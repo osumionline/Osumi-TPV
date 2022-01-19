@@ -3,6 +3,7 @@ import { Router }             from '@angular/router';
 import { ApiService }         from 'src/app/services/api.service';
 import { ConfigService }      from 'src/app/services/config.service';
 import { DataShareService }   from 'src/app/services/data-share.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { VentasComponent }    from 'src/app/components/ventas/ventas.component';
 import { ArticulosComponent } from 'src/app/components/articulos/articulos.component';
 import { PedidosComponent }   from 'src/app/components/pedidos/pedidos.component';
@@ -28,7 +29,8 @@ export class MainComponent implements OnInit {
 		private as: ApiService,
 		private config: ConfigService,
 		private router: Router,
-		private dss: DataShareService
+		private dss: DataShareService,
+		private cms: ClassMapperService
 	) {}
 
 	ngOnInit(): void {
@@ -40,6 +42,7 @@ export class MainComponent implements OnInit {
 			}
 			else {
 				this.config.load(result.appData);
+				this.config.tarjetas = this.cms.getTarjetas(result.tarjetas);
 				this.isOpened = result.opened;
 				this.articulosComponent.loadAppData();
 			}

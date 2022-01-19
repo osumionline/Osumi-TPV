@@ -26,10 +26,19 @@ export interface AppDataInterface {
 	fechaCad: boolean;
 }
 
+export interface TarjetaInterface {
+	id: number;
+	nombre: string;
+	slug: string;
+	comision: number;
+	porDefecto: boolean;
+}
+
 export interface StartDataInterface {
 	status: string;
 	opened: boolean;
 	appData: AppDataInterface;
+	tarjetas: TarjetaInterface[];
 }
 
 export interface StatusResult {
