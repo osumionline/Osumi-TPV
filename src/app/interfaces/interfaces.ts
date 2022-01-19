@@ -39,6 +39,7 @@ export interface StatusResult {
 export interface MarcaInterface {
 	id: number;
 	nombre: string;
+	idFoto: number;
 	telefono: string;
 	email: string;
 	web: string;
@@ -57,6 +58,7 @@ export interface IdSaveResult {
 export interface ProveedorInterface {
 	id: number;
 	nombre: string;
+	idFoto: number;
 	direccion: string;
 	telefono: string;
 	email: string;
@@ -90,29 +92,31 @@ export interface ArticuloInterface {
 	id: number;
 	localizador: number;
 	nombre: string;
-	puc: number;
-	pvp: number;
-	margen: number;
-	palb: number;
+	idCategoria: number;
 	idMarca: number;
 	idProveedor: number;
+	referencia: string;
+	puc: number;
+	pvp: number;
+	palb: number;
+	iva: number;
+	re: number;
+	margen: number;
 	stock: number;
 	stockMin: number;
 	stockMax: number;
 	loteOptimo: number;
-	iva: number;
-	fechaCaducidad: string;
+	ventaOnline: boolean;
 	mostrarFecCad: boolean;
+	fechaCaducidad: string;
 	observaciones: string;
 	mostrarObsPedidos: boolean;
 	mostrarObsVentas: boolean;
-	referencia: string;
-	ventaOnline: boolean;
 	mostrarEnWeb: boolean;
-	idCategoria: number;
 	descCorta: string;
-	desc: string;
+	descripcion: string;
 	codigosBarras: CodigoBarrasInterface[];
+	fotos: number[];
 	activo: boolean;
 }
 

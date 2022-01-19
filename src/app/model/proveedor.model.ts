@@ -5,6 +5,7 @@ export class Proveedor {
 	constructor(
 		public id: number = -1,
 		public nombre: string = '',
+		public idFoto: number = null,
 		public direccion: string = '',
 		public telefono: string = '',
 		public email: string = '',
@@ -16,6 +17,7 @@ export class Proveedor {
 	fromInterface(p: ProveedorInterface): Proveedor {
 		this.id = p.id;
 		this.nombre = Utils.urldecode(p.nombre);
+		this.idFoto = p.idFoto;
 		this.direccion = Utils.urldecode(p.direccion);
 		this.telefono = Utils.urldecode(p.telefono);
 		this.email = Utils.urldecode(p.email);
@@ -30,6 +32,7 @@ export class Proveedor {
 		return {
 			id: this.id,
 			nombre: Utils.urlencode(this.nombre),
+			idFoto: this.idFoto,
 			direccion: Utils.urlencode(this.direccion),
 			telefono: Utils.urlencode(this.telefono),
 			email: Utils.urlencode(this.email),

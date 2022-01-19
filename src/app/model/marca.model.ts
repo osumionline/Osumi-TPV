@@ -5,6 +5,7 @@ export class Marca {
 	constructor(
 		public id: number = -1,
 		public nombre: string = '',
+		public idFoto: number = null,
 		public telefono: string = '',
 		public email: string = '',
 		public web: string = '',
@@ -14,6 +15,7 @@ export class Marca {
 	fromInterface(m: MarcaInterface): Marca {
 		this.id = m.id;
 		this.nombre = Utils.urldecode(m.nombre);
+		this.idFoto = m.idFoto;
 		this.telefono = Utils.urldecode(m.telefono);
 		this.email = Utils.urldecode(m.email);
 		this.web = Utils.urldecode(m.web);
@@ -26,6 +28,7 @@ export class Marca {
 		return {
 			id: this.id,
 			nombre: Utils.urlencode(this.nombre),
+			idFoto: this.idFoto,
 			telefono: Utils.urlencode(this.telefono),
 			email: Utils.urlencode(this.email),
 			web: Utils.urlencode(this.web),
