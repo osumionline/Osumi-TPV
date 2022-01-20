@@ -34,22 +34,41 @@
 						<input matInput type="number" placeholder="Tarjeta" [(ngModel)]="fin.tarjeta">
 						<mat-label>Tarjeta</mat-label>
 					</mat-form-field>
-					<mat-select [(ngModel)]="fin.tipoTarjeta">
-						<mat-option *ngFor="let tipo of config.tarjetas" [value]="tipo.id">
-							{{tipo.nombre}}
-						</mat-option>
-					</mat-select>
+					<mat-form-field>
+						<mat-select [(ngModel)]="fin.tipoTarjeta">
+							<mat-option *ngFor="let tipo of config.tarjetas" [value]="tipo.id">
+								{{tipo.nombre}}
+							</mat-option>
+						</mat-select>
+						<mat-label>Tarjeta</mat-label>
+					</mat-form-field>
 				</div>
-				<div class="total">
+				<div class="total mat-elevation-z4">
 					<div class="total-title">TOTAL</div>
-					<div class="total-importe">{{fin.total}}</div>
+					<div class="total-importe">{{fin.total}} €</div>
 				</div>
 				<div class="col-line">
 					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()">Cancelar</button>
+					<button mat-raised-button color="primary" (click)="cerrarFinalizarVenta()">Finalizar</button>
 				</div>
 			</div>
 			<div class="col-right">
-			
+				<div class="venta-linea">
+					<div class="venta-linea-localizador">Loc.</div>
+					<div class="venta-linea-marca">Marca</div>
+					<div class="venta-linea-nombre">Nombre</div>
+					<div class="venta-linea-cant">Cant.</div>
+					<div class="venta-linea-desc">Desc.</div>
+					<div class="venta-linea-subtotal">Subt.</div>
+				</div>
+				<div class="venta-linea" *ngFor="let linea of fin.lineas">
+					<div class="venta-linea-localizador">{{linea.localizador}}</div>
+					<div class="venta-linea-marca">{{linea.marca}}</div>
+					<div class="venta-linea-nombre">{{linea.descripcion}}</div>
+					<div class="venta-linea-cant">{{linea.cantidad}}</div>
+					<div class="venta-linea-desc">{{linea.descuento}} %</div>
+					<div class="venta-linea-subtotal">{{linea.total | fixedNumber}} €</div>
+				</div>
 			</div>
 		</div>
 	</div>

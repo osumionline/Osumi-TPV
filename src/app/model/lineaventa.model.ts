@@ -6,6 +6,7 @@ export class LineaVenta {
 		public idArticulo: number = null,
 		public localizador: number = null,
 		public descripcion: string = null,
+        public marca: string = null,
 		public stock: number = null,
 		public cantidad: number = null,
 		public pvp: number = null,
@@ -21,6 +22,7 @@ export class LineaVenta {
 		this.idArticulo = a.id;
 		this.localizador = a.localizador;
 		this.descripcion = a.nombre;
+        this.marca = a.marca;
 		this.stock = a.stock;
 		this.cantidad = 1;
 		this.pvp = a.pvp;
@@ -34,6 +36,7 @@ export class LineaVenta {
 		this.idArticulo = lv.idArticulo;
 		this.localizador = lv.localizador;
 		this.descripcion = lv.descripcion;
+        this.marca = lv.marca;
 		this.stock = lv.stock;
 		this.cantidad = lv.cantidad;
 		this.pvp = lv.pvp;
@@ -48,6 +51,7 @@ export class LineaVenta {
 			idArticulo: this.idArticulo,
 			localizador: this.localizador,
 			descripcion: this.descripcion,
+            marca: this.marca,
 			stock: this.stock,
 			cantidad: this.cantidad,
 			pvp: this.pvp,

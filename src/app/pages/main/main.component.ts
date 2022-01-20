@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router }             from '@angular/router';
 import { ApiService }         from 'src/app/services/api.service';
 import { ConfigService }      from 'src/app/services/config.service';
-import { DataShareService }   from 'src/app/services/data-share.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { VentasComponent }    from 'src/app/components/ventas/ventas.component';
 import { ArticulosComponent } from 'src/app/components/articulos/articulos.component';
@@ -29,7 +28,6 @@ export class MainComponent implements OnInit {
 		private as: ApiService,
 		private config: ConfigService,
 		private router: Router,
-		private dss: DataShareService,
 		private cms: ClassMapperService
 	) {}
 
@@ -48,6 +46,24 @@ export class MainComponent implements OnInit {
 			}
 			this.loading = false;
 		});
+	}
+
+	@HostListener('window:keydown', ['$event'])
+	onKeyDown(ev: KeyboardEvent) {
+		if (ev.key === 'Escape') {
+			if (this.ventasComponent.showFinalizarVenta) {
+				this.ventasComponent.cerrarFinalizarVenta();
+			}
+			if (this.articulosComponent.nuevaMarca) {
+				this.articulosComponent.newMarcaCerrar();
+			}
+			if (this.articulosComponent.nuevoProveedor) {
+				this.articulosComponent.newProveedorCerrar();
+			}
+			if (this.articulosComponent.mostrarBuscador) {
+				this.articulosComponent.cerrarBuscador();
+			}
+		}
 	}
 
 	openBox(): void {

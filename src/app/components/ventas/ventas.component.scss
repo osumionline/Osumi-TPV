@@ -8,3 +8,97 @@
 		background-color: #ccc;
 	}
 }
+
+.finalizar-venta {
+	display: flex;
+	flex-direction: row;
+
+	.col-left {
+		padding: 16px;
+
+		.col-line {
+			display: flex;
+
+			button:first-child {
+				margin-right: 16px;
+			}
+
+			mat-form-field:first-child {
+				margin-right: 16px;
+			}
+		}
+
+		.total {
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			position: relative;
+			padding: 16px;
+			height: 60px;
+			margin-bottom: 16px;
+
+			.total-title {
+				position: absolute;
+				top: 5px;
+				left: 5px;
+				font-weight: bold;
+				color: #888;
+			}
+
+			.total-importe {
+				display: flex;
+				height: 28px;
+				align-items: center;
+				justify-content: flex-end;
+				font-size: 2em;
+			}
+		}
+	}
+
+	.col-right {
+		width: 600px;
+		border: 1px solid #ccc;
+		border-radius: 6px;
+
+		.venta-linea {
+			display: flex;
+			border-bottom: 1px solid #ccc;
+
+			div {
+				padding: 6px;
+				border-top-left-radius: 6px;
+			}
+
+			.venta-linea-localizador {
+				width: 20%;
+			}
+
+			.venta-linea-marca {
+				width: 20%;
+			}
+
+			.venta-linea-nombre {
+				width: 30%;
+			}
+
+			.venta-linea-cant {
+				width: 10%;
+				text-align: center;
+			}
+
+			.venta-linea-desc {
+				width: 10%;
+				text-align: center;
+			}
+
+			.venta-linea-subtotal {
+				width: 10%;
+				text-align: center;
+				border-top-right-radius: 6px;
+			}
+
+			&:first-child {
+				background-color: #eee;
+			}
+		}
+	}
+}

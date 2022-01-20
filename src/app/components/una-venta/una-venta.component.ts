@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService }         from 'src/app/services/api.service';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { MarcasService }      from 'src/app/services/marcas.service';
 import { Venta }              from 'src/app/model/venta.model';
 import { LineaVenta }         from 'src/app/model/lineaventa.model';
 
@@ -21,7 +22,12 @@ export class UnaVentaComponent {
 	descuentoSelected: number = null;
 	descuentoOtro: number = null;
 
-	constructor(private as: ApiService, private cms: ClassMapperService, private dialog: DialogService) {}
+	constructor(
+		private as: ApiService,
+		private cms: ClassMapperService,
+		private dialog: DialogService,
+		private ms: MarcasService
+	) {}
 
 	addLineaVenta(): void {
 		this.venta.lineas.push(new LineaVenta());
@@ -44,6 +50,8 @@ export class UnaVentaComponent {
 				this.searching = false;
 				if (result.status === 'ok') {
 					const articulo = this.cms.getArticulo(result.articulo);
+					const marca = this.ms.findById(articulo.idMarca);
+					articulo.marca = marca.nombre;
 					const indArticulo = this.venta.lineas.findIndex(x => x.idArticulo === articulo.id);
 
 					if (indArticulo === -1) {
@@ -101,7 +109,7 @@ export class UnaVentaComponent {
 		ev && ev.preventDefault();
 		this.muestraDescuento = false;
 	}
-	
+
 	selectDescuento(descuento: number): void {
 		const ind = this.venta.lineas.findIndex(x => x.idArticulo === this.descuentoSelected);
 		this.venta.lineas[ind].descuento = descuento;

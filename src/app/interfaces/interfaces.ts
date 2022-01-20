@@ -153,6 +153,7 @@ export interface LineaVentaInterface {
 	idArticulo: number;
 	localizador: number;
 	descripcion: string;
+	marca: string;
 	stock: number;
 	cantidad: number;
 	pvp: number;
