@@ -171,7 +171,7 @@
 						<label>¿Artículo con caducidad?</label>
 						<mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarFecCad" (change)="updateFecCaducidad()">{{ articulo.mostrarFecCad ? 'Si' : 'No' }}</mat-slide-toggle>
 					</div>
-					<div class="form-field">
+					<div class="form-field" *ngIf="articulo.mostrarFecCad">
 						<label>Fecha de caducidad (mes)</label>
 						<mat-form-field>
 							<mat-select [(ngModel)]="fecCadMonth" [disabled]="!articulo.mostrarFecCad">
@@ -181,7 +181,7 @@
 							</mat-select>
 						</mat-form-field>
 					</div>
-					<div class="form-field">
+					<div class="form-field" *ngIf="articulo.mostrarFecCad">
 						<label>Fecha de caducidad (año)</label>
 						<mat-form-field>
 							<mat-select [(ngModel)]="fecCadYear" [disabled]="!articulo.mostrarFecCad">
@@ -203,7 +203,7 @@
 				</div>
 
 				<div class="cod-barras-empty" *ngIf="articulo.codigosBarras.length==0">
-					Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador que se le asigne.
+					Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
 				</div>
 
 				<div class="cod-barras-list">
@@ -246,8 +246,6 @@
 					</div>
 				</div>
 				<p>
-					- mostrar en web
-					<br>
 					fotos
 				</p>
 			</mat-tab>
