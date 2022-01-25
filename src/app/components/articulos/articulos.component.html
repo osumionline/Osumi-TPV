@@ -60,13 +60,13 @@
 				<div class="articulo-numbers">
 					<div class="articulo-col">
 						<div class="form-field-left">
-							<label>PVP</label>
+							<label>Precio albarán</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="0.01" placeholder="Precio de Venta al Público" class="align-right"
+								<input matInput type="number" step="0.01" placeholder="Precio albarán" class="align-right"
 									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.pvp=$event"
+									(ngModelChange)="articulo.palb=$event"
 									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.pvp | number:'1.2-2'">
+									[ngModel]="articulo.palb | number:'1.2-2'">
 							</mat-form-field>
 							<span>€</span>
 						</div>
@@ -93,13 +93,13 @@
 							<span>%</span>
 						</div>
 						<div class="form-field-left">
-							<label>Precio albarán</label>
+							<label>PVP</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="0.01" placeholder="Precio albarán" class="align-right"
+								<input matInput type="number" step="0.01" placeholder="Precio de Venta al Público" class="align-right"
 									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.palb=$event"
+									(ngModelChange)="articulo.pvp=$event"
 									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.palb | number:'1.2-2'">
+									[ngModel]="articulo.pvp | number:'1.2-2'">
 							</mat-form-field>
 							<span>€</span>
 						</div>
