@@ -14,7 +14,13 @@
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #eee; -webkit-appearance: none; border-radius: 0; }
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	background-color: #eee;
+	-webkit-appearance: none;
+	border-radius: 0;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

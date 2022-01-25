@@ -14,20 +14,20 @@
 <mat-toolbar color="primary" class="toolbar">
 	<span>{{title}}</span>
 	<div class="toolbar-options">
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='sales'}" (click)="selectOptionSales()">
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='sales'}" (click)="selectOptionSales()" aria-label="Ventas">
 			<mat-icon>local_atm</mat-icon>
 			<span>Ventas</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='items'}" (click)="selectOptionItems()">
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='items'}" (click)="selectOptionItems()" aria-label="Artículos">
 			<mat-icon>card_giftcard</mat-icon>
 			<span>Artículos</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='orders'}" (click)="selectOptionOrders()">
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='orders'}" (click)="selectOptionOrders()" aria-label="Pedidos">
 			<mat-icon>assignment</mat-icon>
 			<span>Pedidos</span>
 		</button>
 	</div>
-	<button class="toolbar-btn">
+	<button class="toolbar-btn" aria-label="Gestión">
 		<mat-icon>settings</mat-icon>
 		<span>Gestión</span>
 	</button>
