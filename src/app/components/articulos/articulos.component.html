@@ -42,21 +42,11 @@
 						</button>
 					</div>
 					<div class="form-field margin-right">
-						<label>IVA</label>
+						<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span></label>
 						<mat-form-field>
-							<mat-select [(ngModel)]="articulo.iva">
-								<mat-option *ngFor="let iva of ivaList" [value]="iva">
-									{{iva}} %
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
-					<div class="form-field margin-right">
-						<label>Recargo de equivalencia</label>
-						<mat-form-field>
-							<mat-select [(ngModel)]="articulo.re">
-								<mat-option *ngFor="let re of reList" [value]="re">
-									{{re}} %
+							<mat-select [(ngModel)]="selectedIvaOption.id">
+								<mat-option *ngFor="let iva of ivaOptions" [value]="iva.id">
+									{{iva.name}}
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
@@ -172,7 +162,7 @@
 						</mat-form-field>
 					</div>
 				</div>
-				<div>
+				<div *ngIf="mostrarCaducidad">
 					<div class="form-field">
 						<label>¿Artículo con caducidad?</label>
 						<mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarFecCad" (change)="updateFecCaducidad()">{{ articulo.mostrarFecCad ? 'Si' : 'No' }}</mat-slide-toggle>
@@ -506,7 +496,10 @@
 			</a>
 		</div>
 		<div class="modal-body">
-			márgenes
+			<div *ngFor="let margin of marginList" class="margin-option">
+				<label>{{margin}} %</label>
+				<span>{{articulo.puc * (1 + (margin/100)) | number:'1.2-2'}} €</span>
+			</div>
 		</div>
 	</div>
 </div>

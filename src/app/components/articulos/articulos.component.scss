@@ -339,6 +339,28 @@
 	}
 }
 
+.margin-option {
+	border: 1px solid #888;
+    border-radius: 6px;
+    margin-bottom: 8px;
+
+	label {
+		padding: 8px;
+		display: inline-block;
+		margin-right: 8px;
+		background-color: #ccc;
+		font-weight: bold;
+		border-top-left-radius: 6px;
+		border-bottom-left-radius: 6px;
+		width: 70px;
+		text-align: right;
+	}
+
+	span {
+		
+	}
+}
+
 @media screen and (min-width: 1024px) {
 	.form-field-left {
 		& > label {

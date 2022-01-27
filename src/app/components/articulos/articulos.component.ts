@@ -13,6 +13,7 @@ import { Proveedor }          from 'src/app/model/proveedor.model';
 import { Categoria }          from 'src/app/model/categoria.model';
 import { Articulo }           from 'src/app/model/articulo.model';
 import { CodigoBarras }       from 'src/app/model/codigobarras.model';
+import { IVAOption }          from 'src/app/model/iva-option.model';
 
 @Component({
 	selector: 'otpv-articulos',
@@ -34,25 +35,13 @@ export class ArticulosComponent implements OnInit {
 	proveedores: Proveedor[] = [];
 	nuevoProveedor: boolean = false;
 	tipoIva: string = 'iva';
-	ivaList: number[] = [];
-	reList: number[] = [];
+	ivaOptions: IVAOption[] = [];
+	selectedIvaOption: IVAOption = new IVAOption();
 	categoriesPlain: Categoria[] = [];
+	mostrarCaducidad: boolean = false;
 	fecCadMonth: number = null;
 	fecCadYear: number = null;
-	monthList: Month[] = [
-		{id: 1, name: 'Enero'},
-		{id: 2, name: 'Febrero'},
-		{id: 3, name: 'Marzo'},
-		{id: 4, name: 'Abril'},
-		{id: 5, name: 'Mayo'},
-		{id: 6, name: 'Junio'},
-		{id: 7, name: 'Julio'},
-		{id: 8, name: 'Agosto'},
-		{id: 9, name: 'Septiembre'},
-		{id: 10, name: 'Octubre'},
-		{id: 11, name: 'Noviembre'},
-		{id: 12, name: 'Diciembre'}
-	];
+	monthList: Month[] = [];
 	yearList: number[] = [];
 	newCodBarras: number = null;
 	confirmarDarDeBaja: boolean = false;
@@ -67,6 +56,7 @@ export class ArticulosComponent implements OnInit {
 	searchResult: Articulo[] = [];
 
 	mostrarMargenes: boolean = false;
+	marginList: number[] = [];
 
 	constructor(
 		private dialog: DialogService,
@@ -86,10 +76,13 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	loadAppData(): void {
-		this.mostrarWeb = this.config.ventaOnline;
 		this.tipoIva = this.config.tipoIva;
-		this.ivaList = this.config.ivaList;
-		this.reList = this.config.reList;
+		this.ivaOptions = this.config.ivaOptions;
+		this.selectedIvaOption = new IVAOption(this.tipoIva);
+		this.mostrarWeb = this.config.ventaOnline;
+		this.mostrarCaducidad = this.config.fechaCad;
+		this.monthList = this.config.monthList;
+		this.marginList = this.config.marginList;
 
 		this.loadData();
 	}
@@ -158,6 +151,10 @@ export class ArticulosComponent implements OnInit {
 				this.fecCadMonth = parseInt(fecCad[0]);
 				this.fecCadYear  = parseInt(fecCad[1]);
 			}
+
+			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
+			console.log(this.selectedIvaOption);
+			console.log(this.config.ivaOptions);
 
 			this.selectedTab = 0;
 			this.loading = false;
@@ -327,6 +324,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	guardar(): void {
+		debugger;
 		this.articulo.stock      = this.articulo.stock      || 0;
 		this.articulo.stockMin   = this.articulo.stockMin   || 0;
 		this.articulo.stockMax   = this.articulo.stockMax   || 0;
@@ -338,11 +336,14 @@ export class ArticulosComponent implements OnInit {
 			return;
 		}
 
-		if (!this.articulo.iva) {
+		if (this.selectedIvaOption.id === null) {
 			this.dialog.alert({title: 'Error', content: '¡No has elegido IVA para el artículo!', ok: 'Continuar'}).subscribe(result => {});
 			this.selectedTab = 0;
 			return;
 		}
+		const ivaInd = this.config.ivaOptions.findIndex(x => x.id == this.selectedIvaOption.id);
+		this.articulo.iva = this.config.ivaOptions[ivaInd].iva;
+		this.articulo.re = this.config.ivaOptions[ivaInd].re;
 
 		if (this.articulo.mostrarFecCad) {
 			if (!this.fecCadMonth) {
