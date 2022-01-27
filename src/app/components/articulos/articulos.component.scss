@@ -178,12 +178,20 @@
 		line-height: 75px;
 
 		span {
-			width: 128px;
+			width: 120px;
 			text-align: right;
-
-			mat-icon {
-				vertical-align: middle;
-				cursor: pointer;
+			outline: 1px solid #e0e0e0;
+			height: 55px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: flex-end;
+			border-radius: 5px;
+			padding-right: 8px;
+			cursor: pointer;
+			transition: all .2s;
+			
+			&:hover {
+				outline: 2px solid #000;
 			}
 		}
 	}
@@ -343,11 +351,11 @@
 	border: 1px solid #888;
     border-radius: 6px;
     margin-bottom: 8px;
+	display: flex;
 
 	label {
 		padding: 8px;
 		display: inline-block;
-		margin-right: 8px;
 		background-color: #ccc;
 		font-weight: bold;
 		border-top-left-radius: 6px;
@@ -357,7 +365,15 @@
 	}
 
 	span {
-		
+		padding: 8px;
+		display: inline-block;
+		flex: 1;
+		cursor: pointer;
+
+		&:hover {
+			background-color: var(--main-color);
+			color: #fff;
+		}
 	}
 }
 

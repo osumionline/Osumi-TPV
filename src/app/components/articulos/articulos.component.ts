@@ -257,6 +257,15 @@ export class ArticulosComponent implements OnInit {
 		});
 	}
 
+	updateIvaRe(ev: string): void {
+		const ivaInd = this.config.ivaOptions.findIndex(x => x.id == ev);
+		this.selectedIvaOption.updateValues(this.config.ivaOptions[ivaInd].iva, this.config.ivaOptions[ivaInd].re);
+
+		const ivare: number = (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) + (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
+		const puc: number = this.getTwoNumberDecimal(this.articulo.palb * (1 + (ivare / 100)));
+		this.updatePuc(puc);
+	}
+
 	updateFecCaducidad(): void {
 		this.fecCadMonth = null;
 		this.fecCadYear = null;
@@ -265,6 +274,42 @@ export class ArticulosComponent implements OnInit {
 	setTwoNumberDecimal(ev: Event): void {
 		const target = (ev.target as HTMLInputElement);
 		target.value = (target.value!='') ? parseFloat(target.value).toFixed(2) : '0.00';
+	}
+	
+	getTwoNumberDecimal(value: number): number {
+		return Math.floor(value * 100) / 100;
+	}
+
+	updatePalb(ev: number): void {
+		this.articulo.palb = ev;
+
+		let ivare = 0;
+		if (this.selectedIvaOption.id !== null) {
+			ivare = (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) + (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
+		}
+		const puc = this.articulo.palb * (1 + (ivare / 100));
+		this.updatePuc(this.getTwoNumberDecimal(puc));
+	}
+
+	updatePuc(ev: number): void {
+		this.articulo.puc = ev;
+
+		this.updateMargen();
+	}
+	
+	updateMargen(): void {
+		if (this.articulo.puc !== 0) {
+			this.articulo.margen = ((this.articulo.pvp * 100) / this.articulo.puc) - 100;
+		}
+		else {
+			this.articulo.margen = 0;
+		}
+	}
+
+	updatePvp(ev: number): void {
+		this.articulo.pvp = ev;
+
+		this.updateMargen();
 	}
 
 	fixCodBarras(ev: KeyboardEvent = null): void {
@@ -324,7 +369,6 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	guardar(): void {
-		debugger;
 		this.articulo.stock      = this.articulo.stock      || 0;
 		this.articulo.stockMin   = this.articulo.stockMin   || 0;
 		this.articulo.stockMax   = this.articulo.stockMax   || 0;
@@ -359,7 +403,7 @@ export class ArticulosComponent implements OnInit {
 			this.articulo.fechaCaducidad = ((this.fecCadMonth<10) ? '0'+this.fecCadMonth : this.fecCadMonth) + '/' + this.fecCadYear;
 		}
 
-		this.as.saveArticulo(this.articulo).subscribe(result => {
+		this.as.saveArticulo(this.articulo.toInterface()).subscribe(result => {
 			this.articulo.localizador = result.localizador;
 			this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {
 				this.loadArticulo();
@@ -427,5 +471,12 @@ export class ArticulosComponent implements OnInit {
 	cerrarMargenes(ev: MouseEvent = null) {
 		ev && ev.preventDefault();
 		this.mostrarMargenes = false;
+	}
+
+	selectMargen(margen: number): void {
+		this.articulo.margen = margen;
+		this.articulo.pvp = this.getTwoNumberDecimal(this.articulo.puc * (1 + (margen / 100)));
+
+		this.cerrarMargenes();
 	}
 }

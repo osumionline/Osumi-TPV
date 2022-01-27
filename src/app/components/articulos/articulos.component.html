@@ -44,7 +44,7 @@
 					<div class="form-field margin-right">
 						<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span></label>
 						<mat-form-field>
-							<mat-select [(ngModel)]="selectedIvaOption.id">
+							<mat-select [(ngModel)]="selectedIvaOption.id" (ngModelChange)="updateIvaRe($event)">
 								<mat-option *ngFor="let iva of ivaOptions" [value]="iva.id">
 									{{iva.name}}
 								</mat-option>
@@ -63,10 +63,10 @@
 							<label>Precio albarán</label>
 							<mat-form-field class="campo-numero">
 								<input matInput type="number" step="0.01" placeholder="Precio albarán" class="align-right"
-									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.palb=$event"
-									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.palb | number:'1.2-2'">
+									(blur)="setTwoNumberDecimal($event)"
+									(focus)="$event.target.select()"
+									(ngModelChange)="updatePalb($event)"
+									[ngModel]="articulo.palb">
 							</mat-form-field>
 							<span>€</span>
 						</div>
@@ -74,28 +74,27 @@
 							<label>PUC</label>
 							<mat-form-field class="campo-numero">
 								<input matInput type="number" step="0.01" placeholder="Precio Unitario de Compra" class="align-right"
-									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.puc=$event"
-									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.puc | number:'1.2-2'">
+									(blur)="setTwoNumberDecimal($event)"
+									(focus)="$event.target.select()"
+									(ngModelChange)="updatePuc($event)"
+									[ngModel]="articulo.puc">
 							</mat-form-field>
 							<span>€</span>
 						</div>
 						<div class="form-field-left margen">
 							<label>Margen</label>
-							<span>
-								{{articulo.margen | number:'1.2-2'}} %
-								<mat-icon (click)="abrirMargenes()">help_outline</mat-icon>
+							<span (click)="abrirMargenes()">
+								{{articulo.margen | number:'1.2-2':'es-ES'}} %
 							</span>
 						</div>
 						<div class="form-field-left">
 							<label>PVP</label>
 							<mat-form-field class="campo-numero">
 								<input matInput type="number" step="0.01" placeholder="Precio de Venta al Público" class="align-right"
-									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.pvp=$event"
-									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.pvp | number:'1.2-2'">
+									(blur)="setTwoNumberDecimal($event)"
+									(focus)="$event.target.select()"
+									(ngModelChange)="updatePvp($event)"
+									[ngModel]="articulo.pvp">
 							</mat-form-field>
 							<span>€</span>
 						</div>
@@ -498,7 +497,7 @@
 		<div class="modal-body">
 			<div *ngFor="let margin of marginList" class="margin-option">
 				<label>{{margin}} %</label>
-				<span>{{articulo.puc * (1 + (margin/100)) | number:'1.2-2'}} €</span>
+				<span (click)="selectMargen(margin)">{{articulo.puc * (1 + (margin/100)) | number:'1.2-2'}} €</span>
 			</div>
 		</div>
 	</div>
