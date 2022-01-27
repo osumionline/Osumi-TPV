@@ -42,11 +42,21 @@
 						</button>
 					</div>
 					<div class="form-field margin-right">
-						<label>{{ivaLabel}}</label>
+						<label>IVA</label>
 						<mat-form-field>
 							<mat-select [(ngModel)]="articulo.iva">
 								<mat-option *ngFor="let iva of ivaList" [value]="iva">
 									{{iva}} %
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="form-field margin-right">
+						<label>Recargo de equivalencia</label>
+						<mat-form-field>
+							<mat-select [(ngModel)]="articulo.re">
+								<mat-option *ngFor="let re of reList" [value]="re">
+									{{re}} %
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
@@ -81,16 +91,12 @@
 							</mat-form-field>
 							<span>€</span>
 						</div>
-						<div class="form-field-left">
+						<div class="form-field-left margen">
 							<label>Margen</label>
-							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="0.01" placeholder="Margen" class="align-right"
-									(change)="setTwoNumberDecimal($event)"
-									(ngModelChange)="articulo.margen=$event"
-									[ngModelOptions]="{updateOn: 'blur'}"
-									[ngModel]="articulo.margen | number:'1.2-2'">
-							</mat-form-field>
-							<span>%</span>
+							<span>
+								{{articulo.margen | number:'1.2-2'}} %
+								<mat-icon (click)="abrirMargenes()">help_outline</mat-icon>
+							</span>
 						</div>
 						<div class="form-field-left">
 							<label>PVP</label>
@@ -487,6 +493,20 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-bg" [ngClass]="{'show': mostrarMargenes}">
+	<div class="modal-box">
+		<div class="modal-header">
+			Márgenes
+			<a href="#" (click)="cerrarMargenes($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body">
+			márgenes
 		</div>
 	</div>
 </div>

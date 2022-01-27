@@ -33,8 +33,9 @@ export class ArticulosComponent implements OnInit {
 	nuevaMarca: boolean = false;
 	proveedores: Proveedor[] = [];
 	nuevoProveedor: boolean = false;
-	ivaLabel: string = 'IVA';
+	tipoIva: string = 'iva';
 	ivaList: number[] = [];
+	reList: number[] = [];
 	categoriesPlain: Categoria[] = [];
 	fecCadMonth: number = null;
 	fecCadYear: number = null;
@@ -65,6 +66,8 @@ export class ArticulosComponent implements OnInit {
 	searchMarca: number = -1;
 	searchResult: Articulo[] = [];
 
+	mostrarMargenes: boolean = false;
+
 	constructor(
 		private dialog: DialogService,
         private as: ApiService,
@@ -84,13 +87,9 @@ export class ArticulosComponent implements OnInit {
 
 	loadAppData(): void {
 		this.mostrarWeb = this.config.ventaOnline;
-		if (this.config.tipoIva=='iva') {
-			this.ivaLabel = 'IVA';
-		}
-		else {
-			this.ivaLabel = 'Recargo de equivalencia';
-		}
+		this.tipoIva = this.config.tipoIva;
 		this.ivaList = this.config.ivaList;
+		this.reList = this.config.reList;
 
 		this.loadData();
 	}
@@ -381,7 +380,7 @@ export class ArticulosComponent implements OnInit {
 		ev && ev.preventDefault();
 		this.mostrarBuscador = false;
 	}
-	
+
 	searchStart(): void {
 		clearTimeout(this.searchTimer);
 		this.searchTimer = window.setTimeout(() => {this.searchArticulos();}, 500);
@@ -418,5 +417,14 @@ export class ArticulosComponent implements OnInit {
 		this.articulo.localizador = articulo.localizador;
 		this.loadArticulo();
 		this.cerrarBuscador();
+	}
+
+	abrirMargenes(): void {
+		this.mostrarMargenes = true;
+	}
+
+	cerrarMargenes(ev: MouseEvent = null) {
+		ev && ev.preventDefault();
+		this.mostrarMargenes = false;
 	}
 }

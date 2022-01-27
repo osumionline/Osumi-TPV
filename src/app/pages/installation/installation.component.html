@@ -9,30 +9,23 @@
 		<p>¿Quieres usar IVA o Recargo de equivalencia?</p>
 
 		<mat-radio-group class="option-margin" aria-label="IVA / RE" [(ngModel)]="selectedOption">
-			<mat-radio-button *ngFor="let option of ivareOptions" [value]="option.id" (click)="changeOptionList(option.id)">{{ option.name }}</mat-radio-button>
+			<mat-radio-button *ngFor="let option of ivareOptions" [value]="option.id">{{ option.name }}</mat-radio-button>
 		</mat-radio-group>
 
-		<p>Elige los tipos de IVA/RE que quieres usar en la aplicación:</p>
+		<p>Elige los tipos de IVA<span *ngIf="selectedOption==='re'"> + Recargo de Equivalencia</span> que quieres usar en la aplicación:</p>
 
-		<div class="select-list-wrapper">
-			<div class="select-list-header">
-				<div class="select-list-col">Opciones</div>
-				<div class="select-list-buttons">&nbsp;</div>
-				<div class="select-list-col">Seleccionadas</div>
-			</div>
-			<div class="select-list-body">
-				<div class="select-list-col">
-					<div class="select-list-item" *ngFor="let item of optionsList" (click)="selectOption(item)" [ngClass]="{'select-list-selected': selectedOptionInList==item}">{{ item }}%</div>
-				</div>
-				<div class="select-list-buttons">
-					<button mat-raised-button color="primary" [disabled]="!selectedOptionInList || optionsList.length==0" (click)="addToList()">Añadir</button>
-					<button mat-raised-button color="primary" [disabled]="!selectedOptionInList || selectedOptionsList.length==0" (click)="removeFromList()">Quitar</button>
-				</div>
-				<div class="select-list-col">
-					<div class="select-list-item" *ngFor="let item of selectedOptionsList" (click)="selectOption(item)" [ngClass]="{'select-list-selected': selectedOptionInList==item}">{{ item }}%</div>
-				</div>
-			</div>
-		</div>
+		<ul class="margin-list">
+			<li *ngFor="let item of ivaOptionsList; let i=index">
+				<mat-checkbox (change)="checkIva($event, i)" [(ngModel)]="item.selected">
+					{{ (selectedOption==='iva') ? item.option : (item.option + ' + ' + reOptionsList[i]) }} %
+				</mat-checkbox>
+			</li>
+		</ul>
+
+		<p>
+			<button mat-raised-button class="option-margin" color="primary" (click)="selectAllIvas()">Marcar todos</button>
+			<button mat-raised-button class="option-margin" color="primary" (click)="selectNoneIvas()">Desmarcar todos</button>
+		</p>
 
 		<p>La aplicación muestra sugerencias de márgenes de beneficios. A continuación, elige los diferentes márgenes con los que quieres trabajar:</p>
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { DialogService }     from '../../services/dialog.service';
-import { ApiService }        from '../../services/api.service';
-import { AppDataInterface }  from '../../interfaces/interfaces';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DialogService }     from 'src/app/services/dialog.service';
+import { ApiService }        from 'src/app/services/api.service';
+import { AppDataInterface }  from 'src/app/interfaces/interfaces';
 
 @Component({
 	selector: 'otpv-installation',
@@ -10,12 +11,13 @@ import { AppDataInterface }  from '../../interfaces/interfaces';
 	styleUrls: ['./installation.component.scss']
 })
 export class InstallationComponent implements OnInit {
-	ivareOptions = [{id: 'iva', name: 'IVA'}, {id: 're', name: 'Recargo de equivalencia'}];
-	ivaOptionsList: number[] = [4, 10, 21];
-	reOptionsList: number[] = [4.5, 11.4, 26.2];
+	ivareOptions = [{id: 'iva', name: 'IVA'}, {id: 're', name: 'IVA + Recargo de equivalencia'}];
+	ivaOptionsList = [{option: 4, selected: false}, {option: 10, selected: false}, {option: 21, selected: false}];
+	reOptionsList: number[] = [0.5, 1.4, 5.2];
 
 	optionsList: number[] = [];
-	selectedOptionsList: number[] = [];
+	selectedIvaList: number[] = [];
+	selectedReList: number[] = [];
 
 	selectedOption: string = 'iva';
 	selectedOptionInList: number = null;
@@ -44,50 +46,31 @@ export class InstallationComponent implements OnInit {
 	hasExpiryDate: string = '0';
 
 	constructor(private dialog: DialogService, private as: ApiService, private router: Router) {}
-	ngOnInit() {
-		this.optionsList = [...this.ivaOptionsList];
-	}
+	ngOnInit() {}
 
-	changeOptionList(id: string): void {
-		this.selectedOption = id;
-		this.selectedOptionsList = [];
-		this.selectedOptionInList = null;
-
-		if (id==='iva') {
-			this.optionsList = [...this.ivaOptionsList];
-		}
-		if (id==='re') {
-			this.optionsList = [...this.reOptionsList];
-		}
-	}
-
-	selectOption(item: number): void {
-		if (this.selectedOptionInList!=item) {
-			this.selectedOptionInList = item;
+	checkIva(ev: MatCheckboxChange, i: number): void {
+		if (ev.checked) {
+			this.optionsList.push(i);
 		}
 		else {
-			this.selectedOptionInList = null;
+			const ind = this.optionsList.findIndex(x => x === i);
+			this.optionsList.splice(ind, 1);
+		}
+		this.optionsList.sort((a, b) => a - b);
+	}
+
+	selectAllIvas(): void {
+		for (let i in this.ivaOptionsList) {
+			this.ivaOptionsList[i].selected = true;
+			this.optionsList.push(parseInt(i));
 		}
 	}
 
-	addToList(): void {
-		const ind: number = this.optionsList.findIndex(x => x==this.selectedOptionInList);
-		if (ind==-1) {
-			return;
+	selectNoneIvas(): void {
+		this.optionsList = [];
+		for (let i in this.ivaOptionsList) {
+			this.ivaOptionsList[i].selected = false;
 		}
-		this.selectedOptionsList.push(this.selectedOptionInList);
-		this.optionsList.splice(ind, 1);
-		this.selectedOptionInList = null;
-	}
-
-	removeFromList(): void {
-		const ind: number = this.selectedOptionsList.findIndex(x => x==this.selectedOptionInList);
-		if (ind==-1) {
-			return;
-		}
-		this.optionsList.push(this.selectedOptionInList);
-		this.selectedOptionsList.splice(ind, 1);
-		this.selectedOptionInList = null;
 	}
 
 	selectAllMargins(): void {
@@ -103,9 +86,15 @@ export class InstallationComponent implements OnInit {
 	}
 
 	saveConfiguration(): void {
-		if (this.selectedOptionsList.length==0) {
+		if (this.optionsList.length==0) {
 			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'}).subscribe(result => {});
 			return;
+		}
+		for (let option of this.optionsList) {
+			this.selectedIvaList.push(this.ivaOptionsList[option].option);
+			if (this.selectedOption === 're') {
+				this.selectedReList.push(this.reOptionsList[option]);
+			}
 		}
 
 		const selectedMargins = this.marginList.filter(x => x.checked).map(v => v.value);
@@ -116,7 +105,8 @@ export class InstallationComponent implements OnInit {
 
 		const data: AppDataInterface = {
 			tipoIva: this.selectedOption,
-			ivaList: this.selectedOptionsList,
+			ivaList: this.selectedIvaList,
+			reList: this.selectedReList,
 			marginList: selectedMargins,
 			ventaOnline: (this.hasOnline=='1'),
 			fechaCad: (this.hasExpiryDate=='1')
@@ -133,7 +123,5 @@ export class InstallationComponent implements OnInit {
 				return false;
 			}
 		});
-
-		console.log(data);
 	}
 }

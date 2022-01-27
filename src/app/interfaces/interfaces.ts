@@ -21,6 +21,7 @@ export interface Month {
 export interface AppDataInterface {
 	tipoIva: string;
 	ivaList: number[];
+	reList: number[];
 	marginList: number[];
 	ventaOnline: boolean;
 	fechaCad: boolean;

@@ -63,6 +63,9 @@ export class MainComponent implements OnInit {
 			if (this.articulosComponent.mostrarBuscador) {
 				this.articulosComponent.cerrarBuscador();
 			}
+			if (this.articulosComponent.mostrarMargenes) {
+				this.articulosComponent.cerrarMargenes();
+			}
 		}
 	}
 

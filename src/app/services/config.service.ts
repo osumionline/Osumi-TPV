@@ -8,6 +8,7 @@ import { Tarjeta } from 'src/app/model/tarjeta.model';
 export class ConfigService {
 	tipoIva: string = '';
 	ivaList: number[] = [];
+	reList: number[] = [];
 	marginList: number[] = [];
 	ventaOnline: boolean = false;
 	fechaCad: boolean = false;
@@ -18,6 +19,7 @@ export class ConfigService {
 	load(data: AppDataInterface): void {
 		this.tipoIva = data.tipoIva;
 		this.ivaList = data.ivaList;
+		this.reList = data.reList;
 		this.marginList = data.marginList;
 		this.ventaOnline = data.ventaOnline;
 		this.fechaCad = data.fechaCad;
