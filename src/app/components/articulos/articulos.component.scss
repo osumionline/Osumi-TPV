@@ -111,6 +111,65 @@
 		margin-top: 16px;
 	}
 
+	.fotos-list {
+		width: 100%;
+		outline: 1px solid #e0e0e0;
+		height: 150px;
+		padding: 8px;
+		overflow-x: auto;
+		transition: all .2s;
+		border-radius: 6px;
+		margin-bottom: 16px;
+
+		&:hover {
+			outline: 2px solid #000;
+		}
+
+		.foto-item {
+			width: 150px;
+			height: 130px;
+			display: inline-block;
+			margin-right: 16px;
+			text-align: center;
+			position: relative;
+
+			img {
+				height: 100%;
+				max-width: 100%;
+			}
+
+			mat-icon {
+				display: none;
+				position: absolute;
+				cursor: pointer;
+
+				&.foto-item-delete {
+					top: 8px;
+					right: 8px;
+					color: #f00;
+				}
+
+				&.foto-item-previous {
+					bottom: 8px;
+					left: 8px;
+				}
+
+				&.foto-item-next {
+					bottom: 8px;
+					right: 8px;
+				}
+			}
+
+			&:hover mat-icon {
+				display: block;
+			}
+		}
+	}
+
+	.fotos-add {
+		text-align: right;
+	}
+
 	.dar-de-baja {
 		height: 200px;
 		display: flex;

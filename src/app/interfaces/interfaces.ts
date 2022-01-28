@@ -98,6 +98,12 @@ export interface CodigoBarrasInterface {
 	porDefecto: boolean;
 }
 
+export interface FotoInterface {
+	status: string;
+	id: number;
+	data: string;
+}
+
 export interface ArticuloInterface {
 	id: number;
 	localizador: number;

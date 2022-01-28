@@ -1,10 +1,12 @@
 import { CodigoBarras } from './codigobarras.model';
 import { ArticuloInterface, CodigoBarrasInterface } from 'src/app/interfaces/interfaces';
 import { Utils } from './utils.class';
+import { Foto } from './foto.model';
 
 export class Articulo {
 	marca: string = '';
 	proveedor: string = '';
+	fotosList: Foto[] = [];
 
 	constructor(
 		public id: number = null,
@@ -68,6 +70,10 @@ export class Articulo {
 		this.codigosBarras = codBarras;
 		this.fotos = a.fotos;
 		this.activo = a.activo;
+
+		for (let n of this.fotos) {
+			this.fotosList.push(new Foto(n));
+		}
 
 		return this;
 	}

@@ -71,13 +71,11 @@ export class VentasComponent implements OnInit {
 
 	endVenta(id: number): void {
 		const ind = this.ventas.findIndex(x => x.id === id);
-		console.log(this.ventas[ind]);
 		this.fin.total = this.ventas[ind].importe;
 
 		const tipoTarjeta: Tarjeta = this.config.tarjetas.find(x => x.porDefecto === true);
 		this.fin.tipoTarjeta = tipoTarjeta.id;
 		this.fin.lineas = this.ventas[ind].lineas.filter(x => x.idArticulo !== null);
-		console.log(this.fin);
 		this.showFinalizarVenta = true;
 	}
 

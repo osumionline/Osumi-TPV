@@ -144,7 +144,7 @@ export class ArticulosComponent implements OnInit {
 
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
-
+console.log(this.articulo);
 			if (this.articulo.mostrarFecCad) {
 				const fecCad = this.articulo.fechaCaducidad.split('/');
 
@@ -153,8 +153,6 @@ export class ArticulosComponent implements OnInit {
 			}
 
 			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
-			console.log(this.selectedIvaOption);
-			console.log(this.config.ivaOptions);
 
 			this.selectedTab = 0;
 			this.loading = false;

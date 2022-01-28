@@ -240,9 +240,17 @@
 						</mat-form-field>
 					</div>
 				</div>
-				<p>
-					fotos
-				</p>
+				<div class="fotos-list">
+					<div *ngFor="let foto of articulo.fotosList" class="foto-item">
+						<img [src]="foto.url" [alt]="articulo.nombre">
+						<mat-icon class="foto-item-delete">delete_forever</mat-icon>
+						<mat-icon class="foto-item-previous">arrow_back_ios</mat-icon>
+						<mat-icon class="foto-item-next">arrow_forward_ios</mat-icon>
+					</div>
+				</div>
+				<div class="fotos-add">
+					<button mat-raised-button color="primary">Añadir foto</button>
+				</div>
 			</mat-tab>
 			<mat-tab label="HISTÓRICO" *ngIf="articulo.id!=null">
 				<p>HISTÓRICO</p>
