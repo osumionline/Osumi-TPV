@@ -240,16 +240,25 @@
 						</mat-form-field>
 					</div>
 				</div>
+				<input type="file" name="foto-file" id="foto-file" (change)="onFotoChange($event)">
 				<div class="fotos-list">
-					<div *ngFor="let foto of articulo.fotosList" class="foto-item">
-						<img [src]="foto.url" [alt]="articulo.nombre">
-						<mat-icon class="foto-item-delete">delete_forever</mat-icon>
-						<mat-icon class="foto-item-previous">arrow_back_ios</mat-icon>
-						<mat-icon class="foto-item-next">arrow_forward_ios</mat-icon>
-					</div>
+					<ng-container *ngFor="let foto of articulo.fotosList; let i=index">
+						<div *ngIf="foto.status !== 'deleted'" class="foto-item">
+							<img [src]="foto.url" [alt]="articulo.nombre">
+							<div class="foto-icon foto-icon-delete" (click)="deleteFoto(i)">
+								<mat-icon>delete_forever</mat-icon>
+							</div>
+							<div class="foto-icon foto-icon-previous" (click)="moveFoto('left', i)">
+								<mat-icon>arrow_back_ios</mat-icon>
+							</div>
+							<div class="foto-icon foto-icon-next" (click)="moveFoto('right', i)">
+								<mat-icon>arrow_forward_ios</mat-icon>
+							</div>
+						</div>
+					</ng-container>
 				</div>
 				<div class="fotos-add">
-					<button mat-raised-button color="primary">Añadir foto</button>
+					<button mat-raised-button color="primary" (click)="addFoto()">Añadir foto</button>
 				</div>
 			</mat-tab>
 			<mat-tab label="HISTÓRICO" *ngIf="articulo.id!=null">

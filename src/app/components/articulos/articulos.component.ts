@@ -14,6 +14,7 @@ import { Categoria }          from 'src/app/model/categoria.model';
 import { Articulo }           from 'src/app/model/articulo.model';
 import { CodigoBarras }       from 'src/app/model/codigobarras.model';
 import { IVAOption }          from 'src/app/model/iva-option.model';
+import { Foto }               from 'src/app/model/foto.model';
 
 @Component({
 	selector: 'otpv-articulos',
@@ -144,7 +145,6 @@ export class ArticulosComponent implements OnInit {
 
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
-console.log(this.articulo);
 			if (this.articulo.mostrarFecCad) {
 				const fecCad = this.articulo.fechaCaducidad.split('/');
 
@@ -273,7 +273,7 @@ console.log(this.articulo);
 		const target = (ev.target as HTMLInputElement);
 		target.value = (target.value!='') ? parseFloat(target.value).toFixed(2) : '0.00';
 	}
-	
+
 	getTwoNumberDecimal(value: number): number {
 		return Math.floor(value * 100) / 100;
 	}
@@ -294,7 +294,7 @@ console.log(this.articulo);
 
 		this.updateMargen();
 	}
-	
+
 	updateMargen(): void {
 		if (this.articulo.puc !== 0) {
 			this.articulo.margen = ((this.articulo.pvp * 100) / this.articulo.puc) - 100;
@@ -337,6 +337,59 @@ console.log(this.articulo);
 	deleteCodBarras(codBarras: CodigoBarras): void {
 		const ind: number = this.articulo.codigosBarras.findIndex(x => x.codigoBarras == codBarras.codigoBarras);
 		this.articulo.codigosBarras.splice(ind, 1);
+	}
+
+	addFoto(): void {
+		document.getElementById('foto-file').click();
+	}
+
+	onFotoChange(ev: Event): void {
+		let reader = new FileReader();
+		if ( (<HTMLInputElement>ev.target).files && (<HTMLInputElement>ev.target).files.length > 0) {
+			let file = (<HTMLInputElement>ev.target).files[0];
+			reader.readAsDataURL(file);
+			reader.onload = () => {
+				const foto: Foto = new Foto();
+				foto.load(reader.result as string);
+				this.articulo.fotosList.push(foto);
+				console.log(this.articulo.fotosList);
+				(<HTMLInputElement>document.getElementById('foto-file')).value = '';
+			};
+		}
+	}
+
+	deleteFoto(i: number): void {
+		this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer borrar esta foto?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
+			if (result===true) {
+				if (this.articulo.fotosList[i].status === 'ok') {
+					this.articulo.fotosList[i].status = 'deleted';
+				}
+				if (this.articulo.fotosList[i].status === 'new') {
+					this.articulo.fotosList.splice(i, 1);
+				}
+				console.log(this.articulo.fotosList);
+			}
+		});
+	}
+
+	moveFoto(sent: string, i: number): void {
+		let aux: Foto = null;
+		if (sent === 'left') {
+			if (i === 0) {
+				return;
+			}
+			aux = this.articulo.fotosList[i];
+			this.articulo.fotosList[i] = this.articulo.fotosList[i - 1];
+			this.articulo.fotosList[i - 1] = aux;
+		}
+		else {
+			if (i === (this.articulo.fotosList.length - 1)) {
+				return;
+			}
+			aux = this.articulo.fotosList[i];
+			this.articulo.fotosList[i] = this.articulo.fotosList[i + 1];
+			this.articulo.fotosList[i + 1] = aux;
+		}
 	}
 
 	darDeBaja(): void {

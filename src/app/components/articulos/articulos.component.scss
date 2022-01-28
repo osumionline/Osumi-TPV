@@ -111,6 +111,10 @@
 		margin-top: 16px;
 	}
 
+	#foto-file {
+		display: none;
+	}
+
 	.fotos-list {
 		width: 100%;
 		outline: 1px solid #e0e0e0;
@@ -138,30 +142,36 @@
 				max-width: 100%;
 			}
 
-			mat-icon {
+			.foto-icon {
 				display: none;
 				position: absolute;
 				cursor: pointer;
+				width: 28px;
+				height: 28px;
+				justify-content: center;
+				align-items: center;
+				background-color: rgba(255, 255, 255, 0.4);
+				border-radius: 6px;
 
-				&.foto-item-delete {
+				&.foto-icon-delete {
 					top: 8px;
 					right: 8px;
 					color: #f00;
 				}
 
-				&.foto-item-previous {
+				&.foto-icon-previous {
 					bottom: 8px;
 					left: 8px;
 				}
 
-				&.foto-item-next {
+				&.foto-icon-next {
 					bottom: 8px;
 					right: 8px;
 				}
 			}
 
-			&:hover mat-icon {
-				display: block;
+			&:hover .foto-icon {
+				display: flex;
 			}
 		}
 	}
@@ -248,7 +258,7 @@
 			padding-right: 8px;
 			cursor: pointer;
 			transition: all .2s;
-			
+
 			&:hover {
 				outline: 2px solid #000;
 			}

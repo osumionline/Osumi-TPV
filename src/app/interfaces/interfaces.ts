@@ -133,6 +133,7 @@ export interface ArticuloInterface {
 	descripcion: string;
 	codigosBarras: CodigoBarrasInterface[];
 	fotos: number[];
+	fotosList?: FotoInterface[];
 	activo: boolean;
 }
 

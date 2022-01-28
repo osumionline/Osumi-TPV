@@ -4,18 +4,25 @@ import { FotoInterface } from 'src/app/interfaces/interfaces';
 export class Foto {
 	status: string = 'new';
 	data: string = null;
-	url: string = null;
 
 	constructor(public id: number = null) {
 		if (id !== null) {
 			this.status = 'ok';
-			this.url = environment.fotosUrl + id + '.webp';
 		}
 	}
 
 	load(str: string): void {
 		this.status = 'new';
 		this.data = str;
+	}
+
+	get url(): string {
+		if (this.status === 'ok') {
+			return environment.fotosUrl + this.id + '.webp';
+		}
+		else {
+			return this.data;
+		}
 	}
 
 	toInterface(): FotoInterface {

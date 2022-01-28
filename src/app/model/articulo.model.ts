@@ -1,5 +1,5 @@
 import { CodigoBarras } from './codigobarras.model';
-import { ArticuloInterface, CodigoBarrasInterface } from 'src/app/interfaces/interfaces';
+import { ArticuloInterface, CodigoBarrasInterface, FotoInterface } from 'src/app/interfaces/interfaces';
 import { Utils } from './utils.class';
 import { Foto } from './foto.model';
 
@@ -84,6 +84,11 @@ export class Articulo {
 			codBarras.push(cb.toInterface());
 		}
 
+		const fotos: FotoInterface[] = [];
+		for (let foto of this.fotosList) {
+			fotos.push(foto.toInterface());
+		}
+
 		return {
 			id: this.id,
 			localizador: this.localizador,
@@ -113,6 +118,7 @@ export class Articulo {
 			descripcion: Utils.urlencode(this.descripcion),
 			codigosBarras: codBarras,
 			fotos: this.fotos,
+			fotosList: fotos,
 			activo: this.activo
 		};
 	}
