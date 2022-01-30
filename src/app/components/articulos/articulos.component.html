@@ -240,7 +240,7 @@
 						</mat-form-field>
 					</div>
 				</div>
-				<input type="file" name="foto-file" id="foto-file" (change)="onFotoChange($event)">
+				<input type="file" name="foto-file" id="foto-file" accept="image/png, image/gif, image/jpeg" (change)="onFotoChange($event)">
 				<div class="fotos-list">
 					<ng-container *ngFor="let foto of articulo.fotosList; let i=index">
 						<div *ngIf="foto.status !== 'deleted'" class="foto-item">
@@ -293,7 +293,10 @@
 		</mat-tab-group>
 		<div class="articulo-save">
 			<button mat-button (click)="cancelar()">Cancelar</button>
-			<button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+			<button mat-raised-button color="primary" (click)="guardar()" [disabled]="saving">
+				<img src="/assets/loading.svg" *ngIf="saving">
+				Guardar
+			</button>
 		</div>
 	</mat-card-content>
 </mat-card>

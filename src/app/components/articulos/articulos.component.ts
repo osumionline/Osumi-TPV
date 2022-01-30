@@ -59,6 +59,8 @@ export class ArticulosComponent implements OnInit {
 	mostrarMargenes: boolean = false;
 	marginList: number[] = [];
 
+	saving: boolean = false;
+
 	constructor(
 		private dialog: DialogService,
         private as: ApiService,
@@ -454,9 +456,11 @@ export class ArticulosComponent implements OnInit {
 			this.articulo.fechaCaducidad = ((this.fecCadMonth<10) ? '0'+this.fecCadMonth : this.fecCadMonth) + '/' + this.fecCadYear;
 		}
 
+		this.saving = true;
 		this.as.saveArticulo(this.articulo.toInterface()).subscribe(result => {
 			this.articulo.localizador = result.localizador;
 			this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {
+				this.saving = false;
 				this.loadArticulo();
 			});
 		});
