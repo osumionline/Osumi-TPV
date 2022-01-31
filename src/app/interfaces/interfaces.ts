@@ -92,10 +92,26 @@ export interface CategoriasResult {
 	list: CategoriaInterface;
 }
 
-export interface ChartDataInterface {
+export interface ChartSelectInterface {
+	data: string;
 	type: string;
 	month: number;
 	year: number;
+}
+
+export interface ChartSeriesInterface {
+	name: string;
+	value: number;
+}
+
+export interface ChartDataInterface {
+	name: string;
+	series: ChartSeriesInterface[];
+}
+
+export interface ChartResultInterface {
+	status; string;
+	data: ChartDataInterface[];
 }
 
 export interface CodigoBarrasInterface {

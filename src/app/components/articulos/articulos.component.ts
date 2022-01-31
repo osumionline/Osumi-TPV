@@ -1,20 +1,24 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatCheckboxChange }         from '@angular/material/checkbox';
-import { ApiService }                from 'src/app/services/api.service';
-import { ClassMapperService }        from 'src/app/services/class-mapper.service';
-import { MarcasService }             from 'src/app/services/marcas.service';
-import { ProveedoresService }        from 'src/app/services/proveedores.service';
-import { CategoriasService }         from 'src/app/services/categorias.service';
-import { ConfigService }             from 'src/app/services/config.service';
-import { DialogService }             from 'src/app/services/dialog.service';
-import { Month, ChartDataInterface } from 'src/app/interfaces/interfaces';
-import { Marca }                     from 'src/app/model/marca.model';
-import { Proveedor }                 from 'src/app/model/proveedor.model';
-import { Categoria }                 from 'src/app/model/categoria.model';
-import { Articulo }                  from 'src/app/model/articulo.model';
-import { CodigoBarras }              from 'src/app/model/codigobarras.model';
-import { IVAOption }                 from 'src/app/model/iva-option.model';
-import { Foto }                      from 'src/app/model/foto.model';
+import { MatCheckboxChange }  from '@angular/material/checkbox';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { MarcasService }      from 'src/app/services/marcas.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { CategoriasService }  from 'src/app/services/categorias.service';
+import { ConfigService }      from 'src/app/services/config.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { Marca }              from 'src/app/model/marca.model';
+import { Proveedor }          from 'src/app/model/proveedor.model';
+import { Categoria }          from 'src/app/model/categoria.model';
+import { Articulo }           from 'src/app/model/articulo.model';
+import { CodigoBarras }       from 'src/app/model/codigobarras.model';
+import { IVAOption }          from 'src/app/model/iva-option.model';
+import { Foto }               from 'src/app/model/foto.model';
+import {
+	Month,
+	ChartSelectInterface,
+	ChartDataInterface
+} from 'src/app/interfaces/interfaces';
 
 @Component({
 	selector: 'otpv-articulos',
@@ -59,17 +63,21 @@ export class ArticulosComponent implements OnInit {
 	mostrarMargenes: boolean = false;
 	marginList: number[] = [];
 
-	statsVentas: ChartDataInterface = {
+	statsVentas: ChartSelectInterface = {
+		data: 'ventas',
 		type: 'units',
 		month: -1,
 		year: -1
 	};
-	statsWeb: ChartDataInterface = {
+	statsVentasData: ChartDataInterface[] = [];
+	statsWeb: ChartSelectInterface = {
+		data: 'web',
 		type: 'units',
 		month: -1,
 		year: -1
 	};
 	statsYearList: number[] = [];
+	statsWebData: ChartDataInterface[] = [];
 
 	saving: boolean = false;
 
@@ -167,9 +175,23 @@ export class ArticulosComponent implements OnInit {
 			}
 
 			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
+			this.loadStatsVentas();
+			this.loadStatsWeb();
 
 			this.selectedTab = 0;
 			this.loading = false;
+		});
+	}
+
+	loadStatsVentas(): void {
+		this.as.getStatistics(this.statsVentas).subscribe(result => {
+			this.statsVentasData = result.data;
+		});
+	}
+
+	loadStatsWeb(): void {
+		this.as.getStatistics(this.statsWeb).subscribe(result => {
+			this.statsWebData = result.data;
 		});
 	}
 

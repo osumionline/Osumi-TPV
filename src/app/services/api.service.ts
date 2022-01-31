@@ -16,8 +16,10 @@ import {
 	ArticuloInterface,
 	ArticuloSaveResult,
 	ArticuloResult,
-	SearchArticulosResult
-} from '../interfaces/interfaces';
+	SearchArticulosResult,
+	ChartSelectInterface,
+	ChartResultInterface
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -49,6 +51,10 @@ export class ApiService {
 
 	getCategorias(): Observable<CategoriasResult> {
 		return this.http.post<CategoriasResult>(this.apiUrl + 'getCategorias', {});
+	}
+
+	getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {
+		return this.http.post<ChartResultInterface>(this.apiUrl + 'getStatistics', data);
 	}
 
 	disableProduct(id: number): Observable<StatusResult> {
