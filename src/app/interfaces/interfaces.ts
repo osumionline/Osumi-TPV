@@ -92,6 +92,12 @@ export interface CategoriasResult {
 	list: CategoriaInterface;
 }
 
+export interface ChartDataInterface {
+	type: string;
+	month: number;
+	year: number;
+}
+
 export interface CodigoBarrasInterface {
 	id: number;
 	codigoBarras: number;
