@@ -15,9 +15,6 @@ import { registerLocaleData } from '@angular/common';
 registerLocaleData(es);
 
 import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from './app.common';
-import { ClientesComponent } from './components/clientes/clientes.component';
-import { AlmacenComponent } from './components/almacen/almacen.component';
-import { GestionComponent } from './components/gestion/gestion.component';
 
 const appearance: MatFormFieldDefaultOptions = {
 	appearance: 'outline'
@@ -28,10 +25,7 @@ const appearance: MatFormFieldDefaultOptions = {
 		AppComponent,
 		...PAGES,
 		...COMPONENTS,
-		...PIPES,
-  ClientesComponent,
-  AlmacenComponent,
-  GestionComponent
+		...PIPES
 	],
 	imports: [
 		BrowserModule,

@@ -20,6 +20,9 @@ import { ArticulosComponent }     from './components/articulos/articulos.compone
 import { PedidosComponent }       from './components/pedidos/pedidos.component';
 import { TabsComponent }          from './components/tabs/tabs.component';
 import { UnaVentaComponent }      from './components/una-venta/una-venta.component';
+import { ClientesComponent }      from './components/clientes/clientes.component';
+import { AlmacenComponent }       from './components/almacen/almacen.component';
+import { GestionComponent }       from './components/gestion/gestion.component';
 
 export const COMPONENTS: any[] = [
 	ConfirmDialogComponent,
@@ -29,7 +32,10 @@ export const COMPONENTS: any[] = [
 	ArticulosComponent,
 	PedidosComponent,
 	TabsComponent,
-	UnaVentaComponent
+	UnaVentaComponent,
+	ClientesComponent,
+	AlmacenComponent,
+	GestionComponent
 ];
 
 /*
