@@ -19,27 +19,35 @@ export interface Month {
 }
 
 export interface AppDataInterface {
+	nombre: string;
+	cif: string;
+	telefono: string;
+	direccion: string;
+	email: string;
+	pass: string;
 	tipoIva: string;
 	ivaList: number[];
 	reList: number[];
 	marginList: number[];
 	ventaOnline: boolean;
+	urlApi: string;
 	fechaCad: boolean;
+	empleados: boolean;
 }
 
-export interface TarjetaInterface {
+export interface TipoPagoInterface {
 	id: number;
 	nombre: string;
 	slug: string;
-	comision: number;
-	porDefecto: boolean;
+	afectaCaja: boolean;
+	orden: number;
 }
 
 export interface StartDataInterface {
 	status: string;
 	opened: boolean;
 	appData: AppDataInterface;
-	tarjetas: TarjetaInterface[];
+	tiposPago: TipoPagoInterface[];
 }
 
 export interface StatusResult {
@@ -49,6 +57,7 @@ export interface StatusResult {
 export interface MarcaInterface {
 	id: number;
 	nombre: string;
+	direccion: string;
 	idFoto: number;
 	telefono: string;
 	email: string;

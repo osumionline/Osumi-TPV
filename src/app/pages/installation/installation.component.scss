@@ -9,6 +9,19 @@
 		margin: 16px 0;
 	}
 
+	.business-data {
+		.row {
+			.half {
+				width: calc(50% - 32px);
+				margin-right: 32px;
+			}
+
+			.full {
+				width: calc(100% - 32px);
+			}
+		}
+	}
+
 	.mat-radio-button ~ .mat-radio-button {
 		margin-left: 16px;
 	}
@@ -27,9 +40,18 @@
 		}
 	}
 
+	.url-api-field {
+		margin-left: 32px;
+		width: calc(50% - 32px);
+	}
+
 	.end-actions {
 		padding: 16px;
 		display: flex;
 		justify-content: flex-end;
+
+		img {
+			width: 24px;
+		}
 	}
 }

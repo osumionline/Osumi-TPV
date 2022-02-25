@@ -3,7 +3,7 @@ import { Utils } from './utils.class';
 
 export class Proveedor {
 	constructor(
-		public id: number = -1,
+		public id: number = null,
 		public nombre: string = '',
 		public idFoto: number = null,
 		public direccion: string = '',

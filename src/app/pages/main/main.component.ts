@@ -6,6 +6,9 @@ import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { VentasComponent }    from 'src/app/components/ventas/ventas.component';
 import { ArticulosComponent } from 'src/app/components/articulos/articulos.component';
 import { PedidosComponent }   from 'src/app/components/pedidos/pedidos.component';
+import { ClientesComponent }  from 'src/app/components/clientes/clientes.component';
+import { AlmacenComponent }   from 'src/app/components/almacen/almacen.component';
+import { GestionComponent }   from 'src/app/components/gestion/gestion.component';
 import { environment }        from 'src/environments/environment';
 
 @Component({
@@ -16,9 +19,12 @@ import { environment }        from 'src/environments/environment';
 export class MainComponent implements OnInit {
 	title: string = environment.name;
 
-	@ViewChild('ventas') ventasComponent:    VentasComponent;
+	@ViewChild('ventas') ventasComponent: VentasComponent;
 	@ViewChild('articulos') articulosComponent: ArticulosComponent;
-	@ViewChild('pedidos') pedidosComponent:   PedidosComponent;
+	@ViewChild('pedidos') pedidosComponent: PedidosComponent;
+	@ViewChild('clientes') clientesComponent: ClientesComponent;
+	@ViewChild('almacen') almacenComponent: AlmacenComponent;
+	@ViewChild('gestion') gestionComponent: GestionComponent;
 
 	loading: boolean = true;
 	selectedOption: string = 'sales';
@@ -40,7 +46,7 @@ export class MainComponent implements OnInit {
 			}
 			else {
 				this.config.load(result.appData);
-				this.config.tarjetas = this.cms.getTarjetas(result.tarjetas);
+				this.config.tiposPago = this.cms.getTiposPago(result.tiposPago);
 				this.isOpened = result.opened;
 				this.articulosComponent.loadAppData();
 			}
@@ -88,6 +94,18 @@ export class MainComponent implements OnInit {
 
 	selectOptionOrders(): void {
 		this.selectOption('orders');
+	}
+
+	selectOptionClients(): void {
+		this.selectOption('clients');
+	}
+
+	selectOptionWarehouse(): void {
+		this.selectOption('warehouse');
+	}
+
+	selectOptionSettings(): void {
+		this.selectOption('settings');
 	}
 
 	selectOption(option: string): void {

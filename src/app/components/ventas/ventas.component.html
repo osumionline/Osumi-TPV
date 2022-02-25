@@ -35,8 +35,8 @@
 						<mat-label>Tarjeta</mat-label>
 					</mat-form-field>
 					<mat-form-field>
-						<mat-select [(ngModel)]="fin.tipoTarjeta">
-							<mat-option *ngFor="let tipo of config.tarjetas" [value]="tipo.id">
+						<mat-select [(ngModel)]="fin.tipoPago">
+							<mat-option *ngFor="let tipo of config.tiposPago" [value]="tipo.id">
 								{{tipo.nombre}}
 							</mat-option>
 						</mat-select>

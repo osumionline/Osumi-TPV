@@ -26,8 +26,16 @@
 			<mat-icon>assignment</mat-icon>
 			<span>Pedidos</span>
 		</button>
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='clients'}" (click)="selectOptionClients()" aria-label="Clientes">
+			<mat-icon>perm_contact_calendar</mat-icon>
+			<span>Clientes</span>
+		</button>
+		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='warehouse'}" (click)="selectOptionWarehouse()" aria-label="Almacén">
+			<mat-icon>store_mall_directory</mat-icon>
+			<span>Almacén</span>
+		</button>
 	</div>
-	<button class="toolbar-btn" aria-label="Gestión">
+	<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='settings'}" (click)="selectOptionSettings()" aria-label="Gestión">
 		<mat-icon>settings</mat-icon>
 		<span>Gestión</span>
 	</button>
@@ -37,4 +45,7 @@
 	<otpv-ventas [ngClass]="{'option-show': selectedOption=='sales'}" (showDetailsEvent)="showDetails($event)" #ventas></otpv-ventas>
 	<otpv-articulos [ngClass]="{'option-show': selectedOption=='items'}" #articulos></otpv-articulos>
 	<otpv-pedidos [ngClass]="{'option-show': selectedOption=='orders'}" #pedidos></otpv-pedidos>
+	<otpv-clientes [ngClass]="{'option-show': selectedOption=='clients'}" #clientes></otpv-clientes>
+	<otpv-almacen [ngClass]="{'option-show': selectedOption=='warehouse'}" #almacen></otpv-almacen>
+	<otpv-gestion [ngClass]="{'option-show': selectedOption=='settings'}" #gestion></otpv-gestion>
 </div>

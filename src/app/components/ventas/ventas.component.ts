@@ -3,7 +3,7 @@ import { ConfigService }     from 'src/app/services/config.service';
 import { Tabs }              from 'src/app/interfaces/interfaces';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { Venta }             from 'src/app/model/venta.model';
-import { Tarjeta }           from 'src/app/model/tarjeta.model';
+import { TipoPago }          from 'src/app/model/tipo-pago.model';
 
 @Component({
 	selector: 'otpv-ventas',
@@ -26,7 +26,7 @@ export class VentasComponent implements OnInit {
 		efectivo: 0,
 		cambio: 0,
 		tarjeta: 0,
-		tipoTarjeta: null,
+		tipoPago: null,
 		total: 0,
 		lineas: []
 	};
@@ -73,8 +73,8 @@ export class VentasComponent implements OnInit {
 		const ind = this.ventas.findIndex(x => x.id === id);
 		this.fin.total = this.ventas[ind].importe;
 
-		const tipoTarjeta: Tarjeta = this.config.tarjetas.find(x => x.porDefecto === true);
-		this.fin.tipoTarjeta = tipoTarjeta.id;
+		const tipoPago: TipoPago = this.config.tiposPago[0];
+		this.fin.tipoPago = tipoPago.id;
 		this.fin.lineas = this.ventas[ind].lineas.filter(x => x.idArticulo !== null);
 		this.showFinalizarVenta = true;
 	}

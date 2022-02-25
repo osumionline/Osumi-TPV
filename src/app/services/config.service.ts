@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AppDataInterface, Month } from 'src/app/interfaces/interfaces';
-import { Tarjeta } from 'src/app/model/tarjeta.model';
+import { TipoPago } from 'src/app/model/tipo-pago.model';
 import { IVAOption } from 'src/app/model/iva-option.model';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ConfigService {
+	nombre: string = '';
+	cif: string = '';
+	telefono: string = '';
+	direccion: string = '';
+	email: string = '';
 	tipoIva: string = '';
 	ivaOptions: IVAOption[] = [];
 	marginList: number[] = [];
 	ventaOnline: boolean = false;
 	fechaCad: boolean = false;
-	tarjetas: Tarjeta[] = [];
+	tiposPago: TipoPago[] = [];
 	
 	monthList: Month[] = [
 		{id: 1, name: 'Enero'},
@@ -32,6 +37,11 @@ export class ConfigService {
 	constructor() {}
 
 	load(data: AppDataInterface): void {
+		this.nombre = data.nombre;
+		this.cif = data.cif;
+		this.telefono = data.telefono;
+		this.direccion = data.direccion;
+		this.email = data.email;
 		this.tipoIva = data.tipoIva;
 		for (let i in data.ivaList) {
 			if (this.tipoIva === 'iva') {

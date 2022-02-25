@@ -5,6 +5,43 @@
 <mat-card class="main">
 	<mat-card-content>
 		<p>Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
+		
+		<mat-card class="business-data">
+			<mat-card-title>Datos del negocio</mat-card-title>
+			<mat-card-content>
+				<div class="row">
+					<mat-form-field class="half">
+						<input matInput placeholder="Nombre" [(ngModel)]="nombre">
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<mat-form-field class="half">
+						<input matInput placeholder="CIF" [(ngModel)]="cif">
+					</mat-form-field>
+					<mat-form-field class="half">
+						<input matInput placeholder="Teléfono" [(ngModel)]="telefono">
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<mat-form-field class="full">
+						<input matInput placeholder="Dirección" [(ngModel)]="direccion">
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<mat-form-field class="half">
+						<input matInput placeholder="Email" [(ngModel)]="email">
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<mat-form-field class="half">
+						<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
+					</mat-form-field>
+					<mat-form-field class="half">
+						<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
+					</mat-form-field>
+				</div>
+			</mat-card-content>
+		</mat-card>
 
 		<p>¿Quieres usar IVA o Recargo de equivalencia?</p>
 
@@ -42,10 +79,15 @@
 
 		<p>¿La aplicación se enlazará con una tienda online?</p>
 
-		<mat-radio-group class="option-margin" aria-label="Venta online" [(ngModel)]="hasOnline">
-			<mat-radio-button value="0">No</mat-radio-button>
-			<mat-radio-button value="1">Si</mat-radio-button>
-		</mat-radio-group>
+		<div>
+			<mat-radio-group class="option-margin" aria-label="Venta online" [(ngModel)]="hasOnline">
+				<mat-radio-button value="0">No</mat-radio-button>
+				<mat-radio-button value="1">Si</mat-radio-button>
+			</mat-radio-group>
+			<mat-form-field class="url-api-field" *ngIf="hasOnline==='1'">
+				<input matInput placeholder="URL base de la API de la tienda" [(ngModel)]="urlApi">
+			</mat-form-field>
+		</div>
 
 		<p>¿Los artículos de la aplicación tienen fecha de caducidad?</p>
 
@@ -53,8 +95,18 @@
 			<mat-radio-button value="0">No</mat-radio-button>
 			<mat-radio-button value="1">Si</mat-radio-button>
 		</mat-radio-group>
+
+		<p>¿La aplicación será usada por varios empleados?</p>
+
+		<mat-radio-group class="option-margin" aria-label="Empleados" [(ngModel)]="hasEmpleados">
+			<mat-radio-button value="0">No</mat-radio-button>
+			<mat-radio-button value="1">Si</mat-radio-button>
+		</mat-radio-group>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button color="primary" (click)="saveConfiguration()">Guardar configuración</button>
+		<button mat-raised-button color="primary" (click)="saveConfiguration()" [disabled]="saving">
+			<img src="/assets/loading.svg" *ngIf="saving">
+			Guardar configuración
+		</button>
 	</mat-card-actions>
 </mat-card>
