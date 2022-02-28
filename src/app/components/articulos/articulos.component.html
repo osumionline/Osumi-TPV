@@ -161,14 +161,14 @@
 						</mat-form-field>
 					</div>
 				</div>
-				<div *ngIf="mostrarCaducidad">
-					<div class="form-field" *ngIf="mostrarCaducidad">
+				<div [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
+					<div class="form-field">
 						<label>Fecha de caducidad</label>
-						<mat-form-field>
-							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="fecCadMonth">
+						<mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}" (click)="editFecCad()">
+							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="fecCad" disabled>
 						</mat-form-field>
-						<mat-form-field>
-							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="articulo.fechaCaducidad">
+						<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
+							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="articulo.fechaCaducidad" #fecCadValue>
 						</mat-form-field>
 					</div>
 				</div>

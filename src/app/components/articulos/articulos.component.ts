@@ -33,7 +33,7 @@ export class ArticulosComponent implements OnInit {
 
 	loading: boolean = false;
 	selectedTab: number = -1;
-	@ViewChild('localizadorBox', { static: true }) localizadorBox:ElementRef;
+	@ViewChild('localizadorBox', { static: true }) localizadorBox: ElementRef;
 	mostrarWeb: boolean = false;
 	marcas: Marca[] = [];
 	nuevaMarca: boolean = false;
@@ -44,8 +44,9 @@ export class ArticulosComponent implements OnInit {
 	selectedIvaOption: IVAOption = new IVAOption();
 	categoriesPlain: Categoria[] = [];
 	mostrarCaducidad: boolean = false;
-	fecCadMonth: string = null;
-	fecCadYear: number = null;
+	fecCad: string = null;
+	fecCadEdit: boolean = false;
+	@ViewChild('fecCadValue', { static: true }) fecCadValue: ElementRef;
 	monthList: Month[] = [];
 	yearList: number[] = [];
 	newCodBarras: number = null;
@@ -56,7 +57,7 @@ export class ArticulosComponent implements OnInit {
 	searchTimer: number = null;
 	searching: boolean = false;
 	searchName: string = '';
-	@ViewChild('searchBoxName', { static: true }) searchBoxName:ElementRef;
+	@ViewChild('searchBoxName', { static: true }) searchBoxName: ElementRef;
 	searchMarca: number = -1;
 	searchResult: Articulo[] = [];
 
@@ -171,7 +172,8 @@ export class ArticulosComponent implements OnInit {
 				const fecCad = this.articulo.fechaCaducidad.split('/');
 				const mes = this.config.monthList.find(x => x.id === parseInt(fecCad[0]));
 
-				this.fecCadMonth = mes.name + ' ' + fecCad[1];
+				this.fecCad = mes.name + ' ' + fecCad[1];
+				this.fecCadEdit = false;
 			}
 
 			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
@@ -300,9 +302,11 @@ export class ArticulosComponent implements OnInit {
 		this.updatePuc(puc);
 	}
 
-	updateFecCaducidad(): void {
-		this.fecCadMonth = null;
-		this.fecCadYear = null;
+	editFecCad(): void {
+		this.fecCadEdit = true;
+		setTimeout(() => {
+			this.fecCadValue.nativeElement.focus();
+		}, 200);
 	}
 
 	setTwoNumberDecimal(ev: Event): void {
