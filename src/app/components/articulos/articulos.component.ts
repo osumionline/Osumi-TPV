@@ -169,11 +169,7 @@ export class ArticulosComponent implements OnInit {
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
 			if (this.articulo.fechaCaducidad) {
-				const fecCad = this.articulo.fechaCaducidad.split('/');
-				const mes = this.config.monthList.find(x => x.id === parseInt(fecCad[0]));
-
-				this.fecCad = mes.name + ' ' + fecCad[1];
-				this.fecCadEdit = false;
+				this.loadFecCad();
 			}
 
 			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
@@ -183,6 +179,14 @@ export class ArticulosComponent implements OnInit {
 			this.selectedTab = 0;
 			this.loading = false;
 		});
+	}
+
+	loadFecCad(): void {
+		const fecCad = this.articulo.fechaCaducidad.split('-');
+		const mes = this.config.monthList.find(x => x.id === parseInt(fecCad[0]));
+
+		this.fecCad = mes.name + ' 20' + fecCad[1];
+		this.fecCadEdit = false;
 	}
 
 	loadStatsVentas(): void {
@@ -305,8 +309,48 @@ export class ArticulosComponent implements OnInit {
 	editFecCad(): void {
 		this.fecCadEdit = true;
 		setTimeout(() => {
-			this.fecCadValue.nativeElement.focus();
+			if (this.articulo.fechaCaducidad) {
+				this.fecCadValue.nativeElement.select();
+			}
+			else {
+				this.fecCadValue.nativeElement.focus();
+			}
 		}, 200);
+	}
+	
+	validateFecCad(): boolean {
+		const fecCadFormat = /[0-9][0-9]-[0-9][0-9]/;
+		return this.articulo.fechaCaducidad.match(fecCadFormat) !== null;
+	}
+
+	checkFecCad(ev: KeyboardEvent, blur: boolean = false): void {
+		if (ev.key=='Enter' || blur) {
+			if (this.validateFecCad()) {
+				const d = new Date();
+				const checkFecCad = this.articulo.fechaCaducidad.split('-');
+				const month = this.config.monthList.find(x => x.id === parseInt(checkFecCad[0]));
+				const checkD = new Date( (2000 + parseInt(checkFecCad[1])), (parseInt(checkFecCad[0]) -1), month.days, 23, 59, 59);
+				if (d.getTime() > checkD.getTime()) {
+					this.dialog.alert({title: 'Error', content: 'La fecha introducida no puede ser inferior a la actual.', ok: 'Continuar'}).subscribe(result => {
+						setTimeout(() => {
+							this.fecCadValue.nativeElement.select();
+						}, 200);
+					});
+					return;
+				}
+				else {
+					this.loadFecCad();
+				}
+			}
+			else {
+				this.dialog.alert({title: 'Error', content: 'El formato de fecha introducido no es correcto: mm-aa, por ejemplo Mayo de 2023 sería "05-23".', ok: 'Continuar'}).subscribe(result => {
+					setTimeout(() => {
+						this.fecCadValue.nativeElement.select();
+					}, 200);
+				});
+				return;
+			}
+		}
 	}
 
 	setTwoNumberDecimal(ev: Event): void {

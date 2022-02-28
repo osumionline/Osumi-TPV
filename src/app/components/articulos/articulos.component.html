@@ -168,7 +168,7 @@
 							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="fecCad" disabled>
 						</mat-form-field>
 						<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
-							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="articulo.fechaCaducidad" #fecCadValue>
+							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="articulo.fechaCaducidad" (keyup)="checkFecCad($event)" (blur)="checkFecCad($event, true)" #fecCadValue>
 						</mat-form-field>
 					</div>
 				</div>

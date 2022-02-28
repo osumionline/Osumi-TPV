@@ -11,5 +11,5 @@
 </div>
 <div mat-dialog-actions class="action-buttons">
 	<button type="button" mat-button (click)="dialogRef.close()">{{ cancel }}</button>
-	<button type="button" mat-raised-button color="primary" [mat-dialog-close]="fields">{{ ok }}</button>
+	<button type="button" mat-raised-button color="primary" [mat-dialog-close]="fields" cdkFocusInitial>{{ ok }}</button>
 </div>

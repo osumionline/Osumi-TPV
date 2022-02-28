@@ -16,6 +16,7 @@ export interface DialogOptions {
 export interface Month {
 	id: number;
 	name: string;
+	days: number;
 }
 
 export interface AppDataInterface {
