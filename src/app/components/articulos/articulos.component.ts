@@ -44,7 +44,7 @@ export class ArticulosComponent implements OnInit {
 	selectedIvaOption: IVAOption = new IVAOption();
 	categoriesPlain: Categoria[] = [];
 	mostrarCaducidad: boolean = false;
-	fecCadMonth: number = null;
+	fecCadMonth: string = null;
 	fecCadYear: number = null;
 	monthList: Month[] = [];
 	yearList: number[] = [];
@@ -167,11 +167,11 @@ export class ArticulosComponent implements OnInit {
 
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
-			if (this.articulo.mostrarFecCad) {
+			if (this.articulo.fechaCaducidad) {
 				const fecCad = this.articulo.fechaCaducidad.split('/');
+				const mes = this.config.monthList.find(x => x.id === parseInt(fecCad[0]));
 
-				this.fecCadMonth = parseInt(fecCad[0]);
-				this.fecCadYear  = parseInt(fecCad[1]);
+				this.fecCadMonth = mes.name + ' ' + fecCad[1];
 			}
 
 			this.selectedIvaOption = new IVAOption(this.tipoIva, this.articulo.iva, this.articulo.re);
@@ -476,21 +476,7 @@ export class ArticulosComponent implements OnInit {
 		this.articulo.iva = this.config.ivaOptions[ivaInd].iva;
 		this.articulo.re = this.config.ivaOptions[ivaInd].re;
 
-		if (this.articulo.mostrarFecCad) {
-			if (!this.fecCadMonth) {
-				this.dialog.alert({title: 'Error', content: 'Has indicado que el artículo tiene fecha de caducidad, pero no has elegido el mes.', ok: 'Continuar'}).subscribe(result => {});
-				this.selectedTab = 1;
-				return;
-			}
-			if (!this.fecCadYear) {
-				this.dialog.alert({title: 'Error', content: 'Has indicado que el artículo tiene fecha de caducidad, pero no has elegido el año.', ok: 'Continuar'}).subscribe(result => {});
-				this.selectedTab = 1;
-				return;
-			}
-			this.articulo.fechaCaducidad = ((this.fecCadMonth<10) ? '0'+this.fecCadMonth : this.fecCadMonth) + '/' + this.fecCadYear;
-		}
-
-		this.saving = true;
+		//this.saving = true;
 		this.as.saveArticulo(this.articulo.toInterface()).subscribe(result => {
 			this.articulo.localizador = result.localizador;
 			this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {

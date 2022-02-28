@@ -105,25 +105,25 @@
 						<div class="form-field-left">
 							<label>Stock</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="1" placeholder="Stock" [(ngModel)]="articulo.stock" class="align-right">
+								<input matInput type="number" step="1" placeholder="Stock" [(ngModel)]="articulo.stock" (focus)="$event.target.select()" class="align-right">
 							</mat-form-field>
 						</div>
 						<div class="form-field-left">
 							<label>Stock mínimo</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="1" placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" class="align-right">
+								<input matInput type="number" step="1" placeholder="Stock mínimo" [(ngModel)]="articulo.stockMin" (focus)="$event.target.select()" class="align-right">
 							</mat-form-field>
 						</div>
 						<div class="form-field-left">
 							<label>Stock máximo</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="1" placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" class="align-right">
+								<input matInput type="number" step="1" placeholder="Stock máximo" [(ngModel)]="articulo.stockMax" (focus)="$event.target.select()" class="align-right">
 							</mat-form-field>
 						</div>
 						<div class="form-field-left">
 							<label>Lote óptimo</label>
 							<mat-form-field class="campo-numero">
-								<input matInput type="number" step="1" placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo" class="align-right">
+								<input matInput type="number" step="1" placeholder="Lote óptimo" [(ngModel)]="articulo.loteOptimo" (focus)="$event.target.select()" class="align-right">
 							</mat-form-field>
 						</div>
 					</div>
@@ -162,28 +162,13 @@
 					</div>
 				</div>
 				<div *ngIf="mostrarCaducidad">
-					<div class="form-field">
-						<label>¿Artículo con caducidad?</label>
-						<mat-slide-toggle color="primary" [(ngModel)]="articulo.mostrarFecCad" (change)="updateFecCaducidad()">{{ articulo.mostrarFecCad ? 'Si' : 'No' }}</mat-slide-toggle>
-					</div>
-					<div class="form-field" *ngIf="articulo.mostrarFecCad">
-						<label>Fecha de caducidad (mes)</label>
+					<div class="form-field" *ngIf="mostrarCaducidad">
+						<label>Fecha de caducidad</label>
 						<mat-form-field>
-							<mat-select [(ngModel)]="fecCadMonth" [disabled]="!articulo.mostrarFecCad">
-								<mat-option *ngFor="let month of monthList" [value]="month.id">
-									{{month.name}}
-								</mat-option>
-							</mat-select>
+							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="fecCadMonth">
 						</mat-form-field>
-					</div>
-					<div class="form-field" *ngIf="articulo.mostrarFecCad">
-						<label>Fecha de caducidad (año)</label>
 						<mat-form-field>
-							<mat-select [(ngModel)]="fecCadYear" [disabled]="!articulo.mostrarFecCad">
-								<mat-option *ngFor="let year of yearList" [value]="year">
-									{{year}}
-								</mat-option>
-							</mat-select>
+							<input matInput placeholder="Fecha de caducidad" [(ngModel)]="articulo.fechaCaducidad">
 						</mat-form-field>
 					</div>
 				</div>

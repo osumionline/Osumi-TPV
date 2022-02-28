@@ -16,9 +16,9 @@ export class Articulo {
 		public idMarca: number = null,
 		public idProveedor: number = null,
 		public referencia: string = '',
+		public palb: number = 0,
 		public puc: number = 0,
 		public pvp: number = 0,
-		public palb: number = 0,
 		public iva: number = 0,
 		public re: number = 0,
 		public margen: number = 0,
@@ -27,17 +27,15 @@ export class Articulo {
 		public stockMax: number = 0,
 		public loteOptimo: number = 0,
 		public ventaOnline: boolean = false,
-		public mostrarFecCad: boolean = false,
-		public fechaCaducidad: string = '',
-		public observaciones: string = '',
-		public mostrarObsPedidos: boolean = false,
-		public mostrarObsVentas: boolean = false,
+		public fechaCaducidad: string = null,
 		public mostrarEnWeb: boolean = false,
 		public descCorta: string  = '',
 		public descripcion: string = '',
+		public observaciones: string = '',
+		public mostrarObsPedidos: boolean = false,
+		public mostrarObsVentas: boolean = false,
 		public codigosBarras: CodigoBarras[] = [],
-		public fotos: number[] = [],
-		public activo: boolean = true
+		public fotos: number[] = []
 	) {}
 
 	fromInterface(a: ArticuloInterface, codBarras: CodigoBarras[]): Articulo {
@@ -59,7 +57,6 @@ export class Articulo {
 		this.stockMax = a.stockMax;
 		this.loteOptimo = a.loteOptimo;
 		this.ventaOnline = a.ventaOnline;
-		this.mostrarFecCad = a.mostrarFecCad;
 		this.fechaCaducidad = a.fechaCaducidad;
 		this.observaciones = Utils.urldecode(a.observaciones);
 		this.mostrarObsPedidos = a.mostrarObsPedidos;
@@ -69,7 +66,6 @@ export class Articulo {
 		this.descripcion = Utils.urldecode(a.descripcion);
 		this.codigosBarras = codBarras;
 		this.fotos = a.fotos;
-		this.activo = a.activo;
 
 		for (let n of this.fotos) {
 			this.fotosList.push(new Foto(n));
@@ -108,7 +104,6 @@ export class Articulo {
 			stockMax: this.stockMax,
 			loteOptimo: this.loteOptimo,
 			ventaOnline: this.ventaOnline,
-			mostrarFecCad: this.mostrarFecCad,
 			fechaCaducidad: this.fechaCaducidad,
 			observaciones: Utils.urlencode(this.observaciones),
 			mostrarObsPedidos: this.mostrarObsPedidos,
@@ -118,8 +113,7 @@ export class Articulo {
 			descripcion: Utils.urlencode(this.descripcion),
 			codigosBarras: codBarras,
 			fotos: this.fotos,
-			fotosList: fotos,
-			activo: this.activo
+			fotosList: fotos
 		};
 	}
 }

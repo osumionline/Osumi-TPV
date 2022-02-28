@@ -119,7 +119,7 @@ export interface ChartDataInterface {
 }
 
 export interface ChartResultInterface {
-	status; string;
+	status: string;
 	data: ChartDataInterface[];
 }
 
@@ -143,9 +143,9 @@ export interface ArticuloInterface {
 	idMarca: number;
 	idProveedor: number;
 	referencia: string;
+	palb: number;
 	puc: number;
 	pvp: number;
-	palb: number;
 	iva: number;
 	re: number;
 	margen: number;
@@ -154,18 +154,16 @@ export interface ArticuloInterface {
 	stockMax: number;
 	loteOptimo: number;
 	ventaOnline: boolean;
-	mostrarFecCad: boolean;
 	fechaCaducidad: string;
-	observaciones: string;
-	mostrarObsPedidos: boolean;
-	mostrarObsVentas: boolean;
 	mostrarEnWeb: boolean;
 	descCorta: string;
 	descripcion: string;
+	observaciones: string;
+	mostrarObsPedidos: boolean;
+	mostrarObsVentas: boolean;
 	codigosBarras: CodigoBarrasInterface[];
 	fotos: number[];
 	fotosList?: FotoInterface[];
-	activo: boolean;
 }
 
 export interface ArticuloSaveResult {
