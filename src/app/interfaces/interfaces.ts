@@ -197,6 +197,7 @@ export interface LineaVentaInterface {
 	pvp: number;
 	importe: number;
 	descuento: number;
+	observaciones: string;
 }
 
 export interface VentaInterface {

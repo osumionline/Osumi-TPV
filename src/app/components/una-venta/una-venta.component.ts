@@ -59,6 +59,11 @@ export class UnaVentaComponent {
 					}
 
 					this.venta.updateImporte();
+					if (articulo.mostrarObsVentas && articulo.observaciones) {
+						this.dialog.alert({title: 'Observaciones', content: articulo.observaciones, ok: 'Continuar'}).subscribe(result => {
+							this.setFocus();
+						});
+					}
 				}
 				else {
 					this.dialog.alert({title: 'Error', content: '¡El código introducido no se encuentra!', ok: 'Continuar'}).subscribe(result => {
@@ -75,6 +80,12 @@ export class UnaVentaComponent {
 			if (result===true) {
 				this.deleteVentaLineaEvent.emit(ind);
 			}
+		});
+	}
+
+	showObservaciones(observaciones: string): void {
+		this.dialog.alert({title: 'Observaciones', content: observaciones, ok: 'Continuar'}).subscribe(result => {
+			this.setFocus();
 		});
 	}
 

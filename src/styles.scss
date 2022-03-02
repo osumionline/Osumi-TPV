@@ -126,6 +126,7 @@ input[type=number] {
 	border-right: 1px solid var(--table-border);
 	border-bottom: 1px solid var(--table-border);
 	user-select: none;
+	position: relative;
 
 	span {
 		display: block;
@@ -137,6 +138,13 @@ input[type=number] {
 			background-color: var(--main-color);
 			color: var(--main-color-contrast);
 		}
+	}
+
+	mat-icon {
+		cursor: pointer;
+		position: absolute;
+		right: 3px;
+		top: 3px;
 	}
 }
 

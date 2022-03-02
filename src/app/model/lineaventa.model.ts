@@ -6,12 +6,13 @@ export class LineaVenta {
 		public idArticulo: number = null,
 		public localizador: number = null,
 		public descripcion: string = null,
-        public marca: string = null,
+		public marca: string = null,
 		public stock: number = null,
 		public cantidad: number = null,
 		public pvp: number = null,
 		public importe: number = null,
-		public descuento: number = null
+		public descuento: number = null,
+		public observaciones: string = null
 	) {}
 
 	get total(): number {
@@ -28,6 +29,7 @@ export class LineaVenta {
 		this.pvp = a.pvp;
 		this.importe = a.pvp;
 		this.descuento = 0;
+		this.observaciones = (a.mostrarObsVentas) ? a.observaciones : null;
 
 		return this;
 	}
@@ -42,6 +44,7 @@ export class LineaVenta {
 		this.pvp = lv.pvp;
 		this.importe = lv.importe;
 		this.descuento = lv.descuento;
+		this.observaciones = lv.observaciones;
 
 		return this;
 	}
@@ -56,7 +59,8 @@ export class LineaVenta {
 			cantidad: this.cantidad,
 			pvp: this.pvp,
 			importe: this.importe,
-			descuento: this.descuento
+			descuento: this.descuento,
+			observaciones: this.observaciones
 		};
 	}
 }
