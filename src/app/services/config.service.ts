@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AppDataInterface, Month } from 'src/app/interfaces/interfaces';
-import { TipoPago } from 'src/app/model/tipo-pago.model';
-import { IVAOption } from 'src/app/model/iva-option.model';
+import { TipoPago }                from 'src/app/model/tipo-pago.model';
+import { IVAOption }               from 'src/app/model/iva-option.model';
+import { ApiService }              from 'src/app/services/api.service';
+import { ClassMapperService }      from 'src/app/services/class-mapper.service';
+import { MarcasService }           from 'src/app/services/marcas.service';
+import { ProveedoresService }      from 'src/app/services/proveedores.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ConfigService {
+	status: string = 'new';
 	nombre: string = '';
 	cif: string = '';
 	telefono: string = '';
@@ -18,6 +23,7 @@ export class ConfigService {
 	ventaOnline: boolean = false;
 	fechaCad: boolean = false;
 	tiposPago: TipoPago[] = [];
+	isOpened: boolean = false;
 	
 	monthList: Month[] = [
 		{id: 1,  name: 'Enero',      days: 31},
@@ -34,7 +40,38 @@ export class ConfigService {
 		{id: 12, name: 'Diciembre',  days: 31}
 	];
 
-	constructor() {}
+	constructor(
+		private as: ApiService,
+		private cms: ClassMapperService,
+		private ms: MarcasService,
+		private ps: ProveedoresService
+	) {}
+	
+	start(): Promise<string> {
+		return new Promise((resolve, reject) => {
+			if (this.status === 'loaded') {
+				resolve(this.status);
+			}
+			else {
+				const d: Date = new Date();
+				const date = d.getFullYear() + '-' + (((d.getMonth()+1)<10) ? '0'+(d.getMonth()+1) : (d.getMonth()+1)) + '-' + ((d.getDate()<10) ? '0'+d.getDate() : d.getDate());
+				this.as.checkStart(date).subscribe(result => {
+					if (result.appData===null) {
+						this.status = 'install';
+					}
+					else {
+						this.load(result.appData);
+						this.tiposPago = this.cms.getTiposPago(result.tiposPago);
+						this.isOpened = result.opened;
+						this.status = 'loaded';
+						this.ms.load();
+						this.ps.load();
+					}
+					resolve(this.status);
+				});
+			}
+		});
+	}
 
 	load(data: AppDataInterface): void {
 		this.nombre = data.nombre;

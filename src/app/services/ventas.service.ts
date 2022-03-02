@@ -8,7 +8,7 @@ import { LineaVenta } from 'src/app/model/lineaventa.model';
 })
 export class VentasService {
 	tabs: Tabs = {
-		selected: 0,
+		selected: -1,
 		names: []
 	};
 	list: Venta[] = [];

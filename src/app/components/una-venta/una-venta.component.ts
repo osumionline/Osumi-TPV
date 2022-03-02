@@ -15,7 +15,6 @@ import { LineaVenta }         from 'src/app/model/lineaventa.model';
 export class UnaVentaComponent {
 	@Input() venta: Venta = new Venta();
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
-	@Output() showDetailsEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
 	searching: boolean = false;
 	muestraDescuento: boolean = false;
@@ -32,10 +31,10 @@ export class UnaVentaComponent {
 	) {}
 
 	setFocus(): void {
-		const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement;
 		setTimeout(() => {
+			const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement;
 			loc.focus();
-		}, 200);
+		}, 0);
 	}
 
 	checkLocalizador(ev:  KeyboardEvent, ind: number) {
@@ -69,10 +68,6 @@ export class UnaVentaComponent {
 				}
 			});
 		}
-	}
-
-	goToArticulos(loc: number): void {
-		this.showDetailsEvent.emit(loc);
 	}
 
 	borraLinea(ind: number): void {

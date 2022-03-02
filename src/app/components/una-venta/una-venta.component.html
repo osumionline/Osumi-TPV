@@ -1,13 +1,13 @@
 <div class="lineas-ventas">
 	<div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
 		<div class="col-localizador">
-			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador" #ventaLoc>
+			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
 			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
 			<mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
-			<span *ngIf="linea.descripcion" (click)="goToArticulos(linea.localizador)">{{linea.descripcion}}</span>
+			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">{{linea.descripcion}}</span>
 		</div>
 		<div class="col-stock">
 			<ng-container *ngIf="!linea.stock">&nbsp;</ng-container>

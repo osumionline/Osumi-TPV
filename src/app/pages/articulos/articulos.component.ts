@@ -1,19 +1,21 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatCheckboxChange }  from '@angular/material/checkbox';
-import { ApiService }         from 'src/app/services/api.service';
-import { ClassMapperService } from 'src/app/services/class-mapper.service';
-import { MarcasService }      from 'src/app/services/marcas.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { CategoriasService }  from 'src/app/services/categorias.service';
-import { ConfigService }      from 'src/app/services/config.service';
-import { DialogService }      from 'src/app/services/dialog.service';
-import { Marca }              from 'src/app/model/marca.model';
-import { Proveedor }          from 'src/app/model/proveedor.model';
-import { Categoria }          from 'src/app/model/categoria.model';
-import { Articulo }           from 'src/app/model/articulo.model';
-import { CodigoBarras }       from 'src/app/model/codigobarras.model';
-import { IVAOption }          from 'src/app/model/iva-option.model';
-import { Foto }               from 'src/app/model/foto.model';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Router }                from '@angular/router';
+import { MatCheckboxChange }     from '@angular/material/checkbox';
+import { ActivatedRoute, Params} from '@angular/router';
+import { ApiService }            from 'src/app/services/api.service';
+import { ClassMapperService }    from 'src/app/services/class-mapper.service';
+import { MarcasService }         from 'src/app/services/marcas.service';
+import { ProveedoresService }    from 'src/app/services/proveedores.service';
+import { CategoriasService }     from 'src/app/services/categorias.service';
+import { ConfigService }         from 'src/app/services/config.service';
+import { DialogService }         from 'src/app/services/dialog.service';
+import { Marca }                 from 'src/app/model/marca.model';
+import { Proveedor }             from 'src/app/model/proveedor.model';
+import { Categoria }             from 'src/app/model/categoria.model';
+import { Articulo }              from 'src/app/model/articulo.model';
+import { CodigoBarras }          from 'src/app/model/codigobarras.model';
+import { IVAOption }             from 'src/app/model/iva-option.model';
+import { Foto }                  from 'src/app/model/foto.model';
 import {
 	Month,
 	ChartSelectInterface,
@@ -83,6 +85,8 @@ export class ArticulosComponent implements OnInit {
 	saving: boolean = false;
 
 	constructor(
+		private activatedRoute: ActivatedRoute,
+		private router: Router,
 		private dialog: DialogService,
         private as: ApiService,
 		private config: ConfigService,
@@ -93,9 +97,44 @@ export class ArticulosComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.config.start().then((status) => {
+			if (status === 'install') {
+				this.router.navigate(['/installation']);
+			}
+			if (status === 'loaded') {
+				if (!this.config.isOpened) {
+					this.router.navigate(['/']);
+				}
+			}
+		});
 		const d = new Date();
 		for (let y = d.getFullYear(); y<(d.getFullYear()+5); y++) {
 			this.yearList.push(y);
+		}
+		this.loadAppData();
+		this.activatedRoute.params.subscribe((params: Params) => {
+			if (params.localizador) {
+				this.articulo.localizador = params.localizador;
+				this.loadArticulo();
+			}
+		});
+	}
+	
+	@HostListener('window:keydown', ['$event'])
+	onKeyDown(ev: KeyboardEvent) {
+		if (ev.key === 'Escape') {
+			if (this.nuevaMarca) {
+				this.newMarcaCerrar();
+			}
+			if (this.nuevoProveedor) {
+				this.newProveedorCerrar();
+			}
+			if (this.mostrarBuscador) {
+				this.cerrarBuscador();
+			}
+			if (this.mostrarMargenes) {
+				this.cerrarMargenes();
+			}
 		}
 	}
 
@@ -165,7 +204,6 @@ export class ArticulosComponent implements OnInit {
 
 	loadArticulo(): void {
 		this.loading = true;
-
 		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
 			if (this.articulo.fechaCaducidad) {
@@ -206,7 +244,7 @@ export class ArticulosComponent implements OnInit {
 		this.selectedTab = 0;
 		setTimeout(() => {
 			this.localizadorBox.nativeElement.focus();
-		}, 200);
+		}, 0);
 	}
 
 	newMarca(): void {

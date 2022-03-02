@@ -3,10 +3,22 @@
  */
 import { MainComponent }         from './pages/main/main.component';
 import { InstallationComponent } from './pages/installation/installation.component';
+import { VentasComponent }       from './pages/ventas/ventas.component';
+import { ArticulosComponent }    from './pages/articulos/articulos.component';
+import { PedidosComponent }      from './pages/pedidos/pedidos.component';
+import { ClientesComponent }     from './pages/clientes/clientes.component';
+import { AlmacenComponent }      from './pages/almacen/almacen.component';
+import { GestionComponent }      from './pages/gestion/gestion.component';
 
 export const PAGES: any[] = [
 	MainComponent,
-	InstallationComponent
+	InstallationComponent,
+	VentasComponent,
+	ArticulosComponent,
+	PedidosComponent,
+	ClientesComponent,
+	AlmacenComponent,
+	GestionComponent
 ];
 
 /*
@@ -15,27 +27,17 @@ export const PAGES: any[] = [
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
 import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
-import { VentasComponent }        from './components/ventas/ventas.component';
-import { ArticulosComponent }     from './components/articulos/articulos.component';
-import { PedidosComponent }       from './components/pedidos/pedidos.component';
 import { TabsComponent }          from './components/tabs/tabs.component';
 import { UnaVentaComponent }      from './components/una-venta/una-venta.component';
-import { ClientesComponent }      from './components/clientes/clientes.component';
-import { AlmacenComponent }       from './components/almacen/almacen.component';
-import { GestionComponent }       from './components/gestion/gestion.component';
+import { HeaderComponent }        from './components/header/header.component';
 
 export const COMPONENTS: any[] = [
 	ConfirmDialogComponent,
 	AlertDialogComponent,
 	FormDialogComponent,
-	VentasComponent,
-	ArticulosComponent,
-	PedidosComponent,
 	TabsComponent,
 	UnaVentaComponent,
-	ClientesComponent,
-	AlmacenComponent,
-	GestionComponent
+	HeaderComponent
 ];
 
 /*

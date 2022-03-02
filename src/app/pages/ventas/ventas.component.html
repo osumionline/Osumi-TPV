@@ -1,3 +1,5 @@
+<otpv-header selectedOption="ventas"></otpv-header>
+
 <otpv-tabs [tabs]="ventas.tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()"></otpv-tabs>
 <div class="ventas-header">
 	<div class="col-localizador">Localizador</div>
@@ -8,7 +10,7 @@
 	<div class="col-importe">Importe</div>
 	<div class="col-descuentos">Desc.</div>
 </div>
-<otpv-una-venta [venta]="ventas.list[ventas.tabs.selected]" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (showDetailsEvent)="showDetails($event)" (endVentaEvent)="endVenta($event)" #venta></otpv-una-venta>
+<otpv-una-venta [venta]="ventas.list[ventas.tabs.selected]" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (endVentaEvent)="endVenta($event)" #venta></otpv-una-venta>
 
 <div class="modal-bg"  [ngClass]="{'show': showFinalizarVenta}">
 	<div class="modal-box">

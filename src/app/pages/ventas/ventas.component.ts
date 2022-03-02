@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener  } from '@angular/core';
+import { Router }            from '@angular/router';
 import { ConfigService }     from 'src/app/services/config.service';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { TipoPago }          from 'src/app/model/tipo-pago.model';
@@ -11,8 +12,6 @@ import { VentasService }     from 'src/app/services/ventas.service';
 })
 export class VentasComponent implements OnInit {
 	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
-	@Output() showDetailsEvent = new EventEmitter<number>();
-
 	showFinalizarVenta: boolean = false;
 
 	fin = {
@@ -24,9 +23,37 @@ export class VentasComponent implements OnInit {
 		lineas: []
 	};
 
-	constructor(public config: ConfigService, public ventas: VentasService) {}
+	constructor(private router: Router, public config: ConfigService, public ventas: VentasService) {}
 
 	ngOnInit(): void {
+		this.config.start().then((status) => {
+			if (status === 'install') {
+				this.router.navigate(['/installation']);
+			}
+			if (status === 'loaded') {
+				if (!this.config.isOpened) {
+					this.router.navigate(['/']);
+				}
+			}
+		});
+		if (this.ventas.tabs.selected === -1) {
+			this.newVenta();
+		}
+		else {
+			this.startFocus();
+		}
+	}
+	
+	@HostListener('window:keydown', ['$event'])
+	onKeyDown(ev: KeyboardEvent) {
+		if (ev.key === 'Escape') {
+			if (this.showFinalizarVenta) {
+				this.cerrarFinalizarVenta();
+			}
+		}
+	}
+	
+	newVenta(): void {
 		this.ventas.newVenta();
 		this.startFocus();
 	}
@@ -47,10 +74,6 @@ export class VentasComponent implements OnInit {
 		this.ventas.list[this.ventas.tabs.selected].lineas.splice(ind, 1);
 		this.venta.venta.updateImporte();
 		this.startFocus();
-	}
-
-	showDetails(loc: number): void {
-		this.showDetailsEvent.emit(loc);
 	}
 
 	endVenta(id: number): void {
