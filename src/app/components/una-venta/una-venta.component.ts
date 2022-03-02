@@ -3,6 +3,7 @@ import { ApiService }         from 'src/app/services/api.service';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
+import { VentasService }      from 'src/app/services/ventas.service';
 import { Venta }              from 'src/app/model/venta.model';
 import { LineaVenta }         from 'src/app/model/lineaventa.model';
 
@@ -26,15 +27,9 @@ export class UnaVentaComponent {
 		private as: ApiService,
 		private cms: ClassMapperService,
 		private dialog: DialogService,
-		private ms: MarcasService
+		private ms: MarcasService,
+		private vs: VentasService
 	) {}
-
-	addLineaVenta(): void {
-		this.venta.lineas.push(new LineaVenta());
-		setTimeout(() => {
-			this.setFocus();
-		}, 200);
-	}
 
 	setFocus(): void {
 		const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement;
@@ -56,7 +51,7 @@ export class UnaVentaComponent {
 
 					if (indArticulo === -1) {
 						this.venta.lineas[ind] = new LineaVenta().fromArticulo(articulo);
-						this.addLineaVenta();
+						this.vs.addLineaVenta();
 					}
 					else {
 						this.venta.lineas[indArticulo].cantidad++;
@@ -122,7 +117,7 @@ export class UnaVentaComponent {
 			if (result===true) {
 				this.venta.lineas = [];
 				this.venta.updateImporte();
-				this.addLineaVenta();
+				this.vs.addLineaVenta();
 			}
 		});
 	}

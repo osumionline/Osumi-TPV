@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfigService }     from 'src/app/services/config.service';
-import { Tabs }              from 'src/app/interfaces/interfaces';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
-import { Venta }             from 'src/app/model/venta.model';
 import { TipoPago }          from 'src/app/model/tipo-pago.model';
+import { VentasService }     from 'src/app/services/ventas.service';
 
 @Component({
 	selector: 'otpv-ventas',
@@ -11,12 +10,6 @@ import { TipoPago }          from 'src/app/model/tipo-pago.model';
 	styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
-	tabs: Tabs = {
-		selected: 0,
-		names: []
-	};
-	ventas: Venta[] = [];
-
 	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 	@Output() showDetailsEvent = new EventEmitter<number>();
 
@@ -31,10 +24,11 @@ export class VentasComponent implements OnInit {
 		lineas: []
 	};
 
-	constructor(public config: ConfigService) {}
+	constructor(public config: ConfigService, public ventas: VentasService) {}
 
 	ngOnInit(): void {
-		this.newVenta();
+		this.ventas.newVenta();
+		this.startFocus();
 	}
 
 	startFocus(): void {
@@ -42,25 +36,15 @@ export class VentasComponent implements OnInit {
 	}
 
 	cerrarVenta(ind: number): void {
-		if (this.tabs.selected===ind) {
-			this.tabs.selected = 0;
+		if (this.ventas.tabs.selected===ind) {
+			this.ventas.tabs.selected = 0;
 		}
-		this.tabs.names.splice(ind, 1);
-		this.ventas.splice(ind, 1);
-	}
-
-	newVenta(): void {
-		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
-		this.tabs.selected = (this.tabs.names.length - 1);
-		this.ventas.push(new Venta());
-
-		setTimeout(() => {
-			this.venta.addLineaVenta();
-		}, 200);
+		this.ventas.tabs.names.splice(ind, 1);
+		this.ventas.list.splice(ind, 1);
 	}
 
 	deleteVentaLinea(ind: number): void {
-		this.ventas[this.tabs.selected].lineas.splice(ind, 1);
+		this.ventas.list[this.ventas.tabs.selected].lineas.splice(ind, 1);
 		this.venta.venta.updateImporte();
 		this.startFocus();
 	}
@@ -70,12 +54,12 @@ export class VentasComponent implements OnInit {
 	}
 
 	endVenta(id: number): void {
-		const ind = this.ventas.findIndex(x => x.id === id);
-		this.fin.total = this.ventas[ind].importe;
+		const ind = this.ventas.list.findIndex(x => x.id === id);
+		this.fin.total = this.ventas.list[ind].importe;
 
 		const tipoPago: TipoPago = this.config.tiposPago[0];
 		this.fin.tipoPago = tipoPago.id;
-		this.fin.lineas = this.ventas[ind].lineas.filter(x => x.idArticulo !== null);
+		this.fin.lineas = this.ventas.list[ind].lineas.filter(x => x.idArticulo !== null);
 		this.showFinalizarVenta = true;
 	}
 

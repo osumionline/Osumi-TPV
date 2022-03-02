@@ -57,7 +57,8 @@ import { DialogService }      from './services/dialog.service';
 import { CategoriasService }  from './services/categorias.service';
 import { ClassMapperService } from './services/class-mapper.service';
 import { MarcasService }      from './services/marcas.service';
-import { ProveedoresService } from './services//proveedores.service';
+import { ProveedoresService } from './services/proveedores.service';
+import { VentasService }      from './services/ventas.service';
 
 export const SERVICES: any[] = [
 	ConfigService,
@@ -67,7 +68,8 @@ export const SERVICES: any[] = [
 	CategoriasService,
 	ClassMapperService,
 	MarcasService,
-	ProveedoresService
+	ProveedoresService,
+	VentasService
 ];
 
 /*
