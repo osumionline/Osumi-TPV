@@ -87,4 +87,48 @@
 	.buscador {
 		width: 100%;
 	}
+
+	.elegir-clientes-result {
+		border: 1px solid #ccc;
+		border-radius: 6px;
+
+		.elegir-clientes-item {
+			.elegir-clientes-nombre {
+				
+			}
+
+			.elegir-clientes-telefono {
+				
+			}
+
+			.elegir-clientes-ultima {
+				
+			}
+		}
+
+		.elegir-clientes-no-result {
+			padding: 4px;
+			text-align: center;
+		}
+	}
+
+	.cliente-nuevo-row {
+		.cliente-nuevo-half {
+			width: calc(50% - 8px);
+			margin-right: 8px;
+		}
+
+		.cliente-nuevo-full {
+			width: calc(100% - 8px);
+		}
+
+		.cliente-nuevo-third {
+			width: calc(33% - 8px);
+			margin-right: 8px;
+		}
+	}
+
+	.cliente-nuevo-save {
+		text-align: right;
+	}
 }

@@ -19,6 +19,20 @@ export interface Month {
 	days: number;
 }
 
+export interface ProvinceInterface {
+	id: number;
+	name: string;
+}
+
+export interface CCAAInterface {
+	name: string;
+	provinces: ProvinceInterface[];
+}
+
+export interface AllProvincesInterface {
+	ccaa: CCAAInterface[];
+}
+
 export interface AppDataInterface {
 	nombre: string;
 	cif: string;
@@ -203,4 +217,31 @@ export interface LineaVentaInterface {
 export interface VentaInterface {
 	lineas: LineaVentaInterface[];
 	importe: number;
+}
+
+export interface ClienteInterface {
+	id: number;
+	nombreApellidos: string;
+	dniCif: string;
+	telefono: string;
+	email: string;
+	direccion: string;
+	codigoPostal: string;
+	poblacion: string;
+	provincia: number;
+	factIgual: boolean;
+	factNombreApellidos: string;
+	factDniCif: string;
+	factTelefono: string;
+	factEmail: string;
+	factDireccion: string;
+	factCodigoPostal: string;
+	factPoblacion: string;
+	factProvincia: string;
+	observaciones: string;
+}
+
+export interface SearchClientesResult {
+	status: string;
+	list: ClienteInterface[];
 }

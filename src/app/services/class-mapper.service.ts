@@ -5,7 +5,16 @@ import { Categoria }    from 'src/app/model/categoria.model';
 import { Articulo }     from 'src/app/model/articulo.model';
 import { CodigoBarras } from 'src/app/model/codigobarras.model';
 import { TipoPago }     from 'src/app/model/tipo-pago.model';
-import { MarcaInterface, ProveedorInterface, CategoriaInterface, ArticuloInterface, CodigoBarrasInterface, TipoPagoInterface } from 'src/app/interfaces/interfaces';
+import { Cliente }      from 'src/app/model/cliente.model';
+import {
+	MarcaInterface,
+	ProveedorInterface,
+	CategoriaInterface,
+	ArticuloInterface,
+	CodigoBarrasInterface,
+	TipoPagoInterface,
+	ClienteInterface
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -99,5 +108,19 @@ export class ClassMapperService {
 		}
 
 		return tiposPago;
+	}
+
+	getCliente(c: ClienteInterface): Cliente {
+		return new Cliente().fromInterface(c);
+	}
+
+	getClientes(cs: ClienteInterface[]): Cliente[] {
+		const clientes: Cliente[] = [];
+
+		for (let c of cs) {
+			clientes.push(this.getCliente(c));
+		}
+
+		return clientes;
 	}
 }

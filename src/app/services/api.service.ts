@@ -18,7 +18,9 @@ import {
 	ArticuloResult,
 	SearchArticulosResult,
 	ChartSelectInterface,
-	ChartResultInterface
+	ChartResultInterface,
+	SearchClientesResult,
+	AllProvincesInterface
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -79,5 +81,13 @@ export class ApiService {
 
 	searchArticulos(name: string, idMarca: number): Observable<SearchArticulosResult> {
 		return this.http.post<SearchArticulosResult>(this.apiUrl + 'searchArticulos', {name, idMarca});
+	}
+
+	searchClientes(name: string): Observable<SearchClientesResult> {
+		return this.http.post<SearchClientesResult>(this.apiUrl + 'searchClientes', {name});
+	}
+
+	getProvinceList(): Observable<AllProvincesInterface> {
+		return this.http.get<AllProvincesInterface>('/assets/provinces.json');
 	}
 }

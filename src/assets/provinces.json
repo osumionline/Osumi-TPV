@@ -1,0 +1,267 @@
+{
+	"ccaa": [
+		{
+			"name": "Andalucía",
+			"provinces": [
+				{
+					"id": 1,
+					"name": "Almería"
+				},
+				{
+					"id": 2,
+					"name": "Cádiz"
+				},
+				{
+					"id": 3,
+					"name": "Córdoba"
+				},
+				{
+					"id": 4,
+					"name": "Granada"
+				},
+				{
+					"id": 5,
+					"name": "Huelva"
+				},
+				{
+					"id": 6,
+					"name": "Jaén"
+				},
+				{
+					"id": 7,
+					"name": "Málaga"
+				},
+				{
+					"id": 8,
+					"name": "Sevilla"
+				}
+			]
+		},
+		{
+			"name": "Aragón",
+			"provinces": [
+				{
+					"id": 9,
+					"name": "Huesca"
+				},
+				{
+					"id": 10,
+					"name": "Teruel"
+				},
+				{
+					"id": 11,
+					"name": "Zaragoza"
+				}
+			]
+		},
+		{
+			"name": "Principado de Asturias",
+			"provinces": [
+				{
+					"id": 12,
+					"name": "Asturias"
+				}
+			]
+		},
+		{
+			"name": "Cantabria",
+			"provinces": [
+				{
+					"id": 16,
+					"name": "Cantabria"
+				}
+			]
+		},
+		{
+			"name": "Castilla-La Mancha",
+			"provinces": [
+				{
+					"id": 17,
+					"name": "Albacete"
+				},
+				{
+					"id": 18,
+					"name": "Ciudad Real"
+				},
+				{
+					"id": 19,
+					"name": "Cuenca"
+				},
+				{
+					"id": 20,
+					"name": "Guadalajara"
+				},
+				{
+					"id": 21,
+					"name": "Toledo"
+				}
+			]
+		},
+		{
+			"name": "Castilla y León",
+			"provinces": [
+				{
+					"id": 22,
+					"name": "Ávila"
+				},
+				{
+					"id": 23,
+					"name": "Burgos"
+				},
+				{
+					"id": 24,
+					"name": "León"
+				},
+				{
+					"id": 25,
+					"name": "Palencia"
+				},
+				{
+					"id": 26,
+					"name": "Salamanca"
+				},
+				{
+					"id": 27,
+					"name": "Segovia"
+				},
+				{
+					"id": 28,
+					"name": "Soria"
+				},
+				{
+					"id": 29,
+					"name": "Valladolid"
+				},
+				{
+					"id": 30,
+					"name": "Zamora"
+				}
+			]
+		},
+		{
+			"name": "Cataluña",
+			"provinces": [
+				{
+					"id": 31,
+					"name": "Barcelona"
+				},
+				{
+					"id": 32,
+					"name": "Girona"
+				},
+				{
+					"id": 33,
+					"name": "Lleida"
+				},
+				{
+					"id": 34,
+					"name": "Tarragona"
+				}
+			]
+		},
+		{
+			"name": "Extremadura",
+			"provinces": [
+				{
+					"id": 35,
+					"name": "Badajoz"
+				},
+				{
+					"id": 36,
+					"name": "Cáceres"
+				}
+			]
+		},
+		{
+			"name": "Galicia",
+			"provinces": [
+				{
+					"id": 37,
+					"name": "La Coruña"
+				},
+				{
+					"id": 38,
+					"name": "Lugo"
+				},
+				{
+					"id": 39,
+					"name": "Orense"
+				},
+				{
+					"id": 40,
+					"name": "Pontevedra"
+				}
+			]
+		},
+		{
+			"name": "La Rioja",
+			"provinces": [
+				{
+					"id": 41,
+					"name": "La Rioja"
+				}
+			]
+		},
+		{
+			"name": "Comunidad de Madrid",
+			"provinces": [
+				{
+					"id": 42,
+					"name": "Madrid"
+				}
+			]
+		},
+		{
+			"name": "Región de Murcia",
+			"provinces": [
+				{
+					"id": 43,
+					"name": "Murcia"
+				}
+			]
+		},
+		{
+			"name": "Comunidad Foral de Navarra",
+			"provinces": [
+				{
+					"id": 44,
+					"name": "Navarra"
+				}
+			]
+		},
+		{
+			"name": "País Vasco",
+			"provinces": [
+				{
+					"id": 45,
+					"name": "Araba"
+				},
+				{
+					"id": 46,
+					"name": "Gipuzkoa"
+				},
+				{
+					"id": 47,
+					"name": "Bizkaia"
+				}
+			]
+		},
+		{
+			"name": "Comunidad Valenciana",
+			"provinces": [
+				{
+					"id": 48,
+					"name": "Alicante"
+				},
+				{
+					"id": 49,
+					"name": "Castellón"
+				},
+				{
+					"id": 50,
+					"name": "Valencia"
+				}
+			]
+		}
+	]
+}

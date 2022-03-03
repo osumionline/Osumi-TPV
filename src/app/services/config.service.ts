@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AppDataInterface, Month } from 'src/app/interfaces/interfaces';
-import { TipoPago }                from 'src/app/model/tipo-pago.model';
-import { IVAOption }               from 'src/app/model/iva-option.model';
-import { ApiService }              from 'src/app/services/api.service';
-import { ClassMapperService }      from 'src/app/services/class-mapper.service';
-import { MarcasService }           from 'src/app/services/marcas.service';
-import { ProveedoresService }      from 'src/app/services/proveedores.service';
+import { TipoPago }           from 'src/app/model/tipo-pago.model';
+import { IVAOption }          from 'src/app/model/iva-option.model';
+import { ApiService }         from 'src/app/services/api.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { MarcasService }      from 'src/app/services/marcas.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
+import {
+	AppDataInterface,
+	Month,
+	ProvinceInterface
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -39,6 +43,8 @@ export class ConfigService {
 		{id: 11, name: 'Noviembre',  days: 30},
 		{id: 12, name: 'Diciembre',  days: 31}
 	];
+	
+	provincias: ProvinceInterface[] = [];
 
 	constructor(
 		private as: ApiService,
@@ -66,6 +72,7 @@ export class ConfigService {
 						this.status = 'loaded';
 						this.ms.load();
 						this.ps.load();
+						this.loadProvinces();
 					}
 					resolve(this.status);
 				});
@@ -91,5 +98,19 @@ export class ConfigService {
 		this.marginList = data.marginList;
 		this.ventaOnline = data.ventaOnline;
 		this.fechaCad = data.fechaCad;
+	}
+
+	loadProvinces(): void {
+		this.as.getProvinceList().subscribe(data => {
+			let newList = [];
+			for (let ccaa of data.ccaa){
+				newList = newList.concat(ccaa.provinces);
+			}
+			newList.sort(function (a, b) {
+				return a.name.localeCompare(b.name);
+			});
+
+			this.provincias = newList;
+		});
 	}
 }
