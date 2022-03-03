@@ -6,6 +6,7 @@
 
 	.tab-list {
 		max-width: 10000px;
+		position: relative;
 
 		.tab-item {
 			height: 48px;
@@ -61,5 +62,29 @@
 				border-radius: 6px;
 			}
 		}
+		
+		.select-client {
+			display: inline-flex;
+			width: 50px;
+			justify-content: center;
+			height: 48px;
+			border-bottom: 2px solid transparent;
+			align-items: center;
+			vertical-align: bottom;
+			cursor: pointer;
+			position: absolute;
+			right: 0;
+
+			&:hover {
+				background-color: #ddd;
+				border-radius: 6px;
+			}
+		}
+	}
+}
+
+.elegir-cliente {
+	.buscador {
+		width: 100%;
 	}
 }

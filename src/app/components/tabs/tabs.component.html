@@ -7,5 +7,29 @@
 		<div class="new-tab" (click)="newTab()">
 			<mat-icon>add</mat-icon>
 		</div>
+		<div class="select-client" (click)="selectClient()">
+			<mat-icon>person_add</mat-icon>
+		</div>
+	</div>
+</div>
+
+<div class="modal-bg" [ngClass]="{'show': mostrarElegirCliente}">
+	<div class="modal-box">
+		<div class="modal-header">
+			Seleccionar cliente
+			<a href="#" (click)="cerrarElegirCliente($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body elegir-cliente">
+			<mat-tab-group #elegirClienteTabs>
+				<mat-tab label="Buscar">
+					<mat-form-field class="buscador">
+						<input matInput placeholder="Introduce el nombre, apellidos, teléfono o email del cliente a buscar" [(ngModel)]="elegirClienteNombre" (input)="searchStart()" #elegirClienteBoxName>
+					</mat-form-field>
+				</mat-tab>
+				<mat-tab label="Nuevo cliente"> Content 2 </mat-tab>
+			</mat-tab-group>
+		</div>
 	</div>
 </div>

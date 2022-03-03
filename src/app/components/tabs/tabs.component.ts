@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Tabs }          from '../../interfaces/interfaces';
-import { DialogService } from '../../services/dialog.service';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { MatTabGroup }   from '@angular/material/tabs';
+import { Tabs }          from 'src/app/interfaces/interfaces';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
 	selector: 'otpv-tabs',
@@ -16,8 +17,22 @@ export class TabsComponent {
 	@Output() closeTabEvent = new EventEmitter<number>();
 	@Output() newTabEvent = new EventEmitter<number>();
 	@Output() changeTabEvent = new EventEmitter<number>();
+	
+	mostrarElegirCliente: boolean = false;
+	@ViewChild('elegirClienteTabs', {static: false}) elegirClienteTabs: MatTabGroup;
+	elegirClienteNombre: string = '';
+	@ViewChild('elegirClienteBoxName', { static: true }) elegirClienteBoxName: ElementRef;
 
 	constructor(private dialog: DialogService) {}
+	
+	@HostListener('window:keydown', ['$event'])
+	onKeyDown(ev: KeyboardEvent) {
+		if (ev.key === 'Escape') {
+			if (this.mostrarElegirCliente) {
+				this.cerrarElegirCliente();
+			}
+		}
+	}
 
 	selectTab(ind: number): void {
 		this.tabs.selected = ind;
@@ -34,5 +49,23 @@ export class TabsComponent {
 
 	newTab(): void {
 		this.newTabEvent.emit(0);
+	}
+
+	selectClient(): void {
+		this.mostrarElegirCliente = true;
+		this.elegirClienteTabs.realignInkBar();
+		this.elegirClienteNombre = '';
+		setTimeout(() => {
+			this.elegirClienteBoxName.nativeElement.focus();
+		}, 0);
+	}
+	
+	cerrarElegirCliente(ev: MouseEvent = null): void {
+		ev && ev.preventDefault();
+		this.mostrarElegirCliente = false;
+	}
+	
+	searchStart(): void {
+		
 	}
 }

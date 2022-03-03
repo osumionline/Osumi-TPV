@@ -581,7 +581,7 @@ export class ArticulosComponent implements OnInit {
 		this.mostrarBuscador = true;
 		setTimeout(() => {
 			this.searchBoxName.nativeElement.focus();
-		}, 200);
+		}, 0);
 	}
 
 	cerrarBuscador(ev: MouseEvent = null): void {
