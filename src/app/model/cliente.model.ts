@@ -1,4 +1,5 @@
 import { ClienteInterface } from 'src/app/interfaces/interfaces';
+import { Utils } from './utils.class';
 
 export class Cliente {
 	constructor(
@@ -25,24 +26,24 @@ export class Cliente {
 
 	fromInterface(c: ClienteInterface): Cliente {
 		this.id = c.id;
-		this.nombreApellidos = c.nombreApellidos;
-		this.dniCif = c.dniCif;
-		this.telefono = c.telefono;
-		this.email = c.email;
-		this.direccion = c.direccion;
-		this.codigoPostal = c.codigoPostal;
-		this.poblacion = c.poblacion;
+		this.nombreApellidos = Utils.urldecode(c.nombreApellidos);
+		this.dniCif = Utils.urldecode(c.dniCif);
+		this.telefono = Utils.urldecode(c.telefono);
+		this.email = Utils.urldecode(c.email);
+		this.direccion = Utils.urldecode(c.direccion);
+		this.codigoPostal = Utils.urldecode(c.codigoPostal);
+		this.poblacion = Utils.urldecode(c.poblacion);
 		this.provincia = c.provincia;
 		this.factIgual = c.factIgual;
-		this.factNombreApellidos = c.factNombreApellidos;
-		this.factDniCif = c.factDniCif;
-		this.factTelefono = c.factTelefono;
-		this.factEmail = c.factEmail;
-		this.factDireccion = c.factDireccion;
-		this.factCodigoPostal = c.factCodigoPostal;
-		this.factPoblacion = c.factPoblacion;
-		this.factProvincia = c.factProvincia;
-		this.observaciones = c.observaciones;
+		this.factNombreApellidos = Utils.urldecode(c.factNombreApellidos);
+		this.factDniCif = Utils.urldecode(c.factDniCif);
+		this.factTelefono = Utils.urldecode(c.factTelefono);
+		this.factEmail = Utils.urldecode(c.factEmail);
+		this.factDireccion = Utils.urldecode(c.factDireccion);
+		this.factCodigoPostal = Utils.urldecode(c.factCodigoPostal);
+		this.factPoblacion = Utils.urldecode(c.factPoblacion);
+		this.factProvincia = Utils.urldecode(c.factProvincia);
+		this.observaciones = Utils.urldecode(c.observaciones);
 
 		return this;
 	}
@@ -50,24 +51,24 @@ export class Cliente {
 	toInterface(): ClienteInterface {
 		return {
 			id: this.id,
-			nombreApellidos: this.nombreApellidos,
-			dniCif: this.dniCif,
-			telefono: this.telefono,
-			email: this.email,
-			direccion: this.direccion,
-			codigoPostal: this.codigoPostal,
-			poblacion: this.poblacion,
+			nombreApellidos: Utils.urlencode(this.nombreApellidos),
+			dniCif: Utils.urlencode(this.dniCif),
+			telefono: Utils.urlencode(this.telefono),
+			email: Utils.urlencode(this.email),
+			direccion: Utils.urlencode(this.direccion),
+			codigoPostal: Utils.urlencode(this.codigoPostal),
+			poblacion: Utils.urlencode(this.poblacion),
 			provincia: this.provincia,
 			factIgual: this.factIgual,
-			factNombreApellidos: this.factNombreApellidos,
-			factDniCif: this.factDniCif,
-			factTelefono: this.factTelefono,
-			factEmail: this.factEmail,
-			factDireccion: this.factDireccion,
-			factCodigoPostal: this.factCodigoPostal,
-			factPoblacion: this.factPoblacion,
-			factProvincia: this.factProvincia,
-			observaciones: this.observaciones
+			factNombreApellidos: Utils.urlencode(this.factNombreApellidos),
+			factDniCif: Utils.urlencode(this.factDniCif),
+			factTelefono: Utils.urlencode(this.factTelefono),
+			factEmail: Utils.urlencode(this.factEmail),
+			factDireccion: Utils.urlencode(this.factDireccion),
+			factCodigoPostal: Utils.urlencode(this.factCodigoPostal),
+			factPoblacion: Utils.urlencode(this.factPoblacion),
+			factProvincia: Utils.urlencode(this.factProvincia),
+			observaciones: Utils.urlencode(this.observaciones)
 		};
 	}
 }

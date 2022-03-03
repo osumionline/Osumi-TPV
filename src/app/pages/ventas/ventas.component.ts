@@ -19,6 +19,7 @@ export class VentasComponent implements OnInit {
 		cambio: 0,
 		tarjeta: 0,
 		tipoPago: null,
+		idCliente: null,
 		total: 0,
 		lineas: []
 	};
@@ -75,6 +76,11 @@ export class VentasComponent implements OnInit {
 	deleteVentaLinea(ind: number): void {
 		this.ventas.list[this.ventas.tabs.selected].lineas.splice(ind, 1);
 		this.venta.venta.updateImporte();
+		this.startFocus();
+	}
+
+	selectClient(id: number): void {
+		this.fin.idCliente = id;
 		this.startFocus();
 	}
 

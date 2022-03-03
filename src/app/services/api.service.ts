@@ -20,7 +20,9 @@ import {
 	ChartSelectInterface,
 	ChartResultInterface,
 	SearchClientesResult,
-	AllProvincesInterface
+	AllProvincesInterface,
+	ClienteInterface,
+	ClienteSaveResult
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -89,5 +91,9 @@ export class ApiService {
 
 	getProvinceList(): Observable<AllProvincesInterface> {
 		return this.http.get<AllProvincesInterface>('/assets/provinces.json');
+	}
+	
+	saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
+		return this.http.post<ClienteSaveResult>(this.apiUrl + 'saveCliente', cliente);
 	}
 }

@@ -245,3 +245,8 @@ export interface SearchClientesResult {
 	status: string;
 	list: ClienteInterface[];
 }
+
+export interface ClienteSaveResult {
+	status: string;
+	id: number;
+}

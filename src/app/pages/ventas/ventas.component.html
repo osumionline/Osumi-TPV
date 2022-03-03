@@ -1,6 +1,6 @@
 <otpv-header selectedOption="ventas"></otpv-header>
 
-<otpv-tabs [tabs]="ventas.tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()"></otpv-tabs>
+<otpv-tabs [tabs]="ventas.tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()" (selectClientEvent)="selectClient($event)"></otpv-tabs>
 <div class="ventas-header">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
