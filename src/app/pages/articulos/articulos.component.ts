@@ -100,10 +100,12 @@ export class ArticulosComponent implements OnInit {
 		this.config.start().then((status) => {
 			if (status === 'install') {
 				this.router.navigate(['/installation']);
+				return;
 			}
 			if (status === 'loaded') {
 				if (!this.config.isOpened) {
 					this.router.navigate(['/']);
+					return;
 				}
 			}
 		});

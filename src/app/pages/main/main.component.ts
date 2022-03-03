@@ -38,6 +38,7 @@ export class MainComponent implements OnInit {
 	openBox(): void {
 		this.as.openBox().subscribe(result => {
 			this.isOpened = true;
+			this.config.isOpened = true;
 			this.router.navigate(['/ventas']);
 		});
 	}

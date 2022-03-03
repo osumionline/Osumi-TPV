@@ -8,7 +8,7 @@
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
 			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">{{linea.descripcion}}</span>
-      <mat-icon *ngIf="linea.observaciones" (click)="showObservaciones(linea.observaciones)">info</mat-icon>
+      <mat-icon *ngIf="linea.observaciones" (click)="showObservaciones(linea.observaciones)">info_outline</mat-icon>
 		</div>
 		<div class="col-stock">
 			<ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
