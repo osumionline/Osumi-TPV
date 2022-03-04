@@ -4,24 +4,25 @@ import { Utils } from './utils.class';
 export class Cliente {
 	constructor(
 		public id: number = null,
-		public nombreApellidos = null,
-		public dniCif = null,
-		public telefono = null,
-		public email = null,
-		public direccion = null,
-		public codigoPostal = null,
-		public poblacion = null,
-		public provincia = null,
-		public factIgual = true,
-		public factNombreApellidos = null,
-		public factDniCif = null,
-		public factTelefono = null,
-		public factEmail = null,
-		public factDireccion = null,
-		public factCodigoPostal = null,
-		public factPoblacion = null,
-		public factProvincia = null,
-		public observaciones = null
+		public nombreApellidos: string = null,
+		public dniCif: string = null,
+		public telefono: string = null,
+		public email: string = null,
+		public direccion: string = null,
+		public codigoPostal: string = null,
+		public poblacion: string = null,
+		public provincia: number = null,
+		public factIgual: boolean = true,
+		public factNombreApellidos: string = null,
+		public factDniCif: string = null,
+		public factTelefono: string = null,
+		public factEmail: string = null,
+		public factDireccion: string = null,
+		public factCodigoPostal: string = null,
+		public factPoblacion: string = null,
+		public factProvincia: number = null,
+		public observaciones: string = null,
+		public ultimaVenta: string = null
 	) {}
 
 	fromInterface(c: ClienteInterface): Cliente {
@@ -42,8 +43,9 @@ export class Cliente {
 		this.factDireccion = Utils.urldecode(c.factDireccion);
 		this.factCodigoPostal = Utils.urldecode(c.factCodigoPostal);
 		this.factPoblacion = Utils.urldecode(c.factPoblacion);
-		this.factProvincia = Utils.urldecode(c.factProvincia);
+		this.factProvincia = c.factProvincia;
 		this.observaciones = Utils.urldecode(c.observaciones);
+		this.ultimaVenta = Utils.urldecode(c.ultimaVenta);
 
 		return this;
 	}
@@ -67,8 +69,9 @@ export class Cliente {
 			factDireccion: Utils.urlencode(this.factDireccion),
 			factCodigoPostal: Utils.urlencode(this.factCodigoPostal),
 			factPoblacion: Utils.urlencode(this.factPoblacion),
-			factProvincia: Utils.urlencode(this.factProvincia),
-			observaciones: Utils.urlencode(this.observaciones)
+			factProvincia: this.factProvincia,
+			observaciones: Utils.urlencode(this.observaciones),
+			ultimaVenta: Utils.urlencode(this.ultimaVenta)
 		};
 	}
 }

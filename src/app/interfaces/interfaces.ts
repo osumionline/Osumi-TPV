@@ -237,8 +237,9 @@ export interface ClienteInterface {
 	factDireccion: string;
 	factCodigoPostal: string;
 	factPoblacion: string;
-	factProvincia: string;
+	factProvincia: number;
 	observaciones: string;
+	ultimaVenta: string;
 }
 
 export interface SearchClientesResult {
