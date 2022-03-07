@@ -1,14 +1,14 @@
 /*
  * Páginas
  */
-import { MainComponent }         from './pages/main/main.component';
-import { InstallationComponent } from './pages/installation/installation.component';
-import { VentasComponent }       from './pages/ventas/ventas.component';
-import { ArticulosComponent }    from './pages/articulos/articulos.component';
-import { PedidosComponent }      from './pages/pedidos/pedidos.component';
-import { ClientesComponent }     from './pages/clientes/clientes.component';
-import { AlmacenComponent }      from './pages/almacen/almacen.component';
-import { GestionComponent }      from './pages/gestion/gestion.component';
+import { MainComponent }         from 'src/app/pages/main/main.component';
+import { InstallationComponent } from 'src/app/pages/installation/installation.component';
+import { VentasComponent }       from 'src/app/pages/ventas/ventas.component';
+import { ArticulosComponent }    from 'src/app/pages/articulos/articulos.component';
+import { PedidosComponent }      from 'src/app/pages/pedidos/pedidos.component';
+import { ClientesComponent }     from 'src/app/pages/clientes/clientes.component';
+import { AlmacenComponent }      from 'src/app/pages/almacen/almacen.component';
+import { GestionComponent }      from 'src/app/pages/gestion/gestion.component';
 
 export const PAGES: any[] = [
 	MainComponent,
@@ -24,12 +24,12 @@ export const PAGES: any[] = [
 /*
  * Componentes
  */
-import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
-import { AlertDialogComponent }   from './components/dialogs/alert-dialog/alert-dialog.component';
-import { FormDialogComponent }    from './components/dialogs/form-dialog/form-dialog.component';
-import { TabsComponent }          from './components/tabs/tabs.component';
-import { UnaVentaComponent }      from './components/una-venta/una-venta.component';
-import { HeaderComponent }        from './components/header/header.component';
+import { ConfirmDialogComponent } from 'src/app/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent }   from 'src/app/components/dialogs/alert-dialog/alert-dialog.component';
+import { FormDialogComponent }    from 'src/app/components/dialogs/form-dialog/form-dialog.component';
+import { TabsComponent }          from 'src/app/components/tabs/tabs.component';
+import { UnaVentaComponent }      from 'src/app/components/una-venta/una-venta.component';
+import { HeaderComponent }        from 'src/app/components/header/header.component';
 
 export const COMPONENTS: any[] = [
 	ConfirmDialogComponent,
@@ -52,15 +52,17 @@ export const PIPES: any[] = [
 /*
  * Servicios
  */
-import { ConfigService }      from './services/config.service';
-import { ApiService }         from './services/api.service';
-import { DataShareService }   from './services/data-share.service';
-import { DialogService }      from './services/dialog.service';
-import { CategoriasService }  from './services/categorias.service';
-import { ClassMapperService } from './services/class-mapper.service';
-import { MarcasService }      from './services/marcas.service';
-import { ProveedoresService } from './services/proveedores.service';
-import { VentasService }      from './services/ventas.service';
+import { ConfigService }      from 'src/app/services/config.service';
+import { ApiService }         from 'src/app/services/api.service';
+import { DataShareService }   from 'src/app/services/data-share.service';
+import { DialogService }      from 'src/app/services/dialog.service';
+import { CategoriasService }  from 'src/app/services/categorias.service';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { MarcasService }      from 'src/app/services/marcas.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { VentasService }      from 'src/app/services/ventas.service';
+import { ArticulosService }   from 'src/app/services/articulos.service';
+import { ClientesService }    from 'src/app/services/clientes.service';
 
 export const SERVICES: any[] = [
 	ConfigService,
@@ -71,7 +73,9 @@ export const SERVICES: any[] = [
 	ClassMapperService,
 	MarcasService,
 	ProveedoresService,
-	VentasService
+	VentasService,
+	ArticulosService,
+	ClientesService
 ];
 
 /*

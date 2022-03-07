@@ -1,7 +1,14 @@
 import { Injectable }         from '@angular/core';
+import { HttpClient }         from '@angular/common/http';
+import { Observable }         from 'rxjs';
 import { Proveedor }          from 'src/app/model/proveedor.model';
-import { ApiService }         from 'src/app/services/api.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { environment }        from 'src/environments/environment';
+import {
+	ProveedoresResult,
+	ProveedorInterface,
+	IdSaveResult
+}  from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -10,14 +17,18 @@ export class ProveedoresService {
 	proveedores: Proveedor[] = [];
 	loaded: boolean = false;
 
-	constructor(private as: ApiService, private cms: ClassMapperService) {}
+	constructor(private http : HttpClient, private cms: ClassMapperService) {}
 
 	load(): void {
 		if (!this.loaded) {
-			this.as.getProveedores().subscribe(result => {
+			this.getProveedores().subscribe(result => {
 				this.loadProveedores( this.cms.getProveedores(result.list) );
 			});
 		}
+	}
+
+	getProveedores(): Observable<ProveedoresResult> {
+		return this.http.post<ProveedoresResult>(environment.apiUrl + 'getProveedores', {});
 	}
 
 	loadProveedores(proveedores: Proveedor[]): void {
@@ -31,5 +42,9 @@ export class ProveedoresService {
 			return this.proveedores[ind];
 		}
 		return null;
+	}
+
+	saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
+		return this.http.post<IdSaveResult>(environment.apiUrl + 'saveProveedor', proveedor);
 	}
 }

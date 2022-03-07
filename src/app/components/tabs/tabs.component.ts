@@ -4,6 +4,7 @@ import { ConfigService }      from 'src/app/services/config.service';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ApiService }         from 'src/app/services/api.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
+import { ClientesService }    from 'src/app/services/clientes.service';
 import { Cliente }            from 'src/app/model/cliente.model';
 import {
 	Tabs,
@@ -25,7 +26,7 @@ export class TabsComponent {
 	@Output() newTabEvent = new EventEmitter<number>();
 	@Output() changeTabEvent = new EventEmitter<number>();
 	@Output() selectClientEvent = new EventEmitter<number>();
-	
+
 	mostrarElegirCliente: boolean = false;
 	@ViewChild('elegirClienteTabs', {static: false}) elegirClienteTabs: MatTabGroup;
 	elegirClienteSelectedTab: number = 0;
@@ -35,12 +36,12 @@ export class TabsComponent {
 	searching: boolean = false;
 	searched: boolean = false;
 	searchResult: Cliente[] = [];
-	
+
 	nuevoCliente: Cliente = new Cliente();
 	@ViewChild('nuevoClienteBoxName', { static: true }) nuevoClienteBoxName: ElementRef;
 	provincias: ProvinceInterface[] = [];
 	nuevoClienteSaving: boolean = false;
-	
+
 	selectedClienteId: number = null;
 	selectedClienteNombreApellidos: string = null;
 
@@ -48,9 +49,10 @@ export class TabsComponent {
 		public config: ConfigService,
 		private dialog: DialogService,
 		private as: ApiService,
-		private cms: ClassMapperService
+		private cms: ClassMapperService,
+		private cs: ClientesService
 	) {}
-	
+
 	@HostListener('window:keydown', ['$event'])
 	onKeyDown(ev: KeyboardEvent) {
 		if (ev.key === 'Escape') {
@@ -118,7 +120,7 @@ export class TabsComponent {
 			return;
 		}
 		this.searching = true;
-		this.as.searchClientes(this.elegirClienteNombre).subscribe(result => {
+		this.cs.searchClientes(this.elegirClienteNombre).subscribe(result => {
 			this.searching = false;
 			this.searched = true;
 			if (result.status === 'ok') {
@@ -150,7 +152,7 @@ export class TabsComponent {
 			}
 		}
 		this.searching = true;
-		this.as.saveCliente(this.nuevoCliente.toInterface()).subscribe(result => {
+		this.cs.saveCliente(this.nuevoCliente.toInterface()).subscribe(result => {
 			if (result.status === 'ok') {
 				this.selectCliente(result.id, this.nuevoCliente.nombreApellidos);
 			}

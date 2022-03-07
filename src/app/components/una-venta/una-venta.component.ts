@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ApiService }         from 'src/app/services/api.service';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
 import { VentasService }      from 'src/app/services/ventas.service';
+import { ArticulosService }   from 'src/app/services/articulos.service';
 import { Venta }              from 'src/app/model/venta.model';
 import { LineaVenta }         from 'src/app/model/lineaventa.model';
 
@@ -23,11 +23,11 @@ export class UnaVentaComponent {
 	descuentoOtro: number = null;
 
 	constructor(
-		private as: ApiService,
 		private cms: ClassMapperService,
 		private dialog: DialogService,
 		private ms: MarcasService,
-		private vs: VentasService
+		private vs: VentasService,
+    private ars: ArticulosService
 	) {}
 
 	setFocus(): void {
@@ -40,7 +40,7 @@ export class UnaVentaComponent {
 	checkLocalizador(ev:  KeyboardEvent, ind: number) {
 		if (ev.key==='Enter') {
 			this.searching = true;
-			this.as.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
+			this.ars.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
 				this.searching = false;
 				if (result.status === 'ok') {
 					const articulo = this.cms.getArticulo(result.articulo);

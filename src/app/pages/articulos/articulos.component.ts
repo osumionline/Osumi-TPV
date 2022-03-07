@@ -4,6 +4,7 @@ import { MatCheckboxChange }     from '@angular/material/checkbox';
 import { ActivatedRoute, Params} from '@angular/router';
 import { ApiService }            from 'src/app/services/api.service';
 import { ClassMapperService }    from 'src/app/services/class-mapper.service';
+import { ArticulosService }      from 'src/app/services/articulos.service';
 import { MarcasService }         from 'src/app/services/marcas.service';
 import { ProveedoresService }    from 'src/app/services/proveedores.service';
 import { CategoriasService }     from 'src/app/services/categorias.service';
@@ -88,12 +89,13 @@ export class ArticulosComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private dialog: DialogService,
-        private as: ApiService,
+		private as: ApiService,
 		private config: ConfigService,
 		private cms: ClassMapperService,
 		private ms: MarcasService,
 		private ps: ProveedoresService,
-		private css: CategoriasService
+		private css: CategoriasService,
+		private ars: ArticulosService
 	) {}
 
 	ngOnInit(): void {
@@ -121,7 +123,7 @@ export class ArticulosComponent implements OnInit {
 			}
 		});
 	}
-	
+
 	@HostListener('window:keydown', ['$event'])
 	onKeyDown(ev: KeyboardEvent) {
 		if (ev.key === 'Escape') {
@@ -165,7 +167,7 @@ export class ArticulosComponent implements OnInit {
 			this.marcas = this.ms.marcas;
 		}
 		else {
-			this.as.getMarcas().subscribe(result => {
+			this.ms.getMarcas().subscribe(result => {
 				this.marcas = this.cms.getMarcas(result.list);
 				this.ms.loadMarcas(this.marcas);
 			});
@@ -177,7 +179,7 @@ export class ArticulosComponent implements OnInit {
 			this.proveedores = this.ps.proveedores;
 		}
 		else {
-			this.as.getProveedores().subscribe(result => {
+			this.ps.getProveedores().subscribe(result => {
 				this.proveedores = this.cms.getProveedores(result.list);
 				this.ps.loadProveedores(this.proveedores);
 			});
@@ -185,7 +187,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	loadCategorias(): void {
-		this.as.getCategorias().subscribe(result => {
+		this.ars.getCategorias().subscribe(result => {
 			const list: Categoria[] = this.cms.getCategorias([result.list]);
 			this.css.loadCategorias(list);
 
@@ -206,7 +208,7 @@ export class ArticulosComponent implements OnInit {
 
 	loadArticulo(): void {
 		this.loading = true;
-		this.as.loadArticulo(this.articulo.localizador).subscribe(result => {
+		this.ars.loadArticulo(this.articulo.localizador).subscribe(result => {
 			this.articulo = this.cms.getArticulo(result.articulo);
 			if (this.articulo.fechaCaducidad) {
 				this.loadFecCad();
@@ -230,13 +232,13 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	loadStatsVentas(): void {
-		this.as.getStatistics(this.statsVentas).subscribe(result => {
+		this.ars.getStatistics(this.statsVentas).subscribe(result => {
 			this.statsVentasData = result.data;
 		});
 	}
 
 	loadStatsWeb(): void {
-		this.as.getStatistics(this.statsWeb).subscribe(result => {
+		this.ars.getStatistics(this.statsWeb).subscribe(result => {
 			this.statsWebData = result.data;
 		});
 	}
@@ -265,7 +267,7 @@ export class ArticulosComponent implements OnInit {
 			return;
 		}
 
-		this.as.saveMarca(this.marca.toInterface()).subscribe(result => {
+		this.ms.saveMarca(this.marca.toInterface()).subscribe(result => {
 			if (result.status=='ok') {
 				this.articulo.idMarca = result.id;
 				this.ms.loaded = false;
@@ -323,7 +325,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	guardarProveedorContinue(): void {
-		this.as.saveProveedor(this.proveedor.toInterface()).subscribe(result => {
+		this.ps.saveProveedor(this.proveedor.toInterface()).subscribe(result => {
 			if (result.status=='ok') {
 				this.articulo.idProveedor = result.id;
 				this.ps.loaded = false;
@@ -357,7 +359,7 @@ export class ArticulosComponent implements OnInit {
 			}
 		}, 200);
 	}
-	
+
 	validateFecCad(): boolean {
 		const fecCadFormat = /[0-9][0-9]-[0-9][0-9]/;
 		return this.articulo.fechaCaducidad.match(fecCadFormat) !== null;
@@ -527,7 +529,7 @@ export class ArticulosComponent implements OnInit {
 
 	darDeBajaOk(): void {
 		this.darDeBajaLoading = true;
-		this.as.disableProduct(this.articulo.id).subscribe(response => {
+		this.ars.deleteArticulo(this.articulo.id).subscribe(response => {
 			if (response.status=='ok') {
 				this.dialog.alert({title: 'Éxito', content: 'El artículo "'+this.articulo.nombre+'" ha sido dado de baja.', ok: 'Continuar'}).subscribe(result => {
 					this.newArticulo();
@@ -565,7 +567,7 @@ export class ArticulosComponent implements OnInit {
 		this.articulo.re = this.config.ivaOptions[ivaInd].re;
 
 		//this.saving = true;
-		this.as.saveArticulo(this.articulo.toInterface()).subscribe(result => {
+		this.ars.saveArticulo(this.articulo.toInterface()).subscribe(result => {
 			this.articulo.localizador = result.localizador;
 			this.dialog.alert({title: 'Información', content: 'El artículo ha sido guardado correctamente.', ok: 'Continuar'}).subscribe(result => {
 				this.saving = false;
@@ -603,7 +605,7 @@ export class ArticulosComponent implements OnInit {
 			return;
 		}
 		this.searching = true;
-		this.as.searchArticulos(this.searchName, this.searchMarca).subscribe(result => {
+		this.ars.searchArticulos(this.searchName, this.searchMarca).subscribe(result => {
 			this.searching = false;
 			if (result.status === 'ok') {
 				const articulos: Articulo[] = this.cms.getArticulos(result.list);

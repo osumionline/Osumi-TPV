@@ -40,7 +40,9 @@
 						<div class="elegir-clientes-item" *ngFor="let cliente of searchResult" (click)="selectCliente(cliente.id, cliente.nombreApellidos)">
 							<div class="elegir-clientes-nombre">{{cliente.nombreApellidos}}</div>
 							<div class="elegir-clientes-telefono">{{cliente.telefono}}</div>
-							<div class="elegir-clientes-ultima">{{cliente.ultimaVenta}}</div>
+							<div class="elegir-clientes-ultima">
+								{{cliente.ultimaVenta ? cliente.ultimaVenta : '-'}}
+							</div>
 						</div>
 						<div class="elegir-clientes-no-result" *ngIf="searchResult.length===0">
 							No se han encontrado resultados.

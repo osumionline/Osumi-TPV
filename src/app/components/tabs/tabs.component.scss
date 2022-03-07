@@ -62,7 +62,7 @@
 				border-radius: 6px;
 			}
 		}
-		
+
 		.select-client {
 			display: inline-flex;
 			min-width: 50px;
@@ -79,7 +79,7 @@
 				background-color: #ddd;
 				border-radius: 6px;
 			}
-			
+
 			span {
 				display: inline-block;
 				margin: 0 8px;
@@ -106,7 +106,7 @@
 		.elegir-clientes-item {
 			display: flex;
 			border-bottom: 1px solid #ccc;
-			
+
 			&:last-child {
 				border-bottom: 0;
 			}
@@ -126,11 +126,13 @@
 		.elegir-clientes-telefono {
 			padding: 6px;
 			flex: 1;
+			text-align: center;
 		}
 
 		.elegir-clientes-ultima {
 			padding: 6px;
 			flex: 1;
+			text-align: center;
 		}
 
 		.elegir-clientes-no-result {

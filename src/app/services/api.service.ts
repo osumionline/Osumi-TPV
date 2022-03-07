@@ -7,93 +7,28 @@ import {
 	StartDataInterface,
 	AppDataInterface,
 	StatusResult,
-	MarcasResult,
-	MarcaInterface,
-	ProveedorInterface,
-	ProveedoresResult,
-	IdSaveResult,
-	CategoriasResult,
-	ArticuloInterface,
-	ArticuloSaveResult,
-	ArticuloResult,
-	SearchArticulosResult,
-	ChartSelectInterface,
-	ChartResultInterface,
-	SearchClientesResult,
-	AllProvincesInterface,
-	ClienteInterface,
-	ClienteSaveResult
+	AllProvincesInterface
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ApiService {
-	apiUrl = environment.apiUrl;
-
 	constructor(private http : HttpClient){}
 
 	checkStart(date: string): Observable<StartDataInterface> {
-		return this.http.post<StartDataInterface>(this.apiUrl + 'checkStart', {date});
+		return this.http.post<StartDataInterface>(environment.apiUrl + 'checkStart', {date});
 	}
 
 	saveInstallation(data: AppDataInterface): Observable<StatusResult> {
-		return this.http.post<StatusResult>(this.apiUrl + 'saveInstallation', data);
+		return this.http.post<StatusResult>(environment.apiUrl + 'saveInstallation', data);
 	}
 
 	openBox(): Observable<StatusResult> {
-		return this.http.post<StatusResult>(this.apiUrl + 'openBox', {});
-	}
-
-	getMarcas(): Observable<MarcasResult> {
-		return this.http.post<MarcasResult>(this.apiUrl + 'getMarcas', {});
-	}
-
-	getProveedores(): Observable<ProveedoresResult> {
-		return this.http.post<ProveedoresResult>(this.apiUrl + 'getProveedores', {});
-	}
-
-	getCategorias(): Observable<CategoriasResult> {
-		return this.http.post<CategoriasResult>(this.apiUrl + 'getCategorias', {});
-	}
-
-	getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {
-		return this.http.post<ChartResultInterface>(this.apiUrl + 'getStatistics', data);
-	}
-
-	disableProduct(id: number): Observable<StatusResult> {
-		return this.http.post<StatusResult>(this.apiUrl + 'disableProduct', {id});
-	}
-
-	saveMarca(marca: MarcaInterface): Observable<IdSaveResult> {
-		return this.http.post<IdSaveResult>(this.apiUrl + 'saveMarca', marca);
-	}
-
-	saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
-		return this.http.post<IdSaveResult>(this.apiUrl + 'saveProveedor', proveedor);
-	}
-
-	saveArticulo(articulo: ArticuloInterface): Observable<ArticuloSaveResult> {
-		return this.http.post<ArticuloSaveResult>(this.apiUrl + 'saveArticulo', articulo);
-	}
-
-	loadArticulo(localizador: number): Observable<ArticuloResult> {
-		return this.http.post<ArticuloResult>(this.apiUrl + 'loadArticulo', {localizador});
-	}
-
-	searchArticulos(name: string, idMarca: number): Observable<SearchArticulosResult> {
-		return this.http.post<SearchArticulosResult>(this.apiUrl + 'searchArticulos', {name, idMarca});
-	}
-
-	searchClientes(name: string): Observable<SearchClientesResult> {
-		return this.http.post<SearchClientesResult>(this.apiUrl + 'searchClientes', {name});
+		return this.http.post<StatusResult>(environment.apiUrl + 'openBox', {});
 	}
 
 	getProvinceList(): Observable<AllProvincesInterface> {
 		return this.http.get<AllProvincesInterface>('/assets/provinces.json');
-	}
-	
-	saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
-		return this.http.post<ClienteSaveResult>(this.apiUrl + 'saveCliente', cliente);
 	}
 }
