@@ -251,3 +251,15 @@ export interface ClienteSaveResult {
 	status: string;
 	id: number;
 }
+
+export interface TopVentaInterface {
+	localizador: number;
+	descripcion: string;
+	pvp: number;
+}
+
+export interface EstadisticasClienteResult {
+	status: string;
+	ultimasVentas: VentaInterface[];
+	topVentas: TopVentaInterface[];
+}

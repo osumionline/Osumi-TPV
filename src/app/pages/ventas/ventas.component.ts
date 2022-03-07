@@ -4,6 +4,7 @@ import { ConfigService }     from 'src/app/services/config.service';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { TipoPago }          from 'src/app/model/tipo-pago.model';
 import { VentasService }     from 'src/app/services/ventas.service';
+import { ClientesService }   from 'src/app/services/clientes.service';
 
 @Component({
 	selector: 'otpv-ventas',
@@ -24,7 +25,12 @@ export class VentasComponent implements OnInit {
 		lineas: []
 	};
 
-	constructor(private router: Router, public config: ConfigService, public ventas: VentasService) {}
+	constructor(
+		private router: Router,
+		public config: ConfigService,
+		public ventas: VentasService,
+		public cs: ClientesService
+	) {}
 
 	ngOnInit(): void {
 		this.config.start().then((status) => {
@@ -46,7 +52,7 @@ export class VentasComponent implements OnInit {
 			this.startFocus();
 		}
 	}
-	
+
 	@HostListener('window:keydown', ['$event'])
 	onKeyDown(ev: KeyboardEvent) {
 		if (ev.key === 'Escape') {
@@ -55,7 +61,7 @@ export class VentasComponent implements OnInit {
 			}
 		}
 	}
-	
+
 	newVenta(): void {
 		this.ventas.newVenta();
 		this.startFocus();
@@ -82,6 +88,9 @@ export class VentasComponent implements OnInit {
 	selectClient(id: number): void {
 		this.fin.idCliente = id;
 		this.startFocus();
+		this.cs.getEstadisticasCliente(id).subscribe(result => {
+			console.log(result);
+		});
 	}
 
 	endVenta(id: number): void {

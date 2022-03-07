@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import {
 	SearchClientesResult,
 	ClienteInterface,
-	ClienteSaveResult
+	ClienteSaveResult,
+	EstadisticasClienteResult
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -20,5 +21,9 @@ export class ClientesService {
 
 	saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
 		return this.http.post<ClienteSaveResult>(environment.apiUrl + 'saveCliente', cliente);
+	}
+
+	getEstadisticasCliente(id: number): Observable<EstadisticasClienteResult> {
+		return this.http.post<EstadisticasClienteResult>(environment.apiUrl + 'getEstadisticasCliente', {id});
 	}
 }
