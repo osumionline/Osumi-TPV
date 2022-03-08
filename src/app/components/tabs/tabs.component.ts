@@ -119,27 +119,29 @@ export class TabsComponent {
 				this.searchResult = this.cms.getClientes(result.list);
 			}
 			else {
-				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al buscar los clientes.', ok: 'Continuar'}).subscribe(result => {});
+				this.dialog.alert({title: 'Error', content: 'Ocurrió un error al buscar los clientes.', ok: 'Continuar'});
 			}
 		});
 	}
 
 	saveNuevoCliente(): void {
 		if (this.nuevoCliente.nombreApellidos === null || this.nuevoCliente.nombreApellidos === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el nombre del cliente!', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el nombre del cliente!', ok: 'Continuar'}).subscribe(result => {
+				this.nuevoClienteBoxName.nativeElement.focus();
+			});
 			return;
 		}
 		if (this.nuevoCliente.dniCif === null || this.nuevoCliente.dniCif === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el DNI o CIF del cliente!', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el DNI o CIF del cliente!', ok: 'Continuar'});
 			return;
 		}
 		if (this.nuevoCliente.factIgual) {
 			if (this.nuevoCliente.nombreApellidos === null || this.nuevoCliente.nombreApellidos === '') {
-				this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el nombre del cliente para la facturación!', ok: 'Continuar'}).subscribe(result => {});
+				this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el nombre del cliente para la facturación!', ok: 'Continuar'});
 				return;
 			}
 			if (this.nuevoCliente.dniCif === null || this.nuevoCliente.dniCif === '') {
-				this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el DNI o CIF del cliente para la facturación!', ok: 'Continuar'}).subscribe(result => {});
+				this.dialog.alert({title: 'Error', content: '¡No puedes dejar en blanco el DNI o CIF del cliente para la facturación!', ok: 'Continuar'});
 				return;
 			}
 		}
@@ -150,7 +152,7 @@ export class TabsComponent {
 				this.selectCliente(this.nuevoCliente);
 			}
 			else {
-				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar el cliente!', ok: 'Continuar'}).subscribe(result => {});
+				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar el cliente!', ok: 'Continuar'});
 			}
 		});
 	}
@@ -159,7 +161,13 @@ export class TabsComponent {
 		this.vs.cliente = cliente;
 		this.cerrarElegirCliente();
 		this.cs.getEstadisticasCliente(cliente.id).subscribe(result => {
-			console.log(result);
+			if (result.status === 'ok') {
+				this.vs.cliente.ultimasVentas = result.ultimasVentas;
+				this.vs.cliente.topVentas = result.topVentas;
+			}
+			else {
+				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al obtener las estadísticas del cliente!', ok: 'Continuar'});
+			}
 		});
 		this.selectClientEvent.emit(cliente.id);
 	}

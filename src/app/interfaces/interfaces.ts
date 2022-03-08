@@ -252,6 +252,15 @@ export interface ClienteSaveResult {
 	id: number;
 }
 
+export interface UltimaVentaArticuloInterface {
+	fecha: string;
+	localizador: number;
+	nombre: string;
+	cantidad: number;
+	pvp: number;
+	importe: number;
+}
+
 export interface TopVentaInterface {
 	localizador: number;
 	descripcion: string;
@@ -260,6 +269,6 @@ export interface TopVentaInterface {
 
 export interface EstadisticasClienteResult {
 	status: string;
-	ultimasVentas: VentaInterface[];
+	ultimasVentas: UltimaVentaArticuloInterface[];
 	topVentas: TopVentaInterface[];
 }

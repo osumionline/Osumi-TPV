@@ -1,7 +1,14 @@
 import { Utils }            from 'src/app/model/utils.class';
-import { ClienteInterface } from 'src/app/interfaces/interfaces';
+import {
+	ClienteInterface,
+	UltimaVentaArticuloInterface,
+	TopVentaInterface
+} from 'src/app/interfaces/interfaces';
 
 export class Cliente {
+	ultimasVentas: UltimaVentaArticuloInterface[] = [];
+	topVentas: TopVentaInterface[] = [];
+
 	constructor(
 		public id: number = null,
 		public nombreApellidos: string = null,
