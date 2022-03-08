@@ -1,17 +1,17 @@
 <div class="tab-container">
 	<div class="tab-list">
-		<div class="tab-item" *ngFor="let tab of tabs.names; let i = index" [ngClass]="{'tab-selected': tabs.selected==i}" (click)="selectTab(i)">
+		<div class="tab-item" *ngFor="let tab of vs.tabs.names; let i = index" [ngClass]="{'tab-selected': vs.tabs.selected==i}" (click)="selectTab(i)">
 			{{tab}}
 			<mat-icon *ngIf="showClose" class="tab-icon" (click)="closeTab(i)">close</mat-icon>
 		</div>
 		<div class="new-tab" (click)="newTab()">
 			<mat-icon>add</mat-icon>
 		</div>
-		<div class="select-client" (click)="selectClient()" *ngIf="!selectedClienteId">
+		<div class="select-client" (click)="selectClient()" *ngIf="!vs.cliente">
 			<mat-icon>person_add</mat-icon>
 		</div>
-		<div class="select-client" (click)="removeClient()" *ngIf="selectedClienteId">
-			<span>{{selectedClienteNombreApellidos}}</span>
+		<div class="select-client" (click)="removeClient()" *ngIf="vs.cliente">
+			<span>{{vs.cliente.nombreApellidos}}</span>
 			<mat-icon>close</mat-icon>
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 							<div class="elegir-clientes-telefono">Teléfono</div>
 							<div class="elegir-clientes-ultima">Última venta</div>
 						</div>
-						<div class="elegir-clientes-item" *ngFor="let cliente of searchResult" (click)="selectCliente(cliente.id, cliente.nombreApellidos)">
+						<div class="elegir-clientes-item" *ngFor="let cliente of searchResult" (click)="selectCliente(cliente)">
 							<div class="elegir-clientes-nombre">{{cliente.nombreApellidos}}</div>
 							<div class="elegir-clientes-telefono">{{cliente.telefono}}</div>
 							<div class="elegir-clientes-ultima">

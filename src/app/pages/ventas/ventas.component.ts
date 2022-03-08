@@ -15,20 +15,10 @@ export class VentasComponent implements OnInit {
 	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 	showFinalizarVenta: boolean = false;
 
-	fin = {
-		efectivo: 0,
-		cambio: 0,
-		tarjeta: 0,
-		tipoPago: null,
-		idCliente: null,
-		total: 0,
-		lineas: []
-	};
-
 	constructor(
 		private router: Router,
 		public config: ConfigService,
-		public ventas: VentasService,
+		public vs: VentasService,
 		public cs: ClientesService
 	) {}
 
@@ -45,7 +35,7 @@ export class VentasComponent implements OnInit {
 				}
 			}
 		});
-		if (this.ventas.tabs.selected === -1) {
+		if (this.vs.tabs.selected === -1) {
 			this.newVenta();
 		}
 		else {
@@ -63,7 +53,7 @@ export class VentasComponent implements OnInit {
 	}
 
 	newVenta(): void {
-		this.ventas.newVenta();
+		this.vs.newVenta();
 		this.startFocus();
 	}
 
@@ -72,34 +62,25 @@ export class VentasComponent implements OnInit {
 	}
 
 	cerrarVenta(ind: number): void {
-		if (this.ventas.tabs.selected===ind) {
-			this.ventas.tabs.selected = 0;
+		if (this.vs.tabs.selected===ind) {
+			this.vs.tabs.selected = 0;
 		}
-		this.ventas.tabs.names.splice(ind, 1);
-		this.ventas.list.splice(ind, 1);
+		this.vs.tabs.names.splice(ind, 1);
+		this.vs.list.splice(ind, 1);
 	}
 
 	deleteVentaLinea(ind: number): void {
-		this.ventas.list[this.ventas.tabs.selected].lineas.splice(ind, 1);
+		this.vs.list[this.vs.tabs.selected].lineas.splice(ind, 1);
 		this.venta.venta.updateImporte();
 		this.startFocus();
 	}
 
 	selectClient(id: number): void {
-		this.fin.idCliente = id;
 		this.startFocus();
-		this.cs.getEstadisticasCliente(id).subscribe(result => {
-			console.log(result);
-		});
 	}
 
 	endVenta(id: number): void {
-		const ind = this.ventas.list.findIndex(x => x.id === id);
-		this.fin.total = this.ventas.list[ind].importe;
-
-		const tipoPago: TipoPago = this.config.tiposPago[0];
-		this.fin.tipoPago = tipoPago.id;
-		this.fin.lineas = this.ventas.list[ind].lineas.filter(x => x.idArticulo !== null);
+		this.vs.loadFinVenta();
 		this.showFinalizarVenta = true;
 	}
 

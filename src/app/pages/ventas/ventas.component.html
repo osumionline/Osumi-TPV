@@ -1,6 +1,6 @@
 <otpv-header selectedOption="ventas"></otpv-header>
 
-<otpv-tabs [tabs]="ventas.tabs" [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()" (selectClientEvent)="selectClient($event)"></otpv-tabs>
+<otpv-tabs [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()" (selectClientEvent)="selectClient($event)"></otpv-tabs>
 <div class="ventas-header">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
@@ -10,7 +10,7 @@
 	<div class="col-importe">Importe</div>
 	<div class="col-descuentos">Desc.</div>
 </div>
-<otpv-una-venta [venta]="ventas.list[ventas.tabs.selected]" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (endVentaEvent)="endVenta($event)" #venta></otpv-una-venta>
+<otpv-una-venta [venta]="vs.ventaActual" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (endVentaEvent)="endVenta($event)" #venta></otpv-una-venta>
 
 <div class="modal-bg"  [ngClass]="{'show': showFinalizarVenta}">
 	<div class="modal-box">
@@ -21,23 +21,23 @@
 			<div class="col-left">
 				<div class="col-line">
 					<mat-form-field>
-						<input matInput type="number" placeholder="Efectivo" [(ngModel)]="fin.efectivo">
+						<input matInput type="number" placeholder="Efectivo" [(ngModel)]="vs.fin.efectivo">
 						<mat-label>Efectivo</mat-label>
 					</mat-form-field>
 				</div>
 				<div class="col-line">
 					<mat-form-field>
-						<input matInput type="number" placeholder="Cambio" [(ngModel)]="fin.cambio">
+						<input matInput type="number" placeholder="Cambio" [(ngModel)]="vs.fin.cambio">
 						<mat-label>Cambio</mat-label>
 					</mat-form-field>
 				</div>
 				<div class="col-line">
 					<mat-form-field>
-						<input matInput type="number" placeholder="Tarjeta" [(ngModel)]="fin.tarjeta">
+						<input matInput type="number" placeholder="Tarjeta" [(ngModel)]="vs.fin.tarjeta">
 						<mat-label>Tarjeta</mat-label>
 					</mat-form-field>
 					<mat-form-field>
-						<mat-select [(ngModel)]="fin.tipoPago">
+						<mat-select [(ngModel)]="vs.fin.idTipoPago">
 							<mat-option *ngFor="let tipo of config.tiposPago" [value]="tipo.id">
 								{{tipo.nombre}}
 							</mat-option>
@@ -47,7 +47,7 @@
 				</div>
 				<div class="total mat-elevation-z4">
 					<div class="total-title">TOTAL</div>
-					<div class="total-importe">{{fin.total}} €</div>
+					<div class="total-importe">{{vs.fin.total}} €</div>
 				</div>
 				<div class="col-line">
 					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()">Cancelar</button>
@@ -63,7 +63,7 @@
 					<div class="venta-linea-desc">Desc.</div>
 					<div class="venta-linea-subtotal">Subt.</div>
 				</div>
-				<div class="venta-linea" *ngFor="let linea of fin.lineas">
+				<div class="venta-linea" *ngFor="let linea of vs.fin.lineas">
 					<div class="venta-linea-localizador">{{linea.localizador}}</div>
 					<div class="venta-linea-marca">{{linea.marca}}</div>
 					<div class="venta-linea-nombre">{{linea.descripcion}}</div>

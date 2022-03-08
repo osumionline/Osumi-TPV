@@ -5,7 +5,7 @@ import { MarcasService }      from 'src/app/services/marcas.service';
 import { VentasService }      from 'src/app/services/ventas.service';
 import { ArticulosService }   from 'src/app/services/articulos.service';
 import { Venta }              from 'src/app/model/venta.model';
-import { LineaVenta }         from 'src/app/model/lineaventa.model';
+import { LineaVenta }         from 'src/app/model/linea-venta.model';
 
 @Component({
 	selector: 'otpv-una-venta',
@@ -27,7 +27,7 @@ export class UnaVentaComponent {
 		private dialog: DialogService,
 		private ms: MarcasService,
 		private vs: VentasService,
-    private ars: ArticulosService
+		private ars: ArticulosService
 	) {}
 
 	setFocus(): void {

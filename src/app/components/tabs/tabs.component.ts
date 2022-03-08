@@ -2,12 +2,11 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostList
 import { MatTabGroup, MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfigService }      from 'src/app/services/config.service';
 import { DialogService }      from 'src/app/services/dialog.service';
-import { ApiService }         from 'src/app/services/api.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { ClientesService }    from 'src/app/services/clientes.service';
+import { VentasService }      from 'src/app/services/ventas.service';
 import { Cliente }            from 'src/app/model/cliente.model';
 import {
-	Tabs,
 	ProvinceInterface
 } from 'src/app/interfaces/interfaces';
 
@@ -17,10 +16,6 @@ import {
 	styleUrls: ['./tabs.component.scss']
 })
 export class TabsComponent {
-	@Input() tabs: Tabs = {
-		selected: 0,
-		names: []
-	};
 	@Input() showClose: boolean = false;
 	@Output() closeTabEvent = new EventEmitter<number>();
 	@Output() newTabEvent = new EventEmitter<number>();
@@ -42,15 +37,12 @@ export class TabsComponent {
 	provincias: ProvinceInterface[] = [];
 	nuevoClienteSaving: boolean = false;
 
-	selectedClienteId: number = null;
-	selectedClienteNombreApellidos: string = null;
-
 	constructor(
 		public config: ConfigService,
 		private dialog: DialogService,
-		private as: ApiService,
 		private cms: ClassMapperService,
-		private cs: ClientesService
+		private cs: ClientesService,
+		public vs: VentasService
 	) {}
 
 	@HostListener('window:keydown', ['$event'])
@@ -63,7 +55,7 @@ export class TabsComponent {
 	}
 
 	selectTab(ind: number): void {
-		this.tabs.selected = ind;
+		this.vs.tabs.selected = ind;
 		this.changeTabEvent.emit(ind);
 	}
 
@@ -154,7 +146,8 @@ export class TabsComponent {
 		this.searching = true;
 		this.cs.saveCliente(this.nuevoCliente.toInterface()).subscribe(result => {
 			if (result.status === 'ok') {
-				this.selectCliente(result.id, this.nuevoCliente.nombreApellidos);
+				this.nuevoCliente.id = result.id;
+				this.selectCliente(this.nuevoCliente);
 			}
 			else {
 				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar el cliente!', ok: 'Continuar'}).subscribe(result => {});
@@ -162,17 +155,16 @@ export class TabsComponent {
 		});
 	}
 
-	selectCliente(id: number, nombreApellidos: string): void {
-		this.selectedClienteId = id;
-		this.selectedClienteNombreApellidos = nombreApellidos;
-		this.selectClientEvent.emit(id);
-
+	selectCliente(cliente: Cliente): void {
+		this.vs.cliente = cliente;
 		this.cerrarElegirCliente();
+		this.cs.getEstadisticasCliente(cliente.id).subscribe(result => {
+			console.log(result);
+		});
+		this.selectClientEvent.emit(cliente.id);
 	}
 
 	removeClient(): void {
-		this.selectedClienteId = null;
-		this.selectedClienteNombreApellidos = null;
-		this.selectClientEvent.emit(null);
+		this.vs.cliente = null;
 	}
 }
