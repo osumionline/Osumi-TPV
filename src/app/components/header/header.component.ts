@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService }            from 'src/app/services/config.service';
 
 @Component({
 	selector: 'otpv-header',

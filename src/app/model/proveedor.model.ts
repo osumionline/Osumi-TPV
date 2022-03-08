@@ -1,5 +1,5 @@
+import { Utils }              from 'src/app/model/utils.class';
 import { ProveedorInterface } from 'src/app/interfaces/interfaces';
-import { Utils } from './utils.class';
 
 export class Proveedor {
 	constructor(

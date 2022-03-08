@@ -5,8 +5,8 @@ import { HttpClientModule }        from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_DATE_LOCALE }         from '@angular/material/core';
-import { AppRoutingModule }        from './app-routing.module';
-import { AppComponent }            from './app.component';
+import { AppRoutingModule }        from 'src/app/app-routing.module';
+import { AppComponent }            from 'src/app/app.component';
 import { NgxBarcode6Module }       from 'ngx-barcode6';
 
 import es from '@angular/common/locales/es';

@@ -1,7 +1,11 @@
-import { CodigoBarras } from './codigobarras.model';
-import { ArticuloInterface, CodigoBarrasInterface, FotoInterface } from 'src/app/interfaces/interfaces';
-import { Utils } from './utils.class';
-import { Foto } from './foto.model';
+import { CodigoBarras } from 'src/app/model/codigobarras.model';
+import { Utils }        from 'src/app/model/utils.class';
+import { Foto }         from 'src/app/model/foto.model';
+import {
+	ArticuloInterface,
+	CodigoBarrasInterface,
+	FotoInterface
+} from 'src/app/interfaces/interfaces';
 
 export class Articulo {
 	marca: string = '';

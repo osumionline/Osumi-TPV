@@ -1,6 +1,6 @@
 import { Component }    from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DialogField }  from '../../../interfaces/interfaces';
+import { DialogField }  from 'src/app/interfaces/interfaces';
 
 @Component({
 	selector: 'otpv-form-dialog',

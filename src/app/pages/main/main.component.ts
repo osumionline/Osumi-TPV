@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { Router }             from '@angular/router';
-import { ApiService }         from 'src/app/services/api.service';
-import { ConfigService }      from 'src/app/services/config.service';
+import { Component, OnInit } from '@angular/core';
+import { Router }            from '@angular/router';
+import { ApiService }        from 'src/app/services/api.service';
+import { ConfigService }     from 'src/app/services/config.service';
 
 @Component({
 	selector: 'otpv-main',

@@ -1,14 +1,14 @@
 import { NgModule }             from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainComponent }         from './pages/main/main.component';
-import { InstallationComponent } from './pages/installation/installation.component';
-import { VentasComponent }       from './pages/ventas/ventas.component';
-import { ArticulosComponent }    from './pages/articulos/articulos.component';
-import { PedidosComponent }      from './pages/pedidos/pedidos.component';
-import { ClientesComponent }     from './pages/clientes/clientes.component';
-import { AlmacenComponent }      from './pages/almacen/almacen.component';
-import { GestionComponent }      from './pages/gestion/gestion.component';
+import { MainComponent }         from 'src/app/pages/main/main.component';
+import { InstallationComponent } from 'src/app/pages/installation/installation.component';
+import { VentasComponent }       from 'src/app/pages/ventas/ventas.component';
+import { ArticulosComponent }    from 'src/app/pages/articulos/articulos.component';
+import { PedidosComponent }      from 'src/app/pages/pedidos/pedidos.component';
+import { ClientesComponent }     from 'src/app/pages/clientes/clientes.component';
+import { AlmacenComponent }      from 'src/app/pages/almacen/almacen.component';
+import { GestionComponent }      from 'src/app/pages/gestion/gestion.component';
 
 const routes: Routes = [
 	{ path: '',                       component: MainComponent },

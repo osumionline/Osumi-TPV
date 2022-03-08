@@ -1,5 +1,5 @@
+import { Articulo }            from 'src/app/model/articulo.model';
 import { LineaVentaInterface } from 'src/app/interfaces/interfaces';
-import { Articulo } from './articulo.model';
 
 export class LineaVenta {
 	constructor(

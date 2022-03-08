@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable }         from '@angular/core';
 import { TipoPago }           from 'src/app/model/tipo-pago.model';
 import { IVAOption }          from 'src/app/model/iva-option.model';
 import { ApiService }         from 'src/app/services/api.service';
@@ -28,7 +28,7 @@ export class ConfigService {
 	fechaCad: boolean = false;
 	tiposPago: TipoPago[] = [];
 	isOpened: boolean = false;
-	
+
 	monthList: Month[] = [
 		{id: 1,  name: 'Enero',      days: 31},
 		{id: 2,  name: 'Febrero',    days: 28},
@@ -43,7 +43,7 @@ export class ConfigService {
 		{id: 11, name: 'Noviembre',  days: 30},
 		{id: 12, name: 'Diciembre',  days: 31}
 	];
-	
+
 	provincias: ProvinceInterface[] = [];
 
 	constructor(
@@ -52,7 +52,7 @@ export class ConfigService {
 		private ms: MarcasService,
 		private ps: ProveedoresService
 	) {}
-	
+
 	start(): Promise<string> {
 		return new Promise((resolve, reject) => {
 			if (this.status === 'loaded') {

@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, HostListener  } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router }            from '@angular/router';
 import { ConfigService }     from 'src/app/services/config.service';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
-import { TipoPago }          from 'src/app/model/tipo-pago.model';
 import { VentasService }     from 'src/app/services/ventas.service';
 import { ClientesService }   from 'src/app/services/clientes.service';
 

@@ -1,4 +1,4 @@
-import { environment } from 'src/environments/environment';
+import { environment }   from 'src/environments/environment';
 import { FotoInterface } from 'src/app/interfaces/interfaces';
 
 export class Foto {

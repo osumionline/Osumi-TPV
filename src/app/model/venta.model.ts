@@ -1,6 +1,9 @@
-import { LineaVenta } from './linea-venta.model';
-import { Cliente } from 'src/app/model/cliente.model';
-import { VentaInterface, LineaVentaInterface } from 'src/app/interfaces/interfaces';
+import { LineaVenta } from 'src/app/model/linea-venta.model';
+import { Cliente }    from 'src/app/model/cliente.model';
+import {
+	VentaInterface,
+	LineaVentaInterface
+} from 'src/app/interfaces/interfaces';
 
 export class Venta {
 	cliente: Cliente = null;

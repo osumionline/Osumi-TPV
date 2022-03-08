@@ -5,10 +5,7 @@ import { Cliente }       from 'src/app/model/cliente.model';
 import { TipoPago }      from 'src/app/model/tipo-pago.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
 import { ConfigService } from 'src/app/services/config.service';
-import {
-	Tabs,
-	LineaVentaInterface
-} from 'src/app/interfaces/interfaces';
+import { Tabs }          from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'

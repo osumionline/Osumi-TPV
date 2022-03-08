@@ -43,7 +43,7 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
-import { FixedNumberPipe } from './pipes/fixed-number.pipe';
+import { FixedNumberPipe } from 'src/app/pipes/fixed-number.pipe';
 
 export const PIPES: any[] = [
 	FixedNumberPipe
@@ -54,7 +54,6 @@ export const PIPES: any[] = [
  */
 import { ConfigService }      from 'src/app/services/config.service';
 import { ApiService }         from 'src/app/services/api.service';
-import { DataShareService }   from 'src/app/services/data-share.service';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { CategoriasService }  from 'src/app/services/categorias.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
@@ -67,7 +66,6 @@ import { ClientesService }    from 'src/app/services/clientes.service';
 export const SERVICES: any[] = [
 	ConfigService,
 	ApiService,
-	DataShareService,
 	DialogService,
 	CategoriasService,
 	ClassMapperService,
