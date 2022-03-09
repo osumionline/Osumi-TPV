@@ -162,8 +162,59 @@ export class TabsComponent {
 		this.cerrarElegirCliente();
 		this.cs.getEstadisticasCliente(cliente.id).subscribe(result => {
 			if (result.status === 'ok') {
-				this.vs.cliente.ultimasVentas = result.ultimasVentas;
-				this.vs.cliente.topVentas = result.topVentas;
+				//this.vs.cliente.ultimasVentas = result.ultimasVentas;
+				this.vs.cliente.ultimasVentas = [
+					{
+						fecha: '06/12/21',
+						localizador: 12345,
+						nombre: 'Nombre artículo',
+						cantidad: 1,
+						pvp: 2.5,
+						importe: 2.5
+					},
+					{
+						fecha: '06/12/21',
+						localizador: 56789,
+						nombre: 'Otro artículo',
+						cantidad: 2,
+						pvp: 3,
+						importe: 6
+					},
+					{
+						fecha: '03/12/21',
+						localizador: 46832,
+						nombre: 'Artículo nuevo',
+						cantidad: 1,
+						pvp: 4,
+						importe: 4
+					},
+					{
+						fecha: '28/11/21',
+						localizador: 12345,
+						nombre: 'Nombre artículo',
+						cantidad: 3,
+						pvp: 2.5,
+						importe: 7.5
+					}
+				];
+				//this.vs.cliente.topVentas = result.topVentas;
+				this.vs.cliente.topVentas = [
+					{
+						localizador: 12345,
+						nombre: 'Nombre artículo',
+						pvp: 2.5
+					},
+					{
+						localizador: 56789,
+						nombre: 'Otro artículo',
+						pvp: 3
+					},
+					{
+						localizador: 12345,
+						nombre: 'Artículo nuevo',
+						pvp: 4
+					}
+				];
 			}
 			else {
 				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al obtener las estadísticas del cliente!', ok: 'Continuar'});

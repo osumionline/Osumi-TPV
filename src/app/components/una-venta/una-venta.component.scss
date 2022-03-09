@@ -41,6 +41,88 @@
 	}
 }
 
+.cliente-estadisticas {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	background-color: #fff;
+	border: 1px solid #888;
+	border-radius: 6px;
+	box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+	display: flex;
+	width: 60%;
+
+	.col-ultimas-ventas {
+		flex: 3;
+	}
+
+	.col-top-ventas {
+		flex: 2;
+	}
+
+	.estadisticas-titulo {
+		font-weight: bold;
+		font-size: 1.3em;
+		padding: 8px;
+		display: flex;
+		height: 50px;
+		align-items: center;
+		justify-content: space-between;
+
+		mat-icon {
+			cursor: pointer;
+			transition: all .3s ease-in-out;
+
+			&.closed {
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	.estadisticas-datos {
+		max-height: 200px;
+		overflow-y: auto;
+
+		.estadisticas-item {
+			display: flex;
+			padding: 8px;
+			margin: 8px;
+			border-bottom: 2px solid #888;
+
+			.estadisticas-item-fecha {
+				flex: 1;
+			}
+
+			.estadisticas-item-localizador {
+				flex: 1;
+			}
+
+			.estadisticas-item-nombre {
+				flex: 2;
+			}
+
+			.estadisticas-item-cantidad {
+				flex: 1;
+				text-align: center;
+			}
+
+			.estadisticas-item-pvp {
+				flex: 1;
+				text-align: center;
+			}
+
+			.estadisticas-item-importe {
+				flex: 1;
+				text-align: center;
+			}
+		}
+	}
+
+	.estadisticas-sin-datos {
+		padding: 8px;
+	}
+}
+
 .importe {
 	position: fixed;
 	bottom: 10px;

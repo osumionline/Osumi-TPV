@@ -33,6 +33,54 @@
 	</div>
 </div>
 
+<div class="cliente-estadisticas" *ngIf="venta.cliente">
+	<div class="col-ultimas-ventas">
+		<div class="estadisticas-titulo">Últimas ventas</div>
+		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && venta.cliente.ultimasVentas.length">
+			<div class="estadisticas-item">
+				<div class="estadisticas-item-fecha">Fecha</div>
+				<div class="estadisticas-item-localizador">Loc.</div>
+				<div class="estadisticas-item-nombre">Nombre</div>
+				<div class="estadisticas-item-cantidad">Cant.</div>
+				<div class="estadisticas-item-pvp">PVP</div>
+				<div class="estadisticas-item-importe">Imp.</div>
+			</div>
+			<div class="estadisticas-item" *ngFor="let item of venta.cliente.ultimasVentas">
+				<div class="estadisticas-item-fecha">{{item.fecha}}</div>
+				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
+				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
+				<div class="estadisticas-item-cantidad">{{item.cantidad}}</div>
+				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
+				<div class="estadisticas-item-importe">{{item.importe}} €</div>
+			</div>
+		</div>
+		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !venta.cliente.ultimasVentas.length">
+			El cliente no ha realizado ninguna compra todavía.
+		</div>
+	</div>
+	<div class="col-top-ventas">
+		<div class="estadisticas-titulo">
+			Top ventas
+			<mat-icon (click)="closeClienteEstadisticas()" [ngClass]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
+		</div>
+		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && venta.cliente.topVentas.length">
+			<div class="estadisticas-item">
+				<div class="estadisticas-item-localizador">Loc.</div>
+				<div class="estadisticas-item-nombre">Nombre</div>
+				<div class="estadisticas-item-pvp">PVP</div>
+			</div>
+			<div class="estadisticas-item" *ngFor="let item of venta.cliente.topVentas">
+				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
+				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
+				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
+			</div>
+		</div>
+		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !venta.cliente.topVentas.length">
+			El cliente no ha realizado ninguna compra todavía.
+		</div>
+	</div>
+</div>
+
 <div class="importe">
 	<div class="total-importe">
 		{{venta.importe | fixedNumber}} €

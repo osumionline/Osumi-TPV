@@ -263,7 +263,7 @@ export interface UltimaVentaArticuloInterface {
 
 export interface TopVentaInterface {
 	localizador: number;
-	descripcion: string;
+	nombre: string;
 	pvp: number;
 }
 

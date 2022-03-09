@@ -22,6 +22,8 @@ export class UnaVentaComponent {
 	descuentoSelected: number = null;
 	descuentoOtro: number = null;
 
+	showClienteEstadisticas: boolean = true;
+
 	constructor(
 		private cms: ClassMapperService,
 		private dialog: DialogService,
@@ -116,6 +118,10 @@ export class UnaVentaComponent {
 		this.venta.lineas[ind].descuento = descuento;
 		this.venta.updateImporte();
 		this.cerrarDescuento();
+	}
+
+	closeClienteEstadisticas(): void {
+		this.showClienteEstadisticas = !this.showClienteEstadisticas;
 	}
 
 	cancelarVenta(): void {
