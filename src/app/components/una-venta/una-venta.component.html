@@ -18,7 +18,14 @@
 		</div>
 		<div class="col-cantidad">
 			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
-			<input type="number" *ngIf="linea.idArticulo !== null" [(ngModel)]="linea.cantidad" class="linea-cantidad" (keyup)="updateCantidad(i)" (click)="selectCantidad($event)">
+			<ng-container *ngIf="linea.idArticulo !== null">
+				<span *ngIf="!editarCantidad" class="editar-linea-cantidad" (click)="editarLineaCantidad(i)">
+					{{linea.cantidad}}
+				</span>
+				<span *ngIf="editarCantidad">
+					<input type="number" class="linea-cantidad" min="0" step="1" [(ngModel)]="linea.cantidad" [id]="'linea-cantidad-' + i" (keyup)="checkCantidad($event, i, false)" (blur)="checkCantidad($event, i, true)">
+				</span>
+			</ng-container>
 		</div>
 		<div class="col-pvp">
 			<ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
@@ -115,20 +122,22 @@
 <div class="modal-bg"  [ngClass]="{'show': muestraDescuento}">
 	<div class="modal-box">
 		<div class="modal-header">
-			Descuento
+			Introducir descuento
 			<a href="#" (click)="cerrarDescuento($event)">
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
 		<div class="modal-body descuento-box">
 			<div class="descuento-options">
-				<button mat-raised-button color="primary" *ngFor="let descuento of descuentoOptions" (click)="selectDescuento(descuento)">{{descuento}} %</button>
+				En caso de querer usar un importe concreto de descuento en vez de un porcentaje, introdúcelo a continuación:
 			</div>
 			<div class="descuento-otros">
-				<mat-form-field>
-					<input matInput type="number" min="0" max="100" step="1" placeholder="Otro" [(ngModel)]="descuentoOtro">
+				<mat-form-field class="descuento-otros-importe">
+					<mat-label>Importe en euros</mat-label>
+					<input matInput type="number" min="0" step="0.1" placeholder="Importe en euros" [(ngModel)]="descuentoImporte" #descuentoValue>
 				</mat-form-field>
-				<button mat-raised-button color="primary">Continuar</button>
+				€
+				<button mat-raised-button color="primary" (click)="selectDescuento()">Continuar</button>
 			</div>
 		</div>
 	</div>

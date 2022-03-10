@@ -22,6 +22,9 @@ export class LineaVenta {
 		if (this.importeManual) {
 			return this.importe;
 		}
+		if (this.descuentoManual) {
+			return ( (this.cantidad * this.pvp) - (this.descuento) );
+		}
 		return ( (this.cantidad * this.pvp) * (1 - (this.descuento / 100) ) );
 	}
 

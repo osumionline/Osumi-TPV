@@ -162,16 +162,6 @@ input[type=number] {
 	width: 5%;
 	border-right: 1px solid var(--table-border);
 	border-bottom: 1px solid var(--table-border);
-
-	input {
-		&:hover {
-			background-color: rgba(63, 80, 181, 0.2);
-		}
-
-		&:focus {
-			background-color: rgba(63, 80, 181, 0.1);
-		}
-	}
 }
 
 .col-pvp {

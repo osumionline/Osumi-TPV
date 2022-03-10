@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
@@ -17,12 +17,13 @@ export class UnaVentaComponent {
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
 	searching: boolean = false;
+	editarCantidad: boolean = false;
 	editarImporte: boolean = false;
 	editarDescuento: boolean = false;
 	muestraDescuento: boolean = false;
-	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 	descuentoSelected: number = null;
-	descuentoOtro: number = null;
+	descuentoImporte: number = null;
+	@ViewChild('descuentoValue', { static: true }) descuentoValue: ElementRef;
 
 	showClienteEstadisticas: boolean = true;
 
@@ -59,8 +60,8 @@ export class UnaVentaComponent {
 					else {
 						this.venta.lineas[indArticulo].cantidad++;
 						this.venta.lineas[ind].localizador = null;
-						this.setFocus();
 					}
+					this.setFocus();
 
 					this.venta.updateImporte();
 					if (articulo.mostrarObsVentas && articulo.observaciones) {
@@ -101,11 +102,29 @@ export class UnaVentaComponent {
 		this.venta.updateImporte();
 	}
 
-	selectCantidad(ev: MouseEvent): void {
-		(ev.target as HTMLInputElement).select();
+	editarLineaCantidad(ind: number): void {
+		this.editarCantidad = true;
+		setTimeout(() => {
+			const cantidad: HTMLInputElement = document.getElementById('linea-cantidad-' + ind) as HTMLInputElement;
+			cantidad.select();
+		}, 0);
+	}
+
+	checkCantidad(ev: KeyboardEvent, ind: number, close: boolean): void {
+		if (ev.key=='Enter' || close) {
+			this.editarCantidad = false;
+			this.venta.updateImporte();
+			this.setFocus();
+		}
 	}
 
 	editarLineaImporte(ind: number): void {
+		if (this.venta.lineas[ind].descuentoManual) {
+			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
+				this.setFocus();
+			});
+			return;
+		}
 		this.editarImporte = true;
 		setTimeout(() => {
 			const importe: HTMLInputElement = document.getElementById('linea-importe-' + ind) as HTMLInputElement;
@@ -118,15 +137,29 @@ export class UnaVentaComponent {
 			this.editarImporte = false;
 			this.venta.lineas[ind].importeManual = true;
 			this.venta.updateImporte();
+			this.setFocus();
 		}
 	}
 
 	quitaImporteManual(ev: MouseEvent, ind: number): void {
 		ev.stopPropagation();
 		this.venta.lineas[ind].importeManual = false;
+		this.setFocus();
 	}
 	
 	editarLineaDescuento(ind: number): void {
+		if (this.venta.lineas[ind].importeManual) {
+			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento', ok: 'Continuar'}).subscribe(result => {
+				this.setFocus();
+			});
+			return;
+		}
+		if (this.venta.lineas[ind].descuentoManual) {
+			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
+				this.setFocus();
+			});
+			return;
+		}
 		this.editarDescuento = true;
 		setTimeout(() => {
 			const descuento: HTMLInputElement = document.getElementById('linea-descuento-' + ind) as HTMLInputElement;
@@ -138,6 +171,7 @@ export class UnaVentaComponent {
 		if (ev.key=='Enter' || close) {
 			this.editarDescuento = false;
 			this.venta.updateImporte();
+			this.setFocus();
 		}
 	}
 
@@ -145,13 +179,17 @@ export class UnaVentaComponent {
 		ev.stopPropagation();
 		this.venta.lineas[ind].descuento = 0;
 		this.venta.lineas[ind].descuentoManual = false;
+		this.setFocus();
 	}
 
 	abreDescuento(ev: MouseEvent, linea: LineaVenta): void {
 		ev.stopPropagation();
 		this.descuentoSelected = linea.idArticulo;
-		this.descuentoOtro = null;
+		this.descuentoImporte = null;
 		this.muestraDescuento = true;
+		setTimeout(() => {
+			this.descuentoValue.nativeElement.focus();
+		}, 0);
 	}
 
 	cerrarDescuento(ev: MouseEvent = null): void {
@@ -159,9 +197,18 @@ export class UnaVentaComponent {
 		this.muestraDescuento = false;
 	}
 
-	selectDescuento(descuento: number): void {
+	selectDescuento(): void {
+		if (!this.descuentoImporte) {
+			this.dialog.alert({title: 'Error', content: '¡No has introducido ningún descuento!', ok: 'Continuar'}).subscribe(result => {
+				setTimeout(() => {
+					this.descuentoValue.nativeElement.focus();
+				}, 0);
+			});
+			return;
+		}
 		const ind = this.venta.lineas.findIndex(x => x.idArticulo === this.descuentoSelected);
-		this.venta.lineas[ind].descuento = descuento;
+		this.venta.lineas[ind].descuento = this.descuentoImporte;
+		this.venta.lineas[ind].descuentoManual = true;
 		this.venta.updateImporte();
 		this.cerrarDescuento();
 	}
