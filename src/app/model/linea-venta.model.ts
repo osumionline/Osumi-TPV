@@ -2,6 +2,8 @@ import { Articulo }            from 'src/app/model/articulo.model';
 import { LineaVentaInterface } from 'src/app/interfaces/interfaces';
 
 export class LineaVenta {
+	importeManual: boolean = false;
+
 	constructor(
 		public idArticulo: number = null,
 		public localizador: number = null,
@@ -16,6 +18,9 @@ export class LineaVenta {
 	) {}
 
 	get total(): number {
+		if (this.importeManual) {
+			return this.importe;
+		}
 		return ( (this.cantidad * this.pvp) * (1 - (this.descuento / 100) ) );
 	}
 

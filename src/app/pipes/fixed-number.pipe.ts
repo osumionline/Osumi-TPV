@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FixedNumberPipe implements PipeTransform {
 	transform(num: number): string {
-		return num.toFixed(2);
+		return num.toFixed(2).replace('.', ',');
 	}
 }

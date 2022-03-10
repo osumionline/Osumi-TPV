@@ -7,8 +7,10 @@
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
-			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">{{linea.descripcion}}</span>
-      <mat-icon *ngIf="linea.observaciones" (click)="showObservaciones(linea.observaciones)">info_outline</mat-icon>
+			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">
+				{{linea.descripcion}}
+				<mat-icon *ngIf="linea.observaciones" (click)="showObservaciones($event, linea.observaciones)">info_outline</mat-icon>
+			</span>
 		</div>
 		<div class="col-stock">
 			<ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
@@ -20,11 +22,19 @@
 		</div>
 		<div class="col-pvp">
 			<ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
-			<span *ngIf="linea.pvp">{{linea.pvp}} €</span>
+			<span *ngIf="linea.pvp">{{linea.pvp | fixedNumber}} €</span>
 		</div>
 		<div class="col-importe">
 			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
-			<span *ngIf="linea.importe">{{linea.total | fixedNumber}} €</span>
+			<ng-container *ngIf="linea.importe">
+				<span *ngIf="!editarImporte" class="editar-linea-importe" (click)="editarLineaImporte(i)">
+					{{linea.importe | fixedNumber}} €
+				</span>
+				<span *ngIf="editarImporte">
+					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + i" (keyup)="checkImporte($event, i)">
+					€
+				</span>
+			</ng-container>
 		</div>
 		<div class="col-descuentos">
 			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>

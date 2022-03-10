@@ -17,6 +17,7 @@ export class UnaVentaComponent {
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
 	searching: boolean = false;
+	editarImporte: boolean = false;
 	muestraDescuento: boolean = false;
 	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 	descuentoSelected: number = null;
@@ -85,7 +86,8 @@ export class UnaVentaComponent {
 		});
 	}
 
-	showObservaciones(observaciones: string): void {
+	showObservaciones(ev: MouseEvent, observaciones: string): void {
+		ev.stopPropagation();
 		this.dialog.alert({title: 'Observaciones', content: observaciones, ok: 'Continuar'}).subscribe(result => {
 			this.setFocus();
 		});
@@ -100,6 +102,23 @@ export class UnaVentaComponent {
 
 	selectCantidad(ev: MouseEvent): void {
 		(ev.target as HTMLInputElement).select();
+	}
+
+	editarLineaImporte(ind: number): void {
+		this.editarImporte = true;
+		console.log(this.venta.lineas[ind]);
+		setTimeout(() => {
+			const importe: HTMLInputElement = document.getElementById('linea-importe-' + ind) as HTMLInputElement;
+			importe.select();
+		}, 0);
+	}
+
+	checkImporte(ev: KeyboardEvent, ind: number): void {
+		if (ev.key=='Enter') {
+			this.editarImporte = false;
+			this.venta.lineas[ind].importeManual = true;
+			this.venta.updateImporte();
+		}
 	}
 
 	abreDescuento(linea: LineaVenta): void {
