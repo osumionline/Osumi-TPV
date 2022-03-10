@@ -25,21 +25,31 @@
 			<span *ngIf="linea.pvp">{{linea.pvp | fixedNumber}} €</span>
 		</div>
 		<div class="col-importe">
-			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
+			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.importe">
 				<span *ngIf="!editarImporte" class="editar-linea-importe" (click)="editarLineaImporte(i)">
 					{{linea.total | fixedNumber}} €
 					<mat-icon *ngIf="linea.importeManual" (click)="quitaImporteManual($event, i)" title="Quita el importe introducido manualmente">close</mat-icon>
 				</span>
 				<span *ngIf="editarImporte">
-					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + i" (keyup)="checkImporte($event, i)">
+					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + i" (keyup)="checkImporte($event, i, false)" (blur)="checkImporte($event, i, true)">
 					€
 				</span>
 			</ng-container>
 		</div>
 		<div class="col-descuentos">
 			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
-			<span *ngIf="linea.descuento !== null" (click)="abreDescuento(linea)">{{linea.descuento}} %</span>
+			<ng-container *ngIf="linea.descuento !== null">
+				<span *ngIf="!editarDescuento" class="editar-linea-descuento" (click)="editarLineaDescuento(i)">
+					{{linea.descuento}} <ng-container *ngIf="!linea.descuentoManual">%</ng-container><ng-container *ngIf="linea.descuentoManual">€</ng-container>
+					<mat-icon *ngIf="!linea.descuentoManual" (click)="abreDescuento($event, linea)" title="introducir un importe como descuento">attach_money</mat-icon>
+					<mat-icon *ngIf="linea.descuentoManual" (click)="quitaDescuentoManual($event, i)" title="Quita el importe introducido como descuento">close</mat-icon>
+				</span>
+				<span *ngIf="editarDescuento">
+					<input type="number" class="linea-descuento" min="0" step="1" [(ngModel)]="linea.descuento" [id]="'linea-descuento-' + i" (keyup)="checkDescuento($event, i, false)" (blur)="checkDescuento($event, i, true)">
+					%
+				</span>
+			</ng-container>
 		</div>
 	</div>
 </div>

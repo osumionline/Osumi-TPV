@@ -3,6 +3,7 @@ import { LineaVentaInterface } from 'src/app/interfaces/interfaces';
 
 export class LineaVenta {
 	importeManual: boolean = false;
+	descuentoManual: boolean = false;
 
 	constructor(
 		public idArticulo: number = null,

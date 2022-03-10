@@ -18,6 +18,7 @@ export class UnaVentaComponent {
 	@Output() endVentaEvent = new EventEmitter<number>();
 	searching: boolean = false;
 	editarImporte: boolean = false;
+	editarDescuento: boolean = false;
 	muestraDescuento: boolean = false;
 	descuentoOptions: number[] = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 	descuentoSelected: number = null;
@@ -106,15 +107,14 @@ export class UnaVentaComponent {
 
 	editarLineaImporte(ind: number): void {
 		this.editarImporte = true;
-		console.log(this.venta.lineas[ind]);
 		setTimeout(() => {
 			const importe: HTMLInputElement = document.getElementById('linea-importe-' + ind) as HTMLInputElement;
 			importe.select();
 		}, 0);
 	}
 
-	checkImporte(ev: KeyboardEvent, ind: number): void {
-		if (ev.key=='Enter') {
+	checkImporte(ev: KeyboardEvent, ind: number, close: boolean): void {
+		if (ev.key=='Enter' || close) {
 			this.editarImporte = false;
 			this.venta.lineas[ind].importeManual = true;
 			this.venta.updateImporte();
@@ -125,8 +125,30 @@ export class UnaVentaComponent {
 		ev.stopPropagation();
 		this.venta.lineas[ind].importeManual = false;
 	}
+	
+	editarLineaDescuento(ind: number): void {
+		this.editarDescuento = true;
+		setTimeout(() => {
+			const descuento: HTMLInputElement = document.getElementById('linea-descuento-' + ind) as HTMLInputElement;
+			descuento.select();
+		}, 0);
+	}
 
-	abreDescuento(linea: LineaVenta): void {
+	checkDescuento(ev: KeyboardEvent, ind: number, close: boolean): void {
+		if (ev.key=='Enter' || close) {
+			this.editarDescuento = false;
+			this.venta.updateImporte();
+		}
+	}
+
+	quitaDescuentoManual(ev: MouseEvent, ind: number): void {
+		ev.stopPropagation();
+		this.venta.lineas[ind].descuento = 0;
+		this.venta.lineas[ind].descuentoManual = false;
+	}
+
+	abreDescuento(ev: MouseEvent, linea: LineaVenta): void {
+		ev.stopPropagation();
 		this.descuentoSelected = linea.idArticulo;
 		this.descuentoOtro = null;
 		this.muestraDescuento = true;

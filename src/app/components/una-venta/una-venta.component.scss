@@ -49,7 +49,7 @@
 				color: var(--main-color-contrast);
 
 				mat-icon {
-					color: #fff;
+					color: var(--main-color-contrast);
 				}
 			}
 
@@ -64,6 +64,40 @@
 		.linea-importe {
 			display: inline-block;
 			width: 90%;
+			height: 30px;
+			background-color: transparent;
+			border: 0;
+			outline: 0;
+			padding: 0 5px;
+			font-size: inherit;
+			text-align: right;
+		}
+
+		.editar-linea-descuento {
+			display: block;
+			position: relative;
+
+			&:hover {
+				cursor: pointer;
+				background-color: var(--main-color);
+				color: var(--main-color-contrast);
+
+				mat-icon {
+					color: var(--main-color-contrast);
+				}
+			}
+
+			mat-icon {
+				cursor: pointer;
+				position: absolute;
+				right: 3px;
+				top: 3px;
+			}
+		}
+
+		.linea-descuento {
+			display: inline-block;
+			width: 60%;
 			height: 30px;
 			background-color: transparent;
 			border: 0;
@@ -121,7 +155,7 @@
 			display: flex;
 			padding: 8px;
 			margin: 8px;
-			border-bottom: 2px solid #888;
+			border-bottom: 2px solid var(--table-border);
 
 			.estadisticas-item-fecha {
 				flex: 1;
