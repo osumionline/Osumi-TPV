@@ -1,6 +1,9 @@
 import { LineaVenta } from 'src/app/model/linea-venta.model';
 
 export class FinVenta {
+	pagoMixto: boolean = false;
+	factura: boolean = false;
+
 	constructor(
 		public efectivo: number = 0,
 		public cambio: number = 0,

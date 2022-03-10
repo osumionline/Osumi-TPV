@@ -28,6 +28,41 @@
 			}
 		}
 
+		.col-line-check {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.tipos-pago {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 16px;
+
+			.tipo-pago {
+				border: 2px solid #ccc;
+				border-radius: 6px;
+				display: flex;
+				padding: 16px;
+				cursor: pointer;
+				flex: 1 1 calc(50% - 8px);
+				margin-right: 8px;
+				margin-bottom: 8px;
+				align-items: center;
+				transition: all .4s;
+
+				img {
+					display: inline-block;
+					margin-right: 8px;
+					height: 32px;
+				}
+
+				&:hover {
+					border: 2px solid #000;
+				}
+			}
+		}
+
 		.total {
 			border: 1px solid #ccc;
 			border-radius: 6px;
