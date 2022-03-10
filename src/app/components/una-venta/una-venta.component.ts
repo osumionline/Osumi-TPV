@@ -121,6 +121,11 @@ export class UnaVentaComponent {
 		}
 	}
 
+	quitaImporteManual(ev: MouseEvent, ind: number): void {
+		ev.stopPropagation();
+		this.venta.lineas[ind].importeManual = false;
+	}
+
 	abreDescuento(linea: LineaVenta): void {
 		this.descuentoSelected = linea.idArticulo;
 		this.descuentoOtro = null;

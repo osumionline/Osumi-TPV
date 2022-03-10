@@ -9,7 +9,7 @@
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
 			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">
 				{{linea.descripcion}}
-				<mat-icon *ngIf="linea.observaciones" (click)="showObservaciones($event, linea.observaciones)">info_outline</mat-icon>
+				<mat-icon *ngIf="linea.observaciones" (click)="showObservaciones($event, linea.observaciones)" title="Mostrar observaciones del artículo">info_outline</mat-icon>
 			</span>
 		</div>
 		<div class="col-stock">
@@ -28,7 +28,8 @@
 			<ng-container *ngIf="!linea.importe">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.importe">
 				<span *ngIf="!editarImporte" class="editar-linea-importe" (click)="editarLineaImporte(i)">
-					{{linea.importe | fixedNumber}} €
+					{{linea.total | fixedNumber}} €
+					<mat-icon *ngIf="linea.importeManual" (click)="quitaImporteManual($event, i)" title="Quita el importe introducido manualmente">close</mat-icon>
 				</span>
 				<span *ngIf="editarImporte">
 					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + i" (keyup)="checkImporte($event, i)">

@@ -41,11 +41,23 @@
 
 		.editar-linea-importe {
 			display: block;
+			position: relative;
 
 			&:hover {
 				cursor: pointer;
 				background-color: var(--main-color);
 				color: var(--main-color-contrast);
+
+				mat-icon {
+					color: #fff;
+				}
+			}
+
+			mat-icon {
+				cursor: pointer;
+				position: absolute;
+				right: 3px;
+				top: 3px;
 			}
 		}
 
