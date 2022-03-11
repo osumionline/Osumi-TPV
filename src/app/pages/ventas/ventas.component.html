@@ -22,12 +22,15 @@
 				<div class="col-line">
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Efectivo</mat-label>
-						<input matInput type="number" placeholder="Efectivo" [(ngModel)]="vs.fin.efectivo">
+						<input matInput type="number" placeholder="Efectivo" [(ngModel)]="vs.fin.efectivo" [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+						(focus)="$event.target.select()"
+						#efectivoValue>
 					</mat-form-field>
 					€
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Cambio</mat-label>
-						<input matInput type="number" placeholder="Cambio" [(ngModel)]="vs.fin.cambio">
+						<input matInput type="number" placeholder="Cambio" [(ngModel)]="vs.fin.cambio" [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+						(focus)="$event.target.select()">
 					</mat-form-field>
 					€
 				</div>
@@ -38,10 +41,10 @@
 					</div>
 				</div>
 				<div class="col-line-check">
-					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto">Pago mixto</mat-checkbox>
+					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto" (change)="changePagoMixto($event)">Pago mixto</mat-checkbox>
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Importe tarjeta</mat-label>
-						<input matInput type="number" placeholder="Importe tarjeta" [(ngModel)]="vs.fin.tarjeta" [disabled]="!vs.fin.pagoMixto">
+						<input matInput type="number" placeholder="Importe tarjeta" [(ngModel)]="vs.fin.tarjeta" [disabled]="!vs.fin.pagoMixto" #tarjetaValue>
 					</mat-form-field>
 				</div>
 				<div class="col-line-check">
@@ -56,7 +59,7 @@
 				</div>
 				<div class="total mat-elevation-z4">
 					<div class="total-title">TOTAL</div>
-					<div class="total-importe">{{vs.fin.total}} €</div>
+					<div class="total-importe">{{vs.fin.total | fixedNumber}} €</div>
 				</div>
 				<div class="col-line">
 					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()">Cancelar</button>

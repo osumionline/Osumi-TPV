@@ -15,6 +15,7 @@
 
 	.col-left {
 		padding: 16px;
+		flex: 2;
 
 		.col-line {
 			display: flex;
@@ -107,6 +108,7 @@
 		width: 600px;
 		border: 1px solid #ccc;
 		border-radius: 6px;
+		flex: 3;
 
 		.venta-linea {
 			display: flex;

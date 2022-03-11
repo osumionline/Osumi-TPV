@@ -2,9 +2,7 @@ import { Injectable }    from '@angular/core';
 import { Venta }         from 'src/app/model/venta.model';
 import { LineaVenta }    from 'src/app/model/linea-venta.model';
 import { Cliente }       from 'src/app/model/cliente.model';
-import { TipoPago }      from 'src/app/model/tipo-pago.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
-import { ConfigService } from 'src/app/services/config.service';
 import { Tabs }          from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -18,7 +16,7 @@ export class VentasService {
 	list: Venta[] = [];
 	fin: FinVenta = new FinVenta();
 
-	constructor(private config: ConfigService) {}
+	constructor() {}
 
 	newVenta(): void {
 		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
@@ -49,11 +47,11 @@ export class VentasService {
 
 		this.fin = new FinVenta(
 			this.list[this.tabs.selected].importe,
-			null,
+			0,
 			null,
 			null,
 			this.cliente ? this.cliente.id : null,
-			0,
+			this.ventaActual.importe,
 			lineas
 		);
 	}

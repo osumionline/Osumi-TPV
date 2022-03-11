@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { Router }            from '@angular/router';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ConfigService }     from 'src/app/services/config.service';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { VentasService }     from 'src/app/services/ventas.service';
@@ -13,6 +14,8 @@ import { ClientesService }   from 'src/app/services/clientes.service';
 export class VentasComponent implements OnInit {
 	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 	showFinalizarVenta: boolean = false;
+	@ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
+	@ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;
 
 	constructor(
 		private router: Router,
@@ -81,13 +84,43 @@ export class VentasComponent implements OnInit {
 	endVenta(id: number): void {
 		this.vs.loadFinVenta();
 		this.showFinalizarVenta = true;
+		setTimeout(() => {
+			this.efectivoValue.nativeElement.select();
+		}, 0);
 	}
 
 	cerrarFinalizarVenta(): void {
 		this.showFinalizarVenta = false;
+		this.venta.setFocus();
 	}
 
 	selectTipoPago(id: number): void {
-		this.vs.fin.idTipoPago = id;
+		if (this.vs.fin.idTipoPago === id) {
+			this.vs.fin.idTipoPago = null;
+			this.vs.fin.efectivo = this.vs.fin.total;
+			setTimeout(() => {
+				this.efectivoValue.nativeElement.select();
+			}, 0);
+		}
+		else {
+			this.vs.fin.idTipoPago = id;
+			this.vs.fin.efectivo = 0;
+			this.vs.fin.cambio = 0;
+		}
+	}
+
+	changePagoMixto(ev: MatCheckboxChange): void {
+		if (ev.checked) {
+			setTimeout(() => {
+				this.tarjetaValue.nativeElement.select();
+			}, 0);
+		}
+		else {
+			if (this.vs.fin.idTipoPago === null) {
+				setTimeout(() => {
+					this.efectivoValue.nativeElement.select();
+				}, 0);
+			}
+		}
 	}
 }
