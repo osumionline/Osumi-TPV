@@ -18,13 +18,18 @@
 
 		.col-line {
 			display: flex;
+			align-items: center;
 
 			button:first-child {
 				margin-right: 16px;
 			}
 
-			mat-form-field:first-child {
+			mat-form-field {
 				margin-right: 16px;
+			}
+
+			mat-form-field:last-child {
+				margin-left: 16px;
 			}
 		}
 
@@ -37,7 +42,7 @@
 		.tipos-pago {
 			display: flex;
 			flex-wrap: wrap;
-			margin-bottom: 16px;
+			margin: 16px 0;
 
 			.tipo-pago {
 				border: 2px solid #ccc;
@@ -61,6 +66,14 @@
 					border: 2px solid #000;
 				}
 			}
+
+			.tipo-pago-selected {
+				border: 2px solid var(--main-color);
+
+				&:hover {
+					border: 2px solid var(--main-color);
+				}
+			}
 		}
 
 		.total {
@@ -70,6 +83,7 @@
 			padding: 16px;
 			height: 60px;
 			margin-bottom: 16px;
+			margin-top: 8px;
 
 			.total-title {
 				position: absolute;

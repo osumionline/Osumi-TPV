@@ -86,4 +86,8 @@ export class VentasComponent implements OnInit {
 	cerrarFinalizarVenta(): void {
 		this.showFinalizarVenta = false;
 	}
+
+	selectTipoPago(id: number): void {
+		this.vs.fin.idTipoPago = id;
+	}
 }

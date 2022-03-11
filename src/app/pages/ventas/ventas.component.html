@@ -20,34 +20,34 @@
 		<div class="modal-body finalizar-venta">
 			<div class="col-left">
 				<div class="col-line">
-					<mat-form-field>
+					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Efectivo</mat-label>
 						<input matInput type="number" placeholder="Efectivo" [(ngModel)]="vs.fin.efectivo">
 					</mat-form-field>
-				</div>
-				<div class="col-line">
-					<mat-form-field>
+					€
+					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Cambio</mat-label>
 						<input matInput type="number" placeholder="Cambio" [(ngModel)]="vs.fin.cambio">
 					</mat-form-field>
+					€
 				</div>
 				<div class="tipos-pago">
-					<div class="tipo-pago" *ngFor="let tipo of config.tiposPago">
+					<div class="tipo-pago" *ngFor="let tipo of config.tiposPago" [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}" (click)="selectTipoPago(tipo.id)">
 						<img [src]="'https://apitpv.osumi.es/tipos-pago/icon-' + tipo.slug + '.png'">
 						{{tipo.nombre}}
 					</div>
 				</div>
 				<div class="col-line-check">
 					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto">Pago mixto</mat-checkbox>
-					<mat-form-field *ngIf="vs.fin.pagoMixto">
+					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Importe tarjeta</mat-label>
-						<input matInput type="number" placeholder="Importe tarjeta" [(ngModel)]="vs.fin.efectivo">
+						<input matInput type="number" placeholder="Importe tarjeta" [(ngModel)]="vs.fin.tarjeta" [disabled]="!vs.fin.pagoMixto">
 					</mat-form-field>
 				</div>
 				<div class="col-line-check">
 					<mat-checkbox [(ngModel)]="vs.fin.factura">Factura</mat-checkbox>
-					<mat-form-field *ngIf="vs.fin.factura">
-						<mat-select [(ngModel)]="vs.fin.idCliente">
+					<mat-form-field class="mat-form-field-no-bottom">
+						<mat-select [(ngModel)]="vs.fin.idCliente" [disabled]="!vs.fin.factura">
 							<mat-option value="1">
 								Cliente
 							</mat-option>

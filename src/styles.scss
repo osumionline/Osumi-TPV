@@ -49,6 +49,13 @@ input[type=number] {
 	padding: 16px;
 }
 
+.mat-form-field-no-bottom {
+	.mat-form-field-wrapper {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+}
+
 /* Estilos para ventanas modales */
 
 .modal-bg {

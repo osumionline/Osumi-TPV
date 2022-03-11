@@ -45,14 +45,13 @@ export class VentasService {
 	}
 
 	loadFinVenta(): void {
-		const tipoPago: TipoPago = this.config.tiposPago[0];
 		const lineas = this.list[this.tabs.selected].lineas.filter(x => x.idArticulo !== null);
 
 		this.fin = new FinVenta(
 			this.list[this.tabs.selected].importe,
-			0,
-			0,
-			tipoPago.id,
+			null,
+			null,
+			null,
 			this.cliente ? this.cliente.id : null,
 			0,
 			lineas
