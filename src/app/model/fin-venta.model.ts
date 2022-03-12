@@ -5,12 +5,12 @@ export class FinVenta {
 	factura: boolean = false;
 
 	constructor(
-		public efectivo: number = 0,
-		public cambio: number = 0,
-		public tarjeta: number = 0,
+		public efectivo: string = '0',
+		public cambio: string = '0',
+		public tarjeta: string = '0',
 		public idTipoPago: number =  null,
 		public idCliente: number = null,
-		public total: number = 0,
+		public total: string = '0',
 		public lineas: LineaVenta[] = []
 	) {}
 }

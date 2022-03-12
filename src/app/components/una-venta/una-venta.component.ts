@@ -146,7 +146,7 @@ export class UnaVentaComponent {
 		this.venta.lineas[ind].importeManual = false;
 		this.setFocus();
 	}
-	
+
 	editarLineaDescuento(ind: number): void {
 		if (this.venta.lineas[ind].importeManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento', ok: 'Continuar'}).subscribe(result => {

@@ -1,9 +1,11 @@
-import { Injectable }  from '@angular/core';
-import { HttpClient }  from '@angular/common/http';
-import { Observable }  from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Injectable }         from '@angular/core';
+import { HttpClient }         from '@angular/common/http';
+import { Observable }         from 'rxjs';
+import { environment }        from 'src/environments/environment';
+import { Cliente }            from 'src/app/model/cliente.model';
+import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import {
-	SearchClientesResult,
+	ClientesResult,
 	ClienteInterface,
 	ClienteSaveResult,
 	EstadisticasClienteResult
@@ -13,10 +15,30 @@ import {
   providedIn: 'root'
 })
 export class ClientesService {
-	constructor(private http : HttpClient) {}
+	clientes: Cliente[] = [];
+	loaded: boolean = false;
 
-	searchClientes(name: string): Observable<SearchClientesResult> {
-		return this.http.post<SearchClientesResult>(environment.apiUrl + 'searchClientes', {name});
+	constructor(private http : HttpClient, private cms: ClassMapperService) {}
+
+	load(): void {
+		if (!this.loaded) {
+			this.getClientes().subscribe(result => {
+				this.loadClientes( this.cms.getClientes(result.list) );
+			});
+		}
+	}
+
+	getClientes(): Observable<ClientesResult> {
+		return this.http.post<ClientesResult>(environment.apiUrl + 'getClientes', {});
+	}
+
+	loadClientes(clientes: Cliente[]): void {
+		this.clientes = clientes;
+		this.loaded = true;
+	}
+
+	searchClientes(name: string): Observable<ClientesResult> {
+		return this.http.post<ClientesResult>(environment.apiUrl + 'searchClientes', {name});
 	}
 
 	saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {

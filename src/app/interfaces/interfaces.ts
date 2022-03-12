@@ -242,7 +242,7 @@ export interface ClienteInterface {
 	ultimaVenta: string;
 }
 
-export interface SearchClientesResult {
+export interface ClientesResult {
 	status: string;
 	list: ClienteInterface[];
 }

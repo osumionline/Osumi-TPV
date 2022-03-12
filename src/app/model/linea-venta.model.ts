@@ -23,10 +23,21 @@ export class LineaVenta {
 			return this.importe;
 		}
 		if (this.descuentoManual) {
-			return ( (this.cantidad * this.pvp) - (this.descuento) );
+			return ( this.importe - (this.descuento) );
 		}
-		return ( (this.cantidad * this.pvp) * (1 - (this.descuento / 100) ) );
+		return ( this.importe * (1 - (this.descuento / 100) ) );
 	}
+
+    updateImporte(): void {
+        if (!this.importeManual) {
+            if (this.cantidad !== null && this.pvp !== null) {
+                this.importe = this.cantidad * this.pvp;
+            }
+            else {
+                this.importe = null;
+            }
+        }
+    }
 
 	fromArticulo(a: Articulo): LineaVenta {
 		this.idArticulo = a.id;

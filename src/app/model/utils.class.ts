@@ -1,4 +1,15 @@
 export class Utils {
+	static formatNumber(num: number): string {
+		return num.toFixed(2).replace('.', ',');
+	}
+
+	static toNumber(str: string): number {
+		if (str === null || str === '') {
+			return 0;
+		}
+		return parseFloat(str.replace(',', '.'));
+	}
+
 	static urlencode(str: string): string{
 		return encodeURIComponent( str ).replace( /\%20/g, '+' ).replace( /!/g, '%21' ).replace( /'/g, '%27' ).replace( /\(/g, '%28' ).replace( /\)/g, '%29' ).replace( /\*/g, '%2A' ).replace( /\~/g, '%7E' );
 	}

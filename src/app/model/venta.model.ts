@@ -22,6 +22,7 @@ export class Venta {
 	updateImporte(): void {
 		let cant: number = 0;
 		for (let i in this.lineas) {
+			this.lineas[i].updateImporte();
 			cant += this.lineas[i].total;
 		}
 		this.importe = cant;

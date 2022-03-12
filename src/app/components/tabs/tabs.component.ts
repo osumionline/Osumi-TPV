@@ -174,5 +174,6 @@ export class TabsComponent {
 
 	removeClient(): void {
 		this.vs.cliente = null;
+		this.selectClientEvent.emit(null);
 	}
 }

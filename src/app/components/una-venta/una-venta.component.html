@@ -33,7 +33,7 @@
 		</div>
 		<div class="col-importe">
 			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
-			<ng-container *ngIf="linea.importe">
+			<ng-container *ngIf="linea.importe !== null">
 				<span *ngIf="!editarImporte" class="editar-linea-importe" (click)="editarLineaImporte(i)">
 					{{linea.total | fixedNumber}} €
 					<mat-icon *ngIf="linea.importeManual" (click)="quitaImporteManual($event, i)" title="Quita el importe introducido manualmente">close</mat-icon>
@@ -49,7 +49,7 @@
 			<ng-container *ngIf="linea.descuento !== null">
 				<span *ngIf="!editarDescuento" class="editar-linea-descuento" (click)="editarLineaDescuento(i)">
 					{{linea.descuento}} <ng-container *ngIf="!linea.descuentoManual">%</ng-container><ng-container *ngIf="linea.descuentoManual">€</ng-container>
-					<mat-icon *ngIf="!linea.descuentoManual" (click)="abreDescuento($event, linea)" title="introducir un importe como descuento">attach_money</mat-icon>
+					<mat-icon *ngIf="!linea.descuentoManual" (click)="abreDescuento($event, linea)" title="introducir un importe como descuento">euro</mat-icon>
 					<mat-icon *ngIf="linea.descuentoManual" (click)="quitaDescuentoManual($event, i)" title="Quita el importe introducido como descuento">close</mat-icon>
 				</span>
 				<span *ngIf="editarDescuento">

@@ -4,6 +4,7 @@ import { LineaVenta }    from 'src/app/model/linea-venta.model';
 import { Cliente }       from 'src/app/model/cliente.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
 import { Tabs }          from 'src/app/interfaces/interfaces';
+import { Utils }         from 'src/app/model/utils.class';
 
 @Injectable({
 	providedIn: 'root'
@@ -46,12 +47,12 @@ export class VentasService {
 		const lineas = this.list[this.tabs.selected].lineas.filter(x => x.idArticulo !== null);
 
 		this.fin = new FinVenta(
-			this.list[this.tabs.selected].importe,
-			0,
+			Utils.formatNumber(this.list[this.tabs.selected].importe),
+			'0',
 			null,
 			null,
 			this.cliente ? this.cliente.id : null,
-			this.ventaActual.importe,
+			Utils.formatNumber(this.ventaActual.importe),
 			lineas
 		);
 	}
