@@ -187,7 +187,7 @@ export class ArticulosComponent implements OnInit {
 	}
 
 	loadCategorias(): void {
-		this.ars.getCategorias().subscribe(result => {
+		this.css.getCategorias().subscribe(result => {
 			const list: Categoria[] = this.cms.getCategorias([result.list]);
 			this.css.loadCategorias(list);
 

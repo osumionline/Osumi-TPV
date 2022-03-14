@@ -21,6 +21,10 @@
 			display: flex;
 			align-items: center;
 
+			button img {
+				width: 24px;
+			}
+
 			button:first-child {
 				margin-right: 16px;
 			}

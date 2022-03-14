@@ -3,9 +3,11 @@ import { Router }            from '@angular/router';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect }         from '@angular/material/select';
 import { ConfigService }     from 'src/app/services/config.service';
+import { DialogService }     from 'src/app/services/dialog.service';
 import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { VentasService }     from 'src/app/services/ventas.service';
 import { ClientesService }   from 'src/app/services/clientes.service';
+import { Cliente }           from 'src/app/model/cliente.model';
 import { Utils }             from 'src/app/model/utils.class';
 
 @Component({
@@ -19,10 +21,14 @@ export class VentasComponent implements OnInit {
 	@ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
 	@ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;
 	@ViewChild('clientesValue', { static: true }) clientesValue: MatSelect;
+	clientes: Cliente[] = [];
+
+	saving: boolean = false;
 
 	constructor(
 		private router: Router,
 		public config: ConfigService,
+		private dialog: DialogService,
 		public vs: VentasService,
 		public cs: ClientesService
 	) {}
@@ -51,7 +57,7 @@ export class VentasComponent implements OnInit {
 	@HostListener('window:keydown', ['$event'])
 	onKeyDown(ev: KeyboardEvent) {
 		if (ev.key === 'Escape') {
-			if (this.showFinalizarVenta) {
+			if (this.showFinalizarVenta && !this.saving) {
 				this.cerrarFinalizarVenta();
 			}
 		}
@@ -167,13 +173,15 @@ export class VentasComponent implements OnInit {
 
 	changeFactura(ev: MatCheckboxChange): void {
 		if (ev.checked) {
-			if (this.vs.fin.idCliente === null) {
+			this.clientes = [new Cliente(-1, 'Elige un cliente'), ...this.cs.clientes];
+			if (this.vs.fin.idCliente === -1) {
 				setTimeout(() => {
 					this.clientesValue.toggle();
 				}, 0);
 			}
 		}
 		else {
+			this.vs.fin.idCliente = this.vs.cliente ? this.vs.cliente.id : null;
 			if (this.vs.fin.pagoMixto) {
 				setTimeout(() => {
 					this.tarjetaValue.nativeElement.select();
@@ -187,5 +195,51 @@ export class VentasComponent implements OnInit {
 				}
 			}
 		}
+	}
+
+	finalizarVenta(): void {
+		const tarjeta: number = Utils.toNumber(this.vs.fin.tarjeta);
+		const efectivo: number = Utils.toNumber(this.vs.fin.efectivo);
+		const total: number = Utils.toNumber(this.vs.fin.total);
+
+		if (this.vs.fin.factura && (this.vs.fin.idCliente === null || this.vs.fin.idCliente === -1)) {
+			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún cliente!', ok: 'Continuar'}).subscribe(result => {
+				setTimeout(() => {
+					this.clientesValue.toggle();
+				}, 0);
+			});
+			return;
+		}
+		if (this.vs.fin.pagoMixto) {
+			if (this.vs.fin.idTipoPago === null) {
+				this.dialog.alert({title: 'Error', content: '¡Has indicado pago mixto pero no has elegido ningún tipo de pago!', ok: 'Continuar'});
+				return;
+			}
+			else {
+				if ((tarjeta + efectivo) < total) {
+					this.dialog.alert({title: 'Error', content: '¡Las cantidades introducidas (tarjeta y efectivo) son inferiores al importe total!', ok: 'Continuar'}).subscribe(result => {
+						setTimeout(() => {
+							this.tarjetaValue.nativeElement.select();
+						}, 0);
+					});
+					return;
+				}
+			}
+		}
+		else {
+			if (this.vs.fin.idTipoPago === null && (efectivo < total)) {
+				this.dialog.alert({title: 'Error', content: '¡La cantidad introducida es inferior al importe total!', ok: 'Continuar'}).subscribe(result => {
+					setTimeout(() => {
+						this.efectivoValue.nativeElement.select();
+					}, 0);
+				});
+				return;
+			}
+		}
+
+		this.saving = true;
+		this.vs.guardarVenta().subscribe(result => {
+			
+		});
 	}
 }

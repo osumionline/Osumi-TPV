@@ -219,6 +219,18 @@ export interface VentaInterface {
 	importe: number;
 }
 
+export interface FinVentaInterface {
+	efectivo: number;
+	cambio: number;
+	tarjeta: number;
+	idTipoPago: number;
+	idCliente: number;
+	total: number;
+	lineas: LineaVentaInterface[];
+	pagoMixto: boolean;
+	factura: boolean;
+}
+
 export interface ClienteInterface {
 	id: number;
 	nombreApellidos: string;

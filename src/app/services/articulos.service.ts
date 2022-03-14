@@ -5,13 +5,12 @@ import { environment } from 'src/environments/environment';
 import {
 	ChartSelectInterface,
 	ChartResultInterface,
-	CategoriasResult,
 	StatusResult,
 	ArticuloInterface,
 	ArticuloSaveResult,
 	ArticuloResult,
 	SearchArticulosResult
-} from 'src/app/interfaces/interfaces'
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -20,26 +19,22 @@ export class ArticulosService {
 	constructor(private http : HttpClient) {}
 
 	getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {
-		return this.http.post<ChartResultInterface>(environment.apiUrl + 'getStatistics', data);
-	}
-
-	getCategorias(): Observable<CategoriasResult> {
-		return this.http.post<CategoriasResult>(environment.apiUrl + 'getCategorias', {});
+		return this.http.post<ChartResultInterface>(environment.apiUrl + '-articulos/get-statistics', data);
 	}
 
 	deleteArticulo(id: number): Observable<StatusResult> {
-		return this.http.post<StatusResult>(environment.apiUrl + 'deleteArticulo', {id});
+		return this.http.post<StatusResult>(environment.apiUrl + '-articulos/delete-articulo', {id});
 	}
 
 	saveArticulo(articulo: ArticuloInterface): Observable<ArticuloSaveResult> {
-		return this.http.post<ArticuloSaveResult>(environment.apiUrl + 'saveArticulo', articulo);
+		return this.http.post<ArticuloSaveResult>(environment.apiUrl + '-articulos/save-articulo', articulo);
 	}
 
 	loadArticulo(localizador: number): Observable<ArticuloResult> {
-		return this.http.post<ArticuloResult>(environment.apiUrl + 'loadArticulo', {localizador});
+		return this.http.post<ArticuloResult>(environment.apiUrl + '-articulos/load-articulo', {localizador});
 	}
 
 	searchArticulos(name: string, idMarca: number): Observable<SearchArticulosResult> {
-		return this.http.post<SearchArticulosResult>(environment.apiUrl + 'searchArticulos', {name, idMarca});
+		return this.http.post<SearchArticulosResult>(environment.apiUrl + '-articulos/search-articulos', {name, idMarca});
 	}
 }

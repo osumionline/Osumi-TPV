@@ -28,7 +28,7 @@ export class ProveedoresService {
 	}
 
 	getProveedores(): Observable<ProveedoresResult> {
-		return this.http.post<ProveedoresResult>(environment.apiUrl + 'getProveedores', {});
+		return this.http.post<ProveedoresResult>(environment.apiUrl + '-proveedores/get-proveedores', {});
 	}
 
 	loadProveedores(proveedores: Proveedor[]): void {
@@ -45,6 +45,6 @@ export class ProveedoresService {
 	}
 
 	saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
-		return this.http.post<IdSaveResult>(environment.apiUrl + 'saveProveedor', proveedor);
+		return this.http.post<IdSaveResult>(environment.apiUrl + '-proveedores/save-proveedor', proveedor);
 	}
 }

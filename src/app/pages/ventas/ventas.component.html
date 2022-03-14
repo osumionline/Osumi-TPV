@@ -54,7 +54,7 @@
 					<mat-checkbox [(ngModel)]="vs.fin.factura" (change)="changeFactura($event)">Factura</mat-checkbox>
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-select [(ngModel)]="vs.fin.idCliente" [disabled]="!vs.fin.factura" #clientesValue>
-							<mat-option *ngFor="let cliente of cs.clientes" [value]="cliente.id">
+							<mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
 								{{cliente.nombreApellidos}}
 							</mat-option>
 						</mat-select>
@@ -65,8 +65,11 @@
 					<div class="total-importe">{{vs.fin.total}} €</div>
 				</div>
 				<div class="col-line">
-					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()">Cancelar</button>
-					<button mat-raised-button color="primary" (click)="cerrarFinalizarVenta()">Finalizar</button>
+					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()" [disabled]="saving">Cancelar</button>
+					<button mat-raised-button color="primary" (click)="finalizarVenta()" [disabled]="saving">
+						<img src="/assets/loading.svg" *ngIf="saving">
+						Finalizar
+					</button>
 				</div>
 			</div>
 			<div class="col-right">

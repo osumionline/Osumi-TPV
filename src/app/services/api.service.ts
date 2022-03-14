@@ -17,15 +17,15 @@ export class ApiService {
 	constructor(private http : HttpClient){}
 
 	checkStart(date: string): Observable<StartDataInterface> {
-		return this.http.post<StartDataInterface>(environment.apiUrl + 'checkStart', {date});
+		return this.http.post<StartDataInterface>(environment.apiUrl + '/check-start', {date});
 	}
 
 	saveInstallation(data: AppDataInterface): Observable<StatusResult> {
-		return this.http.post<StatusResult>(environment.apiUrl + 'saveInstallation', data);
+		return this.http.post<StatusResult>(environment.apiUrl + '/save-installation', data);
 	}
 
 	openBox(): Observable<StatusResult> {
-		return this.http.post<StatusResult>(environment.apiUrl + 'openBox', {});
+		return this.http.post<StatusResult>(environment.apiUrl + '/open-box', {});
 	}
 
 	getProvinceList(): Observable<AllProvincesInterface> {

@@ -1,10 +1,16 @@
 import { Injectable }    from '@angular/core';
+import { HttpClient }    from '@angular/common/http';
+import { Observable }    from 'rxjs';
+import { environment }   from 'src/environments/environment';
 import { Venta }         from 'src/app/model/venta.model';
 import { LineaVenta }    from 'src/app/model/linea-venta.model';
 import { Cliente }       from 'src/app/model/cliente.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
-import { Tabs }          from 'src/app/interfaces/interfaces';
 import { Utils }         from 'src/app/model/utils.class';
+import {
+	Tabs,
+	StatusResult
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,7 +23,7 @@ export class VentasService {
 	list: Venta[] = [];
 	fin: FinVenta = new FinVenta();
 
-	constructor() {}
+	constructor(private http : HttpClient) {}
 
 	newVenta(): void {
 		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
@@ -51,9 +57,13 @@ export class VentasService {
 			'0',
 			null,
 			null,
-			this.cliente ? this.cliente.id : null,
+			this.cliente ? this.cliente.id : -1,
 			Utils.formatNumber(this.ventaActual.importe),
 			lineas
 		);
+	}
+
+	guardarVenta(): Observable<StatusResult> {
+		return this.http.post<StatusResult>(environment.apiUrl + '-ventas/save-venta', this.fin.toInterface());
 	}
 }

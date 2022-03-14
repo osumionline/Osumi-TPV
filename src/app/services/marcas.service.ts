@@ -28,7 +28,7 @@ export class MarcasService {
 	}
 
 	getMarcas(): Observable<MarcasResult> {
-		return this.http.post<MarcasResult>(environment.apiUrl + 'getMarcas', {});
+		return this.http.post<MarcasResult>(environment.apiUrl + '-marcas/get-marcas', {});
 	}
 
 	loadMarcas(marcas: Marca[]): void {
@@ -45,6 +45,6 @@ export class MarcasService {
 	}
 
 	saveMarca(marca: MarcaInterface): Observable<IdSaveResult> {
-		return this.http.post<IdSaveResult>(environment.apiUrl + 'saveMarca', marca);
+		return this.http.post<IdSaveResult>(environment.apiUrl + '-marcas/save-marca', marca);
 	}
 }

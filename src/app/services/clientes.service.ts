@@ -29,7 +29,7 @@ export class ClientesService {
 	}
 
 	getClientes(): Observable<ClientesResult> {
-		return this.http.post<ClientesResult>(environment.apiUrl + 'getClientes', {});
+		return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/get-clientes', {});
 	}
 
 	loadClientes(clientes: Cliente[]): void {
@@ -38,14 +38,14 @@ export class ClientesService {
 	}
 
 	searchClientes(name: string): Observable<ClientesResult> {
-		return this.http.post<ClientesResult>(environment.apiUrl + 'searchClientes', {name});
+		return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/search-clientes', {name});
 	}
 
 	saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
-		return this.http.post<ClienteSaveResult>(environment.apiUrl + 'saveCliente', cliente);
+		return this.http.post<ClienteSaveResult>(environment.apiUrl + '-clientes/save-cliente', cliente);
 	}
 
 	getEstadisticasCliente(id: number): Observable<EstadisticasClienteResult> {
-		return this.http.post<EstadisticasClienteResult>(environment.apiUrl + 'getEstadisticasCliente', {id});
+		return this.http.post<EstadisticasClienteResult>(environment.apiUrl + '-clientes/get-estadisticas-cliente', {id});
 	}
 }
