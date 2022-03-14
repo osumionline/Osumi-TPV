@@ -106,12 +106,19 @@ export class VentasComponent implements OnInit {
 	}
 
 	updateEfectivoMixto(): void {
+		if (Utils.toNumber(this.vs.fin.tarjeta) === 0) {
+			this.vs.fin.efectivo  = '0';
+			this.vs.fin.cambio = '0';
+			return;
+		}
 		const efectivo: string = Utils.formatNumber(Utils.toNumber(this.vs.fin.total) - Utils.toNumber(this.vs.fin.tarjeta));
 		if (Utils.toNumber(efectivo) > 0) {
 			this.vs.fin.efectivo = efectivo;
+			this.vs.fin.cambio = '0';
 		}
 		else {
 			this.vs.fin.efectivo  = '0';
+			this.vs.fin.cambio = Utils.formatNumber(Utils.toNumber(efectivo) * -1);
 		}
 	}
 
