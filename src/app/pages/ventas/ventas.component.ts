@@ -167,9 +167,11 @@ export class VentasComponent implements OnInit {
 
 	changeFactura(ev: MatCheckboxChange): void {
 		if (ev.checked) {
-			setTimeout(() => {
-				this.clientesValue.toggle();
-			}, 0);
+			if (this.vs.fin.idCliente === null) {
+				setTimeout(() => {
+					this.clientesValue.toggle();
+				}, 0);
+			}
 		}
 		else {
 			if (this.vs.fin.pagoMixto) {
