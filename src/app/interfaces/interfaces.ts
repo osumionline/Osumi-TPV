@@ -211,10 +211,12 @@ export interface LineaVentaInterface {
 	pvp: number;
 	importe: number;
 	descuento: number;
+  descuentoManual: boolean;
 	observaciones: string;
 }
 
 export interface VentaInterface {
+	idEmpleado: number;
 	lineas: LineaVentaInterface[];
 	importe: number;
 }
@@ -283,4 +285,14 @@ export interface EstadisticasClienteResult {
 	status: string;
 	ultimasVentas: UltimaVentaArticuloInterface[];
 	topVentas: TopVentaInterface[];
+}
+
+export interface EmpleadoInterface {
+	id: number;
+	nombre: string;
+	color: string;
+}
+
+export interface EmpleadosResult {
+	list: EmpleadoInterface[];
 }

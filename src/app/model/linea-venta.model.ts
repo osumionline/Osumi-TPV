@@ -74,12 +74,13 @@ export class LineaVenta {
 			idArticulo: this.idArticulo,
 			localizador: this.localizador,
 			descripcion: this.descripcion,
-            marca: this.marca,
+			marca: this.marca,
 			stock: this.stock,
 			cantidad: this.cantidad,
 			pvp: this.pvp,
 			importe: this.importe,
 			descuento: this.descuento,
+			descuentoManual: this.descuentoManual,
 			observaciones: this.observaciones
 		};
 	}

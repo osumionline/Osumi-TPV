@@ -62,6 +62,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { VentasService }      from 'src/app/services/ventas.service';
 import { ArticulosService }   from 'src/app/services/articulos.service';
 import { ClientesService }    from 'src/app/services/clientes.service';
+import { EmpleadosService }   from 'src/app/services/empleados.service';
 
 export const SERVICES: any[] = [
 	ConfigService,
@@ -73,7 +74,8 @@ export const SERVICES: any[] = [
 	ProveedoresService,
 	VentasService,
 	ArticulosService,
-	ClientesService
+	ClientesService,
+	EmpleadosService
 ];
 
 /*

@@ -6,6 +6,7 @@ import { Articulo }     from 'src/app/model/articulo.model';
 import { CodigoBarras } from 'src/app/model/codigobarras.model';
 import { TipoPago }     from 'src/app/model/tipo-pago.model';
 import { Cliente }      from 'src/app/model/cliente.model';
+import { Empleado }     from 'src/app/model/empleado.model';
 import {
 	MarcaInterface,
 	ProveedorInterface,
@@ -13,7 +14,8 @@ import {
 	ArticuloInterface,
 	CodigoBarrasInterface,
 	TipoPagoInterface,
-	ClienteInterface
+	ClienteInterface,
+	EmpleadoInterface
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -122,5 +124,19 @@ export class ClassMapperService {
 		}
 
 		return clientes;
+	}
+
+	getEmpleado(e: EmpleadoInterface): Empleado {
+		return new Empleado().fromInterface(e);
+	}
+
+	getEmpleados(es: EmpleadoInterface[]): Empleado[] {
+		const empleados: Empleado[] = [];
+
+		for (let e of es) {
+			empleados.push(this.getEmpleado(e));
+		}
+
+		return empleados;
 	}
 }

@@ -5,6 +5,7 @@ import { ApiService }         from 'src/app/services/api.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
+import { EmpleadosService }   from 'src/app/services/empleados.service';
 import {
 	AppDataInterface,
 	Month,
@@ -50,7 +51,8 @@ export class ConfigService {
 		private as: ApiService,
 		private cms: ClassMapperService,
 		private ms: MarcasService,
-		private ps: ProveedoresService
+		private ps: ProveedoresService,
+		private es: EmpleadosService
 	) {}
 
 	start(): Promise<string> {
@@ -72,6 +74,7 @@ export class ConfigService {
 						this.status = 'loaded';
 						this.ms.load();
 						this.ps.load();
+						this.es.load();
 						this.loadProvinces();
 					}
 					resolve(this.status);

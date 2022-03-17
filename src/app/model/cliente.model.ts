@@ -1,4 +1,4 @@
-import { Utils }            from 'src/app/model/utils.class';
+import { Utils } from 'src/app/model/utils.class';
 import {
 	ClienteInterface,
 	UltimaVentaArticuloInterface,

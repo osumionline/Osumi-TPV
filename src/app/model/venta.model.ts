@@ -10,6 +10,7 @@ export class Venta {
 
 	constructor(
 		public id: number = null,
+		public idEmpleado: number = null,
 		public lineas: LineaVenta[] = [],
 		public importe: number = 0
 	) {
@@ -33,6 +34,7 @@ export class Venta {
 	}
 
 	fromInterface(v: VentaInterface, lineas: LineaVenta[]): Venta {
+		this.idEmpleado = v.idEmpleado;
 		this.lineas = lineas;
 		this.importe = v.importe;
 
@@ -45,6 +47,7 @@ export class Venta {
 			lineasVentas.push(lv.toInterface());
 		}
 		return {
+			idEmpleado: this.idEmpleado,
 			lineas: lineasVentas,
 			importe: this.importe
 		};

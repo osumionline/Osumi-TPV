@@ -197,6 +197,12 @@ export class UnaVentaComponent {
 		this.muestraDescuento = false;
 	}
 
+	checkDescuentoImporte(ev: KeyboardEvent): void {
+		if (ev.key=='Enter') {
+			this.selectDescuento();
+		}
+	}
+
 	selectDescuento(): void {
 		if (!this.descuentoImporte) {
 			this.dialog.alert({title: 'Error', content: '¡No has introducido ningún descuento!', ok: 'Continuar'}).subscribe(result => {
