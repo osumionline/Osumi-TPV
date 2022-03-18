@@ -1,3 +1,5 @@
+import { ColorValues } from 'src/app/interfaces/interfaces';
+
 export class Utils {
 	static formatNumber(num: number): string {
 		return num.toFixed(2).replace('.', ',');
@@ -22,5 +24,18 @@ export class Utils {
 	static validateEmail(email: string): boolean {
 		const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
 		return re.test(email.toLowerCase());
+	}
+
+	static convertRange(value: number, oldMin: number, oldMax: number, newMin: number, newMax: number): number {
+		return (Math.round(((((value - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin) * 10000)/10000)
+	}
+
+	static hexToRgbFloat(hex: string): ColorValues {
+		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? {
+			r: Utils.convertRange(parseInt(result[1],16), 0, 255, 0, 1),
+			g: Utils.convertRange(parseInt(result[2],16), 0, 255, 0, 1),
+			b: Utils.convertRange(parseInt(result[3],16), 0, 255, 0, 1)
+		} : null;
 	}
 }

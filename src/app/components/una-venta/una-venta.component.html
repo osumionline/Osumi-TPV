@@ -1,4 +1,46 @@
-<div class="lineas-ventas">
+<div *ngIf="venta.mostrarEmpleados" class="empleados-list">
+	<div class="empleado" *ngFor="let empleado of es.empleados" [ngStyle]="{'background-color':'#'+empleado.color, 'color': empleado.textColor}" (click)="abreLogin(empleado)">
+		{{empleado.nombre}}
+	</div>
+</div>
+
+<div class="modal-bg"  [ngClass]="{'show': muestraLogin}">
+	<div class="modal-box">
+		<div class="modal-header">
+			Iniciar sesión
+			<a *ngIf="!loginLoading" href="#" (click)="cerrarLogin($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body login-box">
+			<div class="login-texto">¡Hola {{selectedEmpleado.nombre}}! Por favor, introduce tu contraseña para continuar.</div>
+			<div class="login-continuar">
+				<mat-form-field class="login-pass">
+					<mat-label>Contraseña</mat-label>
+					<input matInput type="password" placeholder="Contraseña" [(ngModel)]="selectedEmpleado.pass"
+					(keyup)="checkLoginPassword($event)"
+					#loginPasswordValue>
+				</mat-form-field>
+				<button mat-raised-button color="primary" (click)="login()" [disabled]="loginLoading">
+					<img *ngIf="loginLoading" src="/assets/loading.svg">
+					Continuar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ventas-header" [ngClass]="{'hidden': venta.mostrarEmpleados}">
+	<div class="col-localizador">Localizador</div>
+	<div class="col-descripcion">Descripción</div>
+	<div class="col-stock">Stock</div>
+	<div class="col-cantidad">Cantidad</div>
+	<div class="col-pvp">PVP</div>
+	<div class="col-importe">Importe</div>
+	<div class="col-descuentos">Desc.</div>
+</div>
+
+<div class="lineas-ventas" [ngClass]="{'hidden': venta.mostrarEmpleados}">
 	<div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
 		<div class="col-localizador">
 			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
@@ -109,7 +151,7 @@
 	</div>
 </div>
 
-<div class="importe">
+<div class="importe" [ngClass]="{'hidden': venta.mostrarEmpleados}">
 	<div class="total-importe">
 		{{venta.importe | fixedNumber}} €
 	</div>
@@ -128,7 +170,7 @@
 			</a>
 		</div>
 		<div class="modal-body descuento-box">
-			<div class="descuento-options">
+			<div class="descuento-texto">
 				En caso de querer usar un importe concreto de descuento en vez de un porcentaje, introdúcelo a continuación:
 			</div>
 			<div class="descuento-otros">

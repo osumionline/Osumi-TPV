@@ -7,7 +7,9 @@ import { environment }        from 'src/environments/environment';
 import {
 	EmpleadosResult,
 	EmpleadoInterface,
-	IdSaveResult
+	EmpleadoLoginInterface,
+	IdSaveResult,
+	StatusResult
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -38,5 +40,9 @@ export class EmpleadosService {
 
 	saveEmpleado(empleado: EmpleadoInterface): Observable<IdSaveResult> {
 		return this.http.post<IdSaveResult>(environment.apiUrl + '-empleados/save-empleado', empleado);
+	}
+
+	login(empleado: EmpleadoLoginInterface): Observable<StatusResult> {
+		return this.http.post<StatusResult>(environment.apiUrl + '-empleados/login', empleado);
 	}
 }

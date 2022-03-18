@@ -1,123 +1,194 @@
-.linea-venta {
-	border-top: 1px solid #888;
+.empleados-list {
+	display: flex;
 
-	& > div {
+	.empleado {
+		padding: 32px;
+		font-size: 1.5em;
+		margin: 16px;
+		border-radius: 6px;
+		box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
+
+		&:hover {
+			cursor: pointer;
+			background-color: var(--main-color) !important;
+			color: var(--main-color-contrast) !important;
+		}
+	}
+}
+
+.login-box {
+	.login-texto {
+		text-align: center;
+		padding: 16px;
+	}
+
+	.login-continuar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 50px;
+		margin: 32px 0;
+
+		.login-pass {
+			margin-right: 8px;
+
+			& > div.mat-form-field-wrapper {
+				margin: 0;
+				padding: 0;
+			}
+		}
+
+		button {
+			margin-left: 16px;
+			display: inline-block;
+			margin-top: 5px;
+
+			img {
+				width: 24px;
+			}
+		}
+	}
+}
+
+.ventas-header {
+	&.hidden {
+		display: none;
+	}
+
+	div {
 		display: inline-block;
 		line-height: 32px;
 		text-align: center;
-		background-color: #fff;
-		height: 32px;
+		background-color: #ccc;
+	}
+}
 
-		.linea-localizador {
-			width: 100%;
-			height: 30px;
-			background-color: transparent;
-			border: 0;
-			outline: 0;
-			padding: 0 5px;
-			font-size: inherit;
+.lineas-ventas {
+	&.hidden {
+		display: none;
+	}
 
-			&:disabled {
-				background-color: #ccc;
-				cursor: default;
-			}
-		}
+	.linea-venta {
+		border-top: 1px solid #888;
 
-		.delete-linea {
-			position: absolute;
-			left: 6px;
-			top: 4px;
-			cursor: pointer;
-		}
-
-		.linea-cantidad {
-			width: 100%;
-			height: 30px;
-			border: 0;
-			outline: 0;
+		& > div {
+			display: inline-block;
+			line-height: 32px;
 			text-align: center;
-			font-size: inherit;
-			background-color: transparent;
-		}
+			background-color: #fff;
+			height: 32px;
 
-		.editar-linea-cantidad {
-			display: block;
-			position: relative;
+			.linea-localizador {
+				width: 100%;
+				height: 30px;
+				background-color: transparent;
+				border: 0;
+				outline: 0;
+				padding: 0 5px;
+				font-size: inherit;
 
-			&:hover {
-				cursor: pointer;
-				background-color: var(--main-color);
-				color: var(--main-color-contrast);
+				&:disabled {
+					background-color: #ccc;
+					cursor: default;
+				}
 			}
-		}
 
-		.editar-linea-importe {
-			display: block;
-			position: relative;
-
-			&:hover {
+			.delete-linea {
+				position: absolute;
+				left: 6px;
+				top: 4px;
 				cursor: pointer;
-				background-color: var(--main-color);
-				color: var(--main-color-contrast);
+			}
 
-				mat-icon {
+			.linea-cantidad {
+				width: 100%;
+				height: 30px;
+				border: 0;
+				outline: 0;
+				text-align: center;
+				font-size: inherit;
+				background-color: transparent;
+			}
+
+			.editar-linea-cantidad {
+				display: block;
+				position: relative;
+
+				&:hover {
+					cursor: pointer;
+					background-color: var(--main-color);
 					color: var(--main-color-contrast);
 				}
 			}
 
-			mat-icon {
-				cursor: pointer;
-				position: absolute;
-				right: 3px;
-				top: 3px;
-			}
-		}
+			.editar-linea-importe {
+				display: block;
+				position: relative;
 
-		.linea-importe {
-			display: inline-block;
-			width: 90%;
-			height: 30px;
-			background-color: transparent;
-			border: 0;
-			outline: 0;
-			padding: 0 5px;
-			font-size: inherit;
-			text-align: right;
-		}
+				&:hover {
+					cursor: pointer;
+					background-color: var(--main-color);
+					color: var(--main-color-contrast);
 
-		.editar-linea-descuento {
-			display: block;
-			position: relative;
-
-			&:hover {
-				cursor: pointer;
-				background-color: var(--main-color);
-				color: var(--main-color-contrast);
+					mat-icon {
+						color: var(--main-color-contrast);
+					}
+				}
 
 				mat-icon {
-					color: var(--main-color-contrast);
+					cursor: pointer;
+					position: absolute;
+					right: 3px;
+					top: 3px;
 				}
 			}
 
-			mat-icon {
-				cursor: pointer;
-				position: absolute;
-				right: 4px;
-				top: 3px;
-				width: 20px;
+			.linea-importe {
+				display: inline-block;
+				width: 90%;
+				height: 30px;
+				background-color: transparent;
+				border: 0;
+				outline: 0;
+				padding: 0 5px;
+				font-size: inherit;
+				text-align: right;
 			}
-		}
 
-		.linea-descuento {
-			display: inline-block;
-			width: 60%;
-			height: 30px;
-			background-color: transparent;
-			border: 0;
-			outline: 0;
-			padding: 0 5px;
-			font-size: inherit;
-			text-align: right;
+			.editar-linea-descuento {
+				display: block;
+				position: relative;
+
+				&:hover {
+					cursor: pointer;
+					background-color: var(--main-color);
+					color: var(--main-color-contrast);
+
+					mat-icon {
+						color: var(--main-color-contrast);
+					}
+				}
+
+				mat-icon {
+					cursor: pointer;
+					position: absolute;
+					right: 4px;
+					top: 3px;
+					width: 20px;
+				}
+			}
+
+			.linea-descuento {
+				display: inline-block;
+				width: 60%;
+				height: 30px;
+				background-color: transparent;
+				border: 0;
+				outline: 0;
+				padding: 0 5px;
+				font-size: inherit;
+				text-align: right;
+			}
 		}
 	}
 }
@@ -214,6 +285,10 @@
 	border-radius: 6px;
 	box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 
+	&.hidden {
+		display: none;
+	}
+
 	.total-importe {
 		text-align: right;
 		padding: 8px;
@@ -233,15 +308,8 @@
 }
 
 .descuento-box {
-	.descuento-options {
-		button {
-			display: inline-block;
-			margin-right: 16px;
-
-			&:last-child {
-				margin: 0;
-			}
-		}
+	.descuento-texto {
+		padding: 16px;
 	}
 
 	.descuento-otros {

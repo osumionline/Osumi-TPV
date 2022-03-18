@@ -1,11 +1,13 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
 import { VentasService }      from 'src/app/services/ventas.service';
 import { ArticulosService }   from 'src/app/services/articulos.service';
+import { EmpleadosService }   from 'src/app/services/empleados.service';
 import { Venta }              from 'src/app/model/venta.model';
 import { LineaVenta }         from 'src/app/model/linea-venta.model';
+import { Empleado }           from 'src/app/model/empleado.model';
 
 @Component({
 	selector: 'otpv-una-venta',
@@ -16,6 +18,10 @@ export class UnaVentaComponent {
 	@Input() venta: Venta = new Venta();
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
+	muestraLogin: boolean = false;
+	selectedEmpleado: Empleado = new Empleado();
+	@ViewChild('loginPasswordValue', { static: true }) loginPasswordValue: ElementRef;
+	loginLoading: boolean = false;
 	searching: boolean = false;
 	editarCantidad: boolean = false;
 	editarImporte: boolean = false;
@@ -32,8 +38,68 @@ export class UnaVentaComponent {
 		private dialog: DialogService,
 		private ms: MarcasService,
 		private vs: VentasService,
-		private ars: ArticulosService
+		private ars: ArticulosService,
+		public es: EmpleadosService
 	) {}
+
+	@HostListener('window:keydown', ['$event'])
+	onKeyDown(ev: KeyboardEvent) {
+		if (ev.key === 'Escape') {
+			if (this.muestraLogin && !this.loginLoading) {
+				this.cerrarLogin();
+			}
+		}
+	}
+
+	abreLogin(empleado: Empleado): void {
+		this.selectedEmpleado = empleado;
+		this.selectedEmpleado.pass = '';
+		this.muestraLogin = true;
+		setTimeout(() => {
+			this.loginPasswordValue.nativeElement.focus();
+		}, 0);
+	}
+
+	cerrarLogin(ev: MouseEvent = null): void {
+		ev && ev.preventDefault();
+		this.muestraLogin = false;
+	}
+
+	checkLoginPassword(ev: KeyboardEvent): void {
+		if (ev.key=='Enter') {
+			this.login();
+		}
+	}
+
+	login(): void {
+		if (this.selectedEmpleado.pass === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'}).subscribe(result => {
+				setTimeout(() => {
+					this.loginPasswordValue.nativeElement.focus();
+				}, 0);
+			});
+		}
+		else {
+			this.loginLoading = true;
+			this.es.login(this.selectedEmpleado.toLoginInterface()).subscribe(result => {
+				this.loginLoading = false;
+				if (result.status === 'ok') {
+					this.venta.idEmpleado = this.selectedEmpleado.id;
+					this.cerrarLogin();
+					this.venta.mostrarEmpleados = false;
+					this.setFocus();
+				}
+				else {
+					this.dialog.alert({title: 'Error', content: 'Contraseña incorrecta.', ok: 'Continuar'}).subscribe(result => {
+						setTimeout(() => {
+							this.loginPasswordValue.nativeElement.focus();
+						}, 0);
+					});
+				}
+			});
+
+		}
+	}
 
 	setFocus(): void {
 		setTimeout(() => {

@@ -293,6 +293,17 @@ export interface EmpleadoInterface {
 	color: string;
 }
 
+export interface EmpleadoLoginInterface {
+    id: number;
+    pass: string;
+}
+
 export interface EmpleadosResult {
 	list: EmpleadoInterface[];
+}
+
+export interface ColorValues {
+	r: number;
+	g: number;
+	b: number;
 }

@@ -1,15 +1,6 @@
 <otpv-header selectedOption="ventas"></otpv-header>
 
 <otpv-tabs [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()" (selectClientEvent)="selectClient($event)"></otpv-tabs>
-<div class="ventas-header">
-	<div class="col-localizador">Localizador</div>
-	<div class="col-descripcion">Descripción</div>
-	<div class="col-stock">Stock</div>
-	<div class="col-cantidad">Cantidad</div>
-	<div class="col-pvp">PVP</div>
-	<div class="col-importe">Importe</div>
-	<div class="col-descuentos">Desc.</div>
-</div>
 <otpv-una-venta [venta]="vs.ventaActual" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (endVentaEvent)="endVenta($event)" #venta></otpv-una-venta>
 
 <div class="modal-bg"  [ngClass]="{'show': showFinalizarVenta}">

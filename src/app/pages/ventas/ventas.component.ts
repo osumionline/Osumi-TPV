@@ -45,6 +45,7 @@ export class VentasComponent implements OnInit {
 					return;
 				}
 			}
+			this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
 		});
 		if (this.vs.tabs.selected === -1) {
 			this.newVenta();
