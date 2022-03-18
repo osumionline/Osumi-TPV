@@ -7,6 +7,7 @@ import {
 
 export class Venta {
 	cliente: Cliente = null;
+	mostrarEmpleados: boolean = false;
 
 	constructor(
 		public id: number = null,

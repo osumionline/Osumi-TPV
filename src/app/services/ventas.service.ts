@@ -25,10 +25,14 @@ export class VentasService {
 
 	constructor(private http : HttpClient) {}
 
-	newVenta(): void {
+	newVenta(empleados: boolean): void {
 		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
 		this.tabs.selected = (this.tabs.names.length - 1);
-		this.list.push(new Venta());
+		const venta = new Venta();
+		if (empleados) {
+			venta.mostrarEmpleados = true;
+		}
+		this.list.push(venta);
 
 		this.addLineaVenta();
 	}

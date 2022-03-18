@@ -29,6 +29,7 @@ export class ConfigService {
 	fechaCad: boolean = false;
 	tiposPago: TipoPago[] = [];
 	isOpened: boolean = false;
+	empleados: boolean = false;
 
 	monthList: Month[] = [
 		{id: 1,  name: 'Enero',      days: 31},
@@ -101,6 +102,7 @@ export class ConfigService {
 		this.marginList = data.marginList;
 		this.ventaOnline = data.ventaOnline;
 		this.fechaCad = data.fechaCad;
+		this.empleados = data.empleados;
 	}
 
 	loadProvinces(): void {

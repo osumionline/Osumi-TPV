@@ -64,7 +64,7 @@ export class VentasComponent implements OnInit {
 	}
 
 	newVenta(): void {
-		this.vs.newVenta();
+		this.vs.newVenta(this.config.empleados);
 		this.startFocus();
 	}
 
@@ -239,7 +239,7 @@ export class VentasComponent implements OnInit {
 
 		this.saving = true;
 		this.vs.guardarVenta().subscribe(result => {
-			
+
 		});
 	}
 }
