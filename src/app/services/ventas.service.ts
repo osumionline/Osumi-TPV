@@ -8,7 +8,6 @@ import { Cliente }       from 'src/app/model/cliente.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
 import { Utils }         from 'src/app/model/utils.class';
 import {
-	Tabs,
 	StatusResult
 } from 'src/app/interfaces/interfaces';
 
@@ -16,48 +15,48 @@ import {
 	providedIn: 'root'
 })
 export class VentasService {
-	tabs: Tabs = {
-		selected: -1,
-		names: []
-	};
+	selected: number = -1;
 	list: Venta[] = [];
 	fin: FinVenta = new FinVenta();
 
 	constructor(private http : HttpClient) {}
 
 	newVenta(empleados: boolean): void {
-		this.tabs.names.push('VENTA ' + (this.tabs.names.length + 1));
-		this.tabs.selected = (this.tabs.names.length - 1);
+		this.selected = this.list.length;
 		const venta = new Venta();
-		if (empleados) {
-			venta.mostrarEmpleados = true;
-		}
+		venta.name = 'VENTA ' + (this.list.length + 1);
+		venta.mostrarEmpleados = empleados;
 		this.list.push(venta);
 
-		this.addLineaVenta();
+		if (!empleados) {
+			this.addLineaVenta();
+		}
 	}
 
 	addLineaVenta(): void {
-		this.list[this.tabs.selected].lineas.push(new LineaVenta());
+		console.trace('addLineaVenta');
+		this.list[this.selected].lineas.push(new LineaVenta());
 	}
 
 	get ventaActual(): Venta {
-		return this.list[this.tabs.selected];
+		return this.list[this.selected];
 	}
 
 	set cliente(c: Cliente) {
-		this.list[this.tabs.selected].setCliente(c);
+		this.list[this.selected].setCliente(c);
 	}
 
 	get cliente(): Cliente {
-		return this.list[this.tabs.selected].cliente ? this.list[this.tabs.selected].cliente : null;
+		return this.list[this.selected] ?
+				(this.list[this.selected].cliente ? this.list[this.selected].cliente : null)
+				: null;
 	}
 
 	loadFinVenta(): void {
-		const lineas = this.list[this.tabs.selected].lineas.filter(x => x.idArticulo !== null);
+		const lineas = this.list[this.selected].lineas.filter(x => x.idArticulo !== null);
 
 		this.fin = new FinVenta(
-			Utils.formatNumber(this.list[this.tabs.selected].importe),
+			Utils.formatNumber(this.list[this.selected].importe),
 			'0',
 			null,
 			null,

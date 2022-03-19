@@ -6,6 +6,7 @@ import {
 } from 'src/app/interfaces/interfaces';
 
 export class Venta {
+	name: string = '';
 	cliente: Cliente = null;
 	mostrarEmpleados: boolean = false;
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
@@ -15,7 +15,7 @@ import { Empleado }           from 'src/app/model/empleado.model';
 	styleUrls: ['./una-venta.component.scss']
 })
 export class UnaVentaComponent {
-	@Input() venta: Venta = new Venta();
+	loaded: boolean = false;
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
 	muestraLogin: boolean = false;
@@ -37,7 +37,7 @@ export class UnaVentaComponent {
 		private cms: ClassMapperService,
 		private dialog: DialogService,
 		private ms: MarcasService,
-		private vs: VentasService,
+		public vs: VentasService,
 		private ars: ArticulosService,
 		public es: EmpleadosService
 	) {}
@@ -84,9 +84,10 @@ export class UnaVentaComponent {
 			this.es.login(this.selectedEmpleado.toLoginInterface()).subscribe(result => {
 				this.loginLoading = false;
 				if (result.status === 'ok') {
-					this.venta.idEmpleado = this.selectedEmpleado.id;
+					this.vs.ventaActual.idEmpleado = this.selectedEmpleado.id;
+					this.vs.addLineaVenta();
 					this.cerrarLogin();
-					this.venta.mostrarEmpleados = false;
+					this.vs.ventaActual.mostrarEmpleados = false;
 					this.setFocus();
 				}
 				else {
@@ -111,25 +112,25 @@ export class UnaVentaComponent {
 	checkLocalizador(ev:  KeyboardEvent, ind: number) {
 		if (ev.key==='Enter') {
 			this.searching = true;
-			this.ars.loadArticulo(this.venta.lineas[ind].localizador).subscribe(result => {
+			this.ars.loadArticulo(this.vs.ventaActual.lineas[ind].localizador).subscribe(result => {
 				this.searching = false;
 				if (result.status === 'ok') {
 					const articulo = this.cms.getArticulo(result.articulo);
 					const marca = this.ms.findById(articulo.idMarca);
 					articulo.marca = marca.nombre;
-					const indArticulo = this.venta.lineas.findIndex(x => x.idArticulo === articulo.id);
+					const indArticulo = this.vs.ventaActual.lineas.findIndex(x => x.idArticulo === articulo.id);
 
 					if (indArticulo === -1) {
-						this.venta.lineas[ind] = new LineaVenta().fromArticulo(articulo);
+						this.vs.ventaActual.lineas[ind] = new LineaVenta().fromArticulo(articulo);
 						this.vs.addLineaVenta();
 					}
 					else {
-						this.venta.lineas[indArticulo].cantidad++;
-						this.venta.lineas[ind].localizador = null;
+						this.vs.ventaActual.lineas[indArticulo].cantidad++;
+						this.vs.ventaActual.lineas[ind].localizador = null;
 					}
 					this.setFocus();
 
-					this.venta.updateImporte();
+					this.vs.ventaActual.updateImporte();
 					if (articulo.mostrarObsVentas && articulo.observaciones) {
 						this.dialog.alert({title: 'Observaciones', content: articulo.observaciones, ok: 'Continuar'}).subscribe(result => {
 							this.setFocus();
@@ -138,7 +139,7 @@ export class UnaVentaComponent {
 				}
 				else {
 					this.dialog.alert({title: 'Error', content: '¡El código introducido no se encuentra!', ok: 'Continuar'}).subscribe(result => {
-						this.venta.lineas[ind].localizador = null;
+						this.vs.ventaActual.lineas[ind].localizador = null;
 						this.setFocus();
 					});
 				}
@@ -162,10 +163,10 @@ export class UnaVentaComponent {
 	}
 
 	updateCantidad(ind: number): void {
-		if (!this.venta.lineas[ind].cantidad) {
-			this.venta.lineas[ind].cantidad = 1;
+		if (!this.vs.ventaActual.lineas[ind].cantidad) {
+			this.vs.ventaActual.lineas[ind].cantidad = 1;
 		}
-		this.venta.updateImporte();
+		this.vs.ventaActual.updateImporte();
 	}
 
 	editarLineaCantidad(ind: number): void {
@@ -179,13 +180,13 @@ export class UnaVentaComponent {
 	checkCantidad(ev: KeyboardEvent, ind: number, close: boolean): void {
 		if (ev.key=='Enter' || close) {
 			this.editarCantidad = false;
-			this.venta.updateImporte();
+			this.vs.ventaActual.updateImporte();
 			this.setFocus();
 		}
 	}
 
 	editarLineaImporte(ind: number): void {
-		if (this.venta.lineas[ind].descuentoManual) {
+		if (this.vs.ventaActual.lineas[ind].descuentoManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
@@ -201,26 +202,26 @@ export class UnaVentaComponent {
 	checkImporte(ev: KeyboardEvent, ind: number, close: boolean): void {
 		if (ev.key=='Enter' || close) {
 			this.editarImporte = false;
-			this.venta.lineas[ind].importeManual = true;
-			this.venta.updateImporte();
+			this.vs.ventaActual.lineas[ind].importeManual = true;
+			this.vs.ventaActual.updateImporte();
 			this.setFocus();
 		}
 	}
 
 	quitaImporteManual(ev: MouseEvent, ind: number): void {
 		ev.stopPropagation();
-		this.venta.lineas[ind].importeManual = false;
+		this.vs.ventaActual.lineas[ind].importeManual = false;
 		this.setFocus();
 	}
 
 	editarLineaDescuento(ind: number): void {
-		if (this.venta.lineas[ind].importeManual) {
+		if (this.vs.ventaActual.lineas[ind].importeManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
 			return;
 		}
-		if (this.venta.lineas[ind].descuentoManual) {
+		if (this.vs.ventaActual.lineas[ind].descuentoManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
@@ -236,15 +237,15 @@ export class UnaVentaComponent {
 	checkDescuento(ev: KeyboardEvent, ind: number, close: boolean): void {
 		if (ev.key=='Enter' || close) {
 			this.editarDescuento = false;
-			this.venta.updateImporte();
+			this.vs.ventaActual.updateImporte();
 			this.setFocus();
 		}
 	}
 
 	quitaDescuentoManual(ev: MouseEvent, ind: number): void {
 		ev.stopPropagation();
-		this.venta.lineas[ind].descuento = 0;
-		this.venta.lineas[ind].descuentoManual = false;
+		this.vs.ventaActual.lineas[ind].descuento = 0;
+		this.vs.ventaActual.lineas[ind].descuentoManual = false;
 		this.setFocus();
 	}
 
@@ -278,10 +279,10 @@ export class UnaVentaComponent {
 			});
 			return;
 		}
-		const ind = this.venta.lineas.findIndex(x => x.idArticulo === this.descuentoSelected);
-		this.venta.lineas[ind].descuento = this.descuentoImporte;
-		this.venta.lineas[ind].descuentoManual = true;
-		this.venta.updateImporte();
+		const ind = this.vs.ventaActual.lineas.findIndex(x => x.idArticulo === this.descuentoSelected);
+		this.vs.ventaActual.lineas[ind].descuento = this.descuentoImporte;
+		this.vs.ventaActual.lineas[ind].descuentoManual = true;
+		this.vs.ventaActual.updateImporte();
 		this.cerrarDescuento();
 	}
 
@@ -292,14 +293,14 @@ export class UnaVentaComponent {
 	cancelarVenta(): void {
 		this.dialog.confirm({title: 'Confirmar', content: '¿Estás seguro de querer cancelar esta venta?', ok: 'Continuar', cancel: 'Cancelar'}).subscribe(result => {
 			if (result===true) {
-				this.venta.lineas = [];
-				this.venta.updateImporte();
+				this.vs.ventaActual.lineas = [];
+				this.vs.ventaActual.updateImporte();
 				this.vs.addLineaVenta();
 			}
 		});
 	}
 
 	terminarVenta(): void {
-		this.endVentaEvent.emit(this.venta.id);
+		this.endVentaEvent.emit(this.vs.ventaActual.id);
 	}
 }

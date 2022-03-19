@@ -4,7 +4,6 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect }         from '@angular/material/select';
 import { ConfigService }     from 'src/app/services/config.service';
 import { DialogService }     from 'src/app/services/dialog.service';
-import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { VentasService }     from 'src/app/services/ventas.service';
 import { ClientesService }   from 'src/app/services/clientes.service';
 import { Cliente }           from 'src/app/model/cliente.model';
@@ -16,7 +15,6 @@ import { Utils }             from 'src/app/model/utils.class';
 	styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
-	@ViewChild('venta', { static: true }) venta: UnaVentaComponent;
 	showFinalizarVenta: boolean = false;
 	@ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
 	@ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;
@@ -44,15 +42,15 @@ export class VentasComponent implements OnInit {
 					this.router.navigate(['/']);
 					return;
 				}
+				if (this.vs.selected === -1) {
+					this.newVenta();
+				}
+				else {
+					this.startFocus();
+				}
 			}
 			this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
 		});
-		if (this.vs.tabs.selected === -1) {
-			this.newVenta();
-		}
-		else {
-			this.startFocus();
-		}
 	}
 
 	@HostListener('window:keydown', ['$event'])
@@ -66,24 +64,25 @@ export class VentasComponent implements OnInit {
 
 	newVenta(): void {
 		this.vs.newVenta(this.config.empleados);
-		this.startFocus();
+		if (!this.config.empleados) {
+			this.startFocus();
+		}
 	}
 
 	startFocus(): void {
-		this.venta.setFocus();
+		this.vs.ventaActual.setFocus();
 	}
 
 	cerrarVenta(ind: number): void {
-		if (this.vs.tabs.selected===ind) {
-			this.vs.tabs.selected = 0;
+		if (this.vs.selected===ind) {
+			this.vs.selected = 0;
 		}
-		this.vs.tabs.names.splice(ind, 1);
 		this.vs.list.splice(ind, 1);
 	}
 
 	deleteVentaLinea(ind: number): void {
-		this.vs.list[this.vs.tabs.selected].lineas.splice(ind, 1);
-		this.venta.venta.updateImporte();
+		this.vs.ventaActual.lineas.splice(ind, 1);
+		this.vs.ventaActual.updateImporte();
 		this.startFocus();
 	}
 
@@ -102,7 +101,7 @@ export class VentasComponent implements OnInit {
 
 	cerrarFinalizarVenta(): void {
 		this.showFinalizarVenta = false;
-		this.venta.setFocus();
+		this.vs.ventaActual.setFocus();
 	}
 
 	updateCambio(): void {

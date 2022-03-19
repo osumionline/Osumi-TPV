@@ -196,11 +196,6 @@ export interface SearchArticulosResult {
 	list: ArticuloInterface[];
 }
 
-export interface Tabs {
-	selected: number;
-	names: string[];
-}
-
 export interface LineaVentaInterface {
 	idArticulo: number;
 	localizador: number;

@@ -1,4 +1,4 @@
-<div *ngIf="venta.mostrarEmpleados" class="empleados-list">
+<div *ngIf="vs.ventaActual.mostrarEmpleados" class="empleados-list">
 	<div class="empleado" *ngFor="let empleado of es.empleados" [ngStyle]="{'background-color':'#'+empleado.color, 'color': empleado.textColor}" (click)="abreLogin(empleado)">
 		{{empleado.nombre}}
 	</div>
@@ -30,7 +30,7 @@
 	</div>
 </div>
 
-<div class="ventas-header" [ngClass]="{'hidden': venta.mostrarEmpleados}">
+<div class="ventas-header" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
 	<div class="col-stock">Stock</div>
@@ -40,8 +40,8 @@
 	<div class="col-descuentos">Desc.</div>
 </div>
 
-<div class="lineas-ventas" [ngClass]="{'hidden': venta.mostrarEmpleados}">
-	<div class="linea-venta" *ngFor="let linea of venta.lineas; let i = index">
+<div class="lineas-ventas" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	<div class="linea-venta" *ngFor="let linea of vs.ventaActual.lineas; let i = index">
 		<div class="col-localizador">
 			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
 			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
@@ -103,10 +103,10 @@
 	</div>
 </div>
 
-<div class="cliente-estadisticas" *ngIf="venta.cliente">
+<div class="cliente-estadisticas" *ngIf="vs.ventaActual.cliente">
 	<div class="col-ultimas-ventas">
 		<div class="estadisticas-titulo">Últimas ventas</div>
-		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && venta.cliente.ultimasVentas.length">
+		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.ultimasVentas.length">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-fecha">Fecha</div>
 				<div class="estadisticas-item-localizador">Loc.</div>
@@ -115,7 +115,7 @@
 				<div class="estadisticas-item-pvp">PVP</div>
 				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
-			<div class="estadisticas-item" *ngFor="let item of venta.cliente.ultimasVentas">
+			<div class="estadisticas-item" *ngFor="let item of vs.ventaActual.cliente.ultimasVentas">
 				<div class="estadisticas-item-fecha">{{item.fecha}}</div>
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
@@ -124,7 +124,7 @@
 				<div class="estadisticas-item-importe">{{item.importe}} €</div>
 			</div>
 		</div>
-		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !venta.cliente.ultimasVentas.length">
+		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.ultimasVentas.length">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
 	</div>
@@ -133,31 +133,31 @@
 			Top ventas
 			<mat-icon (click)="closeClienteEstadisticas()" [ngClass]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
 		</div>
-		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && venta.cliente.topVentas.length">
+		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.topVentas.length">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-localizador">Loc.</div>
 				<div class="estadisticas-item-nombre">Nombre</div>
 				<div class="estadisticas-item-pvp">PVP</div>
 			</div>
-			<div class="estadisticas-item" *ngFor="let item of venta.cliente.topVentas">
+			<div class="estadisticas-item" *ngFor="let item of vs.ventaActual.cliente.topVentas">
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
 				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
 			</div>
 		</div>
-		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !venta.cliente.topVentas.length">
+		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.topVentas.length">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
 	</div>
 </div>
 
-<div class="importe" [ngClass]="{'hidden': venta.mostrarEmpleados}">
+<div class="importe" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="total-importe">
-		{{venta.importe | fixedNumber}} €
+		{{vs.ventaActual.importe | fixedNumber}} €
 	</div>
 	<div class="controles-venta">
-		<button mat-stroked-button [disabled]="venta.lineas.length===1" (click)="cancelarVenta()">Cancelar</button>
-		<button class="end-btn" mat-raised-button color="primary" [disabled]="venta.lineas.length===1" (click)="terminarVenta()">Terminar</button>
+		<button mat-stroked-button [disabled]="vs.ventaActual.lineas.length===1" (click)="cancelarVenta()">Cancelar</button>
+		<button class="end-btn" mat-raised-button color="primary" [disabled]="vs.ventaActual.lineas.length===1" (click)="terminarVenta()">Terminar</button>
 	</div>
 </div>
 

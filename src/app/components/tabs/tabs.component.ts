@@ -55,7 +55,7 @@ export class TabsComponent {
 	}
 
 	selectTab(ind: number): void {
-		this.vs.tabs.selected = ind;
+		this.vs.selected = ind;
 		this.changeTabEvent.emit(ind);
 	}
 
