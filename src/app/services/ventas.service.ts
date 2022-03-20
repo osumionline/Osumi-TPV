@@ -21,7 +21,7 @@ export class VentasService {
 
 	constructor(private http : HttpClient) {}
 
-	newVenta(empleados: boolean): void {
+	newVenta(empleados: boolean, idEmpleadoDef: number): void {
 		this.selected = this.list.length;
 		const venta = new Venta();
 		venta.name = 'VENTA ' + (this.list.length + 1);
@@ -29,12 +29,13 @@ export class VentasService {
 		this.list.push(venta);
 
 		if (!empleados) {
+			this.ventaActual.idEmpleado = idEmpleadoDef;
 			this.addLineaVenta();
 		}
 	}
 
 	addLineaVenta(): void {
-		this.list[this.selected].lineas.push(new LineaVenta());
+		this.ventaActual.lineas.push(new LineaVenta());
 	}
 
 	get ventaActual(): Venta {
@@ -42,22 +43,23 @@ export class VentasService {
 	}
 
 	set cliente(c: Cliente) {
-		this.list[this.selected].setCliente(c);
+		this.ventaActual.setCliente(c);
 	}
 
 	get cliente(): Cliente {
-		return this.list[this.selected] ?
-				(this.list[this.selected].cliente ? this.list[this.selected].cliente : null)
+		return this.ventaActual ?
+				(this.ventaActual.cliente ? this.ventaActual.cliente : null)
 				: null;
 	}
 
 	loadFinVenta(): void {
-		const lineas = this.list[this.selected].lineas.filter(x => x.idArticulo !== null);
+		const lineas = this.ventaActual.lineas.filter(x => x.idArticulo !== null);
 
 		this.fin = new FinVenta(
-			Utils.formatNumber(this.list[this.selected].importe),
+			Utils.formatNumber(this.ventaActual.importe),
 			'0',
 			null,
+			this.ventaActual.idEmpleado,
 			null,
 			this.cliente ? this.cliente.id : -1,
 			Utils.formatNumber(this.ventaActual.importe),

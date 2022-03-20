@@ -30,6 +30,7 @@ export class ConfigService {
 	tiposPago: TipoPago[] = [];
 	isOpened: boolean = false;
 	empleados: boolean = false;
+	idEmpleadoDef: number = null;
 
 	monthList: Month[] = [
 		{id: 1,  name: 'Enero',      days: 31},
@@ -67,18 +68,25 @@ export class ConfigService {
 				this.as.checkStart(date).subscribe(result => {
 					if (result.appData===null) {
 						this.status = 'install';
+						resolve(this.status);
 					}
 					else {
 						this.load(result.appData);
 						this.tiposPago = this.cms.getTiposPago(result.tiposPago);
 						this.isOpened = result.opened;
 						this.status = 'loaded';
-						this.ms.load();
-						this.ps.load();
-						this.es.load();
-						this.loadProvinces();
+						const marcasPromise = this.ms.load();
+						const proveedoresPromise = this.ps.load();
+						const empleadosPromise = this.es.load();
+						const provinciasPromis = this.loadProvinces();
+						Promise.all([marcasPromise, proveedoresPromise, empleadosPromise, provinciasPromis]).then(values => {
+							if (this.es.empleados.length == 1) {
+								this.empleados = false;
+								this.idEmpleadoDef = this.es.empleados[0].id;
+							}
+							resolve(this.status);
+						});
 					}
-					resolve(this.status);
 				});
 			}
 		});
@@ -107,17 +115,23 @@ export class ConfigService {
 
 	loadProvinces(): Promise<string> {
 		return new Promise((resolve) => {
-			this.as.getProvinceList().subscribe(data => {
-				let newList = [];
-				for (let ccaa of data.ccaa){
-					newList = newList.concat(ccaa.provinces);
-				}
-				newList.sort(function (a, b) {
-					return a.name.localeCompare(b.name);
-				});
+			if (this.provincias.length > 0) {
+				resolve('ok');
+			}
+			else {
+				this.as.getProvinceList().subscribe(data => {
+					let newList = [];
+					for (let ccaa of data.ccaa){
+						newList = newList.concat(ccaa.provinces);
+					}
+					newList.sort(function (a, b) {
+						return a.name.localeCompare(b.name);
+					});
 
-				this.provincias = newList;
-			});
+					this.provincias = newList;
+					resolve('ok');
+				});
+			}
 		});
 	}
 }

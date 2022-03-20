@@ -65,14 +65,16 @@ export class VentasComponent implements OnInit {
 	}
 
 	newVenta(): void {
-		this.vs.newVenta(this.config.empleados);
+		this.vs.newVenta(this.config.empleados, this.config.idEmpleadoDef);
 		if (!this.config.empleados) {
 			this.startFocus();
 		}
 	}
 
 	startFocus(): void {
-		this.ventas.get(this.vs.selected).setFocus();
+		setTimeout(() => {
+			this.ventas.get(this.vs.selected).setFocus();
+		}, 0);
 	}
 
 	cerrarVenta(ind: number): void {

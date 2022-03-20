@@ -17,6 +17,8 @@ import {
 })
 export class EmpleadosService {
 	empleados: Empleado[] = [];
+	colors: any = {};
+	textColors: any = {};
 	loaded: boolean = false;
 
 	constructor(private http : HttpClient, private cms: ClassMapperService) {}
@@ -41,6 +43,10 @@ export class EmpleadosService {
 
 	loadEmpleados(empleados: Empleado[]): void {
 		this.empleados = empleados;
+		for (let e of empleados) {
+			this.colors[e.id] = '#' + e.color;
+			this.textColors[e.id] = e.textColor;
+		}
 		this.loaded = true;
 	}
 

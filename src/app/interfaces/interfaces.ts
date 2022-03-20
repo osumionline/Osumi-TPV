@@ -220,6 +220,7 @@ export interface FinVentaInterface {
 	efectivo: number;
 	cambio: number;
 	tarjeta: number;
+	idEmpleado: number;
 	idTipoPago: number;
 	idCliente: number;
 	total: number;

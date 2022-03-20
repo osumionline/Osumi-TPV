@@ -5,6 +5,7 @@ import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { ClientesService }    from 'src/app/services/clientes.service';
 import { VentasService }      from 'src/app/services/ventas.service';
+import { EmpleadosService }   from 'src/app/services/empleados.service';
 import { Cliente }            from 'src/app/model/cliente.model';
 import {
 	ProvinceInterface
@@ -42,7 +43,8 @@ export class TabsComponent {
 		private dialog: DialogService,
 		private cms: ClassMapperService,
 		private cs: ClientesService,
-		public vs: VentasService
+		public vs: VentasService,
+		public es: EmpleadosService
 	) {}
 
 	@HostListener('window:keydown', ['$event'])

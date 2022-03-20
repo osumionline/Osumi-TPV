@@ -1,6 +1,11 @@
 <div class="tab-container">
 	<div class="tab-list">
-		<div class="tab-item" *ngFor="let tab of vs.list; let i = index" [ngClass]="{'tab-selected': vs.selected==i}" (click)="selectTab(i)">
+		<div class="tab-item"
+			*ngFor="let tab of vs.list; let i = index"
+			[ngClass]="{'tab-selected': vs.selected==i}"
+			(click)="selectTab(i)"
+			[ngStyle]="{'background-color':es.colors[vs.ventaActual.idEmpleado], 'color':es.textColors[vs.ventaActual.idEmpleado]}"
+		>
 			{{tab.name}}
 			<mat-icon *ngIf="showClose" class="tab-icon" (click)="closeTab(i)">close</mat-icon>
 		</div>
