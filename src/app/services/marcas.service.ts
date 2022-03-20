@@ -19,12 +19,18 @@ export class MarcasService {
 
 	constructor(private http : HttpClient, private cms: ClassMapperService) {}
 
-	load(): void {
-		if (!this.loaded) {
-			this.getMarcas().subscribe(result => {
-				this.loadMarcas( this.cms.getMarcas(result.list) );
-			});
-		}
+	load(): Promise<string> {
+		return new Promise((resolve) => {
+			if (this.loaded) {
+				resolve('ok');
+			}
+			else {
+				this.getMarcas().subscribe(result => {
+					this.loadMarcas( this.cms.getMarcas(result.list) );
+					resolve('ok');
+				});
+			}
+		});
 	}
 
 	getMarcas(): Observable<MarcasResult> {

@@ -21,12 +21,18 @@ export class EmpleadosService {
 
 	constructor(private http : HttpClient, private cms: ClassMapperService) {}
 
-	load(): void {
-		if (!this.loaded) {
-			this.getEmpleados().subscribe(result => {
-				this.loadEmpleados( this.cms.getEmpleados(result.list) );
-			});
-		}
+	load(): Promise<string> {
+		return new Promise((resolve) => {
+			if (this.loaded) {
+				resolve('ok');
+			}
+			else {
+				this.getEmpleados().subscribe(result => {
+					this.loadEmpleados( this.cms.getEmpleados(result.list) );
+					resolve('ok');
+				});
+			}
+		});
 	}
 
 	getEmpleados(): Observable<EmpleadosResult> {

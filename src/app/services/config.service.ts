@@ -57,7 +57,7 @@ export class ConfigService {
 	) {}
 
 	start(): Promise<string> {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			if (this.status === 'loaded') {
 				resolve(this.status);
 			}
@@ -105,17 +105,19 @@ export class ConfigService {
 		this.empleados = data.empleados;
 	}
 
-	loadProvinces(): void {
-		this.as.getProvinceList().subscribe(data => {
-			let newList = [];
-			for (let ccaa of data.ccaa){
-				newList = newList.concat(ccaa.provinces);
-			}
-			newList.sort(function (a, b) {
-				return a.name.localeCompare(b.name);
-			});
+	loadProvinces(): Promise<string> {
+		return new Promise((resolve) => {
+			this.as.getProvinceList().subscribe(data => {
+				let newList = [];
+				for (let ccaa of data.ccaa){
+					newList = newList.concat(ccaa.provinces);
+				}
+				newList.sort(function (a, b) {
+					return a.name.localeCompare(b.name);
+				});
 
-			this.provincias = newList;
+				this.provincias = newList;
+			});
 		});
 	}
 }

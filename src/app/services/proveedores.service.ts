@@ -19,12 +19,18 @@ export class ProveedoresService {
 
 	constructor(private http : HttpClient, private cms: ClassMapperService) {}
 
-	load(): void {
-		if (!this.loaded) {
-			this.getProveedores().subscribe(result => {
-				this.loadProveedores( this.cms.getProveedores(result.list) );
-			});
-		}
+	load(): Promise<string> {
+		return new Promise((resolve) => {
+			if (this.loaded) {
+				resolve('ok');
+			}
+			else {
+				this.getProveedores().subscribe(result => {
+					this.loadProveedores( this.cms.getProveedores(result.list) );
+					resolve('ok');
+				});
+			}
+		});
 	}
 
 	getProveedores(): Observable<ProveedoresResult> {
