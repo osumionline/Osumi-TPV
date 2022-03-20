@@ -43,7 +43,7 @@
 <div class="lineas-ventas" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="linea-venta" *ngFor="let linea of vs.ventaActual.lineas; let i = index">
 		<div class="col-localizador">
-			<input *ngIf="!linea.idArticulo" type="number" id="loc-new" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
+			<input *ngIf="!linea.idArticulo" type="number" [id]="'loc-new-' + ind" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
 			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
 			<mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
 		</div>
@@ -65,7 +65,7 @@
 					{{linea.cantidad}}
 				</span>
 				<span *ngIf="editarCantidad">
-					<input type="number" class="linea-cantidad" min="0" step="1" [(ngModel)]="linea.cantidad" [id]="'linea-cantidad-' + i" (keyup)="checkCantidad($event, i, false)" (blur)="checkCantidad($event, i, true)">
+					<input type="number" class="linea-cantidad" min="0" step="1" [(ngModel)]="linea.cantidad" [id]="'linea-cantidad-' + ind + '_' + i" (keyup)="checkCantidad($event, i, false)" (blur)="checkCantidad($event, i, true)">
 				</span>
 			</ng-container>
 		</div>
@@ -81,7 +81,7 @@
 					<mat-icon *ngIf="linea.importeManual" (click)="quitaImporteManual($event, i)" title="Quita el importe introducido manualmente">close</mat-icon>
 				</span>
 				<span *ngIf="editarImporte">
-					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + i" (keyup)="checkImporte($event, i, false)" (blur)="checkImporte($event, i, true)">
+					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + ind + '_' + i" (keyup)="checkImporte($event, i, false)" (blur)="checkImporte($event, i, true)">
 					€
 				</span>
 			</ng-container>
@@ -95,7 +95,7 @@
 					<mat-icon *ngIf="linea.descuentoManual" (click)="quitaDescuentoManual($event, i)" title="Quita el importe introducido como descuento">close</mat-icon>
 				</span>
 				<span *ngIf="editarDescuento">
-					<input type="number" class="linea-descuento" min="0" step="1" [(ngModel)]="linea.descuento" [id]="'linea-descuento-' + i" (keyup)="checkDescuento($event, i, false)" (blur)="checkDescuento($event, i, true)">
+					<input type="number" class="linea-descuento" min="0" step="1" [(ngModel)]="linea.descuento" [id]="'linea-descuento-' + ind + '_' + i" (keyup)="checkDescuento($event, false)" (blur)="checkDescuento($event, true)">
 					%
 				</span>
 			</ng-container>

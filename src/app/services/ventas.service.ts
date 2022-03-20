@@ -34,7 +34,6 @@ export class VentasService {
 	}
 
 	addLineaVenta(): void {
-		console.trace('addLineaVenta');
 		this.list[this.selected].lineas.push(new LineaVenta());
 	}
 

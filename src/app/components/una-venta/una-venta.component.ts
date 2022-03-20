@@ -1,11 +1,10 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { DialogService }      from 'src/app/services/dialog.service';
 import { ClassMapperService } from 'src/app/services/class-mapper.service';
 import { MarcasService }      from 'src/app/services/marcas.service';
 import { VentasService }      from 'src/app/services/ventas.service';
 import { ArticulosService }   from 'src/app/services/articulos.service';
 import { EmpleadosService }   from 'src/app/services/empleados.service';
-import { Venta }              from 'src/app/model/venta.model';
 import { LineaVenta }         from 'src/app/model/linea-venta.model';
 import { Empleado }           from 'src/app/model/empleado.model';
 
@@ -15,7 +14,7 @@ import { Empleado }           from 'src/app/model/empleado.model';
 	styleUrls: ['./una-venta.component.scss']
 })
 export class UnaVentaComponent {
-	loaded: boolean = false;
+	@Input() ind: number = null;
 	@Output() deleteVentaLineaEvent = new EventEmitter<number>();
 	@Output() endVentaEvent = new EventEmitter<number>();
 	muestraLogin: boolean = false;
@@ -103,10 +102,12 @@ export class UnaVentaComponent {
 	}
 
 	setFocus(): void {
-		setTimeout(() => {
-			const loc: HTMLInputElement = document.getElementById('loc-new') as HTMLInputElement;
-			loc.focus();
-		}, 0);
+		if (!this.vs.ventaActual.mostrarEmpleados) {
+			setTimeout(() => {
+				const loc: HTMLInputElement = document.getElementById('loc-new-'+this.ind) as HTMLInputElement;
+				loc.focus();
+			}, 0);
+		}
 	}
 
 	checkLocalizador(ev:  KeyboardEvent, ind: number) {
@@ -169,10 +170,10 @@ export class UnaVentaComponent {
 		this.vs.ventaActual.updateImporte();
 	}
 
-	editarLineaCantidad(ind: number): void {
+	editarLineaCantidad(i: number): void {
 		this.editarCantidad = true;
 		setTimeout(() => {
-			const cantidad: HTMLInputElement = document.getElementById('linea-cantidad-' + ind) as HTMLInputElement;
+			const cantidad: HTMLInputElement = document.getElementById('linea-cantidad-' + this.ind + '_' + i) as HTMLInputElement;
 			cantidad.select();
 		}, 0);
 	}
@@ -185,8 +186,8 @@ export class UnaVentaComponent {
 		}
 	}
 
-	editarLineaImporte(ind: number): void {
-		if (this.vs.ventaActual.lineas[ind].descuentoManual) {
+	editarLineaImporte(i: number): void {
+		if (this.vs.ventaActual.lineas[i].descuentoManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
@@ -194,7 +195,7 @@ export class UnaVentaComponent {
 		}
 		this.editarImporte = true;
 		setTimeout(() => {
-			const importe: HTMLInputElement = document.getElementById('linea-importe-' + ind) as HTMLInputElement;
+			const importe: HTMLInputElement = document.getElementById('linea-importe-' + this.ind + '_' + i) as HTMLInputElement;
 			importe.select();
 		}, 0);
 	}
@@ -214,14 +215,14 @@ export class UnaVentaComponent {
 		this.setFocus();
 	}
 
-	editarLineaDescuento(ind: number): void {
-		if (this.vs.ventaActual.lineas[ind].importeManual) {
+	editarLineaDescuento(i: number): void {
+		if (this.vs.ventaActual.lineas[i].importeManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
 			return;
 		}
-		if (this.vs.ventaActual.lineas[ind].descuentoManual) {
+		if (this.vs.ventaActual.lineas[i].descuentoManual) {
 			this.dialog.alert({title: 'Atención', content: 'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe', ok: 'Continuar'}).subscribe(result => {
 				this.setFocus();
 			});
@@ -229,12 +230,12 @@ export class UnaVentaComponent {
 		}
 		this.editarDescuento = true;
 		setTimeout(() => {
-			const descuento: HTMLInputElement = document.getElementById('linea-descuento-' + ind) as HTMLInputElement;
+			const descuento: HTMLInputElement = document.getElementById('linea-descuento-' + this.ind + '_' + i) as HTMLInputElement;
 			descuento.select();
 		}, 0);
 	}
 
-	checkDescuento(ev: KeyboardEvent, ind: number, close: boolean): void {
+	checkDescuento(ev: KeyboardEvent, close: boolean): void {
 		if (ev.key=='Enter' || close) {
 			this.editarDescuento = false;
 			this.vs.ventaActual.updateImporte();

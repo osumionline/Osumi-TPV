@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, HostListener, ElementRef } from '@angular/core';
 import { Router }            from '@angular/router';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect }         from '@angular/material/select';
+import { UnaVentaComponent } from 'src/app/components/una-venta/una-venta.component';
 import { ConfigService }     from 'src/app/services/config.service';
 import { DialogService }     from 'src/app/services/dialog.service';
 import { VentasService }     from 'src/app/services/ventas.service';
@@ -16,6 +17,7 @@ import { Utils }             from 'src/app/model/utils.class';
 })
 export class VentasComponent implements OnInit {
 	showFinalizarVenta: boolean = false;
+	@ViewChildren('ventas') ventas: QueryList<UnaVentaComponent>;
 	@ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
 	@ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;
 	@ViewChild('clientesValue', { static: true }) clientesValue: MatSelect;
@@ -70,7 +72,7 @@ export class VentasComponent implements OnInit {
 	}
 
 	startFocus(): void {
-		this.vs.ventaActual.setFocus();
+		this.ventas.get(this.vs.selected).setFocus();
 	}
 
 	cerrarVenta(ind: number): void {
@@ -101,7 +103,7 @@ export class VentasComponent implements OnInit {
 
 	cerrarFinalizarVenta(): void {
 		this.showFinalizarVenta = false;
-		this.vs.ventaActual.setFocus();
+		this.ventas[this.vs.selected].setFocus();
 	}
 
 	updateCambio(): void {

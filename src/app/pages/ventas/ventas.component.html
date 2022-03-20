@@ -1,7 +1,21 @@
 <otpv-header selectedOption="ventas"></otpv-header>
 
-<otpv-tabs [showClose]="true" (closeTabEvent)="cerrarVenta($event)" (newTabEvent)="newVenta()" (changeTabEvent)="startFocus()" (selectClientEvent)="selectClient($event)"></otpv-tabs>
-<otpv-una-venta *ngFor="let venta of vs.list; let i = index" (deleteVentaLineaEvent)="deleteVentaLinea($event)" (endVentaEvent)="endVenta($event)" [ngClass]="{'hidden':i!=vs.selected}" #venta></otpv-una-venta>
+<otpv-tabs
+	[showClose]="true"
+	[ngClass]="{'hidden': vs.list.length===0}"
+	(closeTabEvent)="cerrarVenta($event)"
+	(newTabEvent)="newVenta()"
+	(changeTabEvent)="startFocus()"
+	(selectClientEvent)="selectClient($event)"
+></otpv-tabs>
+<otpv-una-venta
+	*ngFor="let venta of vs.list; let i = index"
+	[ind]="i"
+	[ngClass]="{'hidden':i!=vs.selected}"
+	(deleteVentaLineaEvent)="deleteVentaLinea($event)"
+	(endVentaEvent)="endVenta($event)"
+	#ventas
+></otpv-una-venta>
 
 <div class="modal-bg"  [ngClass]="{'show': showFinalizarVenta}">
 	<div class="modal-box">
