@@ -11,9 +11,27 @@
 
 	.business-data {
 		.row {
-			.half {
+			.two {
 				width: calc(50% - 32px);
 				margin-right: 32px;
+			}
+
+			.three {
+				width: calc(33% - 32px);
+				margin-right: 32px;
+			}
+
+			.four {
+				width: calc(25% - 32px);
+				margin-right: 32px;
+				position: relative;
+
+				img {
+					width: 24px;
+					position: absolute;
+					right: 10px;
+					top: 6px;
+				}
 			}
 
 			.full {

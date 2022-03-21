@@ -40,12 +40,29 @@ export interface AppDataInterface {
 	direccion: string;
 	email: string;
 	pass: string;
+	nombreEmpleado: string;
+	color: string;
+	twitter: string;
+	facebook: string;
+	instagram: string;
+	web: string;
 	tipoIva: string;
 	ivaList: number[];
 	reList: number[];
 	marginList: number[];
 	ventaOnline: boolean;
 	urlApi: string;
+	fechaCad: boolean;
+	empleados: boolean;
+}
+
+export interface AppDataResult {
+	nombre: string;
+	tipoIva: string;
+	ivaList: number[];
+	reList: number[];
+	marginList: number[];
+	ventaOnline: boolean;
 	fechaCad: boolean;
 	empleados: boolean;
 }
@@ -61,7 +78,7 @@ export interface TipoPagoInterface {
 export interface StartDataInterface {
 	status: string;
 	opened: boolean;
-	appData: AppDataInterface;
+	appData: AppDataResult;
 	tiposPago: TipoPagoInterface[];
 }
 

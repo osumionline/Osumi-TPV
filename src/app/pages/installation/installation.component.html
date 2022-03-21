@@ -5,39 +5,81 @@
 <mat-card class="main">
 	<mat-card-content>
 		<p>Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
-		
+
 		<mat-card class="business-data">
 			<mat-card-title>Datos del negocio</mat-card-title>
 			<mat-card-content>
+				<p><strong>Datos del negocio</strong></p>
 				<div class="row">
-					<mat-form-field class="half">
+					<mat-form-field class="two">
+						<mat-label>Nombre</mat-label>
 						<input matInput placeholder="Nombre" [(ngModel)]="nombre">
 					</mat-form-field>
 				</div>
 				<div class="row">
-					<mat-form-field class="half">
+					<mat-form-field class="two">
+						<mat-label>CIF</mat-label>
 						<input matInput placeholder="CIF" [(ngModel)]="cif">
 					</mat-form-field>
-					<mat-form-field class="half">
+					<mat-form-field class="two">
+						<mat-label>Teléfono</mat-label>
 						<input matInput placeholder="Teléfono" [(ngModel)]="telefono">
 					</mat-form-field>
 				</div>
 				<div class="row">
 					<mat-form-field class="full">
+						<mat-label>Dirección</mat-label>
 						<input matInput placeholder="Dirección" [(ngModel)]="direccion">
 					</mat-form-field>
 				</div>
 				<div class="row">
-					<mat-form-field class="half">
-						<input matInput placeholder="Email" [(ngModel)]="email">
+					<mat-form-field class="two">
+						<mat-label>Email</mat-label>
+						<input matInput type="email" placeholder="Email" [(ngModel)]="email">
+					</mat-form-field>
+				</div>
+				<p><strong>Datos del administrador</strong></p>
+				<div class="row">
+					<mat-form-field class="two">
+						<mat-label>Contraseña del administrador</mat-label>
+						<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
+					</mat-form-field>
+					<mat-form-field class="two">
+						<mat-label>Confirmar contraseña</mat-label>
+						<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
 					</mat-form-field>
 				</div>
 				<div class="row">
-					<mat-form-field class="half">
-						<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
+					<mat-form-field class="two">
+						<mat-label>Nombre</mat-label>
+						<input matInput placeholder="Nombre" [(ngModel)]="nombreEmpleado">
 					</mat-form-field>
-					<mat-form-field class="half">
-						<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
+					<mat-form-field class="two">
+						<mat-label>Color</mat-label>
+						<input matInput type="color" placeholder="Color" [(ngModel)]="color">
+					</mat-form-field>
+				</div>
+				<p><strong>Redes</strong></p>
+				<div class="row">
+					<mat-form-field class="four">
+						<mat-label>Twitter</mat-label>
+						<input matInput placeholder="Twitter" [(ngModel)]="twitter">
+						<img src="/assets/icons/twitter.svg" alt="Twitter">
+					</mat-form-field>
+					<mat-form-field class="four">
+						<mat-label>Facebook</mat-label>
+						<input matInput placeholder="Facebook" [(ngModel)]="facebook">
+						<img src="/assets/icons/facebook.svg" alt="Facebook">
+					</mat-form-field>
+					<mat-form-field class="four">
+						<mat-label>Instagram</mat-label>
+						<input matInput placeholder="Instagram" [(ngModel)]="instagram">
+						<img src="/assets/icons/instagram.svg" alt="Instagram">
+					</mat-form-field>
+					<mat-form-field class="four">
+						<mat-label>Web</mat-label>
+						<input matInput placeholder="Web" [(ngModel)]="web">
+						<img src="/assets/icons/web.svg" alt="Web">
 					</mat-form-field>
 				</div>
 			</mat-card-content>

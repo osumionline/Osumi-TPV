@@ -7,7 +7,7 @@ import { MarcasService }      from 'src/app/services/marcas.service';
 import { ProveedoresService } from 'src/app/services/proveedores.service';
 import { EmpleadosService }   from 'src/app/services/empleados.service';
 import {
-	AppDataInterface,
+	AppDataResult,
 	Month,
 	ProvinceInterface
 } from 'src/app/interfaces/interfaces';
@@ -17,19 +17,17 @@ import {
 })
 export class ConfigService {
 	status: string = 'new';
+
 	nombre: string = '';
-	cif: string = '';
-	telefono: string = '';
-	direccion: string = '';
-	email: string = '';
 	tipoIva: string = '';
 	ivaOptions: IVAOption[] = [];
 	marginList: number[] = [];
 	ventaOnline: boolean = false;
 	fechaCad: boolean = false;
+	empleados: boolean = false;
+
 	tiposPago: TipoPago[] = [];
 	isOpened: boolean = false;
-	empleados: boolean = false;
 	idEmpleadoDef: number = null;
 
 	monthList: Month[] = [
@@ -92,12 +90,8 @@ export class ConfigService {
 		});
 	}
 
-	load(data: AppDataInterface): void {
+	load(data: AppDataResult): void {
 		this.nombre = data.nombre;
-		this.cif = data.cif;
-		this.telefono = data.telefono;
-		this.direccion = data.direccion;
-		this.email = data.email;
 		this.tipoIva = data.tipoIva;
 		for (let i in data.ivaList) {
 			if (this.tipoIva === 'iva') {

@@ -18,6 +18,12 @@ export class InstallationComponent implements OnInit {
 	email: string = '';
 	pass: string = '';
 	confPass: string = '';
+	nombreEmpleado: string = '';
+	color: string = '';
+	twitter: string = '';
+	facebook: string = '';
+	instagram: string = '';
+	web: string = '';
 
 	ivareOptions = [{id: 'iva', name: 'IVA'}, {id: 're', name: 'IVA + Recargo de equivalencia'}];
 	ivaOptionsList = [{option: 4, selected: false}, {option: 10, selected: false}, {option: 21, selected: false}];
@@ -60,6 +66,7 @@ export class InstallationComponent implements OnInit {
 	saving: boolean = false;
 
 	constructor(private dialog: DialogService, private as: ApiService, private router: Router) {}
+
 	ngOnInit() {}
 
 	checkIva(ev: MatCheckboxChange, i: number): void {
@@ -100,28 +107,36 @@ export class InstallationComponent implements OnInit {
 	}
 
 	saveConfiguration(): void {
-		if (this.nombre == '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del negocio en blanco!', ok: 'Continuar'}).subscribe(result => {});
+		if (this.nombre === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del negocio en blanco!', ok: 'Continuar'});
 			return;
 		}
-		if (this.cif == '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el CIF del negocio en blanco!', ok: 'Continuar'}).subscribe(result => {});
+		if (this.cif === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el CIF del negocio en blanco!', ok: 'Continuar'});
 			return;
 		}
-		if (this.pass == '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'}).subscribe(result => {});
+		if (this.pass === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'});
 			return;
 		}
-		if (this.confPass == '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la confirmación de la contraseña en blanco!', ok: 'Continuar'}).subscribe(result => {});
+		if (this.confPass === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la confirmación de la contraseña en blanco!', ok: 'Continuar'});
 			return;
 		}
 		if (this.pass !== this.confPass) {
-			this.dialog.alert({title: 'Error', content: '¡Las contraseñas introducidas no coinciden!', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: '¡Las contraseñas introducidas no coinciden!', ok: 'Continuar'});
+			return;
+		}
+		if  (this.nombreEmpleado === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del empleado por defecto en blanco!', ok: 'Continuar'});
+			return;
+		}
+		if  (this.color === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el color en blanco!', ok: 'Continuar'});
 			return;
 		}
 		if (this.optionsList.length==0) {
-			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'});
 			return;
 		}
 		for (let option of this.optionsList) {
@@ -133,12 +148,12 @@ export class InstallationComponent implements OnInit {
 
 		const selectedMargins = this.marginList.filter(x => x.checked).map(v => v.value);
 		if (selectedMargins.length==0) {
-			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de margenes de beneficio!', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de margenes de beneficio!', ok: 'Continuar'});
 			return;
 		}
-		
+
 		if (this.hasOnline === '1' && this.urlApi === '') {
-			this.dialog.alert({title: 'Error', content: 'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.', ok: 'Continuar'}).subscribe(result => {});
+			this.dialog.alert({title: 'Error', content: 'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.', ok: 'Continuar'});
 			return;
 		}
 
@@ -149,6 +164,12 @@ export class InstallationComponent implements OnInit {
 			direccion: this.direccion,
 			email: this.email,
 			pass: this.pass,
+			nombreEmpleado: this.nombreEmpleado,
+			color: this.color,
+			twitter: this.twitter,
+			facebook: this.facebook,
+			instagram: this.instagram,
+			web: this.web,
 			tipoIva: this.selectedOption,
 			ivaList: this.selectedIvaList,
 			reList: this.selectedReList,
@@ -168,7 +189,7 @@ export class InstallationComponent implements OnInit {
 			}
 			else {
 				this.saving = false;
-				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar los datos!', ok: 'Continuar'}).subscribe(result => {});
+				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar los datos!', ok: 'Continuar'});
 				return false;
 			}
 		});
