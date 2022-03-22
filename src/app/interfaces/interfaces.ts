@@ -246,6 +246,13 @@ export interface FinVentaInterface {
 	factura: boolean;
 }
 
+export interface FinVentaResult {
+	status: string;
+	id: number;
+	importe: number;
+	cambio: number;
+}
+
 export interface ClienteInterface {
 	id: number;
 	nombreApellidos: string;
