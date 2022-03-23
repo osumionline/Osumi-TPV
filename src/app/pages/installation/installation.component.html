@@ -1,90 +1,93 @@
 <mat-toolbar color="primary">
-	<span>Osumi TPV: Instalación</span>
+	<span>Osumi TPV - Instalación - Paso {{paso}}/3</span>
 </mat-toolbar>
 
-<mat-card class="main">
+<p *ngIf="paso===1" class="title">Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
+
+<mat-card *ngIf="paso===1" class="main">
 	<mat-card-content>
-		<p>Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
+		<p><strong>Datos del negocio</strong></p>
+		<div class="row">
+			<mat-form-field class="three">
+				<mat-label>Nombre</mat-label>
+				<input matInput placeholder="Nombre" [(ngModel)]="nombre">
+			</mat-form-field>
+		</div>
+		<div class="row">
+			<mat-form-field class="three">
+				<mat-label>CIF</mat-label>
+				<input matInput placeholder="CIF" [(ngModel)]="cif">
+			</mat-form-field>
+			<mat-form-field class="three">
+				<mat-label>Teléfono</mat-label>
+				<input matInput placeholder="Teléfono" [(ngModel)]="telefono">
+			</mat-form-field>
+			<mat-form-field class="three">
+				<mat-label>Email</mat-label>
+				<input matInput type="email" placeholder="Email" [(ngModel)]="email">
+			</mat-form-field>
+		</div>
+		<div class="row">
+			<mat-form-field class="full">
+				<mat-label>Dirección</mat-label>
+				<input matInput placeholder="Dirección" [(ngModel)]="direccion">
+			</mat-form-field>
+		</div>
+		<p><strong>Logo</strong></p>
+		
+		<p><strong>Datos del empleado</strong></p>
+		<div class="row">
+			<mat-form-field class="four">
+				<mat-label>Nombre de usuario</mat-label>
+				<input matInput placeholder="Nombre de usuario" [(ngModel)]="nombreEmpleado">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Contraseña del administrador</mat-label>
+				<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Confirmar contraseña</mat-label>
+				<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Color</mat-label>
+				<input matInput type="color" placeholder="Color" [(ngModel)]="color">
+			</mat-form-field>
+		</div>
+		<p><strong>Redes</strong></p>
+		<div class="row">
+			<mat-form-field class="four">
+				<mat-label>Twitter</mat-label>
+				<input matInput placeholder="Twitter" [(ngModel)]="twitter">
+				<img src="/assets/icons/twitter.svg" alt="Twitter">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Facebook</mat-label>
+				<input matInput placeholder="Facebook" [(ngModel)]="facebook">
+				<img src="/assets/icons/facebook.svg" alt="Facebook">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Instagram</mat-label>
+				<input matInput placeholder="Instagram" [(ngModel)]="instagram">
+				<img src="/assets/icons/instagram.svg" alt="Instagram">
+			</mat-form-field>
+			<mat-form-field class="four">
+				<mat-label>Web</mat-label>
+				<input matInput placeholder="Web" [(ngModel)]="web">
+				<img src="/assets/icons/web.svg" alt="Web">
+			</mat-form-field>
+		</div>
+	</mat-card-content>
+	<mat-card-actions class="end-actions">
+		<button mat-raised-button color="primary" (click)="irAPaso(2)" [disabled]="saving">
+			<img src="/assets/loading.svg" *ngIf="saving">
+			Continuar
+		</button>
+	</mat-card-actions>
+</mat-card>
 
-		<mat-card class="business-data">
-			<mat-card-title>Datos del negocio</mat-card-title>
-			<mat-card-content>
-				<p><strong>Datos del negocio</strong></p>
-				<div class="row">
-					<mat-form-field class="two">
-						<mat-label>Nombre</mat-label>
-						<input matInput placeholder="Nombre" [(ngModel)]="nombre">
-					</mat-form-field>
-				</div>
-				<div class="row">
-					<mat-form-field class="two">
-						<mat-label>CIF</mat-label>
-						<input matInput placeholder="CIF" [(ngModel)]="cif">
-					</mat-form-field>
-					<mat-form-field class="two">
-						<mat-label>Teléfono</mat-label>
-						<input matInput placeholder="Teléfono" [(ngModel)]="telefono">
-					</mat-form-field>
-				</div>
-				<div class="row">
-					<mat-form-field class="full">
-						<mat-label>Dirección</mat-label>
-						<input matInput placeholder="Dirección" [(ngModel)]="direccion">
-					</mat-form-field>
-				</div>
-				<div class="row">
-					<mat-form-field class="two">
-						<mat-label>Email</mat-label>
-						<input matInput type="email" placeholder="Email" [(ngModel)]="email">
-					</mat-form-field>
-				</div>
-				<p><strong>Datos del administrador</strong></p>
-				<div class="row">
-					<mat-form-field class="two">
-						<mat-label>Contraseña del administrador</mat-label>
-						<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
-					</mat-form-field>
-					<mat-form-field class="two">
-						<mat-label>Confirmar contraseña</mat-label>
-						<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
-					</mat-form-field>
-				</div>
-				<div class="row">
-					<mat-form-field class="two">
-						<mat-label>Nombre</mat-label>
-						<input matInput placeholder="Nombre" [(ngModel)]="nombreEmpleado">
-					</mat-form-field>
-					<mat-form-field class="two">
-						<mat-label>Color</mat-label>
-						<input matInput type="color" placeholder="Color" [(ngModel)]="color">
-					</mat-form-field>
-				</div>
-				<p><strong>Redes</strong></p>
-				<div class="row">
-					<mat-form-field class="four">
-						<mat-label>Twitter</mat-label>
-						<input matInput placeholder="Twitter" [(ngModel)]="twitter">
-						<img src="/assets/icons/twitter.svg" alt="Twitter">
-					</mat-form-field>
-					<mat-form-field class="four">
-						<mat-label>Facebook</mat-label>
-						<input matInput placeholder="Facebook" [(ngModel)]="facebook">
-						<img src="/assets/icons/facebook.svg" alt="Facebook">
-					</mat-form-field>
-					<mat-form-field class="four">
-						<mat-label>Instagram</mat-label>
-						<input matInput placeholder="Instagram" [(ngModel)]="instagram">
-						<img src="/assets/icons/instagram.svg" alt="Instagram">
-					</mat-form-field>
-					<mat-form-field class="four">
-						<mat-label>Web</mat-label>
-						<input matInput placeholder="Web" [(ngModel)]="web">
-						<img src="/assets/icons/web.svg" alt="Web">
-					</mat-form-field>
-				</div>
-			</mat-card-content>
-		</mat-card>
-
+<mat-card *ngIf="paso===2" class="main">
+	<mat-card-content>
 		<p>¿Quieres usar IVA o Recargo de equivalencia?</p>
 
 		<mat-radio-group class="option-margin" aria-label="IVA / RE" [(ngModel)]="selectedOption">
@@ -118,7 +121,21 @@
 			<button mat-raised-button class="option-margin" color="primary" (click)="selectAllMargins()">Marcar todos</button>
 			<button mat-raised-button class="option-margin" color="primary" (click)="selectNoneMargins()">Desmarcar todos</button>
 		</p>
+	</mat-card-content>
+	<mat-card-actions class="end-actions">
+		<button mat-raised-button color="primary" (click)="irAPaso(1)" [disabled]="saving">
+			<img src="/assets/loading.svg" *ngIf="saving">
+			Atrás
+		</button>
+		<button mat-raised-button color="primary" (click)="irAPaso(3)" [disabled]="saving">
+			<img src="/assets/loading.svg" *ngIf="saving">
+			Continuar
+		</button>
+	</mat-card-actions>
+</mat-card>
 
+<mat-card *ngIf="paso===3" class="main">
+	<mat-card-content>
 		<p>¿La aplicación se enlazará con una tienda online?</p>
 
 		<div>
@@ -146,6 +163,10 @@
 		</mat-radio-group>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
+		<button mat-raised-button color="primary" (click)="irAPaso(2)" [disabled]="saving">
+			<img src="/assets/loading.svg" *ngIf="saving">
+			Atrás
+		</button>
 		<button mat-raised-button color="primary" (click)="saveConfiguration()" [disabled]="saving">
 			<img src="/assets/loading.svg" *ngIf="saving">
 			Guardar configuración

@@ -11,6 +11,7 @@ import { AppDataInterface }  from 'src/app/interfaces/interfaces';
 	styleUrls: ['./installation.component.scss']
 })
 export class InstallationComponent implements OnInit {
+	paso: number = 1;
 	nombre: string = '';
 	cif: string = '';
 	telefono: string = '';
@@ -19,7 +20,7 @@ export class InstallationComponent implements OnInit {
 	pass: string = '';
 	confPass: string = '';
 	nombreEmpleado: string = '';
-	color: string = '';
+	color: string = '#3f51b5';
 	twitter: string = '';
 	facebook: string = '';
 	instagram: string = '';
@@ -68,6 +69,10 @@ export class InstallationComponent implements OnInit {
 	constructor(private dialog: DialogService, private as: ApiService, private router: Router) {}
 
 	ngOnInit() {}
+
+	irAPaso(paso: number): void {
+		this.paso = paso;
+	}
 
 	checkIva(ev: MatCheckboxChange, i: number): void {
 		if (ev.checked) {

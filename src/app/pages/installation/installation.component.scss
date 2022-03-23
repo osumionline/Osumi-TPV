@@ -2,6 +2,10 @@
 	background-color: #eee;
 }
 
+.title {
+	margin: 16px;
+}
+
 .main {
 	margin: 16px;
 
@@ -9,34 +13,32 @@
 		margin: 16px 0;
 	}
 
-	.business-data {
-		.row {
-			.two {
-				width: calc(50% - 32px);
-				margin-right: 32px;
-			}
+	.row {
+		.two {
+			width: calc(50% - 32px);
+			margin-right: 32px;
+		}
 
-			.three {
-				width: calc(33% - 32px);
-				margin-right: 32px;
-			}
+		.three {
+			width: calc(33% - 32px);
+			margin-right: 32px;
+		}
 
-			.four {
-				width: calc(25% - 32px);
-				margin-right: 32px;
-				position: relative;
+		.four {
+			width: calc(25% - 32px);
+			margin-right: 32px;
+			position: relative;
 
-				img {
-					width: 24px;
-					position: absolute;
-					right: 10px;
-					top: 6px;
-				}
+			img {
+				width: 24px;
+				position: absolute;
+				right: 10px;
+				top: 6px;
 			}
+		}
 
-			.full {
-				width: calc(100% - 32px);
-			}
+		.full {
+			width: calc(100% - 32px);
 		}
 	}
 
