@@ -39,8 +39,9 @@ export interface AppDataInterface {
 	telefono: string;
 	direccion: string;
 	email: string;
-	pass: string;
+	logo: string;
 	nombreEmpleado: string;
+	pass: string;
 	color: string;
 	twitter: string;
 	facebook: string;

@@ -17,9 +17,10 @@ export class InstallationComponent implements OnInit {
 	telefono: string = '';
 	direccion: string = '';
 	email: string = '';
+	nombreEmpleado: string = '';
 	pass: string = '';
 	confPass: string = '';
-	nombreEmpleado: string = '';
+	logo: string = '';
 	color: string = '#3f51b5';
 	twitter: string = '';
 	facebook: string = '';
@@ -70,6 +71,22 @@ export class InstallationComponent implements OnInit {
 
 	ngOnInit() {}
 
+	addLogo(): void {
+		document.getElementById('logo-file').click();
+	}
+
+	onLogoChange(ev: Event): void {
+		let reader = new FileReader();
+		if ( (<HTMLInputElement>ev.target).files && (<HTMLInputElement>ev.target).files.length > 0) {
+			let file = (<HTMLInputElement>ev.target).files[0];
+			reader.readAsDataURL(file);
+			reader.onload = () => {
+				this.logo = reader.result as string;
+				(<HTMLInputElement>document.getElementById('logo-file')).value = '';
+			};
+		}
+	}
+
 	irAPaso(paso: number): void {
 		this.paso = paso;
 	}
@@ -114,34 +131,47 @@ export class InstallationComponent implements OnInit {
 	saveConfiguration(): void {
 		if (this.nombre === '') {
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del negocio en blanco!', ok: 'Continuar'});
+			this.paso = 1;
 			return;
 		}
 		if (this.cif === '') {
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el CIF del negocio en blanco!', ok: 'Continuar'});
+			this.paso = 1;
 			return;
 		}
-		if (this.pass === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'});
-			return;
-		}
-		if (this.confPass === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la confirmación de la contraseña en blanco!', ok: 'Continuar'});
-			return;
-		}
-		if (this.pass !== this.confPass) {
-			this.dialog.alert({title: 'Error', content: '¡Las contraseñas introducidas no coinciden!', ok: 'Continuar'});
+		if (this.logo === '') {
+			this.dialog.alert({title: 'Error', content: '¡No has añadido ningún logo!', ok: 'Continuar'});
+			this.paso = 1;
 			return;
 		}
 		if  (this.nombreEmpleado === '') {
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del empleado por defecto en blanco!', ok: 'Continuar'});
+			this.paso = 1;
+			return;
+		}
+		if (this.pass === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'});
+			this.paso = 1;
+			return;
+		}
+		if (this.confPass === '') {
+			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la confirmación de la contraseña en blanco!', ok: 'Continuar'});
+			this.paso = 1;
+			return;
+		}
+		if (this.pass !== this.confPass) {
+			this.dialog.alert({title: 'Error', content: '¡Las contraseñas introducidas no coinciden!', ok: 'Continuar'});
+			this.paso = 1;
 			return;
 		}
 		if  (this.color === '') {
 			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el color en blanco!', ok: 'Continuar'});
+			this.paso = 1;
 			return;
 		}
 		if (this.optionsList.length==0) {
 			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'});
+			this.paso = 2;
 			return;
 		}
 		for (let option of this.optionsList) {
@@ -154,11 +184,13 @@ export class InstallationComponent implements OnInit {
 		const selectedMargins = this.marginList.filter(x => x.checked).map(v => v.value);
 		if (selectedMargins.length==0) {
 			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de margenes de beneficio!', ok: 'Continuar'});
+			this.paso = 2;
 			return;
 		}
 
 		if (this.hasOnline === '1' && this.urlApi === '') {
 			this.dialog.alert({title: 'Error', content: 'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.', ok: 'Continuar'});
+			this.paso = 3;
 			return;
 		}
 
@@ -168,8 +200,9 @@ export class InstallationComponent implements OnInit {
 			telefono: this.telefono,
 			direccion: this.direccion,
 			email: this.email,
-			pass: this.pass,
+			logo: this.logo,
 			nombreEmpleado: this.nombreEmpleado,
+			pass: this.pass,
 			color: this.color,
 			twitter: this.twitter,
 			facebook: this.facebook,

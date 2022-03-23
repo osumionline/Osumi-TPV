@@ -34,7 +34,11 @@
 			</mat-form-field>
 		</div>
 		<p><strong>Logo</strong></p>
-		
+		<div class="logo-row">
+			<input type="file" name="logo-file" id="logo-file" accept="image/png, image/gif, image/jpeg" (change)="onLogoChange($event)">
+			<img *ngIf="logo !== ''" [src]="logo" alt="Logo">
+			<button mat-raised-button color="primary" (click)="addLogo()">Añadir logo</button>
+		</div>
 		<p><strong>Datos del empleado</strong></p>
 		<div class="row">
 			<mat-form-field class="four">
