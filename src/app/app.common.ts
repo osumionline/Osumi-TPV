@@ -9,6 +9,7 @@ import { PedidosComponent }      from 'src/app/pages/pedidos/pedidos.component';
 import { ClientesComponent }     from 'src/app/pages/clientes/clientes.component';
 import { AlmacenComponent }      from 'src/app/pages/almacen/almacen.component';
 import { GestionComponent }      from 'src/app/pages/gestion/gestion.component';
+import { FacturaComponent }      from 'src/app/pages/factura/factura.component';
 
 export const PAGES: any[] = [
 	MainComponent,
@@ -18,7 +19,8 @@ export const PAGES: any[] = [
 	PedidosComponent,
 	ClientesComponent,
 	AlmacenComponent,
-	GestionComponent
+	GestionComponent,
+	FacturaComponent
 ];
 
 /*

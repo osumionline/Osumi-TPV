@@ -9,6 +9,7 @@ import { PedidosComponent }      from 'src/app/pages/pedidos/pedidos.component';
 import { ClientesComponent }     from 'src/app/pages/clientes/clientes.component';
 import { AlmacenComponent }      from 'src/app/pages/almacen/almacen.component';
 import { GestionComponent }      from 'src/app/pages/gestion/gestion.component';
+import { FacturaComponent }      from 'src/app/pages/factura/factura.component';
 
 const routes: Routes = [
 	{ path: '',                       component: MainComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
 	{ path: 'clientes',               component: ClientesComponent },
 	{ path: 'almacen',                component: AlmacenComponent },
 	{ path: 'gestion',                component: GestionComponent },
+	{ path: 'factura/:id',            component: FacturaComponent },
 	{ path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 

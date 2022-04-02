@@ -224,7 +224,7 @@ export interface LineaVentaInterface {
 	pvp: number;
 	importe: number;
 	descuento: number;
-  descuentoManual: boolean;
+	descuentoManual: boolean;
 	observaciones: string;
 }
 
