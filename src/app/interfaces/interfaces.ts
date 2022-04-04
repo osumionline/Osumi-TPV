@@ -254,6 +254,11 @@ export interface FinVentaResult {
 	cambio: number;
 }
 
+export interface FacturaResult {
+	status: string;
+	factura: FinVentaInterface;
+}
+
 export interface ClienteInterface {
 	id: number;
 	nombreApellidos: string;

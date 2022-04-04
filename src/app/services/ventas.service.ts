@@ -8,7 +8,8 @@ import { Cliente }       from 'src/app/model/cliente.model';
 import { FinVenta }      from 'src/app/model/fin-venta.model';
 import { Utils }         from 'src/app/model/utils.class';
 import {
-	FinVentaResult
+	FinVentaResult,
+	FacturaResult
 } from 'src/app/interfaces/interfaces';
 
 @Injectable({
@@ -71,7 +72,7 @@ export class VentasService {
 		return this.http.post<FinVentaResult>(environment.apiUrl + '-ventas/save-venta', this.fin.toInterface());
 	}
 
-	getVenta(id: number): Observable<FinVentaResult> {
-		return this.http.post<FinVentaResult>(environment.apiUrl + '-ventas/get-venta', {id});
+	getVenta(id: number): Observable<FacturaResult> {
+		return this.http.post<FacturaResult>(environment.apiUrl + '-ventas/get-venta', {id});
 	}
 }
