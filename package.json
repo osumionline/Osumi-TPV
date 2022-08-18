@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "jsbarcode": "^3.11.5",
-    "ngx-barcode6": "^1.0.20",
+    "ngx-barcode6": "^1.0.21",
     "@swimlane/ngx-charts": "~20.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
