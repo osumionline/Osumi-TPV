@@ -10,7 +10,8 @@ import { ClientesService } from "src/app/services/clientes.service";
 export class ClientesComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
-  selectedClient: Cliente = null;
+  start: boolean = true;
+  selectedClient: Cliente = new Cliente();
 
   constructor(public cs: ClientesService) {
     this.cs.load();
@@ -22,10 +23,12 @@ export class ClientesComponent implements OnInit {
   }
 
   selectCliente(cliente: Cliente): void {
+    this.start = false;
     this.selectedClient = cliente;
   }
 
   newCliente(): void {
+    this.start = false;
     this.selectedClient = new Cliente();
   }
 }

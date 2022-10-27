@@ -29,8 +29,8 @@
         </div>
     </aside>
     <main>
-        <div *ngIf="selectedClient===null"
+        <div [ngClass]="{'show': start}"
              class="start-message">Elige un cliente de la lista.</div>
-        <div *ngIf="selectedClient !== null">{{selectedClient.nombreApellidos}}</div>
+        <div [ngClass]="{'show': !start}">{{selectedClient.nombreApellidos}}</div>
     </main>
 </mat-card>
