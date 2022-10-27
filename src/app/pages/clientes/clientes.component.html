@@ -1,1 +1,33 @@
 <otpv-header selectedOption="clientes"></otpv-header>
+
+<mat-card class="clientes">
+    <aside>
+        <mat-form-field class="search">
+            <input matInput
+                   placeholder="Nombre, apellidos...">
+            <span matPrefix>
+                <mat-icon>search</mat-icon>
+            </span>
+        </mat-form-field>
+        <mat-action-list>
+            <button mat-list-item
+                    *ngFor="let cliente of cs.clientes"
+                    (click)="selectCliente(cliente)">
+                <div mat-line>{{cliente.nombreApellidos}}</div>
+                <div mat-line
+                     class="sub-line">{{cliente.telefono}} {{cliente.direccion}}</div>
+            </button>
+        </mat-action-list>
+        <div class="new-client">
+            <button mat-button>
+                <mat-icon>add_circle_outline</mat-icon>
+                Añadir nuevo cliente
+            </button>
+        </div>
+    </aside>
+    <main>
+        <div *ngIf="selectedClient===null"
+             class="start-message">Elige un cliente de la lista.</div>
+        <div *ngIf="selectedClient !== null">{{selectedClient.nombreApellidos}}</div>
+    </main>
+</mat-card>
