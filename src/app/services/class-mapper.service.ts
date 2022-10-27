@@ -1,142 +1,113 @@
-import { Injectable }   from '@angular/core';
-import { Marca }        from 'src/app/model/marca.model';
-import { Proveedor }    from 'src/app/model/proveedor.model';
-import { Categoria }    from 'src/app/model/categoria.model';
-import { Articulo }     from 'src/app/model/articulo.model';
-import { CodigoBarras } from 'src/app/model/codigobarras.model';
-import { TipoPago }     from 'src/app/model/tipo-pago.model';
-import { Cliente }      from 'src/app/model/cliente.model';
-import { Empleado }     from 'src/app/model/empleado.model';
+import { Injectable } from "@angular/core";
 import {
-	MarcaInterface,
-	ProveedorInterface,
-	CategoriaInterface,
-	ArticuloInterface,
-	CodigoBarrasInterface,
-	TipoPagoInterface,
-	ClienteInterface,
-	EmpleadoInterface
-} from 'src/app/interfaces/interfaces';
+  ArticuloInterface,
+  CategoriaInterface,
+  ClienteInterface,
+  CodigoBarrasInterface,
+  EmpleadoInterface,
+  MarcaInterface,
+  ProveedorInterface,
+  TipoPagoInterface,
+} from "src/app/interfaces/interfaces";
+import { Articulo } from "src/app/model/articulo.model";
+import { Categoria } from "src/app/model/categoria.model";
+import { Cliente } from "src/app/model/cliente.model";
+import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { Empleado } from "src/app/model/empleado.model";
+import { Marca } from "src/app/model/marca.model";
+import { Proveedor } from "src/app/model/proveedor.model";
+import { TipoPago } from "src/app/model/tipo-pago.model";
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: "root",
 })
 export class ClassMapperService {
-	constructor() {}
+  constructor() {}
 
-	getMarca(m: MarcaInterface): Marca {
-		return new Marca().fromInterface(m);
-	}
+  getMarca(m: MarcaInterface): Marca {
+    return new Marca().fromInterface(m);
+  }
 
-	getMarcas(ms: MarcaInterface[]): Marca[] {
-		const marcas: Marca[] = [];
+  getMarcas(ms: MarcaInterface[]): Marca[] {
+    return ms.map((m: MarcaInterface): Marca => {
+      return this.getMarca(m);
+    });
+  }
 
-		for (let m of ms) {
-			marcas.push(this.getMarca(m));
-		}
+  getProveedor(p: ProveedorInterface): Proveedor {
+    return new Proveedor().fromInterface(p);
+  }
 
-		return marcas;
-	}
+  getProveedores(ps: ProveedorInterface[]): Proveedor[] {
+    return ps.map((p: ProveedorInterface): Proveedor => {
+      return this.getProveedor(p);
+    });
+  }
 
-	getProveedor(p: ProveedorInterface): Proveedor {
-		return new Proveedor().fromInterface(p);
-	}
+  getCategoria(c: CategoriaInterface): Categoria {
+    const hijos: Categoria[] = [];
+    for (let h of c.hijos) {
+      hijos.push(this.getCategoria(h));
+    }
+    return new Categoria().fromInterface(c, hijos);
+  }
 
-	getProveedores(ps: ProveedorInterface[]): Proveedor[] {
-		const proveedores: Proveedor[] = [];
+  getCategorias(cs: CategoriaInterface[]): Categoria[] {
+    return cs.map((c: CategoriaInterface): Categoria => {
+      return this.getCategoria(c);
+    });
+  }
 
-		for (let p of ps) {
-			proveedores.push(this.getProveedor(p));
-		}
+  getCodigoBarras(cb: CodigoBarrasInterface): CodigoBarras {
+    return new CodigoBarras().fromInterface(cb);
+  }
 
-		return proveedores;
-	}
+  getCodigosBarras(cbs: CodigoBarrasInterface[]): CodigoBarras[] {
+    return cbs.map((cb: CodigoBarrasInterface): CodigoBarras => {
+      return this.getCodigoBarras(cb);
+    });
+  }
 
-	getCategoria(c: CategoriaInterface): Categoria {
-		const hijos: Categoria[] = [];
-		for (let h of c.hijos) {
-			hijos.push(this.getCategoria(h));
-		}
-		return new Categoria().fromInterface(c, hijos);
-	}
+  getArticulo(a: ArticuloInterface): Articulo {
+    return new Articulo().fromInterface(
+      a,
+      this.getCodigosBarras(a.codigosBarras)
+    );
+  }
 
-	getCategorias(cs: CategoriaInterface[]): Categoria[] {
-		const categorias: Categoria[] = [];
+  getArticulos(as: ArticuloInterface[]): Articulo[] {
+    return as.map((a: ArticuloInterface): Articulo => {
+      return this.getArticulo(a);
+    });
+  }
 
-		for (let c of cs) {
-			categorias.push(this.getCategoria(c));
-		}
+  getTipoPago(tp: TipoPagoInterface): TipoPago {
+    return new TipoPago().fromInterface(tp);
+  }
 
-		return categorias;
-	}
+  getTiposPago(tps: TipoPagoInterface[]): TipoPago[] {
+    return tps.map((tp: TipoPagoInterface): TipoPago => {
+      return this.getTipoPago(tp);
+    });
+  }
 
-	getCodigoBarras(cb: CodigoBarrasInterface): CodigoBarras {
-		return new CodigoBarras().fromInterface(cb);
-	}
+  getCliente(c: ClienteInterface): Cliente {
+    return new Cliente().fromInterface(c);
+  }
 
-	getCodigosBarras(cbs: CodigoBarrasInterface[]): CodigoBarras[] {
-		const codigosBarras: CodigoBarras[] = [];
+  getClientes(cs: ClienteInterface[]): Cliente[] {
+    return cs.map((c: ClienteInterface): Cliente => {
+      return this.getCliente(c);
+    });
+  }
 
-		for (let cb of cbs) {
-			codigosBarras.push(this.getCodigoBarras(cb));
-		}
+  getEmpleado(e: EmpleadoInterface): Empleado {
+    return new Empleado().fromInterface(e);
+  }
 
-		return codigosBarras;
-	}
-
-	getArticulo(a: ArticuloInterface): Articulo {
-		return new Articulo().fromInterface(a, this.getCodigosBarras(a.codigosBarras));
-	}
-
-	getArticulos(as: ArticuloInterface[]): Articulo[] {
-		const articulos: Articulo[] = [];
-
-		for (let a of as) {
-			articulos.push(this.getArticulo(a));
-		}
-
-		return articulos;
-	}
-
-	getTipoPago(tp: TipoPagoInterface): TipoPago {
-		return new TipoPago().fromInterface(tp);
-	}
-
-	getTiposPago(tps: TipoPagoInterface[]): TipoPago[] {
-		const tiposPago: TipoPago[] = [];
-
-		for (let tp of tps) {
-			tiposPago.push(this.getTipoPago(tp));
-		}
-
-		return tiposPago;
-	}
-
-	getCliente(c: ClienteInterface): Cliente {
-		return new Cliente().fromInterface(c);
-	}
-
-	getClientes(cs: ClienteInterface[]): Cliente[] {
-		const clientes: Cliente[] = [];
-
-		for (let c of cs) {
-			clientes.push(this.getCliente(c));
-		}
-
-		return clientes;
-	}
-
-	getEmpleado(e: EmpleadoInterface): Empleado {
-		return new Empleado().fromInterface(e);
-	}
-
-	getEmpleados(es: EmpleadoInterface[]): Empleado[] {
-		const empleados: Empleado[] = [];
-
-		for (let e of es) {
-			empleados.push(this.getEmpleado(e));
-		}
-
-		return empleados;
-	}
+  getEmpleados(es: EmpleadoInterface[]): Empleado[] {
+    return es.map((e: EmpleadoInterface): Empleado => {
+      return this.getEmpleado(e);
+    });
+  }
 }

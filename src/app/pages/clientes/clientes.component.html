@@ -4,14 +4,16 @@
     <aside>
         <mat-form-field class="search">
             <input matInput
-                   placeholder="Nombre, apellidos...">
+                   placeholder="Nombre, apellidos..."
+                   [(ngModel)]="search"
+                   #searchBox>
             <span matPrefix>
                 <mat-icon>search</mat-icon>
             </span>
         </mat-form-field>
         <mat-action-list>
             <button mat-list-item
-                    *ngFor="let cliente of cs.clientes"
+                    *ngFor="let cliente of cs.clientes | clientListFilter:search"
                     (click)="selectCliente(cliente)">
                 <div mat-line>{{cliente.nombreApellidos}}</div>
                 <div mat-line
@@ -19,7 +21,8 @@
             </button>
         </mat-action-list>
         <div class="new-client">
-            <button mat-button>
+            <button mat-button
+                    (click)="newCliente()">
                 <mat-icon>add_circle_outline</mat-icon>
                 Añadir nuevo cliente
             </button>
