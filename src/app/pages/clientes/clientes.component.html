@@ -2,7 +2,7 @@
 
 <mat-card class="clientes">
     <aside>
-        <mat-form-field class="search">
+        <mat-form-field class="search mat-form-field-no-bottom">
             <input matInput
                    placeholder="Nombre, apellidos..."
                    [(ngModel)]="search"
@@ -35,22 +35,184 @@
              class="main-body">
             <mat-tab-group>
                 <mat-tab label="DATOS">
-                    <div class="form-field margin-right">
-                        <div class="form-field">
+                    <div>
+                        <div class="form-field half-width">
                             <label>Nombre y apellidos</label>
-                            <mat-form-field>
+                            <mat-form-field class="max-width">
                                 <input matInput
                                        placeholder="Nombre y apellidos"
                                        [(ngModel)]="selectedClient.nombreApellidos">
                             </mat-form-field>
                         </div>
-                        <div class="form-field">
+                        <div class="form-field half-width">
                             <label>DNI / CIF</label>
-                            <mat-form-field>
+                            <mat-form-field class="max-width">
                                 <input matInput
                                        placeholder="DNI / CIF"
                                        [(ngModel)]="selectedClient.dniCif">
                             </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-field half-width">
+                            <label>Teléfono</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Teléfono"
+                                       [(ngModel)]="selectedClient.telefono">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field half-width">
+                            <label>Email</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Email"
+                                       [(ngModel)]="selectedClient.email">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-field max-width">
+                            <label>Dirección</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Dirección"
+                                       [(ngModel)]="selectedClient.direccion">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-field third-width">
+                            <label>Código postal</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Código postal"
+                                       [(ngModel)]="selectedClient.codigoPostal">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field third-width">
+                            <label>Población</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Población"
+                                       [(ngModel)]="selectedClient.poblacion">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field third-width">
+                            <label>Provincia</label>
+                            <mat-form-field class="max-width">
+                                <mat-select [(ngModel)]="selectedClient.provincia">
+                                    <mat-option *ngFor="let provincia of config.provincias"
+                                                [value]="provincia.id">
+                                        {{provincia.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-field max-width">
+                            <label>Observaciones</label>
+                            <mat-form-field class="max-width">
+                                <textarea matInput
+                                          placeholder="Observaciones"
+                                          [(ngModel)]="selectedClient.observaciones"
+                                          rows="5"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="same-data"
+                         [ngClass]="{'selected': !selectedClient.factIgual}">
+                        <mat-checkbox [checked]="selectedClient.factIgual"
+                                      (change)="selectedClient.factIgual = !selectedClient.factIgual">
+                            Mismos datos para la facturación.
+                        </mat-checkbox>
+                    </div>
+                    <div *ngIf="!selectedClient.factIgual">
+                        <div class="form-field half-width">
+                            <label>Nombre y apellidos</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Nombre y apellidos"
+                                       [(ngModel)]="selectedClient.factNombreApellidos">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field half-width">
+                            <label>DNI / CIF</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="DNI / CIF"
+                                       [(ngModel)]="selectedClient.factDniCif">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="!selectedClient.factIgual">
+                        <div class="form-field half-width">
+                            <label>Teléfono</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Teléfono"
+                                       [(ngModel)]="selectedClient.factTelefono">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field half-width">
+                            <label>Email</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Email"
+                                       [(ngModel)]="selectedClient.factEmail">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="!selectedClient.factIgual">
+                        <div class="form-field max-width">
+                            <label>Dirección</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Dirección"
+                                       [(ngModel)]="selectedClient.factDireccion">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div *ngIf="!selectedClient.factIgual">
+                        <div class="form-field third-width">
+                            <label>Código postal</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Código postal"
+                                       [(ngModel)]="selectedClient.factCodigoPostal">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field third-width">
+                            <label>Población</label>
+                            <mat-form-field class="max-width">
+                                <input matInput
+                                       placeholder="Población"
+                                       [(ngModel)]="selectedClient.factPoblacion">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-field third-width">
+                            <label>Provincia</label>
+                            <mat-form-field class="max-width">
+                                <mat-select [(ngModel)]="selectedClient.factProvincia">
+                                    <mat-option *ngFor="let provincia of config.provincias"
+                                                [value]="provincia.id">
+                                        {{provincia.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="delete">
+                            <button mat-raised-button
+                                    color="warn">Borrar</button>
+                        </div>
+                        <div class="others">
+                            <button mat-raised-button
+                                    color="primary">Cancelar</button>
+                            <button mat-raised-button
+                                    color="primary">Guardar</button>
                         </div>
                     </div>
                 </mat-tab>

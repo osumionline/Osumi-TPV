@@ -1,0 +1,127 @@
+.mat-form-field-no-bottom {
+  .mat-form-field-wrapper {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.form-field {
+  display: inline-block;
+  padding-right: 16px;
+  box-sizing: border-box;
+
+  .nombre-label {
+    width: 280px;
+  }
+
+  & > label {
+    display: block;
+    line-height: 24px;
+    font-weight: bold;
+  }
+
+  .ng-dirty {
+    color: var(--form-modified);
+  }
+}
+
+.form-field-left {
+  display: inline-block;
+  margin-right: 48px;
+
+  label {
+    display: inline-block;
+    line-height: 24px;
+    font-weight: bold;
+    margin-right: 16px;
+    min-width: auto;
+    width: 80px;
+    text-align: right;
+  }
+
+  span {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+  }
+
+  &.margen {
+    line-height: 75px;
+
+    span {
+      width: 120px;
+      text-align: right;
+      outline: 1px solid #e0e0e0;
+      height: 55px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-radius: 5px;
+      padding-right: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        outline: 2px solid #000;
+      }
+    }
+  }
+}
+
+.form-field-left-short {
+  display: inline-block;
+  margin-right: 48px;
+  margin-bottom: 16px;
+
+  label {
+    display: inline-block;
+    line-height: 24px;
+    font-weight: bold;
+    margin-right: 16px;
+  }
+}
+
+.margin-left {
+  margin-left: 16px;
+}
+
+.margin-bottom {
+  margin-bottom: 24px;
+}
+
+.mat-input-element.align-right {
+  text-align: right;
+}
+
+.campo-numero {
+  width: 120px;
+}
+
+.third-width {
+  width: 33%;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.max-width {
+  width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .form-field-left {
+    & > label {
+      min-width: 100px;
+      width: auto;
+    }
+
+    .nombre-label {
+      width: 800px;
+    }
+  }
+
+  .margin-right {
+    margin-right: 60px;
+  }
+}

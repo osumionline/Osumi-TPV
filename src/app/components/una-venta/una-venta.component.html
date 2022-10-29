@@ -1,14 +1,21 @@
-<div *ngIf="vs.ventaActual.mostrarEmpleados" class="empleados-list">
-	<div class="empleado" *ngFor="let empleado of es.empleados" [ngStyle]="{'background-color':'#'+empleado.color, 'color': empleado.textColor}" (click)="abreLogin(empleado)">
+<div *ngIf="vs.ventaActual.mostrarEmpleados"
+	 class="empleados-list">
+	<div class="empleado"
+		 *ngFor="let empleado of es.empleados"
+		 [ngStyle]="{'background-color':'#'+empleado.color, 'color': empleado.textColor}"
+		 (click)="abreLogin(empleado)">
 		{{empleado.nombre}}
 	</div>
 </div>
 
-<div class="modal-bg"  [ngClass]="{'show': muestraLogin}">
+<div class="modal-bg"
+	 [ngClass]="{'show': muestraLogin}">
 	<div class="modal-box">
 		<div class="modal-header">
-			Iniciar sesión
-			<a *ngIf="!loginLoading" href="#" (click)="cerrarLogin($event)">
+			<span>Iniciar sesión</span>
+			<a *ngIf="!loginLoading"
+			   href="#"
+			   (click)="cerrarLogin($event)">
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
@@ -17,12 +24,19 @@
 			<div class="login-continuar">
 				<mat-form-field class="login-pass">
 					<mat-label>Contraseña</mat-label>
-					<input matInput type="password" placeholder="Contraseña" [(ngModel)]="selectedEmpleado.pass"
-					(keyup)="checkLoginPassword($event)"
-					#loginPasswordValue>
+					<input matInput
+						   type="password"
+						   placeholder="Contraseña"
+						   [(ngModel)]="selectedEmpleado.pass"
+						   (keyup)="checkLoginPassword($event)"
+						   #loginPasswordValue>
 				</mat-form-field>
-				<button mat-raised-button color="primary" (click)="login()" [disabled]="loginLoading">
-					<img *ngIf="loginLoading" src="/assets/loading.svg">
+				<button mat-raised-button
+						color="primary"
+						(click)="login()"
+						[disabled]="loginLoading">
+					<img *ngIf="loginLoading"
+						 src="/assets/loading.svg">
 					Continuar
 				</button>
 			</div>
@@ -30,7 +44,8 @@
 	</div>
 </div>
 
-<div class="ventas-header" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+<div class="ventas-header"
+	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
 	<div class="col-stock">Stock</div>
@@ -40,18 +55,33 @@
 	<div class="col-descuentos">Desc.</div>
 </div>
 
-<div class="lineas-ventas" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
-	<div class="linea-venta" *ngFor="let linea of vs.ventaActual.lineas; let i = index">
+<div class="lineas-ventas"
+	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	<div class="linea-venta"
+		 *ngFor="let linea of vs.ventaActual.lineas; let i = index">
 		<div class="col-localizador">
-			<input *ngIf="!linea.idArticulo" type="number" [id]="'loc-new-' + ind" class="linea-localizador" (keyup)="checkLocalizador($event, i)" [(ngModel)]="linea.localizador" [disabled]="searching" aria-label="Localizador">
+			<input *ngIf="!linea.idArticulo"
+				   type="number"
+				   [id]="'loc-new-' + ind"
+				   class="linea-localizador"
+				   (keyup)="checkLocalizador($event, i)"
+				   [(ngModel)]="linea.localizador"
+				   [disabled]="searching"
+				   aria-label="Localizador">
 			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
-			<mat-icon *ngIf="linea.idArticulo" class="delete-linea" title="¿Borrar línea?" (click)="borraLinea(i)">delete</mat-icon>
+			<mat-icon *ngIf="linea.idArticulo"
+					  class="delete-linea"
+					  title="¿Borrar línea?"
+					  (click)="borraLinea(i)">delete</mat-icon>
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
-			<span *ngIf="linea.descripcion" [routerLink]="['/articulos', linea.localizador]">
+			<span *ngIf="linea.descripcion"
+				  [routerLink]="['/articulos', linea.localizador]">
 				{{linea.descripcion}}
-				<mat-icon *ngIf="linea.observaciones" (click)="showObservaciones($event, linea.observaciones)" title="Mostrar observaciones del artículo">info_outline</mat-icon>
+				<mat-icon *ngIf="linea.observaciones"
+						  (click)="showObservaciones($event, linea.observaciones)"
+						  title="Mostrar observaciones del artículo">info_outline</mat-icon>
 			</span>
 		</div>
 		<div class="col-stock">
@@ -61,11 +91,20 @@
 		<div class="col-cantidad">
 			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.idArticulo !== null">
-				<span *ngIf="!editarCantidad" class="editar-linea-cantidad" (click)="editarLineaCantidad(i)">
+				<span *ngIf="!editarCantidad"
+					  class="editar-linea-cantidad"
+					  (click)="editarLineaCantidad(i)">
 					{{linea.cantidad}}
 				</span>
 				<span *ngIf="editarCantidad">
-					<input type="number" class="linea-cantidad" min="0" step="1" [(ngModel)]="linea.cantidad" [id]="'linea-cantidad-' + ind + '_' + i" (keyup)="checkCantidad($event, i, false)" (blur)="checkCantidad($event, i, true)">
+					<input type="number"
+						   class="linea-cantidad"
+						   min="0"
+						   step="1"
+						   [(ngModel)]="linea.cantidad"
+						   [id]="'linea-cantidad-' + ind + '_' + i"
+						   (keyup)="checkCantidad($event, i, false)"
+						   (blur)="checkCantidad($event, i, true)">
 				</span>
 			</ng-container>
 		</div>
@@ -76,12 +115,23 @@
 		<div class="col-importe">
 			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.importe !== null">
-				<span *ngIf="!editarImporte" class="editar-linea-importe" (click)="editarLineaImporte(i)">
+				<span *ngIf="!editarImporte"
+					  class="editar-linea-importe"
+					  (click)="editarLineaImporte(i)">
 					{{linea.total | fixedNumber}} €
-					<mat-icon *ngIf="linea.importeManual" (click)="quitaImporteManual($event, i)" title="Quita el importe introducido manualmente">close</mat-icon>
+					<mat-icon *ngIf="linea.importeManual"
+							  (click)="quitaImporteManual($event, i)"
+							  title="Quita el importe introducido manualmente">close</mat-icon>
 				</span>
 				<span *ngIf="editarImporte">
-					<input type="number" class="linea-importe" min="0" step="0.1" [(ngModel)]="linea.importe" [id]="'linea-importe-' + ind + '_' + i" (keyup)="checkImporte($event, i, false)" (blur)="checkImporte($event, i, true)">
+					<input type="number"
+						   class="linea-importe"
+						   min="0"
+						   step="0.1"
+						   [(ngModel)]="linea.importe"
+						   [id]="'linea-importe-' + ind + '_' + i"
+						   (keyup)="checkImporte($event, i, false)"
+						   (blur)="checkImporte($event, i, true)">
 					€
 				</span>
 			</ng-container>
@@ -89,13 +139,28 @@
 		<div class="col-descuentos">
 			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.descuento !== null">
-				<span *ngIf="!editarDescuento" class="editar-linea-descuento" (click)="editarLineaDescuento(i)">
-					{{linea.descuento}} <ng-container *ngIf="!linea.descuentoManual">%</ng-container><ng-container *ngIf="linea.descuentoManual">€</ng-container>
-					<mat-icon *ngIf="!linea.descuentoManual" (click)="abreDescuento($event, linea)" title="introducir un importe como descuento">euro</mat-icon>
-					<mat-icon *ngIf="linea.descuentoManual" (click)="quitaDescuentoManual($event, i)" title="Quita el importe introducido como descuento">close</mat-icon>
+				<span *ngIf="!editarDescuento"
+					  class="editar-linea-descuento"
+					  (click)="editarLineaDescuento(i)">
+					{{linea.descuento}}
+					<ng-container *ngIf="!linea.descuentoManual">%</ng-container>
+					<ng-container *ngIf="linea.descuentoManual">€</ng-container>
+					<mat-icon *ngIf="!linea.descuentoManual"
+							  (click)="abreDescuento($event, linea)"
+							  title="introducir un importe como descuento">euro</mat-icon>
+					<mat-icon *ngIf="linea.descuentoManual"
+							  (click)="quitaDescuentoManual($event, i)"
+							  title="Quita el importe introducido como descuento">close</mat-icon>
 				</span>
 				<span *ngIf="editarDescuento">
-					<input type="number" class="linea-descuento" min="0" step="1" [(ngModel)]="linea.descuento" [id]="'linea-descuento-' + ind + '_' + i" (keyup)="checkDescuento($event, false)" (blur)="checkDescuento($event, true)">
+					<input type="number"
+						   class="linea-descuento"
+						   min="0"
+						   step="1"
+						   [(ngModel)]="linea.descuento"
+						   [id]="'linea-descuento-' + ind + '_' + i"
+						   (keyup)="checkDescuento($event, false)"
+						   (blur)="checkDescuento($event, true)">
 					%
 				</span>
 			</ng-container>
@@ -103,10 +168,12 @@
 	</div>
 </div>
 
-<div class="cliente-estadisticas" *ngIf="vs.ventaActual.cliente">
+<div class="cliente-estadisticas"
+	 *ngIf="vs.ventaActual.cliente">
 	<div class="col-ultimas-ventas">
 		<div class="estadisticas-titulo">Últimas ventas</div>
-		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.ultimasVentas.length">
+		<div class="estadisticas-datos"
+			 *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.ultimasVentas.length">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-fecha">Fecha</div>
 				<div class="estadisticas-item-localizador">Loc.</div>
@@ -115,7 +182,8 @@
 				<div class="estadisticas-item-pvp">PVP</div>
 				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
-			<div class="estadisticas-item" *ngFor="let item of vs.ventaActual.cliente.ultimasVentas">
+			<div class="estadisticas-item"
+				 *ngFor="let item of vs.ventaActual.cliente.ultimasVentas">
 				<div class="estadisticas-item-fecha">{{item.fecha}}</div>
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
@@ -124,48 +192,62 @@
 				<div class="estadisticas-item-importe">{{item.importe}} €</div>
 			</div>
 		</div>
-		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.ultimasVentas.length">
+		<div class="estadisticas-sin-datos"
+			 *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.ultimasVentas.length">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
 	</div>
 	<div class="col-top-ventas">
 		<div class="estadisticas-titulo">
 			Top ventas
-			<mat-icon (click)="closeClienteEstadisticas()" [ngClass]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
+			<mat-icon (click)="closeClienteEstadisticas()"
+					  [ngClass]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
 		</div>
-		<div class="estadisticas-datos" *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.topVentas.length">
+		<div class="estadisticas-datos"
+			 *ngIf="showClienteEstadisticas && vs.ventaActual.cliente.topVentas.length">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-localizador">Loc.</div>
 				<div class="estadisticas-item-nombre">Nombre</div>
 				<div class="estadisticas-item-pvp">PVP</div>
 			</div>
-			<div class="estadisticas-item" *ngFor="let item of vs.ventaActual.cliente.topVentas">
+			<div class="estadisticas-item"
+				 *ngFor="let item of vs.ventaActual.cliente.topVentas">
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
 				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
 			</div>
 		</div>
-		<div class="estadisticas-sin-datos" *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.topVentas.length">
+		<div class="estadisticas-sin-datos"
+			 *ngIf="showClienteEstadisticas && !vs.ventaActual.cliente.topVentas.length">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
 	</div>
 </div>
 
-<div class="importe" [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+<div class="importe"
+	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="total-importe">
 		{{vs.ventaActual.importe | fixedNumber}} €
 	</div>
 	<div class="controles-venta">
-		<button mat-stroked-button [disabled]="vs.ventaActual.lineas.length===1" (click)="cancelarVenta()">Cancelar</button>
-		<button class="end-btn" mat-raised-button color="primary" [disabled]="vs.ventaActual.lineas.length===1" (click)="terminarVenta()">Terminar</button>
+		<button mat-stroked-button
+				[disabled]="vs.ventaActual.lineas.length===1"
+				(click)="cancelarVenta()">Cancelar</button>
+		<button class="end-btn"
+				mat-raised-button
+				color="primary"
+				[disabled]="vs.ventaActual.lineas.length===1"
+				(click)="terminarVenta()">Terminar</button>
 	</div>
 </div>
 
-<div class="modal-bg"  [ngClass]="{'show': muestraDescuento}">
+<div class="modal-bg"
+	 [ngClass]="{'show': muestraDescuento}">
 	<div class="modal-box">
 		<div class="modal-header">
-			Introducir descuento
-			<a href="#" (click)="cerrarDescuento($event)">
+			<span>Introducir descuento</span>
+			<a href="#"
+			   (click)="cerrarDescuento($event)">
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
@@ -176,12 +258,19 @@
 			<div class="descuento-otros">
 				<mat-form-field class="descuento-otros-importe">
 					<mat-label>Importe en euros</mat-label>
-					<input matInput type="number" min="0" step="0.1" placeholder="Importe en euros" [(ngModel)]="descuentoImporte"
-					(keyup)="checkDescuentoImporte($event)"
-					#descuentoValue>
+					<input matInput
+						   type="number"
+						   min="0"
+						   step="0.1"
+						   placeholder="Importe en euros"
+						   [(ngModel)]="descuentoImporte"
+						   (keyup)="checkDescuentoImporte($event)"
+						   #descuentoValue>
 				</mat-form-field>
 				€
-				<button mat-raised-button color="primary" (click)="selectDescuento()">Continuar</button>
+				<button mat-raised-button
+						color="primary"
+						(click)="selectDescuento()">Continuar</button>
 			</div>
 		</div>
 	</div>

@@ -1,55 +1,75 @@
 <div class="tab-container">
 	<div class="tab-list">
 		<div class="tab-item"
-			*ngFor="let tab of vs.list; let i = index"
-			[ngClass]="{'tab-selected': vs.selected==i}"
-			(click)="selectTab(i)"
-			[ngStyle]="{'background-color':es.colors[vs.ventaActual.idEmpleado], 'color':es.textColors[vs.ventaActual.idEmpleado]}"
-		>
+			 *ngFor="let tab of vs.list; let i = index"
+			 [ngClass]="{'tab-selected': vs.selected==i}"
+			 (click)="selectTab(i)"
+			 [ngStyle]="{'background-color':es.colors[vs.ventaActual.idEmpleado], 'color':es.textColors[vs.ventaActual.idEmpleado]}">
 			{{tab.name}}
-			<mat-icon *ngIf="showClose" class="tab-icon" (click)="closeTab(i)">close</mat-icon>
+			<mat-icon *ngIf="showClose"
+					  class="tab-icon"
+					  (click)="closeTab(i)">close</mat-icon>
 		</div>
-		<div class="new-tab" (click)="newTab()">
+		<div class="new-tab"
+			 (click)="newTab()">
 			<mat-icon>add</mat-icon>
 		</div>
-		<div class="select-client" (click)="selectClient()" *ngIf="!vs.cliente">
+		<div class="select-client"
+			 (click)="selectClient()"
+			 *ngIf="!vs.cliente">
 			<mat-icon>person_add</mat-icon>
 		</div>
-		<div class="select-client" (click)="removeClient()" *ngIf="vs.cliente">
+		<div class="select-client"
+			 (click)="removeClient()"
+			 *ngIf="vs.cliente">
 			<span>{{vs.cliente.nombreApellidos}}</span>
 			<mat-icon>close</mat-icon>
 		</div>
 	</div>
 </div>
 
-<div class="modal-bg" [ngClass]="{'show': mostrarElegirCliente}">
+<div class="modal-bg"
+	 [ngClass]="{'show': mostrarElegirCliente}">
 	<div class="modal-box">
 		<div class="modal-header">
-			Seleccionar cliente
-			<a href="#" (click)="cerrarElegirCliente($event)">
+			<span>Seleccionar cliente</span>
+			<a href="#"
+			   (click)="cerrarElegirCliente($event)">
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
 		<div class="modal-body elegir-cliente">
-			<mat-tab-group (selectedTabChange)="changeClienteTab($event)" [selectedIndex]="elegirClienteSelectedTab" (selectedIndexChange)="elegirClienteSelectedTab = $event" #elegirClienteTabs>
+			<mat-tab-group (selectedTabChange)="changeClienteTab($event)"
+						   [selectedIndex]="elegirClienteSelectedTab"
+						   (selectedIndexChange)="elegirClienteSelectedTab = $event"
+						   #elegirClienteTabs>
 				<mat-tab label="Buscar">
 					<mat-form-field class="buscador">
-						<input matInput placeholder="Introduce el nombre, apellidos, teléfono o email del cliente a buscar" [(ngModel)]="elegirClienteNombre" (input)="searchStart()" #elegirClienteBoxName>
+						<input matInput
+							   placeholder="Introduce el nombre, apellidos, teléfono o email del cliente a buscar"
+							   [(ngModel)]="elegirClienteNombre"
+							   (input)="searchStart()"
+							   #elegirClienteBoxName>
 					</mat-form-field>
-					<div class="elegir-clientes-result" *ngIf="searched">
-						<div class="elegir-clientes-header" *ngIf="searchResult.length">
+					<div class="elegir-clientes-result"
+						 *ngIf="searched">
+						<div class="elegir-clientes-header"
+							 *ngIf="searchResult.length">
 							<div class="elegir-clientes-nombre">Nombre y apellidos</div>
 							<div class="elegir-clientes-telefono">Teléfono</div>
 							<div class="elegir-clientes-ultima">Última venta</div>
 						</div>
-						<div class="elegir-clientes-item" *ngFor="let cliente of searchResult" (click)="selectCliente(cliente)">
+						<div class="elegir-clientes-item"
+							 *ngFor="let cliente of searchResult"
+							 (click)="selectCliente(cliente)">
 							<div class="elegir-clientes-nombre">{{cliente.nombreApellidos}}</div>
 							<div class="elegir-clientes-telefono">{{cliente.telefono}}</div>
 							<div class="elegir-clientes-ultima">
 								{{cliente.ultimaVenta ? cliente.ultimaVenta : '-'}}
 							</div>
 						</div>
-						<div class="elegir-clientes-no-result" *ngIf="searchResult.length===0">
+						<div class="elegir-clientes-no-result"
+							 *ngIf="searchResult.length===0">
 							No se han encontrado resultados.
 						</div>
 					</div>
@@ -58,42 +78,58 @@
 					<div class="cliente-nuevo-row">
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Nombre y apellidos</mat-label>
-							<input matInput placeholder="Nombre y apellidos" [(ngModel)]="nuevoCliente.nombreApellidos" #nuevoClienteBoxName>
+							<input matInput
+								   placeholder="Nombre y apellidos"
+								   [(ngModel)]="nuevoCliente.nombreApellidos"
+								   #nuevoClienteBoxName>
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>DNI / CIF</mat-label>
-							<input matInput placeholder="DNI / CIF" [(ngModel)]="nuevoCliente.dniCif">
+							<input matInput
+								   placeholder="DNI / CIF"
+								   [(ngModel)]="nuevoCliente.dniCif">
 						</mat-form-field>
 					</div>
 					<div class="cliente-nuevo-row">
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Telefono</mat-label>
-							<input matInput placeholder="Telefono" [(ngModel)]="nuevoCliente.telefono">
+							<input matInput
+								   placeholder="Telefono"
+								   [(ngModel)]="nuevoCliente.telefono">
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Email</mat-label>
-							<input matInput placeholder="Email" [(ngModel)]="nuevoCliente.email">
+							<input matInput
+								   placeholder="Email"
+								   [(ngModel)]="nuevoCliente.email">
 						</mat-form-field>
 					</div>
 					<div class="cliente-nuevo-row">
 						<mat-form-field class="cliente-nuevo-full">
 							<mat-label>Dirección</mat-label>
-							<input matInput placeholder="Dirección" [(ngModel)]="nuevoCliente.direccion">
+							<input matInput
+								   placeholder="Dirección"
+								   [(ngModel)]="nuevoCliente.direccion">
 						</mat-form-field>
 					</div>
 					<div class="cliente-nuevo-row">
 						<mat-form-field class="cliente-nuevo-third">
 							<mat-label>Código Postal</mat-label>
-							<input matInput placeholder="Código Postal" [(ngModel)]="nuevoCliente.codigoPostal">
+							<input matInput
+								   placeholder="Código Postal"
+								   [(ngModel)]="nuevoCliente.codigoPostal">
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-third">
 							<mat-label>Población</mat-label>
-							<input matInput placeholder="Población" [(ngModel)]="nuevoCliente.poblacion">
+							<input matInput
+								   placeholder="Población"
+								   [(ngModel)]="nuevoCliente.poblacion">
 						</mat-form-field>
 						<mat-form-field>
 							<mat-label>Provincia</mat-label>
 							<mat-select [(ngModel)]="nuevoCliente.provincia">
-								<mat-option *ngFor="let provincia of config.provincias" [value]="provincia.id">
+								<mat-option *ngFor="let provincia of config.provincias"
+											[value]="provincia.id">
 									{{provincia.name}}
 								</mat-option>
 							</mat-select>
@@ -102,7 +138,10 @@
 					<div class="cliente-nuevo-row">
 						<mat-form-field class="cliente-nuevo-full">
 							<mat-label>Observaciones</mat-label>
-							<textarea matInput placeholder="Observaciones" [(ngModel)]="nuevoCliente.observaciones" rows="5"></textarea>
+							<textarea matInput
+									  placeholder="Observaciones"
+									  [(ngModel)]="nuevoCliente.observaciones"
+									  rows="5"></textarea>
 						</mat-form-field>
 					</div>
 					<div class="cliente-nuevo-row">
@@ -110,53 +149,76 @@
 							Mismos datos para la facturación
 						</mat-checkbox>
 					</div>
-					<div class="cliente-nuevo-row" *ngIf="!nuevoCliente.factIgual">
+					<div class="cliente-nuevo-row"
+						 *ngIf="!nuevoCliente.factIgual">
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Nombre y apellidos (Facturación)</mat-label>
-							<input matInput placeholder="Nombre y apellidos (Facturación)" [(ngModel)]="nuevoCliente.factNombreApellidos">
+							<input matInput
+								   placeholder="Nombre y apellidos (Facturación)"
+								   [(ngModel)]="nuevoCliente.factNombreApellidos">
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>DNI / CIF (Facturación)</mat-label>
-							<input matInput placeholder="DNI / CIF (Facturación)" [(ngModel)]="nuevoCliente.factDniCif">
+							<input matInput
+								   placeholder="DNI / CIF (Facturación)"
+								   [(ngModel)]="nuevoCliente.factDniCif">
 						</mat-form-field>
 					</div>
-					<div class="cliente-nuevo-row" *ngIf="!nuevoCliente.factIgual">
+					<div class="cliente-nuevo-row"
+						 *ngIf="!nuevoCliente.factIgual">
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Telefono (Facturación)</mat-label>
-							<input matInput placeholder="Telefono (Facturación)" [(ngModel)]="nuevoCliente.factTelefono">
+							<input matInput
+								   placeholder="Telefono (Facturación)"
+								   [(ngModel)]="nuevoCliente.factTelefono">
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-half">
 							<mat-label>Email (Facturación)</mat-label>
-							<input matInput placeholder="Email (Facturación)" [(ngModel)]="nuevoCliente.factEmail">
+							<input matInput
+								   placeholder="Email (Facturación)"
+								   [(ngModel)]="nuevoCliente.factEmail">
 						</mat-form-field>
 					</div>
-					<div class="cliente-nuevo-row" *ngIf="!nuevoCliente.factIgual">
+					<div class="cliente-nuevo-row"
+						 *ngIf="!nuevoCliente.factIgual">
 						<mat-form-field class="cliente-nuevo-full">
 							<mat-label>Dirección (Facturación)</mat-label>
-							<input matInput placeholder="Dirección (Facturación)" [(ngModel)]="nuevoCliente.factDireccion">
+							<input matInput
+								   placeholder="Dirección (Facturación)"
+								   [(ngModel)]="nuevoCliente.factDireccion">
 						</mat-form-field>
 					</div>
-					<div class="cliente-nuevo-row" *ngIf="!nuevoCliente.factIgual">
+					<div class="cliente-nuevo-row"
+						 *ngIf="!nuevoCliente.factIgual">
 						<mat-form-field class="cliente-nuevo-third">
 							<mat-label>Código Postal (Facturación)</mat-label>
-							<input matInput placeholder="Código Postal (Facturación)" [(ngModel)]="nuevoCliente.factCodigoPostal">
+							<input matInput
+								   placeholder="Código Postal (Facturación)"
+								   [(ngModel)]="nuevoCliente.factCodigoPostal">
 						</mat-form-field>
 						<mat-form-field class="cliente-nuevo-third">
 							<mat-label>Población (Facturación)</mat-label>
-							<input matInput placeholder="Población (Facturación)" [(ngModel)]="nuevoCliente.factPoblacion">
+							<input matInput
+								   placeholder="Población (Facturación)"
+								   [(ngModel)]="nuevoCliente.factPoblacion">
 						</mat-form-field>
 						<mat-form-field>
 							<mat-label>Provincia (Facturación)</mat-label>
 							<mat-select [(ngModel)]="nuevoCliente.factProvincia">
-								<mat-option *ngFor="let provincia of config.provincias" [value]="provincia.id">
+								<mat-option *ngFor="let provincia of config.provincias"
+											[value]="provincia.id">
 									{{provincia.name}}
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
 					</div>
 					<div class="cliente-nuevo-save">
-						<button mat-raised-button color="primary" (click)="saveNuevoCliente()" [disabled]="nuevoClienteSaving">
-							<img *ngIf="nuevoClienteSaving" src="/assets/loading.svg">
+						<button mat-raised-button
+								color="primary"
+								(click)="saveNuevoCliente()"
+								[disabled]="nuevoClienteSaving">
+							<img *ngIf="nuevoClienteSaving"
+								 src="/assets/loading.svg">
 							Guardar y seleccionar
 						</button>
 					</div>

@@ -56,6 +56,29 @@
       &.show {
         display: block;
       }
+
+      .same-data {
+        height: 40px;
+
+        &.selected {
+          border-bottom: 1px solid #ccc;
+          margin-bottom: 16px;
+        }
+      }
+
+      .actions {
+        display: flex;
+
+        .delete {
+          flex: 5;
+        }
+
+        .others {
+          flex: 1;
+          display: flex;
+          justify-content: space-around;
+        }
+      }
     }
   }
 }

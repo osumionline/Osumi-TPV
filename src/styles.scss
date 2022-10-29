@@ -1,11 +1,18 @@
+@use "assets/styles/modals.scss";
+@use "assets/styles/ventas.scss";
+@use "assets/styles/forms.scss";
+
 :root {
+  --bg-color: #eee;
   --main-color: #3f51b5;
   --main-color-contrast: #fff;
   --modal-bg-color: rgba(0, 0, 0, 0.6);
+  --modal-alt-bg-color: rgba(255, 255, 255, 0.6);
   --close-icon: #000;
   --close-icon-hover: #f00;
   --table-border: #888;
   --separator-color: #ccc;
+  --form-modified: #00f;
 }
 
 * {
@@ -21,7 +28,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #eee;
+  background-color: var(--bg-color);
   -webkit-appearance: none;
   border-radius: 0;
 }
@@ -43,7 +50,7 @@ input[type="number"] {
   width: 100%;
   height: 100%;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--modal-alt-bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,155 +58,4 @@ input[type="number"] {
 
 .mat-tab-body-content {
   padding: 16px;
-}
-
-.mat-form-field-no-bottom {
-  .mat-form-field-wrapper {
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-}
-
-/* Estilos para ventanas modales */
-
-.modal-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: var(--modal-bg-color);
-  display: none;
-  justify-content: center;
-  align-items: center;
-
-  &.show {
-    display: flex;
-  }
-
-  .modal-box {
-    width: 95%;
-    max-height: 95%;
-    overflow: auto;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 4px 4px 5px 0px var(--modal-bg-color);
-
-    .modal-header {
-      font-size: 24px;
-      padding: 16px;
-      line-height: 24px;
-
-      a {
-        vertical-align: bottom;
-        display: block;
-        float: right;
-        height: 24px;
-
-        mat-icon {
-          color: var(--close-icon);
-
-          &:hover {
-            color: var(--close-icon-hover);
-          }
-        }
-      }
-    }
-
-    .modal-body {
-      padding: 16px;
-    }
-
-    .modal-actions {
-      padding: 16px;
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
-  .modal-wide {
-    min-width: auto;
-  }
-}
-
-/* Estilos para líneas de ventas */
-
-.col-localizador {
-  width: 10%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-  position: relative;
-}
-
-.col-descripcion {
-  width: 55%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-  user-select: none;
-
-  span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: relative;
-
-    &:hover {
-      cursor: pointer;
-      background-color: var(--main-color);
-      color: var(--main-color-contrast);
-    }
-
-    mat-icon {
-      cursor: pointer;
-      position: absolute;
-      right: 3px;
-      top: 3px;
-    }
-
-    &:hover mat-icon {
-      color: #fff;
-    }
-  }
-}
-
-.col-stock {
-  width: 5%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-}
-
-.col-cantidad {
-  width: 5%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-}
-
-.col-pvp {
-  width: 10%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-}
-
-.col-importe {
-  width: 10%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-}
-
-.col-descuentos {
-  width: 5%;
-  border-bottom: 1px solid var(--table-border);
-}
-
-@media screen and (min-width: 1024px) {
-  .modal-bg {
-    .modal-box {
-      width: auto;
-      min-width: 600px;
-    }
-    .modal-wide {
-      min-width: 900px;
-    }
-  }
 }

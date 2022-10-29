@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClientesService } from "src/app/services/clientes.service";
+import { ConfigService } from "src/app/services/config.service";
 
 @Component({
   selector: "otpv-clientes",
@@ -13,11 +14,10 @@ export class ClientesComponent implements OnInit {
   start: boolean = true;
   selectedClient: Cliente = new Cliente();
 
-  constructor(public cs: ClientesService) {
-    this.cs.load();
-  }
+  constructor(public cs: ClientesService, public config: ConfigService) {}
 
   ngOnInit(): void {
+    this.config.start();
     this.cs.load();
     this.searchBox.nativeElement.focus();
   }

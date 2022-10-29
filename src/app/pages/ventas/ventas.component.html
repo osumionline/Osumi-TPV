@@ -1,65 +1,80 @@
 <otpv-header selectedOption="ventas"></otpv-header>
 
-<otpv-tabs
-	[showClose]="true"
-	[ngClass]="{'hidden': vs.list.length===0}"
-	(closeTabEvent)="cerrarVenta($event)"
-	(newTabEvent)="newVenta()"
-	(changeTabEvent)="startFocus()"
-	(selectClientEvent)="selectClient($event)"
-></otpv-tabs>
-<otpv-una-venta
-	*ngFor="let venta of vs.list; let i = index"
-	[ind]="i"
-	[ngClass]="{'hidden':i!=vs.selected}"
-	(deleteVentaLineaEvent)="deleteVentaLinea($event)"
-	(endVentaEvent)="endVenta($event)"
-	#ventas
-></otpv-una-venta>
+<otpv-tabs [showClose]="true"
+		   [ngClass]="{'hidden': vs.list.length===0}"
+		   (closeTabEvent)="cerrarVenta($event)"
+		   (newTabEvent)="newVenta()"
+		   (changeTabEvent)="startFocus()"
+		   (selectClientEvent)="selectClient($event)"></otpv-tabs>
+<otpv-una-venta *ngFor="let venta of vs.list; let i = index"
+				[ind]="i"
+				[ngClass]="{'hidden':i!=vs.selected}"
+				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
+				(endVentaEvent)="endVenta($event)"
+				#ventas></otpv-una-venta>
 
-<div class="modal-bg"  [ngClass]="{'show': showFinalizarVenta}">
+<div class="modal-bg"
+	 [ngClass]="{'show': showFinalizarVenta}">
 	<div class="modal-box">
 		<div class="modal-header">
-			Finalizar venta
+			<span>Finalizar venta</span>
 		</div>
 		<div class="modal-body finalizar-venta">
 			<div class="col-left">
 				<div class="col-line">
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Efectivo</mat-label>
-						<input matInput placeholder="Efectivo" [(ngModel)]="vs.fin.efectivo" [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
-						(focus)="$event.target.select()"
-						(input)="updateCambio()"
-						#efectivoValue>
+						<input matInput
+							   placeholder="Efectivo"
+							   [(ngModel)]="vs.fin.efectivo"
+							   [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+							   (focus)="$event.target.select()"
+							   (input)="updateCambio()"
+							   #efectivoValue>
 					</mat-form-field>
 					€
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Cambio</mat-label>
-						<input matInput placeholder="Cambio" [(ngModel)]="vs.fin.cambio" [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto" readonly>
+						<input matInput
+							   placeholder="Cambio"
+							   [(ngModel)]="vs.fin.cambio"
+							   [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+							   readonly>
 					</mat-form-field>
 					€
 				</div>
 				<div class="tipos-pago">
-					<div class="tipo-pago" *ngFor="let tipo of config.tiposPago" [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}" (click)="selectTipoPago(tipo.id)">
+					<div class="tipo-pago"
+						 *ngFor="let tipo of config.tiposPago"
+						 [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}"
+						 (click)="selectTipoPago(tipo.id)">
 						<img [src]="'https://apitpv.osumi.es/tipos-pago/icon-' + tipo.slug + '.png'">
 						{{tipo.nombre}}
 					</div>
 				</div>
 				<div class="col-line-check">
-					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto" (change)="changePagoMixto($event)">Pago mixto</mat-checkbox>
+					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto"
+								  (change)="changePagoMixto($event)">Pago mixto</mat-checkbox>
 					<mat-form-field class="mat-form-field-no-bottom">
 						<mat-label>Importe tarjeta</mat-label>
-						<input matInput placeholder="Importe tarjeta" [(ngModel)]="vs.fin.tarjeta" [disabled]="!vs.fin.pagoMixto"
-						(focus)="$event.target.select()"
-						(input)="updateEfectivoMixto()"
-						#tarjetaValue>
+						<input matInput
+							   placeholder="Importe tarjeta"
+							   [(ngModel)]="vs.fin.tarjeta"
+							   [disabled]="!vs.fin.pagoMixto"
+							   (focus)="$event.target.select()"
+							   (input)="updateEfectivoMixto()"
+							   #tarjetaValue>
 					</mat-form-field>
 				</div>
 				<div class="col-line-check">
-					<mat-checkbox [(ngModel)]="vs.fin.factura" (change)="changeFactura($event)">Factura</mat-checkbox>
+					<mat-checkbox [(ngModel)]="vs.fin.factura"
+								  (change)="changeFactura($event)">Factura</mat-checkbox>
 					<mat-form-field class="mat-form-field-no-bottom">
-						<mat-select [(ngModel)]="vs.fin.idCliente" [disabled]="!vs.fin.factura" #clientesValue>
-							<mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+						<mat-select [(ngModel)]="vs.fin.idCliente"
+									[disabled]="!vs.fin.factura"
+									#clientesValue>
+							<mat-option *ngFor="let cliente of clientes"
+										[value]="cliente.id">
 								{{cliente.nombreApellidos}}
 							</mat-option>
 						</mat-select>
@@ -70,9 +85,16 @@
 					<div class="total-importe">{{vs.fin.total}} €</div>
 				</div>
 				<div class="col-line">
-					<button mat-raised-button color="warn" (click)="cerrarFinalizarVenta()" [disabled]="saving">Cancelar</button>
-					<button mat-raised-button color="primary" (click)="finalizarVenta()" [disabled]="saving">
-						<img src="/assets/loading.svg" *ngIf="saving">
+					<button mat-raised-button
+							color="warn"
+							(click)="cerrarFinalizarVenta()"
+							[disabled]="saving">Cancelar</button>
+					<button mat-raised-button
+							color="primary"
+							(click)="finalizarVenta()"
+							[disabled]="saving">
+						<img src="/assets/loading.svg"
+							 *ngIf="saving">
 						Finalizar
 					</button>
 				</div>
@@ -86,7 +108,8 @@
 					<div class="venta-linea-desc">Desc.</div>
 					<div class="venta-linea-subtotal">Subt.</div>
 				</div>
-				<div class="venta-linea" *ngFor="let linea of vs.fin.lineas">
+				<div class="venta-linea"
+					 *ngFor="let linea of vs.fin.lineas">
 					<div class="venta-linea-localizador">{{linea.localizador}}</div>
 					<div class="venta-linea-marca">{{linea.marca}}</div>
 					<div class="venta-linea-nombre">{{linea.descripcion}}</div>
