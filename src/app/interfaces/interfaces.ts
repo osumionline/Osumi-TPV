@@ -317,6 +317,7 @@ export interface EmpleadoInterface {
   id: number;
   nombre: string;
   color: string;
+  roles: number[];
 }
 
 export interface EmpleadoLoginInterface {

@@ -2,7 +2,7 @@
 	 class="empleados-list">
 	<div class="empleado"
 		 *ngFor="let empleado of es.empleados"
-		 [ngStyle]="{'background-color':'#'+empleado.color, 'color': empleado.textColor}"
+		 [ngStyle]="{'background-color':empleado.color, 'color': empleado.textColor}"
 		 (click)="abreLogin(empleado)">
 		{{empleado.nombre}}
 	</div>
@@ -116,7 +116,7 @@
 			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.importe !== null">
 				<span *ngIf="!editarImporte"
-					  class="editar-linea-importe"
+					  [ngClass]="{'editar-linea-importe': vs.ventaActual.modificarImportes, 'editar-linea-importe-off': !vs.ventaActual.modificarImportes}"
 					  (click)="editarLineaImporte(i)">
 					{{linea.total | fixedNumber}} €
 					<mat-icon *ngIf="linea.importeManual"
@@ -145,7 +145,7 @@
 					{{linea.descuento}}
 					<ng-container *ngIf="!linea.descuentoManual">%</ng-container>
 					<ng-container *ngIf="linea.descuentoManual">€</ng-container>
-					<mat-icon *ngIf="!linea.descuentoManual"
+					<mat-icon *ngIf="!linea.descuentoManual && vs.ventaActual.modificarImportes"
 							  (click)="abreDescuento($event, linea)"
 							  title="introducir un importe como descuento">euro</mat-icon>
 					<mat-icon *ngIf="linea.descuentoManual"

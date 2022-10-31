@@ -1,131 +1,146 @@
-import { Injectable }         from '@angular/core';
-import { TipoPago }           from 'src/app/model/tipo-pago.model';
-import { IVAOption }          from 'src/app/model/iva-option.model';
-import { ApiService }         from 'src/app/services/api.service';
-import { ClassMapperService } from 'src/app/services/class-mapper.service';
-import { MarcasService }      from 'src/app/services/marcas.service';
-import { ProveedoresService } from 'src/app/services/proveedores.service';
-import { EmpleadosService }   from 'src/app/services/empleados.service';
+import { Injectable } from "@angular/core";
 import {
-	AppDataResult,
-	Month,
-	ProvinceInterface
-} from 'src/app/interfaces/interfaces';
+  AppDataResult,
+  Month,
+  ProvinceInterface,
+} from "src/app/interfaces/interfaces";
+import { IVAOption } from "src/app/model/iva-option.model";
+import { TipoPago } from "src/app/model/tipo-pago.model";
+import { ApiService } from "src/app/services/api.service";
+import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { EmpleadosService } from "src/app/services/empleados.service";
+import { MarcasService } from "src/app/services/marcas.service";
+import { ProveedoresService } from "src/app/services/proveedores.service";
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: "root",
 })
 export class ConfigService {
-	status: string = 'new';
+  status: string = "new";
 
-	nombre: string = '';
-	tipoIva: string = '';
-	ivaOptions: IVAOption[] = [];
-	marginList: number[] = [];
-	ventaOnline: boolean = false;
-	fechaCad: boolean = false;
-	empleados: boolean = false;
+  nombre: string = "";
+  tipoIva: string = "";
+  ivaOptions: IVAOption[] = [];
+  marginList: number[] = [];
+  ventaOnline: boolean = false;
+  fechaCad: boolean = false;
+  empleados: boolean = false;
 
-	tiposPago: TipoPago[] = [];
-	isOpened: boolean = false;
-	idEmpleadoDef: number = null;
+  tiposPago: TipoPago[] = [];
+  isOpened: boolean = false;
+  idEmpleadoDef: number = null;
+  colorEmpleadoDef: string = "#fff";
+  colorTextEmpleadoDef: string = "#000";
 
-	monthList: Month[] = [
-		{id: 1,  name: 'Enero',      days: 31},
-		{id: 2,  name: 'Febrero',    days: 28},
-		{id: 3,  name: 'Marzo',      days: 31},
-		{id: 4,  name: 'Abril',      days: 30},
-		{id: 5,  name: 'Mayo',       days: 31},
-		{id: 6,  name: 'Junio',      days: 30},
-		{id: 7,  name: 'Julio',      days: 31},
-		{id: 8,  name: 'Agosto',     days: 31},
-		{id: 9,  name: 'Septiembre', days: 30},
-		{id: 10, name: 'Octubre',    days: 31},
-		{id: 11, name: 'Noviembre',  days: 30},
-		{id: 12, name: 'Diciembre',  days: 31}
-	];
+  monthList: Month[] = [
+    { id: 1, name: "Enero", days: 31 },
+    { id: 2, name: "Febrero", days: 28 },
+    { id: 3, name: "Marzo", days: 31 },
+    { id: 4, name: "Abril", days: 30 },
+    { id: 5, name: "Mayo", days: 31 },
+    { id: 6, name: "Junio", days: 30 },
+    { id: 7, name: "Julio", days: 31 },
+    { id: 8, name: "Agosto", days: 31 },
+    { id: 9, name: "Septiembre", days: 30 },
+    { id: 10, name: "Octubre", days: 31 },
+    { id: 11, name: "Noviembre", days: 30 },
+    { id: 12, name: "Diciembre", days: 31 },
+  ];
 
-	provincias: ProvinceInterface[] = [];
+  provincias: ProvinceInterface[] = [];
 
-	constructor(
-		private as: ApiService,
-		private cms: ClassMapperService,
-		private ms: MarcasService,
-		private ps: ProveedoresService,
-		private es: EmpleadosService
-	) {}
+  constructor(
+    private as: ApiService,
+    private cms: ClassMapperService,
+    private ms: MarcasService,
+    private ps: ProveedoresService,
+    private es: EmpleadosService
+  ) {}
 
-	start(): Promise<string> {
-		return new Promise((resolve) => {
-			if (this.status === 'loaded') {
-				resolve(this.status);
-			}
-			else {
-				const d: Date = new Date();
-				const date = d.getFullYear() + '-' + (((d.getMonth()+1)<10) ? '0'+(d.getMonth()+1) : (d.getMonth()+1)) + '-' + ((d.getDate()<10) ? '0'+d.getDate() : d.getDate());
-				this.as.checkStart(date).subscribe(result => {
-					if (result.appData===null) {
-						this.status = 'install';
-						resolve(this.status);
-					}
-					else {
-						this.load(result.appData);
-						this.tiposPago = this.cms.getTiposPago(result.tiposPago);
-						this.isOpened = result.opened;
-						this.status = 'loaded';
-						const marcasPromise = this.ms.load();
-						const proveedoresPromise = this.ps.load();
-						const empleadosPromise = this.es.load();
-						const provinciasPromis = this.loadProvinces();
-						Promise.all([marcasPromise, proveedoresPromise, empleadosPromise, provinciasPromis]).then(values => {
-							if (this.es.empleados.length == 1) {
-								this.empleados = false;
-								this.idEmpleadoDef = this.es.empleados[0].id;
-							}
-							resolve(this.status);
-						});
-					}
-				});
-			}
-		});
-	}
+  start(): Promise<string> {
+    return new Promise((resolve) => {
+      if (this.status === "loaded") {
+        resolve(this.status);
+      } else {
+        const d: Date = new Date();
+        const date: string =
+          d.getFullYear() +
+          "-" +
+          (d.getMonth() + 1 < 10
+            ? "0" + (d.getMonth() + 1)
+            : d.getMonth() + 1) +
+          "-" +
+          (d.getDate() < 10 ? "0" + d.getDate() : d.getDate());
+        this.as.checkStart(date).subscribe((result) => {
+          if (result.appData === null) {
+            this.status = "install";
+            resolve(this.status);
+          } else {
+            this.load(result.appData);
+            this.tiposPago = this.cms.getTiposPago(result.tiposPago);
+            this.isOpened = result.opened;
+            this.status = "loaded";
+            const marcasPromise: Promise<string> = this.ms.load();
+            const proveedoresPromise: Promise<string> = this.ps.load();
+            const empleadosPromise: Promise<string> = this.es.load();
+            const provinciasPromis: Promise<string> = this.loadProvinces();
+            Promise.all([
+              marcasPromise,
+              proveedoresPromise,
+              empleadosPromise,
+              provinciasPromis,
+            ]).then((values) => {
+              if (this.es.empleados.length == 1) {
+                this.empleados = false;
+                this.idEmpleadoDef = this.es.empleados[0].id;
+                this.colorEmpleadoDef = this.es.colors[this.idEmpleadoDef];
+                this.colorTextEmpleadoDef =
+                  this.es.textColors[this.idEmpleadoDef];
+              }
+              resolve(this.status);
+            });
+          }
+        });
+      }
+    });
+  }
 
-	load(data: AppDataResult): void {
-		this.nombre = data.nombre;
-		this.tipoIva = data.tipoIva;
-		for (let i in data.ivaList) {
-			if (this.tipoIva === 'iva') {
-				this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i]));
-			}
-			else {
-				this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i], data.reList[i]));
-			}
-		}
-		this.marginList = data.marginList;
-		this.ventaOnline = data.ventaOnline;
-		this.fechaCad = data.fechaCad;
-		this.empleados = data.empleados;
-	}
+  load(data: AppDataResult): void {
+    this.nombre = data.nombre;
+    this.tipoIva = data.tipoIva;
+    for (let i in data.ivaList) {
+      if (this.tipoIva === "iva") {
+        this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i]));
+      } else {
+        this.ivaOptions.push(
+          new IVAOption(this.tipoIva, data.ivaList[i], data.reList[i])
+        );
+      }
+    }
+    this.marginList = data.marginList;
+    this.ventaOnline = data.ventaOnline;
+    this.fechaCad = data.fechaCad;
+    this.empleados = data.empleados;
+  }
 
-	loadProvinces(): Promise<string> {
-		return new Promise((resolve) => {
-			if (this.provincias.length > 0) {
-				resolve('ok');
-			}
-			else {
-				this.as.getProvinceList().subscribe(data => {
-					let newList = [];
-					for (let ccaa of data.ccaa){
-						newList = newList.concat(ccaa.provinces);
-					}
-					newList.sort(function (a, b) {
-						return a.name.localeCompare(b.name);
-					});
+  loadProvinces(): Promise<string> {
+    return new Promise((resolve) => {
+      if (this.provincias.length > 0) {
+        resolve("ok");
+      } else {
+        this.as.getProvinceList().subscribe((data) => {
+          let newList = [];
+          for (let ccaa of data.ccaa) {
+            newList = newList.concat(ccaa.provinces);
+          }
+          newList.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          });
 
-					this.provincias = newList;
-					resolve('ok');
-				});
-			}
-		});
-	}
+          this.provincias = newList;
+          resolve("ok");
+        });
+      }
+    });
+  }
 }

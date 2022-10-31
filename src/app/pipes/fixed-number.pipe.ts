@@ -1,11 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Utils } from 'src/app/model/utils.class';
+import { Pipe, PipeTransform } from "@angular/core";
+import { Utils } from "src/app/shared/utils.class";
 
 @Pipe({
-	name: 'fixedNumber'
+  name: "fixedNumber",
 })
 export class FixedNumberPipe implements PipeTransform {
-	transform(num: number): string {
-		return Utils.formatNumber(num);
-	}
+  transform(num: number): string {
+    return Utils.formatNumber(num);
+  }
 }
