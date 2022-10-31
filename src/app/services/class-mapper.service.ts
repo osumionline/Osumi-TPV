@@ -8,6 +8,8 @@ import {
   MarcaInterface,
   ProveedorInterface,
   TipoPagoInterface,
+  TopVentaArticuloInterface,
+  UltimaVentaArticuloInterface,
 } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
@@ -17,6 +19,8 @@ import { Empleado } from "src/app/model/empleado.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
+import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
+import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
 
 @Injectable({
   providedIn: "root",
@@ -108,6 +112,32 @@ export class ClassMapperService {
   getEmpleados(es: EmpleadoInterface[]): Empleado[] {
     return es.map((e: EmpleadoInterface): Empleado => {
       return this.getEmpleado(e);
+    });
+  }
+
+  getUltimaVentaArticulo(
+    uva: UltimaVentaArticuloInterface
+  ): UltimaVentaArticulo {
+    return new UltimaVentaArticulo().fromInterface(uva);
+  }
+
+  getUltimaVentaArticulos(
+    uvas: UltimaVentaArticuloInterface[]
+  ): UltimaVentaArticulo[] {
+    return uvas.map(
+      (uva: UltimaVentaArticuloInterface): UltimaVentaArticulo => {
+        return this.getUltimaVentaArticulo(uva);
+      }
+    );
+  }
+
+  getTopVentaArticulo(tva: TopVentaArticuloInterface): TopVentaArticulo {
+    return new TopVentaArticulo().fromInterface(tva);
+  }
+
+  getTopVentaArticulos(tvas: TopVentaArticuloInterface[]): TopVentaArticulo[] {
+    return tvas.map((tva: TopVentaArticuloInterface): TopVentaArticulo => {
+      return this.getTopVentaArticulo(tva);
     });
   }
 }

@@ -31,27 +31,6 @@
     display: none;
   }
 
-  .stats-box {
-    margin-top: 16px;
-
-    label {
-      font-weight: bold;
-      line-height: 24px;
-    }
-
-    .stats-data {
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      height: 150px;
-      border-radius: 6px;
-      margin-bottom: 16px;
-    }
-
-    .stats-controls {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
   .new-cod-barras {
     width: 100%;
     margin: 0 auto;

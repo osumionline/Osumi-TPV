@@ -218,8 +218,12 @@ export class TabsComponent {
     this.cerrarElegirCliente();
     this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
       if (result.status === "ok") {
-        this.vs.cliente.ultimasVentas = result.ultimasVentas;
-        this.vs.cliente.topVentas = result.topVentas;
+        this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+          result.ultimasVentas
+        );
+        this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
+          result.topVentas
+        );
       } else {
         this.dialog.alert({
           title: "Error",

@@ -178,8 +178,8 @@
 				<div class="estadisticas-item-fecha">Fecha</div>
 				<div class="estadisticas-item-localizador">Loc.</div>
 				<div class="estadisticas-item-nombre">Nombre</div>
-				<div class="estadisticas-item-cantidad">Cant.</div>
-				<div class="estadisticas-item-pvp">PVP</div>
+				<div class="estadisticas-item-unidades">Unid.</div>
+				<div class="estadisticas-item-importe">PVP</div>
 				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
 			<div class="estadisticas-item"
@@ -187,9 +187,9 @@
 				<div class="estadisticas-item-fecha">{{item.fecha}}</div>
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
-				<div class="estadisticas-item-cantidad">{{item.cantidad}}</div>
-				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
-				<div class="estadisticas-item-importe">{{item.importe}} €</div>
+				<div class="estadisticas-item-unidades">{{item.unidades}}</div>
+				<div class="estadisticas-item-importe">{{item.pvp| fixedNumber}} €</div>
+				<div class="estadisticas-item-importe">{{item.importe| fixedNumber}} €</div>
 			</div>
 		</div>
 		<div class="estadisticas-sin-datos"
@@ -208,13 +208,13 @@
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-localizador">Loc.</div>
 				<div class="estadisticas-item-nombre">Nombre</div>
-				<div class="estadisticas-item-pvp">PVP</div>
+				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
 			<div class="estadisticas-item"
 				 *ngFor="let item of vs.ventaActual.cliente.topVentas">
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
-				<div class="estadisticas-item-pvp">{{item.pvp}} €</div>
+				<div class="estadisticas-item-importe">{{item.importe| fixedNumber}} €</div>
 			</div>
 		</div>
 		<div class="estadisticas-sin-datos"

@@ -1,84 +1,116 @@
-import { Utils } from 'src/app/model/utils.class';
-import {
-	ClienteInterface,
-	UltimaVentaArticuloInterface,
-	TopVentaInterface
-} from 'src/app/interfaces/interfaces';
+import { ClienteInterface } from "src/app/interfaces/interfaces";
+import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
+import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
+import { Utils } from "src/app/model/utils.class";
 
 export class Cliente {
-	ultimasVentas: UltimaVentaArticuloInterface[] = [];
-	topVentas: TopVentaInterface[] = [];
+  ultimasVentas: UltimaVentaArticulo[] = [];
+  topVentas: TopVentaArticulo[] = [];
 
-	constructor(
-		public id: number = null,
-		public nombreApellidos: string = null,
-		public dniCif: string = null,
-		public telefono: string = null,
-		public email: string = null,
-		public direccion: string = null,
-		public codigoPostal: string = null,
-		public poblacion: string = null,
-		public provincia: number = null,
-		public factIgual: boolean = true,
-		public factNombreApellidos: string = null,
-		public factDniCif: string = null,
-		public factTelefono: string = null,
-		public factEmail: string = null,
-		public factDireccion: string = null,
-		public factCodigoPostal: string = null,
-		public factPoblacion: string = null,
-		public factProvincia: number = null,
-		public observaciones: string = null,
-		public ultimaVenta: string = null
-	) {}
+  constructor(
+    public id: number = null,
+    public nombreApellidos: string = null,
+    public dniCif: string = null,
+    public telefono: string = null,
+    public email: string = null,
+    public direccion: string = null,
+    public codigoPostal: string = null,
+    public poblacion: string = null,
+    public provincia: number = null,
+    public factIgual: boolean = true,
+    public factNombreApellidos: string = null,
+    public factDniCif: string = null,
+    public factTelefono: string = null,
+    public factEmail: string = null,
+    public factDireccion: string = null,
+    public factCodigoPostal: string = null,
+    public factPoblacion: string = null,
+    public factProvincia: number = null,
+    public observaciones: string = null,
+    public ultimaVenta: string = null
+  ) {}
 
-	fromInterface(c: ClienteInterface): Cliente {
-		this.id = c.id;
-		this.nombreApellidos = Utils.urldecode(c.nombreApellidos);
-		this.dniCif = Utils.urldecode(c.dniCif);
-		this.telefono = Utils.urldecode(c.telefono);
-		this.email = Utils.urldecode(c.email);
-		this.direccion = Utils.urldecode(c.direccion);
-		this.codigoPostal = Utils.urldecode(c.codigoPostal);
-		this.poblacion = Utils.urldecode(c.poblacion);
-		this.provincia = c.provincia;
-		this.factIgual = c.factIgual;
-		this.factNombreApellidos = Utils.urldecode(c.factNombreApellidos);
-		this.factDniCif = Utils.urldecode(c.factDniCif);
-		this.factTelefono = Utils.urldecode(c.factTelefono);
-		this.factEmail = Utils.urldecode(c.factEmail);
-		this.factDireccion = Utils.urldecode(c.factDireccion);
-		this.factCodigoPostal = Utils.urldecode(c.factCodigoPostal);
-		this.factPoblacion = Utils.urldecode(c.factPoblacion);
-		this.factProvincia = c.factProvincia;
-		this.observaciones = Utils.urldecode(c.observaciones);
-		this.ultimaVenta = Utils.urldecode(c.ultimaVenta);
+  fromInterface(c: ClienteInterface, decode: boolean = true): Cliente {
+    this.id = c.id;
+    this.nombreApellidos = decode
+      ? Utils.urldecode(c.nombreApellidos)
+      : c.nombreApellidos;
+    this.dniCif = decode ? Utils.urldecode(c.dniCif) : c.dniCif;
+    this.telefono = decode ? Utils.urldecode(c.telefono) : c.telefono;
+    this.email = decode ? Utils.urldecode(c.email) : c.email;
+    this.direccion = decode ? Utils.urldecode(c.direccion) : c.direccion;
+    this.codigoPostal = decode
+      ? Utils.urldecode(c.codigoPostal)
+      : c.codigoPostal;
+    this.poblacion = decode ? Utils.urldecode(c.poblacion) : c.poblacion;
+    this.provincia = c.provincia;
+    this.factIgual = c.factIgual;
+    this.factNombreApellidos = decode
+      ? Utils.urldecode(c.factNombreApellidos)
+      : c.factNombreApellidos;
+    this.factDniCif = decode ? Utils.urldecode(c.factDniCif) : c.factDniCif;
+    this.factTelefono = decode
+      ? Utils.urldecode(c.factTelefono)
+      : c.factTelefono;
+    this.factEmail = decode ? Utils.urldecode(c.factEmail) : c.factEmail;
+    this.factDireccion = decode
+      ? Utils.urldecode(c.factDireccion)
+      : c.factDireccion;
+    this.factCodigoPostal = decode
+      ? Utils.urldecode(c.factCodigoPostal)
+      : c.factCodigoPostal;
+    this.factPoblacion = decode
+      ? Utils.urldecode(c.factPoblacion)
+      : c.factPoblacion;
+    this.factProvincia = c.factProvincia;
+    this.observaciones = decode
+      ? Utils.urldecode(c.observaciones)
+      : c.observaciones;
+    this.ultimaVenta = decode ? Utils.urldecode(c.ultimaVenta) : c.ultimaVenta;
 
-		return this;
-	}
+    return this;
+  }
 
-	toInterface(): ClienteInterface {
-		return {
-			id: this.id,
-			nombreApellidos: Utils.urlencode(this.nombreApellidos),
-			dniCif: Utils.urlencode(this.dniCif),
-			telefono: Utils.urlencode(this.telefono),
-			email: Utils.urlencode(this.email),
-			direccion: Utils.urlencode(this.direccion),
-			codigoPostal: Utils.urlencode(this.codigoPostal),
-			poblacion: Utils.urlencode(this.poblacion),
-			provincia: this.provincia,
-			factIgual: this.factIgual,
-			factNombreApellidos: Utils.urlencode(this.factNombreApellidos),
-			factDniCif: Utils.urlencode(this.factDniCif),
-			factTelefono: Utils.urlencode(this.factTelefono),
-			factEmail: Utils.urlencode(this.factEmail),
-			factDireccion: Utils.urlencode(this.factDireccion),
-			factCodigoPostal: Utils.urlencode(this.factCodigoPostal),
-			factPoblacion: Utils.urlencode(this.factPoblacion),
-			factProvincia: this.factProvincia,
-			observaciones: Utils.urlencode(this.observaciones),
-			ultimaVenta: Utils.urlencode(this.ultimaVenta)
-		};
-	}
+  toInterface(encode: boolean = true): ClienteInterface {
+    return {
+      id: this.id,
+      nombreApellidos: encode
+        ? Utils.urlencode(this.nombreApellidos)
+        : this.nombreApellidos,
+      dniCif: encode ? Utils.urlencode(this.dniCif) : this.dniCif,
+      telefono: encode ? Utils.urlencode(this.telefono) : this.telefono,
+      email: encode ? Utils.urlencode(this.email) : this.email,
+      direccion: encode ? Utils.urlencode(this.direccion) : this.direccion,
+      codigoPostal: encode
+        ? Utils.urlencode(this.codigoPostal)
+        : this.codigoPostal,
+      poblacion: encode ? Utils.urlencode(this.poblacion) : this.poblacion,
+      provincia: this.provincia,
+      factIgual: this.factIgual,
+      factNombreApellidos: encode
+        ? Utils.urlencode(this.factNombreApellidos)
+        : this.factNombreApellidos,
+      factDniCif: encode ? Utils.urlencode(this.factDniCif) : this.factDniCif,
+      factTelefono: encode
+        ? Utils.urlencode(this.factTelefono)
+        : this.factTelefono,
+      factEmail: encode ? Utils.urlencode(this.factEmail) : this.factEmail,
+      factDireccion: encode
+        ? Utils.urlencode(this.factDireccion)
+        : this.factDireccion,
+      factCodigoPostal: encode
+        ? Utils.urlencode(this.factCodigoPostal)
+        : this.factCodigoPostal,
+      factPoblacion: encode
+        ? Utils.urlencode(this.factPoblacion)
+        : this.factPoblacion,
+      factProvincia: this.factProvincia,
+      observaciones: encode
+        ? Utils.urlencode(this.observaciones)
+        : this.observaciones,
+      ultimaVenta: encode
+        ? Utils.urlencode(this.ultimaVenta)
+        : this.ultimaVenta,
+    };
+  }
 }
