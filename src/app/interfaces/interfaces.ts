@@ -316,6 +316,7 @@ export interface EstadisticasClienteResult {
 export interface EmpleadoInterface {
   id: number;
   nombre: string;
+  hasPassword: boolean;
   color: string;
   roles: number[];
 }

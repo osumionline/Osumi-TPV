@@ -1,15 +1,16 @@
 /*
  * Páginas
  */
-import { MainComponent } from "src/app/pages/main/main.component";
-import { InstallationComponent } from "src/app/pages/installation/installation.component";
-import { VentasComponent } from "src/app/pages/ventas/ventas.component";
-import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
-import { PedidosComponent } from "src/app/pages/pedidos/pedidos.component";
-import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
-import { GestionComponent } from "src/app/pages/gestion/gestion.component";
+import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
+import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
+import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
+import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
+import { InstallationComponent } from "src/app/pages/installation/installation.component";
+import { MainComponent } from "src/app/pages/main/main.component";
+import { PedidosComponent } from "src/app/pages/pedidos/pedidos.component";
+import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 
 export const PAGES: any[] = [
   MainComponent,
@@ -21,17 +22,18 @@ export const PAGES: any[] = [
   AlmacenComponent,
   GestionComponent,
   FacturaComponent,
+  GestionEmpleadosComponent,
 ];
 
 /*
  * Componentes
  */
-import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
+import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
+import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
-import { HeaderComponent } from "src/app/components/header/header.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -45,25 +47,30 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
-import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
+import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
+import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 
-export const PIPES: any[] = [FixedNumberPipe, ClientListFilterPipe];
+export const PIPES: any[] = [
+  FixedNumberPipe,
+  ClientListFilterPipe,
+  EmployeeListFilterPipe,
+];
 
 /*
  * Servicios
  */
-import { ConfigService } from "src/app/services/config.service";
 import { ApiService } from "src/app/services/api.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ClientesService } from "src/app/services/clientes.service";
+import { ConfigService } from "src/app/services/config.service";
+import { DialogService } from "src/app/services/dialog.service";
+import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { EmpleadosService } from "src/app/services/empleados.service";
 
 export const SERVICES: any[] = [
   ConfigService,
@@ -82,21 +89,21 @@ export const SERVICES: any[] = [
 /*
  * Componentes Angular Material
  */
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatIconModule } from "@angular/material/icon";
-import { MatListModule } from "@angular/material/list";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatDialogModule } from "@angular/material/dialog";
-import { MatSelectModule } from "@angular/material/select";
-import { MatTabsModule } from "@angular/material/tabs";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatRadioModule } from "@angular/material/radio";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,

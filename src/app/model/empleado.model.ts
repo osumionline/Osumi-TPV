@@ -13,6 +13,7 @@ export class Empleado {
   constructor(
     public id: number = null,
     public nombre: string = null,
+    public hasPassword: boolean = false,
     public color: string = null,
     public roles: number[] = []
   ) {}
@@ -45,9 +46,10 @@ export class Empleado {
     return this._textColor;
   }
 
-  fromInterface(e: EmpleadoInterface): Empleado {
+  fromInterface(e: EmpleadoInterface, decode: boolean = true): Empleado {
     this.id = e.id;
-    this.nombre = Utils.urldecode(e.nombre);
+    this.nombre = decode ? Utils.urldecode(e.nombre) : e.nombre;
+    this.hasPassword = e.hasPassword;
     this.color = e.color;
     this.roles = e.roles;
 
@@ -63,10 +65,11 @@ export class Empleado {
     return this;
   }
 
-  toInterface(): EmpleadoInterface {
+  toInterface(encode: boolean = true): EmpleadoInterface {
     return {
       id: this.id,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      hasPassword: this.hasPassword,
       color: this.color,
       roles: this.roles,
     };

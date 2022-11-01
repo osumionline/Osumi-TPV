@@ -1,23 +1,23 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, LOCALE_ID } from "@angular/core";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MAT_DATE_LOCALE } from "@angular/material/core";
 import {
   MatFormFieldDefaultOptions,
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
 } from "@angular/material/form-field";
-import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgxBarcode6Module } from "ngx-barcode6";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
-import { NgxBarcode6Module } from "ngx-barcode6";
 
-import es from "@angular/common/locales/es";
 import { registerLocaleData } from "@angular/common";
+import es from "@angular/common/locales/es";
 
 registerLocaleData(es);
 
-import { PAGES, COMPONENTS, PIPES, SERVICES, MATERIAL } from "./app.common";
+import { COMPONENTS, MATERIAL, PAGES, PIPES, SERVICES } from "./app.common";
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: "outline",
