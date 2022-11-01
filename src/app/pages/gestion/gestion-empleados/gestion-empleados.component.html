@@ -52,15 +52,14 @@
                                 Empleado con contraseña
                             </mat-checkbox>
                         </div>
-                        <div>
+                        <div class="password-row" [ngClass]="{'show': form.value.hasPassword}">
                             <div class="form-field half-width">
                                 <label>Contraseña</label>
                                 <mat-form-field class="max-width">
                                     <input matInput
                                            placeholder="Contraseña"
                                            formControlName="password"
-                                           type="password"
-                                           [disabled]="!form.value.hasPassword">
+                                           type="password">
                                 </mat-form-field>
                             </div>
                             <div class="form-field half-width">
@@ -69,8 +68,7 @@
                                     <input matInput
                                            placeholder="Confirmar contraseeña"
                                            formControlName="confirmPassword"
-                                           type="password"
-                                           [disabled]="!form.value.hasPassword">
+                                           type="password">
                                 </mat-form-field>
                             </div>
                         </div>

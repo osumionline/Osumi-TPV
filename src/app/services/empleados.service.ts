@@ -4,8 +4,8 @@ import { Observable } from "rxjs";
 import {
   EmpleadoInterface,
   EmpleadoLoginInterface,
+  EmpleadoSaveInterface,
   EmpleadosResult,
-  IdSaveResult,
   StatusResult,
 } from "src/app/interfaces/interfaces";
 import { Empleado } from "src/app/model/empleado.model";
@@ -52,8 +52,13 @@ export class EmpleadosService {
     this.loaded = true;
   }
 
-  saveEmpleado(empleado: EmpleadoInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
+  resetEmpleados(): void {
+	  this.loaded = false;
+	  this.load();
+  }
+
+  saveEmpleado(empleado: EmpleadoSaveInterface): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
       environment.apiUrl + "-empleados/save-empleado",
       empleado
     );

@@ -65,6 +65,14 @@
         margin-bottom: 16px;
       }
 
+	  .password-row {
+		  display: none;
+
+		  &.show {
+			  display: block;
+		  }
+	  }
+
       .actions {
         display: flex;
 
