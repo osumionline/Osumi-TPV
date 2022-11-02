@@ -11,6 +11,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { ClientesService } from "src/app/services/clientes.service";
 
 @Injectable({
   providedIn: "root",
@@ -54,7 +55,8 @@ export class ConfigService {
     private cms: ClassMapperService,
     private ms: MarcasService,
     private ps: ProveedoresService,
-    private es: EmpleadosService
+    private es: EmpleadosService,
+    private cs: ClientesService
   ) {}
 
   start(): Promise<string> {
@@ -83,12 +85,14 @@ export class ConfigService {
             const marcasPromise: Promise<string> = this.ms.load();
             const proveedoresPromise: Promise<string> = this.ps.load();
             const empleadosPromise: Promise<string> = this.es.load();
-            const provinciasPromis: Promise<string> = this.loadProvinces();
+            const clientesPromise: Promise<string> = this.cs.load();
+            const provinciasPromise: Promise<string> = this.loadProvinces();
             Promise.all([
               marcasPromise,
               proveedoresPromise,
               empleadosPromise,
-              provinciasPromis,
+              clientesPromise,
+              provinciasPromise,
             ]).then((values) => {
               if (this.es.empleados.length == 1) {
                 this.empleados = false;

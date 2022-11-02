@@ -1,5 +1,5 @@
 import { HttpClientModule } from "@angular/common/http";
-import { LOCALE_ID, NgModule } from "@angular/core";
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DATE_LOCALE } from "@angular/material/core";
 import {
@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxBarcode6Module } from "ngx-barcode6";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
+import { ConfigService } from "src/app/services/config.service";
 
 import { registerLocaleData } from "@angular/common";
 import es from "@angular/common/locales/es";
@@ -22,6 +23,10 @@ import { COMPONENTS, MATERIAL, PAGES, PIPES, SERVICES } from "./app.common";
 const appearance: MatFormFieldDefaultOptions = {
   appearance: "outline",
 };
+
+export function servicesOnRun(config: ConfigService) {
+  return (): Promise<string> => config.start();
+}
 
 @NgModule({
   declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES],
@@ -49,6 +54,12 @@ const appearance: MatFormFieldDefaultOptions = {
       useValue: "es-ES",
     },
     ...SERVICES,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: servicesOnRun,
+      multi: true,
+      deps: [ConfigService],
+    },
   ],
   bootstrap: [AppComponent],
 })

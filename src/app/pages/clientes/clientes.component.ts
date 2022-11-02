@@ -59,8 +59,6 @@ export class ClientesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.config.start();
-    this.cs.load();
     this.monthList = this.config.monthList;
     const d = new Date();
     for (let y: number = d.getFullYear() - 5; y <= d.getFullYear(); y++) {
