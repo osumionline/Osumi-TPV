@@ -65,13 +65,13 @@
         margin-bottom: 16px;
       }
 
-	  .password-row {
-		  display: none;
+      .password-row {
+        display: none;
 
-		  &.show {
-			  display: block;
-		  }
-	  }
+        &.show {
+          display: block;
+        }
+      }
 
       .actions {
         display: flex;
@@ -84,6 +84,28 @@
           flex: 1;
           display: flex;
           justify-content: space-around;
+        }
+      }
+
+      .rol-list {
+        label {
+          display: block;
+          margin-bottom: 16px;
+          font-weight: bold;
+        }
+
+        .rol-list-items {
+          margin-bottom: 16px;
+
+          mat-checkbox {
+            display: block;
+            margin-left: 16px;
+            margin-bottom: 8px;
+          }
+
+          mat-checkbox:last-item {
+            margin-bottom: 0;
+          }
         }
       }
     }

@@ -1,3 +1,4 @@
+import { KeyValue } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
@@ -6,6 +7,7 @@ import { Empleado } from "src/app/model/empleado.model";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
+import { Rol, RolGroup, rolList } from "src/app/shared/rol.class";
 
 @Component({
   selector: "otpv-gestion-empleados",
@@ -30,13 +32,25 @@ export class GestionEmpleadosComponent implements OnInit {
   });
   originalValue: EmpleadoSaveInterface = null;
 
+  list: {
+    [key: string]: RolGroup;
+  } = rolList;
+  selectedRolList: boolean[] = [];
+
   constructor(
     public es: EmpleadosService,
     public config: ConfigService,
     private dialog: DialogService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    for (let group in this.list) {
+      for (let rol in this.list[group].roles) {
+        this.selectedRolList[this.list[group].roles[rol].id] = false;
+      }
+    }
+    console.log(this.selectedRolList);
+  }
 
   selectEmpleado(empleado: Empleado): void {
     this.start = false;
@@ -60,7 +74,6 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.form.value);
     if (
       this.form.value.hasPassword &&
       !this.originalValue.hasPassword &&
@@ -96,8 +109,17 @@ export class GestionEmpleadosComponent implements OnInit {
       return;
     }
 
+    const roles: number[] = [];
+    for (let i in this.selectedRolList) {
+      if (this.selectedRolList[i] === true) {
+        roles.push(parseInt(i));
+      }
+    }
+    const data = JSON.parse(JSON.stringify(this.form.value));
+    data.roles = roles;
+
     this.selectedEmpleado.fromInterface(this.form.value, false);
-    this.es.saveEmpleado(this.form.value).subscribe((result) => {
+    this.es.saveEmpleado(data).subscribe((result) => {
       this.es.resetEmpleados();
       this.resetForm();
       this.dialog
@@ -114,4 +136,18 @@ export class GestionEmpleadosComponent implements OnInit {
   }
 
   deleteEmpleado(): void {}
+
+  originalRolGroupOrder = (
+    a: KeyValue<string, RolGroup>,
+    b: KeyValue<string, RolGroup>
+  ): number => {
+    return 0;
+  };
+
+  originalRolOrder = (
+    a: KeyValue<string, Rol>,
+    b: KeyValue<string, Rol>
+  ): number => {
+    return 0;
+  };
 }

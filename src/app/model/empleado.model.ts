@@ -3,7 +3,7 @@ import {
   EmpleadoInterface,
   EmpleadoLoginInterface,
 } from "src/app/interfaces/interfaces";
-import { Rol } from "src/app/shared/rol.class";
+import { rolList } from "src/app/shared/rol.class";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Empleado {
@@ -60,7 +60,7 @@ export class Empleado {
     this.id = id;
     this.nombre = "";
     this.color = color;
-    this.roles = [Rol.ventas.modificarImportes];
+    this.roles = [rolList.ventas.roles["modificarImportes"].id];
 
     return this;
   }

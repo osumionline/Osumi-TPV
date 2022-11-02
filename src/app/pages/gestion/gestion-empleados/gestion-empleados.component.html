@@ -52,7 +52,8 @@
                                 Empleado con contraseña
                             </mat-checkbox>
                         </div>
-                        <div class="password-row" [ngClass]="{'show': form.value.hasPassword}">
+                        <div class="password-row"
+                             [ngClass]="{'show': form.value.hasPassword}">
                             <div class="form-field half-width">
                                 <label>Contraseña</label>
                                 <mat-form-field class="max-width">
@@ -106,6 +107,19 @@
                     </form>
                 </mat-tab>
                 <mat-tab label="PERMISOS">
+                    <div class="rol-list">
+                        <div class="rol-group"
+                             *ngFor="let group of list | keyvalue: originalRolGroupOrder">
+                            <label>{{group.value.name}}</label>
+                            <div class="rol-list-items">
+                                <mat-checkbox *ngFor="let rol of group.value.roles | keyvalue: originalRolOrder"
+                                              [title]="rol.value.description"
+                                              [(ngModel)]="selectedRolList[rol.value.id]">
+                                    {{rol.value.name}}
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
                 </mat-tab>
                 <mat-tab label="ESTADÍSTICAS">
                 </mat-tab>

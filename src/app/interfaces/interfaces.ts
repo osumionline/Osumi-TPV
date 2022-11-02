@@ -337,6 +337,7 @@ export interface EmpleadoSaveInterface {
   password: string;
   confirmPassword: string;
   color: string;
+  roles: number[];
 }
 
 export interface ColorValues {

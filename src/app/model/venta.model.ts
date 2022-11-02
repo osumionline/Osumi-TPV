@@ -5,7 +5,7 @@ import {
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { LineaVenta } from "src/app/model/linea-venta.model";
-import { Rol } from "src/app/shared/rol.class";
+import { rolList } from "src/app/shared/rol.class";
 
 export class Venta {
   name: string = "";
@@ -44,7 +44,9 @@ export class Venta {
   setEmpleado(e: Empleado): void {
     this.empleado = e;
     this.idEmpleado = e.id;
-    this.modificarImportes = e.hasRol(Rol.ventas.modificarImportes);
+    this.modificarImportes = e.hasRol(
+      rolList.ventas.roles["modificarImportes"].id
+    );
     this.color = e.color;
     this.textColor = e.textColor;
   }

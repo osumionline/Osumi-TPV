@@ -15,7 +15,7 @@ import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { Rol } from "src/app/shared/rol.class";
+import { rolList } from "src/app/shared/rol.class";
 
 @Component({
   selector: "otpv-una-venta",
@@ -243,7 +243,11 @@ export class UnaVentaComponent {
   }
 
   editarLineaImporte(i: number): void {
-    if (!this.vs.ventaActual.empleado.hasRol(Rol.ventas.modificarImportes)) {
+    if (
+      !this.vs.ventaActual.empleado.hasRol(
+        rolList.ventas.roles["modificarImportes"].id
+      )
+    ) {
       return;
     }
     if (this.vs.ventaActual.lineas[i].descuentoManual) {
