@@ -3,6 +3,26 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
+
+  .label-hello {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.3em;
+  }
+
+  .label-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.3em;
+
+    button {
+      height: auto;
+      font-size: 16px;
+    }
+  }
 
   button {
     height: 80px;

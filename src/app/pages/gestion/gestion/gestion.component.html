@@ -1,13 +1,22 @@
 <otpv-header selectedOption="gestion"></otpv-header>
 
-<div class="gestion-options">
+<otpv-employee-login *ngIf="empleado === null"
+                     (successEvent)="loginSuccess($event)"></otpv-employee-login>
+
+<div *ngIf="empleado !== null"
+     class="gestion-options">
+    <label class="label-hello">Hola {{empleado.nombre}}, elige una de las siguientes opciones:</label>
+    <label class="label-close">
+        <button mat-stroked-button
+                (click)="logout()">Cambiar de empleado</button>
+    </label>
     <button mat-raised-button
-            routerLink="/gestion">
+            (click)="selectAjustes()">
         <mat-icon>settings</mat-icon>
         Ajustes iniciales
     </button>
     <button mat-raised-button
-            routerLink="/gestion/empleados">
+            (click)="selectEmpleados()">
         <mat-icon>people</mat-icon>
         Empleados
     </button>

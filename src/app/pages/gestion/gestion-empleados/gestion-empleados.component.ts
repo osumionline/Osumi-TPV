@@ -55,6 +55,7 @@ export class GestionEmpleadosComponent implements OnInit {
   selectEmpleado(empleado: Empleado): void {
     this.start = false;
     this.selectedEmpleado = empleado;
+    this.updateSelectedRolList();
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
@@ -63,6 +64,7 @@ export class GestionEmpleadosComponent implements OnInit {
   newEmpleado(): void {
     this.start = false;
     this.selectedEmpleado = new Empleado();
+    this.updateSelectedRolList();
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
@@ -71,6 +73,16 @@ export class GestionEmpleadosComponent implements OnInit {
   resetForm(): void {
     this.form.reset();
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
+    this.updateSelectedRolList();
+  }
+
+  updateSelectedRolList(): void {
+    for (let i in this.selectedRolList) {
+      this.selectedRolList[i] = false;
+    }
+    for (let i of this.selectedEmpleado.roles) {
+      this.selectedRolList[i] = true;
+    }
   }
 
   onSubmit(): void {

@@ -85,4 +85,8 @@ export class Empleado {
   hasRol(rol: number): boolean {
     return this.roles.indexOf(rol) != -1;
   }
+
+  hasAnyRol(roles: number[]): boolean {
+    return this.roles.some((r: number): boolean => roles.includes(r));
+  }
 }
