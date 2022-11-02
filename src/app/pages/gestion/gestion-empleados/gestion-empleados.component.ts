@@ -22,6 +22,7 @@ export class GestionEmpleadosComponent implements OnInit {
   start: boolean = true;
   canNewEmployees: boolean = false;
   canDeleteEmployees: boolean = false;
+  canModifyEmployees: boolean = false;
   canChangeEmployeeRoles: boolean = false;
   canSeeStatistics: boolean = false;
   @ViewChild("empleadoTabs", { static: false })
@@ -62,6 +63,16 @@ export class GestionEmpleadosComponent implements OnInit {
     this.canDeleteEmployees = this.gs.empleado.hasRol(
       rolList.empleados.roles["borrar"].id
     );
+    this.canModifyEmployees = this.gs.empleado.hasRol(
+      rolList.empleados.roles["modificar"].id
+    );
+    if (!this.canModifyEmployees) {
+      this.form.get("nombre")?.disable();
+      this.form.get("hasPassword")?.disable();
+      this.form.get("password")?.disable();
+      this.form.get("confirmPassword")?.disable();
+      this.form.get("color")?.disable();
+    }
     this.canChangeEmployeeRoles = this.gs.empleado.hasRol(
       rolList.empleados.roles["roles"].id
     );
