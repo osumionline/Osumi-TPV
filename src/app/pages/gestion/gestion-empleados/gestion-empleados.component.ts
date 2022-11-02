@@ -2,11 +2,13 @@ import { KeyValue } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
+import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/interfaces";
 import { Empleado } from "src/app/model/empleado.model";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
+import { GestionService } from "src/app/services/gestion.service";
 import { Rol, RolGroup, rolList } from "src/app/shared/rol.class";
 
 @Component({
@@ -18,6 +20,10 @@ export class GestionEmpleadosComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
+  canNewEmployees: boolean = false;
+  canDeleteEmployees: boolean = false;
+  canChangeEmployeeRoles: boolean = false;
+  canSeeStatistics: boolean = false;
   @ViewChild("empleadoTabs", { static: false })
   empleadoTabs: MatTabGroup;
   selectedEmpleado: Empleado = new Empleado();
@@ -40,16 +46,33 @@ export class GestionEmpleadosComponent implements OnInit {
   constructor(
     public es: EmpleadosService,
     public config: ConfigService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private gs: GestionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    if (!this.gs.empleado) {
+      this.router.navigate(["/gestion"]);
+      return;
+    }
+    this.canNewEmployees = this.gs.empleado.hasRol(
+      rolList.empleados.roles["crear"].id
+    );
+    this.canDeleteEmployees = this.gs.empleado.hasRol(
+      rolList.empleados.roles["borrar"].id
+    );
+    this.canChangeEmployeeRoles = this.gs.empleado.hasRol(
+      rolList.empleados.roles["roles"].id
+    );
+    this.canSeeStatistics = this.gs.empleado.hasRol(
+      rolList.empleados.roles["estadisticas"].id
+    );
     for (let group in this.list) {
       for (let rol in this.list[group].roles) {
         this.selectedRolList[this.list[group].roles[rol].id] = false;
       }
     }
-    console.log(this.selectedRolList);
   }
 
   selectEmpleado(empleado: Empleado): void {
@@ -130,7 +153,7 @@ export class GestionEmpleadosComponent implements OnInit {
     const data = JSON.parse(JSON.stringify(this.form.value));
     data.roles = roles;
 
-    this.selectedEmpleado.fromInterface(this.form.value, false);
+    this.selectedEmpleado.fromInterface(data, false);
     this.es.saveEmpleado(data).subscribe((result) => {
       this.es.resetEmpleados();
       this.resetForm();
@@ -147,7 +170,40 @@ export class GestionEmpleadosComponent implements OnInit {
     });
   }
 
-  deleteEmpleado(): void {}
+  deleteEmpleado(): void {
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content:
+          '¿Estás seguro de querer borrar el empleado "' +
+          this.selectedEmpleado.nombre +
+          '"? Las ventas asociadas al empleado no se borrarán, pero dejarán de estar vinculadas a un empleado concreto.',
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.confirmDeleteEmpleado();
+        }
+      });
+  }
+
+  confirmDeleteEmpleado(): void {
+    this.es.deleteEmpleado(this.selectedEmpleado.id).subscribe((result) => {
+      this.es.resetEmpleados();
+      this.start = true;
+      this.dialog
+        .alert({
+          title: "Empleado borrado",
+          content:
+            'El empleado "' +
+            this.selectedEmpleado.nombre +
+            '" ha sido correctamente borrado.',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    });
+  }
 
   originalRolGroupOrder = (
     a: KeyValue<string, RolGroup>,

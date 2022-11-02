@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Empleado } from "src/app/model/empleado.model";
 import { DialogService } from "src/app/services/dialog.service";
+import { GestionService } from "src/app/services/gestion.service";
 import { rolList } from "src/app/shared/rol.class";
 
 @Component({
@@ -12,7 +13,11 @@ import { rolList } from "src/app/shared/rol.class";
 export class GestionComponent implements OnInit {
   empleado: Empleado = null;
 
-  constructor(private router: Router, private dialog: DialogService) {}
+  constructor(
+    private router: Router,
+    private dialog: DialogService,
+    private gs: GestionService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -30,6 +35,7 @@ export class GestionComponent implements OnInit {
         rolList.gestion.roles["modificarAjustesIniciales"].id
       )
     ) {
+      this.gs.empleado = this.empleado;
       this.router.navigate(["/gestion"]);
     } else {
       this.dialog
@@ -53,6 +59,7 @@ export class GestionComponent implements OnInit {
         rolList.empleados.roles["estadisticas"].id,
       ])
     ) {
+      this.gs.empleado = this.empleado;
       this.router.navigate(["/gestion/empleados"]);
     } else {
       this.dialog

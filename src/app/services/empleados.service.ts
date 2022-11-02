@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
-  EmpleadoInterface,
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
   EmpleadosResult,
@@ -53,8 +52,8 @@ export class EmpleadosService {
   }
 
   resetEmpleados(): void {
-	  this.loaded = false;
-	  this.load();
+    this.loaded = false;
+    this.load();
   }
 
   saveEmpleado(empleado: EmpleadoSaveInterface): Observable<StatusResult> {
@@ -68,6 +67,13 @@ export class EmpleadosService {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-empleados/login",
       empleado
+    );
+  }
+
+  deleteEmpleado(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-empleados/delete-empleado",
+      { id }
     );
   }
 }

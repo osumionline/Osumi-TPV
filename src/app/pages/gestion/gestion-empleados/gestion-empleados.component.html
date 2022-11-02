@@ -20,7 +20,8 @@
                 {{empleado.nombre}}
             </button>
         </mat-action-list>
-        <div class="new-client">
+        <div class="new-client"
+             *ngIf="canNewEmployees">
             <button mat-button
                     (click)="newEmpleado()">
                 <mat-icon>add_circle_outline</mat-icon>
@@ -87,6 +88,7 @@
                         <div class="actions">
                             <div class="delete">
                                 <button mat-raised-button
+                                        *ngIf="canDeleteEmployees"
                                         color="warn"
                                         [disabled]="!form.value.id"
                                         type="button"
@@ -106,7 +108,8 @@
                         </div>
                     </form>
                 </mat-tab>
-                <mat-tab label="PERMISOS">
+                <mat-tab label="PERMISOS"
+                         *ngIf="canChangeEmployeeRoles">
                     <div class="rol-list">
                         <div class="rol-group"
                              *ngFor="let group of list | keyvalue: originalRolGroupOrder">
@@ -121,7 +124,8 @@
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab label="ESTADÍSTICAS">
+                <mat-tab label="ESTADÍSTICAS"
+                         *ngIf="canSeeStatistics">
                 </mat-tab>
             </mat-tab-group>
         </div>
