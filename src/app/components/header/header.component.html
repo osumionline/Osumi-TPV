@@ -1,28 +1,47 @@
-<mat-toolbar color="primary" class="toolbar">
-	<span>{{cs.nombre}}</span>
+<mat-toolbar color="primary"
+			 class="toolbar">
+	<span>{{title}}</span>
 	<div class="toolbar-options">
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='ventas'}" routerLink="/ventas" aria-label="Ventas">
+		<button class="toolbar-btn"
+				[ngClass]="{'toolbar-btn-selected': selectedOption=='ventas'}"
+				routerLink="/ventas"
+				aria-label="Ventas">
 			<mat-icon>local_atm</mat-icon>
 			<span>Ventas</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='articulos'}" routerLink="/articulos" aria-label="Artículos">
+		<button class="toolbar-btn"
+				[ngClass]="{'toolbar-btn-selected': selectedOption=='articulos'}"
+				routerLink="/articulos"
+				aria-label="Artículos">
 			<mat-icon>card_giftcard</mat-icon>
 			<span>Artículos</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='pedidos'}" routerLink="/pedidos" aria-label="Pedidos">
+		<button class="toolbar-btn"
+				[ngClass]="{'toolbar-btn-selected': selectedOption=='pedidos'}"
+				routerLink="/pedidos"
+				aria-label="Pedidos">
 			<mat-icon>assignment</mat-icon>
 			<span>Pedidos</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='clientes'}" routerLink="/clientes" aria-label="Clientes">
+		<button class="toolbar-btn"
+				[ngClass]="{'toolbar-btn-selected': selectedOption=='clientes'}"
+				routerLink="/clientes"
+				aria-label="Clientes">
 			<mat-icon>perm_contact_calendar</mat-icon>
 			<span>Clientes</span>
 		</button>
-		<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='almacen'}" routerLink="/almacen" aria-label="Almacén">
+		<button class="toolbar-btn"
+				[ngClass]="{'toolbar-btn-selected': selectedOption=='almacen'}"
+				routerLink="/almacen"
+				aria-label="Almacén">
 			<mat-icon>store_mall_directory</mat-icon>
 			<span>Almacén</span>
 		</button>
 	</div>
-	<button class="toolbar-btn" [ngClass]="{'toolbar-btn-selected': selectedOption=='gestion'}" routerLink="/gestion" aria-label="Gestión">
+	<button class="toolbar-btn"
+			[ngClass]="{'toolbar-btn-selected': selectedOption=='gestion'}"
+			routerLink="/gestion"
+			aria-label="Gestión">
 		<mat-icon>settings</mat-icon>
 		<span>Gestión</span>
 	</button>
