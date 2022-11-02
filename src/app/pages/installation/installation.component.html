@@ -1,116 +1,182 @@
 <mat-toolbar color="primary">
-	<span>Osumi TPV - Instalación - Paso {{paso}}/3</span>
+	<span class="toolbar-title">Osumi TPV - Instalación - Paso {{paso}}/3</span>
+	<button mat-stroked-button
+			routerLink="/gestion"
+			*ngIf="back">
+		<mat-icon>chevron_left</mat-icon>
+		Volver
+	</button>
 </mat-toolbar>
 
-<p *ngIf="paso===1" class="title">Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
+<p *ngIf="paso===1"
+   class="title">Antes de empezar tenemos que configurar ciertos valores que se usarán en toda la aplicación:</p>
 
-<mat-card *ngIf="paso===1" class="main">
+<mat-card *ngIf="paso===1"
+		  class="main">
 	<mat-card-content>
 		<p><strong>Datos del negocio</strong></p>
 		<div class="row">
 			<mat-form-field class="three">
 				<mat-label>Nombre</mat-label>
-				<input matInput placeholder="Nombre" [(ngModel)]="nombre">
+				<input matInput
+					   placeholder="Nombre"
+					   [(ngModel)]="nombre">
 			</mat-form-field>
 		</div>
 		<div class="row">
 			<mat-form-field class="three">
 				<mat-label>CIF</mat-label>
-				<input matInput placeholder="CIF" [(ngModel)]="cif">
+				<input matInput
+					   placeholder="CIF"
+					   [(ngModel)]="cif">
 			</mat-form-field>
 			<mat-form-field class="three">
 				<mat-label>Teléfono</mat-label>
-				<input matInput placeholder="Teléfono" [(ngModel)]="telefono">
+				<input matInput
+					   placeholder="Teléfono"
+					   [(ngModel)]="telefono">
 			</mat-form-field>
 			<mat-form-field class="three">
 				<mat-label>Email</mat-label>
-				<input matInput type="email" placeholder="Email" [(ngModel)]="email">
+				<input matInput
+					   type="email"
+					   placeholder="Email"
+					   [(ngModel)]="email">
 			</mat-form-field>
 		</div>
 		<div class="row">
 			<mat-form-field class="full">
 				<mat-label>Dirección</mat-label>
-				<input matInput placeholder="Dirección" [(ngModel)]="direccion">
+				<input matInput
+					   placeholder="Dirección"
+					   [(ngModel)]="direccion">
 			</mat-form-field>
 		</div>
 		<p><strong>Logo</strong></p>
 		<div class="logo-row">
-			<input type="file" name="logo-file" id="logo-file" accept="image/png, image/gif, image/jpeg" (change)="onLogoChange($event)">
-			<img *ngIf="logo !== ''" [src]="logo" alt="Logo">
-			<button mat-raised-button color="primary" (click)="addLogo()">Añadir logo</button>
+			<input type="file"
+				   name="logo-file"
+				   id="logo-file"
+				   accept="image/png, image/gif, image/jpeg"
+				   (change)="onLogoChange($event)">
+			<img *ngIf="logo !== ''"
+				 [src]="logo"
+				 alt="Logo">
+			<button mat-raised-button
+					color="primary"
+					(click)="addLogo()">Añadir logo</button>
 		</div>
 		<p><strong>Datos del empleado</strong></p>
 		<div class="row">
 			<mat-form-field class="four">
 				<mat-label>Nombre de usuario</mat-label>
-				<input matInput placeholder="Nombre de usuario" [(ngModel)]="nombreEmpleado">
+				<input matInput
+					   placeholder="Nombre de usuario"
+					   [(ngModel)]="nombreEmpleado">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Contraseña del administrador</mat-label>
-				<input matInput type="password" placeholder="Contraseña del administrador" [(ngModel)]="pass">
+				<input matInput
+					   type="password"
+					   placeholder="Contraseña del administrador"
+					   [(ngModel)]="pass">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Confirmar contraseña</mat-label>
-				<input matInput type="password" placeholder="Confirmar contraseña" [(ngModel)]="confPass">
+				<input matInput
+					   type="password"
+					   placeholder="Confirmar contraseña"
+					   [(ngModel)]="confPass">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Color</mat-label>
-				<input matInput type="color" placeholder="Color" [(ngModel)]="color">
+				<input matInput
+					   type="color"
+					   placeholder="Color"
+					   [(ngModel)]="color">
 			</mat-form-field>
 		</div>
 		<p><strong>Redes</strong></p>
 		<div class="row">
 			<mat-form-field class="four">
 				<mat-label>Twitter</mat-label>
-				<input matInput placeholder="Twitter" [(ngModel)]="twitter">
-				<img src="/assets/icons/twitter.svg" alt="Twitter">
+				<input matInput
+					   placeholder="Twitter"
+					   [(ngModel)]="twitter">
+				<img src="/assets/icons/twitter.svg"
+					 alt="Twitter">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Facebook</mat-label>
-				<input matInput placeholder="Facebook" [(ngModel)]="facebook">
-				<img src="/assets/icons/facebook.svg" alt="Facebook">
+				<input matInput
+					   placeholder="Facebook"
+					   [(ngModel)]="facebook">
+				<img src="/assets/icons/facebook.svg"
+					 alt="Facebook">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Instagram</mat-label>
-				<input matInput placeholder="Instagram" [(ngModel)]="instagram">
-				<img src="/assets/icons/instagram.svg" alt="Instagram">
+				<input matInput
+					   placeholder="Instagram"
+					   [(ngModel)]="instagram">
+				<img src="/assets/icons/instagram.svg"
+					 alt="Instagram">
 			</mat-form-field>
 			<mat-form-field class="four">
 				<mat-label>Web</mat-label>
-				<input matInput placeholder="Web" [(ngModel)]="web">
-				<img src="/assets/icons/web.svg" alt="Web">
+				<input matInput
+					   placeholder="Web"
+					   [(ngModel)]="web">
+				<img src="/assets/icons/web.svg"
+					 alt="Web">
 			</mat-form-field>
 		</div>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button color="primary" (click)="irAPaso(2)" [disabled]="saving">
-			<img src="/assets/loading.svg" *ngIf="saving">
+		<button mat-raised-button
+				color="primary"
+				(click)="irAPaso(2)"
+				[disabled]="saving">
+			<img src="/assets/loading.svg"
+				 *ngIf="saving">
 			Continuar
+			<mat-icon>chevron_right</mat-icon>
 		</button>
 	</mat-card-actions>
 </mat-card>
 
-<mat-card *ngIf="paso===2" class="main">
+<mat-card *ngIf="paso===2"
+		  class="main">
 	<mat-card-content>
 		<p>¿Quieres usar IVA o Recargo de equivalencia?</p>
 
-		<mat-radio-group class="option-margin" aria-label="IVA / RE" [(ngModel)]="selectedOption">
-			<mat-radio-button *ngFor="let option of ivareOptions" [value]="option.id">{{ option.name }}</mat-radio-button>
+		<mat-radio-group class="option-margin"
+						 aria-label="IVA / RE"
+						 [(ngModel)]="selectedOption">
+			<mat-radio-button *ngFor="let option of ivareOptions"
+							  [value]="option.id">{{ option.name }}</mat-radio-button>
 		</mat-radio-group>
 
 		<p>Elige los tipos de IVA<span *ngIf="selectedOption==='re'"> + Recargo de Equivalencia</span> que quieres usar en la aplicación:</p>
 
 		<ul class="margin-list">
 			<li *ngFor="let item of ivaOptionsList; let i=index">
-				<mat-checkbox (change)="checkIva($event, i)" [(ngModel)]="item.selected">
+				<mat-checkbox (change)="checkIva($event, i)"
+							  [(ngModel)]="item.selected">
 					{{ (selectedOption==='iva') ? item.option : (item.option + ' + ' + reOptionsList[i]) }} %
 				</mat-checkbox>
 			</li>
 		</ul>
 
 		<p>
-			<button mat-raised-button class="option-margin" color="primary" (click)="selectAllIvas()">Marcar todos</button>
-			<button mat-raised-button class="option-margin" color="primary" (click)="selectNoneIvas()">Desmarcar todos</button>
+			<button mat-raised-button
+					class="option-margin"
+					color="primary"
+					(click)="selectAllIvas()">Marcar todos</button>
+			<button mat-raised-button
+					class="option-margin"
+					color="primary"
+					(click)="selectNoneIvas()">Desmarcar todos</button>
 		</p>
 
 		<p>La aplicación muestra sugerencias de márgenes de beneficios. A continuación, elige los diferentes márgenes con los que quieres trabajar:</p>
@@ -122,58 +188,94 @@
 		</ul>
 
 		<p>
-			<button mat-raised-button class="option-margin" color="primary" (click)="selectAllMargins()">Marcar todos</button>
-			<button mat-raised-button class="option-margin" color="primary" (click)="selectNoneMargins()">Desmarcar todos</button>
+			<button mat-raised-button
+					class="option-margin"
+					color="primary"
+					(click)="selectAllMargins()">Marcar todos</button>
+			<button mat-raised-button
+					class="option-margin"
+					color="primary"
+					(click)="selectNoneMargins()">Desmarcar todos</button>
 		</p>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button color="primary" (click)="irAPaso(1)" [disabled]="saving">
-			<img src="/assets/loading.svg" *ngIf="saving">
+		<button mat-raised-button
+				color="primary"
+				(click)="irAPaso(1)"
+				[disabled]="saving">
+			<img src="/assets/loading.svg"
+				 *ngIf="saving">
+			<mat-icon>chevron_left</mat-icon>
 			Atrás
 		</button>
-		<button mat-raised-button color="primary" (click)="irAPaso(3)" [disabled]="saving">
-			<img src="/assets/loading.svg" *ngIf="saving">
+		<button mat-raised-button
+				color="primary"
+				(click)="irAPaso(3)"
+				[disabled]="saving">
+			<img src="/assets/loading.svg"
+				 *ngIf="saving">
 			Continuar
+			<mat-icon>chevron_right</mat-icon>
 		</button>
 	</mat-card-actions>
 </mat-card>
 
-<mat-card *ngIf="paso===3" class="main">
+<mat-card *ngIf="paso===3"
+		  class="main">
 	<mat-card-content>
 		<p>¿La aplicación se enlazará con una tienda online?</p>
 
 		<div>
-			<mat-radio-group class="option-margin" aria-label="Venta online" [(ngModel)]="hasOnline">
+			<mat-radio-group class="option-margin"
+							 aria-label="Venta online"
+							 [(ngModel)]="hasOnline">
 				<mat-radio-button value="0">No</mat-radio-button>
 				<mat-radio-button value="1">Si</mat-radio-button>
 			</mat-radio-group>
-			<mat-form-field class="url-api-field" *ngIf="hasOnline==='1'">
-				<input matInput placeholder="URL base de la API de la tienda" [(ngModel)]="urlApi">
+			<mat-form-field class="url-api-field"
+							*ngIf="hasOnline==='1'">
+				<input matInput
+					   placeholder="URL base de la API de la tienda"
+					   [(ngModel)]="urlApi">
 			</mat-form-field>
 		</div>
 
 		<p>¿Los artículos de la aplicación tienen fecha de caducidad?</p>
 
-		<mat-radio-group class="option-margin" aria-label="Fecha caducidad" [(ngModel)]="hasExpiryDate">
+		<mat-radio-group class="option-margin"
+						 aria-label="Fecha caducidad"
+						 [(ngModel)]="hasExpiryDate">
 			<mat-radio-button value="0">No</mat-radio-button>
 			<mat-radio-button value="1">Si</mat-radio-button>
 		</mat-radio-group>
 
 		<p>¿La aplicación será usada por varios empleados?</p>
 
-		<mat-radio-group class="option-margin" aria-label="Empleados" [(ngModel)]="hasEmpleados">
+		<mat-radio-group class="option-margin"
+						 aria-label="Empleados"
+						 [(ngModel)]="hasEmpleados">
 			<mat-radio-button value="0">No</mat-radio-button>
 			<mat-radio-button value="1">Si</mat-radio-button>
 		</mat-radio-group>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button color="primary" (click)="irAPaso(2)" [disabled]="saving">
-			<img src="/assets/loading.svg" *ngIf="saving">
+		<button mat-raised-button
+				color="primary"
+				(click)="irAPaso(2)"
+				[disabled]="saving">
+			<img src="/assets/loading.svg"
+				 *ngIf="saving">
+			<mat-icon>chevron_left</mat-icon>
 			Atrás
 		</button>
-		<button mat-raised-button color="primary" (click)="saveConfiguration()" [disabled]="saving">
-			<img src="/assets/loading.svg" *ngIf="saving">
+		<button mat-raised-button
+				color="primary"
+				(click)="saveConfiguration()"
+				[disabled]="saving">
+			<img src="/assets/loading.svg"
+				 *ngIf="saving">
 			Guardar configuración
+			<mat-icon>done</mat-icon>
 		</button>
 	</mat-card-actions>
 </mat-card>

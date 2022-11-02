@@ -26,6 +26,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -59,4 +60,8 @@ input[type="number"] {
 
 .mat-tab-body-content {
   padding: 16px;
+}
+
+.toolbar-title {
+  flex: 1;
 }

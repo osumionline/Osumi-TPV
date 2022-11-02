@@ -1,235 +1,316 @@
-import { Component, OnInit } from '@angular/core';
-import { Router }            from '@angular/router';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { DialogService }     from 'src/app/services/dialog.service';
-import { ApiService }        from 'src/app/services/api.service';
-import { AppDataInterface }  from 'src/app/interfaces/interfaces';
+import { Component, OnInit } from "@angular/core";
+import { MatCheckboxChange } from "@angular/material/checkbox";
+import { Router } from "@angular/router";
+import { AppDataInterface } from "src/app/interfaces/interfaces";
+import { ApiService } from "src/app/services/api.service";
+import { DialogService } from "src/app/services/dialog.service";
+import { GestionService } from "src/app/services/gestion.service";
 
 @Component({
-	selector: 'otpv-installation',
-	templateUrl: './installation.component.html',
-	styleUrls: ['./installation.component.scss']
+  selector: "otpv-installation",
+  templateUrl: "./installation.component.html",
+  styleUrls: ["./installation.component.scss"],
 })
 export class InstallationComponent implements OnInit {
-	paso: number = 1;
-	nombre: string = '';
-	cif: string = '';
-	telefono: string = '';
-	direccion: string = '';
-	email: string = '';
-	nombreEmpleado: string = '';
-	pass: string = '';
-	confPass: string = '';
-	logo: string = '';
-	color: string = '#3f51b5';
-	twitter: string = '';
-	facebook: string = '';
-	instagram: string = '';
-	web: string = '';
+  back: boolean = false;
 
-	ivareOptions = [{id: 'iva', name: 'IVA'}, {id: 're', name: 'IVA + Recargo de equivalencia'}];
-	ivaOptionsList = [{option: 4, selected: false}, {option: 10, selected: false}, {option: 21, selected: false}];
-	reOptionsList: number[] = [0.5, 1.4, 5.2];
+  paso: number = 1;
+  nombre: string = "";
+  cif: string = "";
+  telefono: string = "";
+  direccion: string = "";
+  email: string = "";
+  nombreEmpleado: string = "";
+  pass: string = "";
+  confPass: string = "";
+  logo: string = "";
+  color: string = "#3f51b5";
+  twitter: string = "";
+  facebook: string = "";
+  instagram: string = "";
+  web: string = "";
 
-	optionsList: number[] = [];
-	selectedIvaList: number[] = [];
-	selectedReList: number[] = [];
+  ivareOptions = [
+    { id: "iva", name: "IVA" },
+    { id: "re", name: "IVA + Recargo de equivalencia" },
+  ];
+  ivaOptionsList = [
+    { option: 4, selected: false },
+    { option: 10, selected: false },
+    { option: 21, selected: false },
+  ];
+  reOptionsList: number[] = [0.5, 1.4, 5.2];
 
-	selectedOption: string = 'iva';
-	selectedOptionInList: number = null;
+  optionsList: number[] = [];
+  selectedIvaList: number[] = [];
+  selectedReList: number[] = [];
 
-	marginList = [
-		{value: 10,  checked: false},
-		{value: 15,  checked: false},
-		{value: 20,  checked: false},
-		{value: 25,  checked: false},
-		{value: 30,  checked: false},
-		{value: 35,  checked: false},
-		{value: 40,  checked: false},
-		{value: 45,  checked: false},
-		{value: 50,  checked: false},
-		{value: 55,  checked: false},
-		{value: 60,  checked: false},
-		{value: 65,  checked: false},
-		{value: 70,  checked: false},
-		{value: 75,  checked: false},
-		{value: 80,  checked: false},
-		{value: 85,  checked: false},
-		{value: 90,  checked: false},
-		{value: 95,  checked: false},
-		{value: 100, checked: false}
-	];
+  selectedOption: string = "iva";
+  selectedOptionInList: number = null;
 
-	hasOnline: string = '0';
-	urlApi: string = '';
-	hasExpiryDate: string = '0';
-	hasEmpleados: string = '0';
+  marginList = [
+    { value: 10, checked: false },
+    { value: 15, checked: false },
+    { value: 20, checked: false },
+    { value: 25, checked: false },
+    { value: 30, checked: false },
+    { value: 35, checked: false },
+    { value: 40, checked: false },
+    { value: 45, checked: false },
+    { value: 50, checked: false },
+    { value: 55, checked: false },
+    { value: 60, checked: false },
+    { value: 65, checked: false },
+    { value: 70, checked: false },
+    { value: 75, checked: false },
+    { value: 80, checked: false },
+    { value: 85, checked: false },
+    { value: 90, checked: false },
+    { value: 95, checked: false },
+    { value: 100, checked: false },
+  ];
 
-	saving: boolean = false;
+  hasOnline: string = "0";
+  urlApi: string = "";
+  hasExpiryDate: string = "0";
+  hasEmpleados: string = "0";
 
-	constructor(private dialog: DialogService, private as: ApiService, private router: Router) {}
+  saving: boolean = false;
 
-	ngOnInit() {}
+  constructor(
+    private dialog: DialogService,
+    private as: ApiService,
+    private gs: GestionService,
+    private router: Router
+  ) {}
 
-	addLogo(): void {
-		document.getElementById('logo-file').click();
-	}
+  ngOnInit(): void {
+    if (this.gs.empleado) {
+      this.back = true;
+    }
+  }
 
-	onLogoChange(ev: Event): void {
-		let reader = new FileReader();
-		if ( (<HTMLInputElement>ev.target).files && (<HTMLInputElement>ev.target).files.length > 0) {
-			let file = (<HTMLInputElement>ev.target).files[0];
-			reader.readAsDataURL(file);
-			reader.onload = () => {
-				this.logo = reader.result as string;
-				(<HTMLInputElement>document.getElementById('logo-file')).value = '';
-			};
-		}
-	}
+  addLogo(): void {
+    document.getElementById("logo-file").click();
+  }
 
-	irAPaso(paso: number): void {
-		this.paso = paso;
-	}
+  onLogoChange(ev: Event): void {
+    const reader: FileReader = new FileReader();
+    if (
+      (<HTMLInputElement>ev.target).files &&
+      (<HTMLInputElement>ev.target).files.length > 0
+    ) {
+      let file = (<HTMLInputElement>ev.target).files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.logo = reader.result as string;
+        (<HTMLInputElement>document.getElementById("logo-file")).value = "";
+      };
+    }
+  }
 
-	checkIva(ev: MatCheckboxChange, i: number): void {
-		if (ev.checked) {
-			this.optionsList.push(i);
-		}
-		else {
-			const ind = this.optionsList.findIndex(x => x === i);
-			this.optionsList.splice(ind, 1);
-		}
-		this.optionsList.sort((a, b) => a - b);
-	}
+  irAPaso(paso: number): void {
+    this.paso = paso;
+  }
 
-	selectAllIvas(): void {
-		for (let i in this.ivaOptionsList) {
-			this.ivaOptionsList[i].selected = true;
-			this.optionsList.push(parseInt(i));
-		}
-	}
+  checkIva(ev: MatCheckboxChange, i: number): void {
+    if (ev.checked) {
+      this.optionsList.push(i);
+    } else {
+      const ind: number = this.optionsList.findIndex((x) => x === i);
+      this.optionsList.splice(ind, 1);
+    }
+    this.optionsList.sort((a, b) => a - b);
+  }
 
-	selectNoneIvas(): void {
-		this.optionsList = [];
-		for (let i in this.ivaOptionsList) {
-			this.ivaOptionsList[i].selected = false;
-		}
-	}
+  selectAllIvas(): void {
+    for (let i in this.ivaOptionsList) {
+      this.ivaOptionsList[i].selected = true;
+      this.optionsList.push(parseInt(i));
+    }
+  }
 
-	selectAllMargins(): void {
-		for (let i in this.marginList) {
-			this.marginList[i].checked = true;
-		}
-	}
+  selectNoneIvas(): void {
+    this.optionsList = [];
+    for (let i in this.ivaOptionsList) {
+      this.ivaOptionsList[i].selected = false;
+    }
+  }
 
-	selectNoneMargins(): void {
-		for (let i in this.marginList) {
-			this.marginList[i].checked = false;
-		}
-	}
+  selectAllMargins(): void {
+    for (let i in this.marginList) {
+      this.marginList[i].checked = true;
+    }
+  }
 
-	saveConfiguration(): void {
-		if (this.nombre === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del negocio en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.cif === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el CIF del negocio en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.logo === '') {
-			this.dialog.alert({title: 'Error', content: '¡No has añadido ningún logo!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if  (this.nombreEmpleado === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el nombre del empleado por defecto en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.pass === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la contraseña en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.confPass === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar la confirmación de la contraseña en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.pass !== this.confPass) {
-			this.dialog.alert({title: 'Error', content: '¡Las contraseñas introducidas no coinciden!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if  (this.color === '') {
-			this.dialog.alert({title: 'Error', content: '¡No puedes dejar el color en blanco!', ok: 'Continuar'});
-			this.paso = 1;
-			return;
-		}
-		if (this.optionsList.length==0) {
-			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!', ok: 'Continuar'});
-			this.paso = 2;
-			return;
-		}
-		for (let option of this.optionsList) {
-			this.selectedIvaList.push(this.ivaOptionsList[option].option);
-			if (this.selectedOption === 're') {
-				this.selectedReList.push(this.reOptionsList[option]);
-			}
-		}
+  selectNoneMargins(): void {
+    for (let i in this.marginList) {
+      this.marginList[i].checked = false;
+    }
+  }
 
-		const selectedMargins = this.marginList.filter(x => x.checked).map(v => v.value);
-		if (selectedMargins.length==0) {
-			this.dialog.alert({title: 'Error', content: '¡No has elegido ningún valor en la lista de margenes de beneficio!', ok: 'Continuar'});
-			this.paso = 2;
-			return;
-		}
+  saveConfiguration(): void {
+    if (this.nombre === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar el nombre del negocio en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.cif === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar el CIF del negocio en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.logo === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No has añadido ningún logo!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.nombreEmpleado === "") {
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "¡No puedes dejar el nombre del empleado por defecto en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.pass === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar la contraseña en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.confPass === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar la confirmación de la contraseña en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.pass !== this.confPass) {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡Las contraseñas introducidas no coinciden!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.color === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar el color en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.optionsList.length == 0) {
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!",
+        ok: "Continuar",
+      });
+      this.paso = 2;
+      return;
+    }
+    for (let option of this.optionsList) {
+      this.selectedIvaList.push(this.ivaOptionsList[option].option);
+      if (this.selectedOption === "re") {
+        this.selectedReList.push(this.reOptionsList[option]);
+      }
+    }
 
-		if (this.hasOnline === '1' && this.urlApi === '') {
-			this.dialog.alert({title: 'Error', content: 'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.', ok: 'Continuar'});
-			this.paso = 3;
-			return;
-		}
+    const selectedMargins = this.marginList
+      .filter((x) => x.checked)
+      .map((v) => v.value);
+    if (selectedMargins.length == 0) {
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "¡No has elegido ningún valor en la lista de margenes de beneficio!",
+        ok: "Continuar",
+      });
+      this.paso = 2;
+      return;
+    }
 
-		const data: AppDataInterface = {
-			nombre: this.nombre,
-			cif: this.cif,
-			telefono: this.telefono,
-			direccion: this.direccion,
-			email: this.email,
-			logo: this.logo,
-			nombreEmpleado: this.nombreEmpleado,
-			pass: this.pass,
-			color: this.color,
-			twitter: this.twitter,
-			facebook: this.facebook,
-			instagram: this.instagram,
-			web: this.web,
-			tipoIva: this.selectedOption,
-			ivaList: this.selectedIvaList,
-			reList: this.selectedReList,
-			marginList: selectedMargins,
-			ventaOnline: (this.hasOnline=='1'),
-			urlApi: this.urlApi,
-			fechaCad: (this.hasExpiryDate=='1'),
-			empleados: (this.hasEmpleados=='1')
-		};
+    if (this.hasOnline === "1" && this.urlApi === "") {
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.",
+        ok: "Continuar",
+      });
+      this.paso = 3;
+      return;
+    }
 
-		this.saving = true;
-		this.as.saveInstallation(data).subscribe(result => {
-			if (result.status==='ok') {
-				this.dialog.alert({title: 'Información', content: 'Los datos han sido guardados, puedes continuar con la aplicación. ', ok: 'Continuar'}).subscribe(result => {
-					this.router.navigate(['/']);
-				});
-			}
-			else {
-				this.saving = false;
-				this.dialog.alert({title: 'Error', content: '¡Ocurrió un error al guardar los datos!', ok: 'Continuar'});
-				return false;
-			}
-		});
-	}
+    const data: AppDataInterface = {
+      nombre: this.nombre,
+      cif: this.cif,
+      telefono: this.telefono,
+      direccion: this.direccion,
+      email: this.email,
+      logo: this.logo,
+      nombreEmpleado: this.nombreEmpleado,
+      pass: this.pass,
+      color: this.color,
+      twitter: this.twitter,
+      facebook: this.facebook,
+      instagram: this.instagram,
+      web: this.web,
+      tipoIva: this.selectedOption,
+      ivaList: this.selectedIvaList,
+      reList: this.selectedReList,
+      marginList: selectedMargins,
+      ventaOnline: this.hasOnline == "1",
+      urlApi: this.urlApi,
+      fechaCad: this.hasExpiryDate == "1",
+      empleados: this.hasEmpleados == "1",
+    };
+
+    this.saving = true;
+    this.as.saveInstallation(data).subscribe((result) => {
+      if (result.status === "ok") {
+        this.dialog
+          .alert({
+            title: "Información",
+            content:
+              "Los datos han sido guardados, puedes continuar con la aplicación. ",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.router.navigate(["/"]);
+          });
+      } else {
+        this.saving = false;
+        this.dialog.alert({
+          title: "Error",
+          content: "¡Ocurrió un error al guardar los datos!",
+          ok: "Continuar",
+        });
+        return false;
+      }
+    });
+  }
 }

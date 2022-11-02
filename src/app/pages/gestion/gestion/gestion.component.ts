@@ -19,7 +19,11 @@ export class GestionComponent implements OnInit {
     private gs: GestionService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.gs.empleado) {
+      this.empleado = this.gs.empleado;
+    }
+  }
 
   loginSuccess(ev: Empleado): void {
     this.empleado = ev;
@@ -36,7 +40,7 @@ export class GestionComponent implements OnInit {
       )
     ) {
       this.gs.empleado = this.empleado;
-      this.router.navigate(["/gestion"]);
+      this.router.navigate(["/installation"]);
     } else {
       this.dialog
         .alert({
