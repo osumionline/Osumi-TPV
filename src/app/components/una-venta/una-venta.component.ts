@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   ViewChild,
@@ -27,11 +26,6 @@ export class UnaVentaComponent {
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
   @Output() endVentaEvent: EventEmitter<number> = new EventEmitter<number>();
-  muestraLogin: boolean = false;
-  selectedEmpleado: Empleado = new Empleado();
-  @ViewChild("loginPasswordValue", { static: true })
-  loginPasswordValue: ElementRef;
-  loginLoading: boolean = false;
   searching: boolean = false;
   editarCantidad: boolean = false;
   editarImporte: boolean = false;
@@ -52,76 +46,11 @@ export class UnaVentaComponent {
     public es: EmpleadosService
   ) {}
 
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent): void {
-    if (ev.key === "Escape") {
-      if (this.muestraLogin && !this.loginLoading) {
-        this.cerrarLogin();
-      }
-    }
-  }
-
-  abreLogin(empleado: Empleado): void {
-    this.selectedEmpleado = empleado;
-    this.selectedEmpleado.pass = "";
-    this.muestraLogin = true;
-    setTimeout(() => {
-      this.loginPasswordValue.nativeElement.focus();
-    }, 0);
-  }
-
-  cerrarLogin(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraLogin = false;
-  }
-
-  checkLoginPassword(ev: KeyboardEvent): void {
-    if (ev.key == "Enter") {
-      this.login();
-    }
-  }
-
-  login(): void {
-    if (this.selectedEmpleado.pass === "") {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No puedes dejar la contraseña en blanco!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          setTimeout(() => {
-            this.loginPasswordValue.nativeElement.focus();
-          }, 0);
-        });
-    } else {
-      this.loginLoading = true;
-      this.es
-        .login(this.selectedEmpleado.toLoginInterface())
-        .subscribe((result) => {
-          this.loginLoading = false;
-          if (result.status === "ok") {
-            this.vs.ventaActual.setEmpleado(this.selectedEmpleado);
-            console.log(this.vs.ventaActual);
-            this.vs.addLineaVenta();
-            this.cerrarLogin();
-            this.vs.ventaActual.mostrarEmpleados = false;
-            this.setFocus();
-          } else {
-            this.dialog
-              .alert({
-                title: "Error",
-                content: "Contraseña incorrecta.",
-                ok: "Continuar",
-              })
-              .subscribe((result) => {
-                setTimeout(() => {
-                  this.loginPasswordValue.nativeElement.focus();
-                }, 0);
-              });
-          }
-        });
-    }
+  loginSuccess(ev: Empleado): void {
+    this.vs.ventaActual.setEmpleado(ev);
+    this.vs.addLineaVenta();
+    this.vs.ventaActual.mostrarEmpleados = false;
+    this.setFocus();
   }
 
   setFocus(): void {

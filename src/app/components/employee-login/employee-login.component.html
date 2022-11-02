@@ -1,0 +1,44 @@
+<div class="empleados-list">
+    <div class="empleado"
+         *ngFor="let empleado of es.empleados"
+         [ngStyle]="{'background-color':empleado.color, 'color': empleado.textColor}"
+         (click)="abreLogin(empleado)">
+        {{empleado.nombre}}
+    </div>
+</div>
+
+<div class="modal-bg"
+     [ngClass]="{'show': muestraLogin}">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span>Iniciar sesión</span>
+            <a *ngIf="!loginLoading"
+               href="#"
+               (click)="cerrarLogin($event)">
+                <mat-icon>close</mat-icon>
+            </a>
+        </div>
+        <div class="modal-body login-box">
+            <div class="login-texto">¡Hola {{selectedEmpleado.nombre}}! Por favor, introduce tu contraseña para continuar.</div>
+            <div class="login-continuar">
+                <mat-form-field class="login-pass">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput
+                           type="password"
+                           placeholder="Contraseña"
+                           [(ngModel)]="selectedEmpleado.pass"
+                           (keyup)="checkLoginPassword($event)"
+                           #loginPasswordValue>
+                </mat-form-field>
+                <button mat-raised-button
+                        color="primary"
+                        (click)="login()"
+                        [disabled]="loginLoading">
+                    <img *ngIf="loginLoading"
+                         src="/assets/loading.svg">
+                    Continuar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,6 +34,7 @@ import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
+import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -42,6 +43,7 @@ export const COMPONENTS: any[] = [
   TabsComponent,
   UnaVentaComponent,
   HeaderComponent,
+  EmployeeLoginComponent,
 ];
 
 /*
