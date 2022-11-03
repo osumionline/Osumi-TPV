@@ -13,29 +13,33 @@ export class Marca {
     public observaciones: string = ""
   ) {}
 
-  fromInterface(m: MarcaInterface): Marca {
+  fromInterface(m: MarcaInterface, decode: boolean = true): Marca {
     this.id = m.id;
-    this.nombre = Utils.urldecode(m.nombre);
-    this.direccion = Utils.urldecode(m.direccion);
+    this.nombre = decode ? Utils.urldecode(m.nombre) : m.nombre;
+    this.direccion = decode ? Utils.urldecode(m.direccion) : m.direccion;
     this.idFoto = m.idFoto;
-    this.telefono = Utils.urldecode(m.telefono);
-    this.email = Utils.urldecode(m.email);
-    this.web = Utils.urldecode(m.web);
-    this.observaciones = Utils.urldecode(m.observaciones);
+    this.telefono = decode ? Utils.urldecode(m.telefono) : m.telefono;
+    this.email = decode ? Utils.urldecode(m.email) : m.email;
+    this.web = decode ? Utils.urldecode(m.web) : m.web;
+    this.observaciones = decode
+      ? Utils.urldecode(m.observaciones)
+      : m.observaciones;
 
     return this;
   }
 
-  toInterface(): MarcaInterface {
+  toInterface(encode: boolean = true): MarcaInterface {
     return {
       id: this.id,
-      nombre: Utils.urlencode(this.nombre),
-      direccion: Utils.urlencode(this.direccion),
+      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      direccion: encode ? Utils.urlencode(this.direccion) : this.direccion,
       idFoto: this.idFoto,
-      telefono: Utils.urlencode(this.telefono),
-      email: Utils.urlencode(this.email),
-      web: Utils.urlencode(this.web),
-      observaciones: Utils.urlencode(this.observaciones),
+      telefono: encode ? Utils.urlencode(this.telefono) : this.telefono,
+      email: encode ? Utils.urlencode(this.email) : this.email,
+      web: encode ? Utils.urlencode(this.web) : this.web,
+      observaciones: encode
+        ? Utils.urlencode(this.observaciones)
+        : this.observaciones,
     };
   }
 }

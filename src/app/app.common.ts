@@ -53,12 +53,14 @@ export const COMPONENTS: any[] = [
  */
 import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
+import { BrandListFilterPipe } from "src/app/pipes/brand-list-filter.pipe";
 import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 
 export const PIPES: any[] = [
   FixedNumberPipe,
   ClientListFilterPipe,
   EmployeeListFilterPipe,
+  BrandListFilterPipe,
 ];
 
 /*
