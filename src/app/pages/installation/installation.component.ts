@@ -1,10 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { Router } from "@angular/router";
-import { AppDataInterface } from "src/app/interfaces/interfaces";
+import {
+  AppDataInterface,
+  IvaOptionInterface,
+  IvaReOptionInterface,
+  MarginOptionInterface,
+} from "src/app/interfaces/interfaces";
 import { ApiService } from "src/app/services/api.service";
+import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "otpv-installation",
@@ -20,6 +27,7 @@ export class InstallationComponent implements OnInit {
   telefono: string = "";
   direccion: string = "";
   email: string = "";
+  showEmployee: boolean = true;
   nombreEmpleado: string = "";
   pass: string = "";
   confPass: string = "";
@@ -30,11 +38,11 @@ export class InstallationComponent implements OnInit {
   instagram: string = "";
   web: string = "";
 
-  ivareOptions = [
+  ivareOptions: IvaReOptionInterface[] = [
     { id: "iva", name: "IVA" },
     { id: "re", name: "IVA + Recargo de equivalencia" },
   ];
-  ivaOptionsList = [
+  ivaOptionsList: IvaOptionInterface[] = [
     { option: 4, selected: false },
     { option: 10, selected: false },
     { option: 21, selected: false },
@@ -48,7 +56,7 @@ export class InstallationComponent implements OnInit {
   selectedOption: string = "iva";
   selectedOptionInList: number = null;
 
-  marginList = [
+  marginList: MarginOptionInterface[] = [
     { value: 10, checked: false },
     { value: 15, checked: false },
     { value: 20, checked: false },
@@ -81,12 +89,48 @@ export class InstallationComponent implements OnInit {
     private dialog: DialogService,
     private as: ApiService,
     private gs: GestionService,
-    private router: Router
+    private router: Router,
+    private config: ConfigService
   ) {}
 
   ngOnInit(): void {
     if (this.gs.empleado) {
       this.back = true;
+      this.nombre = this.config.nombre;
+      this.cif = this.config.cif;
+      this.telefono = this.config.telefono;
+      this.email = this.config.email;
+      this.direccion = this.config.direccion;
+      this.twitter = this.config.twitter;
+      this.facebook = this.config.facebook;
+      this.instagram = this.config.instagram;
+      this.web = this.config.web;
+      this.logo = environment.baseUrl + "/logo.jpg";
+      this.showEmployee = false;
+
+      this.selectedOption = this.config.tipoIva;
+      for (let ivaOption of this.config.ivaOptions) {
+        let ivaInd: number = this.ivaOptionsList.findIndex(
+          (x: IvaOptionInterface): boolean => x.option === ivaOption.iva
+        );
+        this.ivaOptionsList[ivaInd].selected = true;
+      }
+      for (let i in this.ivaOptionsList) {
+        if (this.ivaOptionsList[i].selected) {
+          this.optionsList.push(parseInt(i));
+        }
+      }
+      for (let marginOption of this.config.marginList) {
+        let marginInd: number = this.marginList.findIndex(
+          (x: MarginOptionInterface): boolean => x.value === marginOption
+        );
+        this.marginList[marginInd].checked = true;
+      }
+
+      this.hasOnline = this.config.ventaOnline ? "1" : "0";
+      this.urlApi = this.config.urlApi;
+      this.hasExpiryDate = this.config.fechaCad ? "1" : "0";
+      this.hasEmpleados = this.config.empleados ? "1" : "0";
     }
   }
 
@@ -100,7 +144,7 @@ export class InstallationComponent implements OnInit {
       (<HTMLInputElement>ev.target).files &&
       (<HTMLInputElement>ev.target).files.length > 0
     ) {
-      let file = (<HTMLInputElement>ev.target).files[0];
+      const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.logo = reader.result as string;
@@ -177,51 +221,54 @@ export class InstallationComponent implements OnInit {
       this.paso = 1;
       return;
     }
-    if (this.nombreEmpleado === "") {
-      this.dialog.alert({
-        title: "Error",
-        content:
-          "¡No puedes dejar el nombre del empleado por defecto en blanco!",
-        ok: "Continuar",
-      });
-      this.paso = 1;
-      return;
-    }
-    if (this.pass === "") {
-      this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar la contraseña en blanco!",
-        ok: "Continuar",
-      });
-      this.paso = 1;
-      return;
-    }
-    if (this.confPass === "") {
-      this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar la confirmación de la contraseña en blanco!",
-        ok: "Continuar",
-      });
-      this.paso = 1;
-      return;
-    }
-    if (this.pass !== this.confPass) {
-      this.dialog.alert({
-        title: "Error",
-        content: "¡Las contraseñas introducidas no coinciden!",
-        ok: "Continuar",
-      });
-      this.paso = 1;
-      return;
-    }
-    if (this.color === "") {
-      this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar el color en blanco!",
-        ok: "Continuar",
-      });
-      this.paso = 1;
-      return;
+    if (!this.gs.empleado) {
+      if (this.nombreEmpleado === "") {
+        this.dialog.alert({
+          title: "Error",
+          content:
+            "¡No puedes dejar el nombre del empleado por defecto en blanco!",
+          ok: "Continuar",
+        });
+        this.paso = 1;
+        return;
+      }
+      if (this.pass === "") {
+        this.dialog.alert({
+          title: "Error",
+          content: "¡No puedes dejar la contraseña en blanco!",
+          ok: "Continuar",
+        });
+        this.paso = 1;
+        return;
+      }
+      if (this.confPass === "") {
+        this.dialog.alert({
+          title: "Error",
+          content:
+            "¡No puedes dejar la confirmación de la contraseña en blanco!",
+          ok: "Continuar",
+        });
+        this.paso = 1;
+        return;
+      }
+      if (this.pass !== this.confPass) {
+        this.dialog.alert({
+          title: "Error",
+          content: "¡Las contraseñas introducidas no coinciden!",
+          ok: "Continuar",
+        });
+        this.paso = 1;
+        return;
+      }
+      if (this.color === "") {
+        this.dialog.alert({
+          title: "Error",
+          content: "¡No puedes dejar el color en blanco!",
+          ok: "Continuar",
+        });
+        this.paso = 1;
+        return;
+      }
     }
     if (this.optionsList.length == 0) {
       this.dialog.alert({
@@ -240,9 +287,9 @@ export class InstallationComponent implements OnInit {
       }
     }
 
-    const selectedMargins = this.marginList
-      .filter((x) => x.checked)
-      .map((v) => v.value);
+    const selectedMargins: number[] = this.marginList
+      .filter((x: MarginOptionInterface): boolean => x.checked)
+      .map((v: MarginOptionInterface): number => v.value);
     if (selectedMargins.length == 0) {
       this.dialog.alert({
         title: "Error",
@@ -300,7 +347,14 @@ export class InstallationComponent implements OnInit {
             ok: "Continuar",
           })
           .subscribe((result) => {
-            this.router.navigate(["/"]);
+            this.config.status = "new";
+            this.config.start().then(() => {
+              if (!this.gs.empleado) {
+                this.router.navigate(["/"]);
+              } else {
+                this.router.navigate(["/gestion"]);
+              }
+            });
           });
       } else {
         this.saving = false;

@@ -8,10 +8,10 @@ import { IVAOption } from "src/app/model/iva-option.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ClientesService } from "src/app/services/clientes.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { ClientesService } from "src/app/services/clientes.service";
 
 @Injectable({
   providedIn: "root",
@@ -20,10 +20,19 @@ export class ConfigService {
   status: string = "new";
 
   nombre: string = "";
+  cif: string = "";
+  telefono: string = "";
+  direccion: string = "";
+  email: string = "";
+  twitter: string = "";
+  facebook: string = "";
+  instagram: string = "";
+  web: string = "";
   tipoIva: string = "";
   ivaOptions: IVAOption[] = [];
   marginList: number[] = [];
   ventaOnline: boolean = false;
+  urlApi: string = "";
   fechaCad: boolean = false;
   empleados: boolean = false;
 
@@ -111,6 +120,14 @@ export class ConfigService {
 
   load(data: AppDataResult): void {
     this.nombre = data.nombre;
+    this.cif = data.cif;
+    this.telefono = data.telefono;
+    this.email = data.email;
+    this.direccion = data.direccion;
+    this.twitter = data.twitter;
+    this.facebook = data.facebook;
+    this.instagram = data.instagram;
+    this.web = data.web;
     this.tipoIva = data.tipoIva;
     for (let i in data.ivaList) {
       if (this.tipoIva === "iva") {
@@ -123,6 +140,7 @@ export class ConfigService {
     }
     this.marginList = data.marginList;
     this.ventaOnline = data.ventaOnline;
+    this.urlApi = data.urlApi;
     this.fechaCad = data.fechaCad;
     this.empleados = data.empleados;
   }

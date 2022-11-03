@@ -33,6 +33,21 @@ export interface AllProvincesInterface {
   ccaa: CCAAInterface[];
 }
 
+export interface IvaReOptionInterface {
+  id: string;
+  name: string;
+}
+
+export interface IvaOptionInterface {
+  option: number;
+  selected: boolean;
+}
+
+export interface MarginOptionInterface {
+  value: number;
+  checked: boolean;
+}
+
 export interface AppDataInterface {
   nombre: string;
   cif: string;
@@ -59,11 +74,20 @@ export interface AppDataInterface {
 
 export interface AppDataResult {
   nombre: string;
+  cif: string;
+  telefono: string;
+  email: string;
+  direccion: string;
+  twitter: string;
+  facebook: string;
+  instagram: string;
+  web: string;
   tipoIva: string;
   ivaList: number[];
   reList: number[];
   marginList: number[];
   ventaOnline: boolean;
+  urlApi: string;
   fechaCad: boolean;
   empleados: boolean;
 }

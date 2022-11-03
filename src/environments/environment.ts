@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://apitpv.osumi.es/api',
-  fotosUrl: 'https://apitpv.osumi.es/fotos/'
+  baseUrl: "https://apitpv.osumi.es/",
+  apiUrl: "https://apitpv.osumi.es/api",
+  fotosUrl: "https://apitpv.osumi.es/fotos/",
 };

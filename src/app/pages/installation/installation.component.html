@@ -66,8 +66,9 @@
 					color="primary"
 					(click)="addLogo()">Añadir logo</button>
 		</div>
-		<p><strong>Datos del empleado</strong></p>
-		<div class="row">
+		<p *ngIf="showEmployee"><strong>Datos del empleado</strong></p>
+		<div class="row"
+			 *ngIf="showEmployee">
 			<mat-form-field class="four">
 				<mat-label>Nombre de usuario</mat-label>
 				<input matInput
