@@ -180,7 +180,9 @@ export class GestionEmpleadosComponent implements OnInit {
         roles.push(parseInt(i));
       }
     }
-    const data = JSON.parse(JSON.stringify(this.form.value));
+    const data: EmpleadoSaveInterface = JSON.parse(
+      JSON.stringify(this.form.value)
+    );
     data.roles = roles;
 
     this.selectedEmpleado.fromInterface(data, false);

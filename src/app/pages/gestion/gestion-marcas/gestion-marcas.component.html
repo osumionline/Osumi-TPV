@@ -45,6 +45,20 @@
                         </mat-form-field>
                     </div>
                 </div>
+                <div class="logo-row">
+                    <input type="file"
+                           name="logo-file"
+                           id="logo-file"
+                           accept="image/png, image/gif, image/jpeg"
+                           (change)="onLogoChange($event)">
+                    <div class="logo">
+                        <img [src]="logo"
+                             [alt]="selectedMarca.nombre">
+                    </div>
+                    <button mat-raised-button
+                            color="primary"
+                            (click)="addLogo()">Cambiar logo</button>
+                </div>
                 <div>
                     <div class="form-field max-width">
                         <label>Dirección</label>

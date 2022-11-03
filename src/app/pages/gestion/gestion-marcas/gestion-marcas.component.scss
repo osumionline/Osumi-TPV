@@ -61,6 +61,29 @@
                 display: block;
             }
 
+            .logo-row {
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+
+                #logo-file {
+                    display: none;
+                }
+
+                .logo {
+                    width: 200px;
+                    height: 100px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    margin-right: 16px;
+                    text-align: center;
+
+                    img {
+                        height: 100%;
+                    }
+                }
+            }
+
             .actions {
                 display: flex;
 

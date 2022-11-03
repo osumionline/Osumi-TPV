@@ -6,7 +6,7 @@ export class Marca {
     public id: number = null,
     public nombre: string = "",
     public direccion: string = "",
-    public idFoto: number = null,
+    public foto: string = null,
     public telefono: string = "",
     public email: string = "",
     public web: string = "",
@@ -17,7 +17,7 @@ export class Marca {
     this.id = m.id;
     this.nombre = decode ? Utils.urldecode(m.nombre) : m.nombre;
     this.direccion = decode ? Utils.urldecode(m.direccion) : m.direccion;
-    this.idFoto = m.idFoto;
+    this.foto = m.foto;
     this.telefono = decode ? Utils.urldecode(m.telefono) : m.telefono;
     this.email = decode ? Utils.urldecode(m.email) : m.email;
     this.web = decode ? Utils.urldecode(m.web) : m.web;
@@ -33,7 +33,7 @@ export class Marca {
       id: this.id,
       nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
       direccion: encode ? Utils.urlencode(this.direccion) : this.direccion,
-      idFoto: this.idFoto,
+      foto: this.foto,
       telefono: encode ? Utils.urlencode(this.telefono) : this.telefono,
       email: encode ? Utils.urlencode(this.email) : this.email,
       web: encode ? Utils.urlencode(this.web) : this.web,

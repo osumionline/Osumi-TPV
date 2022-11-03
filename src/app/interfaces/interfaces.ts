@@ -115,7 +115,7 @@ export interface MarcaInterface {
   id: number;
   nombre: string;
   direccion: string;
-  idFoto: number;
+  foto: string;
   telefono: string;
   email: string;
   web: string;

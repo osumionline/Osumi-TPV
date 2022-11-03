@@ -20,10 +20,11 @@ export class GestionMarcasComponent implements OnInit {
   canNewBrands: boolean = false;
   selectedMarca: Marca = new Marca();
 
+  logo: string = "/assets/default.jpg";
+
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
     nombre: new FormControl(null, Validators.required),
-    logo: new FormControl(false),
     direccion: new FormControl(null),
     telefono: new FormControl(null),
     email: new FormControl(null),
@@ -50,10 +51,12 @@ export class GestionMarcasComponent implements OnInit {
   }
 
   selectMarca(marca: Marca): void {
+    console.log(marca);
     this.start = false;
     this.selectedMarca = marca;
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
+    this.logo = marca.foto || "/assets/default.jpg";
   }
 
   newMarca(): void {
@@ -61,6 +64,7 @@ export class GestionMarcasComponent implements OnInit {
     this.selectedMarca = new Marca();
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
+    this.logo = "/assets/default.jpg";
   }
 
   resetForm(): void {
@@ -68,7 +72,45 @@ export class GestionMarcasComponent implements OnInit {
     this.form.patchValue(this.selectedMarca.toInterface(false));
   }
 
-  onSubmit(): void {}
+  addLogo(): void {
+    document.getElementById("logo-file").click();
+  }
+
+  onLogoChange(ev: Event): void {
+    const reader: FileReader = new FileReader();
+    if (
+      (<HTMLInputElement>ev.target).files &&
+      (<HTMLInputElement>ev.target).files.length > 0
+    ) {
+      const file = (<HTMLInputElement>ev.target).files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.logo = reader.result as string;
+        (<HTMLInputElement>document.getElementById("logo-file")).value = "";
+      };
+    }
+  }
+
+  onSubmit(): void {
+    const data: MarcaInterface = JSON.parse(JSON.stringify(this.form.value));
+    data.foto = this.logo;
+
+    this.selectedMarca.fromInterface(data, false);
+    this.ms.saveMarca(data).subscribe((result) => {
+      this.ms.resetMarcas();
+      this.resetForm();
+      this.dialog
+        .alert({
+          title: "Datos guardados",
+          content:
+            'Los datos de la marca "' +
+            this.selectedMarca.nombre +
+            '" han sido correctamente guardados.',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    });
+  }
 
   deleteMarca(): void {
     this.dialog
