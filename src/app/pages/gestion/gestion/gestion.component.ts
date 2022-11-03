@@ -75,4 +75,26 @@ export class GestionComponent implements OnInit {
         .subscribe((result) => {});
     }
   }
+
+  selectMarcas(): void {
+    if (
+      this.empleado.hasAnyRol([
+        rolList.marca.roles["crear"].id,
+        rolList.marca.roles["modificar"].id,
+        rolList.marca.roles["borrar"].id,
+        rolList.marca.roles["estadisticas"].id,
+      ])
+    ) {
+      this.gs.empleado = this.empleado;
+      this.router.navigate(["/gestion/marcas"]);
+    } else {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content: 'No tienes permisos para acceder a la opción "Marcas"',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    }
+  }
 }
