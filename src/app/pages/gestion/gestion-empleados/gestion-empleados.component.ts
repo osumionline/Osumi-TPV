@@ -25,6 +25,7 @@ export class GestionEmpleadosComponent implements OnInit {
   canModifyEmployees: boolean = false;
   canChangeEmployeeRoles: boolean = false;
   canSeeStatistics: boolean = false;
+  canSaveChanges: boolean = false;
   @ViewChild("empleadoTabs", { static: false })
   empleadoTabs: MatTabGroup;
   selectedEmpleado: Empleado = new Empleado();
@@ -66,13 +67,6 @@ export class GestionEmpleadosComponent implements OnInit {
     this.canModifyEmployees = this.gs.empleado.hasRol(
       rolList.empleados.roles["modificar"].id
     );
-    if (!this.canModifyEmployees) {
-      this.form.get("nombre")?.disable();
-      this.form.get("hasPassword")?.disable();
-      this.form.get("password")?.disable();
-      this.form.get("confirmPassword")?.disable();
-      this.form.get("color")?.disable();
-    }
     this.canChangeEmployeeRoles = this.gs.empleado.hasRol(
       rolList.empleados.roles["roles"].id
     );
@@ -93,6 +87,7 @@ export class GestionEmpleadosComponent implements OnInit {
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
+    this.updateEnabledDisabled("edit");
   }
 
   newEmpleado(): void {
@@ -102,6 +97,30 @@ export class GestionEmpleadosComponent implements OnInit {
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
+    this.updateEnabledDisabled("new");
+  }
+
+  updateEnabledDisabled(operation: string): void {
+    this.form.get("nombre")?.enable();
+    this.form.get("hasPassword")?.enable();
+    this.form.get("password")?.enable();
+    this.form.get("confirmPassword")?.enable();
+    this.form.get("color")?.enable();
+    this.canSaveChanges = true;
+    if (
+      (operation === "new" && !this.canNewEmployees) ||
+      (operation === "edit" && !this.canModifyEmployees)
+    ) {
+      this.form.get("nombre")?.disable();
+      this.form.get("hasPassword")?.disable();
+      this.form.get("password")?.disable();
+      this.form.get("confirmPassword")?.disable();
+      this.form.get("color")?.disable();
+      this.canSaveChanges = false;
+    }
+    if (this.canChangeEmployeeRoles) {
+      this.canSaveChanges = true;
+    }
   }
 
   resetForm(): void {

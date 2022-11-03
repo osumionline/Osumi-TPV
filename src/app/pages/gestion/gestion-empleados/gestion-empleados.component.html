@@ -20,7 +20,7 @@
                 {{empleado.nombre}}
             </button>
         </mat-action-list>
-        <div class="new-client"
+        <div class="new-employee"
              *ngIf="canNewEmployees">
             <button mat-button
                     (click)="newEmpleado()">
@@ -103,7 +103,7 @@
                                 <button mat-raised-button
                                         type="submit"
                                         color="primary"
-                                        [disabled]="!form.valid || (!canModifyEmployees || canChangeEmployeeRoles)">Guardar</button>
+                                        [disabled]="!form.valid || !canSaveChanges">Guardar</button>
                             </div>
                         </div>
                     </form>
