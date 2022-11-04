@@ -7,6 +7,7 @@ import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
+import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: "gestion", component: GestionComponent },
   { path: "gestion/empleados", component: GestionEmpleadosComponent },
   { path: "gestion/marcas", component: GestionMarcasComponent },
+  { path: "gestion/proveedores", component: GestionProveedoresComponent },
   { path: "factura/:id", component: FacturaComponent },
   { path: "**", redirectTo: "/", pathMatch: "full" },
 ];

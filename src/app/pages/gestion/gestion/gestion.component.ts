@@ -97,4 +97,26 @@ export class GestionComponent implements OnInit {
         .subscribe((result) => {});
     }
   }
+
+  selectProveedores(): void {
+    if (
+      this.empleado.hasAnyRol([
+        rolList.proveedor.roles["crear"].id,
+        rolList.proveedor.roles["modificar"].id,
+        rolList.proveedor.roles["borrar"].id,
+        rolList.proveedor.roles["estadisticas"].id,
+      ])
+    ) {
+      this.gs.empleado = this.empleado;
+      this.router.navigate(["/gestion/proveedores"]);
+    } else {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content: 'No tienes permisos para acceder a la opción "Proveedores"',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    }
+  }
 }

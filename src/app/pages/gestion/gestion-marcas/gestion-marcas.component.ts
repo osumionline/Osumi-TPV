@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { MarcaInterface } from "src/app/interfaces/interfaces";
 import { Marca } from "src/app/model/marca.model";
@@ -18,6 +19,12 @@ export class GestionMarcasComponent implements OnInit {
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
   canNewBrands: boolean = false;
+  canDeleteBrands: boolean = false;
+  canModifyBrands: boolean = false;
+  canSaveChanges: boolean = false;
+  canSeeStatistics: boolean = false;
+  @ViewChild("marcaTabs", { static: false })
+  marcaTabs: MatTabGroup;
   selectedMarca: Marca = new Marca();
 
   logo: string = "/assets/default.jpg";
@@ -48,6 +55,15 @@ export class GestionMarcasComponent implements OnInit {
     this.canNewBrands = this.gs.empleado.hasRol(
       rolList.marca.roles["crear"].id
     );
+    this.canDeleteBrands = this.gs.empleado.hasRol(
+      rolList.marca.roles["borrar"].id
+    );
+    this.canModifyBrands = this.gs.empleado.hasRol(
+      rolList.marca.roles["modificar"].id
+    );
+    this.canSeeStatistics = this.gs.empleado.hasRol(
+      rolList.marca.roles["estadisticas"].id
+    );
   }
 
   selectMarca(marca: Marca): void {
@@ -57,6 +73,8 @@ export class GestionMarcasComponent implements OnInit {
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.logo = marca.foto || "/assets/default.jpg";
+    this.marcaTabs.realignInkBar();
+    this.updateEnabledDisabled("edit");
   }
 
   newMarca(): void {
@@ -65,6 +83,30 @@ export class GestionMarcasComponent implements OnInit {
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.logo = "/assets/default.jpg";
+    this.marcaTabs.realignInkBar();
+    this.updateEnabledDisabled("new");
+  }
+
+  updateEnabledDisabled(operation: string): void {
+    this.form.get("nombre")?.enable();
+    this.form.get("direccion")?.enable();
+    this.form.get("telefono")?.enable();
+    this.form.get("email")?.enable();
+    this.form.get("web")?.enable();
+    this.form.get("observaciones")?.enable();
+    this.canSaveChanges = true;
+    if (
+      (operation === "new" && !this.canNewBrands) ||
+      (operation === "edit" && !this.canModifyBrands)
+    ) {
+      this.form.get("nombre")?.disable();
+      this.form.get("direccion")?.disable();
+      this.form.get("telefono")?.disable();
+      this.form.get("email")?.disable();
+      this.form.get("web")?.disable();
+      this.form.get("observaciones")?.disable();
+      this.canSaveChanges = false;
+    }
   }
 
   resetForm(): void {
