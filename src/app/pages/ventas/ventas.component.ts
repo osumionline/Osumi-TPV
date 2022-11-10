@@ -42,7 +42,6 @@ export class VentasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.vs);
     this.config.start().then((status) => {
       if (status === "install") {
         this.router.navigate(["/installation"]);
@@ -53,14 +52,13 @@ export class VentasComponent implements OnInit {
           this.router.navigate(["/"]);
           return;
         }
-        console.log("ventas selected: " + this.vs.selected);
         if (this.vs.selected === -1) {
           this.newVenta();
+          this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
         } else {
           this.startFocus();
         }
       }
-      this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
     });
   }
 
@@ -74,7 +72,6 @@ export class VentasComponent implements OnInit {
   }
 
   newVenta(): void {
-    console.log("ventas - newVenta");
     this.vs.newVenta(
       this.config.empleados,
       this.config.idEmpleadoDef,
@@ -87,7 +84,6 @@ export class VentasComponent implements OnInit {
   }
 
   startFocus(): void {
-    console.log("ventas - startFocus");
     setTimeout(() => {
       this.ventas.get(this.vs.selected).setFocus();
     }, 0);

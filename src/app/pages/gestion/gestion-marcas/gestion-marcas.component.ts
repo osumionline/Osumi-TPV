@@ -67,7 +67,6 @@ export class GestionMarcasComponent implements OnInit {
   }
 
   selectMarca(marca: Marca): void {
-    console.log(marca);
     this.start = false;
     this.selectedMarca = marca;
     this.form.patchValue(this.selectedMarca.toInterface(false));

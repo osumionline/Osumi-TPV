@@ -27,7 +27,6 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
   selector: "otpv-articulos",
@@ -101,12 +100,10 @@ export class ArticulosComponent implements OnInit {
     private ms: MarcasService,
     private ps: ProveedoresService,
     private css: CategoriasService,
-    private ars: ArticulosService,
-    private vs: VentasService
+    private ars: ArticulosService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.vs);
     this.config.start().then((status) => {
       if (status === "install") {
         this.router.navigate(["/installation"]);
@@ -546,7 +543,6 @@ export class ArticulosComponent implements OnInit {
         const foto: Foto = new Foto();
         foto.load(reader.result as string);
         this.articulo.fotosList.push(foto);
-        console.log(this.articulo.fotosList);
         (<HTMLInputElement>document.getElementById("foto-file")).value = "";
       };
     }
@@ -568,7 +564,6 @@ export class ArticulosComponent implements OnInit {
           if (this.articulo.fotosList[i].status === "new") {
             this.articulo.fotosList.splice(i, 1);
           }
-          console.log(this.articulo.fotosList);
         }
       });
   }

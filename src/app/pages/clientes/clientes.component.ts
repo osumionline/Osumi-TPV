@@ -82,7 +82,6 @@ export class ClientesComponent implements OnInit {
           this.selectedClient.topVentas = this.cms.getTopVentaArticulos(
             result.topVentas
           );
-          console.log(this.selectedClient);
         }
       });
   }
