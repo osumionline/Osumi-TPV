@@ -30,12 +30,12 @@ export class HeaderComponent implements OnInit {
     const whereTo: {
       [key: string]: string;
     } = {
-      F5: "/ventas",
-      F6: "/articulos",
-      F7: "/compras",
-      F8: "/clientes",
-      F9: "/almacen",
-      F10: "/gestion",
+      F4: "/ventas",
+      F5: "/articulos",
+      F6: "/compras",
+      F7: "/clientes",
+      F8: "/almacen",
+      F9: "/gestion",
     };
     this.router.navigate([whereTo[where]]);
   }
