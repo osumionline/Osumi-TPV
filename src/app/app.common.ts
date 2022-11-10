@@ -4,6 +4,7 @@
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
+import { ComprasComponent } from "src/app/pages/compras/compras.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
@@ -11,7 +12,6 @@ import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-prove
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
-import { PedidosComponent } from "src/app/pages/pedidos/pedidos.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 
 export const PAGES: any[] = [
@@ -19,7 +19,7 @@ export const PAGES: any[] = [
   InstallationComponent,
   VentasComponent,
   ArticulosComponent,
-  PedidosComponent,
+  ComprasComponent,
   ClientesComponent,
   AlmacenComponent,
   GestionComponent,
@@ -35,10 +35,10 @@ export const PAGES: any[] = [
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
+import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
-import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -53,9 +53,9 @@ export const COMPONENTS: any[] = [
 /*
  * Pipes
  */
+import { BrandListFilterPipe } from "src/app/pipes/brand-list-filter.pipe";
 import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
-import { BrandListFilterPipe } from "src/app/pipes/brand-list-filter.pipe";
 import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 
 export const PIPES: any[] = [
@@ -76,10 +76,10 @@ import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
+import { GestionService } from "src/app/services/gestion.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { GestionService } from "src/app/services/gestion.service";
 
 export const SERVICES: any[] = [
   ConfigService,

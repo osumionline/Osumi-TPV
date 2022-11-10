@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     } = {
       F5: "/ventas",
       F6: "/articulos",
-      F7: "/pedidos",
+      F7: "/compras",
       F8: "/clientes",
       F9: "/almacen",
       F10: "/gestion",

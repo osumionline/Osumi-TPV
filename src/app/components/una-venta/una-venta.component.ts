@@ -47,6 +47,7 @@ export class UnaVentaComponent {
   ) {}
 
   loginSuccess(ev: Empleado): void {
+    console.log("loginSuccess");
     this.vs.ventaActual.setEmpleado(ev);
     this.vs.addLineaVenta();
     this.vs.ventaActual.mostrarEmpleados = false;
@@ -54,6 +55,8 @@ export class UnaVentaComponent {
   }
 
   setFocus(): void {
+    console.log("setFocus");
+    console.log(this.vs);
     if (!this.vs.ventaActual.mostrarEmpleados) {
       setTimeout(() => {
         const loc: HTMLInputElement = document.getElementById(
