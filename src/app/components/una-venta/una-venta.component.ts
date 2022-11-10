@@ -64,7 +64,7 @@ export class UnaVentaComponent {
     }
   }
 
-  checkLocalizador(ev: KeyboardEvent, ind: number) {
+  checkLocalizador(ev: KeyboardEvent, ind: number): void {
     if (ev.key === "Enter") {
       this.searching = true;
       this.ars
@@ -75,8 +75,8 @@ export class UnaVentaComponent {
             const articulo = this.cms.getArticulo(result.articulo);
             const marca = this.ms.findById(articulo.idMarca);
             articulo.marca = marca.nombre;
-            const indArticulo = this.vs.ventaActual.lineas.findIndex(
-              (x) => x.idArticulo === articulo.id
+            const indArticulo: number = this.vs.ventaActual.lineas.findIndex(
+              (x: LineaVenta): boolean => x.idArticulo === articulo.id
             );
 
             if (indArticulo === -1) {

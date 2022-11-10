@@ -42,6 +42,7 @@ export class VentasService {
   }
 
   addLineaVenta(): void {
+    console.log("añado linea venta");
     this.ventaActual.lineas.push(new LineaVenta());
   }
 
