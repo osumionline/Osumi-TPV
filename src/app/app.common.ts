@@ -114,6 +114,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatTableModule } from "@angular/material/table";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,
@@ -131,4 +132,5 @@ export const MATERIAL: any[] = [
   MatCheckboxModule,
   MatRadioModule,
   MatDatepickerModule,
+  MatTableModule,
 ];

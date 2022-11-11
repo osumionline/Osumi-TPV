@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -6,6 +7,8 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import {
   ChartDataInterface,
@@ -34,7 +37,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   templateUrl: "./articulos.component.html",
   styleUrls: ["./articulos.component.scss"],
 })
-export class ArticulosComponent implements OnInit {
+export class ArticulosComponent implements OnInit, AfterViewInit {
   articulo: Articulo = new Articulo();
 
   marca: Marca = new Marca();
@@ -43,8 +46,8 @@ export class ArticulosComponent implements OnInit {
   loading: boolean = false;
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
-  accesosDirectosList: AccesoDirecto[] = [];
   showAccesosDirectos: boolean = false;
+  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre"];
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -93,6 +96,10 @@ export class ArticulosComponent implements OnInit {
 
   saving: boolean = false;
 
+  accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
+    new MatTableDataSource<AccesoDirecto>();
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -130,6 +137,10 @@ export class ArticulosComponent implements OnInit {
         this.loadArticulo();
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.accesosDirectosDataSource.sort = this.sort;
   }
 
   @HostListener("window:keydown", ["$event"])
@@ -238,7 +249,9 @@ export class ArticulosComponent implements OnInit {
 
   abrirAccesosDirectos(): void {
     this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.accesosDirectosDataSource.data = this.cms.getAccesosDirectos(
+        result.list
+      );
       this.showAccesosDirectos = true;
     });
   }

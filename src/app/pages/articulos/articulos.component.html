@@ -507,6 +507,40 @@
 		</div>
 		<div class="modal-body">
 			<p>Estos son los accesos directos a artículos que has definido:</p>
+			<table mat-table
+				   [dataSource]="accesosDirectosDataSource"
+				   matSort
+				   class="mat-elevation-z8">
+
+				<!-- Acceso directo -->
+				<ng-container matColumnDef="accesoDirecto">
+					<th mat-header-cell
+						*matHeaderCellDef
+						mat-sort-header
+						sortActionDescription="Ordenar por acceso directo">
+						Acceso directo
+					</th>
+					<td mat-cell
+						*matCellDef="let element"> {{element.accesoDirecto}} </td>
+				</ng-container>
+
+				<!-- Nombre -->
+				<ng-container matColumnDef="nombre">
+					<th mat-header-cell
+						*matHeaderCellDef
+						mat-sort-header
+						sortActionDescription="Ordenar por nombre">
+						Nombre
+					</th>
+					<td mat-cell
+						*matCellDef="let element"> {{element.nombre}} </td>
+
+					<tr mat-header-row
+						*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
+					<tr mat-row
+						*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
+				</ng-container>
+			</table>
 		</div>
 	</div>
 </div>
