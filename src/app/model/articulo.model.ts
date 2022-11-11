@@ -38,6 +38,7 @@ export class Articulo {
     public observaciones: string = "",
     public mostrarObsPedidos: boolean = false,
     public mostrarObsVentas: boolean = false,
+    public accesoDirecto: number = null,
     public codigosBarras: CodigoBarras[] = [],
     public fotos: number[] = []
   ) {}
@@ -68,6 +69,7 @@ export class Articulo {
     this.mostrarEnWeb = a.mostrarEnWeb;
     this.descCorta = Utils.urldecode(a.descCorta);
     this.descripcion = Utils.urldecode(a.descripcion);
+    this.accesoDirecto = a.accesoDirecto;
     this.codigosBarras = codBarras;
     this.fotos = a.fotos;
 
@@ -112,6 +114,7 @@ export class Articulo {
       observaciones: Utils.urlencode(this.observaciones),
       mostrarObsPedidos: this.mostrarObsPedidos,
       mostrarObsVentas: this.mostrarObsVentas,
+      accesoDirecto: this.accesoDirecto,
       mostrarEnWeb: this.mostrarEnWeb,
       descCorta: Utils.urlencode(this.descCorta),
       descripcion: Utils.urlencode(this.descripcion),

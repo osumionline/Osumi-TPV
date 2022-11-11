@@ -219,6 +219,7 @@ export interface ArticuloInterface {
   observaciones: string;
   mostrarObsPedidos: boolean;
   mostrarObsVentas: boolean;
+  accesoDirecto: number;
   codigosBarras: CodigoBarrasInterface[];
   fotos: number[];
   fotosList?: FotoInterface[];
