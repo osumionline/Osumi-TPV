@@ -20,6 +20,12 @@
 						   (keyup)="checkLocalizador($event)"
 						   #localizadorBox>
 				</mat-form-field>
+				<button mat-icon-button
+						aria-label="Añadir acceso directo"
+						title="Añadir acceso directo"
+						(click)="abrirAccesosDirectos()">
+					<mat-icon>add_circle_outline</mat-icon>
+				</button>
 			</div>
 			<div class="form-field articulos-space">
 				<label>Nombre</label>
@@ -488,6 +494,22 @@
 		</div>
 	</mat-card-content>
 </mat-card>
+
+<div class="modal-bg"
+	 [ngClass]="{'show': showAccesosDirectos}">
+	<div class="modal-box">
+		<div class="modal-header">
+			<span>Accesos directos</span>
+			<a href="#"
+			   (click)="accesosDirectosCerrar($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body">
+			<p>Estos son los accesos directos a artículos que has definido:</p>
+		</div>
+	</div>
+</div>
 
 <div class="modal-bg"
 	 [ngClass]="{'show': nuevaMarca}">

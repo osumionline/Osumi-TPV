@@ -12,6 +12,7 @@ import {
   ChartSelectInterface,
   Month,
 } from "src/app/interfaces/interfaces";
+import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
@@ -42,6 +43,8 @@ export class ArticulosComponent implements OnInit {
   loading: boolean = false;
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
+  accesosDirectosList: AccesoDirecto[] = [];
+  showAccesosDirectos: boolean = false;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -132,6 +135,9 @@ export class ArticulosComponent implements OnInit {
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent) {
     if (ev.key === "Escape") {
+      if (this.showAccesosDirectos) {
+        this.accesosDirectosCerrar();
+      }
       if (this.nuevaMarca) {
         this.newMarcaCerrar();
       }
@@ -230,9 +236,23 @@ export class ArticulosComponent implements OnInit {
     });
   }
 
+  abrirAccesosDirectos(): void {
+    this.ars.getAccesosDirectosList().subscribe((result) => {
+      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.showAccesosDirectos = true;
+    });
+  }
+
+  accesosDirectosCerrar(ev: MouseEvent = null): void {
+    ev && ev.preventDefault();
+    this.showAccesosDirectos = false;
+  }
+
   loadFecCad(): void {
     const fecCad: string[] = this.articulo.fechaCaducidad.split("/");
-    const mes: Month = this.config.monthList.find((x) => x.id === parseInt(fecCad[0]));
+    const mes: Month = this.config.monthList.find(
+      (x) => x.id === parseInt(fecCad[0])
+    );
 
     this.fecCad = mes.name + " 20" + fecCad[1];
     this.fecCadEdit = false;

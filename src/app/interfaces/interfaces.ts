@@ -240,6 +240,16 @@ export interface SearchArticulosResult {
   list: ArticuloInterface[];
 }
 
+export interface AccesoDirectoInterface {
+  id: number;
+  accesoDirecto: number;
+  nombre: string;
+}
+
+export interface AccesoDirectoResult {
+  list: AccesoDirectoInterface[];
+}
+
 export interface LineaVentaInterface {
   idArticulo: number;
   localizador: number;
