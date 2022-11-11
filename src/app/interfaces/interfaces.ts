@@ -98,6 +98,7 @@ export interface TipoPagoInterface {
   slug: string;
   afectaCaja: boolean;
   orden: number;
+  fisico: boolean;
 }
 
 export interface StartDataInterface {

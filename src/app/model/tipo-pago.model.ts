@@ -6,8 +6,9 @@ export class TipoPago {
     public id: number = null,
     public nombre: string = null,
     public slug: string = null,
-    public afectaCaja: boolean = null,
-    public orden: number = null
+    public afectaCaja: boolean = false,
+    public orden: number = null,
+    public fisico: boolean = true
   ) {}
 
   fromInterface(tp: TipoPagoInterface): TipoPago {
@@ -16,6 +17,7 @@ export class TipoPago {
     this.slug = tp.slug;
     this.afectaCaja = tp.afectaCaja;
     this.orden = tp.orden;
+    this.fisico = tp.fisico;
 
     return this;
   }
@@ -27,6 +29,7 @@ export class TipoPago {
       slug: this.slug,
       afectaCaja: this.afectaCaja,
       orden: this.orden,
+      fisico: this.fisico,
     };
   }
 }
