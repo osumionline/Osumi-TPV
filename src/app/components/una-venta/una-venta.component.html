@@ -171,7 +171,7 @@
 				 *ngFor="let item of vs.ventaActual.cliente.topVentas">
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
-				<div class="estadisticas-item-importe">{{item.importe| fixedNumber}} €</div>
+				<div class="estadisticas-item-importe">{{item.importe | fixedNumber}} €</div>
 			</div>
 		</div>
 		<div class="estadisticas-sin-datos"
@@ -185,6 +185,11 @@
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="total-importe">
 		{{vs.ventaActual.importe | fixedNumber}} €
+	</div>
+	<div class="venta-anterior"
+		 [ngClass]="{'show': showUltimaVenta}">
+		<span>Última venta: {{ultimaVentaImporte | fixedNumber}} €</span>
+		<span>Cambio: {{ultimaVentaCambio | fixedNumber}} €</span>
 	</div>
 	<div class="controles-venta">
 		<button mat-stroked-button

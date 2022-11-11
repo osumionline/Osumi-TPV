@@ -231,8 +231,8 @@ export class ArticulosComponent implements OnInit {
   }
 
   loadFecCad(): void {
-    const fecCad = this.articulo.fechaCaducidad.split("-");
-    const mes = this.config.monthList.find((x) => x.id === parseInt(fecCad[0]));
+    const fecCad: string[] = this.articulo.fechaCaducidad.split("/");
+    const mes: Month = this.config.monthList.find((x) => x.id === parseInt(fecCad[0]));
 
     this.fecCad = mes.name + " 20" + fecCad[1];
     this.fecCadEdit = false;
@@ -402,7 +402,7 @@ export class ArticulosComponent implements OnInit {
   }
 
   validateFecCad(): boolean {
-    const fecCadFormat = /[0-9][0-9]-[0-9][0-9]/;
+    const fecCadFormat = /[0-9][0-9]\/[0-9][0-9]/;
     return this.articulo.fechaCaducidad.match(fecCadFormat) !== null;
   }
 
@@ -410,13 +410,14 @@ export class ArticulosComponent implements OnInit {
     if (ev.key == "Enter" || blur) {
       if (this.validateFecCad()) {
         const d = new Date();
-        const checkFecCad = this.articulo.fechaCaducidad.split("-");
+        const checkFecCadStr: string[] =
+          this.articulo.fechaCaducidad.split("/");
         const month = this.config.monthList.find(
-          (x) => x.id === parseInt(checkFecCad[0])
+          (x) => x.id === parseInt(checkFecCadStr[0])
         );
         const checkD = new Date(
-          2000 + parseInt(checkFecCad[1]),
-          parseInt(checkFecCad[0]) - 1,
+          2000 + parseInt(checkFecCadStr[1]),
+          parseInt(checkFecCadStr[0]) - 1,
           month.days,
           23,
           59,
@@ -444,7 +445,7 @@ export class ArticulosComponent implements OnInit {
           .alert({
             title: "Error",
             content:
-              'El formato de fecha introducido no es correcto: mm-aa, por ejemplo Mayo de 2023 sería "05-23".',
+              'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
             ok: "Continuar",
           })
           .subscribe((result) => {

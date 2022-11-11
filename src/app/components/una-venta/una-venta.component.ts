@@ -27,6 +27,7 @@ export class UnaVentaComponent {
     new EventEmitter<number>();
   @Output() endVentaEvent: EventEmitter<number> = new EventEmitter<number>();
   searching: boolean = false;
+  observacionesOpen: boolean = false;
   editarCantidad: boolean = false;
   editarImporte: boolean = false;
   editarDescuento: boolean = false;
@@ -36,6 +37,9 @@ export class UnaVentaComponent {
   @ViewChild("descuentoValue", { static: true }) descuentoValue: ElementRef;
 
   showClienteEstadisticas: boolean = true;
+  showUltimaVenta: boolean = false;
+  ultimaVentaImporte: number = null;
+  ultimaVentaCambio: number = null;
 
   constructor(
     private cms: ClassMapperService,
@@ -65,7 +69,7 @@ export class UnaVentaComponent {
   }
 
   checkLocalizador(ev: KeyboardEvent, ind: number): void {
-    if (ev.key === "Enter") {
+    if (ev.key === "Enter" && !this.observacionesOpen) {
       this.searching = true;
       this.ars
         .loadArticulo(this.vs.ventaActual.lineas[ind].localizador)
@@ -135,6 +139,7 @@ export class UnaVentaComponent {
 
   showObservaciones(ev: MouseEvent, observaciones: string): void {
     ev.stopPropagation();
+    this.observacionesOpen = true;
     this.dialog
       .alert({
         title: "Observaciones",
@@ -142,6 +147,7 @@ export class UnaVentaComponent {
         ok: "Continuar",
       })
       .subscribe((result) => {
+        this.observacionesOpen = false;
         this.setFocus();
       });
   }
@@ -326,8 +332,7 @@ export class UnaVentaComponent {
       })
       .subscribe((result) => {
         if (result === true) {
-          this.vs.ventaActual.lineas = [];
-          this.vs.ventaActual.updateImporte();
+          this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
         }
       });
@@ -335,5 +340,11 @@ export class UnaVentaComponent {
 
   terminarVenta(): void {
     this.endVentaEvent.emit(this.vs.ventaActual.id);
+  }
+
+  loadUltimaVenta(importe: number, cambio: number): void {
+    this.ultimaVentaImporte = importe;
+    this.ultimaVentaCambio = cambio;
+    this.showUltimaVenta = true;
   }
 }

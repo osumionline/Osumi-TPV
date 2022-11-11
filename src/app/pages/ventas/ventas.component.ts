@@ -69,6 +69,13 @@ export class VentasComponent implements OnInit {
         this.cerrarFinalizarVenta();
       }
     }
+    if (ev.key === "+") {
+      ev.preventDefault();
+      this.endVenta();
+    }
+    if (ev.key === "Enter" && this.showFinalizarVenta) {
+      this.finalizarVenta();
+    }
   }
 
   newVenta(): void {
@@ -106,7 +113,10 @@ export class VentasComponent implements OnInit {
     this.startFocus();
   }
 
-  endVenta(id: number): void {
+  endVenta(id: number = null): void {
+    if (this.vs.ventaActual.lineas.length === 1) {
+      return;
+    }
     this.vs.loadFinVenta();
     this.cs.load();
     this.showFinalizarVenta = true;
@@ -117,7 +127,7 @@ export class VentasComponent implements OnInit {
 
   cerrarFinalizarVenta(): void {
     this.showFinalizarVenta = false;
-    this.ventas[this.vs.selected].setFocus();
+    this.ventas.get(this.vs.selected).setFocus();
   }
 
   updateCambio(): void {
@@ -279,6 +289,16 @@ export class VentasComponent implements OnInit {
     }
 
     this.saving = true;
-    this.vs.guardarVenta().subscribe((result) => {});
+    this.vs.guardarVenta().subscribe((result) => {
+      this.saving = false;
+      this.vs.ventaActual.resetearVenta();
+      this.vs.addLineaVenta();
+      this.ventas
+        .get(this.vs.selected)
+        .loadUltimaVenta(result.importe, result.cambio);
+      setTimeout(() => {
+        this.cerrarFinalizarVenta();
+      }, 0);
+    });
   }
 }

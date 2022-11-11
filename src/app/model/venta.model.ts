@@ -51,6 +51,11 @@ export class Venta {
     this.textColor = e.textColor;
   }
 
+  resetearVenta(): void {
+    this.lineas = [];
+    this.updateImporte();
+  }
+
   fromInterface(v: VentaInterface, lineas: LineaVenta[]): Venta {
     this.idEmpleado = v.idEmpleado;
     this.lineas = lineas;

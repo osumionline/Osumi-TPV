@@ -19,7 +19,7 @@
   .linea-venta {
     border-top: 1px solid #888;
 
-    & > div {
+    &>div {
       display: inline-block;
       line-height: 32px;
       text-align: center;
@@ -247,6 +247,18 @@
     background-color: #eee;
   }
 
+  .venta-anterior {
+    display: none;
+    margin: 8px;
+    padding: 8px;
+    justify-content: space-between;
+    background-color: #eee;
+
+    &.show {
+      display: flex;
+    }
+  }
+
   .controles-venta {
     text-align: right;
     padding: 0 8px 8px 8px;
@@ -272,7 +284,7 @@
     .descuento-otros-importe {
       margin-right: 8px;
 
-      & > div.mat-form-field-wrapper {
+      &>div.mat-form-field-wrapper {
         margin: 0;
         padding: 0;
       }
