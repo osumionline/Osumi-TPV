@@ -47,6 +47,7 @@
 		<mat-tab-group animationDuration="0ms"
 					   [selectedIndex]="selectedTab"
 					   (selectedIndexChange)="selectedTab = $event"
+					   (selectedTabChange)="checkArticulosTab($event)"
 					   dynamicHeight>
 			<mat-tab label="GENERAL">
 				<div class="margin-bottom">
@@ -341,7 +342,8 @@
 						   class="new-cod-barras-item"
 						   placeholder="Nuevo código de barras"
 						   [(ngModel)]="newCodBarras"
-						   (keyup)="fixCodBarras($event)">
+						   (keyup)="fixCodBarras($event)"
+						   #codigoBarrasBox>
 					<button mat-raised-button
 							color="primary"
 							(click)="fixCodBarras()">Añadir</button>

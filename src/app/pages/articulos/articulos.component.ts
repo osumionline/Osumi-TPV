@@ -9,12 +9,14 @@ import {
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import {
   ChartDataInterface,
   ChartSelectInterface,
   Month,
 } from "src/app/interfaces/interfaces";
+import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
@@ -30,7 +32,6 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { AccesoDirecto } from "./../../model/acceso-directo.model";
 
 @Component({
   selector: "otpv-articulos",
@@ -68,6 +69,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   monthList: Month[] = [];
   yearList: number[] = [];
   newCodBarras: number = null;
+  @ViewChild("codigoBarrasBox", { static: true }) codigoBarrasBox: ElementRef;
   confirmarDarDeBaja: boolean = false;
   darDeBajaLoading: boolean = false;
   mostrarBuscador: boolean = false;
@@ -311,6 +313,14 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
             this.abrirAccesosDirectos();
           });
       });
+  }
+
+  checkArticulosTab(ev: MatTabChangeEvent): void {
+    if (ev.index === 2) {
+      setTimeout(() => {
+        this.codigoBarrasBox.nativeElement.focus();
+      }, 0);
+    }
   }
 
   loadFecCad(): void {
@@ -608,7 +618,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   deleteCodBarras(codBarras: CodigoBarras): void {
     const ind: number = this.articulo.codigosBarras.findIndex(
-      (x) => x.codigoBarras == codBarras.codigoBarras
+      (x: CodigoBarras): boolean => x.codigoBarras == codBarras.codigoBarras
     );
     this.articulo.codigosBarras.splice(ind, 1);
   }
@@ -718,6 +728,17 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.articulo.stockMax = this.articulo.stockMax || 0;
     this.articulo.loteOptimo = this.articulo.loteOptimo || 0;
 
+    if (this.articulo.nombre === null || this.articulo.nombre === "") {
+      this.dialog
+        .alert({
+          title: "Error",
+          content: "¡No puedes dejar en blanco el nombre del artículo!",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+      return;
+    }
+
     if (!this.articulo.idMarca) {
       this.dialog
         .alert({
@@ -741,13 +762,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       this.selectedTab = 0;
       return;
     }
-    const ivaInd = this.config.ivaOptions.findIndex(
-      (x) => x.id == this.selectedIvaOption.id
+    const ivaInd: number = this.config.ivaOptions.findIndex(
+      (x: IVAOption): boolean => x.id == this.selectedIvaOption.id
     );
     this.articulo.iva = this.config.ivaOptions[ivaInd].iva;
     this.articulo.re = this.config.ivaOptions[ivaInd].re;
 
-    //this.saving = true;
+    this.saving = true;
     this.ars.saveArticulo(this.articulo.toInterface()).subscribe((result) => {
       this.articulo.localizador = result.localizador;
       this.dialog
