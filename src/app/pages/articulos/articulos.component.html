@@ -505,22 +505,24 @@
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
-		<div class="modal-body">
+		<div class="modal-body accesos-directos">
 			<p>Estos son los accesos directos a artículos que has definido:</p>
 			<table mat-table
 				   [dataSource]="accesosDirectosDataSource"
 				   matSort
-				   class="mat-elevation-z8">
+				   class="mat-elevation-z2 ">
 
 				<!-- Acceso directo -->
 				<ng-container matColumnDef="accesoDirecto">
-					<th mat-header-cell
+					<th class="center"
+						mat-header-cell
 						*matHeaderCellDef
 						mat-sort-header
 						sortActionDescription="Ordenar por acceso directo">
 						Acceso directo
 					</th>
-					<td mat-cell
+					<td class="center"
+						mat-cell
 						*matCellDef="let element"> {{element.accesoDirecto}} </td>
 				</ng-container>
 
@@ -534,13 +536,34 @@
 					</th>
 					<td mat-cell
 						*matCellDef="let element"> {{element.nombre}} </td>
-
-					<tr mat-header-row
-						*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
-					<tr mat-row
-						*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
 				</ng-container>
+
+				<!-- Borrar -->
+				<ng-container matColumnDef="id">
+					<th class="center"
+						mat-header-cell
+						*matHeaderCellDef
+						mat-sort-header
+						sortActionDescription="Borrar">
+						Borrar
+					</th>
+					<td class="center"
+						mat-cell
+						*matCellDef="let element">
+						<button mat-icon-button
+								(click)="borrarAccesoDirecto(element.id)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row
+					*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
+				<tr mat-row
+					*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
 			</table>
+			<mat-divider></mat-divider>
+			<p>Asignar acceso directo al artículo:</p>
 		</div>
 	</div>
 </div>

@@ -47,7 +47,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
   showAccesosDirectos: boolean = false;
-  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre"];
+  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -259,6 +259,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   accesosDirectosCerrar(ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.showAccesosDirectos = false;
+  }
+
+  borrarAccesoDirecto(id: number): void {
+    console.log(id);
   }
 
   loadFecCad(): void {

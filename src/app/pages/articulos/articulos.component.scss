@@ -252,7 +252,7 @@
   display: flex;
   flex-direction: column;
 
-  & > div {
+  &>div {
     width: 100%;
   }
 }
@@ -360,11 +360,34 @@
   }
 }
 
+.accesos-directos {
+  table {
+    width: 100%;
+    margin: 16px 0;
+
+    .mat-header-cell {
+      background-color: #ddd;
+      font-size: 1.1em;
+
+      &.center {
+        text-align: center;
+      }
+    }
+
+    .mat-cell {
+      &.center {
+        text-align: center;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .card-margin {
     .articulo-numbers {
       display: inline-block;
     }
+
     .new-cod-barras {
       width: 30%;
 
@@ -373,17 +396,19 @@
         width: 75%;
       }
     }
+
     .cod-barras-list {
       .cod-barras-item {
         width: 30%;
       }
     }
   }
+
   .articulo-proveedor-cols {
     display: flex;
     flex-direction: row;
 
-    & > div {
+    &>div {
       width: 50%;
     }
   }
