@@ -562,8 +562,29 @@
 				<tr mat-row
 					*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
 			</table>
-			<mat-divider></mat-divider>
-			<p>Asignar acceso directo al artículo:</p>
+			<div [ngClass]="{'show': articulo.id !== null}"
+				 class="asignar">
+				<p>Asignar acceso directo al artículo:</p>
+				<div>
+					<label>Acceso directo</label>
+					<mat-form-field class="no-padding">
+						<input matInput
+							   type="number"
+							   step="1"
+							   placeholder="Acceso directo"
+							   [(ngModel)]="accesoDirecto"
+							   #acccesoDirectoBox>
+					</mat-form-field>
+					<span>
+						<button mat-raised-button
+								color="primary"
+								(click)="asignarAccesoDirecto()"
+								[disabled]="accesoDirecto === null">
+							Asignar
+						</button>
+					</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -15,7 +15,6 @@ import {
   ChartSelectInterface,
   Month,
 } from "src/app/interfaces/interfaces";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
@@ -31,6 +30,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { AccesoDirecto } from "./../../model/acceso-directo.model";
 
 @Component({
   selector: "otpv-articulos",
@@ -48,6 +48,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
   showAccesosDirectos: boolean = false;
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
+  accesosDirectosList: AccesoDirecto[] = [];
+  accesoDirecto: number = null;
+  @ViewChild("acccesoDirectoBox", { static: true })
+  acccesoDirectoBox: ElementRef;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
@@ -249,20 +253,64 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   abrirAccesosDirectos(): void {
     this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosDataSource.data = this.cms.getAccesosDirectos(
-        result.list
-      );
+      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.accesosDirectosDataSource.data = this.accesosDirectosList;
       this.showAccesosDirectos = true;
+      this.accesoDirecto = null;
+      setTimeout(() => {
+        this.acccesoDirectoBox.nativeElement.focus();
+      }, 0);
     });
   }
 
   accesosDirectosCerrar(ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.showAccesosDirectos = false;
+    setTimeout(() => {
+      this.localizadorBox.nativeElement.focus();
+    }, 0);
   }
 
   borrarAccesoDirecto(id: number): void {
     console.log(id);
+    this.ars.deleteAccesoDirecto(id).subscribe((result) => {
+      this.abrirAccesosDirectos();
+    });
+  }
+
+  asignarAccesoDirecto(): void {
+    const ind: number = this.accesosDirectosList.findIndex(
+      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto
+    );
+    if (ind != -1) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content:
+            "El acceso directo que estás intentando asignar ya está en uso.",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          setTimeout(() => {
+            this.acccesoDirectoBox.nativeElement.focus();
+          }, 0);
+        });
+      return;
+    }
+
+    this.ars
+      .asignarAccesoDirecto(this.articulo.id, this.accesoDirecto)
+      .subscribe((result) => {
+        this.dialog
+          .alert({
+            title: "OK",
+            content: "El acceso directo ha sido asignado.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.abrirAccesosDirectos();
+          });
+      });
   }
 
   loadFecCad(): void {

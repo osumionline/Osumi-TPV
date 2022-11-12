@@ -63,4 +63,21 @@ export class ArticulosService {
       {}
     );
   }
+
+  asignarAccesoDirecto(
+    id: number,
+    accesoDirecto: number
+  ): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-articulos/asignar-acceso-directo",
+      { id, accesoDirecto }
+    );
+  }
+
+  deleteAccesoDirecto(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-articulos/delete-acceso-directo",
+      { id }
+    );
+  }
 }

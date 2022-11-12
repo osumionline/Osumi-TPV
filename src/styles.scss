@@ -65,3 +65,7 @@ input[type="number"] {
 .toolbar-title {
   flex: 1;
 }
+
+mat-form-field.no-padding>.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
