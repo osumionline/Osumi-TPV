@@ -34,14 +34,16 @@
              class="start-message">Elige un empleado de la lista.</div>
         <div [ngClass]="{'show': !start}"
              class="main-body">
-            <mat-tab-group #empleadoTabs>
-                <mat-tab label="DATOS">
-                    <form [formGroup]="form"
-                          (ngSubmit)="onSubmit()">
+            <form [formGroup]="form"
+                  (ngSubmit)="onSubmit()">
+                <mat-tab-group [selectedIndex]="selectedTab"
+                               (selectedIndexChange)="selectedTab = $event"
+                               #empleadoTabs>
+                    <mat-tab label="DATOS">
                         <div>
                             <div class="form-field max-width">
                                 <label>Nombre</label>
-                                <mat-form-field class="max-width form-title">
+                                <mat-form-field class="max-width">
                                     <input matInput
                                            placeholder="Nombre"
                                            formControlName="nombre">
@@ -85,49 +87,52 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div class="actions">
-                            <div class="delete">
-                                <button mat-raised-button
-                                        *ngIf="canDeleteEmployees"
-                                        color="warn"
-                                        [disabled]="!form.value.id"
-                                        type="button"
-                                        (click)="deleteEmpleado()">Borrar</button>
-                            </div>
-                            <div class="others">
-                                <button mat-raised-button
-                                        color="primary"
-                                        [disabled]="!form.dirty"
-                                        type="button"
-                                        (click)="resetForm()">Cancelar</button>
-                                <button mat-raised-button
-                                        type="submit"
-                                        color="primary"
-                                        [disabled]="!form.valid || !canSaveChanges">Guardar</button>
+                    </mat-tab>
+                    <mat-tab label="PERMISOS"
+                             *ngIf="canChangeEmployeeRoles">
+                        <div class="rol-list">
+                            <div class="rol-group"
+                                 *ngFor="let group of list | keyvalue: originalRolGroupOrder">
+                                <label>{{group.value.name}}</label>
+                                <div class="rol-list-items">
+                                    <mat-checkbox *ngFor="let rol of group.value.roles | keyvalue: originalRolOrder"
+                                                  [title]="rol.value.description"
+                                                  [(ngModel)]="selectedRolList[rol.value.id]"
+                                                  [ngModelOptions]="{standalone: true}">
+                                        {{rol.value.name}}
+                                    </mat-checkbox>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                </mat-tab>
-                <mat-tab label="PERMISOS"
-                         *ngIf="canChangeEmployeeRoles">
-                    <div class="rol-list">
-                        <div class="rol-group"
-                             *ngFor="let group of list | keyvalue: originalRolGroupOrder">
-                            <label>{{group.value.name}}</label>
-                            <div class="rol-list-items">
-                                <mat-checkbox *ngFor="let rol of group.value.roles | keyvalue: originalRolOrder"
-                                              [title]="rol.value.description"
-                                              [(ngModel)]="selectedRolList[rol.value.id]">
-                                    {{rol.value.name}}
-                                </mat-checkbox>
-                            </div>
-                        </div>
+                    </mat-tab>
+                    <mat-tab label="ESTADÍSTICAS"
+                             *ngIf="canSeeStatistics">
+                    </mat-tab>
+                </mat-tab-group>
+                <div class="actions"
+                     [ngClass]="{'show': selectedTab !== 2}">
+                    <div class="delete">
+                        <button mat-raised-button
+                                *ngIf="canDeleteEmployees"
+                                color="warn"
+                                [disabled]="!form.value.id"
+                                type="button"
+                                (click)="deleteEmpleado()">Borrar</button>
                     </div>
-                </mat-tab>
-                <mat-tab label="ESTADÍSTICAS"
-                         *ngIf="canSeeStatistics">
-                </mat-tab>
-            </mat-tab-group>
+                    <div class="others">
+                        <button mat-raised-button
+                                color="primary"
+                                [disabled]="!form.dirty"
+                                type="button"
+                                (click)="resetForm()">Cancelar</button>
+                        <button mat-raised-button
+                                type="submit"
+                                color="primary"
+                                [disabled]="!form.valid || !canSaveChanges">Guardar</button>
+                        {{selectedTab}}
+                    </div>
+                </div>
+            </form>
         </div>
     </main>
 </mat-card>

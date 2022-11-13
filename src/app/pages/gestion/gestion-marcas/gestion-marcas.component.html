@@ -37,31 +37,51 @@
                 <mat-tab label="DATOS">
                     <form [formGroup]="form"
                           (ngSubmit)="onSubmit()">
-                        <div>
-                            <div class="form-field max-width">
-                                <label>Nombre</label>
-                                <mat-form-field class="max-width form-title">
-                                    <input matInput
-                                           placeholder="Nombre"
-                                           formControlName="nombre">
-                                </mat-form-field>
+                        <div class="group-row">
+                            <div class="form-field half-width">
+                                <div class="form-field max-width">
+                                    <label>Nombre</label>
+                                    <mat-form-field class="max-width form-title">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               formControlName="nombre">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               formControlName="telefono">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               formControlName="email">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                        </div>
-                        <div class="logo-row">
-                            <input type="file"
-                                   name="logo-file"
-                                   id="logo-file"
-                                   accept="image/png, image/gif, image/jpeg"
-                                   (change)="onLogoChange($event)">
-                            <div class="logo">
-                                <img [src]="logo"
-                                     [alt]="selectedMarca.nombre">
+                            <div class="form-field half-width">
+                                <div class="logo-row">
+                                    <input type="file"
+                                           name="logo-file"
+                                           id="logo-file"
+                                           accept="image/png, image/gif, image/jpeg"
+                                           (change)="onLogoChange($event)">
+                                    <div class="logo">
+                                        <img [src]="logo"
+                                             [alt]="selectedMarca.nombre">
+                                    </div>
+                                    <button mat-raised-button
+                                            color="primary"
+                                            type="button"
+                                            (click)="addLogo()"
+                                            [disabled]="!canSaveChanges">Cambiar logo</button>
+                                </div>
                             </div>
-                            <button mat-raised-button
-                                    color="primary"
-                                    type="button"
-                                    (click)="addLogo()"
-                                    [disabled]="!canSaveChanges">Cambiar logo</button>
                         </div>
                         <div>
                             <div class="form-field max-width">
@@ -70,24 +90,6 @@
                                     <input matInput
                                            placeholder="Dirección"
                                            formControlName="direccion">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-field half-width">
-                                <label>Teléfono</label>
-                                <mat-form-field class="max-width">
-                                    <input matInput
-                                           placeholder="Teléfono"
-                                           formControlName="telefono">
-                                </mat-form-field>
-                            </div>
-                            <div class="form-field half-width">
-                                <label>Email</label>
-                                <mat-form-field class="max-width">
-                                    <input matInput
-                                           placeholder="Email"
-                                           formControlName="email">
                                 </mat-form-field>
                             </div>
                         </div>

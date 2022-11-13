@@ -74,7 +74,11 @@
       }
 
       .actions {
-        display: flex;
+        display: none;
+
+        &.show {
+          display: flex;
+        }
 
         .delete {
           flex: 5;

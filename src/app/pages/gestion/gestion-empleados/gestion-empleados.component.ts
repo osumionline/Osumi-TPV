@@ -19,6 +19,7 @@ import { Rol, RolGroup, rolList } from "src/app/shared/rol.class";
 export class GestionEmpleadosComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
+  selectedTab: number = 0;
   start: boolean = true;
   canNewEmployees: boolean = false;
   canDeleteEmployees: boolean = false;
