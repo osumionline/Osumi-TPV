@@ -2,6 +2,8 @@ import { MarcaInterface } from "src/app/interfaces/interfaces";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Marca {
+  crearProveedor: boolean = false;
+
   constructor(
     public id: number = null,
     public nombre: string = "",
@@ -40,6 +42,7 @@ export class Marca {
       observaciones: encode
         ? Utils.urlencode(this.observaciones)
         : this.observaciones,
+      crearProveedor: this.crearProveedor,
     };
   }
 }

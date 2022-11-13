@@ -613,6 +613,24 @@
 				</div>
 			</div>
 			<div>
+				<div class="form-field half-width">
+					<label>Teléfono</label>
+					<mat-form-field class="max-width">
+						<input matInput
+							   placeholder="Teléfono"
+							   [(ngModel)]="marca.telefono">
+					</mat-form-field>
+				</div>
+				<div class="form-field half-width">
+					<label>Email</label>
+					<mat-form-field class="max-width">
+						<input matInput
+							   placeholder="Email"
+							   [(ngModel)]="marca.email">
+					</mat-form-field>
+				</div>
+			</div>
+			<div>
 				<div class="form-field max-width">
 					<label>Dirección</label>
 					<mat-form-field class="max-width">
@@ -624,31 +642,11 @@
 			</div>
 			<div>
 				<div class="form-field max-width">
-					<label>Email</label>
-					<mat-form-field class="max-width">
-						<input matInput
-							   placeholder="Email"
-							   [(ngModel)]="marca.email">
-					</mat-form-field>
-				</div>
-			</div>
-			<div>
-				<div class="form-field max-width">
 					<label>Web</label>
 					<mat-form-field class="max-width">
 						<input matInput
 							   placeholder="Web"
 							   [(ngModel)]="marca.web">
-					</mat-form-field>
-				</div>
-			</div>
-			<div>
-				<div class="form-field half-width">
-					<label>Teléfono</label>
-					<mat-form-field class="max-width">
-						<input matInput
-							   placeholder="Teléfono"
-							   [(ngModel)]="marca.telefono">
 					</mat-form-field>
 				</div>
 			</div>
@@ -664,7 +662,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal-actions">
+		<div class="modal-actions multiple-actions">
+			<mat-checkbox [(ngModel)]="marca.crearProveedor">Crear un proveedor para esta marca.</mat-checkbox>
 			<button mat-raised-button
 					color="primary"
 					(click)="guardarMarca()">Guardar</button>

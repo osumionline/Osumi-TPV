@@ -121,6 +121,7 @@ export interface MarcaInterface {
   email: string;
   web: string;
   observaciones: string;
+  crearProveedor?: boolean;
 }
 
 export interface MarcasResult {
