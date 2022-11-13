@@ -6,6 +6,7 @@ import {
   MatFormFieldDefaultOptions,
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
 } from "@angular/material/form-field";
+import { MatSortModule } from "@angular/material/sort";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgxBarcode6Module } from "ngx-barcode6";
@@ -37,6 +38,7 @@ export function servicesOnRun(config: ConfigService) {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatSortModule,
     NgxBarcode6Module,
     ...MATERIAL,
   ],
