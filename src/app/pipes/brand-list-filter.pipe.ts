@@ -9,7 +9,7 @@ export class BrandListFilterPipe implements PipeTransform {
     if (filter === "") {
       return list;
     }
-    return list.filter((m: Marca) => {
+    return list.filter((m: Marca): boolean => {
       return m.nombre.toLowerCase().includes(filter);
     });
   }

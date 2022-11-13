@@ -9,7 +9,7 @@ export class ClientListFilterPipe implements PipeTransform {
     if (filter === "") {
       return list;
     }
-    return list.filter((c: Cliente) => {
+    return list.filter((c: Cliente): boolean => {
       return c.nombreApellidos.toLowerCase().includes(filter);
     });
   }

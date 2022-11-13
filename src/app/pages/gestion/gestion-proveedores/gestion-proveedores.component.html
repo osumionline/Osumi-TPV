@@ -1,1 +1,39 @@
 <otpv-header selectedOption="gestion"></otpv-header>
+
+<mat-card class="proveedores">
+    <aside>
+        <mat-form-field class="search mat-form-field-no-bottom">
+            <input matInput
+                   placeholder="Nombre"
+                   [(ngModel)]="search"
+                   #searchBox>
+            <span matPrefix>
+                <mat-icon>search</mat-icon>
+            </span>
+        </mat-form-field>
+        <mat-action-list>
+            <button mat-list-item
+                    *ngFor="let proveedor of ps.proveedores | providerListFilter:search"
+                    (click)="selectProveedor(proveedor)"
+                    [ngClass]="{'selected-provider': selectedProveedor.id===proveedor.id}">
+                {{proveedor.nombre}}
+            </button>
+        </mat-action-list>
+        <div class="new-provider"
+             *ngIf="canNewProviders">
+            <button mat-button
+                    (click)="newProveedor()">
+                <mat-icon>add_circle_outline</mat-icon>
+                Añadir nuevo proveedor
+            </button>
+        </div>
+    </aside>
+    <main>
+        <div [ngClass]="{'show': start}"
+             class="start-message">Elige un proveedor de la lista.</div>
+        <div [ngClass]="{'show': !start}"
+             class="main-body">
+            a
+        </div>
+    </main>
+</mat-card>

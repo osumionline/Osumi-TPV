@@ -9,7 +9,7 @@ export class EmployeeListFilterPipe implements PipeTransform {
     if (filter === "") {
       return list;
     }
-    return list.filter((e: Empleado) => {
+    return list.filter((e: Empleado): boolean => {
       return e.nombre.toLowerCase().includes(filter);
     });
   }
