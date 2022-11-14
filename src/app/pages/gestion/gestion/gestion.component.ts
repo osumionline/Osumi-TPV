@@ -119,4 +119,20 @@ export class GestionComponent implements OnInit {
         .subscribe((result) => {});
     }
   }
+
+  selectTiposPago(): void {
+    if (this.empleado.hasRol(rolList.gestion.roles["tiposPago"].id)) {
+      this.gs.empleado = this.empleado;
+      this.router.navigate(["/gestion/tipos-pago"]);
+    } else {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content:
+            'No tienes permisos para acceder a la opción "Tipos de pago"',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    }
+  }
 }

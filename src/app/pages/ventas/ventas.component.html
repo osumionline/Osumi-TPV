@@ -48,7 +48,7 @@
 						 *ngFor="let tipo of config.tiposPago"
 						 [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}"
 						 (click)="selectTipoPago(tipo.id)">
-						<img [src]="'https://apitpv.osumi.es/tipos-pago/icon-' + tipo.slug + '.png'">
+						<img [src]="tipo.foto">
 						{{tipo.nombre}}
 					</div>
 				</div>

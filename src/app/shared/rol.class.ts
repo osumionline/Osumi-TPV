@@ -119,30 +119,35 @@ export const rolList: {
       "Modificar ajustes generales de la aplicación.",
       "Permite al empleado modificar los ajustes generales de la aplicación como datos del negocio, IVAs a usar, márgenes de beneficio, datos de la tienda online..."
     ),
+    tiposPago: new Rol(
+      19,
+      "Modificar tipos de pago.",
+      "Permite al empleado modificar los tipos de pago de la aplicación."
+    ),
   }),
   empleados: new RolGroup("Empleados", {
     crear: new Rol(
-      19,
+      20,
       "Crear nuevos empleados.",
       "Permite al empleado crear un nuevo empleado."
     ),
     modificar: new Rol(
-      20,
+      21,
       "Modificar datos de un empleado.",
       "Permite al empleado modificar los datos de un empleado como su nombre, contraseña o color."
     ),
     borrar: new Rol(
-      21,
+      22,
       "Borrar un empleado",
       "Permite al empleado borrar a otro empleado. Las ventas asociadas al empleado no se borrarán, pero dejarán de estar vinculadas a un empleado concreto."
     ),
     roles: new Rol(
-      22,
+      23,
       "Modificar permisos de un empleado",
       "Permite al empleado modificar los permisos que tienen los otros empleados. Esto les permitirá acceder a distintos apartados o realizar distintas acciones."
     ),
     estadisticas: new Rol(
-      23,
+      24,
       "Consultar estadísticas de un empleado",
       "Permite al empleado consultar sus estadísticas de ventas y las de otros empleados."
     ),

@@ -5,16 +5,16 @@ export class TipoPago {
   constructor(
     public id: number = null,
     public nombre: string = null,
-    public slug: string = null,
+    public foto: string = null,
     public afectaCaja: boolean = false,
     public orden: number = null,
     public fisico: boolean = true
   ) {}
 
-  fromInterface(tp: TipoPagoInterface): TipoPago {
+  fromInterface(tp: TipoPagoInterface, decode: boolean = true): TipoPago {
     this.id = tp.id;
-    this.nombre = Utils.urldecode(tp.nombre);
-    this.slug = tp.slug;
+    this.nombre = decode ? Utils.urldecode(tp.nombre) : tp.nombre;
+    this.foto = tp.foto;
     this.afectaCaja = tp.afectaCaja;
     this.orden = tp.orden;
     this.fisico = tp.fisico;
@@ -22,11 +22,11 @@ export class TipoPago {
     return this;
   }
 
-  toInterface(): TipoPagoInterface {
+  toInterface(encode: boolean = true): TipoPagoInterface {
     return {
       id: this.id,
-      nombre: Utils.urlencode(this.nombre),
-      slug: this.slug,
+      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      foto: this.foto,
       afectaCaja: this.afectaCaja,
       orden: this.orden,
       fisico: this.fisico,

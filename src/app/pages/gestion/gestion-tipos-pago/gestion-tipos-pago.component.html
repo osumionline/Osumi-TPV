@@ -1,0 +1,94 @@
+<otpv-header selectedOption="gestion"></otpv-header>
+
+<mat-card class="tipos-pago">
+    <aside>
+        <mat-form-field class="search mat-form-field-no-bottom">
+            <input matInput
+                   placeholder="Nombre"
+                   [(ngModel)]="search"
+                   #searchBox>
+            <span matPrefix>
+                <mat-icon>search</mat-icon>
+            </span>
+        </mat-form-field>
+        <mat-action-list>
+            <button mat-list-item
+                    *ngFor="let tipoPago of config.tiposPago | payTypeListFilter:search"
+                    (click)="selectTipoPago(tipoPago)"
+                    [ngClass]="{'selected-tipo-pago': selectedTipoPago.id===tipoPago.id}">
+                {{tipoPago.nombre}}
+            </button>
+        </mat-action-list>
+        <div class="new-tipo-pago">
+            <button mat-button
+                    (click)="newTipoPago()">
+                <mat-icon>add_circle_outline</mat-icon>
+                Añadir nuevo tipo de pago
+            </button>
+        </div>
+    </aside>
+    <main>
+        <div [ngClass]="{'show': start}"
+             class="start-message">Elige un tipo de pago de la lista.</div>
+        <div [ngClass]="{'show': !start}"
+             class="main-body">
+            <mat-tab-group #tiposPagoTabs>
+                <mat-tab label="DATOS">
+                    <form [formGroup]="form"
+                          (ngSubmit)="onSubmit()">
+                        <div class="form-field max-width">
+                            <label>Nombre</label>
+                            <mat-form-field class="max-width form-title">
+                                <input matInput
+                                       placeholder="Nombre"
+                                       formControlName="nombre">
+                            </mat-form-field>
+                        </div>
+                        <div class="check-row">
+                            <mat-checkbox formControlName="afectaCaja">El tipo de pago afecta a la caja.</mat-checkbox>
+                        </div>
+                        <div class="check-row">
+                            <mat-checkbox formControlName="fisico">Tipo de pago para tienda física.</mat-checkbox>
+                        </div>
+                        <div class="logo-row">
+                            <input type="file"
+                                   name="logo-file"
+                                   id="logo-file"
+                                   accept="image/png, image/gif, image/jpeg"
+                                   (change)="onLogoChange($event)">
+                            <div class="logo">
+                                <img [src]="logo"
+                                     [alt]="selectedTipoPago.nombre">
+                            </div>
+                            <button mat-raised-button
+                                    color="primary"
+                                    type="button"
+                                    (click)="addLogo()">Cambiar logo</button>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                <button mat-raised-button
+                                        color="warn"
+                                        [disabled]="!form.value.id"
+                                        type="button"
+                                        (click)="deleteTipoPago()">Borrar</button>
+                            </div>
+                            <div class="others">
+                                <button mat-raised-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-raised-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="ESTADÍSTICAS"></mat-tab>
+            </mat-tab-group>
+        </div>
+    </main>
+</mat-card>

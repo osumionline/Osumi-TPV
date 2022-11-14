@@ -9,6 +9,7 @@ import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
 import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
+import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: "gestion/empleados", component: GestionEmpleadosComponent },
   { path: "gestion/marcas", component: GestionMarcasComponent },
   { path: "gestion/proveedores", component: GestionProveedoresComponent },
+  { path: "gestion/tipos-pago", component: GestionTiposPagoComponent },
   { path: "factura/:id", component: FacturaComponent },
   { path: "**", redirectTo: "/", pathMatch: "full" },
 ];

@@ -95,10 +95,14 @@ export interface AppDataResult {
 export interface TipoPagoInterface {
   id: number;
   nombre: string;
-  slug: string;
+  foto: string;
   afectaCaja: boolean;
   orden: number;
   fisico: boolean;
+}
+
+export interface TiposPagoResult {
+  list: TipoPagoInterface[];
 }
 
 export interface StartDataInterface {

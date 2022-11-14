@@ -9,6 +9,7 @@ import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
 import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
+import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
@@ -27,6 +28,7 @@ export const PAGES: any[] = [
   GestionEmpleadosComponent,
   GestionMarcasComponent,
   GestionProveedoresComponent,
+  GestionTiposPagoComponent,
 ];
 
 /*
@@ -58,6 +60,7 @@ import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
 import { ProviderListFilterPipe } from "src/app/pipes/provider-list-filter.pipe";
 import { ProviderBrandListFilterPipe } from "src/app/pipes/provider-brand-list-filter.pipe";
+import { PayTypeListFilterPipe } from "src/app/pipes/pay-type-list-filter.pipe";
 import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 
 export const PIPES: any[] = [
@@ -67,6 +70,7 @@ export const PIPES: any[] = [
   BrandListFilterPipe,
   ProviderListFilterPipe,
   ProviderBrandListFilterPipe,
+  PayTypeListFilterPipe,
 ];
 
 /*
