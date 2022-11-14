@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
+import { Router } from "@angular/router";
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
@@ -11,6 +12,7 @@ import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
+import { GestionService } from "src/app/services/gestion.service";
 
 @Component({
   selector: "otpv-gestion-tipos-pago",
@@ -39,10 +41,16 @@ export class GestionTiposPagoComponent implements OnInit {
     public config: ConfigService,
     private dialog: DialogService,
     private as: ApiService,
-    private cms: ClassMapperService
+    private cms: ClassMapperService,
+    private gs: GestionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    if (!this.gs.empleado) {
+      this.router.navigate(["/gestion"]);
+      return;
+    }
     setTimeout(() => {
       this.searchBox.nativeElement.focus();
     }, 0);
