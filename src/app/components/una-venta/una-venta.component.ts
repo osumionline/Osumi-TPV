@@ -69,6 +69,11 @@ export class UnaVentaComponent {
   }
 
   checkLocalizador(ev: KeyboardEvent, ind: number): void {
+    const letters = /^[A-Za-z]+$/;
+    if (ev.key.match(letters)) {
+      ev.preventDefault();
+      console.log(ev);
+    }
     if (ev.key === "Enter" && !this.observacionesOpen) {
       this.searching = true;
       this.ars

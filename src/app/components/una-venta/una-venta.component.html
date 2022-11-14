@@ -18,7 +18,6 @@
 		 *ngFor="let linea of vs.ventaActual.lineas; let i = index">
 		<div class="col-localizador">
 			<input *ngIf="!linea.idArticulo"
-				   type="number"
 				   [id]="'loc-new-' + ind"
 				   class="linea-localizador"
 				   (keyup)="checkLocalizador($event, i)"
