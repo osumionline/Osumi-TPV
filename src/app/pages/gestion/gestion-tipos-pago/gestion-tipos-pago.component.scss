@@ -15,6 +15,16 @@
             }
         }
 
+        .drag-item {
+            mat-icon {
+                visibility: hidden;
+            }
+
+            &:hover mat-icon {
+                visibility: visible;
+            }
+        }
+
         .selected-tipo-pago {
             background-color: #eee;
         }

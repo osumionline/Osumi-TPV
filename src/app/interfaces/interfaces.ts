@@ -105,6 +105,11 @@ export interface TiposPagoResult {
   list: TipoPagoInterface[];
 }
 
+export interface TiposPagoOrderInterface {
+  id: number;
+  orden: number;
+}
+
 export interface StartDataInterface {
   status: string;
   opened: boolean;

@@ -11,11 +11,15 @@
                 <mat-icon>search</mat-icon>
             </span>
         </mat-form-field>
-        <mat-action-list>
+        <mat-action-list cdkDropList
+                         (cdkDropListDropped)="onDrop($event)">
             <button mat-list-item
                     *ngFor="let tipoPago of config.tiposPago | payTypeListFilter:search"
                     (click)="selectTipoPago(tipoPago)"
-                    [ngClass]="{'selected-tipo-pago': selectedTipoPago.id===tipoPago.id}">
+                    class="drag-item"
+                    [ngClass]="{'selected-tipo-pago': selectedTipoPago.id===tipoPago.id}"
+                    cdkDrag>
+                <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                 {{tipoPago.nombre}}
             </button>
         </mat-action-list>

@@ -1,7 +1,11 @@
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
-import { TipoPagoInterface } from "src/app/interfaces/interfaces";
+import {
+  TipoPagoInterface,
+  TiposPagoOrderInterface,
+} from "src/app/interfaces/interfaces";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -42,6 +46,25 @@ export class GestionTiposPagoComponent implements OnInit {
     setTimeout(() => {
       this.searchBox.nativeElement.focus();
     }, 0);
+  }
+
+  onDrop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(
+      this.config.tiposPago,
+      event.previousIndex,
+      event.currentIndex
+    );
+    const orderList: TiposPagoOrderInterface[] = [];
+    for (let ind in this.config.tiposPago) {
+      let i: number = parseInt(ind);
+      this.config.tiposPago[ind].orden = i;
+      orderList.push({ id: this.config.tiposPago[ind].id, orden: i });
+    }
+    console.log(orderList);
+    console.log(this.config.tiposPago);
+    this.as.saveTipoPagoOrden(orderList).subscribe((result) => {
+      console.log(result);
+    });
   }
 
   selectTipoPago(tipoPago: TipoPago): void {

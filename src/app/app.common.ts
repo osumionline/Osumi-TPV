@@ -123,6 +123,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTableModule } from "@angular/material/table";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,
@@ -141,4 +142,5 @@ export const MATERIAL: any[] = [
   MatRadioModule,
   MatDatepickerModule,
   MatTableModule,
+  DragDropModule,
 ];

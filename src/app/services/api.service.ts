@@ -10,6 +10,7 @@ import {
   StartDataInterface,
   StatusResult,
   TipoPagoInterface,
+  TiposPagoOrderInterface,
   TiposPagoResult,
 } from "src/app/interfaces/interfaces";
 
@@ -59,6 +60,15 @@ export class ApiService {
     return this.http.post<StatusResult>(
       environment.apiUrl + "/delete-tipo-pago",
       { id }
+    );
+  }
+
+  saveTipoPagoOrden(
+    orderList: TiposPagoOrderInterface[]
+  ): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "/save-tipo-pago-orden",
+      { list: orderList }
     );
   }
 }
