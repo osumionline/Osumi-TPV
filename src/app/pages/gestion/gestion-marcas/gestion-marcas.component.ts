@@ -64,6 +64,9 @@ export class GestionMarcasComponent implements OnInit {
     this.canSeeStatistics = this.gs.empleado.hasRol(
       rolList.marca.roles["estadisticas"].id
     );
+    setTimeout(() => {
+      this.searchBox.nativeElement.focus();
+    }, 0);
   }
 
   selectMarca(marca: Marca): void {

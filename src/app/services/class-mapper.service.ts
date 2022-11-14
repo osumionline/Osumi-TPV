@@ -5,6 +5,7 @@ import {
   CategoriaInterface,
   ClienteInterface,
   CodigoBarrasInterface,
+  ComercialInterface,
   EmpleadoInterface,
   MarcaInterface,
   ProveedorInterface,
@@ -17,6 +18,7 @@ import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
@@ -40,8 +42,19 @@ export class ClassMapperService {
     });
   }
 
+  getComercial(c: ComercialInterface): Comercial {
+    return new Comercial().fromInterface(c);
+  }
+
+  getComerciales(cs: ComercialInterface[]): Comercial[] {
+    return cs.map((c: ComercialInterface): Comercial => {
+      return this.getComercial(c);
+    });
+  }
+
   getProveedor(p: ProveedorInterface): Proveedor {
-    return new Proveedor().fromInterface(p);
+    const comerciales: Comercial[] = this.getComerciales(p.comerciales);
+    return new Proveedor().fromInterface(p, comerciales);
   }
 
   getProveedores(ps: ProveedorInterface[]): Proveedor[] {

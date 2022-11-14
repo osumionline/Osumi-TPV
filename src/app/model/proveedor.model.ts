@@ -1,23 +1,32 @@
-import { ProveedorInterface } from "src/app/interfaces/interfaces";
+import {
+  ComercialInterface,
+  ProveedorInterface,
+} from "src/app/interfaces/interfaces";
+import { Comercial } from "src/app/model/comercial.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Proveedor {
   constructor(
     public id: number = null,
     public nombre: string = "",
-    public idFoto: number = null,
+    public foto: string = null,
     public direccion: string = "",
     public telefono: string = "",
     public email: string = "",
     public web: string = "",
     public observaciones: string = "",
-    public marcas: number[] = []
+    public marcas: number[] = [],
+    public comerciales: Comercial[] = []
   ) {}
 
-  fromInterface(p: ProveedorInterface, decode: boolean = true): Proveedor {
+  fromInterface(
+    p: ProveedorInterface,
+    comerciales: Comercial[],
+    decode: boolean = true
+  ): Proveedor {
     this.id = p.id;
     this.nombre = decode ? Utils.urldecode(p.nombre) : p.nombre;
-    this.idFoto = p.idFoto;
+    this.foto = p.foto;
     this.direccion = decode ? Utils.urldecode(p.direccion) : p.direccion;
     this.telefono = decode ? Utils.urldecode(p.telefono) : p.telefono;
     this.email = decode ? Utils.urldecode(p.email) : p.email;
@@ -25,7 +34,12 @@ export class Proveedor {
     this.observaciones = decode
       ? Utils.urldecode(p.observaciones)
       : p.observaciones;
-    this.marcas = p.marcas;
+    if (p.marcas) {
+      this.marcas = p.marcas;
+    }
+    if (comerciales !== null) {
+      this.comerciales = comerciales;
+    }
 
     return this;
   }
@@ -34,7 +48,7 @@ export class Proveedor {
     return {
       id: this.id,
       nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
-      idFoto: this.idFoto,
+      foto: this.foto,
       direccion: encode ? Utils.urlencode(this.direccion) : this.direccion,
       telefono: encode ? Utils.urlencode(this.telefono) : this.telefono,
       email: encode ? Utils.urlencode(this.email) : this.email,
@@ -43,6 +57,9 @@ export class Proveedor {
         ? Utils.urlencode(this.observaciones)
         : this.observaciones,
       marcas: this.marcas,
+      comerciales: this.comerciales.map((c: Comercial): ComercialInterface => {
+        return c.toInterface();
+      }),
     };
   }
 }

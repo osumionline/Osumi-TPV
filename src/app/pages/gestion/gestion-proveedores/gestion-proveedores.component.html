@@ -33,7 +33,229 @@
              class="start-message">Elige un proveedor de la lista.</div>
         <div [ngClass]="{'show': !start}"
              class="main-body">
-            a
+            <mat-tab-group [selectedIndex]="selectedTab"
+                           (selectedIndexChange)="selectedTab = $event"
+                           (selectedTabChange)="checkMarcasTab($event)"
+                           #proveedorTabs>
+                <mat-tab label="DATOS">
+                    <form [formGroup]="form"
+                          (ngSubmit)="onSubmit()">
+                        <div class="group-row">
+                            <div class="form-field half-width">
+                                <div class="form-field max-width">
+                                    <label>Nombre</label>
+                                    <mat-form-field class="max-width form-title">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               formControlName="nombre">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               formControlName="telefono">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="form-field half-width">
+                                <div class="logo-row">
+                                    <input type="file"
+                                           name="logo-file"
+                                           id="logo-file"
+                                           accept="image/png, image/gif, image/jpeg"
+                                           (change)="onLogoChange($event)">
+                                    <div class="logo">
+                                        <img [src]="logo"
+                                             [alt]="selectedProveedor.nombre">
+                                    </div>
+                                    <button mat-raised-button
+                                            color="primary"
+                                            type="button"
+                                            (click)="addLogo()"
+                                            [disabled]="!canSaveChanges">Cambiar logo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Dirección</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Dirección"
+                                           formControlName="direccion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Web</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Web"
+                                           formControlName="web">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Observaciones</label>
+                                <mat-form-field class="max-width">
+                                    <textarea matInput
+                                              placeholder="Observaciones"
+                                              formControlName="observaciones"
+                                              rows="5"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                <button mat-raised-button
+                                        *ngIf="canDeleteProviders"
+                                        color="warn"
+                                        [disabled]="!form.value.id"
+                                        type="button"
+                                        (click)="deleteProveedor()">Borrar</button>
+                            </div>
+                            <div class="others">
+                                <button mat-raised-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-raised-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid || !canSaveChanges">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="MARCAS">
+                    <mat-form-field class="search-marcas mat-form-field-no-bottom">
+                        <input matInput
+                               placeholder="Nombre"
+                               [(ngModel)]="searchMarcas"
+                               #searchMarcasBox>
+                        <span matPrefix>
+                            <mat-icon>search</mat-icon>
+                        </span>
+                    </mat-form-field>
+                    <div class="marcas-list">
+                        <div *ngFor="let marca of marcasList | providerBrandListFilter: searchMarcas">
+                            <mat-checkbox [(ngModel)]="marca.selected">{{marca.nombre}}</mat-checkbox>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="COMERCIALES">
+                    <div class="comerciales-options">
+                        <div class="comerciales-select">
+                            <div class="form-field max-width">
+                                <label>Elige comercial</label>
+                                <mat-form-field class="max-width">
+                                    <mat-select [(ngModel)]="selectedComercialId"
+                                                (ngModelChange)="selectComercial($event)"
+                                                [disabled]="selectedProveedor.comerciales.length===0">
+                                        <mat-option *ngFor="let comercial of selectedProveedor.comerciales"
+                                                    [value]="comercial.id">
+                                            {{comercial.nombre}}
+                                        </mat-option>
+                                        <mat-option *ngIf="selectedProveedor.comerciales.length===0"
+                                                    [value]="-1">No hay ningún comercial todavía.</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="comerciales-new">
+                            <button mat-raised-button
+                                    color="primary"
+                                    (click)="newComercial()">
+                                <mat-icon>add_circle_outline</mat-icon>
+                                Añadir nuevo comercial
+                            </button>
+                        </div>
+                    </div>
+                    <div class="comercial-datos"
+                         [ngClass]="{'show': showComercial}">
+                        <form [formGroup]="formComercial"
+                              (ngSubmit)="onComercialSubmit()">
+                            <div>
+                                <div class="form-field max-width">
+                                    <label>Nombre</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               formControlName="nombre"
+                                               #comercialNameBox>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-field half-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               formControlName="telefono">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field half-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-field max-width">
+                                    <label>Observaciones</label>
+                                    <mat-form-field class="max-width">
+                                        <textarea matInput
+                                                  placeholder="Observaciones"
+                                                  formControlName="observaciones"
+                                                  rows="5"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <div class="delete">
+                                    <button mat-raised-button
+                                            *ngIf="canDeleteProviders"
+                                            color="warn"
+                                            [disabled]="!formComercial.value.id"
+                                            type="button"
+                                            (click)="deleteComercial()">Borrar</button>
+                                </div>
+                                <div class="others">
+                                    <button mat-raised-button
+                                            color="primary"
+                                            [disabled]="!formComercial.dirty"
+                                            type="button"
+                                            (click)="resetComercialForm()">Cancelar</button>
+                                    <button mat-raised-button
+                                            type="submit"
+                                            color="primary"
+                                            [disabled]="!formComercial.valid || !canSaveChanges">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-tab>
+                <mat-tab label="ESTADÍSTICAS"
+                         *ngIf="canSeeStatistics">
+                </mat-tab>
+            </mat-tab-group>
         </div>
     </main>
 </mat-card>

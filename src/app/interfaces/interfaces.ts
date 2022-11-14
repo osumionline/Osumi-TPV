@@ -128,21 +128,37 @@ export interface MarcasResult {
   list: MarcaInterface[];
 }
 
+export interface SelectMarcaInterface {
+  id: number;
+  nombre: string;
+  selected: boolean;
+}
+
 export interface IdSaveResult {
   status: string;
   id: number;
 }
 
+export interface ComercialInterface {
+  id: number;
+  idProveedor: number;
+  nombre: string;
+  telefono: string;
+  email: string;
+  observaciones: string;
+}
+
 export interface ProveedorInterface {
   id: number;
   nombre: string;
-  idFoto: number;
+  foto: string;
   direccion: string;
   telefono: string;
   email: string;
   web: string;
   observaciones: string;
   marcas: number[];
+  comerciales: ComercialInterface[];
 }
 
 export interface ProveedoresResult {

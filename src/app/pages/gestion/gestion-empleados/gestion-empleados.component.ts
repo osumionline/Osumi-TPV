@@ -79,6 +79,9 @@ export class GestionEmpleadosComponent implements OnInit {
         this.selectedRolList[this.list[group].roles[rol].id] = false;
       }
     }
+    setTimeout(() => {
+      this.searchBox.nativeElement.focus();
+    }, 0);
   }
 
   selectEmpleado(empleado: Empleado): void {

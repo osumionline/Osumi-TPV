@@ -60,6 +60,85 @@
             &.show {
                 display: block;
             }
+
+            .group-row {
+                display: flex;
+                align-items: center;
+            }
+
+            .logo-row {
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+
+                #logo-file {
+                    display: none;
+                }
+
+                .logo {
+                    width: 200px;
+                    height: 100px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    margin-right: 16px;
+                    text-align: center;
+                    box-sizing: border-box;
+
+                    img {
+                        height: 100%;
+                    }
+                }
+            }
+
+            .actions {
+                display: flex;
+
+                .delete {
+                    flex: 5;
+                }
+
+                .others {
+                    flex: 1;
+                    display: flex;
+                    justify-content: space-around;
+                }
+            }
+
+            .search-marcas {
+                width: 100%;
+            }
+
+            .marcas-list {
+                margin-top: 16px;
+
+                &>div {
+                    padding: 16px;
+                    border-bottom: 1px solid #ddd;
+                }
+            }
+
+            .comerciales-options {
+                display: flex;
+                align-items: center;
+
+                .comerciales-select {
+                    flex: 4;
+                }
+
+                .comerciales-new {
+                    flex: 1;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+            .comercial-datos {
+                display: none;
+
+                &.show {
+                    display: block;
+                }
+            }
         }
     }
 }
