@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { LineaVenta } from "src/app/model/linea-venta.model";
@@ -61,6 +62,12 @@ export class UnaVentaComponent implements AfterViewInit {
     new MatTableDataSource<ArticuloBuscador>();
   @ViewChild(MatSort) sort: MatSort;
 
+  muestraAccesosDirectos: boolean = false;
+  accesosDirectosList: AccesoDirecto[] = [];
+  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre"];
+  accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
+    new MatTableDataSource<AccesoDirecto>();
+
   constructor(
     private cms: ClassMapperService,
     private dialog: DialogService,
@@ -72,6 +79,7 @@ export class UnaVentaComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.buscadorResultadosDataSource.sort = this.sort;
+    this.accesosDirectosDataSource.sort = this.sort;
   }
 
   @HostListener("window:keydown", ["$event"])
@@ -79,6 +87,9 @@ export class UnaVentaComponent implements AfterViewInit {
     if (ev.key === "Escape") {
       if (this.muestraBuscador) {
         this.cerrarBuscador();
+      }
+      if (this.muestraAccesosDirectos) {
+        this.cerrarAccesosDirectos();
       }
     }
   }
@@ -445,6 +456,25 @@ export class UnaVentaComponent implements AfterViewInit {
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
     this.muestraBuscador = false;
     this.setFocus(row.localizador);
+  }
+
+  abreAccesosDirectos(): void {
+    this.ars.getAccesosDirectosList().subscribe((result) => {
+      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.accesosDirectosDataSource.data = this.accesosDirectosList;
+      this.muestraAccesosDirectos = true;
+    });
+  }
+
+  cerrarAccesosDirectos(ev: MouseEvent = null): void {
+    ev && ev.preventDefault();
+    this.muestraAccesosDirectos = false;
+    this.setFocus();
+  }
+
+  selectAccesoDirecto(row: AccesoDirecto): void {
+    this.muestraAccesosDirectos = false;
+    this.setFocus(row.accesoDirecto);
   }
 
   cancelarVenta(): void {

@@ -29,6 +29,10 @@
 					  class="delete-linea"
 					  title="¿Borrar línea?"
 					  (click)="borraLinea(i)">delete</mat-icon>
+			<mat-icon *ngIf="!linea.idArticulo"
+					  class="accesos-directos"
+					  title="Abrir accesos directos"
+					  (click)="abreAccesosDirectos()">launch</mat-icon>
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
@@ -325,6 +329,57 @@
 						[ngClass]="{'selected-row':i==buscadorResultadosRow}"></tr>
 				</table>
 			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-bg"
+	 [ngClass]="{'show': muestraAccesosDirectos}">
+	<div class="modal-box">
+		<div class="modal-header">
+			<span>Accesos Directos</span>
+			<a href="#"
+			   (click)="cerrarAccesosDirectos($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body accesos-directos-box">
+			<table mat-table
+				   [dataSource]="accesosDirectosDataSource"
+				   matSort
+				   class="mat-elevation-z2 ">
+
+				<!-- Acceso directo -->
+				<ng-container matColumnDef="accesoDirecto">
+					<th mat-header-cell
+						*matHeaderCellDef
+						mat-sort-header
+						sortActionDescription="Ordenar por acceso directo">
+						Marca
+					</th>
+					<td class="center"
+						mat-cell
+						*matCellDef="let element"> {{element.accesoDirecto}} </td>
+				</ng-container>
+
+				<!-- Nombre -->
+				<ng-container matColumnDef="nombre">
+					<th mat-header-cell
+						*matHeaderCellDef
+						mat-sort-header
+						sortActionDescription="Ordenar por nombre">
+						Nombre
+					</th>
+					<td mat-cell
+						*matCellDef="let element"> {{element.nombre}} </td>
+				</ng-container>
+
+				<tr mat-header-row
+					*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
+				<tr mat-row
+					*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"
+					(click)="selectAccesoDirecto(row)"></tr>
+			</table>
 		</div>
 	</div>
 </div>
