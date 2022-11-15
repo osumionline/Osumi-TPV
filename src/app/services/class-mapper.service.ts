@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import {
   AccesoDirectoInterface,
+  ArticuloBuscadorInterface,
   ArticuloInterface,
   CategoriaInterface,
   ClienteInterface,
@@ -14,6 +15,7 @@ import {
   UltimaVentaArticuloInterface,
 } from "src/app/interfaces/interfaces";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
+import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { Cliente } from "src/app/model/cliente.model";
@@ -163,6 +165,16 @@ export class ClassMapperService {
   getAccesosDirectos(ads: AccesoDirectoInterface[]): AccesoDirecto[] {
     return ads.map((ad: AccesoDirectoInterface): AccesoDirecto => {
       return this.getAccesoDirecto(ad);
+    });
+  }
+
+  getArticuloBuscador(ab: ArticuloBuscadorInterface): ArticuloBuscador {
+    return new ArticuloBuscador().fromInterface(ab);
+  }
+
+  getArticulosBuscador(abs: ArticuloBuscadorInterface[]): ArticuloBuscador[] {
+    return abs.map((ab: ArticuloBuscadorInterface): ArticuloBuscador => {
+      return this.getArticuloBuscador(ab);
     });
   }
 }

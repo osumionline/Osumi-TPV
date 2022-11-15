@@ -1,11 +1,16 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   ViewChild,
 } from "@angular/core";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { LineaVenta } from "src/app/model/linea-venta.model";
 import { ArticulosService } from "src/app/services/articulos.service";
@@ -21,7 +26,7 @@ import { rolList } from "src/app/shared/rol.class";
   templateUrl: "./una-venta.component.html",
   styleUrls: ["./una-venta.component.scss"],
 })
-export class UnaVentaComponent {
+export class UnaVentaComponent implements AfterViewInit {
   @Input() ind: number = null;
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
@@ -41,6 +46,21 @@ export class UnaVentaComponent {
   ultimaVentaImporte: number = null;
   ultimaVentaCambio: number = null;
 
+  muestraBuscador: boolean = false;
+  @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
+  searchName: string = "";
+  buscadorResultadosList: ArticuloBuscador[] = [];
+  buscadorResultadosRow: number = 0;
+  buscadorResultadosDisplayedColumns: string[] = [
+    "nombre",
+    "marca",
+    "pvp",
+    "stock",
+  ];
+  buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
+    new MatTableDataSource<ArticuloBuscador>();
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private cms: ClassMapperService,
     private dialog: DialogService,
@@ -50,6 +70,19 @@ export class UnaVentaComponent {
     public es: EmpleadosService
   ) {}
 
+  ngAfterViewInit() {
+    this.buscadorResultadosDataSource.sort = this.sort;
+  }
+
+  @HostListener("window:keydown", ["$event"])
+  onKeyDown(ev: KeyboardEvent): void {
+    if (ev.key === "Escape") {
+      if (this.muestraBuscador) {
+        this.cerrarBuscador();
+      }
+    }
+  }
+
   loginSuccess(ev: Empleado): void {
     this.vs.ventaActual.setEmpleado(ev);
     this.vs.addLineaVenta();
@@ -57,22 +90,41 @@ export class UnaVentaComponent {
     this.setFocus();
   }
 
-  setFocus(): void {
+  setFocus(value: number = null): void {
     if (!this.vs.ventaActual.mostrarEmpleados) {
       setTimeout(() => {
         const loc: HTMLInputElement = document.getElementById(
           "loc-new-" + this.ind
         ) as HTMLInputElement;
+        // Si viene valor lo introduzco
+        if (value !== null) {
+          loc.value = value.toString();
+          this.vs.ventaActual.lineas[
+            this.vs.ventaActual.lineas.length - 1
+          ].localizador = value;
+        }
+        // Pongo el foco
         loc.focus();
+        // Si viene valor pulso intro
+        if (value !== null) {
+          const ev: KeyboardEvent = new KeyboardEvent("keydown", {
+            code: "Enter",
+            key: "Enter",
+            keyCode: 13,
+            which: 13,
+          });
+          loc.dispatchEvent(ev);
+        }
       }, 0);
     }
   }
 
   checkLocalizador(ev: KeyboardEvent, ind: number): void {
-    const letters = /^[A-Za-z]+$/;
+    const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters)) {
       ev.preventDefault();
-      console.log(ev);
+      this.abreBuscador(ev.key);
+      return;
     }
     if (ev.key === "Enter" && !this.observacionesOpen) {
       this.searching = true;
@@ -325,6 +377,78 @@ export class UnaVentaComponent {
 
   closeClienteEstadisticas(): void {
     this.showClienteEstadisticas = !this.showClienteEstadisticas;
+  }
+
+  abreBuscador(key: string): void {
+    this.muestraBuscador = true;
+    this.searchName = key;
+    this.buscadorResultadosRow = 0;
+    setTimeout(() => {
+      this.searchBoxName.nativeElement.focus();
+    }, 0);
+    this.searchStart();
+  }
+
+  cerrarBuscador(ev: MouseEvent = null): void {
+    ev && ev.preventDefault();
+    this.muestraBuscador = false;
+    this.setFocus();
+  }
+
+  checkSearchKeys(ev: KeyboardEvent = null): void {
+    if (
+      ev !== null &&
+      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
+    ) {
+      ev.preventDefault();
+      if (ev.key === "ArrowUp") {
+        if (this.buscadorResultadosRow === 0) {
+          return;
+        }
+        this.buscadorResultadosRow--;
+      }
+      if (ev.key === "ArrowDown") {
+        if (this.buscadorResultadosRow === this.buscadorResultadosList.length) {
+          return;
+        }
+        this.buscadorResultadosRow++;
+      }
+      if (ev.key === "Enter") {
+        this.selectBuscadorResultadosRow(
+          this.buscadorResultadosList[this.buscadorResultadosRow]
+        );
+      }
+    }
+  }
+
+  searchStart(ev: KeyboardEvent = null): void {
+    if (
+      ev !== null &&
+      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
+    ) {
+      ev.preventDefault();
+    } else {
+      console.log("en el else");
+      console.log(this.searchName);
+      if (this.searchName === "") {
+        console.log("limpio");
+        this.buscadorResultadosList = [];
+        this.buscadorResultadosRow = 0;
+      } else {
+        console.log("busco");
+        this.vs.search(this.searchName).subscribe((result) => {
+          this.buscadorResultadosList = this.cms.getArticulosBuscador(
+            result.list
+          );
+          this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
+        });
+      }
+    }
+  }
+
+  selectBuscadorResultadosRow(row: ArticuloBuscador): void {
+    this.muestraBuscador = false;
+    this.setFocus(row.localizador);
   }
 
   cancelarVenta(): void {

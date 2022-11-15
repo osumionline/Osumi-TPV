@@ -266,6 +266,19 @@ export interface SearchArticulosResult {
   list: ArticuloInterface[];
 }
 
+export interface ArticuloBuscadorInterface {
+  localizador: number;
+  nombre: string;
+  marca: string;
+  pvp: number;
+  stock: number;
+}
+
+export interface ArticuloBuscadorResult {
+  status: string;
+  list: ArticuloBuscadorInterface[];
+}
+
 export interface AccesoDirectoInterface {
   id: number;
   accesoDirecto: number;

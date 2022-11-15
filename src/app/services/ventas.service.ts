@@ -1,7 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { FacturaResult, FinVentaResult } from "src/app/interfaces/interfaces";
+import {
+  ArticuloBuscadorResult,
+  FacturaResult,
+  FinVentaResult,
+} from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { FinVenta } from "src/app/model/fin-venta.model";
@@ -87,6 +91,15 @@ export class VentasService {
     return this.http.post<FacturaResult>(
       environment.apiUrl + "-ventas/get-venta",
       { id }
+    );
+  }
+
+  search(q: string): Observable<ArticuloBuscadorResult> {
+    return this.http.post<ArticuloBuscadorResult>(
+      environment.apiUrl + "-ventas/search",
+      {
+        q,
+      }
     );
   }
 }
