@@ -274,7 +274,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   borrarAccesoDirecto(id: number): void {
-    console.log(id);
     this.ars.deleteAccesoDirecto(id).subscribe((result) => {
       this.abrirAccesosDirectos();
     });

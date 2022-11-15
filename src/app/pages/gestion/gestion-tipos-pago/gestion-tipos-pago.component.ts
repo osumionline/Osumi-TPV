@@ -68,11 +68,7 @@ export class GestionTiposPagoComponent implements OnInit {
       this.config.tiposPago[ind].orden = i;
       orderList.push({ id: this.config.tiposPago[ind].id, orden: i });
     }
-    console.log(orderList);
-    console.log(this.config.tiposPago);
-    this.as.saveTipoPagoOrden(orderList).subscribe((result) => {
-      console.log(result);
-    });
+    this.as.saveTipoPagoOrden(orderList).subscribe((result) => {});
   }
 
   selectTipoPago(tipoPago: TipoPago): void {

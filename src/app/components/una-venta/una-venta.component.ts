@@ -428,14 +428,10 @@ export class UnaVentaComponent implements AfterViewInit {
     ) {
       ev.preventDefault();
     } else {
-      console.log("en el else");
-      console.log(this.searchName);
       if (this.searchName === "") {
-        console.log("limpio");
         this.buscadorResultadosList = [];
         this.buscadorResultadosRow = 0;
       } else {
-        console.log("busco");
         this.vs.search(this.searchName).subscribe((result) => {
           this.buscadorResultadosList = this.cms.getArticulosBuscador(
             result.list

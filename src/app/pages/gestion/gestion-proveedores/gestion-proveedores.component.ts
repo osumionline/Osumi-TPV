@@ -103,7 +103,6 @@ export class GestionProveedoresComponent implements OnInit {
   }
 
   selectProveedor(proveedor: Proveedor): void {
-    console.log(proveedor);
     this.start = false;
     this.selectedProveedor = proveedor;
     this.form.patchValue(this.selectedProveedor.toInterface(false));
