@@ -38,6 +38,7 @@ export class CajaComponent implements OnInit, AfterViewInit {
   historicoVentasDataSource: MatTableDataSource<HistoricoVenta> =
     new MatTableDataSource<HistoricoVenta>();
   @ViewChild(MatSort) sort: MatSort;
+  historicoVentasSelected: number = null;
 
   constructor(private vs: VentasService, private cms: ClassMapperService) {}
 
@@ -107,9 +108,13 @@ export class CajaComponent implements OnInit, AfterViewInit {
       hasta: null,
     };
     this.vs.getHistorico(data).subscribe((result) => {
-      console.log(this.cms.getHistoricoVentas(result.list));
       this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
       this.historicoVentasDataSource.data = this.historicoVentasList;
     });
+  }
+
+  selectVenta(ind: number): void {
+    this.historicoVentasSelected = ind;
+    console.log(this.historicoVentasList[this.historicoVentasSelected]);
   }
 }
