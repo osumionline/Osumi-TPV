@@ -9,8 +9,11 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { DateValues } from "src/app/interfaces/interfaces";
+import { Cliente } from "src/app/model/cliente.model";
 import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ClientesService } from "src/app/services/clientes.service";
+import { ConfigService } from "src/app/services/config.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
@@ -38,9 +41,14 @@ export class CajaComponent implements OnInit, AfterViewInit {
   historicoVentasDataSource: MatTableDataSource<HistoricoVenta> =
     new MatTableDataSource<HistoricoVenta>();
   @ViewChild(MatSort) sort: MatSort;
-  historicoVentasSelected: number = null;
+  historicoVentasSelected: HistoricoVenta = new HistoricoVenta();
 
-  constructor(private vs: VentasService, private cms: ClassMapperService) {}
+  constructor(
+    private vs: VentasService,
+    private cms: ClassMapperService,
+    public cs: ClientesService,
+    public config: ConfigService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -114,7 +122,25 @@ export class CajaComponent implements OnInit, AfterViewInit {
   }
 
   selectVenta(ind: number): void {
-    this.historicoVentasSelected = ind;
-    console.log(this.historicoVentasList[this.historicoVentasSelected]);
+    this.historicoVentasSelected = this.historicoVentasList[ind];
   }
+
+  changeCliente(): void {
+    this.cs
+      .asignarCliente(
+        this.historicoVentasSelected.id,
+        this.historicoVentasSelected.idCliente
+      )
+      .subscribe((result) => {
+        if (result.status == "ok") {
+          const cliente: Cliente = this.cs.clientes.find(
+            (x: Cliente): boolean =>
+              x.id === this.historicoVentasSelected.idCliente
+          );
+          this.historicoVentasSelected.cliente = cliente.nombreApellidos;
+        }
+      });
+  }
+
+  changeFormaPago(): void {}
 }

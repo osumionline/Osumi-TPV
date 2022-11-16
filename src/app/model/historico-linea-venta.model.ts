@@ -19,6 +19,10 @@ export class HistoricoLineaVenta {
     public unidades: number = null
   ) {}
 
+  get total(): number {
+    return this.pvp * this.unidades;
+  }
+
   fromInterface(hlv: HistoricoLineaVentaInterface): HistoricoLineaVenta {
     this.id = hlv.id;
     this.idArticulo = hlv.idArticulo;

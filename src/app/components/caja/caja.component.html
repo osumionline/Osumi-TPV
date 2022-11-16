@@ -121,36 +121,84 @@
                                     *matHeaderRowDef="historicoVentasDisplayedColumns"></tr>
                                 <tr class="clickable"
                                     mat-row
-                                    [ngClass]="{'selected-row': i==historicoVentasSelected}"
+                                    [ngClass]="{'selected-row': row.id===historicoVentasSelected.id}"
                                     (click)="selectVenta(i)"
                                     *matRowDef="let row; columns: historicoVentasDisplayedColumns; let i = index;"></tr>
                             </table>
                         </div>
                         <div class="historico-data">
                             <div class="historico-data-select"
-                                 *ngIf="historicoVentasSelected === null">Elige una venta de la lista.</div>
+                                 *ngIf="historicoVentasSelected.id === null">Elige una venta de la lista.</div>
                             <div class="historico-detail"
-                                 [ngClass]="{'show':historicoVentasSelected !== null}">
+                                 [ngClass]="{'show':historicoVentasSelected.id !== null}">
                                 <div class="historico-detail-lineas"
                                      *ngIf="historicoVentasList.length > 0 && historicoVentasSelected !== null">
                                     <div class="historico-detail-linea"
-                                         *ngFor="let linea of historicoVentasList[historicoVentasSelected].lineas">
+                                         *ngFor="let linea of historicoVentasSelected.lineas">
                                         <div class="row">
-                                            <div class="col"><strong>{{linea.articulo}}</strong></div>
                                             <div class="col">{{linea.localizador}}</div>
+                                            <div class="col col-5"><strong>{{linea.articulo}}</strong></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><strong>{{linea.marca}}</strong></div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col"><strong>Cant:</strong> {{linea.unidades}}</div>
                                             <div class="col">
                                                 <strong>Desc:</strong>
                                                 <span *ngIf="linea.descuento"> {{linea.descuento}} % </span>
                                                 <span *ngIf="!linea.descuento"> - </span>
                                             </div>
+                                            <div class="col col-2">
+                                                <strong>Subt:</strong> {{linea.importe | fixedNumber}} €
+                                                <span *ngIf="linea.total != linea.importe"
+                                                      class="original-price">{{linea.total | fixedNumber}} €</span>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col"><strong>{{linea.marca}}</strong></div>
-                                            <div class="col">&nbsp;</div>
-                                            <div class="col"><strong>Subt:</strong> {{linea.importe | fixedNumber}} €</div>
-                                            <div class="col">&nbsp;</div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="historico-detail-options">
+                                    <div class="historico-details-options-left">
+                                        <mat-form-field class="mat-form-field-no-bottom">
+                                            <mat-label>Elige cliente</mat-label>
+                                            <mat-select [(ngModel)]="historicoVentasSelected.idCliente"
+                                                        (ngModelChange)="changeCliente()">
+                                                <mat-option [value]="null">Elige cliente</mat-option>
+                                                <mat-option *ngFor="let cliente of cs.clientes"
+                                                            [value]="cliente.id">
+                                                    {{cliente.nombreApellidos}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="mat-form-field-no-bottom">
+                                            <mat-label>Cambiar forma de pago</mat-label>
+                                            <mat-select [(ngModel)]="historicoVentasSelected.idTipoPago"
+                                                        (ngModelChange)="changeFormaPago()">
+                                                <mat-option [value]="null">Elige forma de pago</mat-option>
+                                                <mat-option *ngFor="let tipoPago of config.tiposPago"
+                                                            [value]="tipoPago.id">
+                                                    {{tipoPago.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="historico-details-options-right">
+                                        <button mat-raised-button
+                                                color="primary"
+                                                [disabled]="!historicoVentasSelected.idCliente">
+                                            <mat-icon>library_books</mat-icon>
+                                            Factura
+                                        </button>
+                                        <button mat-raised-button
+                                                color="primary">
+                                            <mat-icon>card_giftcard</mat-icon>
+                                            Ticket regalo
+                                        </button>
+                                        <button mat-raised-button
+                                                color="primary">
+                                            <mat-icon>print</mat-icon>
+                                            Ticket
+                                        </button>
                                     </div>
                                 </div>
                             </div>

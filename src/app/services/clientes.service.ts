@@ -78,4 +78,11 @@ export class ClientesService {
       { id }
     );
   }
+
+  asignarCliente(id: number, idCliente: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-clientes/asignar-cliente",
+      { id, idCliente }
+    );
+  }
 }
