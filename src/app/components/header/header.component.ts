@@ -1,5 +1,12 @@
-import { Component, HostListener, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { Router } from "@angular/router";
+import { CajaComponent } from "src/app/components/caja/caja.component";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
@@ -10,6 +17,7 @@ import { ConfigService } from "src/app/services/config.service";
 export class HeaderComponent implements OnInit {
   @Input() selectedOption: string = "";
   title: string;
+  @ViewChild("caja", { static: true }) caja: CajaComponent;
 
   constructor(private cs: ConfigService, private router: Router) {}
 
@@ -19,10 +27,18 @@ export class HeaderComponent implements OnInit {
 
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent): void {
-    const options: string[] = ["F5", "F6", "F7", "F8", "F9", "F10"];
+    const options: string[] = ["F4", "F5", "F6", "F7", "F8", "F9"];
     if (options.includes(ev.key)) {
       ev.preventDefault();
       this.goTo(ev.key);
+    }
+    if (ev.key === "F10") {
+      ev.preventDefault();
+      this.caja.abrirCaja("historico");
+    }
+    if (ev.key === "F11") {
+      ev.preventDefault();
+      this.caja.abrirCaja("salidas");
     }
   }
 

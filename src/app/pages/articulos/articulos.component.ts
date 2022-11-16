@@ -145,7 +145,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
   }
 

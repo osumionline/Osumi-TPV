@@ -8,6 +8,7 @@ import {
   CodigoBarrasInterface,
   ComercialInterface,
   EmpleadoInterface,
+  HistoricoVentaInterface,
   MarcaInterface,
   ProveedorInterface,
   TipoPagoInterface,
@@ -22,6 +23,7 @@ import { Cliente } from "src/app/model/cliente.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
 import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
+import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
@@ -175,6 +177,12 @@ export class ClassMapperService {
   getArticulosBuscador(abs: ArticuloBuscadorInterface[]): ArticuloBuscador[] {
     return abs.map((ab: ArticuloBuscadorInterface): ArticuloBuscador => {
       return this.getArticuloBuscador(ab);
+    });
+  }
+
+  getHistoricoVentas(hvs: HistoricoVentaInterface[]): HistoricoVenta[] {
+    return hvs.map((hv: HistoricoVentaInterface): HistoricoVenta => {
+      return new HistoricoVenta().fromInterface(hv);
     });
   }
 }

@@ -420,3 +420,48 @@ export interface ColorValues {
   g: number;
   b: number;
 }
+
+export interface DateValues {
+  modo: string;
+  fecha: string;
+  desde: string;
+  hasta: string;
+}
+
+export interface HistoricoLineaVentaInterface {
+  id: number;
+  idArticulo: number;
+  articulo: string;
+  localizador: number;
+  marca: string;
+  puc: number;
+  pvp: number;
+  iva: number;
+  re: number;
+  importe: number;
+  descuento: number;
+  importeDescuento: number;
+  devuelto: number;
+  unidades: number;
+}
+
+export interface HistoricoVentaInterface {
+  id: number;
+  idEmpleado: number;
+  idCliente: number;
+  cliente: string;
+  total: number;
+  entregado: number;
+  pagoMixto: boolean;
+  idTipoPago: number;
+  nombreTipoPago: string;
+  entregadoOtro: number;
+  saldo: number;
+  fecha: string;
+  lineas: HistoricoLineaVentaInterface[];
+}
+
+export interface HistoricoVentasResult {
+  status: string;
+  list: HistoricoVentaInterface[];
+}

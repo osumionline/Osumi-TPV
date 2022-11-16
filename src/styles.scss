@@ -1,6 +1,7 @@
 @use "assets/styles/modals.scss";
 @use "assets/styles/ventas.scss";
 @use "assets/styles/forms.scss";
+@use "assets/styles/tables.scss";
 
 :root {
   --bg-color: #eee;
@@ -12,6 +13,8 @@
   --close-icon-hover: #f00;
   --table-border: #888;
   --table-data-border: rgba(0, 0, 0, 0.12);
+  --table-header-bg: #ddd;
+  --table-row-selected: #eee;
   --separator-color: #ccc;
   --form-modified: #00f;
 }

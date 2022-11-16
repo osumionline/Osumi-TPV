@@ -323,7 +323,8 @@
 
 					<tr mat-header-row
 						*matHeaderRowDef="buscadorResultadosDisplayedColumns"></tr>
-					<tr mat-row
+					<tr class="clickable"
+						mat-row
 						*matRowDef="let row; columns: buscadorResultadosDisplayedColumns; let i = index;"
 						(click)="selectBuscadorResultadosRow(row)"
 						[ngClass]="{'selected-row':i==buscadorResultadosRow}"></tr>
@@ -343,7 +344,7 @@
 				<mat-icon>close</mat-icon>
 			</a>
 		</div>
-		<div class="modal-body accesos-directos-box">
+		<div class="modal-body">
 			<table mat-table
 				   [dataSource]="accesosDirectosDataSource"
 				   matSort
@@ -376,7 +377,8 @@
 
 				<tr mat-header-row
 					*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
-				<tr mat-row
+				<tr class="clickable"
+					mat-row
 					*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"
 					(click)="selectAccesoDirecto(row)"></tr>
 			</table>

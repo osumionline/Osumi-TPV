@@ -1,0 +1,47 @@
+table {
+    width: 100%;
+    margin: 16px 0;
+
+    .mat-header-cell {
+        background-color: var(--table-header-bg);
+        font-size: 1.1em;
+
+        &.center {
+            text-align: center;
+        }
+    }
+
+    .mat-cell {
+        &.center {
+            text-align: center;
+        }
+
+        &.right {
+            text-align: right;
+        }
+
+        &>div.paytype {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            justify-content: flex-end;
+
+            mat-icon {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    tr.clickable {
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            background-color: var(--table-header-bg);
+            cursor: pointer;
+        }
+
+        &.selected-row {
+            background-color: var(--table-row-selected);
+        }
+    }
+}

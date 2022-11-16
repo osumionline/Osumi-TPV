@@ -3,8 +3,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   ArticuloBuscadorResult,
+  DateValues,
   FacturaResult,
   FinVentaResult,
+  HistoricoVentasResult,
 } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
@@ -66,7 +68,9 @@ export class VentasService {
   }
 
   loadFinVenta(): void {
-    const lineas = this.ventaActual.lineas.filter((x) => x.idArticulo !== null);
+    const lineas: LineaVenta[] = this.ventaActual.lineas.filter(
+      (x: LineaVenta): boolean => x.idArticulo !== null
+    );
 
     this.fin = new FinVenta(
       Utils.formatNumber(this.ventaActual.importe),
@@ -100,6 +104,13 @@ export class VentasService {
       {
         q,
       }
+    );
+  }
+
+  getHistorico(data: DateValues): Observable<HistoricoVentasResult> {
+    return this.http.post<HistoricoVentasResult>(
+      environment.apiUrl + "-ventas/get-historico",
+      data
     );
   }
 }

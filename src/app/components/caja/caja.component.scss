@@ -1,0 +1,37 @@
+.historico-header {
+    display: flex;
+
+    .historico-header-options {
+        margin-right: 8px;
+    }
+
+    .historico-header-fecha {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+
+    .historico-header-rango {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+}
+
+.historico-body {
+    margin-top: 16px;
+}

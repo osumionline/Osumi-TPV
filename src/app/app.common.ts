@@ -41,6 +41,7 @@ import { EmployeeLoginComponent } from "src/app/components/employee-login/employ
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
+import { CajaComponent } from "src/app/components/caja/caja.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -50,6 +51,7 @@ export const COMPONENTS: any[] = [
   UnaVentaComponent,
   HeaderComponent,
   EmployeeLoginComponent,
+  CajaComponent,
 ];
 
 /*
@@ -124,6 +126,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTableModule } from "@angular/material/table";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MatNativeDateModule } from "@angular/material/core";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,
@@ -143,4 +146,5 @@ export const MATERIAL: any[] = [
   MatDatepickerModule,
   MatTableModule,
   DragDropModule,
+  MatNativeDateModule,
 ];
