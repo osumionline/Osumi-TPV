@@ -3,6 +3,7 @@
 
   .articulo-header {
     display: flex;
+    margin-bottom: 16px;
 
     .articulos-space {
       flex: 1;
@@ -81,6 +82,7 @@
     justify-content: space-around;
 
     .cod-barras-item {
+      box-sizing: border-box;
       width: 100%;
       border: 1px solid #ccc;
       border-radius: 6px;
@@ -122,6 +124,7 @@
   }
 
   .fotos-list {
+    box-sizing: border-box;
     width: 100%;
     outline: 1px solid #e0e0e0;
     height: 150px;
@@ -290,6 +293,7 @@
     }
 
     .search-box-col-nombre {
+      box-sizing: border-box;
       padding-left: 10px;
       width: 45%;
       border-left: 1px solid #ccc;
@@ -300,6 +304,7 @@
     }
 
     .search-box-col-stock {
+      box-sizing: border-box;
       width: 10%;
       justify-content: center;
       border-right: 1px solid #ccc;
@@ -337,6 +342,7 @@
   display: flex;
 
   label {
+    box-sizing: border-box;
     padding: 8px;
     display: inline-block;
     background-color: #ccc;

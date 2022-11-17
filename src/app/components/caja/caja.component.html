@@ -14,7 +14,8 @@
                            #cajaTabs>
                 <mat-tab label="HISTÓRICO DE VENTAS">
                     <div class="historico-header">
-                        <mat-form-field class="mat-form-field-no-bottom historico-header-options">
+                        <mat-form-field class="historico-header-options"
+                                        subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="historicoModo">
                                 <mat-option value="fecha">
                                     Fecha
@@ -30,7 +31,7 @@
                                     (click)="previousFecha()">
                                 <mat-icon>chevron_left</mat-icon>
                             </button>
-                            <mat-form-field class="mat-form-field-no-bottom">
+                            <mat-form-field subscriptSizing="dynamic">
                                 <mat-label>Elige fecha</mat-label>
                                 <input matInput
                                        [matDatepicker]="fechaPicker"
@@ -47,7 +48,7 @@
                         </div>
                         <div class="historico-header-rango"
                              [ngClass]="{'show': historicoModo === 'rango'}">
-                            <mat-form-field class="mat-form-field-no-bottom">
+                            <mat-form-field subscriptSizing="dynamic">
                                 <mat-label>Fecha desde</mat-label>
                                 <input matInput
                                        [matDatepicker]="rangoDesdePicker"
@@ -56,7 +57,7 @@
                                                        [for]="rangoDesdePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #rangoDesdePicker></mat-datepicker>
                             </mat-form-field>
-                            <mat-form-field class="mat-form-field-no-bottom">
+                            <mat-form-field subscriptSizing="dynamic">
                                 <mat-label>Fecha hasta</mat-label>
                                 <input matInput
                                        [matDatepicker]="rangoHastaPicker"
@@ -159,7 +160,7 @@
                                 </div>
                                 <div class="historico-detail-options">
                                     <div class="historico-details-options-left">
-                                        <mat-form-field class="mat-form-field-no-bottom">
+                                        <mat-form-field subscriptSizing="dynamic">
                                             <mat-label>Elige cliente</mat-label>
                                             <mat-select [(ngModel)]="historicoVentasSelected.idCliente"
                                                         (ngModelChange)="changeCliente()">
@@ -170,7 +171,7 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <mat-form-field class="mat-form-field-no-bottom">
+                                        <mat-form-field subscriptSizing="dynamic">
                                             <mat-label>Cambiar forma de pago</mat-label>
                                             <mat-select [(ngModel)]="historicoVentasSelected.idTipoPago"
                                                         (ngModelChange)="changeFormaPago()">

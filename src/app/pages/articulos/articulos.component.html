@@ -11,7 +11,8 @@
 		<div class="articulo-header">
 			<div class="form-field">
 				<label>Localizador</label>
-				<mat-form-field class="campo-numero mat-form-field-no-bottom">
+				<mat-form-field class="campo-numero"
+								subscriptSizing="dynamic">
 					<input type="number"
 						   step="1"
 						   matInput
@@ -29,7 +30,8 @@
 			</div>
 			<div class="form-field articulos-space">
 				<label>Nombre</label>
-				<mat-form-field class="nombre-label mat-form-field-no-bottom form-title">
+				<mat-form-field class="nombre-label form-title"
+								subscriptSizing="dynamic">
 					<input matInput
 						   placeholder="Nombre"
 						   [(ngModel)]="articulo.nombre">
@@ -568,7 +570,7 @@
 				<p>Asignar acceso directo al artículo:</p>
 				<div>
 					<label>Acceso directo</label>
-					<mat-form-field class="mat-form-field-no-bottom">
+					<mat-form-field subscriptSizing="dynamic">
 						<input matInput
 							   type="number"
 							   step="1"

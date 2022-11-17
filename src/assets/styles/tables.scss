@@ -2,16 +2,16 @@ table {
     width: 100%;
     margin: 16px 0;
 
-    .mat-header-cell {
-        background-color: var(--table-header-bg);
+    .mat-mdc-header-cell {
+        background-color: var(--table-header-bg) !important;
         font-size: 1.1em;
 
-        &.center {
-            text-align: center;
+        &.center>.mat-sort-header-container {
+            justify-content: center;
         }
     }
 
-    .mat-cell {
+    .mat-mdc-cell {
         &.center {
             text-align: center;
         }

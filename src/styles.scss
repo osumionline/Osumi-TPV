@@ -61,8 +61,17 @@ input[type="number"] {
   justify-content: center;
 }
 
-.mat-tab-body-content {
+mat-tab-body {
   padding: 16px;
+}
+
+mat-card-content {
+  width: 100%;
+}
+
+.flex-content {
+  display: flex;
+  flex-direction: row;
 }
 
 .toolbar-title {

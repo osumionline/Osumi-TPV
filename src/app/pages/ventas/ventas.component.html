@@ -22,7 +22,7 @@
 		<div class="modal-body finalizar-venta">
 			<div class="col-left">
 				<div class="col-line">
-					<mat-form-field class="mat-form-field-no-bottom">
+					<mat-form-field subscriptSizing="dynamic">
 						<mat-label>Efectivo</mat-label>
 						<input matInput
 							   placeholder="Efectivo"
@@ -33,7 +33,7 @@
 							   #efectivoValue>
 					</mat-form-field>
 					€
-					<mat-form-field class="mat-form-field-no-bottom">
+					<mat-form-field subscriptSizing="dynamic">
 						<mat-label>Cambio</mat-label>
 						<input matInput
 							   placeholder="Cambio"
@@ -55,7 +55,7 @@
 				<div class="col-line-check">
 					<mat-checkbox [(ngModel)]="vs.fin.pagoMixto"
 								  (change)="changePagoMixto($event)">Pago mixto</mat-checkbox>
-					<mat-form-field class="mat-form-field-no-bottom">
+					<mat-form-field subscriptSizing="dynamic">
 						<mat-label>Importe tarjeta</mat-label>
 						<input matInput
 							   placeholder="Importe tarjeta"
@@ -69,7 +69,7 @@
 				<div class="col-line-check">
 					<mat-checkbox [(ngModel)]="vs.fin.factura"
 								  (change)="changeFactura($event)">Factura</mat-checkbox>
-					<mat-form-field class="mat-form-field-no-bottom">
+					<mat-form-field subscriptSizing="dynamic">
 						<mat-select [(ngModel)]="vs.fin.idCliente"
 									[disabled]="!vs.fin.factura"
 									#clientesValue>
