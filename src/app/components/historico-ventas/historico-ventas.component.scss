@@ -1,0 +1,135 @@
+.historico-header {
+    display: flex;
+    padding-top: 8px;
+
+    .historico-header-options {
+        margin-right: 8px;
+    }
+
+    .historico-header-fecha {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+
+    .historico-header-rango {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+}
+
+.historico-body {
+    margin-top: 16px;
+    display: flex;
+
+    .historico-table {
+        flex: 1;
+        height: 400px;
+        width: 500px;
+        overflow-y: auto;
+    }
+
+    .historico-data {
+        flex: 1;
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin: 16px 0 16px 16px;
+        width: 500px;
+        box-sizing: border-box;
+
+        .historico-data-select {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.3em;
+            align-items: center;
+        }
+
+        .historico-detail {
+            display: none;
+
+            &.show {
+                display: block;
+            }
+
+            .historico-detail-lineas {
+                height: 250px;
+                overflow-y: auto;
+
+                .historico-detail-linea {
+                    display: flex;
+                    border-bottom: 1px solid #ddd;
+                    flex-direction: column;
+
+                    .row {
+                        display: flex;
+                        flex-direction: row;
+
+                        .col {
+                            flex: 1;
+                            padding: 8px;
+
+                            .original-price {
+                                text-decoration: line-through;
+                                font-style: italic;
+                            }
+                        }
+
+                        .col-2 {
+                            flex: 2;
+                        }
+
+                        .col-5 {
+                            flex: 5;
+                        }
+                    }
+                }
+            }
+
+            .historico-detail-options {
+                display: flex;
+
+                .historico-details-options-left {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 8px;
+                    justify-content: space-between;
+
+                    mat-form-field {
+                        margin: 8px 0;
+                    }
+                }
+
+                .historico-details-options-right {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 8px;
+                    justify-content: space-between;
+
+                    button {
+                        margin: 8px 0;
+                    }
+                }
+            }
+        }
+    }
+}
