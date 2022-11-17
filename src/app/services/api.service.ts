@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { SalidaCajaInterface } from "./../interfaces/interfaces";
 
 import {
   AllProvincesInterface,
@@ -77,6 +78,13 @@ export class ApiService {
   getSalidasCaja(data: DateValues): Observable<SalidaCajaResult> {
     return this.http.post<SalidaCajaResult>(
       environment.apiUrl + "/get-salidas-caja",
+      data
+    );
+  }
+
+  saveSalidaCaja(data: SalidaCajaInterface): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "/save-salida-caja",
       data
     );
   }

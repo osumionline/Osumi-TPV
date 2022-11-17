@@ -10,23 +10,27 @@ export class SalidaCaja {
     public fecha: string = null
   ) {}
 
-  fromInterface(sc: SalidaCajaInterface): SalidaCaja {
+  fromInterface(sc: SalidaCajaInterface, decode: boolean = true): SalidaCaja {
     this.id = sc.id;
-    this.concepto = Utils.urldecode(sc.concepto);
-    this.descripcion = Utils.urldecode(sc.descripcion);
+    this.concepto = decode ? Utils.urldecode(sc.concepto) : sc.concepto;
+    this.descripcion = decode
+      ? Utils.urldecode(sc.descripcion)
+      : sc.descripcion;
     this.importe = sc.importe;
-    this.fecha = Utils.urldecode(sc.fecha);
+    this.fecha = decode ? Utils.urldecode(sc.fecha) : sc.fecha;
 
     return this;
   }
 
-  toInterface(): SalidaCajaInterface {
+  toInterface(encode: boolean = true): SalidaCajaInterface {
     return {
       id: this.id,
-      concepto: Utils.urlencode(this.concepto),
-      descripcion: Utils.urlencode(this.descripcion),
+      concepto: encode ? Utils.urlencode(this.concepto) : this.concepto,
+      descripcion: encode
+        ? Utils.urlencode(this.descripcion)
+        : this.descripcion,
       importe: this.importe,
-      fecha: Utils.urlencode(this.fecha),
+      fecha: encode ? Utils.urlencode(this.fecha) : this.fecha,
     };
   }
 }

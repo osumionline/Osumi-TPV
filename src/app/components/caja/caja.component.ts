@@ -1,6 +1,7 @@
 import { Component, HostListener, ViewChild } from "@angular/core";
 import { MatTabGroup } from "@angular/material/tabs";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 
 @Component({
   selector: "otpv-caja",
@@ -15,6 +16,8 @@ export class CajaComponent {
 
   @ViewChild("historicoVentas", { static: true })
   historicoVentas: HistoricoVentasComponent;
+  @ViewChild("salidasCaja", { static: true })
+  salidasCaja: SalidasCajaComponent;
 
   constructor() {}
 
@@ -37,6 +40,7 @@ export class CajaComponent {
     }
     this.cajaTabs.realignInkBar();
     this.historicoVentas.changeFecha();
+    this.salidasCaja.changeFecha();
   }
 
   cerrarCaja(ev: MouseEvent = null): void {
