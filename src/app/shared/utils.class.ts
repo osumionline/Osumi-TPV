@@ -73,4 +73,20 @@ export class Utils {
         }
       : null;
   }
+
+  static addDays(date: Date, number: number): Date {
+    const newDate = new Date(date);
+    return new Date(newDate.setDate(date.getDate() + number));
+  }
+
+  static getDate(date: Date): string {
+    const day: string =
+      date.getDate() < 10 ? "0" + date.getDate() : date.getDate().toString();
+    const month: string =
+      date.getMonth() + 1 < 10
+        ? "0" + (date.getMonth() + 1)
+        : (date.getMonth() + 1).toString();
+
+    return day + "/" + month + "/" + date.getFullYear();
+  }
 }

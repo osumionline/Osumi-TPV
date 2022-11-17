@@ -466,3 +466,16 @@ export interface HistoricoVentasResult {
   status: string;
   list: HistoricoVentaInterface[];
 }
+
+export interface SalidaCajaInterface {
+  id: number;
+  concepto: string;
+  descripcion: string;
+  importe: number;
+  fecha: string;
+}
+
+export interface SalidaCajaResult {
+  status: string;
+  list: SalidaCajaInterface[];
+}

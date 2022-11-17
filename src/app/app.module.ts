@@ -17,14 +17,13 @@ import es from "@angular/common/locales/es";
 registerLocaleData(es);
 
 import { COMPONENTS, MATERIAL, PAGES, PIPES, SERVICES } from "./app.common";
-import { HistoricoVentasComponent } from './components/historico-ventas/historico-ventas.component';
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
 
 @NgModule({
-  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES, HistoricoVentasComponent],
+  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES],
   imports: [
     BrowserModule,
     AppRoutingModule,

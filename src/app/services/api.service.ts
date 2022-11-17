@@ -6,7 +6,9 @@ import { environment } from "src/environments/environment";
 import {
   AllProvincesInterface,
   AppDataInterface,
+  DateValues,
   IdSaveResult,
+  SalidaCajaResult,
   StartDataInterface,
   StatusResult,
   TipoPagoInterface,
@@ -69,6 +71,13 @@ export class ApiService {
     return this.http.post<StatusResult>(
       environment.apiUrl + "/save-tipo-pago-orden",
       { list: orderList }
+    );
+  }
+
+  getSalidasCaja(data: DateValues): Observable<SalidaCajaResult> {
+    return this.http.post<SalidaCajaResult>(
+      environment.apiUrl + "/get-salidas-caja",
+      data
     );
   }
 }

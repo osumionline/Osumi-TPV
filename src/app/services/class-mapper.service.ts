@@ -11,6 +11,7 @@ import {
   HistoricoVentaInterface,
   MarcaInterface,
   ProveedorInterface,
+  SalidaCajaInterface,
   TipoPagoInterface,
   TopVentaArticuloInterface,
   UltimaVentaArticuloInterface,
@@ -26,6 +27,7 @@ import { Empleado } from "src/app/model/empleado.model";
 import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
+import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
 import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
@@ -183,6 +185,16 @@ export class ClassMapperService {
   getHistoricoVentas(hvs: HistoricoVentaInterface[]): HistoricoVenta[] {
     return hvs.map((hv: HistoricoVentaInterface): HistoricoVenta => {
       return new HistoricoVenta().fromInterface(hv);
+    });
+  }
+
+  getSalidaCaja(sc: SalidaCajaInterface): SalidaCaja {
+    return new SalidaCaja().fromInterface(sc);
+  }
+
+  getSalidasCaja(scs: SalidaCajaInterface[]): SalidaCaja[] {
+    return scs.map((sc: SalidaCajaInterface): SalidaCaja => {
+      return this.getSalidaCaja(sc);
     });
   }
 }

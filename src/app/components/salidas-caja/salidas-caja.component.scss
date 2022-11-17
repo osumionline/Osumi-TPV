@@ -1,0 +1,34 @@
+.salidas-header {
+    display: flex;
+    padding-top: 8px;
+
+    .salidas-header-options {
+        margin-right: 8px;
+    }
+
+    .salidas-header-fecha {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+
+    .salidas-header-rango {
+        display: none;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+
+        mat-form-field {
+            margin: 0 8px;
+        }
+    }
+}

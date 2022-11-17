@@ -1,0 +1,61 @@
+<div class="salidas-header">
+    <mat-form-field class="salidas-header-options"
+                    subscriptSizing="dynamic">
+        <mat-select [(ngModel)]="salidasModo">
+            <mat-option value="fecha">
+                Fecha
+            </mat-option>
+            <mat-option value="rango">
+                Rango
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="salidas-header-fecha"
+         [ngClass]="{'show': salidasModo === 'fecha'}">
+        <button mat-icon-button
+                (click)="previousFecha()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Elige fecha</mat-label>
+            <input matInput
+                   [matDatepicker]="fechaPicker"
+                   [(ngModel)]="fecha"
+                   (ngModelChange)="changeFecha()">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="fechaPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fechaPicker></mat-datepicker>
+        </mat-form-field>
+        <button mat-icon-button
+                (click)="nextFecha()">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+    <div class="salidas-header-rango"
+         [ngClass]="{'show': salidasModo === 'rango'}">
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Fecha desde</mat-label>
+            <input matInput
+                   [matDatepicker]="rangoDesdePicker"
+                   [(ngModel)]="rangoDesde">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="rangoDesdePicker"></mat-datepicker-toggle>
+            <mat-datepicker #rangoDesdePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Fecha hasta</mat-label>
+            <input matInput
+                   [matDatepicker]="rangoHastaPicker"
+                   [(ngModel)]="rangoHasta">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="rangoHastaPicker"></mat-datepicker-toggle>
+            <mat-datepicker #rangoHastaPicker></mat-datepicker>
+        </mat-form-field>
+        <button mat-raised-button
+                color="primary"
+                (click)="buscarPorRango()">
+            <mat-icon>search</mat-icon>
+            Buscar
+        </button>
+    </div>
+</div>

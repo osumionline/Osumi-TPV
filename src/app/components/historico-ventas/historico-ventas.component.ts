@@ -10,6 +10,7 @@ import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
+import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   selector: "otpv-historico-ventas",
@@ -45,29 +46,13 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.historicoVentasDataSource.sort = this.sort;
   }
 
-  getDate(date: Date): string {
-    const day: string =
-      date.getDate() < 10 ? "0" + date.getDate() : date.getDate().toString();
-    const month: string =
-      date.getMonth() + 1 < 10
-        ? "0" + (date.getMonth() + 1)
-        : (date.getMonth() + 1).toString();
-
-    return day + "/" + month + "/" + date.getFullYear();
-  }
-
-  addDays(date: Date, number: number): Date {
-    const newDate = new Date(date);
-    return new Date(newDate.setDate(date.getDate() + number));
-  }
-
   previousFecha(): void {
-    this.fecha = this.addDays(this.fecha, -1);
+    this.fecha = Utils.addDays(this.fecha, -1);
     this.changeFecha();
   }
 
   nextFecha(): void {
-    this.fecha = this.addDays(this.fecha, 1);
+    this.fecha = Utils.addDays(this.fecha, 1);
     this.changeFecha();
   }
 
@@ -75,7 +60,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.historicoVentasSelected = new HistoricoVenta();
     const data: DateValues = {
       modo: "fecha",
-      fecha: this.getDate(this.fecha),
+      fecha: Utils.getDate(this.fecha),
       desde: null,
       hasta: null,
     };
@@ -96,8 +81,8 @@ export class HistoricoVentasComponent implements AfterViewInit {
     const data: DateValues = {
       modo: "rango",
       fecha: null,
-      desde: this.getDate(this.rangoDesde),
-      hasta: this.getDate(this.rangoHasta),
+      desde: Utils.getDate(this.rangoDesde),
+      hasta: Utils.getDate(this.rangoHasta),
     };
     this.buscarHistorico(data);
   }
