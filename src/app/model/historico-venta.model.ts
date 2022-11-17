@@ -8,6 +8,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class HistoricoVenta {
   constructor(
     public id: number = null,
+    public editable: boolean = false,
     public idEmpleado: number = null,
     public idCliente: number = null,
     public cliente: string = null,
@@ -24,6 +25,7 @@ export class HistoricoVenta {
 
   fromInterface(hv: HistoricoVentaInterface): HistoricoVenta {
     this.id = hv.id;
+    this.editable = hv.editable;
     this.idEmpleado = hv.idEmpleado;
     this.idCliente = hv.idCliente;
     this.cliente = hv.cliente !== null ? Utils.urldecode(hv.cliente) : null;
@@ -47,6 +49,7 @@ export class HistoricoVenta {
   toInterface(): HistoricoVentaInterface {
     return {
       id: this.id,
+      editable: this.editable,
       idEmpleado: this.idEmpleado,
       idCliente: this.idCliente,
       cliente: Utils.urlencode(this.cliente),

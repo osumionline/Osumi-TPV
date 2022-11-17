@@ -447,6 +447,7 @@ export interface HistoricoLineaVentaInterface {
 
 export interface HistoricoVentaInterface {
   id: number;
+  editable: boolean;
   idEmpleado: number;
   idCliente: number;
   cliente: string;

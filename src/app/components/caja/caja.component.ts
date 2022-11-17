@@ -11,9 +11,11 @@ import { MatTabGroup } from "@angular/material/tabs";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { HistoricoVenta } from "src/app/model/historico-venta.model";
+import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
+import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
@@ -47,7 +49,8 @@ export class CajaComponent implements OnInit, AfterViewInit {
     private vs: VentasService,
     private cms: ClassMapperService,
     public cs: ClientesService,
-    public config: ConfigService
+    public config: ConfigService,
+    private dialog: DialogService
   ) {}
 
   ngOnInit(): void {}
@@ -109,12 +112,37 @@ export class CajaComponent implements OnInit, AfterViewInit {
   }
 
   changeFecha(): void {
+    this.historicoVentasSelected = new HistoricoVenta();
     const data: DateValues = {
       modo: "fecha",
       fecha: this.getDate(this.fecha),
       desde: null,
       hasta: null,
     };
+    this.buscarHistorico(data);
+  }
+
+  buscarPorRango(): void {
+    if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+      return;
+    }
+    const data: DateValues = {
+      modo: "rango",
+      fecha: null,
+      desde: this.getDate(this.rangoDesde),
+      hasta: this.getDate(this.rangoHasta),
+    };
+    this.buscarHistorico(data);
+  }
+
+  buscarHistorico(data: DateValues): void {
     this.vs.getHistorico(data).subscribe((result) => {
       this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
       this.historicoVentasDataSource.data = this.historicoVentasList;
@@ -142,5 +170,24 @@ export class CajaComponent implements OnInit, AfterViewInit {
       });
   }
 
-  changeFormaPago(): void {}
+  changeFormaPago(): void {
+    this.vs
+      .asignarTipoPago(
+        this.historicoVentasSelected.id,
+        this.historicoVentasSelected.idTipoPago
+      )
+      .subscribe((result) => {
+        if (result.status == "ok") {
+          if (this.historicoVentasSelected.idTipoPago !== null) {
+            const tp: TipoPago = this.config.tiposPago.find(
+              (x: TipoPago): boolean =>
+                x.id === this.historicoVentasSelected.idTipoPago
+            );
+            this.historicoVentasSelected.nombreTipoPago = tp.nombre;
+          } else {
+            this.historicoVentasSelected.nombreTipoPago = "Efectivo";
+          }
+        }
+      });
+  }
 }

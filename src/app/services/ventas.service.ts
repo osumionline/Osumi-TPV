@@ -7,6 +7,7 @@ import {
   FacturaResult,
   FinVentaResult,
   HistoricoVentasResult,
+  StatusResult,
 } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
@@ -111,6 +112,13 @@ export class VentasService {
     return this.http.post<HistoricoVentasResult>(
       environment.apiUrl + "-ventas/get-historico",
       data
+    );
+  }
+
+  asignarTipoPago(id: number, idTipoPago: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-ventas/asignar-tipo-pago",
+      { id, idTipoPago }
     );
   }
 }

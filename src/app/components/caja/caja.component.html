@@ -66,6 +66,12 @@
                                                        [for]="rangoHastaPicker"></mat-datepicker-toggle>
                                 <mat-datepicker #rangoHastaPicker></mat-datepicker>
                             </mat-form-field>
+                            <button mat-raised-button
+                                    color="primary"
+                                    (click)="buscarPorRango()">
+                                <mat-icon>search</mat-icon>
+                                Buscar
+                            </button>
                         </div>
                     </div>
                     <div class="historico-body">
@@ -161,6 +167,18 @@
                                 <div class="historico-detail-options">
                                     <div class="historico-details-options-left">
                                         <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Cambiar forma de pago</mat-label>
+                                            <mat-select [(ngModel)]="historicoVentasSelected.idTipoPago"
+                                                        (ngModelChange)="changeFormaPago()"
+                                                        [disabled]="!historicoVentasSelected.editable">
+                                                <mat-option [value]="null">Efectivo</mat-option>
+                                                <mat-option *ngFor="let tipoPago of config.tiposPago"
+                                                            [value]="tipoPago.id">
+                                                    {{tipoPago.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field subscriptSizing="dynamic">
                                             <mat-label>Elige cliente</mat-label>
                                             <mat-select [(ngModel)]="historicoVentasSelected.idCliente"
                                                         (ngModelChange)="changeCliente()">
@@ -171,24 +189,12 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Cambiar forma de pago</mat-label>
-                                            <mat-select [(ngModel)]="historicoVentasSelected.idTipoPago"
-                                                        (ngModelChange)="changeFormaPago()">
-                                                <mat-option [value]="null">Elige forma de pago</mat-option>
-                                                <mat-option *ngFor="let tipoPago of config.tiposPago"
-                                                            [value]="tipoPago.id">
-                                                    {{tipoPago.nombre}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
                                     </div>
                                     <div class="historico-details-options-right">
                                         <button mat-raised-button
-                                                color="primary"
-                                                [disabled]="!historicoVentasSelected.idCliente">
-                                            <mat-icon>library_books</mat-icon>
-                                            Factura
+                                                color="primary">
+                                            <mat-icon>print</mat-icon>
+                                            Ticket
                                         </button>
                                         <button mat-raised-button
                                                 color="primary">
@@ -196,9 +202,10 @@
                                             Ticket regalo
                                         </button>
                                         <button mat-raised-button
-                                                color="primary">
-                                            <mat-icon>print</mat-icon>
-                                            Ticket
+                                                color="primary"
+                                                [disabled]="!historicoVentasSelected.idCliente">
+                                            <mat-icon>library_books</mat-icon>
+                                            Factura
                                         </button>
                                     </div>
                                 </div>

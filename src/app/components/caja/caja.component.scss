@@ -1,5 +1,6 @@
 .historico-header {
     display: flex;
+    padding-top: 8px;
 
     .historico-header-options {
         margin-right: 8px;
@@ -111,6 +112,10 @@
                     flex-direction: column;
                     padding: 8px;
                     justify-content: space-between;
+
+                    mat-form-field {
+                        margin: 8px 0;
+                    }
                 }
 
                 .historico-details-options-right {
@@ -119,6 +124,10 @@
                     flex-direction: column;
                     padding: 8px;
                     justify-content: space-between;
+
+                    button {
+                        margin: 8px 0;
+                    }
                 }
             }
         }
