@@ -3,6 +3,7 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class CierreCajaTipo {
   real: number = null;
+  show: boolean = false;
 
   constructor(
     public id: number = null,

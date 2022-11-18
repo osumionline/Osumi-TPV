@@ -9,6 +9,10 @@ table {
         &.center>.mat-sort-header-container {
             justify-content: center;
         }
+
+        &.right>.mat-sort-header-container {
+            justify-content: flex-end;
+        }
     }
 
     .mat-mdc-cell {

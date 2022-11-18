@@ -1,4 +1,48 @@
+.tab-content {
+    background-color: #eee;
+    padding-top: 8px;
+    border-radius: 6px;
+}
+
 .data-card {
-    width: 200px;
+    min-width: 300px;
     margin: 16px;
+
+    .card-title {
+        span {
+            display: inline-block;
+            line-height: 48px;
+            margin-left: 16px;
+        }
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .card-content {
+        display: none;
+
+        &.show {
+            display: block;
+        }
+    }
+}
+
+.tipos-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    mat-card {
+        width: 250px;
+        display: inline-block;
+    }
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
 }

@@ -59,6 +59,7 @@
         </button>
     </div>
 </div>
+
 <div class="historico-body">
     <div class="historico-table">
         <table *ngIf="historicoVentasList.length > 0"
@@ -81,7 +82,8 @@
 
             <!-- Importe -->
             <ng-container matColumnDef="total">
-                <th mat-header-cell
+                <th class="right"
+                    mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
                     sortActionDescription="Ordenar por importe">
@@ -94,7 +96,8 @@
 
             <!-- Tipo de pago -->
             <ng-container matColumnDef="nombreTipoPago">
-                <th mat-header-cell
+                <th class="right"
+                    mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
                     sortActionDescription="Ordenar por tipo de pago">
