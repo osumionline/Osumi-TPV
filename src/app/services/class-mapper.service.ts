@@ -4,6 +4,7 @@ import {
   ArticuloBuscadorInterface,
   ArticuloInterface,
   CategoriaInterface,
+  CierreCajaInterface,
   ClienteInterface,
   CodigoBarrasInterface,
   ComercialInterface,
@@ -20,6 +21,7 @@ import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
+import { CierreCaja } from "src/app/model/cierre-caja.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
 import { Comercial } from "src/app/model/comercial.model";
@@ -196,5 +198,9 @@ export class ClassMapperService {
     return scs.map((sc: SalidaCajaInterface): SalidaCaja => {
       return this.getSalidaCaja(sc);
     });
+  }
+
+  getCierreCaja(cc: CierreCajaInterface): CierreCaja {
+    return new CierreCaja().fromInterface(cc);
   }
 }

@@ -480,3 +480,22 @@ export interface SalidaCajaResult {
   status: string;
   list: SalidaCajaInterface[];
 }
+
+export interface CierreCajaTipoInterface {
+  id: number;
+  nombre: string;
+  ventas: number;
+  operaciones: number;
+}
+
+export interface CierreCajaInterface {
+  saldoInicial: number;
+  importeEfectivo: number;
+  importeTotal: number;
+  tipos: CierreCajaTipoInterface[];
+}
+
+export interface CierreCajaResult {
+  status: string;
+  datos: CierreCajaInterface;
+}
