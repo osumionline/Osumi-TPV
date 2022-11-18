@@ -61,7 +61,8 @@
 </div>
 <div class="historico-body">
     <div class="historico-table">
-        <table mat-table
+        <table *ngIf="historicoVentasList.length > 0"
+               mat-table
                [dataSource]="historicoVentasDataSource"
                matSort
                class="mat-elevation-z2 ">
@@ -117,37 +118,114 @@
                 (click)="selectVenta(i)"
                 *matRowDef="let row; columns: historicoVentasDisplayedColumns; let i = index;"></tr>
         </table>
+        <div class="historico-no-data"
+             *ngIf="historicoVentasList.length === 0">No hay ventas para la fecha elegida.</div>
     </div>
     <div class="historico-data">
-        <div class="historico-data-select"
+        <div class="historico-no-data"
              *ngIf="historicoVentasSelected.id === null">Elige una venta de la lista.</div>
         <div class="historico-detail"
              [ngClass]="{'show':historicoVentasSelected.id !== null}">
             <div class="historico-detail-lineas"
                  *ngIf="historicoVentasList.length > 0 && historicoVentasSelected !== null">
-                <div class="historico-detail-linea"
-                     *ngFor="let linea of historicoVentasSelected.lineas">
-                    <div class="row">
-                        <div class="col">{{linea.localizador}}</div>
-                        <div class="col col-5"><strong>{{linea.articulo}}</strong></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><strong>{{linea.marca}}</strong></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><strong>Cant:</strong> {{linea.unidades}}</div>
-                        <div class="col">
-                            <strong>Desc:</strong>
-                            <span *ngIf="linea.descuento"> {{linea.descuento}} % </span>
-                            <span *ngIf="!linea.descuento"> - </span>
-                        </div>
-                        <div class="col col-2">
-                            <strong>Subt:</strong> {{linea.importe | fixedNumber}} €
-                            <span *ngIf="linea.total != linea.importe"
-                                  class="original-price">{{linea.total | fixedNumber}} €</span>
-                        </div>
-                    </div>
-                </div>
+
+                <table mat-table
+                       [dataSource]="historicoVentasSelectedDataSource"
+                       matSort
+                       class="mat-elevation-z2 ">
+
+                    <!-- Localizador -->
+                    <ng-container matColumnDef="localizador">
+                        <th mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por localizador">
+                            Localizador
+                        </th>
+                        <td mat-cell
+                            *matCellDef="let element"> {{element.localizador}} </td>
+                    </ng-container>
+
+                    <!-- Marca -->
+                    <ng-container matColumnDef="marca">
+                        <th mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por marca">
+                            Marca
+                        </th>
+                        <td mat-cell
+                            *matCellDef="let element"> {{element.marca}} </td>
+                    </ng-container>
+
+                    <!-- Descripción -->
+                    <ng-container matColumnDef="articulo">
+                        <th mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por descripcion">
+                            Descripción
+                        </th>
+                        <td mat-cell
+                            *matCellDef="let element"> {{element.articulo}} </td>
+                    </ng-container>
+
+                    <!-- Cantidad -->
+                    <ng-container matColumnDef="unidades">
+                        <th class="center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por cantidad">
+                            Cant.
+                        </th>
+                        <td class="center"
+                            mat-cell
+                            *matCellDef="let element"> {{element.unidades}} </td>
+                    </ng-container>
+
+                    <!-- Descuento -->
+                    <ng-container matColumnDef="descuento">
+                        <th class="center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por descuento">
+                            Desc.
+                        </th>
+                        <td class="center"
+                            mat-cell
+                            *matCellDef="let element">
+                            <div *ngIf="element.importeDescuento">{{element.importeDescuento}} €</div>
+                            <div *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</div>
+                            <div *ngIf="!element.importeDescuento && element.descuento === 0">-</div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Importe -->
+                    <ng-container matColumnDef="importe">
+                        <th class="center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por importe">
+                            Importe
+                        </th>
+                        <td class="center"
+                            mat-cell
+                            *matCellDef="let element">
+                            {{element.importe | fixedNumber}} €
+                            <div *ngIf="element.total != element.importe"
+                                 class="original-price">{{element.total | fixedNumber}} €</div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row
+                        *matHeaderRowDef="historicoVentasSelectedDisplayedColumns"></tr>
+                    <tr mat-row
+                        *matRowDef="let row; columns: historicoVentasSelectedDisplayedColumns;"></tr>
+                </table>
+
             </div>
             <div class="historico-detail-options">
                 <div class="historico-details-options-left">

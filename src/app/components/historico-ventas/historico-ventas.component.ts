@@ -3,6 +3,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
+import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
 import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -32,7 +33,18 @@ export class HistoricoVentasComponent implements AfterViewInit {
   historicoVentasDataSource: MatTableDataSource<HistoricoVenta> =
     new MatTableDataSource<HistoricoVenta>();
   @ViewChild(MatSort) sort: MatSort;
+
   historicoVentasSelected: HistoricoVenta = new HistoricoVenta();
+  historicoVentasSelectedDisplayedColumns: string[] = [
+    "localizador",
+    "marca",
+    "articulo",
+    "unidades",
+    "descuento",
+    "importe",
+  ];
+  historicoVentasSelectedDataSource: MatTableDataSource<HistoricoLineaVenta> =
+    new MatTableDataSource<HistoricoLineaVenta>();
 
   constructor(
     private vs: VentasService,
@@ -44,6 +56,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.historicoVentasDataSource.sort = this.sort;
+    this.historicoVentasSelectedDataSource.sort = this.sort;
   }
 
   previousFecha(): void {
@@ -96,6 +109,8 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   selectVenta(ind: number): void {
     this.historicoVentasSelected = this.historicoVentasList[ind];
+    this.historicoVentasSelectedDataSource.data =
+      this.historicoVentasSelected.lineas;
   }
 
   changeCliente(): void {
