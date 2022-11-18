@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -9,9 +10,12 @@ import {
 } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSelect } from "@angular/material/select";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { Cliente } from "src/app/model/cliente.model";
+import { LineaVenta } from "src/app/model/linea-venta.model";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -23,7 +27,7 @@ import { Utils } from "src/app/shared/utils.class";
   templateUrl: "./ventas.component.html",
   styleUrls: ["./ventas.component.scss"],
 })
-export class VentasComponent implements OnInit {
+export class VentasComponent implements OnInit, AfterViewInit {
   showFinalizarVenta: boolean = false;
   @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
   @ViewChild("efectivoValue", { static: true }) efectivoValue: ElementRef;
@@ -32,6 +36,17 @@ export class VentasComponent implements OnInit {
   clientes: Cliente[] = [];
 
   saving: boolean = false;
+
+  ventasFinDisplayedColumns: string[] = [
+    "localizador",
+    "descripcion",
+    "cantidad",
+    "descuento",
+    "total",
+  ];
+  ventasFinDataSource: MatTableDataSource<LineaVenta> =
+    new MatTableDataSource<LineaVenta>();
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private router: Router,
@@ -60,6 +75,10 @@ export class VentasComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.ventasFinDataSource.sort = this.sort;
   }
 
   @HostListener("window:keydown", ["$event"])
@@ -119,6 +138,7 @@ export class VentasComponent implements OnInit {
     }
     this.vs.loadFinVenta();
     this.cs.load();
+    this.ventasFinDataSource.data = this.vs.fin.lineas;
     this.showFinalizarVenta = true;
     setTimeout(() => {
       this.efectivoValue.nativeElement.select();

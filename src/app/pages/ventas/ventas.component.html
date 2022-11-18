@@ -100,23 +100,86 @@
 				</div>
 			</div>
 			<div class="col-right">
-				<div class="venta-linea">
-					<div class="venta-linea-localizador">Loc.</div>
-					<div class="venta-linea-marca">Marca</div>
-					<div class="venta-linea-nombre">Nombre</div>
-					<div class="venta-linea-cant">Cant.</div>
-					<div class="venta-linea-desc">Desc.</div>
-					<div class="venta-linea-subtotal">Subt.</div>
-				</div>
-				<div class="venta-linea"
-					 *ngFor="let linea of vs.fin.lineas">
-					<div class="venta-linea-localizador">{{linea.localizador}}</div>
-					<div class="venta-linea-marca">{{linea.marca}}</div>
-					<div class="venta-linea-nombre">{{linea.descripcion}}</div>
-					<div class="venta-linea-cant">{{linea.cantidad}}</div>
-					<div class="venta-linea-desc">{{linea.descuento}} %</div>
-					<div class="venta-linea-subtotal">{{linea.total | fixedNumber}} €</div>
-				</div>
+				<table mat-table
+					   [dataSource]="ventasFinDataSource"
+					   matSort
+					   class="mat-elevation-z2 ">
+
+					<!-- Localizador -->
+					<ng-container matColumnDef="localizador">
+						<th mat-header-cell
+							*matHeaderCellDef
+							mat-sort-header
+							sortActionDescription="Ordenar por localizador">
+							Localizador
+						</th>
+						<td mat-cell
+							*matCellDef="let element"> {{element.localizador}} </td>
+					</ng-container>
+
+					<!-- Descripción -->
+					<ng-container matColumnDef="descripcion">
+						<th mat-header-cell
+							*matHeaderCellDef
+							mat-sort-header
+							sortActionDescription="Ordenar por descripcion">
+							Descripción
+						</th>
+						<td mat-cell
+							*matCellDef="let element"> {{element.descripcion}} </td>
+					</ng-container>
+
+					<!-- Cantidad -->
+					<ng-container matColumnDef="cantidad">
+						<th class="center"
+							mat-header-cell
+							*matHeaderCellDef
+							mat-sort-header
+							sortActionDescription="Ordenar por cantidad">
+							Cant.
+						</th>
+						<td class="center"
+							mat-cell
+							*matCellDef="let element"> {{element.cantidad}} </td>
+					</ng-container>
+
+					<!-- Descuento -->
+					<ng-container matColumnDef="descuento">
+						<th class="center"
+							mat-header-cell
+							*matHeaderCellDef
+							mat-sort-header
+							sortActionDescription="Ordenar por descuento">
+							Desc.
+						</th>
+						<td class="center"
+							mat-cell
+							*matCellDef="let element">
+							<span *ngIf="element.descuentoManual">{{element.descuento}} €</span>
+							<span *ngIf="!element.descuentoManual && element.descuento !== 0">{{element.descuento}} %</span>
+							<span *ngIf="!element.descuentoManual && element.descuento === 0">-</span>
+						</td>
+					</ng-container>
+
+					<!-- Importe -->
+					<ng-container matColumnDef="total">
+						<th class="center"
+							mat-header-cell
+							*matHeaderCellDef
+							mat-sort-header
+							sortActionDescription="Ordenar por importe">
+							Importe
+						</th>
+						<td class="center"
+							mat-cell
+							*matCellDef="let element"> {{element.total | fixedNumber}} € </td>
+					</ng-container>
+
+					<tr mat-header-row
+						*matHeaderRowDef="ventasFinDisplayedColumns"></tr>
+					<tr mat-row
+						*matRowDef="let row; columns: ventasFinDisplayedColumns;"></tr>
+				</table>
 			</div>
 		</div>
 	</div>

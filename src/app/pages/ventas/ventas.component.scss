@@ -75,6 +75,7 @@
 		}
 
 		.total {
+			box-sizing: border-box;
 			border: 1px solid #ccc;
 			border-radius: 6px;
 			position: relative;
@@ -103,8 +104,6 @@
 
 	.col-right {
 		width: 600px;
-		border: 1px solid #ccc;
-		border-radius: 6px;
 		flex: 3;
 
 		.venta-linea {
