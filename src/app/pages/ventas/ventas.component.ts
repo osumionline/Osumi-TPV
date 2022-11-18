@@ -13,6 +13,7 @@ import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { HeaderComponent } from "src/app/components/header/header.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { Cliente } from "src/app/model/cliente.model";
 import { LineaVenta } from "src/app/model/linea-venta.model";
@@ -47,6 +48,8 @@ export class VentasComponent implements OnInit, AfterViewInit {
   ventasFinDataSource: MatTableDataSource<LineaVenta> =
     new MatTableDataSource<LineaVenta>();
   @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild("header", { static: true }) header: HeaderComponent;
 
   constructor(
     private router: Router,
@@ -320,5 +323,9 @@ export class VentasComponent implements OnInit, AfterViewInit {
         this.cerrarFinalizarVenta();
       }, 0);
     });
+  }
+
+  openCaja(ev: number): void {
+    this.header.abrirCaja();
   }
 }

@@ -186,7 +186,8 @@
 
 <div class="importe"
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
-	<div class="total-importe">
+	<div class="total-importe"
+		 (click)="openCaja()">
 		{{vs.ventaActual.importe | fixedNumber}} €
 	</div>
 	<div class="venta-anterior"

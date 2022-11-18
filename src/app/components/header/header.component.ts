@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     }
     if (ev.key === "F10") {
       ev.preventDefault();
-      this.caja.abrirCaja("historico");
+      this.abrirCaja();
     }
     if (ev.key === "F11") {
       ev.preventDefault();
@@ -54,5 +54,9 @@ export class HeaderComponent implements OnInit {
       F9: "/gestion",
     };
     this.router.navigate([whereTo[where]]);
+  }
+
+  abrirCaja(): void {
+    this.caja.abrirCaja("historico");
   }
 }

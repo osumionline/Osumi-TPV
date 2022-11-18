@@ -32,6 +32,7 @@ export class UnaVentaComponent implements AfterViewInit {
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
   @Output() endVentaEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() openCajaEvent: EventEmitter<number> = new EventEmitter<number>();
   searching: boolean = false;
   observacionesOpen: boolean = false;
   editarCantidad: boolean = false;
@@ -501,5 +502,9 @@ export class UnaVentaComponent implements AfterViewInit {
     this.ultimaVentaImporte = importe;
     this.ultimaVentaCambio = cambio;
     this.showUltimaVenta = true;
+  }
+
+  openCaja(): void {
+    this.openCajaEvent.emit(0);
   }
 }

@@ -1,4 +1,5 @@
-<otpv-header selectedOption="ventas"></otpv-header>
+<otpv-header selectedOption="ventas"
+			 #header></otpv-header>
 
 <otpv-tabs [showClose]="true"
 		   [ngClass]="{'hidden': vs.list.length===0}"
@@ -11,6 +12,7 @@
 				[ngClass]="{'hidden':i!=vs.selected}"
 				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
 				(endVentaEvent)="endVenta($event)"
+				(openCajaEvent)="openCaja($event)"
 				#ventas></otpv-una-venta>
 
 <div class="modal-bg"
