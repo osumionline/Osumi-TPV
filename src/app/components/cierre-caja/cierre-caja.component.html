@@ -1,0 +1,110 @@
+<mat-tab-group>
+    <mat-tab label="TIENDA">
+        <mat-card class="data-card">
+            <mat-card-content>
+                <div class="form-field max-width">
+                    <label>Saldo inicial</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               placeholder="Saldo inicial"
+                               [ngModel]="cierreCaja.saldoInicial | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Ventas efectivo</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               placeholder="Ventas efectivo"
+                               [ngModel]="cierreCaja.importeEfectivo | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Importe total</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               placeholder="Importe total"
+                               [ngModel]="cierreCaja.importeTotal | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Importe real</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               type="number"
+                               placeholder="Importe real"
+                               (keyup)="calculaDiferencia()"
+                               [(ngModel)]="importeReal">
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Diferencia</label>
+                    <mat-form-field class="form-title campo-numero"
+                                    [ngClass]="{'form-ok': diferencia>0, 'form-not-ok': diferencia<0}">
+                        <input matInput
+                               placeholder="Diferencia"
+                               [ngModel]="diferencia | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card *ngFor="let tipo of cierreCaja.tipos"
+                  class="data-card">
+            <mat-card-content>
+                <p>{{tipo.nombre}}</p>
+                <div class="form-field max-width">
+                    <label>Operaciones</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               placeholder="Operaciones"
+                               [ngModel]="tipo.operaciones"
+                               readonly>
+                    </mat-form-field>
+                </div>
+                <div class="form-field max-width">
+                    <label>Ventas</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               placeholder="Ventas"
+                               [ngModel]="tipo.ventas | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Importe real</label>
+                    <mat-form-field class="form-title campo-numero">
+                        <input matInput
+                               type="number"
+                               placeholder="Importe real"
+                               [(ngModel)]="tipo.real">
+                    </mat-form-field>
+                    €
+                </div>
+                <div class="form-field max-width">
+                    <label>Diferencia</label>
+                    <mat-form-field class="form-title campo-numero"
+                                    [ngClass]="{'form-ok': tipo.diferencia>0, 'form-not-ok': tipo.diferencia<0}">
+                        <input matInput
+                               placeholder="Diferencia"
+                               [ngModel]="tipo.diferencia | fixedNumber"
+                               readonly>
+                    </mat-form-field>
+                    €
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+    <mat-tab *ngIf="config.ventaOnline"
+             label="WEB"></mat-tab>
+    <mat-tab *ngIf="config.ventaOnline"
+             label="TOTALES"></mat-tab>
+</mat-tab-group>

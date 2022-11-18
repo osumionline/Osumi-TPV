@@ -89,4 +89,15 @@ export class Utils {
 
     return day + "/" + month + "/" + date.getFullYear();
   }
+
+  static getCurrentDate(): string {
+    const d: Date = new Date();
+    return (
+      d.getFullYear() +
+      "-" +
+      (d.getMonth() + 1 < 10 ? "0" + (d.getMonth() + 1) : d.getMonth() + 1) +
+      "-" +
+      (d.getDate() < 10 ? "0" + d.getDate() : d.getDate())
+    );
+  }
 }

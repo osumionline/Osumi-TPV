@@ -12,6 +12,7 @@ import { ClientesService } from "src/app/services/clientes.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { Utils } from "src/app/shared/utils.class";
 
 @Injectable({
   providedIn: "root",
@@ -73,15 +74,7 @@ export class ConfigService {
       if (this.status === "loaded") {
         resolve(this.status);
       } else {
-        const d: Date = new Date();
-        const date: string =
-          d.getFullYear() +
-          "-" +
-          (d.getMonth() + 1 < 10
-            ? "0" + (d.getMonth() + 1)
-            : d.getMonth() + 1) +
-          "-" +
-          (d.getDate() < 10 ? "0" + d.getDate() : d.getDate());
+        const date: string = Utils.getCurrentDate();
         this.as.checkStart(date).subscribe((result) => {
           if (result.appData === null) {
             this.status = "install";

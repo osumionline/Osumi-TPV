@@ -95,6 +95,10 @@
 
 .campo-numero {
   width: 120px;
+
+  input {
+    text-align: right;
+  }
 }
 
 .third-width {
@@ -107,6 +111,16 @@
 
 .max-width {
   width: 100%;
+}
+
+mat-form-field.form-ok.mat-form-field-appearance-outline,
+mat-form-field.form-ok.mat-form-field-outline-thick {
+  color: #0f0 !important;
+}
+
+mat-form-field.form-not-ok.mat-form-field-appearance-outline,
+mat-form-field.form-not-ok.mat-form-field-outline-thick {
+  color: #f00 !important;
 }
 
 .stats-box {

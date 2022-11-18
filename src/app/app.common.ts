@@ -42,8 +42,9 @@ import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { CajaComponent } from "src/app/components/caja/caja.component";
-import { HistoricoVentasComponent } from "./components/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "./components/salidas-caja/salidas-caja.component";
+import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
+import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -56,6 +57,7 @@ export const COMPONENTS: any[] = [
   CajaComponent,
   HistoricoVentasComponent,
   SalidasCajaComponent,
+  CierreCajaComponent,
 ];
 
 /*

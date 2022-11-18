@@ -1,5 +1,6 @@
 import { Component, HostListener, ViewChild } from "@angular/core";
 import { MatTabGroup } from "@angular/material/tabs";
+import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 
@@ -18,6 +19,8 @@ export class CajaComponent {
   historicoVentas: HistoricoVentasComponent;
   @ViewChild("salidasCaja", { static: true })
   salidasCaja: SalidasCajaComponent;
+  @ViewChild("cierreCaja", { static: true })
+  cierreCaja: CierreCajaComponent;
 
   constructor() {}
 
@@ -41,6 +44,7 @@ export class CajaComponent {
     this.cajaTabs.realignInkBar();
     this.historicoVentas.changeFecha();
     this.salidasCaja.changeFecha();
+    this.cierreCaja.load();
   }
 
   cerrarCaja(ev: MouseEvent = null): void {

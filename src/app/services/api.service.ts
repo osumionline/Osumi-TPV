@@ -7,6 +7,7 @@ import { SalidaCajaInterface } from "./../interfaces/interfaces";
 import {
   AllProvincesInterface,
   AppDataInterface,
+  CierreCajaResult,
   DateValues,
   IdSaveResult,
   SalidaCajaResult,
@@ -93,6 +94,13 @@ export class ApiService {
     return this.http.post<StatusResult>(
       environment.apiUrl + "/delete-salida-caja",
       { id }
+    );
+  }
+
+  getCierreCaja(date: string): Observable<CierreCajaResult> {
+    return this.http.post<CierreCajaResult>(
+      environment.apiUrl + "/get-cierre-caja",
+      { date }
     );
   }
 }
