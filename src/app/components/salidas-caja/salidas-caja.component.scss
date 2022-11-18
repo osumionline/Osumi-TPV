@@ -44,6 +44,7 @@
         padding: 16px;
         border-right: 1px solid var(--separator-color);
         flex: 1;
+        min-width: 300px;
 
         .selected-salida-caja {
             background-color: #eee;

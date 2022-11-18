@@ -88,4 +88,11 @@ export class ApiService {
       data
     );
   }
+
+  deleteSalidaCaja(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "/delete-salida-caja",
+      { id }
+    );
+  }
 }

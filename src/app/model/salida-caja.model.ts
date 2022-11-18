@@ -7,7 +7,8 @@ export class SalidaCaja {
     public concepto: string = null,
     public descripcion: string = null,
     public importe: number = null,
-    public fecha: string = null
+    public fecha: string = null,
+    public editable: boolean = true
   ) {}
 
   fromInterface(sc: SalidaCajaInterface, decode: boolean = true): SalidaCaja {
@@ -18,6 +19,7 @@ export class SalidaCaja {
       : sc.descripcion;
     this.importe = sc.importe;
     this.fecha = decode ? Utils.urldecode(sc.fecha) : sc.fecha;
+    this.editable = sc.editable;
 
     return this;
   }
@@ -31,6 +33,7 @@ export class SalidaCaja {
         : this.descripcion,
       importe: this.importe,
       fecha: encode ? Utils.urlencode(this.fecha) : this.fecha,
+      editable: this.editable,
     };
   }
 }

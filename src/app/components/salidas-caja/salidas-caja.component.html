@@ -72,7 +72,8 @@
                             *ngFor="let salidaCaja of salidasCajaList"
                             (click)="selectSalidaCaja(salidaCaja)"
                             [ngClass]="{'selected-salida-caja': salidaCajaSelected.id===salidaCaja.id}">
-                        {{salidaCaja.concepto}}
+                        <div matListItemTitle>{{salidaCaja.concepto}}</div>
+                        <div matListItemLine>{{salidaCaja.fecha}} - {{salidaCaja.importe | fixedNumber}} €</div>
                     </button>
                 </mat-action-list>
                 <div class="new-salida-caja">
@@ -96,7 +97,8 @@
                                 <mat-form-field class="max-width form-title">
                                     <input matInput
                                            placeholder="Concepto"
-                                           formControlName="concepto">
+                                           formControlName="concepto"
+                                           #conceptoBox>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -127,20 +129,20 @@
                             <div class="delete">
                                 <button mat-raised-button
                                         color="warn"
-                                        [disabled]="!form.value.id"
+                                        [disabled]="!form.value.id || !salidaCajaSelected.editable"
                                         type="button"
                                         (click)="deleteSalidaCaja()">Borrar</button>
                             </div>
                             <div class="others">
                                 <button mat-raised-button
                                         color="primary"
-                                        [disabled]="!form.dirty"
+                                        [disabled]="!form.dirty || !salidaCajaSelected.editable"
                                         type="button"
                                         (click)="resetForm()">Cancelar</button>
                                 <button mat-raised-button
                                         type="submit"
                                         color="primary"
-                                        [disabled]="!form.valid">Guardar</button>
+                                        [disabled]="!form.valid || !salidaCajaSelected.editable">Guardar</button>
                             </div>
                         </div>
                     </form>

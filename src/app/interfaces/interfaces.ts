@@ -473,6 +473,7 @@ export interface SalidaCajaInterface {
   descripcion: string;
   importe: number;
   fecha: string;
+  editable: boolean;
 }
 
 export interface SalidaCajaResult {

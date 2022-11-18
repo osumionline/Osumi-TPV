@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DateValues, SalidaCajaInterface } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
@@ -13,7 +13,7 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./salidas-caja.component.scss"],
 })
 export class SalidasCajaComponent {
-  salidasModo: string = "fecha";
+  salidasModo: "fecha" | "rango" = "fecha";
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
   rangoHasta: Date = new Date();
@@ -22,6 +22,8 @@ export class SalidasCajaComponent {
   salidaCajaSelected: SalidaCaja = new SalidaCaja();
 
   start: boolean = true;
+
+  @ViewChild("conceptoBox", { static: true }) conceptoBox: ElementRef;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -79,6 +81,7 @@ export class SalidasCajaComponent {
   }
 
   buscarSalidasCaja(data: DateValues): void {
+    this.start = true;
     this.as.getSalidasCaja(data).subscribe((result) => {
       this.salidasCajaList = this.cms.getSalidasCaja(result.list);
     });
@@ -96,11 +99,23 @@ export class SalidasCajaComponent {
     this.salidaCajaSelected = new SalidaCaja();
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
     this.originalValue = this.form.getRawValue();
+    setTimeout(() => {
+      this.conceptoBox.nativeElement.focus();
+    }, 0);
   }
 
   resetForm(): void {
     this.form.reset();
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
+  }
+
+  resetBusqueda(): void {
+    if (this.salidasModo === "fecha") {
+      this.changeFecha();
+    }
+    if (this.salidasModo === "rango") {
+      this.buscarPorRango();
+    }
   }
 
   onSubmit(): void {
@@ -109,7 +124,56 @@ export class SalidasCajaComponent {
     );
 
     this.salidaCajaSelected.fromInterface(data, false);
+    this.as
+      .saveSalidaCaja(this.salidaCajaSelected.toInterface())
+      .subscribe((result) => {
+        this.dialog
+          .alert({
+            title: "Datos guardados",
+            content:
+              'Salida de caja con concepto "' +
+              this.salidaCajaSelected.concepto +
+              '" correctamente guardada.',
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.resetBusqueda();
+          });
+      });
   }
 
-  deleteSalidaCaja(): void {}
+  deleteSalidaCaja(): void {
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content:
+          '¿Estás seguro de querer borrar la salida de caja con concepto "' +
+          this.salidaCajaSelected.concepto +
+          '"?',
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.confirmDeleteSalidaCaja();
+        }
+      });
+  }
+
+  confirmDeleteSalidaCaja(): void {
+    this.as.deleteSalidaCaja(this.salidaCajaSelected.id).subscribe((result) => {
+      this.dialog
+        .alert({
+          title: "Salida de caja borrada",
+          content:
+            'La salida de caja con concepto "' +
+            this.salidaCajaSelected.concepto +
+            '" ha sido correctamente borrada.',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.resetBusqueda();
+        });
+    });
+  }
 }
