@@ -33,6 +33,7 @@ export class CierreCajaTipo {
       id: this.id,
       nombre: Utils.urlencode(this.nombre),
       ventas: this.ventas,
+      real: this.real,
       operaciones: this.operaciones,
     };
   }

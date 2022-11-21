@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { CierreCaja } from "src/app/model/cierre-caja.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -13,8 +14,6 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class CierreCajaComponent {
   cierreCaja: CierreCaja = new CierreCaja();
-  importeReal: number = null;
-  diferencia: number = null;
 
   @ViewChild("importeRealBox", { static: true }) importeRealBox: ElementRef;
 
@@ -22,7 +21,8 @@ export class CierreCajaComponent {
     private as: ApiService,
     private cms: ClassMapperService,
     public config: ConfigService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private router: Router
   ) {}
 
   load(): void {
@@ -32,16 +32,8 @@ export class CierreCajaComponent {
     });
   }
 
-  calculaDiferencia(): void {
-    if (this.importeReal === null) {
-      this.diferencia = 0;
-      return;
-    }
-    this.diferencia = -1 * (this.cierreCaja.importeTotal - this.importeReal);
-  }
-
   cerrarCaja(): void {
-    if (this.importeReal === null) {
+    if (this.cierreCaja.real === null) {
       this.dialog
         .alert({
           title: "Error",
@@ -56,7 +48,7 @@ export class CierreCajaComponent {
       return;
     }
 
-    if (this.diferencia < 0) {
+    if (this.cierreCaja.diferencia < 0) {
       this.dialog
         .confirm({
           title: "Confirmar",
@@ -76,6 +68,21 @@ export class CierreCajaComponent {
   }
 
   confirmCerrarCaja(): void {
-    console.log("confirmCerrarCaja");
+    this.as
+      .saveCierreCaja(this.cierreCaja.toInterface())
+      .subscribe((result) => {
+        if (result.status === "ok") {
+          this.config.isOpened = false;
+          this.router.navigate(["/"]);
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "Ocurrió un error al realizar el cierre de caja.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {});
+        }
+      });
   }
 }

@@ -485,13 +485,16 @@ export interface CierreCajaTipoInterface {
   id: number;
   nombre: string;
   ventas: number;
+  real?: number;
   operaciones: number;
 }
 
 export interface CierreCajaInterface {
+  date?: string;
   saldoInicial: number;
   importeEfectivo: number;
   importeTotal: number;
+  real?: number;
   tipos: CierreCajaTipoInterface[];
 }
 

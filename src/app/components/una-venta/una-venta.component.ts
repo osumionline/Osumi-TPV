@@ -500,7 +500,7 @@ export class UnaVentaComponent implements AfterViewInit {
 
   loadUltimaVenta(importe: number, cambio: number): void {
     this.ultimaVentaImporte = importe;
-    this.ultimaVentaCambio = cambio;
+    this.ultimaVentaCambio = -1 * cambio;
     this.showUltimaVenta = true;
   }
 
