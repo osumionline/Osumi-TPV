@@ -1,0 +1,89 @@
+.compras-header {
+    display: flex;
+    margin: 16px;
+
+    &>div {
+        display: flex;
+        flex: 1;
+
+        &.left {
+            justify-content: flex-start;
+        }
+
+        &.center {
+            justify-content: center;
+        }
+
+        &.right {
+            justify-content: flex-end;
+
+            .middle-button {
+                margin: 0 8px;
+            }
+        }
+    }
+}
+
+.pedidos-list {
+    margin: 0 16px 16px 16px;
+
+    mat-card-title {
+        display: flex;
+
+        span {
+            flex: 1;
+        }
+
+        .pedidos-list-header {
+            position: relative;
+
+            mat-card {
+                display: none;
+                position: absolute;
+                right: -48px;
+                top: 38px;
+
+                &.show {
+                    display: block;
+                }
+
+                .filters {
+                    display: flex;
+
+                    .filter-options {
+                        display: flex;
+                        flex-direction: column;
+
+                        .row {
+                            padding: 8px;
+                            display: flex;
+
+                            &>div {
+                                flex: 1;
+                            }
+
+                            mat-form-field {
+                                margin-right: 8px;
+                            }
+                        }
+                    }
+
+                    .filter-actions {
+                        padding: 8px;
+                        display: flex;
+                        flex-direction: column;
+
+                        button {
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .no-results {
+        font-size: 1.3em;
+        text-align: center;
+    }
+}

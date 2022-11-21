@@ -1,1 +1,366 @@
 <otpv-header selectedOption="compras"></otpv-header>
+
+<div class="compras-header">
+    <div class="left">
+        <button mat-raised-button
+                color="primary">
+            <mat-icon>add_circle_outline</mat-icon>
+            Nuevo pedido
+        </button>
+    </div>
+    <div class="center">
+        <button mat-raised-button
+                color="primary">
+            <mat-icon>payment</mat-icon>
+            Abonos
+        </button>
+    </div>
+    <div class="right">
+        <button mat-raised-button
+                color="primary">
+            <mat-icon>transfer_within_a_station</mat-icon>
+            Robos
+        </button>
+        <button class="middle-button"
+                mat-raised-button
+                color="primary">
+            <mat-icon>event_busy</mat-icon>
+            Caducados
+        </button>
+        <button mat-raised-button
+                color="primary">
+            <mat-icon>broken_image</mat-icon>
+            Rotos
+        </button>
+    </div>
+</div>
+
+<mat-card class="pedidos-list">
+    <mat-card-header>
+        <mat-card-title>
+            <span class="pedidos-list-header">
+                Pedidos guardados
+                <mat-card [ngClass]="{'show': showGuardadosFilters}">
+                    <mat-card-content>
+                        <div class="filters">
+                            <div class="filter-options">
+                                <div class="row">
+                                    <div>
+                                        <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Fecha desde</mat-label>
+                                            <input matInput
+                                                   [matDatepicker]="guardadosRangoDesdePicker"
+                                                   [(ngModel)]="guardadosRangoDesde">
+                                            <mat-datepicker-toggle matSuffix
+                                                                   [for]="guardadosRangoDesdePicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #guardadosRangoDesdePicker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Fecha hasta</mat-label>
+                                            <input matInput
+                                                   [matDatepicker]="guardadosRangoHastaPicker"
+                                                   [(ngModel)]="guardadosRangoHasta">
+                                            <mat-datepicker-toggle matSuffix
+                                                                   [for]="guardadosRangoHastaPicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #guardadosRangoHastaPicker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field subscriptSizing="dynamic"
+                                                    class="max-width">
+                                        <mat-select [(ngModel)]="guardadosFilter.idProveedor"
+                                                    placeholder="Proveedor">
+                                            <mat-option [value]="null">Elige proveedor</mat-option>
+                                            <mat-option *ngFor="let proveedor of proveedoresService.proveedores"
+                                                        [value]="proveedor.id">
+                                                {{proveedor.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field subscriptSizing="dynamic"
+                                                    class="max-width">
+                                        <mat-label>Albarán</mat-label>
+                                        <input matInput
+                                               placeholder="Albarán"
+                                               [(ngModel)]="guardadosFilter.albaran">
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label>Importe (desde)</mat-label>
+                                            <input matInput
+                                                   placeholder="Importe (desde)"
+                                                   [(ngModel)]="guardadosFilter.importeDesde">
+                                        </mat-form-field>
+                                        €
+                                    </div>
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label>Importe (hasta)</mat-label>
+                                            <input matInput
+                                                   placeholder="Importe (hasta)"
+                                                   [(ngModel)]="guardadosFilter.importeHasta">
+                                        </mat-form-field>
+                                        €
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-actions">
+                                <button mat-raised-button
+                                        color="primary">
+                                    <mat-icon>find_in_page</mat-icon>
+                                    Filtrar
+                                </button>
+                                <button *ngIf="guardadosFiltered"
+                                        mat-raised-button
+                                        color="primary">
+                                    <mat-icon>filter_list_off</mat-icon>
+                                    Quitar filtros
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </span>
+            <button mat-icon-button
+                    title="Filtrar resultados"
+                    (click)="openGuardadosFilters()">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <table *ngIf="comprasService.pedidosGuardados.length > 0"
+               mat-table
+               [dataSource]="pedidosGuardadosDataSource"
+               matSort
+               class="mat-elevation-z2 ">
+
+            <!-- Fecha -->
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por fecha">
+                    Fecha
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.fecha}} </td>
+            </ng-container>
+
+            <!-- Proveedor -->
+            <ng-container matColumnDef="proveedor">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por proveedor">
+                    Proveedor
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.proveedor}} </td>
+            </ng-container>
+
+            <!-- Albarán -->
+            <ng-container matColumnDef="albaran">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por albarán">
+                    Albarán
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.albaran}} </td>
+            </ng-container>
+
+            <!-- Importe -->
+            <ng-container matColumnDef="importe">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por importe">
+                    Importe
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.importe | fixedNumber}} € </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="pedidosDisplayedColumns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
+        </table>
+        <div class="no-results"
+             *ngIf="comprasService.pedidosGuardados.length === 0">No se ha encontrado ningún pedido.</div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="pedidos-list">
+    <mat-card-header>
+        <mat-card-title>
+            <span class="pedidos-list-header">
+                Pedidos recepcionados
+                <mat-card [ngClass]="{'show': showRecepcionadosFilters}">
+                    <mat-card-content>
+                        <div class="filters">
+                            <div class="filter-options">
+                                <div class="row">
+                                    <div>
+                                        <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Fecha desde</mat-label>
+                                            <input matInput
+                                                   [matDatepicker]="recepcionadosRangoDesdePicker"
+                                                   [(ngModel)]="recepcionadosRangoDesde">
+                                            <mat-datepicker-toggle matSuffix
+                                                                   [for]="recepcionadosRangoDesdePicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #recepcionadosRangoDesdePicker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Fecha hasta</mat-label>
+                                            <input matInput
+                                                   [matDatepicker]="recepcionadosRangoHastaPicker"
+                                                   [(ngModel)]="recepcionadosRangoHasta">
+                                            <mat-datepicker-toggle matSuffix
+                                                                   [for]="recepcionadosRangoHastaPicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #recepcionadosRangoHastaPicker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field subscriptSizing="dynamic"
+                                                    class="max-width">
+                                        <mat-select [(ngModel)]="recepcionadosFilter.idProveedor"
+                                                    placeholder="Proveedor">
+                                            <mat-option [value]="null">Elige proveedor</mat-option>
+                                            <mat-option *ngFor="let proveedor of proveedoresService.proveedores"
+                                                        [value]="proveedor.id">
+                                                {{proveedor.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field subscriptSizing="dynamic"
+                                                    class="max-width">
+                                        <mat-label>Albarán</mat-label>
+                                        <input matInput
+                                               placeholder="Albarán"
+                                               [(ngModel)]="recepcionadosFilter.albaran">
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label>Importe (desde)</mat-label>
+                                            <input matInput
+                                                   placeholder="Importe (desde)"
+                                                   [(ngModel)]="recepcionadosFilter.importeDesde">
+                                        </mat-form-field>
+                                        €
+                                    </div>
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-label>Importe (hasta)</mat-label>
+                                            <input matInput
+                                                   placeholder="Importe (hasta)"
+                                                   [(ngModel)]="recepcionadosFilter.importeHasta">
+                                        </mat-form-field>
+                                        €
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-actions">
+                                <button mat-raised-button
+                                        color="primary">
+                                    <mat-icon>find_in_page</mat-icon>
+                                    Filtrar
+                                </button>
+                                <button *ngIf="recepcionadosFiltered"
+                                        mat-raised-button
+                                        color="primary">
+                                    <mat-icon>filter_list_off</mat-icon>
+                                    Quitar filtros
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </span>
+            <button mat-icon-button
+                    title="Filtrar resultados"
+                    (click)="openRecepcionadosFilters()">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <table *ngIf="comprasService.pedidosRecepcionados.length > 0"
+               mat-table
+               [dataSource]="pedidosRecepcionadosDataSource"
+               matSort
+               class="mat-elevation-z2 ">
+
+            <!-- Fecha -->
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por fecha">
+                    Fecha
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.fecha}} </td>
+            </ng-container>
+
+            <!-- Proveedor -->
+            <ng-container matColumnDef="proveedor">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por proveedor">
+                    Proveedor
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.proveedor}} </td>
+            </ng-container>
+
+            <!-- Albarán -->
+            <ng-container matColumnDef="albaran">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por albarán">
+                    Albarán
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.albaran}} </td>
+            </ng-container>
+
+            <!-- Importe -->
+            <ng-container matColumnDef="importe">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por importe">
+                    Importe
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.importe | fixedNumber}} € </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="pedidosDisplayedColumns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
+        </table>
+        <div class="no-results"
+             *ngIf="comprasService.pedidosRecepcionados.length === 0">No se ha encontrado ningún pedido.</div>
+    </mat-card-content>
+</mat-card>
