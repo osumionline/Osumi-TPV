@@ -9,6 +9,7 @@ import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
+import { ComprasService } from "src/app/services/compras.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -61,12 +62,13 @@ export class ConfigService {
   provincias: ProvinceInterface[] = [];
 
   constructor(
-    private as: ApiService,
+    private apiService: ApiService,
     private cms: ClassMapperService,
-    private ms: MarcasService,
-    private ps: ProveedoresService,
-    private es: EmpleadosService,
-    private cs: ClientesService
+    private marcasService: MarcasService,
+    private proveedoresService: ProveedoresService,
+    private empleadosService: EmpleadosService,
+    private clientesService: ClientesService,
+    private comprasService: ComprasService
   ) {}
 
   start(): Promise<string> {
@@ -75,7 +77,7 @@ export class ConfigService {
         resolve(this.status);
       } else {
         const date: string = Utils.getCurrentDate();
-        this.as.checkStart(date).subscribe((result) => {
+        this.apiService.checkStart(date).subscribe((result) => {
           if (result.appData === null) {
             this.status = "install";
             resolve(this.status);
@@ -84,10 +86,14 @@ export class ConfigService {
             this.tiposPago = this.cms.getTiposPago(result.tiposPago);
             this.isOpened = result.opened;
             this.status = "loaded";
-            const marcasPromise: Promise<string> = this.ms.load();
-            const proveedoresPromise: Promise<string> = this.ps.load();
-            const empleadosPromise: Promise<string> = this.es.load();
-            const clientesPromise: Promise<string> = this.cs.load();
+            const marcasPromise: Promise<string> = this.marcasService.load();
+            const proveedoresPromise: Promise<string> =
+              this.proveedoresService.load();
+            const empleadosPromise: Promise<string> =
+              this.empleadosService.load();
+            const clientesPromise: Promise<string> =
+              this.clientesService.load();
+            const pedidosPromise: Promise<string> = this.comprasService.load();
             const provinciasPromise: Promise<string> = this.loadProvinces();
             Promise.all([
               marcasPromise,
@@ -95,13 +101,15 @@ export class ConfigService {
               empleadosPromise,
               clientesPromise,
               provinciasPromise,
+              pedidosPromise,
             ]).then((values) => {
-              if (this.es.empleados.length == 1) {
+              if (this.empleadosService.empleados.length == 1) {
                 this.empleados = false;
-                this.idEmpleadoDef = this.es.empleados[0].id;
-                this.colorEmpleadoDef = this.es.colors[this.idEmpleadoDef];
+                this.idEmpleadoDef = this.empleadosService.empleados[0].id;
+                this.colorEmpleadoDef =
+                  this.empleadosService.colors[this.idEmpleadoDef];
                 this.colorTextEmpleadoDef =
-                  this.es.textColors[this.idEmpleadoDef];
+                  this.empleadosService.textColors[this.idEmpleadoDef];
               }
               resolve(this.status);
             });
@@ -143,7 +151,7 @@ export class ConfigService {
       if (this.provincias.length > 0) {
         resolve("ok");
       } else {
-        this.as.getProvinceList().subscribe((data) => {
+        this.apiService.getProvinceList().subscribe((data) => {
           let newList = [];
           for (let ccaa of data.ccaa) {
             newList = newList.concat(ccaa.provinces);

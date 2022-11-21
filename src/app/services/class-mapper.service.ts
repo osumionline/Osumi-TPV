@@ -11,6 +11,7 @@ import {
   EmpleadoInterface,
   HistoricoVentaInterface,
   MarcaInterface,
+  PedidoInterface,
   ProveedorInterface,
   SalidaCajaInterface,
   TipoPagoInterface,
@@ -28,6 +29,7 @@ import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { Marca } from "src/app/model/marca.model";
+import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
@@ -202,5 +204,15 @@ export class ClassMapperService {
 
   getCierreCaja(cc: CierreCajaInterface): CierreCaja {
     return new CierreCaja().fromInterface(cc);
+  }
+
+  getPedido(p: PedidoInterface): Pedido {
+    return new Pedido().fromInterface(p);
+  }
+
+  getPedidos(ps: PedidoInterface[]): Pedido[] {
+    return ps.map((p: PedidoInterface): Pedido => {
+      return this.getPedido(p);
+    });
   }
 }

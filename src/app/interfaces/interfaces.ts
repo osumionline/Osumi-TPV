@@ -502,3 +502,31 @@ export interface CierreCajaResult {
   status: string;
   datos: CierreCajaInterface;
 }
+
+export interface PedidoInterface {
+  id: number;
+  idProveedor: number;
+  proveedor: string;
+  albaran: string;
+  importe: number;
+  recepcionado: boolean;
+  fecha: string;
+}
+
+export interface PedidosFilterInterface {
+  fechaDesde: string;
+  fechaHasta: string;
+  idProveedor: number;
+  albaran: string;
+  importeDesde: number;
+  importeHasta: number;
+  pagina: number;
+}
+
+export interface PedidosAllResult {
+  status: string;
+  guardados: PedidoInterface[];
+  recepcionados: PedidoInterface[];
+  guardadosPags: number;
+  recepcionadosPags: number;
+}
