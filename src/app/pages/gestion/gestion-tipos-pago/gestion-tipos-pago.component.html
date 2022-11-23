@@ -28,7 +28,8 @@
                     </button>
                 </mat-action-list>
                 <div class="new-tipo-pago">
-                    <button mat-button
+                    <button mat-raised-button
+                            color="primary"
                             (click)="newTipoPago()">
                         <mat-icon>add_circle_outline</mat-icon>
                         Añadir tipo de pago
@@ -78,9 +79,9 @@
                                     <div class="delete">
                                         <button mat-raised-button
                                                 color="warn"
-                                                [disabled]="!form.value.id"
+                                                *ngIf="form.value.id"
                                                 type="button"
-                                                (click)="deleteTipoPago()">Borrar</button>
+                                                (click)="deleteTipoPago()">Eliminar</button>
                                     </div>
                                     <div class="others">
                                         <button mat-raised-button

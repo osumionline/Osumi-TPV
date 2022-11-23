@@ -27,12 +27,24 @@ table {
         &>div.pay-type {
             display: flex;
             align-items: center;
-            height: 48px;
+            height: 40px;
             justify-content: flex-end;
 
             mat-icon {
                 margin-right: 8px;
             }
+        }
+    }
+
+    .mat-mdc-footer-cell {
+        border-top: 1px solid #0000001f;
+
+        &.center {
+            text-align: center;
+        }
+
+        &.right {
+            text-align: right;
         }
     }
 

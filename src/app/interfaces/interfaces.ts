@@ -493,8 +493,10 @@ export interface CierreCajaInterface {
   date?: string;
   saldoInicial: number;
   importeEfectivo: number;
-  importeTotal: number;
+  salidasCaja: number;
+  saldoFinal: number;
   real?: number;
+  retirado?: number;
   tipos: CierreCajaTipoInterface[];
 }
 

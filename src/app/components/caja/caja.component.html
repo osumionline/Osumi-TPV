@@ -1,6 +1,6 @@
 <div class="modal-bg"
      [ngClass]="{'show': mostrarCaja}">
-    <div class="modal-box">
+    <div class="modal-box modal-big">
         <div class="modal-header">
             <span>Caja</span>
             <a href="#"
@@ -8,9 +8,10 @@
                 <mat-icon>close</mat-icon>
             </a>
         </div>
-        <div class="modal-body">
+        <div class="caja-body">
             <mat-tab-group [selectedIndex]="cajaSelectedTab"
                            (selectedIndexChange)="cajaSelectedTab = $event"
+                           animationDuration="0ms"
                            #cajaTabs>
                 <mat-tab label="HISTÓRICO DE VENTAS">
                     <otpv-historico-ventas #historicoVentas></otpv-historico-ventas>

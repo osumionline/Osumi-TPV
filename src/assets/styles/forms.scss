@@ -23,6 +23,19 @@
   .ng-dirty {
     color: var(--form-modified);
   }
+
+  .value-placeholder {
+    display: block;
+    margin: 16px 0;
+
+    &.form-ok {
+      color: green;
+    }
+
+    &.form-not-ok {
+      color: red;
+    }
+  }
 }
 
 .form-field-left {
@@ -48,7 +61,7 @@
   &.margen {
     span {
       box-sizing: border-box;
-      width: 120px;
+      width: 130px;
       text-align: right;
       outline: 1px solid #9e9e9e;
       height: 55px;

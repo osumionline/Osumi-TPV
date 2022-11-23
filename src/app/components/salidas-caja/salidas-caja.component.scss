@@ -35,11 +35,11 @@
 }
 
 .salidas-caja {
-    margin: 16px;
+    margin: 16px auto;
     display: flex;
     flex-direction: row;
     padding: 0;
-    width: 900px;
+    width: 95%;
 
     aside {
         padding: 16px;
@@ -92,7 +92,7 @@
                 display: flex;
 
                 .delete {
-                    flex: 1;
+                    flex: 2;
                 }
 
                 .others {

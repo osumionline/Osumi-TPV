@@ -6,6 +6,8 @@ import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class HistoricoVenta {
+  _totalDescuento: number = null;
+
   constructor(
     public id: number = null,
     public editable: boolean = false,
@@ -22,6 +24,41 @@ export class HistoricoVenta {
     public fecha: string = null,
     public lineas: HistoricoLineaVenta[] = []
   ) {}
+
+  get totalDescuento(): number {
+    if (this._totalDescuento !== null) {
+      return this._totalDescuento;
+    }
+    let descuento: number = 0;
+
+    for (let linea of this.lineas) {
+      if (linea.importeDescuento) {
+        descuento += linea.importeDescuento;
+      } else {
+        if (linea.descuento !== 0) {
+          descuento += linea.total * (linea.descuento / 100);
+        }
+      }
+    }
+
+    this._totalDescuento = descuento;
+
+    return this._totalDescuento;
+  }
+
+  get tipoPago(): number {
+    if (this.idTipoPago === null) {
+      return -1;
+    }
+    return this.idTipoPago;
+  }
+
+  set tipoPago(tp: number) {
+    if (tp === -1) {
+      this.idTipoPago = null;
+    }
+    this.idTipoPago = tp;
+  }
 
   fromInterface(hv: HistoricoVentaInterface): HistoricoVenta {
     this.id = hv.id;

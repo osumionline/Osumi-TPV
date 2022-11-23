@@ -29,7 +29,7 @@
 				</button>
 			</div>
 			<div class="form-field articulos-space">
-				<label>Nombre</label>
+				<label>Nombre (*)</label>
 				<mat-form-field class="nombre-label form-title"
 								subscriptSizing="dynamic">
 					<input matInput
@@ -54,7 +54,7 @@
 			<mat-tab label="GENERAL">
 				<div class="margin-bottom">
 					<div class="form-field margin-right">
-						<label>Marca</label>
+						<label>Marca (*)</label>
 						<mat-form-field>
 							<mat-select [(ngModel)]="articulo.idMarca">
 								<mat-option *ngFor="let marca of marcas"
@@ -71,7 +71,7 @@
 						</button>
 					</div>
 					<div class="form-field margin-right">
-						<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span></label>
+						<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
 						<mat-form-field>
 							<mat-select [(ngModel)]="selectedIvaOption.id"
 										(ngModelChange)="updateIvaRe($event)">

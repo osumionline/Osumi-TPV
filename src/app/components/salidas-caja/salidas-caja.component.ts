@@ -29,7 +29,7 @@ export class SalidasCajaComponent {
     id: new FormControl(null),
     concepto: new FormControl(null, Validators.required),
     descripcion: new FormControl(null),
-    importe: new FormControl(null),
+    importe: new FormControl(null, Validators.required),
   });
   originalValue: SalidaCajaInterface = null;
 

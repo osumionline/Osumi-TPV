@@ -25,6 +25,8 @@
     box-shadow: 4px 4px 5px 0px var(--modal-bg-color);
 
     .modal-header {
+      background-color: var(--main-color);
+      color: var(--main-color-contrast);
       font-size: 24px;
       padding: 16px;
       line-height: 24px;
@@ -39,7 +41,7 @@
         height: 24px;
 
         mat-icon {
-          color: var(--close-icon);
+          color: var(--main-color-contrast);
 
           &:hover {
             color: var(--close-icon-hover);
@@ -77,6 +79,11 @@
 
     .modal-wide {
       min-width: 900px;
+    }
+
+    .modal-big {
+      width: 95%;
+      height: 95%;
     }
   }
 }

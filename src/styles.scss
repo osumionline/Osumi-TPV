@@ -81,3 +81,11 @@ mat-card-content {
 .mat-mdc-card-header-text {
   width: 100%;
 }
+
+.mat-mdc-table .mdc-data-table__row {
+  height: 40px;
+}
+
+.mat-mdc-table .mdc-data-table__header-row {
+  height: 45px;
+}

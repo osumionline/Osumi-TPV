@@ -25,10 +25,11 @@
                     </button>
                 </mat-action-list>
                 <div class="new-client">
-                    <button mat-button
+                    <button mat-raised-button
+                            color="primary"
                             (click)="newCliente()">
                         <mat-icon>add_circle_outline</mat-icon>
-                        Añadir nuevo cliente
+                        Añadir cliente
                     </button>
                 </div>
             </aside>
@@ -44,7 +45,7 @@
                                   (ngSubmit)="onSubmit()">
                                 <div>
                                     <div class="form-field half-width">
-                                        <label>Nombre y apellidos</label>
+                                        <label>Nombre y apellidos (*)</label>
                                         <mat-form-field class="max-width form-title">
                                             <input matInput
                                                    placeholder="Nombre y apellidos"
@@ -213,9 +214,9 @@
                                     <div class="delete">
                                         <button mat-raised-button
                                                 color="warn"
-                                                [disabled]="!form.value.id"
+                                                *ngIf="form.value.id"
                                                 type="button"
-                                                (click)="deleteCliente()">Borrar</button>
+                                                (click)="deleteCliente()">Eliminar</button>
                                     </div>
                                     <div class="others">
                                         <button mat-raised-button

@@ -147,6 +147,8 @@
                         </th>
                         <td mat-cell
                             *matCellDef="let element"> {{element.localizador}} </td>
+                        <td mat-footer-cell
+                            *matFooterCellDef> <strong>Total</strong> </td>
                     </ng-container>
 
                     <!-- Marca -->
@@ -159,6 +161,8 @@
                         </th>
                         <td mat-cell
                             *matCellDef="let element"> {{element.marca}} </td>
+                        <td mat-footer-cell
+                            *matFooterCellDef></td>
                     </ng-container>
 
                     <!-- Descripción -->
@@ -171,6 +175,8 @@
                         </th>
                         <td mat-cell
                             *matCellDef="let element"> {{element.articulo}} </td>
+                        <td mat-footer-cell
+                            *matFooterCellDef></td>
                     </ng-container>
 
                     <!-- Cantidad -->
@@ -185,6 +191,8 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element"> {{element.unidades}} </td>
+                        <td mat-footer-cell
+                            *matFooterCellDef></td>
                     </ng-container>
 
                     <!-- Descuento -->
@@ -199,9 +207,16 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            <div *ngIf="element.importeDescuento">{{element.importeDescuento}} €</div>
+                            <div *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</div>
                             <div *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</div>
                             <div *ngIf="!element.importeDescuento && element.descuento === 0">-</div>
+                        </td>
+                        <td class="center"
+                            mat-footer-cell
+                            *matFooterCellDef>
+                            <div *ngIf="historicoVentasSelected.totalDescuento !== 0">
+                                {{historicoVentasSelected.totalDescuento | fixedNumber}} €
+                            </div>
                         </td>
                     </ng-container>
 
@@ -221,12 +236,17 @@
                             <div *ngIf="element.total != element.importe"
                                  class="original-price">{{element.total | fixedNumber}} €</div>
                         </td>
+                        <td class="center"
+                            mat-footer-cell
+                            *matFooterCellDef>{{historicoVentasSelected.total | fixedNumber}} €</td>
                     </ng-container>
 
                     <tr mat-header-row
                         *matHeaderRowDef="historicoVentasSelectedDisplayedColumns"></tr>
                     <tr mat-row
                         *matRowDef="let row; columns: historicoVentasSelectedDisplayedColumns;"></tr>
+                    <tr mat-footer-row
+                        *matFooterRowDef="historicoVentasSelectedDisplayedColumns"></tr>
                 </table>
 
             </div>
@@ -234,10 +254,10 @@
                 <div class="historico-details-options-left">
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-label>Cambiar forma de pago</mat-label>
-                        <mat-select [(ngModel)]="historicoVentasSelected.idTipoPago"
+                        <mat-select [(ngModel)]="historicoVentasSelected.tipoPago"
                                     (ngModelChange)="changeFormaPago()"
                                     [disabled]="!historicoVentasSelected.editable">
-                            <mat-option [value]="null">Efectivo</mat-option>
+                            <mat-option [value]="-1">Efectivo</mat-option>
                             <mat-option *ngFor="let tipoPago of config.tiposPago"
                                         [value]="tipoPago.id">
                                 {{tipoPago.nombre}}
