@@ -8,6 +8,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class FinVenta {
   pagoMixto: boolean = false;
   factura: boolean = false;
+  regalo: boolean = false;
 
   constructor(
     public efectivo: string = "0",
@@ -36,6 +37,7 @@ export class FinVenta {
       lineas: lineas,
       pagoMixto: this.pagoMixto,
       factura: this.factura,
+      regalo: this.regalo,
     };
   }
 }

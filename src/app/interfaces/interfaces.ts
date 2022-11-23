@@ -320,6 +320,7 @@ export interface FinVentaInterface {
   lineas: LineaVentaInterface[];
   pagoMixto: boolean;
   factura: boolean;
+  regalo: boolean;
 }
 
 export interface FinVentaResult {
