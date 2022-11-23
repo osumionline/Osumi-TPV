@@ -18,6 +18,14 @@
     display: block;
     line-height: 24px;
     font-weight: bold;
+
+    &.disabled {
+      color: #888;
+    }
+  }
+
+  &.no-padding {
+    padding-right: 0;
   }
 
   .ng-dirty {
@@ -126,14 +134,24 @@
   width: 100%;
 }
 
-mat-form-field.form-ok.mat-form-field-appearance-outline,
-mat-form-field.form-ok.mat-form-field-outline-thick {
-  color: #0f0 !important;
-}
+mat-form-field {
+  &.remark {
+    background-color: var(--main-color);
+    border: 0;
+    border-radius: 6px;
 
-mat-form-field.form-not-ok.mat-form-field-appearance-outline,
-mat-form-field.form-not-ok.mat-form-field-outline-thick {
-  color: #f00 !important;
+    &.disabled {
+      background-color: #fff;
+
+      input {
+        color: rgba(0, 0, 0, 0.38) !important;
+      }
+    }
+
+    input {
+      color: var(--main-color-contrast) !important;
+    }
+  }
 }
 
 .stats-box {

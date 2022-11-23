@@ -23,11 +23,18 @@
 			}
 
 			mat-form-field {
-				margin-right: 16px;
+				margin-right: 8px;
+				width: 85%;
 			}
 
 			mat-form-field:last-child {
 				margin-left: 16px;
+			}
+
+			.big {
+				font-size: 2em;
+				display: inline-block;
+				margin-right: 8px;
 			}
 		}
 
@@ -53,6 +60,7 @@
 				margin-bottom: 8px;
 				align-items: center;
 				transition: all .4s;
+				position: relative;
 
 				img {
 					display: inline-block;
@@ -62,6 +70,20 @@
 
 				&:hover {
 					border: 2px solid #000;
+				}
+
+				.tipo-pago-check {
+					position: absolute;
+					right: 16px;
+					z-index: 1;
+				}
+
+				.tipo-pago-check-over {
+					position: absolute;
+					right: 16px;
+					height: 50px;
+					width: 50px;
+					z-index: 2;
 				}
 			}
 
