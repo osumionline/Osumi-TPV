@@ -45,8 +45,8 @@
 			</span>
 		</div>
 		<div class="col-stock">
-			<ng-container *ngIf="!linea.stock">&nbsp;</ng-container>
-			<span *ngIf="linea.stock">{{linea.stock}}</span>
+			<ng-container *ngIf="linea.stock === null">&nbsp;</ng-container>
+			<span *ngIf="linea.stock !== null">{{linea.stock}}</span>
 		</div>
 		<div class="col-cantidad">
 			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
