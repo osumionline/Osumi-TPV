@@ -1,5 +1,5 @@
 import { Component, HostListener, ViewChild } from "@angular/core";
-import { MatTabGroup } from "@angular/material/tabs";
+import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
@@ -50,5 +50,11 @@ export class CajaComponent {
   cerrarCaja(ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.mostrarCaja = false;
+  }
+
+  checkCajaTab(ev: MatTabChangeEvent): void {
+    if (ev.index === 2) {
+      this.cierreCaja.load();
+    }
   }
 }

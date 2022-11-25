@@ -191,8 +191,9 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element"> {{element.unidades}} </td>
-                        <td mat-footer-cell
-                            *matFooterCellDef></td>
+                        <td class="center"
+                            mat-footer-cell
+                            *matFooterCellDef> <strong>{{historicoVentasSelected.totalUnidades}}</strong> </td>
                     </ng-container>
 
                     <!-- Descuento -->
@@ -215,7 +216,7 @@
                             mat-footer-cell
                             *matFooterCellDef>
                             <div *ngIf="historicoVentasSelected.totalDescuento !== 0">
-                                {{historicoVentasSelected.totalDescuento | fixedNumber}} €
+                                <strong>{{historicoVentasSelected.totalDescuento | fixedNumber}} €</strong>
                             </div>
                         </td>
                     </ng-container>
@@ -238,7 +239,7 @@
                         </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef>{{historicoVentasSelected.total | fixedNumber}} €</td>
+                            *matFooterCellDef> <strong>{{historicoVentasSelected.total | fixedNumber}} €</strong> </td>
                     </ng-container>
 
                     <tr mat-header-row

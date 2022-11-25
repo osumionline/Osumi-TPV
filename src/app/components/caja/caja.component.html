@@ -11,6 +11,7 @@
         <div class="caja-body">
             <mat-tab-group [selectedIndex]="cajaSelectedTab"
                            (selectedIndexChange)="cajaSelectedTab = $event"
+                           (selectedTabChange)="checkCajaTab($event)"
                            animationDuration="0ms"
                            #cajaTabs>
                 <mat-tab label="HISTÓRICO DE VENTAS">

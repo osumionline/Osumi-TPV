@@ -6,6 +6,7 @@ import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class HistoricoVenta {
+  _totalUnidades: number = null;
   _totalDescuento: number = null;
 
   constructor(
@@ -24,6 +25,21 @@ export class HistoricoVenta {
     public fecha: string = null,
     public lineas: HistoricoLineaVenta[] = []
   ) {}
+
+  get totalUnidades(): number {
+    if (this._totalUnidades !== null) {
+      return this._totalUnidades;
+    }
+    let unidades: number = 0;
+
+    for (let linea of this.lineas) {
+      unidades += linea.unidades;
+    }
+
+    this._totalUnidades = unidades;
+
+    return this._totalUnidades;
+  }
 
   get totalDescuento(): number {
     if (this._totalDescuento !== null) {

@@ -111,9 +111,12 @@ export class SalidasCajaComponent {
 
   resetBusqueda(): void {
     if (this.salidasModo === "fecha") {
+      this.fecha = new Date();
       this.changeFecha();
     }
     if (this.salidasModo === "rango") {
+      this.rangoDesde = new Date();
+      this.rangoHasta = new Date();
       this.buscarPorRango();
     }
   }
