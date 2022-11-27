@@ -8,494 +8,497 @@
 
 <mat-card class="card-margin">
 	<mat-card-content>
-		<div class="articulo-header">
-			<div class="form-field">
-				<label>Localizador</label>
-				<mat-form-field class="campo-numero"
-								subscriptSizing="dynamic">
-					<input type="number"
-						   step="1"
-						   matInput
-						   placeholder="Localizador"
-						   [(ngModel)]="articulo.localizador"
-						   (keyup)="checkLocalizador($event)"
-						   #localizadorBox>
-				</mat-form-field>
-				<button mat-icon-button
-						aria-label="Añadir acceso directo"
-						title="Añadir acceso directo"
-						(click)="abrirAccesosDirectos()">
-					<mat-icon>launch</mat-icon>
-				</button>
-			</div>
-			<div class="form-field articulos-space">
-				<label>Nombre (*)</label>
-				<mat-form-field class="nombre-label form-title"
-								subscriptSizing="dynamic">
-					<input matInput
-						   placeholder="Nombre"
-						   [(ngModel)]="articulo.nombre">
-				</mat-form-field>
-			</div>
-			<div class="articulos-find">
-				<button mat-raised-button
-						color="primary"
-						(click)="abrirBuscador()">
-					<mat-icon>search</mat-icon>
-					Buscar
-				</button>
-			</div>
-		</div>
-		<mat-tab-group animationDuration="0ms"
-					   [selectedIndex]="selectedTab"
-					   (selectedIndexChange)="selectedTab = $event"
-					   (selectedTabChange)="checkArticulosTab($event)"
-					   dynamicHeight>
-			<mat-tab label="GENERAL">
-				<div class="margin-bottom">
-					<div class="form-field margin-right">
-						<label>Marca (*)</label>
-						<mat-form-field>
-							<mat-select [(ngModel)]="articulo.idMarca">
-								<mat-option *ngFor="let marca of marcas"
-											[value]="marca.id">
-									{{marca.nombre}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-						<button mat-icon-button
-								aria-label="Añadir nueva marca"
-								title="Añadir nueva marca"
-								(click)="newMarca()">
-							<mat-icon>add_circle_outline</mat-icon>
-						</button>
-					</div>
-					<div class="form-field margin-right">
-						<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
-						<mat-form-field>
-							<mat-select [(ngModel)]="selectedIvaOption.id"
-										(ngModelChange)="updateIvaRe($event)">
-								<mat-option *ngFor="let iva of ivaOptions"
-											[value]="iva.id">
-									{{iva.name}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
-					<div class="form-field"
-						 *ngIf="mostrarWeb">
-						<label>Venta online</label>
-						<mat-slide-toggle color="primary"
-										  [(ngModel)]="articulo.ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
-					</div>
+		<form [formGroup]="form"
+			  (ngSubmit)="guardar()">
+			<div class="articulo-header">
+				<div class="form-field">
+					<label>Localizador</label>
+					<mat-form-field class="campo-numero"
+									subscriptSizing="dynamic">
+						<input type="number"
+							   step="1"
+							   matInput
+							   placeholder="Localizador"
+							   formControlName="localizador"
+							   (keyup)="checkLocalizador($event)"
+							   #localizadorBox>
+					</mat-form-field>
+					<button mat-icon-button
+							aria-label="Añadir acceso directo"
+							title="Añadir acceso directo"
+							(click)="abrirAccesosDirectos()">
+						<mat-icon>launch</mat-icon>
+					</button>
 				</div>
-
-				<div class="articulo-numbers">
-					<div class="articulo-col">
-						<div class="form-field-left">
-							<label>Precio albarán</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="0.01"
-									   placeholder="Precio albarán"
-									   class="align-right"
-									   (blur)="setTwoNumberDecimal($event)"
-									   (focus)="$event.target.select()"
-									   (ngModelChange)="updatePalb($event)"
-									   [ngModel]="articulo.palb">
-							</mat-form-field>
-							<span>€</span>
-						</div>
-						<div class="form-field-left">
-							<label>PUC</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="0.01"
-									   placeholder="Precio Unitario de Compra"
-									   class="align-right"
-									   (blur)="setTwoNumberDecimal($event)"
-									   (focus)="$event.target.select()"
-									   (ngModelChange)="updatePuc($event)"
-									   [ngModel]="articulo.puc">
-							</mat-form-field>
-							<span>€</span>
-						</div>
-						<div class="form-field-left margen">
-							<label>Margen</label>
-							<span (click)="abrirMargenes()">
-								{{articulo.margen | number:'1.2-2':'es-ES'}} %
-							</span>
-						</div>
-						<div class="form-field-left">
-							<label>PVP</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="0.01"
-									   placeholder="Precio de Venta al Público"
-									   class="align-right"
-									   (blur)="setTwoNumberDecimal($event)"
-									   (focus)="$event.target.select()"
-									   (ngModelChange)="updatePvp($event)"
-									   [ngModel]="articulo.pvp">
-							</mat-form-field>
-							<span>€</span>
-						</div>
-					</div>
+				<div class="form-field articulos-space">
+					<label>Nombre (*)</label>
+					<mat-form-field class="nombre-label form-title"
+									subscriptSizing="dynamic">
+						<input matInput
+							   placeholder="Nombre"
+							   formControlName="nombre">
+					</mat-form-field>
 				</div>
-				<div class="articulo-numbers">
-					<div class="articulo-col">
-						<div class="form-field-left">
-							<label>Stock</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="1"
-									   placeholder="Stock"
-									   [(ngModel)]="articulo.stock"
-									   (focus)="$event.target.select()"
-									   class="align-right">
-							</mat-form-field>
-						</div>
-						<div class="form-field-left">
-							<label>Stock mínimo</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="1"
-									   placeholder="Stock mínimo"
-									   [(ngModel)]="articulo.stockMin"
-									   (focus)="$event.target.select()"
-									   class="align-right">
-							</mat-form-field>
-						</div>
-						<div class="form-field-left">
-							<label>Stock máximo</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="1"
-									   placeholder="Stock máximo"
-									   [(ngModel)]="articulo.stockMax"
-									   (focus)="$event.target.select()"
-									   class="align-right">
-							</mat-form-field>
-						</div>
-						<div class="form-field-left">
-							<label>Lote óptimo</label>
-							<mat-form-field class="campo-numero">
-								<input matInput
-									   type="number"
-									   step="1"
-									   placeholder="Lote óptimo"
-									   [(ngModel)]="articulo.loteOptimo"
-									   (focus)="$event.target.select()"
-									   class="align-right">
-							</mat-form-field>
-						</div>
-					</div>
-				</div>
-			</mat-tab>
-			<mat-tab label="AUXILIAR">
-				<div>
-					<div class="form-field">
-						<label>Proveedor</label>
-						<mat-form-field>
-							<mat-select [(ngModel)]="articulo.idProveedor">
-								<mat-option *ngFor="let prov of proveedores"
-											[value]="prov.id">
-									{{prov.nombre}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-						<button mat-icon-button
-								aria-label="Añadir nuevo proveedor"
-								title="Añadir nuevo proveedor"
-								(click)="newProveedor()">
-							<mat-icon>add_circle_outline</mat-icon>
-						</button>
-					</div>
-					<div class="form-field">
-						<label>Categoría</label>
-						<mat-form-field>
-							<mat-select [(ngModel)]="articulo.idCategoria">
-								<mat-option *ngFor="let cat of categoriesPlain"
-											[value]="cat.id">
-									<span style="display: block;"
-										  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
-					<div class="form-field">
-						<label>Referencia</label>
-						<mat-form-field>
-							<input matInput
-								   placeholder="Referencia"
-								   [(ngModel)]="articulo.referencia">
-						</mat-form-field>
-					</div>
-				</div>
-				<div [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
-					<div class="form-field">
-						<label>Fecha de caducidad</label>
-						<mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
-										(click)="editFecCad()">
-							<input matInput
-								   placeholder="Fecha de caducidad"
-								   [(ngModel)]="fecCad">
-						</mat-form-field>
-						<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
-							<input matInput
-								   placeholder="Fecha de caducidad"
-								   [(ngModel)]="articulo.fechaCaducidad"
-								   (keyup)="checkFecCad($event)"
-								   (blur)="checkFecCad($event, true)"
-								   #fecCadValue>
-						</mat-form-field>
-					</div>
-				</div>
-				<div class="stats-box"
-					 *ngIf="articulo.id !== null">
-					<label>Estadísticas ventas</label>
-					<div class="stats-data"></div>
-					<div class="stats-controls">
-						<div class="form-field">
-							<label>Estadísticas ventas (tipo)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsVentas.type">
-									<mat-option value="units">Unidades</mat-option>
-									<mat-option value="amount">Importe</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div class="form-field">
-							<label>Estadísticas ventas (mes)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsVentas.month">
-									<mat-option [value]="-1">Todos</mat-option>
-									<mat-option *ngFor="let month of monthList"
-												[value]="month.id">
-										{{month.name}}
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div class="form-field">
-							<label>Estadísticas ventas (año)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsVentas.year">
-									<mat-option [value]="-1">Todos</mat-option>
-									<mat-option *ngFor="let year of statsYearList"
-												[value]="year">
-										{{year}}
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-					</div>
-				</div>
-				<div class="stats-box"
-					 *ngIf="articulo.id !== null">
-					<label>Estadísticas web</label>
-					<div class="stats-data"></div>
-					<div class="stats-controls">
-						<div class="form-field">
-							<label>Estadísticas web (tipo)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsWeb.type">
-									<mat-option value="units">Unidades</mat-option>
-									<mat-option value="amount">Importe</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div class="form-field">
-							<label>Estadísticas web (mes)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsWeb.month">
-									<mat-option [value]="-1">Todos</mat-option>
-									<mat-option *ngFor="let month of monthList"
-												[value]="month.id">
-										{{month.name}}
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-						<div class="form-field">
-							<label>Estadísticas web (año)</label>
-							<mat-form-field>
-								<mat-select [(ngModel)]="statsWeb.year">
-									<mat-option [value]="-1">Todos</mat-option>
-									<mat-option *ngFor="let year of statsYearList"
-												[value]="year">
-										{{year}}
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div>
-					</div>
-				</div>
-			</mat-tab>
-			<mat-tab label="CÓDIGOS DE BARRAS">
-				<div class="new-cod-barras">
-					<input type="number"
-						   class="new-cod-barras-item"
-						   placeholder="Nuevo código de barras"
-						   [(ngModel)]="newCodBarras"
-						   (keyup)="fixCodBarras($event)"
-						   #codigoBarrasBox>
+				<div class="articulos-find">
 					<button mat-raised-button
 							color="primary"
-							(click)="fixCodBarras()">Añadir</button>
+							(click)="abrirBuscador()">
+						<mat-icon>search</mat-icon>
+						Buscar
+					</button>
 				</div>
-
-				<div class="cod-barras-empty"
-					 *ngIf="articulo.codigosBarras.length==0">
-					Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
-				</div>
-
-				<div class="cod-barras-list">
-					<div class="cod-barras-item"
-						 *ngFor="let codBarras of articulo.codigosBarras"
-						 [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
-						<ngx-barcode6 [bc-value]="codBarras.codigoBarras"
-									  [bc-display-value]="false"></ngx-barcode6>
-						<div class="cod-barras-item-cod">
-							{{ codBarras.codigoBarras }}
-							<button class="cod-barras-item-remove"
-									mat-icon-button
-									*ngIf="!codBarras.porDefecto"
-									aria-label="Borrar código de barras"
-									title="Borrar código de barras"
-									(click)="deleteCodBarras(codBarras)">
-								<mat-icon>delete</mat-icon>
+			</div>
+			<mat-tab-group animationDuration="0ms"
+						   [selectedIndex]="selectedTab"
+						   (selectedIndexChange)="selectedTab = $event"
+						   (selectedTabChange)="checkArticulosTab($event)"
+						   dynamicHeight>
+				<mat-tab label="GENERAL">
+					<div class="margin-bottom">
+						<div class="form-field margin-right">
+							<label>Marca (*)</label>
+							<mat-form-field>
+								<mat-select formControlName="idMarca">
+									<mat-option *ngFor="let marca of marcas"
+												[value]="marca.id">
+										{{marca.nombre}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<button mat-icon-button
+									aria-label="Añadir nueva marca"
+									title="Añadir nueva marca"
+									(click)="newMarca()">
+								<mat-icon>add_circle_outline</mat-icon>
 							</button>
 						</div>
+						<div class="form-field margin-right">
+							<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
+							<mat-form-field>
+								<mat-select [(ngModel)]="selectedIvaOption.id"
+											(ngModelChange)="updateIvaRe($event)">
+									<mat-option *ngFor="let iva of ivaOptions"
+												[value]="iva.id">
+										{{iva.name}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-field"
+							 *ngIf="mostrarWeb">
+							<label>Venta online</label>
+							<mat-slide-toggle color="primary"
+											  formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+						</div>
 					</div>
-				</div>
-			</mat-tab>
-			<mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
-				<ng-template mat-tab-label>
-					WEB
-					<mat-icon *ngIf="articulo.mostrarEnWeb"
-							  class="tab-icon">check_circle</mat-icon>
-				</ng-template>
-				<div>
-					<div class="form-field-left-short">
-						<label>Mostrar en web</label>
-						<mat-slide-toggle color="primary"
-										  [(ngModel)]="articulo.mostrarEnWeb">{{ articulo.mostrarEnWeb ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
-					</div>
-				</div>
-				<div>
-					<div class="form-field max-width">
-						<label>Descripción corta</label>
-						<mat-form-field class="max-width">
-							<textarea matInput
-									  placeholder="Descripción corta"
-									  [(ngModel)]="articulo.descCorta"
-									  rows="5"></textarea>
-						</mat-form-field>
-					</div>
-				</div>
-				<div>
-					<div class="form-field max-width">
-						<label>Descripción larga</label>
-						<mat-form-field class="max-width">
-							<textarea matInput
-									  placeholder="Descripción larga"
-									  [(ngModel)]="articulo.descripcion"
-									  rows="25"></textarea>
-						</mat-form-field>
-					</div>
-				</div>
-				<input type="file"
-					   name="foto-file"
-					   id="foto-file"
-					   accept="image/png, image/gif, image/jpeg"
-					   (change)="onFotoChange($event)">
-				<div class="fotos-list">
-					<ng-container *ngFor="let foto of articulo.fotosList; let i=index">
-						<div *ngIf="foto.status !== 'deleted'"
-							 class="foto-item">
-							<img [src]="foto.url"
-								 [alt]="articulo.nombre">
-							<div class="foto-icon foto-icon-delete"
-								 (click)="deleteFoto(i)">
-								<mat-icon>delete_forever</mat-icon>
+
+					<div class="articulo-numbers">
+						<div class="articulo-col">
+							<div class="form-field-left">
+								<label>Precio albarán</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="0.01"
+										   placeholder="Precio albarán"
+										   class="align-right"
+										   (blur)="setTwoNumberDecimal($event)"
+										   (focus)="$event.target.select()"
+										   (ngModelChange)="updatePalb($event)"
+										   formControlName="palb">
+								</mat-form-field>
+								<span>€</span>
 							</div>
-							<div class="foto-icon foto-icon-previous"
-								 (click)="moveFoto('left', i)">
-								<mat-icon>arrow_back_ios</mat-icon>
+							<div class="form-field-left">
+								<label>PUC</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="0.01"
+										   placeholder="Precio Unitario de Compra"
+										   class="align-right"
+										   (blur)="setTwoNumberDecimal($event)"
+										   (focus)="$event.target.select()"
+										   (ngModelChange)="updatePuc($event)"
+										   formControlName="puc">
+								</mat-form-field>
+								<span>€</span>
 							</div>
-							<div class="foto-icon foto-icon-next"
-								 (click)="moveFoto('right', i)">
-								<mat-icon>arrow_forward_ios</mat-icon>
+							<div class="form-field-left margen">
+								<label>Margen</label>
+								<span (click)="abrirMargenes()">
+									{{articulo.margen | number:'1.2-2':'es-ES'}} %
+								</span>
+							</div>
+							<div class="form-field-left">
+								<label>PVP</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="0.01"
+										   placeholder="Precio de Venta al Público"
+										   class="align-right"
+										   (blur)="setTwoNumberDecimal($event)"
+										   (focus)="$event.target.select()"
+										   (ngModelChange)="updatePvp($event)"
+										   formControlName="pvp">
+								</mat-form-field>
+								<span>€</span>
 							</div>
 						</div>
-					</ng-container>
-				</div>
-				<div class="fotos-add">
-					<button mat-raised-button
-							color="primary"
-							(click)="addFoto()">Añadir foto</button>
-				</div>
-			</mat-tab>
-			<mat-tab label="HISTÓRICO"
-					 *ngIf="articulo.id!=null">
-				<p>HISTÓRICO</p>
-				<p>
+					</div>
+					<div class="articulo-numbers">
+						<div class="articulo-col">
+							<div class="form-field-left">
+								<label>Stock</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Stock"
+										   formControlName="stock"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div>
+							<div class="form-field-left">
+								<label>Stock mínimo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Stock mínimo"
+										   formControlName="stockMin"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div>
+							<div class="form-field-left">
+								<label>Stock máximo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Stock máximo"
+										   formControlName="stockMax"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div>
+							<div class="form-field-left">
+								<label>Lote óptimo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Lote óptimo"
+										   formControlName="loteOptimo"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab label="AUXILIAR">
+					<div>
+						<div class="form-field">
+							<label>Proveedor</label>
+							<mat-form-field>
+								<mat-select formControlName="idProveedor">
+									<mat-option *ngFor="let prov of proveedores"
+												[value]="prov.id">
+										{{prov.nombre}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<button mat-icon-button
+									aria-label="Añadir nuevo proveedor"
+									title="Añadir nuevo proveedor"
+									(click)="newProveedor()">
+								<mat-icon>add_circle_outline</mat-icon>
+							</button>
+						</div>
+						<div class="form-field">
+							<label>Categoría</label>
+							<mat-form-field>
+								<mat-select formControlName="idCategoria">
+									<mat-option *ngFor="let cat of categoriesPlain"
+												[value]="cat.id">
+										<span style="display: block;"
+											  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-field">
+							<label>Referencia</label>
+							<mat-form-field>
+								<input matInput
+									   placeholder="Referencia"
+									   formControlName="referencia">
+							</mat-form-field>
+						</div>
+					</div>
+					<div [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
+						<div class="form-field">
+							<label>Fecha de caducidad</label>
+							<mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
+											(click)="editFecCad()">
+								<input matInput
+									   placeholder="Fecha de caducidad"
+									   [(ngModel)]="fecCad">
+							</mat-form-field>
+							<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
+								<input matInput
+									   placeholder="Fecha de caducidad"
+									   formControlName="fechaCaducidad"
+									   (keyup)="checkFecCad($event)"
+									   (blur)="checkFecCad($event, true)"
+									   #fecCadValue>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="stats-box"
+						 *ngIf="articulo.id !== null">
+						<label>Estadísticas ventas</label>
+						<div class="stats-data"></div>
+						<div class="stats-controls">
+							<div class="form-field">
+								<label>Estadísticas ventas (tipo)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.type">
+										<mat-option value="units">Unidades</mat-option>
+										<mat-option value="amount">Importe</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas ventas (mes)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.month">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let month of monthList"
+													[value]="month.id">
+											{{month.name}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas ventas (año)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.year">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let year of statsYearList"
+													[value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+					<div class="stats-box"
+						 *ngIf="articulo.id !== null">
+						<label>Estadísticas web</label>
+						<div class="stats-data"></div>
+						<div class="stats-controls">
+							<div class="form-field">
+								<label>Estadísticas web (tipo)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.type">
+										<mat-option value="units">Unidades</mat-option>
+										<mat-option value="amount">Importe</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas web (mes)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.month">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let month of monthList"
+													[value]="month.id">
+											{{month.name}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas web (año)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.year">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let year of statsYearList"
+													[value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab label="CÓDIGOS DE BARRAS">
+					<div class="new-cod-barras">
+						<input type="number"
+							   class="new-cod-barras-item"
+							   placeholder="Nuevo código de barras"
+							   [(ngModel)]="newCodBarras"
+							   (keyup)="fixCodBarras($event)"
+							   #codigoBarrasBox>
+						<button mat-raised-button
+								color="primary"
+								(click)="fixCodBarras()">Añadir</button>
+					</div>
 
-				</p>
-			</mat-tab>
-			<mat-tab label="OBSERVACIONES">
-				<div>
-					<div class="form-field max-width">
-						<label>Observaciones</label>
-						<mat-form-field class="max-width">
-							<textarea matInput
-									  placeholder="Observaciones"
-									  [(ngModel)]="articulo.observaciones"
-									  rows="30"></textarea>
-						</mat-form-field>
+					<div class="cod-barras-empty"
+						 *ngIf="articulo.codigosBarras.length==0">
+						Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
 					</div>
-				</div>
-				<div>
-					<div class="form-field-left-short">
-						<label>Mostrar en:</label>
-						<mat-slide-toggle class="show-check"
-										  color="primary"
-										  [(ngModel)]="articulo.mostrarObsPedidos">Pedidos</mat-slide-toggle>
-						<mat-slide-toggle class="show-check"
-										  color="primary"
-										  [(ngModel)]="articulo.mostrarObsVentas">Ventas</mat-slide-toggle>
+
+					<div class="cod-barras-list">
+						<div class="cod-barras-item"
+							 *ngFor="let codBarras of articulo.codigosBarras"
+							 [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
+							<ngx-barcode6 [bc-value]="codBarras.codigoBarras"
+										  [bc-display-value]="false"></ngx-barcode6>
+							<div class="cod-barras-item-cod">
+								{{ codBarras.codigoBarras }}
+								<button class="cod-barras-item-remove"
+										mat-icon-button
+										*ngIf="!codBarras.porDefecto"
+										aria-label="Borrar código de barras"
+										title="Borrar código de barras"
+										(click)="deleteCodBarras(codBarras)">
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+						</div>
 					</div>
-				</div>
-			</mat-tab>
-			<mat-tab label="BAJA"
-					 *ngIf="articulo.id!=null">
-				<p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados historicos.</p>
-				<div class="dar-de-baja">
-					<button mat-raised-button
-							color="warn"
-							(click)="darDeBaja()">Dar de baja</button>
-				</div>
-			</mat-tab>
-		</mat-tab-group>
-		<div class="articulo-save">
-			<button mat-button
-					(click)="cancelar()">Cancelar</button>
-			<button mat-raised-button
-					color="primary"
-					(click)="guardar()"
-					[disabled]="saving">
-				<img src="/assets/loading.svg"
-					 *ngIf="saving">
-				Guardar
-			</button>
-		</div>
+				</mat-tab>
+				<mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
+					<ng-template mat-tab-label>
+						WEB
+						<mat-icon *ngIf="articulo.mostrarEnWeb"
+								  class="tab-icon">check_circle</mat-icon>
+					</ng-template>
+					<div>
+						<div class="form-field-left-short">
+							<label>Mostrar en web</label>
+							<mat-slide-toggle color="primary"
+											  formControlName="mostrarEnWeb">{{ articulo.mostrarEnWeb ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+						</div>
+					</div>
+					<div>
+						<div class="form-field max-width">
+							<label>Descripción corta</label>
+							<mat-form-field class="max-width">
+								<textarea matInput
+										  placeholder="Descripción corta"
+										  formControlName="descCorta"
+										  rows="5"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+					<div>
+						<div class="form-field max-width">
+							<label>Descripción larga</label>
+							<mat-form-field class="max-width">
+								<textarea matInput
+										  placeholder="Descripción larga"
+										  formControlName="descripcion"
+										  rows="25"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+					<input type="file"
+						   name="foto-file"
+						   id="foto-file"
+						   accept="image/png, image/gif, image/jpeg"
+						   (change)="onFotoChange($event)">
+					<div class="fotos-list">
+						<ng-container *ngFor="let foto of articulo.fotosList; let i=index">
+							<div *ngIf="foto.status !== 'deleted'"
+								 class="foto-item">
+								<img [src]="foto.url"
+									 [alt]="articulo.nombre">
+								<div class="foto-icon foto-icon-delete"
+									 (click)="deleteFoto(i)">
+									<mat-icon>delete_forever</mat-icon>
+								</div>
+								<div class="foto-icon foto-icon-previous"
+									 (click)="moveFoto('left', i)">
+									<mat-icon>arrow_back_ios</mat-icon>
+								</div>
+								<div class="foto-icon foto-icon-next"
+									 (click)="moveFoto('right', i)">
+									<mat-icon>arrow_forward_ios</mat-icon>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+					<div class="fotos-add">
+						<button mat-raised-button
+								color="primary"
+								(click)="addFoto()">Añadir foto</button>
+					</div>
+				</mat-tab>
+				<mat-tab label="HISTÓRICO"
+						 *ngIf="articulo.id!=null">
+					<p>HISTÓRICO</p>
+					<p>
+
+					</p>
+				</mat-tab>
+				<mat-tab label="OBSERVACIONES">
+					<div>
+						<div class="form-field max-width">
+							<label>Observaciones</label>
+							<mat-form-field class="max-width">
+								<textarea matInput
+										  placeholder="Observaciones"
+										  formControlName="observaciones"
+										  rows="30"></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+					<div>
+						<div class="form-field-left-short">
+							<label>Mostrar en:</label>
+							<mat-slide-toggle class="show-check"
+											  color="primary"
+											  formControlName="mostrarObsPedidos">Pedidos</mat-slide-toggle>
+							<mat-slide-toggle class="show-check"
+											  color="primary"
+											  formControlName="mostrarObsVentas">Ventas</mat-slide-toggle>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab label="BAJA"
+						 *ngIf="articulo.id!=null">
+					<p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados historicos.</p>
+					<div class="dar-de-baja">
+						<button mat-raised-button
+								color="warn"
+								type="button"
+								(click)="darDeBaja()">Dar de baja</button>
+					</div>
+				</mat-tab>
+			</mat-tab-group>
+			<div class="articulo-save">
+				<button mat-button
+						(click)="cancelar()">Cancelar</button>
+				<button mat-raised-button
+						color="primary"
+						[disabled]="saving">
+					<img src="/assets/loading.svg"
+						 *ngIf="saving">
+					Guardar
+				</button>
+			</div>
+		</form>
 	</mat-card-content>
 </mat-card>
 

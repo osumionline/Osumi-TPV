@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -101,6 +102,31 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   statsWebData: ChartDataInterface[] = [];
 
   saving: boolean = false;
+
+  form: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    localizador: new FormControl(null),
+    nombre: new FormControl(null, Validators.required),
+    idMarca: new FormControl(null, Validators.required),
+    ventaOnline: new FormControl(false),
+    palb: new FormControl(null),
+    puc: new FormControl(null),
+    pvp: new FormControl(null),
+    stock: new FormControl(null),
+    stockMin: new FormControl(null),
+    stockMax: new FormControl(null),
+    loteOptimo: new FormControl(null),
+    idProveedor: new FormControl(null),
+    idCategoria: new FormControl(null),
+    referencia: new FormControl(null),
+    fechaCaducidad: new FormControl(null),
+    mostrarEnWeb: new FormControl(false),
+    descCorta: new FormControl(null),
+    descripcion: new FormControl(null),
+    observaciones: new FormControl(null),
+    mostrarObsPedidos: new FormControl(false),
+    mostrarObsVentas: new FormControl(false),
+  });
 
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
