@@ -326,8 +326,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  selectAccesoDirecto(row): void {
-    console.log(row);
+  selectAccesoDirecto(row: AccesoDirecto): void {
+    this.form.get("localizador").setValue(row.id);
+    this.loadArticulo();
+    this.accesosDirectosCerrar();
   }
 
   borrarAccesoDirecto(ev: MouseEvent, id: number): void {
