@@ -111,6 +111,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     ventaOnline: new FormControl(false),
     palb: new FormControl(null),
     puc: new FormControl(null),
+    margen: new FormControl(null),
     pvp: new FormControl(null),
     stock: new FormControl(null),
     stockMin: new FormControl(null),
@@ -173,6 +174,15 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
+    this.form.get("palb").valueChanges.subscribe((x) => {
+      this.updatePalb(x);
+    });
+    this.form.get("puc").valueChanges.subscribe((x) => {
+      this.updatePuc(x);
+    });
+    this.form.get("pvp").valueChanges.subscribe((x) => {
+      this.updatePvp(x);
+    });
   }
 
   @HostListener("window:keydown", ["$event"])
@@ -253,30 +263,41 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
+    console.log("checkLocalizador", ev);
     if (ev.key == "Enter") {
+      ev.preventDefault();
+      ev.stopPropagation();
+      console.log("tras stopPropagation");
       this.loadArticulo();
     }
   }
 
   loadArticulo(): void {
     this.loading = true;
-    this.ars.loadArticulo(this.articulo.localizador).subscribe((result) => {
-      this.articulo = this.cms.getArticulo(result.articulo);
-      if (this.articulo.fechaCaducidad) {
-        this.loadFecCad();
-      }
+    this.ars
+      .loadArticulo(this.form.get("localizador").value)
+      .subscribe((result) => {
+        this.articulo = this.cms.getArticulo(result.articulo);
+        if (this.articulo.fechaCaducidad) {
+          this.loadFecCad();
+        }
 
-      this.selectedIvaOption = new IVAOption(
-        this.tipoIva,
-        this.articulo.iva,
-        this.articulo.re
-      );
-      this.loadStatsVentas();
-      this.loadStatsWeb();
+        this.selectedIvaOption = new IVAOption(
+          this.tipoIva,
+          this.articulo.iva,
+          this.articulo.re
+        );
+        this.loadStatsVentas();
+        this.loadStatsWeb();
 
-      this.selectedTab = 0;
-      this.loading = false;
-    });
+        this.form.patchValue(this.articulo.toInterface(false));
+        this.form.get("palb").markAsPristine();
+        this.form.get("puc").markAsPristine();
+        this.form.get("pvp").markAsPristine();
+
+        this.selectedTab = 0;
+        this.loading = false;
+      });
   }
 
   abrirAccesosDirectos(): void {
@@ -351,7 +372,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   loadFecCad(): void {
     const fecCad: string[] = this.articulo.fechaCaducidad.split("/");
     const mes: Month = this.config.monthList.find(
-      (x) => x.id === parseInt(fecCad[0])
+      (x: Month): boolean => x.id === parseInt(fecCad[0])
     );
 
     this.fecCad = mes.name + " 20" + fecCad[1];
@@ -372,6 +393,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   newArticulo(): void {
     this.articulo = new Articulo();
+    this.form.patchValue(this.articulo.toInterface(false));
     this.selectedTab = 0;
     setTimeout(() => {
       this.localizadorBox.nativeElement.focus();
@@ -403,6 +425,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.ms.saveMarca(this.marca.toInterface()).subscribe((result) => {
       if (result.status == "ok") {
         this.articulo.idMarca = result.id;
+        this.form.get("idMarca").setValue(result.id);
         this.ms.loaded = false;
         this.loadMarcas();
         this.newMarcaCerrar();
@@ -430,7 +453,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   addMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
-    const ind: number = this.proveedor.marcas.findIndex((x) => x == marca.id);
+    const ind: number = this.proveedor.marcas.findIndex(
+      (x: number): boolean => x == marca.id
+    );
 
     if (ev.checked) {
       if (ind === -1) {
@@ -478,6 +503,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result) => {
       if (result.status == "ok") {
         this.articulo.idProveedor = result.id;
+        this.form.get("idProveedor").setValue(result.id);
         this.ps.loaded = false;
         this.loadProveedores();
         this.newProveedorCerrar();
@@ -495,7 +521,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   updateIvaRe(ev: string): void {
-    const ivaInd = this.config.ivaOptions.findIndex((x) => x.id == ev);
+    const ivaInd: number = this.config.ivaOptions.findIndex(
+      (x: IVAOption): boolean => x.id == ev
+    );
     this.selectedIvaOption.updateValues(
       this.config.ivaOptions[ivaInd].iva,
       this.config.ivaOptions[ivaInd].re
@@ -505,7 +533,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
       (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
     const puc: number = this.getTwoNumberDecimal(
-      this.articulo.palb * (1 + ivare / 100)
+      this.form.get("palb").value * (1 + ivare / 100)
     );
     this.updatePuc(puc);
   }
@@ -533,7 +561,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         const checkFecCadStr: string[] =
           this.articulo.fechaCaducidad.split("/");
         const month = this.config.monthList.find(
-          (x) => x.id === parseInt(checkFecCadStr[0])
+          (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
         );
         const checkD = new Date(
           2000 + parseInt(checkFecCadStr[1]),
@@ -589,37 +617,46 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   updatePalb(ev: number): void {
-    this.articulo.palb = ev;
+    this.form.get("palb").setValue(ev, { emitEvent: false });
+    this.form.get("palb").markAsDirty();
 
-    let ivare = 0;
+    let ivare: number = 0;
     if (this.selectedIvaOption.id !== null) {
       ivare =
         (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
         (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
     }
-    const puc = this.articulo.palb * (1 + ivare / 100);
+    const puc: number = ev * (1 + ivare / 100);
     this.updatePuc(this.getTwoNumberDecimal(puc));
   }
 
   updatePuc(ev: number): void {
-    this.articulo.puc = ev;
+    console.log("updatePuc", ev, this.form.value.puc);
+    this.form.get("puc").setValue(ev, { emitEvent: false });
+    this.form.get("puc").markAsDirty();
 
-    this.updateMargen();
+    this.updateMargen(this.form.get("pvp").value, ev);
   }
 
-  updateMargen(): void {
-    if (this.articulo.puc !== 0) {
-      this.articulo.margen =
-        (this.articulo.pvp * 100) / this.articulo.puc - 100;
+  updateMargen(pvp: number, puc: number): void {
+    console.log("updateMargen", { pvp, puc });
+    if (this.form.get("puc").value !== 0) {
+      this.articulo.margen = (pvp * 100) / puc - 100;
     } else {
       this.articulo.margen = 0;
     }
+    this.form
+      .get("margen")
+      .setValue(this.articulo.margen, { emitEvent: false });
+    console.log(this.articulo.margen);
   }
 
   updatePvp(ev: number): void {
-    this.articulo.pvp = ev;
+    console.log("updatePvp", ev, this.form.value.pvp);
+    this.form.get("pvp").setValue(ev, { emitEvent: false });
+    this.form.get("pvp").markAsDirty();
 
-    this.updateMargen();
+    this.updateMargen(ev, this.form.get("puc").value);
   }
 
   fixCodBarras(ev: KeyboardEvent = null): void {
@@ -653,7 +690,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   onFotoChange(ev: Event): void {
-    let reader = new FileReader();
+    let reader: FileReader = new FileReader();
     if (
       (<HTMLInputElement>ev.target).files &&
       (<HTMLInputElement>ev.target).files.length > 0
@@ -745,9 +782,18 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  cancelar(): void {}
+  cancelar(): void {
+    this.form.reset();
+    this.form.patchValue(this.articulo.toInterface(false));
+    this.form.get("palb").markAsPristine();
+    this.form.get("puc").markAsPristine();
+    this.form.get("pvp").markAsPristine();
+  }
 
   guardar(): void {
+    debugger;
+    console.log("guardar");
+    this.articulo.fromInterface(this.form.value, false);
     this.articulo.stock = this.articulo.stock || 0;
     this.articulo.stockMin = this.articulo.stockMin || 0;
     this.articulo.stockMax = this.articulo.stockMax || 0;
@@ -878,7 +924,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.mostrarMargenes = true;
   }
 
-  cerrarMargenes(ev: MouseEvent = null) {
+  cerrarMargenes(ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.mostrarMargenes = false;
   }
@@ -888,6 +934,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.articulo.pvp = this.getTwoNumberDecimal(
       this.articulo.puc * (1 + margen / 100)
     );
+    this.form.get("pvp").setValue(this.articulo.pvp);
+    this.form.get("pvp").markAsDirty();
 
     this.cerrarMargenes();
   }

@@ -98,10 +98,7 @@ export class ClassMapperService {
   }
 
   getArticulo(a: ArticuloInterface): Articulo {
-    return new Articulo().fromInterface(
-      a,
-      this.getCodigosBarras(a.codigosBarras)
-    );
+    return new Articulo().fromInterface(a);
   }
 
   getArticulos(as: ArticuloInterface[]): Articulo[] {

@@ -43,10 +43,10 @@ export class Articulo {
     public fotos: number[] = []
   ) {}
 
-  fromInterface(a: ArticuloInterface, codBarras: CodigoBarras[]): Articulo {
+  fromInterface(a: ArticuloInterface, decode: boolean = true): Articulo {
     this.id = a.id;
     this.localizador = a.localizador;
-    this.nombre = Utils.urldecode(a.nombre);
+    this.nombre = decode ? Utils.urldecode(a.nombre) : a.nombre;
     this.idCategoria = a.idCategoria;
     this.idMarca = a.idMarca;
     this.idProveedor = a.idProveedor;
@@ -63,38 +63,37 @@ export class Articulo {
     this.loteOptimo = a.loteOptimo;
     this.ventaOnline = a.ventaOnline;
     this.fechaCaducidad = a.fechaCaducidad;
-    this.observaciones = Utils.urldecode(a.observaciones);
+    this.observaciones = decode
+      ? Utils.urldecode(a.observaciones)
+      : a.observaciones;
     this.mostrarObsPedidos = a.mostrarObsPedidos;
     this.mostrarObsVentas = a.mostrarObsVentas;
     this.mostrarEnWeb = a.mostrarEnWeb;
-    this.descCorta = Utils.urldecode(a.descCorta);
-    this.descripcion = Utils.urldecode(a.descripcion);
+    this.descCorta = decode ? Utils.urldecode(a.descCorta) : a.descCorta;
+    this.descripcion = decode ? Utils.urldecode(a.descripcion) : a.descripcion;
     this.accesoDirecto = a.accesoDirecto;
-    this.codigosBarras = codBarras;
-    this.fotos = a.fotos;
-
-    for (let n of this.fotos) {
-      this.fotosList.push(new Foto(n));
+    if (a.codigosBarras) {
+      this.codigosBarras = a.codigosBarras.map(
+        (cb: CodigoBarrasInterface): CodigoBarras => {
+          return new CodigoBarras().fromInterface(cb);
+        }
+      );
+    }
+    if (a.fotos) {
+      this.fotos = a.fotos;
+      this.fotosList = this.fotos.map((n: number): Foto => {
+        return new Foto(n);
+      });
     }
 
     return this;
   }
 
-  toInterface(): ArticuloInterface {
-    const codBarras: CodigoBarrasInterface[] = [];
-    for (let cb of this.codigosBarras) {
-      codBarras.push(cb.toInterface());
-    }
-
-    const fotos: FotoInterface[] = [];
-    for (let foto of this.fotosList) {
-      fotos.push(foto.toInterface());
-    }
-
+  toInterface(encode: boolean = true): ArticuloInterface {
     return {
       id: this.id,
       localizador: this.localizador,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
       idCategoria: this.idCategoria,
       idMarca: this.idMarca,
       idProveedor: this.idProveedor,
@@ -111,16 +110,26 @@ export class Articulo {
       loteOptimo: this.loteOptimo,
       ventaOnline: this.ventaOnline,
       fechaCaducidad: this.fechaCaducidad,
-      observaciones: Utils.urlencode(this.observaciones),
+      observaciones: encode
+        ? Utils.urlencode(this.observaciones)
+        : this.observaciones,
       mostrarObsPedidos: this.mostrarObsPedidos,
       mostrarObsVentas: this.mostrarObsVentas,
       accesoDirecto: this.accesoDirecto,
       mostrarEnWeb: this.mostrarEnWeb,
-      descCorta: Utils.urlencode(this.descCorta),
-      descripcion: Utils.urlencode(this.descripcion),
-      codigosBarras: codBarras,
+      descCorta: encode ? Utils.urlencode(this.descCorta) : this.descCorta,
+      descripcion: encode
+        ? Utils.urlencode(this.descripcion)
+        : this.descripcion,
+      codigosBarras: this.codigosBarras.map(
+        (cb: CodigoBarras): CodigoBarrasInterface => {
+          return cb.toInterface();
+        }
+      ),
       fotos: this.fotos,
-      fotosList: fotos,
+      fotosList: this.fotosList.map((f: Foto): FotoInterface => {
+        return f.toInterface();
+      }),
     };
   }
 }

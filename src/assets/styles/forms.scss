@@ -29,7 +29,7 @@
   }
 
   .ng-dirty {
-    color: var(--form-modified);
+    color: var(--form-modified) !important;
   }
 
   .value-placeholder {
@@ -64,6 +64,10 @@
     display: inline-block;
     width: 20px;
     text-align: center;
+  }
+
+  .ng-dirty {
+    color: var(--form-modified) !important;
   }
 
   &.margen {
