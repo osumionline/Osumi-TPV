@@ -26,6 +26,7 @@
 					<button mat-icon-button
 							aria-label="Añadir acceso directo"
 							title="Añadir acceso directo"
+							type="button"
 							(click)="abrirAccesosDirectos()">
 						<mat-icon>launch</mat-icon>
 					</button>
@@ -42,6 +43,7 @@
 				<div class="articulos-find">
 					<button mat-raised-button
 							color="primary"
+							type="button"
 							(click)="abrirBuscador()">
 						<mat-icon>search</mat-icon>
 						Buscar
@@ -352,10 +354,12 @@
 							   placeholder="Nuevo código de barras"
 							   [(ngModel)]="newCodBarras"
 							   [ngModelOptions]="{standalone: true}"
+							   (keydown)="preventCodBarras($event)"
 							   (keyup)="fixCodBarras($event)"
 							   #codigoBarrasBox>
 						<button mat-raised-button
 								color="primary"
+								type="button"
 								(click)="fixCodBarras()">Añadir</button>
 					</div>
 

@@ -33,6 +33,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   selector: "otpv-articulos",
@@ -263,11 +264,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
-    console.log("checkLocalizador", ev);
     if (ev.key == "Enter") {
       ev.preventDefault();
       ev.stopPropagation();
-      console.log("tras stopPropagation");
+
       this.loadArticulo();
     }
   }
@@ -291,6 +291,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         this.loadStatsWeb();
 
         this.form.patchValue(this.articulo.toInterface(false));
+        this.form.get("localizador").markAsPristine();
         this.form.get("palb").markAsPristine();
         this.form.get("puc").markAsPristine();
         this.form.get("pvp").markAsPristine();
@@ -631,7 +632,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   updatePuc(ev: number): void {
-    console.log("updatePuc", ev, this.form.value.puc);
     this.form.get("puc").setValue(ev, { emitEvent: false });
     this.form.get("puc").markAsDirty();
 
@@ -639,7 +639,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   updateMargen(pvp: number, puc: number): void {
-    console.log("updateMargen", { pvp, puc });
     if (this.form.get("puc").value !== 0) {
       this.articulo.margen = (pvp * 100) / puc - 100;
     } else {
@@ -648,15 +647,21 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form
       .get("margen")
       .setValue(this.articulo.margen, { emitEvent: false });
-    console.log(this.articulo.margen);
   }
 
   updatePvp(ev: number): void {
-    console.log("updatePvp", ev, this.form.value.pvp);
     this.form.get("pvp").setValue(ev, { emitEvent: false });
     this.form.get("pvp").markAsDirty();
 
     this.updateMargen(ev, this.form.get("puc").value);
+  }
+
+  preventCodBarras(ev: KeyboardEvent): void {
+    if (ev) {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+      }
+    }
   }
 
   fixCodBarras(ev: KeyboardEvent = null): void {
@@ -785,14 +790,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   cancelar(): void {
     this.form.reset();
     this.form.patchValue(this.articulo.toInterface(false));
+    this.form.get("localizador").markAsPristine();
     this.form.get("palb").markAsPristine();
     this.form.get("puc").markAsPristine();
     this.form.get("pvp").markAsPristine();
   }
 
   guardar(): void {
-    debugger;
-    console.log("guardar");
     this.articulo.fromInterface(this.form.value, false);
     this.articulo.stock = this.articulo.stock || 0;
     this.articulo.stockMin = this.articulo.stockMin || 0;
@@ -841,17 +845,68 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
     this.saving = true;
     this.ars.saveArticulo(this.articulo.toInterface()).subscribe((result) => {
-      this.articulo.localizador = result.localizador;
-      this.dialog
-        .alert({
-          title: "Información",
-          content: "El artículo ha sido guardado correctamente.",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          this.saving = false;
-          this.loadArticulo();
-        });
+      if (result.status === "ok") {
+        this.articulo.localizador = result.localizador;
+        this.dialog
+          .alert({
+            title: "Información",
+            content: "El artículo ha sido guardado correctamente.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.saving = false;
+            this.articulo.nombreStatus = "ok";
+            this.loadArticulo();
+          });
+      } else {
+        this.saving = false;
+        if (result.status === "nombre-used") {
+          this.dialog
+            .confirm({
+              title: "Confirmar",
+              content: `Ya existe un artículo con el nombre "${
+                this.articulo.nombre
+              }" para la marca "${Utils.urldecode(
+                result.message
+              )}" , ¿quieres continuar?`,
+              ok: "Continuar",
+              cancel: "Cancelar",
+            })
+            .subscribe((result) => {
+              if (result === true) {
+                this.articulo.nombreStatus = "checked";
+                this.guardar();
+              }
+            });
+        }
+        if (result.status === "referencia-used") {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: `La referencia "${
+                this.articulo.referencia
+              }" ya está en uso por el artículo "${Utils.urldecode(
+                result.message
+              )}".`,
+              ok: "Continuar",
+            })
+            .subscribe((result) => {
+              this.selectedTab = 1;
+            });
+        }
+        if (result.status === "cb-used") {
+          const data: string[] = Utils.urldecode(result.message).split("/");
+          this.dialog
+            .alert({
+              title: "Error",
+              content: `El código de barras "${data[0]}" ya está en uso por el artículo "${data[1]}/${data[2]}".`,
+              ok: "Continuar",
+            })
+            .subscribe((result) => {
+              this.selectedTab = 2;
+            });
+        }
+      }
     });
   }
 

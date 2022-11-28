@@ -249,11 +249,13 @@ export interface ArticuloInterface {
   codigosBarras: CodigoBarrasInterface[];
   fotos: number[];
   fotosList?: FotoInterface[];
+  nombreStatus?: string;
 }
 
 export interface ArticuloSaveResult {
   status: string;
   localizador: number;
+  message: string;
 }
 
 export interface ArticuloResult {

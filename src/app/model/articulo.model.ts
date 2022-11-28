@@ -11,6 +11,7 @@ export class Articulo {
   marca: string = "";
   proveedor: string = "";
   fotosList: Foto[] = [];
+  nombreStatus: string = "ok";
 
   constructor(
     public id: number = null,
@@ -130,6 +131,7 @@ export class Articulo {
       fotosList: this.fotosList.map((f: Foto): FotoInterface => {
         return f.toInterface();
       }),
+      nombreStatus: this.nombreStatus,
     };
   }
 }
