@@ -568,7 +568,7 @@
 						mat-cell
 						*matCellDef="let element">
 						<button mat-icon-button
-								(click)="borrarAccesoDirecto(element.id)">
+								(click)="borrarAccesoDirecto($event, element.id)">
 							<mat-icon>delete</mat-icon>
 						</button>
 					</td>
@@ -577,6 +577,8 @@
 				<tr mat-header-row
 					*matHeaderRowDef="accesosDirectosDisplayedColumns"></tr>
 				<tr mat-row
+					class="clickable"
+					(click)="selectAccesoDirecto(row)"
 					*matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
 			</table>
 			<div [ngClass]="{'show': articulo.id !== null}"

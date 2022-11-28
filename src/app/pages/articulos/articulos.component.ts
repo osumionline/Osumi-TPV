@@ -326,7 +326,29 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  borrarAccesoDirecto(id: number): void {
+  selectAccesoDirecto(row): void {
+    console.log(row);
+  }
+
+  borrarAccesoDirecto(ev: MouseEvent, id: number): void {
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content: "¿Estás seguro de querer borrar este acceso directo?",
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.borrarAccesoDirectoConfirm(id);
+        }
+      });
+  }
+
+  borrarAccesoDirectoConfirm(id: number): void {
     this.ars.deleteAccesoDirecto(id).subscribe((result) => {
       this.abrirAccesosDirectos();
     });
