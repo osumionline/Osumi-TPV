@@ -9,6 +9,7 @@ import {
   HistoricoVentasResult,
   StatusResult,
 } from "src/app/interfaces/interfaces";
+import { Articulo } from "src/app/model/articulo.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { FinVenta } from "src/app/model/fin-venta.model";
@@ -54,6 +55,20 @@ export class VentasService {
 
   get ventaActual(): Venta {
     return this.list[this.selected];
+  }
+
+  updateArticulo(articulo: Articulo): void {
+    for (let venta of this.list) {
+      for (let linea of venta.lineas) {
+        if (linea.idArticulo === articulo.id) {
+          linea.descripcion = articulo.nombre;
+          linea.stock = articulo.stock;
+          linea.pvp = articulo.pvp;
+          linea.updateImporte();
+        }
+      }
+      venta.updateImporte();
+    }
   }
 
   set cliente(c: Cliente) {

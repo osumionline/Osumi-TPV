@@ -37,7 +37,7 @@
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
 			<span *ngIf="linea.descripcion"
-				  [routerLink]="['/articulos', linea.localizador]">
+				  [routerLink]="['/articulos', linea.localizador, 'return', 'ventas']">
 				{{linea.descripcion}}
 				<mat-icon *ngIf="linea.observaciones"
 						  (click)="showObservaciones($event, linea.observaciones)"

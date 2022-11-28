@@ -25,7 +25,6 @@ import { Foto } from "src/app/model/foto.model";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
-import { ApiService } from "src/app/services/api.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -33,6 +32,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { VentasService } from "src/app/services/ventas.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
@@ -42,6 +42,7 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class ArticulosComponent implements OnInit, AfterViewInit {
   articulo: Articulo = new Articulo();
+  returnWhere: string = null;
 
   marca: Marca = new Marca();
   proveedor: Proveedor = new Proveedor();
@@ -138,13 +139,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: DialogService,
-    private as: ApiService,
     private config: ConfigService,
     private cms: ClassMapperService,
     private ms: MarcasService,
     private ps: ProveedoresService,
     private css: CategoriasService,
-    private ars: ArticulosService
+    private ars: ArticulosService,
+    private vs: VentasService
   ) {}
 
   ngOnInit(): void {
@@ -161,14 +162,18 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       }
     });
     const d = new Date();
-    for (let y = d.getFullYear(); y < d.getFullYear() + 5; y++) {
+    for (let y: number = d.getFullYear(); y < d.getFullYear() + 5; y++) {
       this.yearList.push(y);
     }
     this.loadAppData();
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.localizador) {
         this.articulo.localizador = params.localizador;
+        this.form.get("localizador").setValue(params.localizador);
         this.loadArticulo();
+      }
+      if (params.where) {
+        this.returnWhere = params.where;
       }
     });
   }
@@ -855,8 +860,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
           })
           .subscribe((result) => {
             this.saving = false;
-            this.articulo.nombreStatus = "ok";
-            this.loadArticulo();
+            this.vs.updateArticulo(this.articulo);
+            if (this.returnWhere === null) {
+              this.articulo.nombreStatus = "ok";
+              this.loadArticulo();
+            } else {
+              this.router.navigate(["/ventas"]);
+            }
           });
       } else {
         this.saving = false;
