@@ -4,7 +4,8 @@
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
-import { ComprasComponent } from "src/app/pages/compras/compras.component";
+import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
+import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
@@ -21,6 +22,7 @@ export const PAGES: any[] = [
   VentasComponent,
   ArticulosComponent,
   ComprasComponent,
+  PedidoComponent,
   ClientesComponent,
   AlmacenComponent,
   GestionComponent,
