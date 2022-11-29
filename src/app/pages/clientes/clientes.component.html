@@ -38,11 +38,11 @@
                      class="start-message">Elige un cliente de la lista.</div>
                 <div [ngClass]="{'show': !start}"
                      class="main-body">
-                    <mat-tab-group dynamicHeight
-                                   #clienteTabs>
-                        <mat-tab label="DATOS">
-                            <form [formGroup]="form"
-                                  (ngSubmit)="onSubmit()">
+                    <form [formGroup]="form"
+                          (ngSubmit)="onSubmit()">
+                        <mat-tab-group dynamicHeight
+                                       #clienteTabs>
+                            <mat-tab label="DATOS">
                                 <div>
                                     <div class="form-field half-width">
                                         <label>Nombre y apellidos (*)</label>
@@ -130,6 +130,8 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
+                            </mat-tab>
+                            <mat-tab label="FACTURACIÓN">
                                 <div class="same-data"
                                      [ngClass]="{'selected': !selectedClient.factIgual}">
                                     <mat-checkbox formControlName="factIgual">
@@ -211,112 +213,112 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="actions">
-                                    <div class="delete">
-                                        <button mat-raised-button
-                                                color="warn"
-                                                *ngIf="form.value.id"
-                                                type="button"
-                                                (click)="deleteCliente()">Eliminar</button>
-                                    </div>
-                                    <div class="others">
-                                        <button mat-raised-button
-                                                color="primary"
-                                                [disabled]="!form.dirty"
-                                                type="button"
-                                                (click)="resetForm()">Cancelar</button>
-                                        <button mat-raised-button
-                                                type="submit"
-                                                color="primary"
-                                                [disabled]="!form.valid">Guardar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </mat-tab>
-                        <mat-tab label="ESTADÍSTICAS"
-                                 *ngIf="form.value.id">
-                            <div class="stats-box">
-                                <label>Últimas ventas</label>
-                                <div class="stats-table">
-                                    <div class="stats-table-header">
-                                        <div class="stats-table-col">Fecha</div>
-                                        <div class="stats-table-col">Localizador</div>
-                                        <div class="stats-table-col stats-table-col-3">Nombre</div>
-                                        <div class="stats-table-col">Unidades</div>
-                                        <div class="stats-table-col">PVP</div>
-                                        <div class="stats-table-col">Importe</div>
-                                    </div>
-                                    <div class="stats-table-data">
-                                        <div class="stats-table-row"
-                                             *ngFor="let venta of selectedClient.ultimasVentas">
-                                            <div class="stats-table-col stats-table-col-center">{{venta.fecha}}</div>
-                                            <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
-                                            <div class="stats-table-col stats-table-col-3">{{venta.nombre}}</div>
-                                            <div class="stats-table-col stats-table-col-center">{{venta.unidades}}</div>
-                                            <div class="stats-table-col stats-table-col-right">{{venta.pvp | fixedNumber}} €</div>
-                                            <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
+                            </mat-tab>
+                            <mat-tab label="ESTADÍSTICAS"
+                                     *ngIf="form.value.id">
+                                <div class="stats-box">
+                                    <label>Últimas ventas</label>
+                                    <div class="stats-table">
+                                        <div class="stats-table-header">
+                                            <div class="stats-table-col">Fecha</div>
+                                            <div class="stats-table-col">Localizador</div>
+                                            <div class="stats-table-col stats-table-col-3">Nombre</div>
+                                            <div class="stats-table-col">Unidades</div>
+                                            <div class="stats-table-col">PVP</div>
+                                            <div class="stats-table-col">Importe</div>
                                         </div>
-                                        <div class="stats-table-row"
-                                             *ngIf="!selectedClient.ultimasVentas.length">
-                                            <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
+                                        <div class="stats-table-data">
+                                            <div class="stats-table-row"
+                                                 *ngFor="let venta of selectedClient.ultimasVentas">
+                                                <div class="stats-table-col stats-table-col-center">{{venta.fecha}}</div>
+                                                <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
+                                                <div class="stats-table-col stats-table-col-3">{{venta.nombre}}</div>
+                                                <div class="stats-table-col stats-table-col-center">{{venta.unidades}}</div>
+                                                <div class="stats-table-col stats-table-col-right">{{venta.pvp | fixedNumber}} €</div>
+                                                <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
+                                            </div>
+                                            <div class="stats-table-row"
+                                                 *ngIf="!selectedClient.ultimasVentas.length">
+                                                <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="stats-box">
+                                    <label>Top ventas</label>
+                                    <div class="stats-table">
+                                        <div class="stats-table-header">
+                                            <div class="stats-table-col">Localizador</div>
+                                            <div class="stats-table-col stats-table-col-5">Nombre</div>
+                                            <div class="stats-table-col">Importe</div>
+                                        </div>
+                                        <div class="stats-table-data">
+                                            <div class="stats-table-row"
+                                                 *ngFor="let venta of selectedClient.topVentas">
+                                                <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
+                                                <div class="stats-table-col stats-table-col-5">{{venta.nombre}}</div>
+                                                <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
+                                            </div>
+                                            <div class="stats-table-row"
+                                                 *ngIf="!selectedClient.topVentas.length">
+                                                <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-box">
+                                    <label>Consumo mensual</label>
+                                    <div class="stats-data"></div>
+                                    <div class="stats-controls">
+                                        <div class="form-field">
+                                            <label>Mes</label>
+                                            <mat-form-field>
+                                                <mat-select [(ngModel)]="stats.month">
+                                                    <mat-option [value]="-1">Todos</mat-option>
+                                                    <mat-option *ngFor="let month of monthList"
+                                                                [value]="month.id">
+                                                        {{month.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>Año</label>
+                                            <mat-form-field>
+                                                <mat-select [(ngModel)]="stats.year">
+                                                    <mat-option [value]="-1">Todos</mat-option>
+                                                    <mat-option *ngFor="let year of yearList"
+                                                                [value]="year">
+                                                        {{year}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                        <div class="actions">
+                            <div class="delete">
+                                <button mat-raised-button
+                                        color="warn"
+                                        *ngIf="form.value.id"
+                                        type="button"
+                                        (click)="deleteCliente()">Eliminar</button>
                             </div>
-                            <div class="stats-box">
-                                <label>Top ventas</label>
-                                <div class="stats-table">
-                                    <div class="stats-table-header">
-                                        <div class="stats-table-col">Localizador</div>
-                                        <div class="stats-table-col stats-table-col-5">Nombre</div>
-                                        <div class="stats-table-col">Importe</div>
-                                    </div>
-                                    <div class="stats-table-data">
-                                        <div class="stats-table-row"
-                                             *ngFor="let venta of selectedClient.topVentas">
-                                            <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
-                                            <div class="stats-table-col stats-table-col-5">{{venta.nombre}}</div>
-                                            <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
-                                        </div>
-                                        <div class="stats-table-row"
-                                             *ngIf="!selectedClient.topVentas.length">
-                                            <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="others">
+                                <button mat-raised-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-raised-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
                             </div>
-                            <div class="stats-box">
-                                <label>Consumo mensual</label>
-                                <div class="stats-data"></div>
-                                <div class="stats-controls">
-                                    <div class="form-field">
-                                        <label>Mes</label>
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="stats.month">
-                                                <mat-option [value]="-1">Todos</mat-option>
-                                                <mat-option *ngFor="let month of monthList"
-                                                            [value]="month.id">
-                                                    {{month.name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Año</label>
-                                        <mat-form-field>
-                                            <mat-select [(ngModel)]="stats.year">
-                                                <mat-option [value]="-1">Todos</mat-option>
-                                                <mat-option *ngFor="let year of yearList"
-                                                            [value]="year">
-                                                    {{year}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                        </mat-tab>
-                    </mat-tab-group>
+                        </div>
+                    </form>
                 </div>
             </main>
         </div>
