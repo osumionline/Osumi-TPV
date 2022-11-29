@@ -83,6 +83,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
   searchMarca: number = -1;
   searchResult: Articulo[] = [];
+  buscadorDisplayedColumns: string[] = ["nombre", "marca", "stock"];
+  buscadorDataSource: MatTableDataSource<Articulo> =
+    new MatTableDataSource<Articulo>();
 
   mostrarMargenes: boolean = false;
   marginList: number[] = [];
@@ -180,6 +183,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
+    this.buscadorDataSource.sort = this.sort;
     this.form.get("palb").valueChanges.subscribe((x) => {
       this.updatePalb(x);
     });
@@ -948,6 +952,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.searchName = "";
     this.searchMarca = -1;
     this.searchResult = [];
+    this.buscadorDataSource.data = this.searchResult;
     this.mostrarBuscador = true;
     setTimeout(() => {
       this.searchBoxName.nativeElement.focus();
@@ -971,6 +976,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       return;
     }
     this.searchResult = [];
+    this.buscadorDataSource.data = this.searchResult;
     if (
       (this.searchName === null || this.searchName === "") &&
       this.searchMarca === -1
@@ -990,6 +996,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
             let proveedor = this.ps.findById(articulo.idProveedor);
             articulo.proveedor = proveedor !== null ? proveedor.nombre : "";
             this.searchResult.push(articulo);
+            this.buscadorDataSource.data = this.searchResult;
           }
         } else {
           this.dialog
@@ -1005,6 +1012,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   selectSearch(articulo: Articulo): void {
     this.articulo.localizador = articulo.localizador;
+    this.form.get("localizador").setValue(this.articulo.localizador);
     this.loadArticulo();
     this.cerrarBuscador();
   }
