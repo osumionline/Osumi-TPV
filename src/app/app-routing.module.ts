@@ -27,6 +27,7 @@ const routes: Routes = [
   },
   { path: "compras", component: ComprasComponent },
   { path: "clientes", component: ClientesComponent },
+  { path: "clientes/:new", component: ClientesComponent },
   { path: "almacen", component: AlmacenComponent },
   { path: "gestion", component: GestionComponent },
   { path: "gestion/empleados", component: GestionEmpleadosComponent },

@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
@@ -19,6 +27,8 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./historico-ventas.component.scss"],
 })
 export class HistoricoVentasComponent implements AfterViewInit {
+  @Output() cerrarVentanaEvent: EventEmitter<number> =
+    new EventEmitter<number>();
   historicoModo: string = "fecha";
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
@@ -46,12 +56,15 @@ export class HistoricoVentasComponent implements AfterViewInit {
   historicoVentasSelectedDataSource: MatTableDataSource<HistoricoLineaVenta> =
     new MatTableDataSource<HistoricoLineaVenta>();
 
+  @ViewChild("clientesBox", { static: true }) clientesBox: MatSelect;
+
   constructor(
     private vs: VentasService,
     private cms: ClassMapperService,
     public cs: ClientesService,
     public config: ConfigService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -149,5 +162,30 @@ export class HistoricoVentasComponent implements AfterViewInit {
           }
         }
       });
+  }
+
+  generarFactura(): void {
+    if (this.historicoVentasSelected.idCliente === null) {
+      this.dialog
+        .confirm({
+          title: "Cliente",
+          content:
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o crear uno nuevo?",
+          ok: "Crear nuevo",
+          cancel: "Elegir cliente",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.cerrarVentanaEvent.emit(0);
+            this.router.navigate(["/clientes/new"]);
+          } else {
+            setTimeout(() => {
+              this.clientesBox.toggle();
+            }, 0);
+          }
+        });
+    } else {
+      window.open("/factura/venta/" + this.historicoVentasSelected.id);
+    }
   }
 }

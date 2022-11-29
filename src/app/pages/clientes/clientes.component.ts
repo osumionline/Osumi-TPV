@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
+import { ActivatedRoute, Params } from "@angular/router";
 import { ChartSelectInterface, Month } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -20,6 +21,7 @@ export class ClientesComponent implements OnInit {
   @ViewChild("clienteTabs", { static: false })
   clienteTabs: MatTabGroup;
   selectedClient: Cliente = new Cliente();
+  @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -52,6 +54,7 @@ export class ClientesComponent implements OnInit {
   yearList: number[] = [];
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public cs: ClientesService,
     public config: ConfigService,
     private dialog: DialogService,
@@ -64,7 +67,13 @@ export class ClientesComponent implements OnInit {
     for (let y: number = d.getFullYear() - 5; y <= d.getFullYear(); y++) {
       this.yearList.push(y);
     }
-    this.searchBox.nativeElement.focus();
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.new && params.new === "new") {
+        this.newCliente();
+      } else {
+        this.searchBox.nativeElement.focus();
+      }
+    });
   }
 
   selectCliente(cliente: Cliente): void {
@@ -84,6 +93,9 @@ export class ClientesComponent implements OnInit {
           );
         }
       });
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    });
   }
 
   newCliente(): void {
@@ -91,6 +103,9 @@ export class ClientesComponent implements OnInit {
     this.selectedClient = new Cliente();
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.clienteTabs.realignInkBar();
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    });
   }
 
   resetForm(): void {

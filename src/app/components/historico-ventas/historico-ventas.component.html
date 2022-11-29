@@ -268,7 +268,8 @@
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-label>Elige cliente</mat-label>
                         <mat-select [(ngModel)]="historicoVentasSelected.idCliente"
-                                    (ngModelChange)="changeCliente()">
+                                    (ngModelChange)="changeCliente()"
+                                    #clientesBox>
                             <mat-option [value]="null">Elige cliente</mat-option>
                             <mat-option *ngFor="let cliente of cs.clientes"
                                         [value]="cliente.id">
@@ -290,7 +291,7 @@
                     </button>
                     <button mat-raised-button
                             color="primary"
-                            [disabled]="!historicoVentasSelected.idCliente">
+                            (click)="generarFactura()">
                         <mat-icon>library_books</mat-icon>
                         Factura
                     </button>

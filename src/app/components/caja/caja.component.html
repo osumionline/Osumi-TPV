@@ -15,7 +15,8 @@
                            animationDuration="0ms"
                            #cajaTabs>
                 <mat-tab label="HISTÓRICO DE VENTAS">
-                    <otpv-historico-ventas #historicoVentas></otpv-historico-ventas>
+                    <otpv-historico-ventas (cerrarVentanaEvent)="cerrarCaja()"
+                                           #historicoVentas></otpv-historico-ventas>
                 </mat-tab>
                 <mat-tab label="SALIDAS CAJA">
                     <otpv-salidas-caja #salidasCaja></otpv-salidas-caja>
