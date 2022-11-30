@@ -535,3 +535,35 @@ export interface PedidosAllResult {
   guardadosPags: number;
   recepcionadosPags: number;
 }
+
+export interface PedidosColOption {
+  id: number;
+  value: string;
+  colname: string;
+  selected: boolean;
+  default: boolean;
+}
+
+export interface PedidoLineaInterface {
+  localizador: number;
+  descripcion: string;
+  idMarca: number;
+  marca: string;
+  unidades: number;
+  palb: number;
+  pvp: number;
+  margen: number;
+  stock: number;
+  iva: number;
+  re: number;
+  descuento: number;
+  idCategoria: number;
+  codBarras: number;
+  referencia: string;
+}
+
+export interface PedidoPDF {
+  id: number;
+  data: string;
+  name: string;
+}
