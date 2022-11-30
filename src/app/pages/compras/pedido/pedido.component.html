@@ -31,7 +31,7 @@
                 <div class="form-field">
                     <label>Proveedor (*)</label>
                     <mat-form-field subscriptSizing="dynamic">
-                        <mat-select [(ngModel)]="idProveedor">
+                        <mat-select [(ngModel)]="pedido.idProveedor">
                             <mat-option [value]="-1">Elige proveedor</mat-option>
                             <mat-option *ngFor="let proveedor of ps.proveedores"
                                         [value]="proveedor.id">
@@ -41,8 +41,8 @@
                     </mat-form-field>
                 </div>
                 <div class="form-field re-ue">
-                    <mat-checkbox [(ngModel)]="re">R.E.</mat-checkbox>
-                    <mat-checkbox [(ngModel)]="ue">UE</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="pedido.re">R.E.</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
                     <label>Fecha pedido</label>
@@ -68,7 +68,7 @@
                 <div class="form-field">
                     <label>Albarán / Factura</label>
                     <mat-form-field subscriptSizing="dynamic">
-                        <mat-select [(ngModel)]="albaranFactura">
+                        <mat-select [(ngModel)]="pedido.albaranFactura">
                             <mat-option value="albaran">Albarán</mat-option>
                             <mat-option value="factura">Factura</mat-option>
                         </mat-select>
@@ -78,8 +78,8 @@
                     <label>&nbsp;</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
-                               placeholder="Número {{albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
-                               [(ngModel)]="numAlbaranFactura">
+                               placeholder="Número {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
+                               [(ngModel)]="pedido.numAlbaranFactura">
                     </mat-form-field>
                 </div>
                 <div class="form-field">
@@ -406,7 +406,7 @@
                 <div class="totales-box">
                     <div class="totales-col">
                         <div class="totales-row">
-                            <span>Total líneas:</span>{{pedidoLineas.length}}
+                            <span>Total líneas:</span>{{pedido.lineas.length}}
                         </div>
                         <div class="totales-row">
                             <span>Total artículos:</span>{{totalArticulos}}
@@ -437,7 +437,7 @@
                             <span>Subtotal:</span>{{subtotal | fixedNumber}} €
                         </div>
                         <div class="totales-row mark">
-                            <span>Total {{albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{total | fixedNumber}} €
+                            <span>Total {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{total | fixedNumber}} €
                         </div>
                     </div>
                 </div>

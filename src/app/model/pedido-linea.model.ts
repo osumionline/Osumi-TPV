@@ -4,6 +4,7 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class PedidoLinea {
   constructor(
+    public idArticulo: number = null,
     public localizador: number = null,
     public descripcion: string = null,
     public idMarca: number = null,
@@ -34,6 +35,7 @@ export class PedidoLinea {
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
+    this.idArticulo = pl.idArticulo;
     this.localizador = pl.localizador;
     this.descripcion = Utils.urldecode(pl.descripcion);
     this.idMarca = pl.idMarca;
@@ -54,6 +56,7 @@ export class PedidoLinea {
   }
 
   fromArticulo(a: Articulo): PedidoLinea {
+    this.idArticulo = a.id;
     this.localizador = a.localizador;
     this.descripcion = a.nombre;
     this.idMarca = a.idMarca;
@@ -75,6 +78,7 @@ export class PedidoLinea {
 
   toInterface(): PedidoLineaInterface {
     return {
+      idArticulo: this.idArticulo,
       localizador: this.localizador,
       descripcion: Utils.urlencode(this.descripcion),
       idMarca: this.idMarca,

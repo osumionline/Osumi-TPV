@@ -10,6 +10,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { PedidoPDF, PedidosColOption } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
+import { Pedido } from "src/app/model/pedido.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -20,12 +21,8 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   styleUrls: ["./pedido.component.scss"],
 })
 export class PedidoComponent implements OnInit, AfterViewInit {
-  idProveedor: number = -1;
-  re: boolean = false;
-  ue: boolean = false;
+  pedido: Pedido = new Pedido();
   fechaPedido: Date = new Date();
-  albaranFactura: string = "albaran";
-  numAlbaranFactura: string = null;
   fechaPago: Date = new Date();
   colOptions: PedidosColOption[] = [
     {
@@ -140,7 +137,6 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   pedidoDisplayedColumns: string[] = [];
 
-  pedidoLineas: PedidoLinea[] = [];
   pedidoDataSource: MatTableDataSource<PedidoLinea> =
     new MatTableDataSource<PedidoLinea>();
   @ViewChild(MatSort) sort: MatSort;
@@ -190,7 +186,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     this.ars.loadArticulo(this.nuevoLocalizador).subscribe((result) => {
       const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
-      const ind: number = this.pedidoLineas.findIndex((x: PedidoLinea) => {
+      const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea) => {
         return x.localizador === articulo.localizador;
       });
 
@@ -198,10 +194,10 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
           articulo
         );
-        this.pedidoLineas.push(lineaPedido);
-        this.pedidoDataSource.data = this.pedidoLineas;
+        this.pedido.lineas.push(lineaPedido);
+        this.pedidoDataSource.data = this.pedido.lineas;
       } else {
-        this.pedidoLineas[ind].unidades++;
+        this.pedido.lineas[ind].unidades++;
       }
 
       this.nuevoLocalizador = null;
@@ -210,21 +206,21 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   }
 
   borrarLinea(localizador: number): void {
-    const ind: number = this.pedidoLineas.findIndex(
+    const ind: number = this.pedido.lineas.findIndex(
       (x: PedidoLinea): boolean => {
         return x.localizador === localizador;
       }
     );
     if (ind !== -1) {
-      this.pedidoLineas.splice(ind, 1);
-      this.pedidoDataSource.data = this.pedidoLineas;
+      this.pedido.lineas.splice(ind, 1);
+      this.pedidoDataSource.data = this.pedido.lineas;
     }
     this.localizadorBox.nativeElement.focus();
   }
 
   get totalArticulos(): number {
     let num: number = 0;
-    for (let linea of this.pedidoLineas) {
+    for (let linea of this.pedido.lineas) {
       num += linea.unidades;
     }
     return num;
@@ -236,7 +232,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   get totalPVP(): number {
     let num: number = 0;
-    for (let linea of this.pedidoLineas) {
+    for (let linea of this.pedido.lineas) {
       num += linea.pvp;
     }
     return num;
@@ -244,7 +240,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   get subtotal(): number {
     let num: number = 0;
-    for (let linea of this.pedidoLineas) {
+    for (let linea of this.pedido.lineas) {
       num += linea.subtotal;
     }
     return num;
@@ -252,7 +248,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   get total(): number {
     let num: number = 0;
-    for (let linea of this.pedidoLineas) {
+    for (let linea of this.pedido.lineas) {
       num += linea.total;
     }
     return num;

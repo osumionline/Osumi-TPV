@@ -39,9 +39,9 @@ export class ComprasComponent implements OnInit, AfterViewInit {
   recepcionadosRangoHasta: Date = null;
 
   pedidosDisplayedColumns: string[] = [
-    "fecha",
+    "fechaPedido",
     "proveedor",
-    "albaran",
+    "numAlbaranFactura",
     "importe",
   ];
 

@@ -508,14 +508,46 @@ export interface CierreCajaResult {
   datos: CierreCajaInterface;
 }
 
+export interface PedidoLineaInterface {
+  idArticulo: number;
+  localizador: number;
+  descripcion: string;
+  idMarca: number;
+  marca: string;
+  unidades: number;
+  palb: number;
+  pvp: number;
+  margen: number;
+  stock: number;
+  iva: number;
+  re: number;
+  descuento: number;
+  idCategoria: number;
+  codBarras: number;
+  referencia: string;
+}
+
+export interface PedidoPDF {
+  id: number;
+  data: string;
+  name: string;
+}
+
 export interface PedidoInterface {
   id: number;
   idProveedor: number;
   proveedor: string;
-  albaran: string;
+  re: boolean;
+  ue: boolean;
+  albaranFactura: string;
+  numAlbaranFactura: string;
+  fechaPago: string;
+  fechaPedido: string;
+  lineas: PedidoLineaInterface[];
   importe: number;
+  portes: number;
+  faltas: boolean;
   recepcionado: boolean;
-  fecha: string;
 }
 
 export interface PedidosFilterInterface {
@@ -542,28 +574,4 @@ export interface PedidosColOption {
   colname: string;
   selected: boolean;
   default: boolean;
-}
-
-export interface PedidoLineaInterface {
-  localizador: number;
-  descripcion: string;
-  idMarca: number;
-  marca: string;
-  unidades: number;
-  palb: number;
-  pvp: number;
-  margen: number;
-  stock: number;
-  iva: number;
-  re: number;
-  descuento: number;
-  idCategoria: number;
-  codBarras: number;
-  referencia: string;
-}
-
-export interface PedidoPDF {
-  id: number;
-  data: string;
-  name: string;
 }
