@@ -217,6 +217,8 @@
                             <input matInput
                                    placeholder="Unidades"
                                    type="number"
+                                   id="tabla-unidades-{{element.localizador}}"
+                                   (focus)="$event.target.select()"
                                    [(ngModel)]="element.unidades">
                         </mat-form-field>
                     </td>
@@ -237,6 +239,8 @@
                             <input matInput
                                    placeholder="P. Alb."
                                    type="number"
+                                   id="tabla-palb-{{element.localizador}}"
+                                   (focus)="$event.target.select()"
                                    [(ngModel)]="element.palb">
                         </mat-form-field>
                         €
@@ -282,6 +286,8 @@
                             <input matInput
                                    placeholder="Descuento"
                                    type="number"
+                                   id="tabla-descuento-{{element.localizador}}"
+                                   (focus)="$event.target.select()"
                                    [(ngModel)]="element.descuento">
                         </mat-form-field>
                         %
@@ -327,6 +333,8 @@
                             <input matInput
                                    placeholder="PVP"
                                    type="number"
+                                   id="tabla-pvp-{{element.localizador}}"
+                                   (focus)="$event.target.select()"
                                    [(ngModel)]="element.pvp">
                         </mat-form-field>
                         €
@@ -376,6 +384,7 @@
                            type="number"
                            [(ngModel)]="nuevoLocalizador"
                            (keyup)="checkLocalizador($event)"
+                           autocomplete="off"
                            #localizadorBox>
                 </mat-form-field>
             </div>
