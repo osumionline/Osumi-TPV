@@ -14,6 +14,7 @@ import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { DialogService } from "src/app/services/dialog.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
 @Component({
@@ -154,7 +155,8 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   constructor(
     public ps: ProveedoresService,
     private ars: ArticulosService,
-    private cms: ClassMapperService
+    private cms: ClassMapperService,
+    private dialog: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -250,9 +252,23 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       }
     );
     if (ind !== -1) {
-      this.pedido.lineas.splice(ind, 1);
-      this.pedidoDataSource.data = this.pedido.lineas;
+      this.dialog
+        .confirm({
+          title: "Confirmar",
+          content:
+            '¿Estás seguro de querer borrar la línea con localizador "' +
+            localizador +
+            '"?',
+          ok: "Continuar",
+          cancel: "Cancelar",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.pedido.lineas.splice(ind, 1);
+            this.pedidoDataSource.data = this.pedido.lineas;
+          }
+          this.localizadorBox.nativeElement.focus();
+        });
     }
-    this.localizadorBox.nativeElement.focus();
   }
 }
