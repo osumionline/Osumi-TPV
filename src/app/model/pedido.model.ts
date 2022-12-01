@@ -8,7 +8,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class Pedido {
   constructor(
     public id: number = null,
-    public idProveedor: number = null,
+    public idProveedor: number = -1,
     public proveedor: string = null,
     public re: boolean = false,
     public ue: boolean = false,
@@ -22,6 +22,46 @@ export class Pedido {
     public faltas: boolean = false,
     public recepcionado: boolean = null
   ) {}
+
+  get totalArticulos(): number {
+    let num: number = 0;
+    for (let linea of this.lineas) {
+      num += linea.unidades;
+    }
+    return num;
+  }
+
+  get totalBeneficios(): number {
+    let num: number = 0;
+    for (let linea of this.lineas) {
+      num += linea.beneficio;
+    }
+    return num;
+  }
+
+  get totalPVP(): number {
+    let num: number = 0;
+    for (let linea of this.lineas) {
+      num += linea.pvp;
+    }
+    return num;
+  }
+
+  get subtotal(): number {
+    let num: number = 0;
+    for (let linea of this.lineas) {
+      num += linea.subtotal;
+    }
+    return num;
+  }
+
+  get total(): number {
+    let num: number = 0;
+    for (let linea of this.lineas) {
+      num += linea.total;
+    }
+    return num;
+  }
 
   fromInterface(p: PedidoInterface): Pedido {
     this.id = p.id;

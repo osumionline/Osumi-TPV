@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { PedidoPDF, PedidosColOption } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
@@ -22,6 +23,8 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
 })
 export class PedidoComponent implements OnInit, AfterViewInit {
   pedido: Pedido = new Pedido();
+  @ViewChild("newProveedor", { static: true })
+  newProveedor: NewProveedorComponent;
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
   colOptions: PedidosColOption[] = [
@@ -163,6 +166,14 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     this.pedidoDataSource.sort = this.sort;
   }
 
+  openProveedor(): void {
+    this.newProveedor.newProveedor();
+  }
+
+  proveedorGuardado(id: number): void {
+    this.pedido.idProveedor = id;
+  }
+
   changeOptions(): void {
     const list: string[] = [];
     for (let opt of this.colOptions) {
@@ -205,6 +216,33 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     });
   }
 
+  checkArrows(ev: KeyboardEvent): void {
+    if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+      ev.preventDefault();
+      const target: string[] = (<HTMLInputElement>ev.target).id.split("-");
+      const localizador: number = parseInt(target[2]);
+      const ind: number = this.pedido.lineas.findIndex(
+        (x: PedidoLinea): boolean => {
+          return x.localizador === localizador;
+        }
+      );
+      const previousInd: number = ind - 1;
+      const nextInd: number = ind + 1;
+      let newLocalizador: number = null;
+      if (ev.key === "ArrowUp" && previousInd !== -1) {
+        newLocalizador = this.pedido.lineas[previousInd].localizador;
+      }
+      if (ev.key === "ArrowDown" && nextInd < this.pedido.lineas.length) {
+        newLocalizador = this.pedido.lineas[nextInd].localizador;
+      }
+      if (newLocalizador !== null) {
+        document
+          .getElementById(target[0] + "-" + target[1] + "-" + newLocalizador)
+          .focus();
+      }
+    }
+  }
+
   borrarLinea(localizador: number): void {
     const ind: number = this.pedido.lineas.findIndex(
       (x: PedidoLinea): boolean => {
@@ -216,41 +254,5 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       this.pedidoDataSource.data = this.pedido.lineas;
     }
     this.localizadorBox.nativeElement.focus();
-  }
-
-  get totalArticulos(): number {
-    let num: number = 0;
-    for (let linea of this.pedido.lineas) {
-      num += linea.unidades;
-    }
-    return num;
-  }
-
-  get totalBeneficios(): number {
-    return 0;
-  }
-
-  get totalPVP(): number {
-    let num: number = 0;
-    for (let linea of this.pedido.lineas) {
-      num += linea.pvp;
-    }
-    return num;
-  }
-
-  get subtotal(): number {
-    let num: number = 0;
-    for (let linea of this.pedido.lineas) {
-      num += linea.subtotal;
-    }
-    return num;
-  }
-
-  get total(): number {
-    let num: number = 0;
-    for (let linea of this.pedido.lineas) {
-      num += linea.total;
-    }
-    return num;
   }
 }

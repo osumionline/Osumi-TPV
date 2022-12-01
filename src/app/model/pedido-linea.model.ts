@@ -12,7 +12,6 @@ export class PedidoLinea {
     public unidades: number = null,
     public palb: number = null,
     public pvp: number = null,
-    public margen: number = null,
     public stock: number = null,
     public iva: number = null,
     public re: number = null,
@@ -27,11 +26,19 @@ export class PedidoLinea {
   }
 
   get puc(): number {
-    return this.palb * (1 + this.iva / 100 + (1 + this.re / 100));
+    return this.palb * (1 + this.iva / 100 + this.re / 100);
   }
 
   get total(): number {
     return this.unidades * (this.puc * (1 - this.descuento / 100));
+  }
+
+  get beneficio(): number {
+    return this.pvp - this.puc;
+  }
+
+  get margen(): number {
+    return 100 - (this.puc * 100) / this.pvp;
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
@@ -43,7 +50,6 @@ export class PedidoLinea {
     this.unidades = pl.unidades;
     this.palb = pl.palb;
     this.pvp = pl.pvp;
-    this.margen = pl.margen;
     this.stock = pl.stock;
     this.iva = pl.iva;
     this.re = pl.re;
@@ -64,7 +70,6 @@ export class PedidoLinea {
     this.unidades = 1;
     this.palb = a.palb;
     this.pvp = a.pvp;
-    this.margen = a.margen;
     this.stock = a.stock;
     this.iva = a.iva;
     this.re = a.re;
@@ -86,7 +91,6 @@ export class PedidoLinea {
       unidades: this.unidades,
       palb: this.palb,
       pvp: this.pvp,
-      margen: this.margen,
       stock: this.stock,
       iva: this.iva,
       re: this.re,

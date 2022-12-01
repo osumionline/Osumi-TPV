@@ -517,7 +517,6 @@ export interface PedidoLineaInterface {
   unidades: number;
   palb: number;
   pvp: number;
-  margen: number;
   stock: number;
   iva: number;
   re: number;

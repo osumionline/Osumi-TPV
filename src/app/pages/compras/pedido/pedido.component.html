@@ -39,6 +39,12 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <button mat-icon-button
+                            title="Añadir nuevo proveedor"
+                            type="button"
+                            (click)="openProveedor()">
+                        <mat-icon>add_circle_outline</mat-icon>
+                    </button>
                 </div>
                 <div class="form-field re-ue">
                     <mat-checkbox [(ngModel)]="pedido.re">R.E.</mat-checkbox>
@@ -218,6 +224,7 @@
                                    placeholder="Unidades"
                                    type="number"
                                    id="tabla-unidades-{{element.localizador}}"
+                                   (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.unidades">
                         </mat-form-field>
@@ -240,6 +247,7 @@
                                    placeholder="P. Alb."
                                    type="number"
                                    id="tabla-palb-{{element.localizador}}"
+                                   (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.palb">
                         </mat-form-field>
@@ -287,6 +295,7 @@
                                    placeholder="Descuento"
                                    type="number"
                                    id="tabla-descuento-{{element.localizador}}"
+                                   (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.descuento">
                         </mat-form-field>
@@ -334,6 +343,7 @@
                                    placeholder="PVP"
                                    type="number"
                                    id="tabla-pvp-{{element.localizador}}"
+                                   (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.pvp">
                         </mat-form-field>
@@ -418,13 +428,13 @@
                             <span>Total líneas:</span>{{pedido.lineas.length}}
                         </div>
                         <div class="totales-row">
-                            <span>Total artículos:</span>{{totalArticulos}}
+                            <span>Total artículos:</span>{{pedido.totalArticulos}}
                         </div>
                         <div class="totales-row">
-                            <span>Total beneficios:</span>{{totalBeneficios | fixedNumber}} €
+                            <span>Total beneficios:</span>{{pedido.totalBeneficios | fixedNumber}} €
                         </div>
                         <div class="totales-row">
-                            <span>Total PVP:</span>{{totalPVP | fixedNumber}} €
+                            <span>Total PVP:</span>{{pedido.totalPVP | fixedNumber}} €
                         </div>
                         <div class="totales-row">
                             <span>Portes:</span>
@@ -443,10 +453,10 @@
                     </div>
                     <div class="totales-col">
                         <div class="totales-row">
-                            <span>Subtotal:</span>{{subtotal | fixedNumber}} €
+                            <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
                         <div class="totales-row mark">
-                            <span>Total {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{total | fixedNumber}} €
+                            <span>Total {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{pedido.total | fixedNumber}} €
                         </div>
                     </div>
                 </div>
@@ -454,3 +464,6 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+<otpv-new-proveedor (savedEvent)="proveedorGuardado($event)"
+                    #newProveedor></otpv-new-proveedor>
