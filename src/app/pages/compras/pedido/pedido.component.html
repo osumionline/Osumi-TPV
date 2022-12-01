@@ -404,19 +404,28 @@
                 <label>Adjuntar PDFs</label>
                 <div class="pdf-list">
                     <mat-list *ngIf="pdfs.length > 0">
-                        <mat-list-item *ngFor="let item of pdfs">
-                            <span>{{item.name}}</span>
-                            <button mat-icon-button>
-                                <mat-icon>delete</mat-icon>
-                            </button>
+                        <mat-list-item *ngFor="let item of pdfs; let i = index;">
+                            <div class="row">
+                                <span>{{item.name}}</span>
+                                <button mat-icon-button
+                                        (click)="deletePDF(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
                         </mat-list-item>
                     </mat-list>
                     <div class="pdf-action">
                         <button mat-raised-button
-                                color="primary">
+                                color="primary"
+                                (click)="addPDF()">
                             <mat-icon>attach_file</mat-icon>
                             Adjuntar PDF
                         </button>
+                        <input type="file"
+                               name="pdf-file"
+                               id="pdf-file"
+                               accept="application/pdf"
+                               (change)="onPDFChange($event)">
                     </div>
                 </div>
             </div>

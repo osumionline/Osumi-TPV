@@ -271,4 +271,32 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         });
     }
   }
+
+  addPDF(): void {
+    document.getElementById("pdf-file").click();
+  }
+
+  onPDFChange(ev: Event): void {
+    const reader: FileReader = new FileReader();
+    if (
+      (<HTMLInputElement>ev.target).files &&
+      (<HTMLInputElement>ev.target).files.length > 0
+    ) {
+      const file = (<HTMLInputElement>ev.target).files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const pdf: PedidoPDF = {
+          id: null,
+          data: reader.result as string,
+          name: file.name,
+        };
+        this.pdfs.push(pdf);
+        (<HTMLInputElement>document.getElementById("pdf-file")).value = "";
+      };
+    }
+  }
+
+  deletePDF(ind: number): void {
+    this.pdfs.splice(ind, 1);
+  }
 }
