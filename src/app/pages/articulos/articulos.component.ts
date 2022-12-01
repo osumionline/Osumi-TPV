@@ -7,11 +7,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
@@ -59,8 +59,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   nuevaMarca: boolean = false;
-  proveedores: Proveedor[] = [];
-  nuevoProveedor: boolean = false;
+  @ViewChild("newProveedor", { static: true })
+  newProveedor: NewProveedorComponent;
   tipoIva: string = "iva";
   ivaOptions: IVAOption[] = [];
   selectedIvaOption: IVAOption = new IVAOption();
@@ -144,8 +144,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     private dialog: DialogService,
     private config: ConfigService,
     private cms: ClassMapperService,
-    private ms: MarcasService,
-    private ps: ProveedoresService,
+    public ms: MarcasService,
+    public ps: ProveedoresService,
     private css: CategoriasService,
     private ars: ArticulosService,
     private vs: VentasService
@@ -204,9 +204,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       if (this.nuevaMarca) {
         this.newMarcaCerrar();
       }
-      if (this.nuevoProveedor) {
-        this.newProveedorCerrar();
-      }
       if (this.mostrarBuscador) {
         this.cerrarBuscador();
       }
@@ -229,33 +226,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   loadData(): void {
-    this.loadMarcas();
-    this.loadProveedores();
     this.loadCategorias();
-
     this.newArticulo();
-  }
-
-  loadMarcas(): void {
-    if (this.ms.loaded) {
-      this.marcas = this.ms.marcas;
-    } else {
-      this.ms.getMarcas().subscribe((result) => {
-        this.marcas = this.cms.getMarcas(result.list);
-        this.ms.loadMarcas(this.marcas);
-      });
-    }
-  }
-
-  loadProveedores(): void {
-    if (this.ps.loaded) {
-      this.proveedores = this.ps.proveedores;
-    } else {
-      this.ps.getProveedores().subscribe((result) => {
-        this.proveedores = this.cms.getProveedores(result.list);
-        this.ps.loadProveedores(this.proveedores);
-      });
-    }
   }
 
   loadCategorias(): void {
@@ -460,8 +432,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       if (result.status == "ok") {
         this.articulo.idMarca = result.id;
         this.form.get("idMarca").setValue(result.id);
-        this.ms.loaded = false;
-        this.loadMarcas();
+        this.ms.resetMarcas();
         this.newMarcaCerrar();
       } else {
         this.dialog
@@ -476,82 +447,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  newProveedor(): void {
-    this.proveedor = new Proveedor();
-    this.nuevoProveedor = true;
+  openProveedor(): void {
+    this.newProveedor.newProveedor();
   }
 
-  newProveedorCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.nuevoProveedor = false;
-  }
-
-  addMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
-    const ind: number = this.proveedor.marcas.findIndex(
-      (x: number): boolean => x == marca.id
-    );
-
-    if (ev.checked) {
-      if (ind === -1) {
-        this.proveedor.marcas.push(marca.id);
-      }
-    } else {
-      if (ind !== -1) {
-        this.proveedor.marcas.splice(ind, 1);
-      }
-    }
-  }
-
-  guardarProveedor(): void {
-    if (!this.proveedor.nombre) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No puedes dejar el nombre del proveedor en blanco!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-      return;
-    }
-
-    if (this.proveedor.marcas.length == 0) {
-      this.dialog
-        .confirm({
-          title: "Confirmar",
-          content:
-            "No has elegido ninguna marca para el proveedor, ¿quieres continuar?",
-          ok: "Continuar",
-          cancel: "Cancelar",
-        })
-        .subscribe((result) => {
-          if (result === true) {
-            this.guardarProveedorContinue();
-          }
-        });
-    } else {
-      this.guardarProveedorContinue();
-    }
-  }
-
-  guardarProveedorContinue(): void {
-    this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result) => {
-      if (result.status == "ok") {
-        this.articulo.idProveedor = result.id;
-        this.form.get("idProveedor").setValue(result.id);
-        this.ps.loaded = false;
-        this.loadProveedores();
-        this.newProveedorCerrar();
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: "Ocurrió un error al guardar el nuevo proveedor",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-        return;
-      }
-    });
+  proveedorGuardado(id: number): void {
+    this.articulo.idProveedor = id;
+    this.form.get("idProveedor").setValue(id);
   }
 
   updateIvaRe(ev: string): void {

@@ -1,0 +1,19 @@
+.articulo-proveedor-cols {
+    display: flex;
+    flex-direction: column;
+
+    &>div {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .articulo-proveedor-cols {
+        display: flex;
+        flex-direction: row;
+
+        &>div {
+            width: 50%;
+        }
+    }
+}

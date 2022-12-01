@@ -251,15 +251,6 @@
   }
 }
 
-.articulo-proveedor-cols {
-  display: flex;
-  flex-direction: column;
-
-  &>div {
-    width: 100%;
-  }
-}
-
 .search-box {
   .search-box-header {
     display: flex;
@@ -350,15 +341,6 @@
       .cod-barras-item {
         width: 30%;
       }
-    }
-  }
-
-  .articulo-proveedor-cols {
-    display: flex;
-    flex-direction: row;
-
-    &>div {
-      width: 50%;
     }
   }
 }
