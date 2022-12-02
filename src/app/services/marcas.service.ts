@@ -51,7 +51,9 @@ export class MarcasService {
   }
 
   findById(id: number): Marca {
-    const ind: number = this.marcas.findIndex((x) => x.id === id);
+    const ind: number = this.marcas.findIndex(
+      (x: Marca): boolean => x.id === id
+    );
     if (ind !== -1) {
       return this.marcas[ind];
     }

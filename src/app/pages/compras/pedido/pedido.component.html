@@ -11,7 +11,8 @@
         <span>Nuevo pedido</span>
         <div class="actions">
             <button mat-raised-button
-                    color="primary">
+                    color="primary"
+                    (click)="guardar()">
                 <mat-icon>save</mat-icon>
                 Guardar
             </button>
@@ -31,7 +32,8 @@
                 <div class="form-field">
                     <label>Proveedor (*)</label>
                     <mat-form-field subscriptSizing="dynamic">
-                        <mat-select [(ngModel)]="pedido.idProveedor">
+                        <mat-select [(ngModel)]="pedido.idProveedor"
+                                    #proveedoresValue>
                             <mat-option [value]="-1">Elige proveedor</mat-option>
                             <mat-option *ngFor="let proveedor of ps.proveedores"
                                         [value]="proveedor.id">
@@ -86,7 +88,8 @@
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                placeholder="Número {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
-                               [(ngModel)]="pedido.numAlbaranFactura">
+                               [(ngModel)]="pedido.numAlbaranFactura"
+                               #numAlbaranFacturaBox>
                     </mat-form-field>
                 </div>
                 <div class="form-field">
@@ -408,6 +411,7 @@
                            [(ngModel)]="nuevoLocalizador"
                            (keyup)="checkLocalizador($event)"
                            autocomplete="off"
+                           (focus)="$event.target.select()"
                            #localizadorBox>
                 </mat-form-field>
             </div>
@@ -416,8 +420,8 @@
             <div class="pedido-adjuntar">
                 <label>Adjuntar PDFs</label>
                 <div class="pdf-list">
-                    <mat-list *ngIf="pdfs.length > 0">
-                        <mat-list-item *ngFor="let item of pdfs; let i = index;">
+                    <mat-list *ngIf="pedido.pdfs.length > 0">
+                        <mat-list-item *ngFor="let item of pedido.pdfs; let i = index;">
                             <div class="row">
                                 <span>{{item.nombre}}</span>
                                 <button mat-icon-button
@@ -465,7 +469,9 @@
                                 <input matInput
                                        placeholder="Portes"
                                        type="number"
-                                       [(ngModel)]="portes">
+                                       (focus)="$event.target.select()"
+                                       autocomplete="off"
+                                       [(ngModel)]="pedido.portes">
                             </mat-form-field>
                             €
                         </div>
@@ -477,7 +483,7 @@
                         <div class="totales-row">
                             <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
-                        <div class="totales-row">
+                        <div class="totales-row totales-iva-row">
                             <ng-container *ngFor="let ivaOption of pedido.ivaList">
                                 <div class="iva-row"
                                      *ngIf="ivaOption.iva !== undefined || ivaOption.re !== undefined">

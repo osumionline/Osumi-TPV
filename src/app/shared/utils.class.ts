@@ -16,6 +16,9 @@ export class Utils {
   }
 
   static urlencode(str: string): string {
+    if (str === null) {
+      return null;
+    }
     return encodeURIComponent(str)
       .replace(/\%20/g, "+")
       .replace(/!/g, "%21")

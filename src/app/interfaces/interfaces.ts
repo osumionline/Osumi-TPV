@@ -509,6 +509,7 @@ export interface CierreCajaResult {
 }
 
 export interface PedidoLineaInterface {
+  id: number;
   idArticulo: number;
   localizador: number;
   descripcion: string;
@@ -526,7 +527,7 @@ export interface PedidoLineaInterface {
   referencia: string;
 }
 
-export interface PedidoPDF {
+export interface PedidoPDFInterface {
   id: number;
   data: string;
   nombre: string;
@@ -547,6 +548,7 @@ export interface PedidoInterface {
   portes: number;
   faltas: boolean;
   recepcionado: boolean;
+  pdfs: PedidoPDFInterface[];
 }
 
 export interface PedidosFilterInterface {

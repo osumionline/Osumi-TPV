@@ -114,6 +114,10 @@
                         display: flex;
                         align-items: center;
 
+                        &.totales-iva-row {
+                            flex-direction: column;
+                        }
+
                         span {
                             flex: 1;
                         }

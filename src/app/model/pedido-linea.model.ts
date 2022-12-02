@@ -7,6 +7,7 @@ export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();
 
   constructor(
+    public id: number = null,
     public idArticulo: number = null,
     public localizador: number = null,
     public descripcion: string = null,
@@ -45,6 +46,7 @@ export class PedidoLinea {
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
+    this.id = pl.id;
     this.idArticulo = pl.idArticulo;
     this.localizador = pl.localizador;
     this.descripcion = Utils.urldecode(pl.descripcion);
@@ -65,6 +67,7 @@ export class PedidoLinea {
   }
 
   fromArticulo(a: Articulo): PedidoLinea {
+    this.id = null;
     this.idArticulo = a.id;
     this.localizador = a.localizador;
     this.descripcion = a.nombre;
@@ -86,6 +89,7 @@ export class PedidoLinea {
 
   toInterface(): PedidoLineaInterface {
     return {
+      id: this.id,
       idArticulo: this.idArticulo,
       localizador: this.localizador,
       descripcion: Utils.urlencode(this.descripcion),

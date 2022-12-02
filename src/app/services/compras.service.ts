@@ -2,12 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
+  IdSaveResult,
   PedidosAllResult,
   PedidosFilterInterface,
 } from "src/app/interfaces/interfaces";
 import { Pedido } from "src/app/model/pedido.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
+import { PedidoInterface } from "./../interfaces/interfaces";
 
 @Injectable({
   providedIn: "root",
@@ -58,5 +60,12 @@ export class ComprasService {
   resetPedidos(): void {
     this.loaded = false;
     this.load();
+  }
+
+  savePedido(pedido: PedidoInterface): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(
+      environment.apiUrl + "-compras/save-pedido",
+      pedido
+    );
   }
 }

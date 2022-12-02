@@ -5,7 +5,9 @@ import {
 } from "src/app/interfaces/interfaces";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
+import { PedidoPDF } from "src/app/model/pedido-pdf.model";
 import { Utils } from "src/app/shared/utils.class";
+import { PedidoPDFInterface } from "./../interfaces/interfaces";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];
@@ -24,7 +26,8 @@ export class Pedido {
     public importe: number = null,
     public portes: number = null,
     public faltas: boolean = false,
-    public recepcionado: boolean = null
+    public recepcionado: boolean = false,
+    public pdfs: PedidoPDF[] = []
   ) {}
 
   get totalArticulos(): number {
@@ -46,7 +49,7 @@ export class Pedido {
   get totalPVP(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
-      num += linea.pvp;
+      num += linea.unidades * linea.pvp;
     }
     return num;
   }
@@ -54,7 +57,7 @@ export class Pedido {
   get subtotal(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
-      num += linea.subtotal;
+      num += linea.unidades * linea.subtotal;
     }
     return num;
   }
@@ -62,7 +65,7 @@ export class Pedido {
   get total(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
-      num += linea.total;
+      num += linea.unidades * linea.total;
     }
     return num;
   }
@@ -75,13 +78,13 @@ export class Pedido {
         list["iva_" + linea.iva] = 0;
       }
       list["iva_" + linea.iva] +=
-        linea.palb * (1 + linea.iva / 100) - linea.palb;
+        linea.unidades * (linea.palb * (1 + linea.iva / 100) - linea.palb);
       if (linea.selectedIvaOption.tipoIVA === "re") {
         if (!list.hasOwnProperty("re_" + linea.re)) {
           list["re_" + linea.re] = 0;
         }
         list["re_" + linea.re] +=
-          linea.palb * (1 + linea.re / 100) - linea.palb;
+          linea.unidades * (linea.palb * (1 + linea.re / 100) - linea.palb);
       }
     }
 
@@ -116,6 +119,9 @@ export class Pedido {
     this.portes = p.portes;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
+    this.pdfs = p.pdfs.map((p: PedidoPDFInterface): PedidoPDF => {
+      return new PedidoPDF().fromInterface(p);
+    });
 
     return this;
   }
@@ -138,6 +144,9 @@ export class Pedido {
       portes: this.portes,
       faltas: this.faltas,
       recepcionado: this.recepcionado,
+      pdfs: this.pdfs.map((p: PedidoPDF): PedidoPDFInterface => {
+        return p.toInterface();
+      }),
     };
   }
 }

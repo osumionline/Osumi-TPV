@@ -5,19 +5,25 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
-import { PedidoPDF, PedidosColOption } from "src/app/interfaces/interfaces";
+import { PedidosColOption } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
 import { IVAOption } from "src/app/model/iva-option.model";
+import { Marca } from "src/app/model/marca.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
+import { PedidoPDF } from "src/app/model/pedido-pdf.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ComprasService } from "src/app/services/compras.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
+import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   selector: "otpv-pedido",
@@ -28,8 +34,11 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   pedido: Pedido = new Pedido();
   @ViewChild("newProveedor", { static: true })
   newProveedor: NewProveedorComponent;
+  @ViewChild("proveedoresValue", { static: true }) proveedoresValue: MatSelect;
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
+  @ViewChild("numAlbaranFacturaBox", { static: true })
+  numAlbaranFacturaBox: ElementRef;
   colOptions: PedidosColOption[] = [
     {
       id: 1,
@@ -150,16 +159,14 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   nuevoLocalizador: number = null;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
 
-  pdfs: PedidoPDF[] = [];
-
-  portes: number = 0;
-
   constructor(
     public config: ConfigService,
     public ps: ProveedoresService,
     private ars: ArticulosService,
     private cms: ClassMapperService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private ms: MarcasService,
+    private cs: ComprasService
   ) {}
 
   ngOnInit(): void {
@@ -213,29 +220,45 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   loadArticulo(): void {
     this.ars.loadArticulo(this.nuevoLocalizador).subscribe((result) => {
-      const articulo: Articulo = this.cms.getArticulo(result.articulo);
+      if (result.status === "ok") {
+        const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
-      const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea) => {
-        return x.localizador === articulo.localizador;
-      });
+        const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea) => {
+          return x.localizador === articulo.localizador;
+        });
 
-      if (ind === -1) {
-        const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
-          articulo
-        );
-        let ivaOption: IVAOption = new IVAOption("iva", 21);
-        if (this.config.tipoIva === "re") {
-          ivaOption = new IVAOption("re", 21, 5.2);
+        if (ind === -1) {
+          const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
+            articulo
+          );
+          let ivaOption: IVAOption = new IVAOption("iva", 21);
+          if (this.config.tipoIva === "re") {
+            ivaOption = new IVAOption("re", 21, 5.2);
+          }
+          lineaPedido.selectedIvaOption = ivaOption;
+
+          const marca: Marca = this.ms.findById(lineaPedido.idMarca);
+          lineaPedido.marca = marca.nombre;
+
+          this.pedido.lineas.push(lineaPedido);
+          this.pedidoDataSource.data = this.pedido.lineas;
+        } else {
+          this.pedido.lineas[ind].unidades++;
         }
-        lineaPedido.selectedIvaOption = ivaOption;
-        this.pedido.lineas.push(lineaPedido);
-        this.pedidoDataSource.data = this.pedido.lineas;
-      } else {
-        this.pedido.lineas[ind].unidades++;
-      }
 
-      this.nuevoLocalizador = null;
-      this.localizadorBox.nativeElement.focus();
+        this.nuevoLocalizador = null;
+        this.localizadorBox.nativeElement.focus();
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content: "No se encuentra el localizador indicado.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.localizadorBox.nativeElement.focus();
+          });
+      }
     });
   }
 
@@ -307,13 +330,12 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const pdf: PedidoPDF = {
-          id: null,
-          data: reader.result as string,
-          nombre: file.name,
-        };
-        this.pdfs.push(pdf);
-        console.log(this.pdfs);
+        const pdf: PedidoPDF = new PedidoPDF(
+          null,
+          reader.result as string,
+          file.name
+        );
+        this.pedido.pdfs.push(pdf);
         (<HTMLInputElement>document.getElementById("pdf-file")).value = "";
       };
     }
@@ -330,9 +352,67 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       })
       .subscribe((result) => {
         if (result === true) {
-          this.pdfs.splice(ind, 1);
+          this.pedido.pdfs.splice(ind, 1);
         }
         this.localizadorBox.nativeElement.focus();
       });
+  }
+
+  validarPedido(): boolean {
+    this.pedido.fechaPago = Utils.getDate(this.fechaPago);
+    this.pedido.fechaPedido = Utils.getDate(this.fechaPedido);
+    this.pedido.importe = this.pedido.total;
+
+    if (this.pedido.idProveedor === -1) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content: "No has indicado ningún proveedor.",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.proveedoresValue.toggle();
+        });
+      return false;
+    }
+
+    if (this.pedido.numAlbaranFactura === null) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content:
+            "No has indicado número de " +
+            (this.pedido.albaranFactura === "albaran" ? "albarán" : "factura") +
+            ".",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.numAlbaranFacturaBox.nativeElement.focus();
+        });
+      return false;
+    }
+
+    if (this.pedido.lineas.length === 0) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content: "No has añadido ningún artículo al pedido.",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.localizadorBox.nativeElement.focus();
+        });
+      return false;
+    }
+
+    return true;
+  }
+
+  guardar(): void {
+    if (this.validarPedido()) {
+      this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
+        console.log(result);
+      });
+    }
   }
 }
