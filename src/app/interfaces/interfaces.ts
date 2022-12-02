@@ -529,7 +529,7 @@ export interface PedidoLineaInterface {
 export interface PedidoPDF {
   id: number;
   data: string;
-  name: string;
+  nombre: string;
 }
 
 export interface PedidoInterface {
@@ -573,4 +573,12 @@ export interface PedidosColOption {
   colname: string;
   selected: boolean;
   default: boolean;
+}
+
+export interface TotalsIVAOption {
+  tipoIva: string;
+  ivaOption: number;
+  iva: number;
+  reOption: number;
+  re: number;
 }

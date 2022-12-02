@@ -10,10 +10,12 @@ import { MatTableDataSource } from "@angular/material/table";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { PedidoPDF, PedidosColOption } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
+import { IVAOption } from "src/app/model/iva-option.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
@@ -153,6 +155,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   portes: number = 0;
 
   constructor(
+    public config: ConfigService,
     public ps: ProveedoresService,
     private ars: ArticulosService,
     private cms: ClassMapperService,
@@ -162,6 +165,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.changeOptions();
     this.localizadorBox.nativeElement.focus();
+    this.pedido.ivaOptions = this.config.ivaOptions;
   }
 
   ngAfterViewInit(): void {
@@ -186,6 +190,18 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     this.pedidoDisplayedColumns = list;
   }
 
+  updateIvaRe(ivaOption: string, linea: PedidoLinea): void {
+    const ivaInd: number = this.config.ivaOptions.findIndex(
+      (x: IVAOption): boolean => x.id == ivaOption
+    );
+    linea.selectedIvaOption.updateValues(
+      this.config.ivaOptions[ivaInd].iva,
+      this.config.ivaOptions[ivaInd].re
+    );
+    linea.iva = linea.selectedIvaOption.iva;
+    linea.re = linea.selectedIvaOption.re;
+  }
+
   checkLocalizador(ev: KeyboardEvent): void {
     if (ev.key == "Enter") {
       ev.preventDefault();
@@ -207,6 +223,11 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
           articulo
         );
+        let ivaOption: IVAOption = new IVAOption("iva", 21);
+        if (this.config.tipoIva === "re") {
+          ivaOption = new IVAOption("re", 21, 5.2);
+        }
+        lineaPedido.selectedIvaOption = ivaOption;
         this.pedido.lineas.push(lineaPedido);
         this.pedidoDataSource.data = this.pedido.lineas;
       } else {
@@ -243,6 +264,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
           .focus();
       }
     }
+    console.log(this.pedido.ivaList);
   }
 
   borrarLinea(localizador: number): void {
@@ -288,15 +310,29 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         const pdf: PedidoPDF = {
           id: null,
           data: reader.result as string,
-          name: file.name,
+          nombre: file.name,
         };
         this.pdfs.push(pdf);
+        console.log(this.pdfs);
         (<HTMLInputElement>document.getElementById("pdf-file")).value = "";
       };
     }
   }
 
-  deletePDF(ind: number): void {
-    this.pdfs.splice(ind, 1);
+  deletePDF(ind: number, pdf: PedidoPDF): void {
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content:
+          '¿Estás seguro de querer borrar el archivo "' + pdf.nombre + '"?',
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.pdfs.splice(ind, 1);
+        }
+        this.localizadorBox.nativeElement.focus();
+      });
   }
 }

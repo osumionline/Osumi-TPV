@@ -1,8 +1,11 @@
 import { PedidoLineaInterface } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
 import { Utils } from "src/app/shared/utils.class";
+import { IVAOption } from "./iva-option.model";
 
 export class PedidoLinea {
+  selectedIvaOption: IVAOption = new IVAOption();
+
   constructor(
     public idArticulo: number = null,
     public localizador: number = null,

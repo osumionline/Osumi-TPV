@@ -1,11 +1,15 @@
 import {
   PedidoInterface,
   PedidoLineaInterface,
+  TotalsIVAOption,
 } from "src/app/interfaces/interfaces";
+import { IVAOption } from "src/app/model/iva-option.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Pedido {
+  ivaOptions: IVAOption[] = [];
+
   constructor(
     public id: number = null,
     public idProveedor: number = -1,
@@ -61,6 +65,38 @@ export class Pedido {
       num += linea.total;
     }
     return num;
+  }
+
+  get ivaList(): TotalsIVAOption[] {
+    const list = {};
+
+    for (let linea of this.lineas) {
+      if (!list.hasOwnProperty("iva_" + linea.iva)) {
+        list["iva_" + linea.iva] = 0;
+      }
+      list["iva_" + linea.iva] +=
+        linea.palb * (1 + linea.iva / 100) - linea.palb;
+      if (linea.selectedIvaOption.tipoIVA === "re") {
+        if (!list.hasOwnProperty("re_" + linea.re)) {
+          list["re_" + linea.re] = 0;
+        }
+        list["re_" + linea.re] +=
+          linea.palb * (1 + linea.re / 100) - linea.palb;
+      }
+    }
+
+    const ret: TotalsIVAOption[] = [];
+    for (let ivaOption of this.ivaOptions) {
+      ret.push({
+        tipoIva: ivaOption.tipoIVA,
+        ivaOption: ivaOption.iva,
+        iva: list["iva_" + ivaOption.iva],
+        reOption: ivaOption.re,
+        re: list["re_" + ivaOption.re],
+      });
+    }
+
+    return ret;
   }
 
   fromInterface(p: PedidoInterface): Pedido {

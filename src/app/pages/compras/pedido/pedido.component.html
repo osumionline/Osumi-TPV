@@ -47,7 +47,8 @@
                     </button>
                 </div>
                 <div class="form-field re-ue">
-                    <mat-checkbox [(ngModel)]="pedido.re">R.E.</mat-checkbox>
+                    <mat-checkbox *ngIf="config.tipoIva === 're'"
+                                  [(ngModel)]="pedido.re">R.E.</mat-checkbox>
                     <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
@@ -276,7 +277,19 @@
                         IVA
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.iva}} %</td>
+                        *matCellDef="let element">
+                        <mat-form-field class="x-small"
+                                        [title]="element.selectedIvaOption.name"
+                                        subscriptSizing="dynamic">
+                            <mat-select [(ngModel)]="element.selectedIvaOption.id"
+                                        (ngModelChange)="updateIvaRe($event, element)">
+                                <mat-option *ngFor="let iva of config.ivaOptions"
+                                            [value]="iva.id">
+                                    {{iva.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
                 </ng-container>
 
                 <!-- Descuento -->
@@ -406,9 +419,9 @@
                     <mat-list *ngIf="pdfs.length > 0">
                         <mat-list-item *ngFor="let item of pdfs; let i = index;">
                             <div class="row">
-                                <span>{{item.name}}</span>
+                                <span>{{item.nombre}}</span>
                                 <button mat-icon-button
-                                        (click)="deletePDF(i)">
+                                        (click)="deletePDF(i, item)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </div>
@@ -463,6 +476,24 @@
                     <div class="totales-col">
                         <div class="totales-row">
                             <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
+                        </div>
+                        <div class="totales-row">
+                            <ng-container *ngFor="let ivaOption of pedido.ivaList">
+                                <div class="iva-row"
+                                     *ngIf="ivaOption.iva !== undefined || ivaOption.re !== undefined">
+                                    <ng-container *ngIf="ivaOption.iva !== undefined">
+                                        <div class="iva-col">IVA {{ivaOption.ivaOption}}%</div>
+                                        <div class="iva-col"
+                                             [ngClass]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
+                                            {{ivaOption.iva | fixedNumber}} €
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="ivaOption.re !== undefined">
+                                        <div class="iva-col">R.E. {{ivaOption.reOption}}%</div>
+                                        <div class="iva-col iva-num">{{ivaOption.re | fixedNumber}} €</div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
                         </div>
                         <div class="totales-row mark">
                             <span>Total {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{pedido.total | fixedNumber}} €
