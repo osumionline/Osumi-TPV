@@ -147,7 +147,9 @@
                         Descripción
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.descripcion}} </td>
+                        *matCellDef="let element">
+                        <a [routerLink]="['/articulos', element.localizador, 'return', 'pedido']">{{element.descripcion}}</a>
+                    </td>
                 </ng-container>
 
                 <!-- Marca -->
@@ -160,18 +162,6 @@
                     </th>
                     <td mat-cell
                         *matCellDef="let element"> {{element.marca}} </td>
-                </ng-container>
-
-                <!-- Categoría -->
-                <ng-container matColumnDef="categoria">
-                    <th mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por categoria">
-                        Categoría
-                    </th>
-                    <td mat-cell
-                        *matCellDef="let element"> {{element.idCategoria}} </td>
                 </ng-container>
 
                 <!-- Referencia -->
