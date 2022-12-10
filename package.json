@@ -20,9 +20,9 @@
     "@angular/platform-browser": "^15.0.2",
     "@angular/platform-browser-dynamic": "^15.0.2",
     "@angular/router": "^15.0.2",
+    "@swimlane/ngx-charts": "^20.1.2",
     "jsbarcode": "^3.11.5",
     "ngx-barcode6": "^1.0.21",
-    "@swimlane/ngx-charts": "~20.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
