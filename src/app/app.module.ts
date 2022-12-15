@@ -6,7 +6,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { MatSortModule } from "@angular/material/sort";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgxBarcode6Module } from "ngx-barcode6";
+import { QRCodeModule } from "angularx-qrcode";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { AppComponent } from "src/app/app.component";
 import { ConfigService } from "src/app/services/config.service";
@@ -32,7 +32,7 @@ export function servicesOnRun(config: ConfigService) {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSortModule,
-    NgxBarcode6Module,
+    QRCodeModule,
     ...MATERIAL,
   ],
   providers: [

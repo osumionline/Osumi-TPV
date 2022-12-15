@@ -98,14 +98,12 @@
       }
 
       .cod-barras-item-cod {
-        line-height: 24px;
-        text-align: left;
         font-weight: bold;
         font-size: 1.5em;
-
-        .cod-barras-item-remove {
-          float: right;
-        }
+        display: flex;
+        justify-content: space-between;
+        height: 48px;
+        align-items: center;
       }
     }
 

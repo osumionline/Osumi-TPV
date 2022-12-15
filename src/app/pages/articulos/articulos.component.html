@@ -373,10 +373,17 @@
 						<div class="cod-barras-item"
 							 *ngFor="let codBarras of articulo.codigosBarras"
 							 [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
-							<ngx-barcode6 [bc-value]="codBarras.codigoBarras"
-										  [bc-display-value]="false"></ngx-barcode6>
+							<qrcode [qrdata]="codBarras.codigoBarras.toString()"
+									[allowEmptyString]="true"
+									[elementType]="'svg'"
+									[errorCorrectionLevel]="'M'"
+									[colorDark]="'#000000ff'"
+									[colorLight]="'#ffffff00'"
+									[margin]="4"
+									[scale]="1"
+									[width]="300"></qrcode>
 							<div class="cod-barras-item-cod">
-								{{ codBarras.codigoBarras }}
+								<span>{{ codBarras.codigoBarras }}</span>
 								<button class="cod-barras-item-remove"
 										mat-icon-button
 										*ngIf="!codBarras.porDefecto"
