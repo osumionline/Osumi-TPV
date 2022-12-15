@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   IdSaveResult,
+  PedidoResult,
   PedidosAllResult,
   PedidosFilterInterface,
 } from "src/app/interfaces/interfaces";
@@ -60,6 +61,13 @@ export class ComprasService {
   resetPedidos(): void {
     this.loaded = false;
     this.load();
+  }
+
+  getPedido(id: number): Observable<PedidoResult> {
+    return this.http.post<PedidoResult>(
+      environment.apiUrl + "-compras/get-pedido",
+      { id }
+    );
   }
 
   savePedido(pedido: PedidoInterface): Observable<IdSaveResult> {

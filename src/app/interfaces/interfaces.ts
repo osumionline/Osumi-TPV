@@ -569,6 +569,11 @@ export interface PedidosAllResult {
   recepcionadosPags: number;
 }
 
+export interface PedidoResult {
+  status: string;
+  pedido: PedidoInterface;
+}
+
 export interface PedidosColOption {
   id: number;
   value: string;

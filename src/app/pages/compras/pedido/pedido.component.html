@@ -8,8 +8,9 @@
                 routerLink="/compras">
             <mat-icon>chevron_left</mat-icon>
         </button>
-        <span>Nuevo pedido</span>
-        <div class="actions">
+        <span>{{titulo}}</span>
+        <div class="actions"
+             *ngIf="!pedido.recepcionado">
             <button mat-raised-button
                     color="primary"
                     (click)="guardar()">

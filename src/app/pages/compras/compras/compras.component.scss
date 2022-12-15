@@ -42,6 +42,7 @@
                 position: absolute;
                 right: -48px;
                 top: 38px;
+                z-index: 2;
 
                 &.show {
                     display: block;

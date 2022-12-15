@@ -4,7 +4,7 @@
     <div class="left">
         <button mat-raised-button
                 color="primary"
-                routerLink="/pedido">
+                routerLink="/compras/pedido">
             <mat-icon>add_circle_outline</mat-icon>
             Nuevo pedido
         </button>
@@ -194,6 +194,8 @@
             <tr mat-header-row
                 *matHeaderRowDef="pedidosDisplayedColumns"></tr>
             <tr mat-row
+                class="clickable"
+                (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
         </table>
         <div class="no-results"
@@ -359,6 +361,8 @@
             <tr mat-header-row
                 *matHeaderRowDef="pedidosDisplayedColumns"></tr>
             <tr mat-row
+                class="clickable"
+                (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
         </table>
         <div class="no-results"

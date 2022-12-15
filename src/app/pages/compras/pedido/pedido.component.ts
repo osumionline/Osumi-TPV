@@ -8,6 +8,7 @@ import {
 import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { PedidosColOption } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
@@ -31,6 +32,7 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./pedido.component.scss"],
 })
 export class PedidoComponent implements OnInit, AfterViewInit {
+  titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
   @ViewChild("newProveedor", { static: true })
   newProveedor: NewProveedorComponent;
@@ -153,19 +155,36 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     public config: ConfigService,
     public ps: ProveedoresService,
     private ars: ArticulosService,
     private cms: ClassMapperService,
     private dialog: DialogService,
     private ms: MarcasService,
-    private cs: ComprasService
+    private cs: ComprasService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.changeOptions();
-    this.localizadorBox.nativeElement.focus();
-    this.pedido.ivaOptions = this.config.ivaOptions;
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.id) {
+        this.cs.getPedido(params.id).subscribe((result) => {
+          this.pedido = new Pedido().fromInterface(result.pedido);
+          this.pedido.ivaOptions = this.config.ivaOptions;
+          console.log(this.pedido);
+          this.titulo = "Pedido " + this.pedido.id;
+          this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
+          this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+          this.pedidoDataSource.data = this.pedido.lineas;
+          this.localizadorBox.nativeElement.focus();
+        });
+      } else {
+        this.pedido.ivaOptions = this.config.ivaOptions;
+        this.localizadorBox.nativeElement.focus();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -403,8 +422,28 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   guardar(): void {
     if (this.validarPedido()) {
+      console.log(this.pedido.toInterface());
       this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
-        console.log(result);
+        if (result.status === "ok") {
+          this.cs.resetPedidos();
+          this.dialog
+            .alert({
+              title: "OK",
+              content: "El pedido ha sido correctamente guardado.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {
+              this.router.navigate(["/compras"]);
+            });
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "Ha ocurrido un error al guardar el pedido.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {});
+        }
       });
     }
   }

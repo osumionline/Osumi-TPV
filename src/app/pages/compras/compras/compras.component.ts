@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { PedidosFilterInterface } from "src/app/interfaces/interfaces";
 import { Pedido } from "src/app/model/pedido.model";
 import { ComprasService } from "src/app/services/compras.service";
@@ -53,11 +54,13 @@ export class ComprasComponent implements OnInit, AfterViewInit {
 
   constructor(
     public comprasService: ComprasService,
-    public proveedoresService: ProveedoresService
+    public proveedoresService: ProveedoresService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.pedidosGuardadosDataSource.data = this.comprasService.pedidosGuardados;
+    console.log(this.comprasService.pedidosGuardados);
     this.pedidosRecepcionadosDataSource.data =
       this.comprasService.pedidosRecepcionados;
   }
@@ -98,5 +101,9 @@ export class ComprasComponent implements OnInit, AfterViewInit {
       this.recepcionadosFilter.importeDesde !== null ||
       this.recepcionadosFilter.importeHasta !== null
     );
+  }
+
+  goToPedido(pedido: Pedido): void {
+    this.router.navigate(["/compras/pedido", pedido.id]);
   }
 }

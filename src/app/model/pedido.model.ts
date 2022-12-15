@@ -24,7 +24,7 @@ export class Pedido {
     public fechaPedido: string = null,
     public lineas: PedidoLinea[] = [],
     public importe: number = null,
-    public portes: number = null,
+    public portes: number = 0,
     public faltas: boolean = false,
     public recepcionado: boolean = false,
     public pdfs: PedidoPDF[] = []
