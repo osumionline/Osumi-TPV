@@ -31,6 +31,20 @@
                 margin-top: 25px;
             }
 
+            .re-ue-wide {
+                width: 228px;
+                display: flex;
+
+                span {
+                    display: flex;
+                    align-items: center;
+
+                    mat-icon {
+                        margin: 8px;
+                    }
+                }
+            }
+
             .right-option {
                 flex: 1;
                 display: flex;

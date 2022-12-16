@@ -371,7 +371,11 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       })
       .subscribe((result) => {
         if (result === true) {
-          this.pedido.pdfs.splice(ind, 1);
+          if (!this.pedido.pdfs[ind].id) {
+            this.pedido.pdfs.splice(ind, 1);
+          } else {
+            this.pedido.pdfs[ind].deleted = true;
+          }
         }
         this.localizadorBox.nativeElement.focus();
       });

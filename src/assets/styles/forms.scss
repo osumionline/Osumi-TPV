@@ -44,6 +44,15 @@
       color: red;
     }
   }
+
+  .empty-placeholder {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    padding-left: 16px;
+    width: 212px;
+    box-sizing: border-box;
+  }
 }
 
 .form-field-left {

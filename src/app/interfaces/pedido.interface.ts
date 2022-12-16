@@ -21,6 +21,8 @@ export interface PedidoPDFInterface {
   id: number;
   data: string;
   nombre: string;
+  url: string;
+  deleted: boolean;
 }
 
 export interface PedidoInterface {
