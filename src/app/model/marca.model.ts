@@ -1,4 +1,4 @@
-import { MarcaInterface } from "src/app/interfaces/interfaces";
+import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Marca {

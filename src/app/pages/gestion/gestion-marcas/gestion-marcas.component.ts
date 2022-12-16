@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { MarcaInterface } from "src/app/interfaces/interfaces";
+import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marca.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";

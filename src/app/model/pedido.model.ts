@@ -1,13 +1,13 @@
 import {
   PedidoInterface,
   PedidoLineaInterface,
+  PedidoPDFInterface,
   TotalsIVAOption,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/pedido.interface";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/pedido-pdf.model";
 import { Utils } from "src/app/shared/utils.class";
-import { PedidoPDFInterface } from "./../interfaces/interfaces";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];

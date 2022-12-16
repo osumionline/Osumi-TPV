@@ -10,7 +10,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
-import { PedidosColOption } from "src/app/interfaces/interfaces";
+import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { Marca } from "src/app/model/marca.model";

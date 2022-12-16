@@ -1,12 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import {
-  IdSaveResult,
   MarcaInterface,
   MarcasResult,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marca.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
@@ -25,7 +24,7 @@ export class MarcasService {
       if (this.loaded) {
         resolve("ok");
       } else {
-        this.getMarcas().subscribe((result) => {
+        this.getMarcas().subscribe((result: MarcasResult): void => {
           this.loadMarcas(this.cms.getMarcas(result.list));
           resolve("ok");
         });

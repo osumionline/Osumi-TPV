@@ -5,8 +5,8 @@ import {
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
   EmpleadosResult,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/empleado.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { Empleado } from "src/app/model/empleado.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
@@ -27,7 +27,7 @@ export class EmpleadosService {
       if (this.loaded) {
         resolve("ok");
       } else {
-        this.getEmpleados().subscribe((result) => {
+        this.getEmpleados().subscribe((result: EmpleadosResult): void => {
           this.loadEmpleados(this.cms.getEmpleados(result.list));
           resolve("ok");
         });

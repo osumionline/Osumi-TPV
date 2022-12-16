@@ -1,7 +1,7 @@
 import {
   FinVentaInterface,
   LineaVentaInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/venta.interface";
 import { LineaVenta } from "src/app/model/linea-venta.model";
 import { Utils } from "src/app/shared/utils.class";
 

@@ -1,7 +1,7 @@
 import {
   LineaVentaInterface,
   VentaInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/venta.interface";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { LineaVenta } from "src/app/model/linea-venta.model";

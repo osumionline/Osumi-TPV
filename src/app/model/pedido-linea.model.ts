@@ -1,7 +1,7 @@
-import { PedidoLineaInterface } from "src/app/interfaces/interfaces";
+import { PedidoLineaInterface } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
+import { IVAOption } from "src/app/model/iva-option.model";
 import { Utils } from "src/app/shared/utils.class";
-import { IVAOption } from "./iva-option.model";
 
 export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();

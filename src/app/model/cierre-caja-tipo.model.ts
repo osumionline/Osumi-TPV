@@ -1,4 +1,4 @@
-import { CierreCajaTipoInterface } from "src/app/interfaces/interfaces";
+import { CierreCajaTipoInterface } from "src/app/interfaces/caja.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class CierreCajaTipo {

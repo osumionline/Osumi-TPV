@@ -9,8 +9,8 @@ import {
   ChartResultInterface,
   ChartSelectInterface,
   SearchArticulosResult,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/articulo.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 @Injectable({

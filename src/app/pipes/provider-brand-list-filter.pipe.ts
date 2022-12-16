@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { SelectMarcaInterface } from "src/app/interfaces/interfaces";
+import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 
 @Pipe({
   name: "providerBrandListFilter",

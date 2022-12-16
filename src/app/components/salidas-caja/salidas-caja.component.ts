@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { DateValues, SalidaCajaInterface } from "src/app/interfaces/interfaces";
+import { SalidaCajaInterface } from "src/app/interfaces/caja.interface";
+import { DateValues } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";

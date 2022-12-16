@@ -1,4 +1,4 @@
-import { TopVentaArticuloInterface } from "src/app/interfaces/interfaces";
+import { TopVentaArticuloInterface } from "src/app/interfaces/venta.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class TopVentaArticulo {

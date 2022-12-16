@@ -1,14 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
+import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
+import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
 import {
-  ArticuloBuscadorResult,
-  DateValues,
   FacturaResult,
   FinVentaResult,
-  HistoricoVentasResult,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";

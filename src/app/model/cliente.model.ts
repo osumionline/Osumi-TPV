@@ -1,4 +1,4 @@
-import { ClienteInterface } from "src/app/interfaces/interfaces";
+import { ClienteInterface } from "src/app/interfaces/cliente.interface";
 import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
 import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
 import { Utils } from "src/app/shared/utils.class";

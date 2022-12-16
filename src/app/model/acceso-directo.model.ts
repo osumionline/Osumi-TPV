@@ -1,4 +1,4 @@
-import { AccesoDirectoInterface } from "src/app/interfaces/interfaces";
+import { AccesoDirectoInterface } from "src/app/interfaces/articulo.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class AccesoDirecto {

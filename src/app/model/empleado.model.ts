@@ -1,8 +1,8 @@
 import {
-  ColorValues,
   EmpleadoInterface,
   EmpleadoLoginInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/empleado.interface";
+import { ColorValues } from "src/app/interfaces/interfaces";
 import { rolList } from "src/app/shared/rol.class";
 import { Utils } from "src/app/shared/utils.class";
 

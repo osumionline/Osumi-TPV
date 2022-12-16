@@ -2,11 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
+import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 import {
   ComercialInterface,
   ProveedorInterface,
-  SelectMarcaInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/proveedor.interface";
 import { Comercial } from "src/app/model/comercial.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { DialogService } from "src/app/services/dialog.service";

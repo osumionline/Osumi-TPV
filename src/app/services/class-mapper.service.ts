@@ -4,20 +4,26 @@ import {
   ArticuloBuscadorInterface,
   ArticuloInterface,
   CategoriaInterface,
-  CierreCajaInterface,
-  ClienteInterface,
   CodigoBarrasInterface,
-  ComercialInterface,
-  EmpleadoInterface,
+} from "src/app/interfaces/articulo.interface";
+import {
+  CierreCajaInterface,
   HistoricoVentaInterface,
-  MarcaInterface,
-  PedidoInterface,
-  ProveedorInterface,
   SalidaCajaInterface,
-  TipoPagoInterface,
+} from "src/app/interfaces/caja.interface";
+import { ClienteInterface } from "src/app/interfaces/cliente.interface";
+import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
+import { MarcaInterface } from "src/app/interfaces/marca.interface";
+import { PedidoInterface } from "src/app/interfaces/pedido.interface";
+import {
+  ComercialInterface,
+  ProveedorInterface,
+} from "src/app/interfaces/proveedor.interface";
+import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
+import {
   TopVentaArticuloInterface,
   UltimaVentaArticuloInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";

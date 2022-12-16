@@ -1,4 +1,4 @@
-import { HistoricoLineaVentaInterface } from "src/app/interfaces/interfaces";
+import { HistoricoLineaVentaInterface } from "src/app/interfaces/caja.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class HistoricoLineaVenta {

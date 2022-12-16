@@ -139,6 +139,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTableModule } from "@angular/material/table";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatNativeDateModule } from "@angular/material/core";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,
@@ -159,4 +160,5 @@ export const MATERIAL: any[] = [
   MatTableModule,
   DragDropModule,
   MatNativeDateModule,
+  MatPaginatorModule,
 ];

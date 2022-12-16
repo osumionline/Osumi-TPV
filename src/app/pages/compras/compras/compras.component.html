@@ -97,6 +97,7 @@
                                             <mat-label>Importe (desde)</mat-label>
                                             <input matInput
                                                    placeholder="Importe (desde)"
+                                                   type="number"
                                                    [(ngModel)]="guardadosFilter.importeDesde">
                                         </mat-form-field>
                                         €
@@ -106,6 +107,7 @@
                                             <mat-label>Importe (hasta)</mat-label>
                                             <input matInput
                                                    placeholder="Importe (hasta)"
+                                                   type="number"
                                                    [(ngModel)]="guardadosFilter.importeHasta">
                                         </mat-form-field>
                                         €
@@ -121,7 +123,8 @@
                                 </button>
                                 <button *ngIf="guardadosFiltered"
                                         mat-raised-button
-                                        color="primary">
+                                        color="primary"
+                                        (click)="quitarFiltrosGuardados()">
                                     <mat-icon>filter_list_off</mat-icon>
                                     Quitar filtros
                                 </button>
@@ -138,7 +141,7 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <table *ngIf="comprasService.pedidosGuardados.length > 0"
+        <table *ngIf="pedidosGuardadosDataSource.data.length > 0"
                mat-table
                [dataSource]="pedidosGuardadosDataSource"
                matSort
@@ -199,8 +202,14 @@
                 (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
         </table>
+        <mat-paginator *ngIf="pedidosGuardadosDataSource.data.length > 0"
+                       [length]="20"
+                       [pageSize]="20"
+                       [pageSizeOptions]="[20]"
+                       aria-label="Elige página">
+        </mat-paginator>
         <div class="no-results"
-             *ngIf="comprasService.pedidosGuardados.length === 0">No se ha encontrado ningún pedido.</div>
+             *ngIf="pedidosGuardadosDataSource.data.length === 0">No se ha encontrado ningún pedido.</div>
     </mat-card-content>
 </mat-card>
 
@@ -288,7 +297,8 @@
                                 </button>
                                 <button *ngIf="recepcionadosFiltered"
                                         mat-raised-button
-                                        color="primary">
+                                        color="primary"
+                                        (click)="quitarFiltrosRecepcionados()">
                                     <mat-icon>filter_list_off</mat-icon>
                                     Quitar filtros
                                 </button>
@@ -305,7 +315,7 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <table *ngIf="comprasService.pedidosRecepcionados.length > 0"
+        <table *ngIf="pedidosRecepcionadosDataSource.data.length > 0"
                mat-table
                [dataSource]="pedidosRecepcionadosDataSource"
                matSort
@@ -366,7 +376,13 @@
                 (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
         </table>
+        <mat-paginator *ngIf="pedidosRecepcionadosDataSource.data.length > 0"
+                       [length]="20"
+                       [pageSize]="20"
+                       [pageSizeOptions]="[20]"
+                       aria-label="Elige página">
+        </mat-paginator>
         <div class="no-results"
-             *ngIf="comprasService.pedidosRecepcionados.length === 0">No se ha encontrado ningún pedido.</div>
+             *ngIf="pedidosRecepcionadosDataSource.data.length === 0">No se ha encontrado ningún pedido.</div>
     </mat-card-content>
 </mat-card>

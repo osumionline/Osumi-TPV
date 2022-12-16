@@ -1,7 +1,7 @@
 import {
   CierreCajaInterface,
   CierreCajaTipoInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/caja.interface";
 import { CierreCajaTipo } from "src/app/model/cierre-caja-tipo.model";
 import { Utils } from "src/app/shared/utils.class";
 

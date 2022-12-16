@@ -1,13 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import {
   ComercialInterface,
-  IdSaveResult,
   ProveedoresResult,
   ProveedorInterface,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/proveedor.interface";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
@@ -26,7 +25,7 @@ export class ProveedoresService {
       if (this.loaded) {
         resolve("ok");
       } else {
-        this.getProveedores().subscribe((result) => {
+        this.getProveedores().subscribe((result: ProveedoresResult): void => {
           this.loadProveedores(this.cms.getProveedores(result.list));
           resolve("ok");
         });
@@ -52,7 +51,9 @@ export class ProveedoresService {
   }
 
   findById(id: number): Proveedor {
-    const ind = this.proveedores.findIndex((x) => x.id === id);
+    const ind: number = this.proveedores.findIndex(
+      (x: Proveedor): boolean => x.id === id
+    );
     if (ind !== -1) {
       return this.proveedores[ind];
     }

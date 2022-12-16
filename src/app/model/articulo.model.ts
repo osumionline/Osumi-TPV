@@ -2,7 +2,7 @@ import {
   ArticuloInterface,
   CodigoBarrasInterface,
   FotoInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/articulo.interface";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
 import { Foto } from "src/app/model/foto.model";
 import { Utils } from "src/app/shared/utils.class";

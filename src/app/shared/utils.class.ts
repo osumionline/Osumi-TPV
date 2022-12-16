@@ -83,6 +83,9 @@ export class Utils {
   }
 
   static getDate(date: Date): string {
+    if (date === null) {
+      return null;
+    }
     const day: string =
       date.getDate() < 10 ? "0" + date.getDate() : date.getDate().toString();
     const month: string =

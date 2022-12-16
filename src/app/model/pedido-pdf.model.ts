@@ -1,4 +1,4 @@
-import { PedidoPDFInterface } from "src/app/interfaces/interfaces";
+import { PedidoPDFInterface } from "src/app/interfaces/pedido.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class PedidoPDF {

@@ -1,4 +1,4 @@
-import { TipoPagoInterface } from "src/app/interfaces/interfaces";
+import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class TipoPago {

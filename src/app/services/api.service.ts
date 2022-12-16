@@ -1,23 +1,26 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment";
-import { SalidaCajaInterface } from "./../interfaces/interfaces";
-
+import {
+  CierreCajaInterface,
+  CierreCajaResult,
+  SalidaCajaInterface,
+  SalidaCajaResult,
+} from "src/app/interfaces/caja.interface";
 import {
   AllProvincesInterface,
   AppDataInterface,
-  CierreCajaInterface,
-  CierreCajaResult,
   DateValues,
   IdSaveResult,
-  SalidaCajaResult,
   StartDataInterface,
   StatusResult,
+} from "src/app/interfaces/interfaces";
+import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
   TiposPagoResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/tipo-pago.interface";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",

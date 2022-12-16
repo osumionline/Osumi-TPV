@@ -6,8 +6,8 @@ import {
   ClienteSaveResult,
   ClientesResult,
   EstadisticasClienteResult,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/cliente.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
@@ -26,7 +26,7 @@ export class ClientesService {
       if (this.loaded) {
         resolve("ok");
       } else {
-        this.getClientes().subscribe((result) => {
+        this.getClientes().subscribe((result: ClientesResult): void => {
           this.loadClientes(this.cms.getClientes(result.list));
           resolve("ok");
         });

@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/tipo-pago.interface";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";

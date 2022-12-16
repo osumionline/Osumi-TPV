@@ -1,4 +1,4 @@
-import { ArticuloBuscadorInterface } from "src/app/interfaces/interfaces";
+import { ArticuloBuscadorInterface } from "src/app/interfaces/articulo.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class ArticuloBuscador {

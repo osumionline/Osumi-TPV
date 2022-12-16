@@ -1,16 +1,17 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { IdSaveResult } from "src/app/interfaces/interfaces";
 import {
-  IdSaveResult,
+  PedidoInterface,
   PedidoResult,
   PedidosAllResult,
   PedidosFilterInterface,
-} from "src/app/interfaces/interfaces";
+  PedidosResult,
+} from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/pedido.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
-import { PedidoInterface } from "./../interfaces/interfaces";
 
 @Injectable({
   providedIn: "root",
@@ -40,13 +41,17 @@ export class ComprasService {
           importeHasta: null,
           pagina: 1,
         };
-        this.getAllPedidos(filters).subscribe((result) => {
-          this.pedidosGuardados = this.cms.getPedidos(result.guardados);
-          this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
-          this.guardadosPags = result.guardadosPags;
-          this.recepcionadosPags = result.recepcionadosPags;
-          resolve("ok");
-        });
+        this.getAllPedidos(filters).subscribe(
+          (result: PedidosAllResult): void => {
+            this.pedidosGuardados = this.cms.getPedidos(result.guardados);
+            this.pedidosRecepcionados = this.cms.getPedidos(
+              result.recepcionados
+            );
+            this.guardadosPags = result.guardadosPags;
+            this.recepcionadosPags = result.recepcionadosPags;
+            resolve("ok");
+          }
+        );
       }
     });
   }
@@ -61,6 +66,24 @@ export class ComprasService {
   resetPedidos(): void {
     this.loaded = false;
     this.load();
+  }
+
+  getPedidosGuardados(
+    filters: PedidosFilterInterface
+  ): Observable<PedidosResult> {
+    return this.http.post<PedidosResult>(
+      environment.apiUrl + "-compras/get-pedidos-guardados",
+      filters
+    );
+  }
+
+  getPedidosRecepcionados(
+    filters: PedidosFilterInterface
+  ): Observable<PedidosResult> {
+    return this.http.post<PedidosResult>(
+      environment.apiUrl + "-compras/get-pedidos-recepcionados",
+      filters
+    );
   }
 
   getPedido(id: number): Observable<PedidoResult> {

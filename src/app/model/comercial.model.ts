@@ -1,4 +1,4 @@
-import { ComercialInterface } from "src/app/interfaces/interfaces";
+import { ComercialInterface } from "src/app/interfaces/proveedor.interface";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Comercial {

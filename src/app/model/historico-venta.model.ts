@@ -1,7 +1,7 @@
 import {
   HistoricoLineaVentaInterface,
   HistoricoVentaInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/caja.interface";
 import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
 import { Utils } from "src/app/shared/utils.class";
 

@@ -1,36 +1,38 @@
-import { Injectable }  from '@angular/core';
-import { Categoria }   from 'src/app/model/categoria.model';
-import { HttpClient }  from '@angular/common/http';
-import { Observable }  from 'rxjs';
-import { environment } from 'src/environments/environment';
-
-import {
-	CategoriasResult
-} from 'src/app/interfaces/interfaces';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { CategoriasResult } from "src/app/interfaces/articulo.interface";
+import { Categoria } from "src/app/model/categoria.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: "root",
 })
 export class CategoriasService {
-	categorias: Categoria[] = [];
-	categoriasPlain: Categoria[] = [];
-	loaded: boolean = true;
+  categorias: Categoria[] = [];
+  categoriasPlain: Categoria[] = [];
+  loaded: boolean = true;
 
-	constructor(private http : HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	loadCategorias(list: Categoria[]): void {
-		this.categorias  = list;
-		this.loadCategoriasPlain(list);
-	}
+  loadCategorias(list: Categoria[]): void {
+    this.categorias = list;
+    this.loadCategoriasPlain(list);
+  }
 
-	loadCategoriasPlain(catList:Categoria[] = []): void {
-		for (let cat of catList) {
-			this.categoriasPlain.push( new Categoria(cat.id, cat.nombre, cat.profundidad) );
-			this.loadCategoriasPlain(cat.hijos);
-		}
-	}
-	
-	getCategorias(): Observable<CategoriasResult> {
-		return this.http.post<CategoriasResult>(environment.apiUrl + '-categorias/get-categorias', {});
-	}
+  loadCategoriasPlain(catList: Categoria[] = []): void {
+    for (let cat of catList) {
+      this.categoriasPlain.push(
+        new Categoria(cat.id, cat.nombre, cat.profundidad)
+      );
+      this.loadCategoriasPlain(cat.hijos);
+    }
+  }
+
+  getCategorias(): Observable<CategoriasResult> {
+    return this.http.post<CategoriasResult>(
+      environment.apiUrl + "-categorias/get-categorias",
+      {}
+    );
+  }
 }

@@ -15,8 +15,8 @@ import { NewProveedorComponent } from "src/app/components/new-proveedor/new-prov
 import {
   ChartDataInterface,
   ChartSelectInterface,
-  Month,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/articulo.interface";
+import { Month } from "src/app/interfaces/interfaces";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";

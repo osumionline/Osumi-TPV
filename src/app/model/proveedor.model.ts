@@ -1,7 +1,7 @@
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "src/app/interfaces/interfaces";
+} from "src/app/interfaces/proveedor.interface";
 import { Comercial } from "src/app/model/comercial.model";
 import { Utils } from "src/app/shared/utils.class";
 
