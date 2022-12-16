@@ -60,7 +60,6 @@ export class ComprasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.pedidosGuardadosDataSource.data = this.comprasService.pedidosGuardados;
-    console.log(this.comprasService.pedidosGuardados);
     this.pedidosRecepcionadosDataSource.data =
       this.comprasService.pedidosRecepcionados;
   }
@@ -89,6 +88,8 @@ export class ComprasComponent implements OnInit, AfterViewInit {
       this.guardadosFilter.importeHasta !== null
     );
   }
+
+  filtrarGuardados(): void {}
 
   get recepcionadosFiltered(): boolean {
     return (
