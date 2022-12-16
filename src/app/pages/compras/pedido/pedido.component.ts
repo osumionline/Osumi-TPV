@@ -173,7 +173,15 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         this.cs.getPedido(params.id).subscribe((result) => {
           this.pedido = new Pedido().fromInterface(result.pedido);
           this.pedido.ivaOptions = this.config.ivaOptions;
-          console.log(this.pedido);
+
+          if (this.pedido.recepcionado) {
+            const borrarInd: number = this.colOptions.findIndex(
+              (x: PedidosColOption): boolean => x.id === 16
+            );
+            this.colOptions.splice(borrarInd, 1);
+            this.changeOptions();
+          }
+
           this.titulo = "Pedido " + this.pedido.id;
           this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
           this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
@@ -299,7 +307,6 @@ export class PedidoComponent implements OnInit, AfterViewInit {
           .focus();
       }
     }
-    console.log(this.pedido.ivaList);
   }
 
   borrarLinea(localizador: number): void {
@@ -422,29 +429,51 @@ export class PedidoComponent implements OnInit, AfterViewInit {
 
   guardar(): void {
     if (this.validarPedido()) {
-      console.log(this.pedido.toInterface());
-      this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
-        if (result.status === "ok") {
-          this.cs.resetPedidos();
-          this.dialog
-            .alert({
-              title: "OK",
-              content: "El pedido ha sido correctamente guardado.",
-              ok: "Continuar",
-            })
-            .subscribe((result) => {
-              this.router.navigate(["/compras"]);
-            });
-        } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: "Ha ocurrido un error al guardar el pedido.",
-              ok: "Continuar",
-            })
-            .subscribe((result) => {});
+      this.guardarPedido();
+    }
+  }
+
+  recepcionar(): void {
+    this.dialog
+      .confirm({
+        title: "Recepcionar",
+        content:
+          "¿Estás seguro de querer recepcionar este pedido? Una vez lo hagas los datos se guardarán de manera definitiva, se modificaran stocks, precios...",
+        ok: "Recepcionar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          if (this.validarPedido()) {
+            this.pedido.recepcionado = true;
+            this.guardarPedido();
+          }
         }
       });
-    }
+  }
+
+  guardarPedido(): void {
+    this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
+      if (result.status === "ok") {
+        this.cs.resetPedidos();
+        this.dialog
+          .alert({
+            title: "OK",
+            content: "El pedido ha sido correctamente guardado.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.router.navigate(["/compras"]);
+          });
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content: "Ha ocurrido un error al guardar el pedido.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      }
+    });
   }
 }

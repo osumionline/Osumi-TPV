@@ -321,16 +321,16 @@
                matSort
                class="mat-elevation-z2 ">
 
-            <!-- Fecha -->
-            <ng-container matColumnDef="fecha">
+            <!-- Fecha pedido -->
+            <ng-container matColumnDef="fechaPedido">
                 <th mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
-                    sortActionDescription="Ordenar por fecha">
-                    Fecha
+                    sortActionDescription="Ordenar por fecha pedido">
+                    Fecha pedido
                 </th>
                 <td mat-cell
-                    *matCellDef="let element"> {{element.fecha}} </td>
+                    *matCellDef="let element"> {{element.fechaPedido}} </td>
             </ng-container>
 
             <!-- Proveedor -->
@@ -346,15 +346,15 @@
             </ng-container>
 
             <!-- Albarán -->
-            <ng-container matColumnDef="albaran">
+            <ng-container matColumnDef="numAlbaranFactura">
                 <th mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
-                    sortActionDescription="Ordenar por albarán">
-                    Albarán
+                    sortActionDescription="Ordenar por albarán / factura">
+                    Albarán / Factura
                 </th>
                 <td mat-cell
-                    *matCellDef="let element"> {{element.albaran}} </td>
+                    *matCellDef="let element"> {{element.numAlbaranFactura}} </td>
             </ng-container>
 
             <!-- Importe -->

@@ -18,7 +18,8 @@
                 Guardar
             </button>
             <button mat-raised-button
-                    color="primary">
+                    color="primary"
+                    (click)="recepcionar()">
                 <mat-icon>beenhere</mat-icon>
                 Recepcionar
             </button>
@@ -34,6 +35,7 @@
                     <label>Proveedor (*)</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.idProveedor"
+                                    [disabled]="pedido.recepcionado"
                                     #proveedoresValue>
                             <mat-option [value]="-1">Elige proveedor</mat-option>
                             <mat-option *ngFor="let proveedor of ps.proveedores"
@@ -45,20 +47,24 @@
                     <button mat-icon-button
                             title="Añadir nuevo proveedor"
                             type="button"
+                            *ngIf="!pedido.recepcionado"
                             (click)="openProveedor()">
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
                 <div class="form-field re-ue">
                     <mat-checkbox *ngIf="config.tipoIva === 're'"
+                                  [disabled]="pedido.recepcionado"
                                   [(ngModel)]="pedido.re">R.E.</mat-checkbox>
-                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="pedido.ue"
+                                  [disabled]="pedido.recepcionado">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
                     <label>Fecha pedido</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                [matDatepicker]="fechaPedidoPicker"
+                               [disabled]="pedido.recepcionado"
                                [(ngModel)]="fechaPedido">
                         <mat-datepicker-toggle matSuffix
                                                [for]="fechaPedidoPicker"></mat-datepicker-toggle>
@@ -68,7 +74,8 @@
                 <div class="right-option">
                     <button mat-raised-button
                             color="primary"
-                            type="button">
+                            type="button"
+                            *ngIf="!pedido.recepcionado">
                         <mat-icon>add_circle_outline</mat-icon>
                         Crear nuevo artículo
                     </button>
@@ -78,7 +85,8 @@
                 <div class="form-field">
                     <label>Albarán / Factura</label>
                     <mat-form-field subscriptSizing="dynamic">
-                        <mat-select [(ngModel)]="pedido.albaranFactura">
+                        <mat-select [(ngModel)]="pedido.albaranFactura"
+                                    [disabled]="pedido.recepcionado">
                             <mat-option value="albaran">Albarán</mat-option>
                             <mat-option value="factura">Factura</mat-option>
                         </mat-select>
@@ -90,6 +98,7 @@
                         <input matInput
                                placeholder="Número {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
                                [(ngModel)]="pedido.numAlbaranFactura"
+                               [disabled]="pedido.recepcionado"
                                #numAlbaranFacturaBox>
                     </mat-form-field>
                 </div>
@@ -98,6 +107,7 @@
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                [matDatepicker]="fechaPagoPicker"
+                               [disabled]="pedido.recepcionado"
                                [(ngModel)]="fechaPago">
                         <mat-datepicker-toggle matSuffix
                                                [for]="fechaPagoPicker"></mat-datepicker-toggle>
@@ -208,13 +218,16 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
+                        [ngClass]="{'center': pedido.recepcionado}"
                         sortActionDescription="Ordenar por unidades">
                         Unidades
                     </th>
                     <td mat-cell
+                        [ngClass]="{'center': pedido.recepcionado}"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
-                                        subscriptSizing="dynamic">
+                                        subscriptSizing="dynamic"
+                                        *ngIf="!pedido.recepcionado">
                             <input matInput
                                    placeholder="Unidades"
                                    type="number"
@@ -223,6 +236,7 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.unidades">
                         </mat-form-field>
+                        <span *ngIf="pedido.recepcionado">{{element.unidades}}</span>
                     </td>
                 </ng-container>
 
@@ -231,13 +245,16 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
+                        [ngClass]="{'center': pedido.recepcionado}"
                         sortActionDescription="Ordenar por precio albarán">
                         P. Alb.
                     </th>
                     <td mat-cell
+                        [ngClass]="{'center': pedido.recepcionado}"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
-                                        subscriptSizing="dynamic">
+                                        subscriptSizing="dynamic"
+                                        *ngIf="!pedido.recepcionado">
                             <input matInput
                                    placeholder="P. Alb."
                                    type="number"
@@ -246,6 +263,7 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.palb">
                         </mat-form-field>
+                        <span *ngIf="pedido.recepcionado">{{element.palb}}</span>
                         €
                     </td>
                 </ng-container>
@@ -273,6 +291,7 @@
                     <td mat-cell
                         *matCellDef="let element">
                         <mat-form-field class="x-small"
+                                        *ngIf="!pedido.recepcionado"
                                         [title]="element.selectedIvaOption.name"
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.selectedIvaOption.id"
@@ -283,6 +302,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <span *ngIf="pedido.recepcionado">{{element.selectedIvaOption.name}}</span>
                     </td>
                 </ng-container>
 
@@ -291,12 +311,15 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
+                        [ngClass]="{'center': pedido.recepcionado}"
                         sortActionDescription="Ordenar por descuento">
                         Descuento
                     </th>
                     <td mat-cell
+                        [ngClass]="{'center': pedido.recepcionado}"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
+                                        *ngIf="!pedido.recepcionado"
                                         subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="Descuento"
@@ -306,6 +329,7 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.descuento">
                         </mat-form-field>
+                        <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>
                         %
                     </td>
                 </ng-container>
@@ -339,12 +363,15 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
+                        [ngClass]="{'center': pedido.recepcionado}"
                         sortActionDescription="Ordenar por PVP">
                         PVP
                     </th>
                     <td mat-cell
+                        [ngClass]="{'center': pedido.recepcionado}"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
+                                        *ngIf="!pedido.recepcionado"
                                         subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="PVP"
@@ -354,6 +381,7 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.pvp">
                         </mat-form-field>
+                        <span *ngIf="pedido.recepcionado">{{element.pvp}}</span>
                         €
                     </td>
                 </ng-container>
@@ -393,7 +421,8 @@
                 <tr mat-row
                     *matRowDef="let row; columns: pedidoDisplayedColumns;"></tr>
             </table>
-            <div class="nuevo-localizador-row">
+            <div class="nuevo-localizador-row"
+                 [ngClass]="{'hide': pedido.recepcionado}">
                 <mat-form-field class="remark small"
                                 subscriptSizing="dynamic">
                     <input matInput
@@ -409,7 +438,8 @@
         </div>
         <div class="pedido-footer">
             <div class="pedido-adjuntar">
-                <label>Adjuntar PDFs</label>
+                <label *ngIf="!pedido.recepcionado">Adjuntar PDFs</label>
+                <label *ngIf="pedido.recepcionado">PDFs</label>
                 <div class="pdf-list">
                     <mat-list *ngIf="pedido.pdfs.length > 0">
                         <mat-list-item *ngFor="let item of pedido.pdfs; let i = index;">
@@ -422,7 +452,10 @@
                             </div>
                         </mat-list-item>
                     </mat-list>
-                    <div class="pdf-action">
+                    <div *ngIf="pedido.recepcionado && pedido.pdfs.length === 0"
+                         class="no-files">No hay ningún PDF adjunto.</div>
+                    <div class="pdf-action"
+                         *ngIf="!pedido.recepcionado">
                         <button mat-raised-button
                                 color="primary"
                                 (click)="addPDF()">
@@ -456,6 +489,7 @@
                         <div class="totales-row">
                             <span>Portes:</span>
                             <mat-form-field class="campo-numero-small x-small"
+                                            *ngIf="!pedido.recepcionado"
                                             subscriptSizing="dynamic">
                                 <input matInput
                                        placeholder="Portes"
@@ -464,6 +498,7 @@
                                        autocomplete="off"
                                        [(ngModel)]="pedido.portes">
                             </mat-form-field>
+                            {{ pedido.recepcionado ? pedido.portes : ''}}
                             €
                         </div>
                         <div class="totales-row">
