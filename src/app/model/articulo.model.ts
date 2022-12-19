@@ -90,6 +90,15 @@ export class Articulo {
     return this;
   }
 
+  get hasCodigoBarras(): boolean {
+    for (let cod of this.codigosBarras) {
+      if (cod.porDefecto === false) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   toInterface(encode: boolean = true): ArticuloInterface {
     return {
       id: this.id,

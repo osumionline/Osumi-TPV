@@ -5,6 +5,7 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();
+  showCodigoBarras: boolean = false;
 
   constructor(
     public id: number = null,
@@ -83,6 +84,9 @@ export class PedidoLinea {
     this.idCategoria = a.idCategoria;
     this.codBarras = null;
     this.referencia = a.referencia;
+    if (!a.hasCodigoBarras) {
+      this.showCodigoBarras = true;
+    }
 
     return this;
   }
