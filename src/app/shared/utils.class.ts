@@ -108,6 +108,9 @@ export class Utils {
   }
 
   static getDateFromString(str: string): Date {
+    if (str === null) {
+      return null;
+    }
     let day: number = 0;
     let month: number = 0;
     let year: number = 0;

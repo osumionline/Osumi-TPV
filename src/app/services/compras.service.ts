@@ -25,6 +25,8 @@ export class ComprasService {
   recepcionadosPags: number = null;
   loaded: boolean = false;
 
+  pedidoTemporal: Pedido = null;
+
   constructor(private http: HttpClient, private cms: ClassMapperService) {}
 
   load(): Promise<string> {
@@ -98,5 +100,13 @@ export class ComprasService {
       environment.apiUrl + "-compras/save-pedido",
       pedido
     );
+  }
+
+  setPedidoTemporal(pedido: Pedido): void {
+    this.pedidoTemporal = pedido;
+  }
+
+  clearPedidoTemporal(): void {
+    this.pedidoTemporal = null;
   }
 }

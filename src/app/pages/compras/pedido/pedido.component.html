@@ -192,7 +192,8 @@
                     </th>
                     <td mat-cell
                         *matCellDef="let element">
-                        <a [routerLink]="['/articulos', element.localizador, 'return', 'pedido']">{{element.descripcion}}</a>
+                        <a href="#"
+                           (click)="goToArticulo($event, element.localizador)">{{element.descripcion}}</a>
                     </td>
                 </ng-container>
 
@@ -537,7 +538,7 @@
                             €
                         </div>
                         <div class="totales-row">
-                            <span>Media margen:</span>28 %
+                            <span>Media margen:</span>{{pedido.mediaMargen | fixedNumber}} %
                         </div>
                     </div>
                     <div class="totales-col">

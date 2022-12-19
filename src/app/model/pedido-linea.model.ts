@@ -42,7 +42,7 @@ export class PedidoLinea {
   }
 
   get margen(): number {
-    return 100 - (this.puc * 100) / this.pvp;
+    return (100 * (this.pvp - this.puc)) / this.pvp;
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {

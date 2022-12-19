@@ -43,6 +43,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class ArticulosComponent implements OnInit, AfterViewInit {
   articulo: Articulo = new Articulo();
   returnWhere: string = null;
+  returnWhereId: number = null;
 
   marca: Marca = new Marca();
   proveedor: Proveedor = new Proveedor();
@@ -177,6 +178,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       }
       if (params.where) {
         this.returnWhere = params.where;
+      }
+      if (params.id) {
+        this.returnWhereId = params.id;
       }
     });
   }
@@ -795,7 +799,21 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
               this.articulo.nombreStatus = "ok";
               this.loadArticulo();
             } else {
-              this.router.navigate(["/ventas"]);
+              switch (this.returnWhere) {
+                case "ventas":
+                  {
+                    this.router.navigate(["/ventas"]);
+                  }
+                  break;
+                case "pedido":
+                  {
+                    this.router.navigate([
+                      "/compras/pedido/",
+                      this.returnWhereId,
+                    ]);
+                  }
+                  break;
+              }
             }
           });
       } else {

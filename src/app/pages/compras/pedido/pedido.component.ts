@@ -170,24 +170,36 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     this.changeOptions();
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id) {
-        this.cs.getPedido(params.id).subscribe((result) => {
-          this.pedido = new Pedido().fromInterface(result.pedido);
-          this.pedido.ivaOptions = this.config.ivaOptions;
+        if (parseInt(params.id) !== 0) {
+          this.cs.getPedido(params.id).subscribe((result) => {
+            this.pedido = new Pedido().fromInterface(result.pedido);
+            this.pedido.ivaOptions = this.config.ivaOptions;
 
-          if (this.pedido.recepcionado) {
-            const borrarInd: number = this.colOptions.findIndex(
-              (x: PedidosColOption): boolean => x.id === 16
-            );
-            this.colOptions.splice(borrarInd, 1);
-            this.changeOptions();
+            if (this.pedido.recepcionado) {
+              const borrarInd: number = this.colOptions.findIndex(
+                (x: PedidosColOption): boolean => x.id === 16
+              );
+              this.colOptions.splice(borrarInd, 1);
+              this.changeOptions();
+            }
+
+            this.titulo = "Pedido " + this.pedido.id;
+            this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
+            this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+            this.pedidoDataSource.data = this.pedido.lineas;
+            this.localizadorBox.nativeElement.focus();
+          });
+        } else {
+          this.pedido = this.cs.pedidoTemporal;
+          if (this.pedido.fechaPago !== null) {
+            this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
           }
-
-          this.titulo = "Pedido " + this.pedido.id;
-          this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
-          this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+          if (this.pedido.fechaPedido !== null) {
+            this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+          }
           this.pedidoDataSource.data = this.pedido.lineas;
           this.localizadorBox.nativeElement.focus();
-        });
+        }
       } else {
         this.pedido.ivaOptions = this.config.ivaOptions;
         this.localizadorBox.nativeElement.focus();
@@ -334,6 +346,16 @@ export class PedidoComponent implements OnInit, AfterViewInit {
           this.localizadorBox.nativeElement.focus();
         });
     }
+  }
+
+  goToArticulo(ev: MouseEvent, localizador: number): void {
+    ev && ev.preventDefault();
+    let id: number = this.pedido.id;
+    if (id === null) {
+      this.cs.setPedidoTemporal(this.pedido);
+      id = 0;
+    }
+    this.router.navigate(["/articulos", localizador, "return", "pedido", id]);
   }
 
   addPDF(): void {

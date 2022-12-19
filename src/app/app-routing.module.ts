@@ -26,6 +26,10 @@ const routes: Routes = [
     path: "articulos/:localizador/return/:where",
     component: ArticulosComponent,
   },
+  {
+    path: "articulos/:localizador/return/:where/:id",
+    component: ArticulosComponent,
+  },
   { path: "compras", component: ComprasComponent },
   { path: "compras/pedido", component: PedidoComponent },
   { path: "compras/pedido/:id", component: PedidoComponent },

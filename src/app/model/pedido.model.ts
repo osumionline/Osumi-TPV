@@ -102,6 +102,19 @@ export class Pedido {
     return ret;
   }
 
+  get mediaMargen(): number {
+    let margen: number = 0;
+    let pvp: number = 0;
+    let puc: number = 0;
+
+    for (let linea of this.lineas) {
+      pvp += linea.pvp * linea.unidades;
+      puc += linea.puc * linea.unidades;
+    }
+    puc += this.portes;
+    return (100 * (pvp - puc)) / pvp;
+  }
+
   fromInterface(p: PedidoInterface): Pedido {
     this.id = p.id;
     this.idProveedor = p.idProveedor;
