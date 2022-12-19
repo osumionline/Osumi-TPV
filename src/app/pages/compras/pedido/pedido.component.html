@@ -478,7 +478,7 @@
                         <ng-container *ngFor="let item of pedido.pdfs; let i = index;">
                             <mat-list-item *ngIf="!item.deleted">
                                 <div class="row">
-                                    <span>{{item.nombre}}</span>
+                                    <span [title]="item.nombre">{{item.nombre}}</span>
                                     <button mat-icon-button
                                             (click)="deletePDF(i, item)">
                                         <mat-icon>delete</mat-icon>
