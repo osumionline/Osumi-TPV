@@ -103,7 +103,6 @@ export class Pedido {
   }
 
   get mediaMargen(): number {
-    let margen: number = 0;
     let pvp: number = 0;
     let puc: number = 0;
 

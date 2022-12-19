@@ -52,7 +52,7 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     {
       id: 2,
       value: "Descripción",
-      colname: "descripcion",
+      colname: "nombreArticulo",
       selected: true,
       default: true,
     },

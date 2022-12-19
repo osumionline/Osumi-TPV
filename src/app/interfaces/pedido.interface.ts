@@ -1,8 +1,8 @@
 export interface PedidoLineaInterface {
   id: number;
   idArticulo: number;
+  nombreArticulo: string;
   localizador: number;
-  descripcion: string;
   idMarca: number;
   marca: string;
   unidades: number;

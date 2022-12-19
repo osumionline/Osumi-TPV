@@ -10,8 +10,8 @@ export class PedidoLinea {
   constructor(
     public id: number = null,
     public idArticulo: number = null,
+    public nombreArticulo: string = null,
     public localizador: number = null,
-    public descripcion: string = null,
     public idMarca: number = null,
     public marca: string = null,
     public unidades: number = null,
@@ -49,8 +49,8 @@ export class PedidoLinea {
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
     this.id = pl.id;
     this.idArticulo = pl.idArticulo;
+    this.nombreArticulo = Utils.urldecode(pl.nombreArticulo);
     this.localizador = pl.localizador;
-    this.descripcion = Utils.urldecode(pl.descripcion);
     this.idMarca = pl.idMarca;
     this.marca = Utils.urldecode(pl.marca);
     this.unidades = pl.unidades;
@@ -70,8 +70,8 @@ export class PedidoLinea {
   fromArticulo(a: Articulo): PedidoLinea {
     this.id = null;
     this.idArticulo = a.id;
+    this.nombreArticulo = a.nombre;
     this.localizador = a.localizador;
-    this.descripcion = a.nombre;
     this.idMarca = a.idMarca;
     this.marca = a.marca;
     this.unidades = 1;
@@ -95,8 +95,8 @@ export class PedidoLinea {
     return {
       id: this.id,
       idArticulo: this.idArticulo,
+      nombreArticulo: Utils.urlencode(this.nombreArticulo),
       localizador: this.localizador,
-      descripcion: Utils.urlencode(this.descripcion),
       idMarca: this.idMarca,
       marca: Utils.urlencode(this.marca),
       unidades: this.unidades,
