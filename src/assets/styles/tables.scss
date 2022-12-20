@@ -10,18 +10,32 @@ table {
             justify-content: center;
         }
 
+        &.center {
+            text-align: center;
+        }
+
         &.right>.mat-sort-header-container {
             justify-content: flex-end;
+        }
+
+        &.right {
+            text-align: right;
         }
     }
 
     .mat-mdc-cell {
+        min-width: 105px;
+
         &.center {
             text-align: center;
         }
 
         &.right {
             text-align: right;
+        }
+
+        &>.icon {
+            vertical-align: middle;
         }
 
         &>div.pay-type {

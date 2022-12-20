@@ -25,6 +25,11 @@ export interface PedidoPDFInterface {
   deleted: boolean;
 }
 
+export interface PedidoVistaInterface {
+  idColumn: number;
+  status: boolean;
+}
+
 export interface PedidoInterface {
   id: number;
   idProveedor: number;
@@ -35,12 +40,15 @@ export interface PedidoInterface {
   numAlbaranFactura: string;
   fechaPago: string;
   fechaPedido: string;
+  fechaRecepcionado: string;
   lineas: PedidoLineaInterface[];
   importe: number;
   portes: number;
   faltas: boolean;
   recepcionado: boolean;
+  observaciones: string;
   pdfs: PedidoPDFInterface[];
+  vista: PedidoVistaInterface[];
 }
 
 export interface PedidosFilterInterface {
@@ -59,6 +67,12 @@ export interface PedidosAllResult {
   recepcionados: PedidoInterface[];
   guardadosPags: number;
   recepcionadosPags: number;
+}
+
+export interface PedidoSaveResult {
+  status: string;
+  id: number;
+  message: string;
 }
 
 export interface PedidoResult {

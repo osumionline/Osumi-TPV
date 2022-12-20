@@ -16,6 +16,7 @@ import { IVAOption } from "src/app/model/iva-option.model";
 import { Marca } from "src/app/model/marca.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/pedido-pdf.model";
+import { PedidoVista } from "src/app/model/pedido-vista.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -25,6 +26,7 @@ import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { Utils } from "src/app/shared/utils.class";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "otpv-pedido",
@@ -44,19 +46,25 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   colOptions: PedidosColOption[] = [
     {
       id: 1,
+      value: "Ordenar",
+      colname: "ordenar",
+      selected: true,
+      default: false,
+    },
+    {
+      id: 2,
       value: "Localizador",
       colname: "localizador",
       selected: true,
       default: true,
     },
     {
-      id: 2,
+      id: 3,
       value: "Descripción",
       colname: "nombreArticulo",
       selected: true,
       default: true,
     },
-    { id: 3, value: "Marca", colname: "marca", selected: true, default: false },
     {
       id: 4,
       value: "Referencia",
@@ -64,17 +72,11 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       selected: false,
       default: false,
     },
-    {
-      id: 5,
-      value: "Cod. Barras",
-      colname: "codBarras",
-      selected: false,
-      default: false,
-    },
+    { id: 5, value: "Marca", colname: "marca", selected: true, default: false },
     {
       id: 6,
-      value: "Stock actual",
-      colname: "stock",
+      value: "Cod. Barras",
+      colname: "codBarras",
       selected: false,
       default: false,
     },
@@ -87,19 +89,25 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     },
     {
       id: 8,
+      value: "Stock actual",
+      colname: "stock",
+      selected: false,
+      default: false,
+    },
+    {
+      id: 9,
+      value: "Stock final",
+      colname: "stockFinal",
+      selected: false,
+      default: false,
+    },
+    {
+      id: 10,
       value: "Precio albarán",
       colname: "palb",
       selected: true,
       default: true,
     },
-    {
-      id: 9,
-      value: "Subtotal",
-      colname: "subtotal",
-      selected: true,
-      default: true,
-    },
-    { id: 10, value: "IVA", colname: "iva", selected: false, default: false },
     {
       id: 11,
       value: "Descuento",
@@ -109,34 +117,42 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     },
     {
       id: 12,
+      value: "Subtotal",
+      colname: "subtotal",
+      selected: true,
+      default: true,
+    },
+    { id: 13, value: "IVA", colname: "iva", selected: false, default: false },
+    {
+      id: 14,
       value: "PUC",
       colname: "puc",
       selected: true,
       default: true,
     },
     {
-      id: 13,
+      id: 15,
       value: "Total",
       colname: "total",
       selected: true,
       default: true,
     },
     {
-      id: 14,
+      id: 16,
       value: "PVP",
       colname: "pvp",
       selected: true,
       default: true,
     },
     {
-      id: 15,
+      id: 17,
       value: "Margen",
       colname: "margen",
       selected: true,
       default: true,
     },
     {
-      id: 16,
+      id: 18,
       value: "Borrar",
       colname: "borrar",
       selected: true,
@@ -146,13 +162,14 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   colOptionsSelected: number[] = [];
 
   pedidoDisplayedColumns: string[] = [];
-
   pedidoDataSource: MatTableDataSource<PedidoLinea> =
     new MatTableDataSource<PedidoLinea>();
   @ViewChild(MatSort) sort: MatSort;
 
   nuevoLocalizador: number = null;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
+
+  pdfsUrl: string = environment.pdfsUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -180,8 +197,15 @@ export class PedidoComponent implements OnInit, AfterViewInit {
                 (x: PedidosColOption): boolean => x.id === 16
               );
               this.colOptions.splice(borrarInd, 1);
-              this.changeOptions();
             }
+
+            this.colOptionsSelected = [];
+            for (let pv of this.pedido.vista) {
+              if (pv.status) {
+                this.colOptionsSelected.push(pv.idColumn);
+              }
+            }
+            this.changeOptions();
 
             this.titulo = "Pedido " + this.pedido.id;
             this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
@@ -227,6 +251,31 @@ export class PedidoComponent implements OnInit, AfterViewInit {
       }
     }
     this.pedidoDisplayedColumns = list;
+  }
+
+  ordenarLinea(localizador: number, sent: string): void {
+    const ind: number = this.pedido.lineas.findIndex(
+      (x: PedidoLinea): boolean => {
+        return x.localizador === localizador;
+      }
+    );
+    let nextInd: number = null;
+    if (sent === "up") {
+      if (ind === 0) {
+        return;
+      }
+      nextInd = ind - 1;
+    }
+    if (sent === "down") {
+      if (ind === this.pedido.lineas.length - 1) {
+        return;
+      }
+      nextInd = ind + 1;
+    }
+    const aux: PedidoLinea = this.pedido.lineas[ind];
+    this.pedido.lineas[ind] = this.pedido.lineas[nextInd];
+    this.pedido.lineas[nextInd] = aux;
+    this.pedidoDataSource.data = this.pedido.lineas;
   }
 
   updateIvaRe(ivaOption: string, linea: PedidoLinea): void {
@@ -304,14 +353,37 @@ export class PedidoComponent implements OnInit, AfterViewInit {
           return x.localizador === localizador;
         }
       );
-      const previousInd: number = ind - 1;
-      const nextInd: number = ind + 1;
+      let previousInd: number = ind - 1;
+      let nextInd: number = ind + 1;
       let newLocalizador: number = null;
       if (ev.key === "ArrowUp" && previousInd !== -1) {
-        newLocalizador = this.pedido.lineas[previousInd].localizador;
+        if (target[1] === "codBarras") {
+          while (newLocalizador === null && previousInd > 0) {
+            if (this.pedido.lineas[previousInd].showCodigoBarras) {
+              newLocalizador = this.pedido.lineas[previousInd].localizador;
+            } else {
+              previousInd--;
+            }
+          }
+        } else {
+          newLocalizador = this.pedido.lineas[previousInd].localizador;
+        }
       }
       if (ev.key === "ArrowDown" && nextInd < this.pedido.lineas.length) {
-        newLocalizador = this.pedido.lineas[nextInd].localizador;
+        if (target[1] === "codBarras") {
+          while (
+            newLocalizador === null &&
+            nextInd < this.pedido.lineas.length
+          ) {
+            if (this.pedido.lineas[nextInd].showCodigoBarras) {
+              newLocalizador = this.pedido.lineas[nextInd].localizador;
+            } else {
+              nextInd++;
+            }
+          }
+        } else {
+          newLocalizador = this.pedido.lineas[nextInd].localizador;
+        }
       }
       if (newLocalizador !== null) {
         document
@@ -407,6 +479,15 @@ export class PedidoComponent implements OnInit, AfterViewInit {
     this.pedido.fechaPago = Utils.getDate(this.fechaPago);
     this.pedido.fechaPedido = Utils.getDate(this.fechaPedido);
     this.pedido.importe = this.pedido.total;
+    this.pedido.vista = [];
+    for (let opt of this.colOptions) {
+      this.pedido.vista.push(
+        new PedidoVista(
+          opt.id,
+          opt.default || this.colOptionsSelected.includes(opt.id)
+        )
+      );
+    }
 
     if (this.pedido.idProveedor === -1) {
       this.dialog
@@ -495,7 +576,9 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         this.dialog
           .alert({
             title: "Error",
-            content: "Ha ocurrido un error al guardar el pedido.",
+            content:
+              "Los siguientes códigos de barras ya están siendo usados: " +
+              Utils.urldecode(result.message),
             ok: "Continuar",
           })
           .subscribe((result) => {});

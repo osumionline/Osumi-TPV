@@ -58,6 +58,9 @@
     }
 
     .pedido-table {
+        max-width: 100%;
+        overflow-x: auto;
+
         a {
             color: #000;
             text-decoration: none;
@@ -105,6 +108,19 @@
                         white-space: nowrap;
                         text-overflow: ellipsis;
                     }
+
+                    a {
+                        color: #000;
+                        text-decoration: none;
+                        flex: 1;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+
+                        &:hover {
+                            font-weight: bold;
+                        }
+                    }
                 }
 
                 .no-files {
@@ -122,6 +138,10 @@
                     }
                 }
             }
+        }
+
+        .pedido-observaciones {
+            width: 30%;
         }
 
         .pedido-totales {

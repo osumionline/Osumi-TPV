@@ -3,4 +3,5 @@ export const environment = {
   baseUrl: "https://apitpv.osumi.dev/",
   apiUrl: "https://apitpv.osumi.dev/api",
   fotosUrl: "https://apitpv.osumi.dev/fotos/",
+  pdfsUrl: "https://apitpv.osumi.dev/pdf/",
 };

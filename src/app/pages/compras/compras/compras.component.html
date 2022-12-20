@@ -168,7 +168,12 @@
                     Proveedor
                 </th>
                 <td mat-cell
-                    *matCellDef="let element"> {{element.proveedor}} </td>
+                    *matCellDef="let element">
+                    {{element.proveedor}}
+                    <mat-icon *ngIf="element.observaciones"
+                              class="icon"
+                              [title]="element.observacionesShort">info_outline</mat-icon>
+                </td>
             </ng-container>
 
             <!-- Albarán -->
@@ -196,11 +201,11 @@
             </ng-container>
 
             <tr mat-header-row
-                *matHeaderRowDef="pedidosDisplayedColumns"></tr>
+                *matHeaderRowDef="pedidosGuardadosDisplayedColumns"></tr>
             <tr mat-row
                 class="clickable"
                 (click)="goToPedido(row)"
-                *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
+                *matRowDef="let row; columns: pedidosGuardadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="pedidosGuardadosDataSource.data.length > 0"
                        [length]="20"
@@ -321,16 +326,16 @@
                matSort
                class="mat-elevation-z2 ">
 
-            <!-- Fecha pedido -->
-            <ng-container matColumnDef="fechaPedido">
+            <!-- Fecha recepcionado -->
+            <ng-container matColumnDef="fechaRecepcionado">
                 <th mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
-                    sortActionDescription="Ordenar por fecha pedido">
-                    Fecha pedido
+                    sortActionDescription="Ordenar por fecha recepcionado">
+                    Fecha recepcionado
                 </th>
                 <td mat-cell
-                    *matCellDef="let element"> {{element.fechaPedido}} </td>
+                    *matCellDef="let element"> {{element.fechaRecepcionado}} </td>
             </ng-container>
 
             <!-- Proveedor -->
@@ -342,7 +347,11 @@
                     Proveedor
                 </th>
                 <td mat-cell
-                    *matCellDef="let element"> {{element.proveedor}} </td>
+                    *matCellDef="let element">
+                    {{element.proveedor}}
+                    <mat-icon *ngIf="element.observaciones"
+                              [title]="element.observacionesShort">info_outline</mat-icon>
+                </td>
             </ng-container>
 
             <!-- Albarán -->
@@ -370,11 +379,11 @@
             </ng-container>
 
             <tr mat-header-row
-                *matHeaderRowDef="pedidosDisplayedColumns"></tr>
+                *matHeaderRowDef="pedidosRecepcionadosDisplayedColumns"></tr>
             <tr mat-row
                 class="clickable"
                 (click)="goToPedido(row)"
-                *matRowDef="let row; columns: pedidosDisplayedColumns;"></tr>
+                *matRowDef="let row; columns: pedidosRecepcionadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="pedidosRecepcionadosDataSource.data.length > 0"
                        [length]="20"

@@ -2,11 +2,13 @@ import {
   PedidoInterface,
   PedidoLineaInterface,
   PedidoPDFInterface,
+  PedidoVistaInterface,
   TotalsIVAOption,
 } from "src/app/interfaces/pedido.interface";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { PedidoLinea } from "src/app/model/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/pedido-pdf.model";
+import { PedidoVista } from "src/app/model/pedido-vista.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Pedido {
@@ -22,12 +24,15 @@ export class Pedido {
     public numAlbaranFactura: string = null,
     public fechaPago: string = null,
     public fechaPedido: string = null,
+    public fechaRecepcionado: string = null,
     public lineas: PedidoLinea[] = [],
     public importe: number = null,
     public portes: number = 0,
     public faltas: boolean = false,
     public recepcionado: boolean = false,
-    public pdfs: PedidoPDF[] = []
+    public observaciones: string = null,
+    public pdfs: PedidoPDF[] = [],
+    public vista: PedidoVista[] = []
   ) {}
 
   get totalArticulos(): number {
@@ -114,6 +119,16 @@ export class Pedido {
     return (100 * (pvp - puc)) / pvp;
   }
 
+  get observacionesShort(): string {
+    if (this.observaciones === null) {
+      return null;
+    }
+    if (this.observaciones.length > 50) {
+      return this.observaciones.substring(0, 50) + "...";
+    }
+    return this.observaciones;
+  }
+
   fromInterface(p: PedidoInterface): Pedido {
     this.id = p.id;
     this.idProveedor = p.idProveedor;
@@ -124,6 +139,7 @@ export class Pedido {
     this.numAlbaranFactura = Utils.urldecode(p.numAlbaranFactura);
     this.fechaPago = Utils.urldecode(p.fechaPago);
     this.fechaPedido = Utils.urldecode(p.fechaPedido);
+    this.fechaRecepcionado = Utils.urldecode(p.fechaRecepcionado);
     this.lineas = p.lineas.map((l: PedidoLineaInterface): PedidoLinea => {
       return new PedidoLinea().fromInterface(l);
     });
@@ -131,8 +147,12 @@ export class Pedido {
     this.portes = p.portes;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
+    this.observaciones = Utils.urldecode(p.observaciones);
     this.pdfs = p.pdfs.map((p: PedidoPDFInterface): PedidoPDF => {
       return new PedidoPDF().fromInterface(p);
+    });
+    this.vista = p.vista.map((pv: PedidoVistaInterface): PedidoVista => {
+      return new PedidoVista().fromInterface(pv);
     });
 
     return this;
@@ -149,6 +169,7 @@ export class Pedido {
       numAlbaranFactura: Utils.urlencode(this.numAlbaranFactura),
       fechaPago: Utils.urlencode(this.fechaPago),
       fechaPedido: Utils.urlencode(this.fechaPedido),
+      fechaRecepcionado: Utils.urlencode(this.fechaRecepcionado),
       lineas: this.lineas.map((l: PedidoLinea): PedidoLineaInterface => {
         return l.toInterface();
       }),
@@ -156,8 +177,12 @@ export class Pedido {
       portes: this.portes,
       faltas: this.faltas,
       recepcionado: this.recepcionado,
+      observaciones: Utils.urlencode(this.observaciones),
       pdfs: this.pdfs.map((p: PedidoPDF): PedidoPDFInterface => {
         return p.toInterface();
+      }),
+      vista: this.vista.map((pv: PedidoVista): PedidoVistaInterface => {
+        return pv.toInterface();
       }),
     };
   }

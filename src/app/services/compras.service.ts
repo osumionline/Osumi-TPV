@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { IdSaveResult } from "src/app/interfaces/interfaces";
 import {
   PedidoInterface,
   PedidoResult,
   PedidosAllResult,
+  PedidoSaveResult,
   PedidosFilterInterface,
   PedidosResult,
 } from "src/app/interfaces/pedido.interface";
@@ -95,8 +95,8 @@ export class ComprasService {
     );
   }
 
-  savePedido(pedido: PedidoInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
+  savePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
+    return this.http.post<PedidoSaveResult>(
       environment.apiUrl + "-compras/save-pedido",
       pedido
     );
