@@ -96,46 +96,6 @@
 	}
 
 	.elegir-clientes-result {
-		border: 1px solid #ccc;
-		border-radius: 6px;
-
-		.elegir-clientes-header {
-			display: flex;
-			border-bottom: 1px solid #ccc;
-		}
-
-		.elegir-clientes-item {
-			display: flex;
-			border-bottom: 1px solid #ccc;
-
-			&:last-child {
-				border-bottom: 0;
-			}
-
-			&:hover {
-				background-color: #3f51b5;
-				color: #fff;
-				cursor: pointer;
-			}
-		}
-
-		.elegir-clientes-nombre {
-			padding: 6px;
-			flex: 2;
-		}
-
-		.elegir-clientes-telefono {
-			padding: 6px;
-			flex: 1;
-			text-align: center;
-		}
-
-		.elegir-clientes-ultima {
-			padding: 6px;
-			flex: 1;
-			text-align: center;
-		}
-
 		.elegir-clientes-no-result {
 			padding: 4px;
 			text-align: center;

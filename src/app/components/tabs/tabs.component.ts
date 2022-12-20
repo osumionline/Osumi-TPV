@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,6 +8,8 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { ProvinceInterface } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
@@ -22,7 +25,7 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./tabs.component.html",
   styleUrls: ["./tabs.component.scss"],
 })
-export class TabsComponent {
+export class TabsComponent implements AfterViewInit {
   @Input() showClose: boolean = false;
   @Output() closeTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() newTabEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -42,6 +45,15 @@ export class TabsComponent {
   searched: boolean = false;
   searchResult: Cliente[] = [];
 
+  buscadorDisplayedColumns: string[] = [
+    "nombreApellidos",
+    "telefono",
+    "ultimaVenta",
+  ];
+  buscadorDataSource: MatTableDataSource<Cliente> =
+    new MatTableDataSource<Cliente>();
+  @ViewChild(MatSort) sort: MatSort;
+
   nuevoCliente: Cliente = new Cliente();
   @ViewChild("nuevoClienteBoxName", { static: true })
   nuevoClienteBoxName: ElementRef;
@@ -56,6 +68,10 @@ export class TabsComponent {
     public vs: VentasService,
     public es: EmpleadosService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.buscadorDataSource.sort = this.sort;
+  }
 
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent): void {
@@ -138,6 +154,7 @@ export class TabsComponent {
       this.searched = true;
       if (result.status === "ok") {
         this.searchResult = this.cms.getClientes(result.list);
+        this.buscadorDataSource.data = this.searchResult;
       } else {
         this.dialog.alert({
           title: "Error",
