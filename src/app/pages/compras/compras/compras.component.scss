@@ -5,22 +5,6 @@
     &>div {
         display: flex;
         flex: 1;
-
-        &.left {
-            justify-content: flex-start;
-        }
-
-        &.center {
-            justify-content: center;
-        }
-
-        &.right {
-            justify-content: flex-end;
-
-            .middle-button {
-                margin: 0 8px;
-            }
-        }
     }
 }
 

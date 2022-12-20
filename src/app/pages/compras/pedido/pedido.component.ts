@@ -1,12 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatSelect } from "@angular/material/select";
-import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
@@ -33,7 +26,7 @@ import { environment } from "src/environments/environment";
   templateUrl: "./pedido.component.html",
   styleUrls: ["./pedido.component.scss"],
 })
-export class PedidoComponent implements OnInit, AfterViewInit {
+export class PedidoComponent implements OnInit {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
   @ViewChild("newProveedor", { static: true })
@@ -164,7 +157,6 @@ export class PedidoComponent implements OnInit, AfterViewInit {
   pedidoDisplayedColumns: string[] = [];
   pedidoDataSource: MatTableDataSource<PedidoLinea> =
     new MatTableDataSource<PedidoLinea>();
-  @ViewChild(MatSort) sort: MatSort;
 
   nuevoLocalizador: number = null;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
@@ -234,10 +226,6 @@ export class PedidoComponent implements OnInit, AfterViewInit {
         this.localizadorBox.nativeElement.focus();
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.pedidoDataSource.sort = this.sort;
   }
 
   openProveedor(): void {

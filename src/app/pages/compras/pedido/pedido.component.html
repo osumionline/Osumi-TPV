@@ -11,6 +11,12 @@
         <span>{{titulo}}</span>
         <div class="actions">
             <button mat-raised-button
+                    color="warn">
+                <mat-icon>delete</mat-icon>
+                Borrar
+            </button>
+            <mat-checkbox>Autoguardado</mat-checkbox>
+            <button mat-raised-button
                     color="primary"
                     (click)="guardar()">
                 <mat-icon>save</mat-icon>
@@ -138,32 +144,20 @@
                 <ng-container matColumnDef="ordenar">
                     <th mat-header-cell
                         class="center"
-                        *matHeaderCellDef>
-                        Ordenar
-                    </th>
+                        *matHeaderCellDef></th>
                     <td mat-cell
                         class="center"
                         *matCellDef="let element">
-                        <button mat-icon-button
-                                tabindex="-1"
-                                (click)="ordenarLinea(element.localizador, 'up')">
-                            <mat-icon>expand_less</mat-icon>
-                        </button>
-                        <button mat-icon-button
-                                tabindex="-1"
-                                (click)="ordenarLinea(element.localizador, 'down')">
-                            <mat-icon>expand_more</mat-icon>
-                        </button>
+                        <mat-icon (click)="ordenarLinea(element.localizador, 'up')">expand_less</mat-icon>
+                        <mat-icon (click)="ordenarLinea(element.localizador, 'down')">expand_more</mat-icon>
                     </td>
                 </ng-container>
 
                 <!-- Localizador -->
                 <ng-container matColumnDef="localizador">
                     <th mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por localizador">
-                        Localizador
+                        *matHeaderCellDef>
+                        Loc.
                     </th>
                     <td mat-cell
                         *matCellDef="let element"> {{element.localizador}} </td>
@@ -172,9 +166,7 @@
                 <!-- Nombre artículo -->
                 <ng-container matColumnDef="nombreArticulo">
                     <th mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por descripción">
+                        *matHeaderCellDef>
                         Descripción
                     </th>
                     <td mat-cell
@@ -188,9 +180,7 @@
                 <!-- Referencia -->
                 <ng-container matColumnDef="referencia">
                     <th mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por referencia">
+                        *matHeaderCellDef>
                         Referencia
                     </th>
                     <td mat-cell
@@ -200,9 +190,7 @@
                 <!-- Marca -->
                 <ng-container matColumnDef="marca">
                     <th mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por marca">
+                        *matHeaderCellDef>
                         Marca
                     </th>
                     <td mat-cell
@@ -213,9 +201,7 @@
                 <ng-container matColumnDef="codBarras">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        class="center"
-                        sortActionDescription="Ordenar por código barras">
+                        class="center">
                         Cod. Barras
                     </th>
                     <td mat-cell
@@ -241,13 +227,11 @@
                 <ng-container matColumnDef="unidades">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        [ngClass]="{'center': pedido.recepcionado}"
-                        sortActionDescription="Ordenar por unidades">
+                        class="right">
                         Unidades
                     </th>
                     <td mat-cell
-                        [ngClass]="{'center': pedido.recepcionado}"
+                        class="right"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
                                         subscriptSizing="dynamic"
@@ -266,28 +250,24 @@
 
                 <!-- Stock -->
                 <ng-container matColumnDef="stock">
-                    <th class="center"
+                    <th class="right"
                         mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por stock">
+                        *matHeaderCellDef>
                         Stock
                     </th>
-                    <td class="center"
+                    <td class="right"
                         mat-cell
                         *matCellDef="let element"> {{element.stock}} </td>
                 </ng-container>
 
                 <!-- Stock final -->
                 <ng-container matColumnDef="stockFinal">
-                    <th class="center"
+                    <th class="right"
                         mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por stock final">
+                        *matHeaderCellDef>
                         Stock final
                     </th>
-                    <td class="center"
+                    <td class="right"
                         mat-cell
                         *matCellDef="let element"> {{element.stock + element.unidades}} </td>
                 </ng-container>
@@ -296,13 +276,11 @@
                 <ng-container matColumnDef="palb">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        [ngClass]="{'center': pedido.recepcionado}"
-                        sortActionDescription="Ordenar por precio albarán">
+                        class="right">
                         P. Alb.
                     </th>
                     <td mat-cell
-                        [ngClass]="{'center': pedido.recepcionado}"
+                        class="right"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
                                         subscriptSizing="dynamic"
@@ -324,13 +302,11 @@
                 <ng-container matColumnDef="descuento">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        [ngClass]="{'center': pedido.recepcionado}"
-                        sortActionDescription="Ordenar por descuento">
+                        class="right">
                         Descuento
                     </th>
                     <td mat-cell
-                        [ngClass]="{'center': pedido.recepcionado}"
+                        class="right"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
                                         *ngIf="!pedido.recepcionado"
@@ -352,11 +328,11 @@
                 <ng-container matColumnDef="subtotal">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por subtotal">
+                        class="right">
                         Subtotal
                     </th>
                     <td mat-cell
+                        class="right"
                         *matCellDef="let element"> {{element.subtotal | fixedNumber}} € </td>
                 </ng-container>
 
@@ -364,11 +340,11 @@
                 <ng-container matColumnDef="iva">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por iva">
+                        class="right">
                         IVA
                     </th>
                     <td mat-cell
+                        class="right"
                         *matCellDef="let element">
                         <mat-form-field class="x-small"
                                         *ngIf="!pedido.recepcionado"
@@ -390,11 +366,11 @@
                 <ng-container matColumnDef="puc">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por PUC">
+                        class="right">
                         PUC
                     </th>
                     <td mat-cell
+                        class="right"
                         *matCellDef="let element"> {{element.puc | fixedNumber}} € </td>
                 </ng-container>
 
@@ -402,11 +378,11 @@
                 <ng-container matColumnDef="total">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por Total">
+                        class="right">
                         Total
                     </th>
                     <td mat-cell
+                        class="right"
                         *matCellDef="let element"> {{element.total | fixedNumber}} € </td>
                 </ng-container>
 
@@ -414,13 +390,11 @@
                 <ng-container matColumnDef="pvp">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        [ngClass]="{'center': pedido.recepcionado}"
-                        sortActionDescription="Ordenar por PVP">
+                        class="right">
                         PVP
                     </th>
                     <td mat-cell
-                        [ngClass]="{'center': pedido.recepcionado}"
+                        class="right"
                         *matCellDef="let element">
                         <mat-form-field class="campo-numero-small x-small"
                                         *ngIf="!pedido.recepcionado"
@@ -442,11 +416,11 @@
                 <ng-container matColumnDef="margen">
                     <th mat-header-cell
                         *matHeaderCellDef
-                        mat-sort-header
-                        sortActionDescription="Ordenar por Margen">
+                        class="right">
                         Margen
                     </th>
                     <td mat-cell
+                        class="right"
                         *matCellDef="let element"> {{element.margen | fixedNumber}} % </td>
                 </ng-container>
 
@@ -454,18 +428,11 @@
                 <ng-container matColumnDef="borrar">
                     <th class="center"
                         mat-header-cell
-                        *matHeaderCellDef
-                        sortActionDescription="Borrar">
-                        Borrar
-                    </th>
+                        *matHeaderCellDef></th>
                     <td class="center"
                         mat-cell
                         *matCellDef="let element">
-                        <button mat-icon-button
-                                tabindex="-1"
-                                (click)="borrarLinea(element.localizador)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <mat-icon (click)="borrarLinea(element.localizador)">delete</mat-icon>
                     </td>
                 </ng-container>
 
