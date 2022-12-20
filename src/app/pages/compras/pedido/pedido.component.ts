@@ -192,18 +192,23 @@ export class PedidoComponent implements OnInit, AfterViewInit {
             this.pedido = new Pedido().fromInterface(result.pedido);
             this.pedido.ivaOptions = this.config.ivaOptions;
 
-            if (this.pedido.recepcionado) {
-              const borrarInd: number = this.colOptions.findIndex(
-                (x: PedidosColOption): boolean => x.id === 16
-              );
-              this.colOptions.splice(borrarInd, 1);
-            }
-
             this.colOptionsSelected = [];
             for (let pv of this.pedido.vista) {
               if (pv.status) {
                 this.colOptionsSelected.push(pv.idColumn);
               }
+            }
+            if (this.pedido.recepcionado) {
+              const ordenarId: number = 1;
+              const borrarId: number = 18;
+              const ordenarInd: number = this.colOptions.findIndex(
+                (x: PedidosColOption): boolean => x.id === ordenarId
+              );
+              this.colOptions.splice(ordenarInd, 1);
+              const borrarInd: number = this.colOptions.findIndex(
+                (x: PedidosColOption): boolean => x.id === borrarId
+              );
+              this.colOptions.splice(borrarInd, 1);
             }
             this.changeOptions();
 

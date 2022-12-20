@@ -9,8 +9,7 @@
             <mat-icon>chevron_left</mat-icon>
         </button>
         <span>{{titulo}}</span>
-        <div class="actions"
-             *ngIf="!pedido.recepcionado">
+        <div class="actions">
             <button mat-raised-button
                     color="primary"
                     (click)="guardar()">
@@ -19,6 +18,7 @@
             </button>
             <button mat-raised-button
                     color="primary"
+                    *ngIf="!pedido.recepcionado"
                     (click)="recepcionar()">
                 <mat-icon>beenhere</mat-icon>
                 Recepcionar
@@ -33,8 +33,7 @@
             <div class="row">
                 <div class="form-field">
                     <label>Proveedor (*)</label>
-                    <mat-form-field subscriptSizing="dynamic"
-                                    *ngIf="!pedido.recepcionado">
+                    <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.idProveedor"
                                     #proveedoresValue>
                             <mat-option [value]="-1">Elige proveedor</mat-option>
@@ -47,38 +46,23 @@
                     <button mat-icon-button
                             title="Añadir nuevo proveedor"
                             type="button"
-                            *ngIf="!pedido.recepcionado"
                             (click)="openProveedor()">
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
-                    <div class="empty-placeholder"
-                         *ngIf="pedido.recepcionado">
-                        {{ pedido.proveedor }}
-                    </div>
                 </div>
-                <div class="form-field re-ue"
-                     *ngIf="!pedido.recepcionado">
-                    <mat-checkbox *ngIf="config.tipoIva === 're'"
+                <div class="form-field re-ue">
+                    <mat-checkbox *ngIf="config.tipoIva === 're' && !pedido.recepcionado"
                                   [(ngModel)]="pedido.re">R.E.</mat-checkbox>
-                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
-                </div>
-                <div class="form-field re-ue re-ue-wide"
-                     *ngIf="pedido.recepcionado">
-                    <span *ngIf="config.tipoIva === 're'">
+                    <span *ngIf="config.tipoIva === 're' && pedido.recepcionado">
                         <mat-icon *ngIf="pedido.re">check_box</mat-icon>
                         <mat-icon *ngIf="!pedido.re">check_box_outline_blank</mat-icon>
                         <label>R.E.</label>
                     </span>
-                    <span>
-                        <mat-icon *ngIf="pedido.ue">check_box</mat-icon>
-                        <mat-icon *ngIf="!pedido.ue">check_box_outline_blank</mat-icon>
-                        <label>UE</label>
-                    </span>
+                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
                     <label>Fecha pedido</label>
-                    <mat-form-field subscriptSizing="dynamic"
-                                    *ngIf="!pedido.recepcionado">
+                    <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                [matDatepicker]="fechaPedidoPicker"
                                [(ngModel)]="fechaPedido">
@@ -86,10 +70,6 @@
                                                [for]="fechaPedidoPicker"></mat-datepicker-toggle>
                         <mat-datepicker #fechaPedidoPicker></mat-datepicker>
                     </mat-form-field>
-                    <div class="empty-placeholder"
-                         *ngIf="pedido.recepcionado">
-                        {{ pedido.fechaPedido }}
-                    </div>
                 </div>
                 <div class="right-option">
                     <button mat-raised-button
@@ -104,48 +84,32 @@
             <div class="row">
                 <div class="form-field">
                     <label>Albarán / Factura</label>
-                    <mat-form-field subscriptSizing="dynamic"
-                                    *ngIf="!pedido.recepcionado">
+                    <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.albaranFactura">
                             <mat-option value="albaran">Albarán</mat-option>
                             <mat-option value="factura">Factura</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <div class="empty-placeholder"
-                         *ngIf="pedido.recepcionado">
-                        {{ pedido.albaranFactura === 'albaran' ? 'Albarán' : 'Factura' }}
-                    </div>
                 </div>
                 <div class="form-field">
                     <label>&nbsp;</label>
-                    <mat-form-field subscriptSizing="dynamic"
-                                    *ngIf="!pedido.recepcionado">
+                    <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                placeholder="Número {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
                                [(ngModel)]="pedido.numAlbaranFactura"
                                #numAlbaranFacturaBox>
                     </mat-form-field>
-                    <div class="empty-placeholder"
-                         *ngIf="pedido.recepcionado">
-                        {{ pedido.numAlbaranFactura }}
-                    </div>
                 </div>
                 <div class="form-field">
                     <label>Fecha pago</label>
-                    <mat-form-field subscriptSizing="dynamic"
-                                    *ngIf="!pedido.recepcionado">
+                    <mat-form-field subscriptSizing="dynamic">
                         <input matInput
                                [matDatepicker]="fechaPagoPicker"
-                               [disabled]="pedido.recepcionado"
                                [(ngModel)]="fechaPago">
                         <mat-datepicker-toggle matSuffix
                                                [for]="fechaPagoPicker"></mat-datepicker-toggle>
                         <mat-datepicker #fechaPagoPicker></mat-datepicker>
                     </mat-form-field>
-                    <div class="empty-placeholder"
-                         *ngIf="pedido.recepcionado">
-                        {{ pedido.fechaPago }}
-                    </div>
                 </div>
                 <div class="right-option">
                     <div class="form-field no-padding-right">
