@@ -47,13 +47,13 @@ export class ComprasComponent implements OnInit, AfterViewInit {
   pedidosGuardadosDisplayedColumns: string[] = [
     "fechaPedido",
     "proveedor",
-    "numAlbaranFactura",
+    "num",
     "importe",
   ];
   pedidosRecepcionadosDisplayedColumns: string[] = [
     "fechaRecepcionado",
     "proveedor",
-    "numAlbaranFactura",
+    "num",
     "importe",
   ];
 

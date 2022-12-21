@@ -35,6 +35,29 @@ export class Pedido {
     public vista: PedidoVista[] = []
   ) {}
 
+  get nombreTipo(): string {
+    if (this.tipo === null) {
+      return null;
+    }
+    switch (this.tipo) {
+      case "albaran":
+        {
+          return "Albarán";
+        }
+        break;
+      case "factura":
+        {
+          return "Factura";
+        }
+        break;
+      case "abono":
+        {
+          return "Abono";
+        }
+        break;
+    }
+  }
+
   get totalArticulos(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
