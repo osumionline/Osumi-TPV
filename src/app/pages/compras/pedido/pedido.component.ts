@@ -36,6 +36,9 @@ export class PedidoComponent implements OnInit {
   fechaPago: Date = new Date();
   @ViewChild("numAlbaranFacturaBox", { static: true })
   numAlbaranFacturaBox: ElementRef;
+
+  ivaOptions: IVAOption[] = [];
+
   colOptions: PedidosColOption[] = [
     {
       id: 1,
@@ -176,51 +179,75 @@ export class PedidoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.ivaOptions = this.config.ivaOptions;
+    for (let ivaOption of this.ivaOptions) {
+      ivaOption.updateTipoIva("iva");
+    }
     this.changeOptions();
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id) {
         if (parseInt(params.id) !== 0) {
-          this.cs.getPedido(params.id).subscribe((result) => {
-            this.pedido = new Pedido().fromInterface(result.pedido);
-            this.pedido.ivaOptions = this.config.ivaOptions;
-
-            this.colOptionsSelected = [];
-            for (let pv of this.pedido.vista) {
-              if (pv.status) {
-                this.colOptionsSelected.push(pv.idColumn);
-              }
-            }
-            if (this.pedido.recepcionado) {
-              const borrarId: number = 18;
-              const borrarInd: number = this.colOptions.findIndex(
-                (x: PedidosColOption): boolean => x.id === borrarId
-              );
-              this.colOptions.splice(borrarInd, 1);
-            }
-            this.changeOptions();
-
-            this.titulo = "Pedido " + this.pedido.id;
-            this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
-            this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
-            this.pedidoDataSource.data = this.pedido.lineas;
-            this.localizadorBox.nativeElement.focus();
-          });
+          this.loadPedido(params.id);
         } else {
-          this.pedido = this.cs.pedidoTemporal;
-          if (this.pedido.fechaPago !== null) {
-            this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
-          }
-          if (this.pedido.fechaPedido !== null) {
-            this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
-          }
-          this.pedidoDataSource.data = this.pedido.lineas;
-          this.localizadorBox.nativeElement.focus();
+          this.loadPedidoTemporal();
         }
       } else {
-        this.pedido.ivaOptions = this.config.ivaOptions;
-        this.localizadorBox.nativeElement.focus();
+        this.newPedido();
       }
     });
+  }
+
+  loadPedido(id: number): void {
+    this.cs.getPedido(id).subscribe((result) => {
+      this.pedido = new Pedido().fromInterface(result.pedido);
+      this.pedido.ivaOptions = this.ivaOptions;
+
+      this.colOptionsSelected = [];
+      for (let pv of this.pedido.vista) {
+        if (pv.status) {
+          this.colOptionsSelected.push(pv.idColumn);
+        }
+      }
+      if (this.pedido.recepcionado) {
+        const borrarId: number = 18;
+        const borrarInd: number = this.colOptions.findIndex(
+          (x: PedidosColOption): boolean => x.id === borrarId
+        );
+        this.colOptions.splice(borrarInd, 1);
+      }
+      this.changeOptions();
+
+      for (let linea of this.pedido.lineas) {
+        let ivaOption: IVAOption = new IVAOption("iva", linea.iva, linea.re);
+        if (this.pedido.re) {
+          ivaOption = new IVAOption("re", linea.iva, linea.re);
+        }
+        linea.selectedIvaOption = ivaOption;
+      }
+
+      this.titulo = "Pedido " + this.pedido.id;
+      this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
+      this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+      this.pedidoDataSource.data = this.pedido.lineas;
+      this.localizadorBox.nativeElement.focus();
+    });
+  }
+
+  loadPedidoTemporal(): void {
+    this.pedido = this.cs.pedidoTemporal;
+    if (this.pedido.fechaPago !== null) {
+      this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
+    }
+    if (this.pedido.fechaPedido !== null) {
+      this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+    }
+    this.pedidoDataSource.data = this.pedido.lineas;
+    this.localizadorBox.nativeElement.focus();
+  }
+
+  newPedido(): void {
+    this.pedido.ivaOptions = this.ivaOptions;
+    this.localizadorBox.nativeElement.focus();
   }
 
   openProveedor(): void {
@@ -239,6 +266,25 @@ export class PedidoComponent implements OnInit {
       }
     }
     this.pedidoDisplayedColumns = list;
+  }
+
+  updateTipoIva(): void {
+    for (let ivaOption of this.ivaOptions) {
+      ivaOption.updateTipoIva(this.pedido.re ? "re" : "iva");
+    }
+    for (let linea of this.pedido.lineas) {
+      linea.selectedIvaOption.updateTipoIva(this.pedido.re ? "re" : "iva");
+
+      const ivaInd: number = this.ivaOptions.findIndex(
+        (x: IVAOption): boolean => x.iva == linea.selectedIvaOption.iva
+      );
+      linea.selectedIvaOption.updateValues(
+        this.ivaOptions[ivaInd].iva,
+        this.ivaOptions[ivaInd].re
+      );
+      linea.iva = linea.selectedIvaOption.iva;
+      linea.re = linea.selectedIvaOption.re;
+    }
   }
 
   ordenarLinea(localizador: number, sent: string): void {
@@ -267,12 +313,12 @@ export class PedidoComponent implements OnInit {
   }
 
   updateIvaRe(ivaOption: string, linea: PedidoLinea): void {
-    const ivaInd: number = this.config.ivaOptions.findIndex(
+    const ivaInd: number = this.ivaOptions.findIndex(
       (x: IVAOption): boolean => x.id == ivaOption
     );
     linea.selectedIvaOption.updateValues(
-      this.config.ivaOptions[ivaInd].iva,
-      this.config.ivaOptions[ivaInd].re
+      this.ivaOptions[ivaInd].iva,
+      this.ivaOptions[ivaInd].re
     );
     linea.iva = linea.selectedIvaOption.iva;
     linea.re = linea.selectedIvaOption.re;
@@ -300,8 +346,8 @@ export class PedidoComponent implements OnInit {
           const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
             articulo
           );
-          let ivaOption: IVAOption = new IVAOption("iva", 21);
-          if (this.config.tipoIva === "re") {
+          let ivaOption: IVAOption = new IVAOption("iva", 21, 5.2);
+          if (this.pedido.re) {
             ivaOption = new IVAOption("re", 21, 5.2);
           }
           lineaPedido.selectedIvaOption = ivaOption;
@@ -490,13 +536,13 @@ export class PedidoComponent implements OnInit {
       return false;
     }
 
-    if (this.pedido.numAlbaranFactura === null) {
+    if (this.pedido.tipo === null) {
       this.dialog
         .alert({
           title: "Error",
           content:
             "No has indicado número de " +
-            (this.pedido.albaranFactura === "albaran" ? "albarán" : "factura") +
+            (this.pedido.tipo === "albaran" ? "albarán" : this.pedido.tipo) +
             ".",
           ok: "Continuar",
         })
@@ -578,7 +624,7 @@ export class PedidoComponent implements OnInit {
     this.dialog
       .confirm({
         title: "Confirmar",
-        content: "¿Estás seguro de querer borrar este pedido?",
+        content: "¿Estás seguro de querer eliminar este pedido?",
         ok: "Continuar",
         cancel: "Cancelar",
       })
@@ -590,7 +636,7 @@ export class PedidoComponent implements OnInit {
               .alert({
                 title: "Pedido borrado",
                 content:
-                  "El pedido y todos sus datos han sido correctamente borrados.",
+                  "El pedido y todos sus datos han sido correctamente eliminados.",
                 ok: "Continuar",
               })
               .subscribe((result) => {

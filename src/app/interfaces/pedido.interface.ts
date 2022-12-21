@@ -36,8 +36,8 @@ export interface PedidoInterface {
   proveedor: string;
   re: boolean;
   ue: boolean;
-  albaranFactura: string;
-  numAlbaranFactura: string;
+  tipo: string;
+  num: string;
   fechaPago: string;
   fechaPedido: string;
   fechaRecepcionado: string;

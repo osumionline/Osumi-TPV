@@ -1,7 +1,6 @@
 export class IVAOption {
   id: string = null;
-  name: string = "";
-  value: number = -1;
+  _value: number = -1;
 
   constructor(
     public tipoIVA: string = "iva",
@@ -14,15 +13,31 @@ export class IVAOption {
     this.updateValues(iva, re);
   }
 
-  updateValues(iva: number, re: number) {
+  updateTipoIva(tipoIVA: string): void {
+    this.tipoIVA = tipoIVA;
+    if (this.iva !== -1 || this.re !== -1) {
+      this.id = this.tipoIVA + "_" + this.iva + "_" + this.re;
+    }
+  }
+
+  get name(): string {
+    if (this.tipoIVA === "iva") {
+      return this.iva + "%";
+    } else {
+      return this.iva + " + " + this.re + "%";
+    }
+  }
+
+  get value(): number {
+    if (this.tipoIVA === "iva") {
+      return this.iva;
+    } else {
+      return this.iva + this.re;
+    }
+  }
+
+  updateValues(iva: number, re: number): void {
     this.iva = iva;
     this.re = re;
-    if (this.tipoIVA === "iva") {
-      this.name = this.iva + "%";
-      this.value = this.iva;
-    } else {
-      this.name = this.iva + " + " + this.re + "%";
-      this.value = this.iva + this.re;
-    }
   }
 }

@@ -15,7 +15,7 @@
                     *ngIf="pedido.id !== null && !pedido.recepcionado"
                     (click)="deletePedido()">
                 <mat-icon>delete</mat-icon>
-                Borrar
+                Eliminar
             </button>
             <mat-checkbox *ngIf="!pedido.recepcionado">Autoguardado</mat-checkbox>
             <button mat-raised-button
@@ -39,7 +39,7 @@
     <mat-card-content>
         <div class="pedido-options">
             <div class="row">
-                <div class="form-field">
+                <div class="form-field with-btn">
                     <label>Proveedor (*)</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.idProveedor"
@@ -58,9 +58,29 @@
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
+                <div class="form-field">
+                    <label>Tipo</label>
+                    <mat-form-field subscriptSizing="dynamic">
+                        <mat-select [(ngModel)]="pedido.tipo">
+                            <mat-option value="albaran">Albarán</mat-option>
+                            <mat-option value="factura">Factura</mat-option>
+                            <mat-option value="abono">Abono</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field">
+                    <label>&nbsp;</label>
+                    <mat-form-field subscriptSizing="dynamic">
+                        <input matInput
+                               placeholder="Número {{pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo}}"
+                               [(ngModel)]="pedido.num"
+                               #numAlbaranFacturaBox>
+                    </mat-form-field>
+                </div>
                 <div class="form-field re-ue">
                     <mat-checkbox *ngIf="config.tipoIva === 're' && !pedido.recepcionado"
-                                  [(ngModel)]="pedido.re">R.E.</mat-checkbox>
+                                  [(ngModel)]="pedido.re"
+                                  (ngModelChange)="updateTipoIva()">R.E.</mat-checkbox>
                     <span *ngIf="config.tipoIva === 're' && pedido.recepcionado">
                         <mat-icon *ngIf="pedido.re">check_box</mat-icon>
                         <mat-icon *ngIf="!pedido.re">check_box_outline_blank</mat-icon>
@@ -79,35 +99,6 @@
                         <mat-datepicker #fechaPedidoPicker></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="right-option">
-                    <button mat-raised-button
-                            color="primary"
-                            type="button"
-                            *ngIf="!pedido.recepcionado">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        Crear nuevo artículo
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-field">
-                    <label>Albarán / Factura</label>
-                    <mat-form-field subscriptSizing="dynamic">
-                        <mat-select [(ngModel)]="pedido.albaranFactura">
-                            <mat-option value="albaran">Albarán</mat-option>
-                            <mat-option value="factura">Factura</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="form-field">
-                    <label>&nbsp;</label>
-                    <mat-form-field subscriptSizing="dynamic">
-                        <input matInput
-                               placeholder="Número {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}"
-                               [(ngModel)]="pedido.numAlbaranFactura"
-                               #numAlbaranFacturaBox>
-                    </mat-form-field>
-                </div>
                 <div class="form-field">
                     <label>Fecha pago</label>
                     <mat-form-field subscriptSizing="dynamic">
@@ -119,20 +110,27 @@
                         <mat-datepicker #fechaPagoPicker></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="right-option">
-                    <div class="form-field no-padding-right">
-                        <label>Mostrar / ocultar columnas</label>
-                        <mat-form-field subscriptSizing="dynamic">
-                            <mat-select [(ngModel)]="colOptionsSelected"
-                                        (selectionChange)="changeOptions()"
-                                        multiple>
-                                <ng-container *ngFor="let option of colOptions">
-                                    <mat-option *ngIf="!option.default"
-                                                [value]="option.id">{{option.value}}</mat-option>
-                                </ng-container>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+                <div class="form-field">
+                    <label>Mostrar / ocultar columnas</label>
+                    <mat-form-field subscriptSizing="dynamic">
+                        <mat-select [(ngModel)]="colOptionsSelected"
+                                    (selectionChange)="changeOptions()"
+                                    multiple>
+                            <ng-container *ngFor="let option of colOptions">
+                                <mat-option *ngIf="!option.default"
+                                            [value]="option.id">{{option.value}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field">
+                    <button mat-raised-button
+                            color="primary"
+                            type="button"
+                            *ngIf="!pedido.recepcionado">
+                        <mat-icon>add_circle_outline</mat-icon>
+                        Crear nuevo artículo
+                    </button>
                 </div>
             </div>
         </div>
@@ -360,7 +358,7 @@
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.selectedIvaOption.id"
                                         (ngModelChange)="updateIvaRe($event, element)">
-                                <mat-option *ngFor="let iva of config.ivaOptions"
+                                <mat-option *ngFor="let iva of ivaOptions"
                                             [value]="iva.id">
                                     {{iva.name}}
                                 </mat-option>
@@ -491,8 +489,7 @@
                     </mat-list>
                     <div *ngIf="pedido.recepcionado && pedido.pdfs.length === 0"
                          class="no-files">No hay ningún PDF adjunto.</div>
-                    <div class="pdf-action"
-                         *ngIf="!pedido.recepcionado">
+                    <div class="pdf-action">
                         <button mat-raised-button
                                 color="primary"
                                 (click)="addPDF()">
@@ -576,7 +573,7 @@
                             </ng-container>
                         </div>
                         <div class="totales-row mark">
-                            <span>Total {{pedido.albaranFactura === 'albaran' ? 'albarán' : 'factura'}}:</span>{{pedido.total | fixedNumber}} €
+                            <span>Total {{pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo}}:</span>{{pedido.total | fixedNumber}} €
                         </div>
                     </div>
                 </div>

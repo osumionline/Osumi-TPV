@@ -20,8 +20,8 @@ export class Pedido {
     public proveedor: string = null,
     public re: boolean = false,
     public ue: boolean = false,
-    public albaranFactura: string = "albaran",
-    public numAlbaranFactura: string = null,
+    public tipo: string = "albaran",
+    public num: string = null,
     public fechaPago: string = null,
     public fechaPedido: string = null,
     public fechaRecepcionado: string = null,
@@ -135,8 +135,8 @@ export class Pedido {
     this.proveedor = Utils.urldecode(p.proveedor);
     this.re = p.re;
     this.ue = p.ue;
-    this.albaranFactura = p.albaranFactura;
-    this.numAlbaranFactura = Utils.urldecode(p.numAlbaranFactura);
+    this.tipo = p.tipo;
+    this.num = Utils.urldecode(p.num);
     this.fechaPago = Utils.urldecode(p.fechaPago);
     this.fechaPedido = Utils.urldecode(p.fechaPedido);
     this.fechaRecepcionado = Utils.urldecode(p.fechaRecepcionado);
@@ -165,8 +165,8 @@ export class Pedido {
       proveedor: Utils.urlencode(this.proveedor),
       re: this.re,
       ue: this.ue,
-      albaranFactura: this.albaranFactura,
-      numAlbaranFactura: Utils.urlencode(this.numAlbaranFactura),
+      tipo: this.tipo,
+      num: Utils.urlencode(this.num),
       fechaPago: Utils.urlencode(this.fechaPago),
       fechaPedido: Utils.urlencode(this.fechaPedido),
       fechaRecepcionado: Utils.urlencode(this.fechaRecepcionado),
