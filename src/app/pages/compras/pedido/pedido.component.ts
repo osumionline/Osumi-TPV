@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -26,7 +32,7 @@ import { environment } from "src/environments/environment";
   templateUrl: "./pedido.component.html",
   styleUrls: ["./pedido.component.scss"],
 })
-export class PedidoComponent implements OnInit {
+export class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
   @ViewChild("newProveedor", { static: true })
@@ -166,6 +172,11 @@ export class PedidoComponent implements OnInit {
 
   pdfsUrl: string = environment.pdfsUrl;
 
+  autoSave: boolean = false;
+  autoSaveIntervalId: number = null;
+  autoSaveIntervalTime: number = 30000;
+  autoSaveManually: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public config: ConfigService,
@@ -248,6 +259,17 @@ export class PedidoComponent implements OnInit {
   newPedido(): void {
     this.pedido.ivaOptions = this.ivaOptions;
     this.localizadorBox.nativeElement.focus();
+  }
+
+  changeAutoSave(): void {
+    this.autoSaveManually = true;
+    if (this.autoSave) {
+      this.autoSaveIntervalId = window.setInterval(() => {
+        this.startAutoSave();
+      }, this.autoSaveIntervalTime);
+    } else {
+      clearInterval(this.autoSaveIntervalId);
+    }
   }
 
   openProveedor(): void {
@@ -362,6 +384,11 @@ export class PedidoComponent implements OnInit {
         }
 
         this.nuevoLocalizador = null;
+        if (!this.autoSaveManually) {
+          this.autoSave = true;
+          this.changeAutoSave();
+          this.autoSaveManually = false;
+        }
         this.localizadorBox.nativeElement.focus();
       } else {
         this.dialog
@@ -509,7 +536,7 @@ export class PedidoComponent implements OnInit {
       });
   }
 
-  validarPedido(): boolean {
+  updatePedidoData(): void {
     this.pedido.fechaPago = Utils.getDate(this.fechaPago);
     this.pedido.fechaPedido = Utils.getDate(this.fechaPedido);
     this.pedido.importe = this.pedido.total;
@@ -522,6 +549,10 @@ export class PedidoComponent implements OnInit {
         )
       );
     }
+  }
+
+  validarPedido(): boolean {
+    this.updatePedidoData();
 
     if (this.pedido.idProveedor === -1) {
       this.dialog
@@ -620,6 +651,16 @@ export class PedidoComponent implements OnInit {
     });
   }
 
+  startAutoSave(): void {
+    console.log("autosave");
+    this.updatePedidoData();
+    this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
+      this.pedido.id = result.id;
+      this.titulo = "Pedido " + this.pedido.id;
+      this.cs.resetPedidos();
+    });
+  }
+
   deletePedido(): void {
     this.dialog
       .confirm({
@@ -645,5 +686,11 @@ export class PedidoComponent implements OnInit {
           });
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.autoSaveIntervalId) {
+      clearInterval(this.autoSaveIntervalId);
+    }
   }
 }

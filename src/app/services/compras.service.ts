@@ -103,6 +103,13 @@ export class ComprasService {
     );
   }
 
+  autoSavePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
+    return this.http.post<PedidoSaveResult>(
+      environment.apiUrl + "-compras/auto-save-pedido",
+      pedido
+    );
+  }
+
   setPedidoTemporal(pedido: Pedido): void {
     this.pedidoTemporal = pedido;
   }
