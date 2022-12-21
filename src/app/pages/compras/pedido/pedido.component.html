@@ -17,7 +17,7 @@
                 <mat-icon>delete</mat-icon>
                 Borrar
             </button>
-            <mat-checkbox>Autoguardado</mat-checkbox>
+            <mat-checkbox *ngIf="!pedido.recepcionado">Autoguardado</mat-checkbox>
             <button mat-raised-button
                     color="primary"
                     (click)="guardar()">
@@ -149,9 +149,15 @@
                         *matHeaderCellDef></th>
                     <td mat-cell
                         class="center"
-                        *matCellDef="let element">
-                        <mat-icon (click)="ordenarLinea(element.localizador, 'up')">expand_less</mat-icon>
-                        <mat-icon (click)="ordenarLinea(element.localizador, 'down')">expand_more</mat-icon>
+                        *matCellDef="let element; let i = index">
+                        <mat-icon class="icon-button"
+                                  [ngClass]="{'icon-button-disabled': i === 0}"
+                                  title="Mover línea arriba"
+                                  (click)="ordenarLinea(element.localizador, 'up')">expand_less</mat-icon>
+                        <mat-icon class="icon-button"
+                                  title="Mover línea abajo"
+                                  [ngClass]="{'icon-button-disabled': i === pedido.lineas.length-1}"
+                                  (click)="ordenarLinea(element.localizador, 'down')">expand_more</mat-icon>
                     </td>
                 </ng-container>
 
@@ -434,7 +440,9 @@
                     <td class="center"
                         mat-cell
                         *matCellDef="let element">
-                        <mat-icon (click)="borrarLinea(element.localizador)">delete</mat-icon>
+                        <mat-icon class="icon-button"
+                                  title="Borrar línea"
+                                  (click)="borrarLinea(element.localizador)">delete</mat-icon>
                     </td>
                 </ng-container>
 

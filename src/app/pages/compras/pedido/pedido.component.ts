@@ -191,12 +191,7 @@ export class PedidoComponent implements OnInit {
               }
             }
             if (this.pedido.recepcionado) {
-              const ordenarId: number = 1;
               const borrarId: number = 18;
-              const ordenarInd: number = this.colOptions.findIndex(
-                (x: PedidosColOption): boolean => x.id === ordenarId
-              );
-              this.colOptions.splice(ordenarInd, 1);
               const borrarInd: number = this.colOptions.findIndex(
                 (x: PedidosColOption): boolean => x.id === borrarId
               );

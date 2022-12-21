@@ -38,6 +38,16 @@ table {
             vertical-align: middle;
         }
 
+        &>.icon-button {
+            cursor: pointer;
+            margin: 0 8px;
+
+            &.icon-button-disabled {
+                color: #ccc;
+                cursor: default;
+            }
+        }
+
         &>div.pay-type {
             display: flex;
             align-items: center;
