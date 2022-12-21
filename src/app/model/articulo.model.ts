@@ -1,9 +1,13 @@
 import {
   ArticuloInterface,
   CodigoBarrasInterface,
+  EtiquetaInterface,
+  EtiquetaWebInterface,
   FotoInterface,
 } from "src/app/interfaces/articulo.interface";
 import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { EtiquetaWeb } from "src/app/model/etiqueta-web.model";
+import { Etiqueta } from "src/app/model/etiqueta.model";
 import { Foto } from "src/app/model/foto.model";
 import { Utils } from "src/app/shared/utils.class";
 
@@ -41,7 +45,9 @@ export class Articulo {
     public mostrarObsVentas: boolean = false,
     public accesoDirecto: number = null,
     public codigosBarras: CodigoBarras[] = [],
-    public fotos: number[] = []
+    public fotos: number[] = [],
+    public etiquetas: Etiqueta[] = [],
+    public etiquetasWeb: EtiquetaWeb[] = []
   ) {}
 
   fromInterface(a: ArticuloInterface, decode: boolean = true): Articulo {
@@ -86,6 +92,14 @@ export class Articulo {
         return new Foto(n);
       });
     }
+    this.etiquetas = a.etiquetas.map((e: EtiquetaInterface): Etiqueta => {
+      return new Etiqueta().fromInterface(e);
+    });
+    this.etiquetasWeb = a.etiquetasWeb.map(
+      (e: EtiquetaWebInterface): EtiquetaWeb => {
+        return new EtiquetaWeb().fromInterface(e);
+      }
+    );
 
     return this;
   }
@@ -141,6 +155,14 @@ export class Articulo {
         return f.toInterface();
       }),
       nombreStatus: this.nombreStatus,
+      etiquetas: this.etiquetas.map((e: Etiqueta): EtiquetaInterface => {
+        return e.toInterface();
+      }),
+      etiquetasWeb: this.etiquetasWeb.map(
+        (e: EtiquetaWeb): EtiquetaWebInterface => {
+          return e.toInterface();
+        }
+      ),
     };
   }
 }

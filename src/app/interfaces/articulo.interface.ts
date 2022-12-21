@@ -74,6 +74,8 @@ export interface ArticuloInterface {
   fotos: number[];
   fotosList?: FotoInterface[];
   nombreStatus?: string;
+  etiquetas: EtiquetaInterface[];
+  etiquetasWeb: EtiquetaWebInterface[];
 }
 
 export interface ArticuloSaveResult {
@@ -113,4 +115,16 @@ export interface AccesoDirectoInterface {
 
 export interface AccesoDirectoResult {
   list: AccesoDirectoInterface[];
+}
+
+export interface EtiquetaInterface {
+  id: number;
+  texto: string;
+  slug: string;
+}
+
+export interface EtiquetaWebInterface {
+  id: number;
+  texto: string;
+  slug: string;
 }
