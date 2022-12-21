@@ -11,7 +11,9 @@
         <span>{{titulo}}</span>
         <div class="actions">
             <button mat-raised-button
-                    color="warn">
+                    color="warn"
+                    *ngIf="pedido.id !== null && !pedido.recepcionado"
+                    (click)="deletePedido()">
                 <mat-icon>delete</mat-icon>
                 Borrar
             </button>

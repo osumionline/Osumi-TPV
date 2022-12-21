@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import {
   PedidoInterface,
   PedidoResult,
@@ -108,5 +109,12 @@ export class ComprasService {
 
   clearPedidoTemporal(): void {
     this.pedidoTemporal = null;
+  }
+
+  deletePedido(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-compras/delete-pedido",
+      { id }
+    );
   }
 }

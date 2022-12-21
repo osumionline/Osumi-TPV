@@ -578,4 +578,31 @@ export class PedidoComponent implements OnInit {
       }
     });
   }
+
+  deletePedido(): void {
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content: "¿Estás seguro de querer borrar este pedido?",
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.cs.deletePedido(this.pedido.id).subscribe((result) => {
+            this.cs.resetPedidos();
+            this.dialog
+              .alert({
+                title: "Pedido borrado",
+                content:
+                  "El pedido y todos sus datos han sido correctamente borrados.",
+                ok: "Continuar",
+              })
+              .subscribe((result) => {
+                this.router.navigate(["/compras"]);
+              });
+          });
+        }
+      });
+  }
 }
