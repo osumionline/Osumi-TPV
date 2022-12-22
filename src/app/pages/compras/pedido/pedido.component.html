@@ -99,7 +99,8 @@
                         <mat-icon *ngIf="!pedido.re">check_box_outline_blank</mat-icon>
                         <label>R.E.</label>
                     </span>
-                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="pedido.ue"
+                                  (ngModelChange)="updateUE()">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
                     <label>Fecha pedido</label>

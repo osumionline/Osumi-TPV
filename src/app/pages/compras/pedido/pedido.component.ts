@@ -243,6 +243,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
         linea.selectedIvaOption = ivaOption;
       }
 
+      this.pedido.updateUE();
+
       this.titulo = "Pedido " + this.pedido.id;
       this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
       this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
@@ -259,6 +261,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.fechaPedido !== null) {
       this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
     }
+    this.pedido.updateUE();
+
     this.pedidoDataSource.data = this.pedido.lineas;
     this.localizadorBox.nativeElement.focus();
   }
@@ -314,6 +318,10 @@ export class PedidoComponent implements OnInit, OnDestroy {
       linea.iva = linea.selectedIvaOption.iva;
       linea.re = linea.selectedIvaOption.re;
     }
+  }
+
+  updateUE(): void {
+    this.pedido.updateUE();
   }
 
   ordenarLinea(localizador: number, sent: string): void {

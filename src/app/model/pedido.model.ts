@@ -154,6 +154,12 @@ export class Pedido {
     return this.observaciones;
   }
 
+  updateUE(): void {
+    for (let linea of this.lineas) {
+      linea.ue = this.ue;
+    }
+  }
+
   fromInterface(p: PedidoInterface): Pedido {
     this.id = p.id;
     this.idProveedor = p.idProveedor;
