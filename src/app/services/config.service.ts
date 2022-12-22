@@ -93,7 +93,6 @@ export class ConfigService {
               this.empleadosService.load();
             const clientesPromise: Promise<string> =
               this.clientesService.load();
-            const pedidosPromise: Promise<string> = this.comprasService.load();
             const provinciasPromise: Promise<string> = this.loadProvinces();
             Promise.all([
               marcasPromise,
@@ -101,7 +100,6 @@ export class ConfigService {
               empleadosPromise,
               clientesPromise,
               provinciasPromise,
-              pedidosPromise,
             ]).then((values) => {
               if (this.empleadosService.empleados.length == 1) {
                 this.empleados = false;

@@ -2,7 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { PedidosFilterInterface } from "src/app/interfaces/pedido.interface";
+import {
+  PedidosAllResult,
+  PedidosFilterInterface,
+} from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/pedido.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
@@ -17,6 +20,13 @@ import { Utils } from "src/app/shared/utils.class";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
 export class ComprasComponent implements OnInit {
+  pedidosGuardados: Pedido[] = [];
+  guardadosPag: number = 1;
+  guardadosPags: number = null;
+  pedidosRecepcionados: Pedido[] = [];
+  recepcionadosPag: number = 1;
+  recepcionadosPags: number = null;
+
   showGuardadosFilters: boolean = false;
   guardadosFilter: PedidosFilterInterface = {
     fechaDesde: null,
@@ -72,9 +82,26 @@ export class ComprasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.pedidosGuardadosDataSource.data = this.comprasService.pedidosGuardados;
-    this.pedidosRecepcionadosDataSource.data =
-      this.comprasService.pedidosRecepcionados;
+    const filters: PedidosFilterInterface = {
+      fechaDesde: null,
+      fechaHasta: null,
+      idProveedor: null,
+      albaran: null,
+      importeDesde: null,
+      importeHasta: null,
+      pagina: 1,
+    };
+    this.comprasService
+      .getAllPedidos(filters)
+      .subscribe((result: PedidosAllResult): void => {
+        this.pedidosGuardados = this.cms.getPedidos(result.guardados);
+        this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
+        this.guardadosPags = result.guardadosPags;
+        this.recepcionadosPags = result.recepcionadosPags;
+
+        this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
+        this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
+      });
   }
 
   openGuardadosFilters(): void {

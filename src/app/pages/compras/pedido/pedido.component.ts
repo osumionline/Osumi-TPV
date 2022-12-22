@@ -642,7 +642,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
   guardarPedido(): void {
     this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
       if (result.status === "ok") {
-        this.cs.resetPedidos();
         this.dialog
           .alert({
             title: "OK",
@@ -672,7 +671,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
       this.pedido.id = result.id;
       this.titulo = "Pedido " + this.pedido.id;
-      this.cs.resetPedidos();
     });
   }
 
@@ -687,7 +685,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result === true) {
           this.cs.deletePedido(this.pedido.id).subscribe((result) => {
-            this.cs.resetPedidos();
             this.dialog
               .alert({
                 title: "Pedido borrado",
