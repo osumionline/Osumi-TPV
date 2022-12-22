@@ -34,6 +34,8 @@ export interface PedidoInterface {
   id: number;
   idProveedor: number;
   proveedor: string;
+  idMetodoPago: number;
+  metodoPago: string;
   re: boolean;
   ue: boolean;
   tipo: string;

@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatPaginatorIntl } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { PedidosFilterInterface } from "src/app/interfaces/pedido.interface";
@@ -17,7 +16,7 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./compras.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
-export class ComprasComponent implements OnInit, AfterViewInit {
+export class ComprasComponent implements OnInit {
   showGuardadosFilters: boolean = false;
   guardadosFilter: PedidosFilterInterface = {
     fechaDesde: null,
@@ -52,16 +51,18 @@ export class ComprasComponent implements OnInit, AfterViewInit {
   ];
   pedidosRecepcionadosDisplayedColumns: string[] = [
     "fechaRecepcionado",
+    "fechaPedido",
+    "fechaPago",
     "proveedor",
     "num",
     "importe",
+    "iconos",
   ];
 
   pedidosGuardadosDataSource: MatTableDataSource<Pedido> =
     new MatTableDataSource<Pedido>();
   pedidosRecepcionadosDataSource: MatTableDataSource<Pedido> =
     new MatTableDataSource<Pedido>();
-  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public comprasService: ComprasService,
@@ -74,10 +75,6 @@ export class ComprasComponent implements OnInit, AfterViewInit {
     this.pedidosGuardadosDataSource.data = this.comprasService.pedidosGuardados;
     this.pedidosRecepcionadosDataSource.data =
       this.comprasService.pedidosRecepcionados;
-  }
-
-  ngAfterViewInit(): void {
-    this.pedidosGuardadosDataSource.sort = this.sort;
   }
 
   openGuardadosFilters(): void {

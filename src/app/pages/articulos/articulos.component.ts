@@ -153,25 +153,13 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.config.start().then((status) => {
-      if (status === "install") {
-        this.router.navigate(["/installation"]);
-        return;
-      }
-      if (status === "loaded") {
-        if (!this.config.isOpened) {
-          this.router.navigate(["/"]);
-          return;
-        }
-      }
-    });
     const d = new Date();
     for (let y: number = d.getFullYear(); y < d.getFullYear() + 5; y++) {
       this.yearList.push(y);
     }
     this.loadAppData();
     this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.localizador) {
+      if (params.localizador && parseInt(params.localizador) !== 0) {
         this.articulo.localizador = params.localizador;
         this.form.get("localizador").setValue(params.localizador);
         this.loadArticulo();
@@ -726,6 +714,21 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     });
   }
 
+  goToReturn(): void {
+    switch (this.returnWhere) {
+      case "ventas":
+        {
+          this.router.navigate(["/ventas"]);
+        }
+        break;
+      case "pedido":
+        {
+          this.router.navigate(["/compras/pedido/", this.returnWhereId]);
+        }
+        break;
+    }
+  }
+
   cancelar(): void {
     this.form.reset();
     this.form.patchValue(this.articulo.toInterface(false));
@@ -733,6 +736,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form.get("palb").markAsPristine();
     this.form.get("puc").markAsPristine();
     this.form.get("pvp").markAsPristine();
+
+    if (this.returnWhere !== null) {
+      this.goToReturn();
+    }
   }
 
   guardar(): void {
@@ -799,21 +806,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
               this.articulo.nombreStatus = "ok";
               this.loadArticulo();
             } else {
-              switch (this.returnWhere) {
-                case "ventas":
-                  {
-                    this.router.navigate(["/ventas"]);
-                  }
-                  break;
-                case "pedido":
-                  {
-                    this.router.navigate([
-                      "/compras/pedido/",
-                      this.returnWhereId,
-                    ]);
-                  }
-                  break;
-              }
+              this.goToReturn();
             }
           });
       } else {

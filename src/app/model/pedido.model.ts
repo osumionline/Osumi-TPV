@@ -18,6 +18,8 @@ export class Pedido {
     public id: number = null,
     public idProveedor: number = -1,
     public proveedor: string = null,
+    public idMetodoPago: number = null,
+    public metodoPago: string = null,
     public re: boolean = false,
     public ue: boolean = false,
     public tipo: string = "albaran",
@@ -156,6 +158,8 @@ export class Pedido {
     this.id = p.id;
     this.idProveedor = p.idProveedor;
     this.proveedor = Utils.urldecode(p.proveedor);
+    this.idMetodoPago = p.idMetodoPago;
+    this.metodoPago = Utils.urldecode(p.metodoPago);
     this.re = p.re;
     this.ue = p.ue;
     this.tipo = p.tipo;
@@ -186,6 +190,8 @@ export class Pedido {
       id: this.id,
       idProveedor: this.idProveedor,
       proveedor: Utils.urlencode(this.proveedor),
+      idMetodoPago: this.idMetodoPago,
+      metodoPago: Utils.urlencode(this.metodoPago),
       re: this.re,
       ue: this.ue,
       tipo: this.tipo,

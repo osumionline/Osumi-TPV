@@ -61,6 +61,17 @@
                     </button>
                 </div>
                 <div class="form-field">
+                    <label>Forma de pago</label>
+                    <mat-form-field subscriptSizing="dynamic">
+                        <mat-select [(ngModel)]="pedido.idMetodoPago">
+                            <mat-option *ngFor="let metodo of metodosPago; let i = index"
+                                        [value]="i">
+                                {{metodo}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field">
                     <label>Tipo</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.tipo">
@@ -129,9 +140,10 @@
                     <button mat-raised-button
                             color="primary"
                             type="button"
-                            *ngIf="!pedido.recepcionado">
+                            *ngIf="!pedido.recepcionado"
+                            (click)="goToArticulo(0)">
                         <mat-icon>add_circle_outline</mat-icon>
-                        Crear nuevo artículo
+                        Artículo
                     </button>
                 </div>
             </div>
@@ -181,7 +193,7 @@
                         *matCellDef="let element">
                         <a href="#"
                            tabindex="-1"
-                           (click)="goToArticulo($event, element.localizador)">{{element.nombreArticulo}}</a>
+                           (click)="goToArticulo(element.localizador, $event)">{{element.nombreArticulo}}</a>
                     </td>
                 </ng-container>
 

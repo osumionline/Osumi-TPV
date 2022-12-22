@@ -45,6 +45,13 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   ivaOptions: IVAOption[] = [];
 
+  metodosPago: string[] = [
+    "Domiciliación bancaria",
+    "Tarjeta",
+    "Paypal",
+    "Al contado",
+  ];
+
   colOptions: PedidosColOption[] = [
     {
       id: 1,
@@ -481,7 +488,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToArticulo(ev: MouseEvent, localizador: number): void {
+  goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     let id: number = this.pedido.id;
     if (id === null) {
