@@ -99,8 +99,7 @@
                         <mat-icon *ngIf="!pedido.re">check_box_outline_blank</mat-icon>
                         <label>R.E.</label>
                     </span>
-                    <mat-checkbox [(ngModel)]="pedido.ue"
-                                  (ngModelChange)="updateUE()">UE</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
                 <div class="form-field">
                     <label>Fecha pedido</label>
@@ -569,7 +568,8 @@
                         <div class="totales-row">
                             <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
-                        <div class="totales-row totales-iva-row">
+                        <div class="totales-row totales-iva-row"
+                             [ngClass]="{'no-iva': pedido.ue}">
                             <ng-container *ngFor="let ivaOption of pedido.ivaList">
                                 <div class="iva-row"
                                      *ngIf="ivaOption.iva !== undefined || ivaOption.re !== undefined">
@@ -603,7 +603,10 @@
                             %
                         </div>
                         <div class="totales-row mark">
-                            <span>Total {{pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo}}:</span>{{pedido.total | fixedNumber}} €
+                            <span>Total {{pedido.nombreTipo}}:</span>{{pedido.total | fixedNumber}} €
+                        </div>
+                        <div class="totales-row mark mark-iva">
+                            <span>Total sin IVA:</span>{{pedido.totalSinIva | fixedNumber}} €
                         </div>
                     </div>
                 </div>

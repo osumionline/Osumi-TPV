@@ -6,7 +6,6 @@ import { Utils } from "src/app/shared/utils.class";
 export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();
   showCodigoBarras: boolean = false;
-  ue: boolean = false;
 
   constructor(
     public id: number = null,
@@ -32,10 +31,7 @@ export class PedidoLinea {
   }
 
   get puc(): number {
-    if (!this.ue) {
-      return this.palb * (1 + this.iva / 100 + this.re / 100);
-    }
-    return this.palb;
+    return this.palb * (1 + this.iva / 100 + this.re / 100);
   }
 
   get total(): number {

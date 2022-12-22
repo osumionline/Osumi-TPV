@@ -172,6 +172,7 @@
             <tr mat-row
                 class="clickable"
                 (click)="goToPedido(row)"
+                [ngClass]="{'mark': row.tipo === 'abono'}"
                 *matRowDef="let row; columns: pedidosGuardadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="pedidosGuardadosDataSource.data.length > 0"
@@ -379,6 +380,7 @@
                 *matHeaderRowDef="pedidosRecepcionadosDisplayedColumns"></tr>
             <tr mat-row
                 class="clickable"
+                [ngClass]="{'mark': row.tipo === 'abono'}"
                 (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosRecepcionadosDisplayedColumns;"></tr>
         </table>

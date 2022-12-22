@@ -98,7 +98,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.unidades * linea.total;
     }
-    return num * ((100 - this.descuento) / 100);
+    return num * ((100 - this.descuento) / 100) + this.portes;
   }
 
   get ivaList(): TotalsIVAOption[] {
@@ -145,6 +145,10 @@ export class Pedido {
     return (100 * (pvp - puc)) / pvp;
   }
 
+  get totalSinIva(): number {
+    return this.subtotal * ((100 - this.descuento) / 100) + this.portes;
+  }
+
   get observacionesShort(): string {
     if (this.observaciones === null) {
       return null;
@@ -153,12 +157,6 @@ export class Pedido {
       return this.observaciones.substring(0, 50) + "...";
     }
     return this.observaciones;
-  }
-
-  updateUE(): void {
-    for (let linea of this.lineas) {
-      linea.ue = this.ue;
-    }
   }
 
   fromInterface(p: PedidoInterface): Pedido {

@@ -23,6 +23,8 @@ export class ClientesComponent implements OnInit {
   clienteTabs: MatTabGroup;
   selectedClient: Cliente = new Cliente();
   @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
+  @ViewChild("emailBox", { static: true }) emailBox: ElementRef;
+  focusEmail: boolean = false;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -78,6 +80,7 @@ export class ClientesComponent implements OnInit {
               return x.id === parseInt(params.new);
             }
           );
+          this.focusEmail = true;
           this.selectCliente(this.cs.clientes[ind]);
         }
       } else {
@@ -104,7 +107,12 @@ export class ClientesComponent implements OnInit {
         }
       });
     setTimeout(() => {
-      this.nameBox.nativeElement.focus();
+      if (!this.focusEmail) {
+        this.nameBox.nativeElement.focus();
+      } else {
+        this.focusEmail = false;
+        this.emailBox.nativeElement.focus();
+      }
     });
   }
 

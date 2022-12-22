@@ -88,4 +88,8 @@ table {
             background-color: var(--table-row-selected);
         }
     }
+
+    tr.mark {
+        background-color: rgb(166 222 238 / 30%);
+    }
 }

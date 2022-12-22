@@ -165,12 +165,20 @@
                             flex-direction: column;
                         }
 
+                        &.no-iva {
+                            color: #888;
+                        }
+
                         span {
                             flex: 1;
                         }
 
                         &.mark {
                             font-weight: bold;
+                        }
+
+                        &.mark-iva {
+                            background-color: #ccc;
                         }
 
                         .iva-row {
