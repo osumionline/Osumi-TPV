@@ -587,6 +587,21 @@
                                 </div>
                             </ng-container>
                         </div>
+                        <div class="totales-row">
+                            <span>Descuento:</span>
+                            <mat-form-field class="campo-numero-small x-small"
+                                            *ngIf="!pedido.recepcionado"
+                                            subscriptSizing="dynamic">
+                                <input matInput
+                                       placeholder="Descuento"
+                                       type="number"
+                                       (focus)="$event.target.select()"
+                                       autocomplete="off"
+                                       [(ngModel)]="pedido.descuento">
+                            </mat-form-field>
+                            {{ pedido.recepcionado ? pedido.descuento : ''}}
+                            %
+                        </div>
                         <div class="totales-row mark">
                             <span>Total {{pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo}}:</span>{{pedido.total | fixedNumber}} €
                         </div>

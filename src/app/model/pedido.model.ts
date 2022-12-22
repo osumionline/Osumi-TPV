@@ -30,6 +30,7 @@ export class Pedido {
     public lineas: PedidoLinea[] = [],
     public importe: number = null,
     public portes: number = 0,
+    public descuento: number = 0,
     public faltas: boolean = false,
     public recepcionado: boolean = false,
     public observaciones: string = null,
@@ -97,7 +98,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.unidades * linea.total;
     }
-    return num;
+    return num * ((100 - this.descuento) / 100);
   }
 
   get ivaList(): TotalsIVAOption[] {
@@ -178,6 +179,7 @@ export class Pedido {
     });
     this.importe = p.importe;
     this.portes = p.portes;
+    this.descuento = p.descuento;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
     this.observaciones = Utils.urldecode(p.observaciones);
@@ -210,6 +212,7 @@ export class Pedido {
       }),
       importe: this.importe,
       portes: this.portes,
+      descuento: this.descuento,
       faltas: this.faltas,
       recepcionado: this.recepcionado,
       observaciones: Utils.urlencode(this.observaciones),

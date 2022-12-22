@@ -46,6 +46,7 @@ export interface PedidoInterface {
   lineas: PedidoLineaInterface[];
   importe: number;
   portes: number;
+  descuento: number;
   faltas: boolean;
   recepcionado: boolean;
   observaciones: string;
