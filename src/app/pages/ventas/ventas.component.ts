@@ -14,7 +14,9 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
+import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
+import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Cliente } from "src/app/model/cliente.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -30,6 +32,7 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class VentasComponent implements OnInit, AfterViewInit {
   showFinalizarVenta: boolean = false;
+  @ViewChild("tabs", { static: true }) tabs: TabsComponent;
   @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
   @ViewChild("efectivoValue", { static: true }) efectivoValue: ElementRef;
   @ViewChild("tarjetaValue", { static: true }) tarjetaValue: ElementRef;
@@ -131,8 +134,12 @@ export class VentasComponent implements OnInit, AfterViewInit {
     this.startFocus();
   }
 
-  selectClient(id: number): void {
-    this.startFocus();
+  selectClient(cliente: SelectClienteInterface): void {
+    if (cliente.from === null) {
+      this.startFocus();
+    } else {
+      this.abreFinalizarVenta();
+    }
   }
 
   endVenta(id: number = null): void {
@@ -142,6 +149,10 @@ export class VentasComponent implements OnInit, AfterViewInit {
     this.vs.loadFinVenta();
     this.cs.load();
     this.ventasFinDataSource.data = this.vs.fin.lineas;
+    this.abreFinalizarVenta();
+  }
+
+  abreFinalizarVenta(): void {
     this.showFinalizarVenta = true;
     setTimeout(() => {
       this.efectivoValue.nativeElement.select();
@@ -243,6 +254,27 @@ export class VentasComponent implements OnInit, AfterViewInit {
           }, 0);
         }
       }
+    }
+  }
+
+  checkTicket(): void {
+    if (this.vs.fin.imprimir === "email" && this.vs.fin.idCliente === -1) {
+      this.dialog
+        .confirm({
+          title: "Enviar email",
+          content:
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?",
+          ok: "Continuar",
+          cancel: "Cancelar",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.cerrarFinalizarVenta();
+            this.tabs.selectClient("venta");
+          } else {
+            this.vs.fin.imprimir = "si";
+          }
+        });
     }
   }
 

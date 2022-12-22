@@ -30,6 +30,7 @@ export interface VentaFinInterface {
   pagoMixto: boolean;
   factura: boolean;
   regalo: boolean;
+  imprimir: string;
 }
 
 export interface FinVentaResult {

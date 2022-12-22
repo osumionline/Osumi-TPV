@@ -19,10 +19,11 @@
   .modal-box {
     width: 95%;
     max-height: 95%;
-    overflow: auto;
+    overflow-y: auto;
     background-color: var(--main-color-contrast);
     border-radius: 6px;
     box-shadow: 4px 4px 5px 0px var(--modal-bg-color);
+    position: relative;
 
     .modal-header {
       background-color: var(--main-color);
@@ -31,6 +32,9 @@
       padding: 16px;
       line-height: 24px;
       display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 2;
 
       span {
         flex: 1;

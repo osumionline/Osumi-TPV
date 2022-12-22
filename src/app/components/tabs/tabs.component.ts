@@ -11,6 +11,8 @@ import {
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
+import { Router } from "@angular/router";
+import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ProvinceInterface } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -30,8 +32,8 @@ export class TabsComponent implements AfterViewInit {
   @Output() closeTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() newTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() changeTabEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() selectClientEvent: EventEmitter<number> =
-    new EventEmitter<number>();
+  @Output() selectClientEvent: EventEmitter<SelectClienteInterface> =
+    new EventEmitter<SelectClienteInterface>();
 
   mostrarElegirCliente: boolean = false;
   @ViewChild("elegirClienteTabs", { static: false })
@@ -59,6 +61,7 @@ export class TabsComponent implements AfterViewInit {
   nuevoClienteBoxName: ElementRef;
   provincias: ProvinceInterface[] = [];
   nuevoClienteSaving: boolean = false;
+  selectClienteFrom: string = null;
 
   constructor(
     public config: ConfigService,
@@ -66,7 +69,8 @@ export class TabsComponent implements AfterViewInit {
     private cms: ClassMapperService,
     private cs: ClientesService,
     public vs: VentasService,
-    public es: EmpleadosService
+    public es: EmpleadosService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -106,7 +110,7 @@ export class TabsComponent implements AfterViewInit {
     this.newTabEvent.emit(0);
   }
 
-  selectClient(): void {
+  selectClient(from: string = null): void {
     this.mostrarElegirCliente = true;
     this.elegirClienteTabs.realignInkBar();
     this.elegirClienteSelectedTab = 0;
@@ -114,6 +118,7 @@ export class TabsComponent implements AfterViewInit {
     this.searching = false;
     this.searched = false;
     this.nuevoCliente = new Cliente();
+    this.selectClienteFrom = from;
     setTimeout(() => {
       this.elegirClienteBoxName.nativeElement.focus();
     }, 0);
@@ -231,25 +236,48 @@ export class TabsComponent implements AfterViewInit {
   }
 
   selectCliente(cliente: Cliente): void {
-    this.vs.cliente = cliente;
-    this.cerrarElegirCliente();
-    this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
-      if (result.status === "ok") {
-        this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-          result.ultimasVentas
-        );
-        this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
-          result.topVentas
-        );
-      } else {
-        this.dialog.alert({
-          title: "Error",
-          content: "¡Ocurrió un error al obtener las estadísticas del cliente!",
-          ok: "Continuar",
+    if (
+      this.selectClienteFrom === "venta" &&
+      (cliente.email === null || cliente.email === "")
+    ) {
+      this.dialog
+        .confirm({
+          title: "Elegir cliente",
+          content:
+            "El cliente seleccionado no tiene ningún email asignado. ¿Quieres seleccionar otro cliente o quieres ir a su ficha para poder añadirselo?",
+          ok: "Ir a su ficha",
+          cancel: "Elegir otro cliente",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.router.navigate(["/clientes/" + cliente.id]);
+          }
         });
-      }
-    });
-    this.selectClientEvent.emit(cliente.id);
+    } else {
+      this.vs.cliente = cliente;
+      this.cerrarElegirCliente();
+      this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
+        if (result.status === "ok") {
+          this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+            result.ultimasVentas
+          );
+          this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
+            result.topVentas
+          );
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content:
+              "¡Ocurrió un error al obtener las estadísticas del cliente!",
+            ok: "Continuar",
+          });
+        }
+      });
+      this.selectClientEvent.emit({
+        id: cliente.id,
+        from: this.selectClienteFrom,
+      });
+    }
   }
 
   removeClient(): void {

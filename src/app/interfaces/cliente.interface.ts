@@ -41,3 +41,8 @@ export interface EstadisticasClienteResult {
   ultimasVentas: ArticuloUltimaVentaInterface[];
   topVentas: ArticuloTopVentaInterface[];
 }
+
+export interface SelectClienteInterface {
+  id: number;
+  from: string;
+}

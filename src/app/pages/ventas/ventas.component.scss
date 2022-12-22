@@ -43,6 +43,12 @@
 			align-items: center;
 			justify-content: space-between;
 			margin-bottom: 8px;
+
+			.actions {
+				width: 220px;
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 
 		.tipos-pago {

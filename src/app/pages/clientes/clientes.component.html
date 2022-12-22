@@ -273,7 +273,8 @@
                                         <div class="form-field">
                                             <label>Mes</label>
                                             <mat-form-field>
-                                                <mat-select [(ngModel)]="stats.month">
+                                                <mat-select [(ngModel)]="stats.month"
+                                                            [ngModelOptions]="{standalone: true}">
                                                     <mat-option [value]="-1">Todos</mat-option>
                                                     <mat-option *ngFor="let month of monthList"
                                                                 [value]="month.id">
@@ -285,7 +286,8 @@
                                         <div class="form-field">
                                             <label>Año</label>
                                             <mat-form-field>
-                                                <mat-select [(ngModel)]="stats.year">
+                                                <mat-select [(ngModel)]="stats.year"
+                                                            [ngModelOptions]="{standalone: true}">
                                                     <mat-option [value]="-1">Todos</mat-option>
                                                     <mat-option *ngFor="let year of yearList"
                                                                 [value]="year">

@@ -19,7 +19,7 @@ export class ClientesComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
-  @ViewChild("clienteTabs", { static: false })
+  @ViewChild("clienteTabs", { static: true })
   clienteTabs: MatTabGroup;
   selectedClient: Cliente = new Cliente();
   @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
@@ -69,8 +69,17 @@ export class ClientesComponent implements OnInit {
       this.yearList.push(y);
     }
     this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.new && params.new === "new") {
-        this.newCliente();
+      if (params.new) {
+        if (params.new === "new") {
+          this.newCliente();
+        } else {
+          const ind: number = this.cs.clientes.findIndex(
+            (x: Cliente): boolean => {
+              return x.id === parseInt(params.new);
+            }
+          );
+          this.selectCliente(this.cs.clientes[ind]);
+        }
       } else {
         this.searchBox.nativeElement.focus();
       }

@@ -6,7 +6,8 @@
 		   (closeTabEvent)="cerrarVenta($event)"
 		   (newTabEvent)="newVenta()"
 		   (changeTabEvent)="startFocus()"
-		   (selectClientEvent)="selectClient($event)"></otpv-tabs>
+		   (selectClientEvent)="selectClient($event)"
+		   #tabs></otpv-tabs>
 <otpv-una-venta *ngFor="let venta of vs.list; let i = index"
 				[ind]="i"
 				[ngClass]="{'hidden':i!=vs.selected}"
@@ -101,19 +102,29 @@
 					<div class="total-title">TOTAL</div>
 					<div class="total-importe">{{vs.fin.total}} €</div>
 				</div>
-				<div class="col-line">
-					<button mat-raised-button
-							color="warn"
-							(click)="cerrarFinalizarVenta()"
-							[disabled]="saving">Cancelar</button>
-					<button mat-raised-button
-							color="primary"
-							(click)="finalizarVenta()"
-							[disabled]="saving">
-						<img src="/assets/loading.svg"
-							 *ngIf="saving">
-						Finalizar
-					</button>
+				<div class="col-line-check">
+					<mat-form-field subscriptSizing="dynamic">
+						<mat-select [(ngModel)]="vs.fin.imprimir"
+									(ngModelChange)="checkTicket()">
+							<mat-option value="si">Imprimir ticket</mat-option>
+							<mat-option value="no">No imprimir</mat-option>
+							<mat-option value="email">Enviar email</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<div class="actions">
+						<button mat-raised-button
+								color="warn"
+								(click)="cerrarFinalizarVenta()"
+								[disabled]="saving">Cancelar</button>
+						<button mat-raised-button
+								color="primary"
+								(click)="finalizarVenta()"
+								[disabled]="saving">
+							<img src="/assets/loading.svg"
+								 *ngIf="saving">
+							Finalizar
+						</button>
+					</div>
 				</div>
 			</div>
 			<div class="col-right">
