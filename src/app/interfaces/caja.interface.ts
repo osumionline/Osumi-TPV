@@ -1,4 +1,4 @@
-export interface HistoricoLineaVentaInterface {
+export interface VentaLineaHistoricoInterface {
   id: number;
   idArticulo: number;
   articulo: string;
@@ -15,7 +15,7 @@ export interface HistoricoLineaVentaInterface {
   unidades: number;
 }
 
-export interface HistoricoVentaInterface {
+export interface VentaHistoricoInterface {
   id: number;
   editable: boolean;
   idEmpleado: number;
@@ -29,12 +29,12 @@ export interface HistoricoVentaInterface {
   entregadoOtro: number;
   saldo: number;
   fecha: string;
-  lineas: HistoricoLineaVentaInterface[];
+  lineas: VentaLineaHistoricoInterface[];
 }
 
 export interface HistoricoVentasResult {
   status: string;
-  list: HistoricoVentaInterface[];
+  list: VentaHistoricoInterface[];
 }
 
 export interface SalidaCajaInterface {

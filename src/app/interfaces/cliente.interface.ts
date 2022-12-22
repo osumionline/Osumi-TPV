@@ -1,6 +1,6 @@
 import {
-  TopVentaArticuloInterface,
-  UltimaVentaArticuloInterface,
+  ArticuloTopVentaInterface,
+  ArticuloUltimaVentaInterface,
 } from "./venta.interface";
 
 export interface ClienteInterface {
@@ -38,6 +38,6 @@ export interface ClienteSaveResult {
 
 export interface EstadisticasClienteResult {
   status: string;
-  ultimasVentas: UltimaVentaArticuloInterface[];
-  topVentas: TopVentaArticuloInterface[];
+  ultimasVentas: ArticuloUltimaVentaInterface[];
+  topVentas: ArticuloTopVentaInterface[];
 }

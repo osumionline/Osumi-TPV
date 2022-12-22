@@ -1,7 +1,7 @@
-import { LineaVentaInterface } from "src/app/interfaces/venta.interface";
+import { VentaLineaInterface } from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulo.model";
 
-export class LineaVenta {
+export class VentaLinea {
   importeManual: boolean = false;
   descuentoManual: boolean = false;
 
@@ -38,7 +38,7 @@ export class LineaVenta {
     }
   }
 
-  fromArticulo(a: Articulo): LineaVenta {
+  fromArticulo(a: Articulo): VentaLinea {
     this.idArticulo = a.id;
     this.localizador = a.localizador;
     this.descripcion = a.nombre;
@@ -53,7 +53,7 @@ export class LineaVenta {
     return this;
   }
 
-  fromInterface(lv: LineaVentaInterface): LineaVenta {
+  fromInterface(lv: VentaLineaInterface): VentaLinea {
     this.idArticulo = lv.idArticulo;
     this.localizador = lv.localizador;
     this.descripcion = lv.descripcion;
@@ -68,7 +68,7 @@ export class LineaVenta {
     return this;
   }
 
-  toInterface(): LineaVentaInterface {
+  toInterface(): VentaLineaInterface {
     return {
       idArticulo: this.idArticulo,
       localizador: this.localizador,

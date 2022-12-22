@@ -13,7 +13,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Empleado } from "src/app/model/empleado.model";
-import { LineaVenta } from "src/app/model/linea-venta.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -149,11 +149,11 @@ export class UnaVentaComponent implements AfterViewInit {
             const marca = this.ms.findById(articulo.idMarca);
             articulo.marca = marca.nombre;
             const indArticulo: number = this.vs.ventaActual.lineas.findIndex(
-              (x: LineaVenta): boolean => x.idArticulo === articulo.id
+              (x: VentaLinea): boolean => x.idArticulo === articulo.id
             );
 
             if (indArticulo === -1) {
-              this.vs.ventaActual.lineas[ind] = new LineaVenta().fromArticulo(
+              this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(
                 articulo
               );
               this.vs.addLineaVenta();
@@ -342,7 +342,7 @@ export class UnaVentaComponent implements AfterViewInit {
     this.setFocus();
   }
 
-  abreDescuento(ev: MouseEvent, linea: LineaVenta): void {
+  abreDescuento(ev: MouseEvent, linea: VentaLinea): void {
     ev.stopPropagation();
     this.descuentoSelected = linea.idArticulo;
     this.descuentoImporte = null;

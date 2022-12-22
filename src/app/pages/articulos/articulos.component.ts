@@ -20,7 +20,7 @@ import { Month } from "src/app/interfaces/interfaces";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
-import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { CodigoBarras } from "src/app/model/codigo-barras.model";
 import { Foto } from "src/app/model/foto.model";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { Marca } from "src/app/model/marca.model";

@@ -1,11 +1,11 @@
 import {
-  FinVentaInterface,
-  LineaVentaInterface,
+  VentaFinInterface,
+  VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
-import { LineaVenta } from "src/app/model/linea-venta.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { Utils } from "src/app/shared/utils.class";
 
-export class FinVenta {
+export class VentaFin {
   pagoMixto: boolean = false;
   factura: boolean = false;
   regalo: boolean = false;
@@ -18,11 +18,11 @@ export class FinVenta {
     public idTipoPago: number = null,
     public idCliente: number = null,
     public total: string = "0",
-    public lineas: LineaVenta[] = []
+    public lineas: VentaLinea[] = []
   ) {}
 
-  toInterface(): FinVentaInterface {
-    const lineas: LineaVentaInterface[] = [];
+  toInterface(): VentaFinInterface {
+    const lineas: VentaLineaInterface[] = [];
     for (let linea of this.lineas) {
       lineas.push(linea.toInterface());
     }

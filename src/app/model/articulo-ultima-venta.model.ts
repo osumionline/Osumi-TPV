@@ -1,7 +1,7 @@
-import { UltimaVentaArticuloInterface } from "src/app/interfaces/venta.interface";
+import { ArticuloUltimaVentaInterface } from "src/app/interfaces/venta.interface";
 import { Utils } from "src/app/shared/utils.class";
 
-export class UltimaVentaArticulo {
+export class ArticuloUltimaVenta {
   constructor(
     public fecha: string = null,
     public localizador: number = null,
@@ -11,7 +11,7 @@ export class UltimaVentaArticulo {
     public importe: number = null
   ) {}
 
-  fromInterface(uva: UltimaVentaArticuloInterface): UltimaVentaArticulo {
+  fromInterface(uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta {
     this.fecha = uva.fecha;
     this.localizador = uva.localizador;
     this.nombre = Utils.urldecode(uva.nombre);
@@ -22,7 +22,7 @@ export class UltimaVentaArticulo {
     return this;
   }
 
-  toInterface(): UltimaVentaArticuloInterface {
+  toInterface(): ArticuloUltimaVentaInterface {
     return {
       fecha: this.fecha,
       localizador: this.localizador,

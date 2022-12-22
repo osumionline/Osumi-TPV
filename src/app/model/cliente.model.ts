@@ -1,11 +1,11 @@
 import { ClienteInterface } from "src/app/interfaces/cliente.interface";
-import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
-import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
+import { ArticuloTopVenta } from "src/app/model/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "src/app/model/articulo-ultima-venta.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Cliente {
-  ultimasVentas: UltimaVentaArticulo[] = [];
-  topVentas: TopVentaArticulo[] = [];
+  ultimasVentas: ArticuloUltimaVenta[] = [];
+  topVentas: ArticuloTopVenta[] = [];
 
   constructor(
     public id: number = null,

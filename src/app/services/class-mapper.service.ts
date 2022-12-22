@@ -8,8 +8,8 @@ import {
 } from "src/app/interfaces/articulo.interface";
 import {
   CierreCajaInterface,
-  HistoricoVentaInterface,
   SalidaCajaInterface,
+  VentaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
 import { ClienteInterface } from "src/app/interfaces/cliente.interface";
 import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
@@ -21,26 +21,26 @@ import {
 } from "src/app/interfaces/proveedor.interface";
 import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
 import {
-  TopVentaArticuloInterface,
-  UltimaVentaArticuloInterface,
+  ArticuloTopVentaInterface,
+  ArticuloUltimaVentaInterface,
 } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
+import { ArticuloTopVenta } from "src/app/model/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "src/app/model/articulo-ultima-venta.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CierreCaja } from "src/app/model/cierre-caja.model";
 import { Cliente } from "src/app/model/cliente.model";
-import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { CodigoBarras } from "src/app/model/codigo-barras.model";
 import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
-import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { Marca } from "src/app/model/marca.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
-import { TopVentaArticulo } from "src/app/model/top-venta-articulo.model";
-import { UltimaVentaArticulo } from "src/app/model/ultima-venta-articulo.model";
+import { VentaHistorico } from "src/app/model/venta-historico.model";
 
 @Injectable({
   providedIn: "root",
@@ -144,27 +144,27 @@ export class ClassMapperService {
   }
 
   getUltimaVentaArticulo(
-    uva: UltimaVentaArticuloInterface
-  ): UltimaVentaArticulo {
-    return new UltimaVentaArticulo().fromInterface(uva);
+    uva: ArticuloUltimaVentaInterface
+  ): ArticuloUltimaVenta {
+    return new ArticuloUltimaVenta().fromInterface(uva);
   }
 
   getUltimaVentaArticulos(
-    uvas: UltimaVentaArticuloInterface[]
-  ): UltimaVentaArticulo[] {
+    uvas: ArticuloUltimaVentaInterface[]
+  ): ArticuloUltimaVenta[] {
     return uvas.map(
-      (uva: UltimaVentaArticuloInterface): UltimaVentaArticulo => {
+      (uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta => {
         return this.getUltimaVentaArticulo(uva);
       }
     );
   }
 
-  getTopVentaArticulo(tva: TopVentaArticuloInterface): TopVentaArticulo {
-    return new TopVentaArticulo().fromInterface(tva);
+  getTopVentaArticulo(tva: ArticuloTopVentaInterface): ArticuloTopVenta {
+    return new ArticuloTopVenta().fromInterface(tva);
   }
 
-  getTopVentaArticulos(tvas: TopVentaArticuloInterface[]): TopVentaArticulo[] {
-    return tvas.map((tva: TopVentaArticuloInterface): TopVentaArticulo => {
+  getTopVentaArticulos(tvas: ArticuloTopVentaInterface[]): ArticuloTopVenta[] {
+    return tvas.map((tva: ArticuloTopVentaInterface): ArticuloTopVenta => {
       return this.getTopVentaArticulo(tva);
     });
   }
@@ -189,9 +189,9 @@ export class ClassMapperService {
     });
   }
 
-  getHistoricoVentas(hvs: HistoricoVentaInterface[]): HistoricoVenta[] {
-    return hvs.map((hv: HistoricoVentaInterface): HistoricoVenta => {
-      return new HistoricoVenta().fromInterface(hv);
+  getHistoricoVentas(hvs: VentaHistoricoInterface[]): VentaHistorico[] {
+    return hvs.map((hv: VentaHistoricoInterface): VentaHistorico => {
+      return new VentaHistorico().fromInterface(hv);
     });
   }
 

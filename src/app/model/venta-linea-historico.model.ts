@@ -1,7 +1,7 @@
-import { HistoricoLineaVentaInterface } from "src/app/interfaces/caja.interface";
+import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface";
 import { Utils } from "src/app/shared/utils.class";
 
-export class HistoricoLineaVenta {
+export class VentaLineaHistorico {
   constructor(
     public id: number = null,
     public idArticulo: number = null,
@@ -23,7 +23,7 @@ export class HistoricoLineaVenta {
     return this.pvp * this.unidades;
   }
 
-  fromInterface(hlv: HistoricoLineaVentaInterface): HistoricoLineaVenta {
+  fromInterface(hlv: VentaLineaHistoricoInterface): VentaLineaHistorico {
     this.id = hlv.id;
     this.idArticulo = hlv.idArticulo;
     this.articulo = Utils.urldecode(hlv.articulo);
@@ -42,7 +42,7 @@ export class HistoricoLineaVenta {
     return this;
   }
 
-  toInterface(): HistoricoLineaVentaInterface {
+  toInterface(): VentaLineaHistoricoInterface {
     return {
       id: this.id,
       idArticulo: this.idArticulo,

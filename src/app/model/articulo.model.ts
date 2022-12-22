@@ -5,7 +5,7 @@ import {
   EtiquetaWebInterface,
   FotoInterface,
 } from "src/app/interfaces/articulo.interface";
-import { CodigoBarras } from "src/app/model/codigobarras.model";
+import { CodigoBarras } from "src/app/model/codigo-barras.model";
 import { EtiquetaWeb } from "src/app/model/etiqueta-web.model";
 import { Etiqueta } from "src/app/model/etiqueta.model";
 import { Foto } from "src/app/model/foto.model";

@@ -1,4 +1,4 @@
-export interface LineaVentaInterface {
+export interface VentaLineaInterface {
   idArticulo: number;
   localizador: number;
   descripcion: string;
@@ -14,11 +14,11 @@ export interface LineaVentaInterface {
 
 export interface VentaInterface {
   idEmpleado: number;
-  lineas: LineaVentaInterface[];
+  lineas: VentaLineaInterface[];
   importe: number;
 }
 
-export interface FinVentaInterface {
+export interface VentaFinInterface {
   efectivo: number;
   cambio: number;
   tarjeta: number;
@@ -26,7 +26,7 @@ export interface FinVentaInterface {
   idTipoPago: number;
   idCliente: number;
   total: number;
-  lineas: LineaVentaInterface[];
+  lineas: VentaLineaInterface[];
   pagoMixto: boolean;
   factura: boolean;
   regalo: boolean;
@@ -41,10 +41,10 @@ export interface FinVentaResult {
 
 export interface FacturaResult {
   status: string;
-  factura: FinVentaInterface;
+  factura: VentaFinInterface;
 }
 
-export interface UltimaVentaArticuloInterface {
+export interface ArticuloUltimaVentaInterface {
   fecha: string;
   localizador: number;
   nombre: string;
@@ -53,7 +53,7 @@ export interface UltimaVentaArticuloInterface {
   importe: number;
 }
 
-export interface TopVentaArticuloInterface {
+export interface ArticuloTopVentaInterface {
   localizador: number;
   nombre: string;
   importe: number;

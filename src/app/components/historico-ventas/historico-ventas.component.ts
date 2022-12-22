@@ -11,9 +11,9 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
-import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
-import { HistoricoVenta } from "src/app/model/historico-venta.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
+import { VentaHistorico } from "src/app/model/venta-historico.model";
+import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -34,17 +34,17 @@ export class HistoricoVentasComponent implements AfterViewInit {
   rangoDesde: Date = new Date();
   rangoHasta: Date = new Date();
 
-  historicoVentasList: HistoricoVenta[] = [];
+  historicoVentasList: VentaHistorico[] = [];
   historicoVentasDisplayedColumns: string[] = [
     "fecha",
     "total",
     "nombreTipoPago",
   ];
-  historicoVentasDataSource: MatTableDataSource<HistoricoVenta> =
-    new MatTableDataSource<HistoricoVenta>();
+  historicoVentasDataSource: MatTableDataSource<VentaHistorico> =
+    new MatTableDataSource<VentaHistorico>();
   @ViewChild(MatSort) sort: MatSort;
 
-  historicoVentasSelected: HistoricoVenta = new HistoricoVenta();
+  historicoVentasSelected: VentaHistorico = new VentaHistorico();
   historicoVentasSelectedDisplayedColumns: string[] = [
     "localizador",
     "marca",
@@ -53,8 +53,8 @@ export class HistoricoVentasComponent implements AfterViewInit {
     "descuento",
     "importe",
   ];
-  historicoVentasSelectedDataSource: MatTableDataSource<HistoricoLineaVenta> =
-    new MatTableDataSource<HistoricoLineaVenta>();
+  historicoVentasSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
+    new MatTableDataSource<VentaLineaHistorico>();
 
   @ViewChild("clientesBox", { static: true }) clientesBox: MatSelect;
 
@@ -83,7 +83,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
   }
 
   changeFecha(): void {
-    this.historicoVentasSelected = new HistoricoVenta();
+    this.historicoVentasSelected = new VentaHistorico();
     const data: DateValues = {
       modo: "fecha",
       fecha: Utils.getDate(this.fecha),

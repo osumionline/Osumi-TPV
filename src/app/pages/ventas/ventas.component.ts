@@ -16,7 +16,7 @@ import { Router } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { Cliente } from "src/app/model/cliente.model";
-import { LineaVenta } from "src/app/model/linea-venta.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -45,8 +45,8 @@ export class VentasComponent implements OnInit, AfterViewInit {
     "descuento",
     "total",
   ];
-  ventasFinDataSource: MatTableDataSource<LineaVenta> =
-    new MatTableDataSource<LineaVenta>();
+  ventasFinDataSource: MatTableDataSource<VentaLinea> =
+    new MatTableDataSource<VentaLinea>();
   @ViewChild(MatSort) sort: MatSort;
 
   @ViewChild("header", { static: true }) header: HeaderComponent;

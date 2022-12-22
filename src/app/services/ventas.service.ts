@@ -11,8 +11,8 @@ import {
 import { Articulo } from "src/app/model/articulo.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
-import { FinVenta } from "src/app/model/fin-venta.model";
-import { LineaVenta } from "src/app/model/linea-venta.model";
+import { VentaFin } from "src/app/model/venta-fin.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { Venta } from "src/app/model/venta.model";
 import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
@@ -23,7 +23,7 @@ import { environment } from "src/environments/environment";
 export class VentasService {
   selected: number = -1;
   list: Venta[] = [];
-  fin: FinVenta = new FinVenta();
+  fin: VentaFin = new VentaFin();
 
   constructor(private http: HttpClient) {}
 
@@ -49,7 +49,7 @@ export class VentasService {
   }
 
   addLineaVenta(): void {
-    this.ventaActual.lineas.push(new LineaVenta());
+    this.ventaActual.lineas.push(new VentaLinea());
   }
 
   get ventaActual(): Venta {
@@ -83,11 +83,11 @@ export class VentasService {
   }
 
   loadFinVenta(): void {
-    const lineas: LineaVenta[] = this.ventaActual.lineas.filter(
-      (x: LineaVenta): boolean => x.idArticulo !== null
+    const lineas: VentaLinea[] = this.ventaActual.lineas.filter(
+      (x: VentaLinea): boolean => x.idArticulo !== null
     );
 
-    this.fin = new FinVenta(
+    this.fin = new VentaFin(
       Utils.formatNumber(this.ventaActual.importe),
       "0",
       null,

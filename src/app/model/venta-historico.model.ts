@@ -1,11 +1,11 @@
 import {
-  HistoricoLineaVentaInterface,
-  HistoricoVentaInterface,
+  VentaHistoricoInterface,
+  VentaLineaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
-import { HistoricoLineaVenta } from "src/app/model/historico-linea-venta.model";
+import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { Utils } from "src/app/shared/utils.class";
 
-export class HistoricoVenta {
+export class VentaHistorico {
   _totalUnidades: number = null;
   _totalDescuento: number = null;
 
@@ -23,7 +23,7 @@ export class HistoricoVenta {
     public entregadoOtro: number = null,
     public saldo: number = null,
     public fecha: string = null,
-    public lineas: HistoricoLineaVenta[] = []
+    public lineas: VentaLineaHistorico[] = []
   ) {}
 
   get totalUnidades(): number {
@@ -76,7 +76,7 @@ export class HistoricoVenta {
     this.idTipoPago = tp;
   }
 
-  fromInterface(hv: HistoricoVentaInterface): HistoricoVenta {
+  fromInterface(hv: VentaHistoricoInterface): VentaHistorico {
     this.id = hv.id;
     this.editable = hv.editable;
     this.idEmpleado = hv.idEmpleado;
@@ -91,15 +91,15 @@ export class HistoricoVenta {
     this.saldo = hv.saldo;
     this.fecha = Utils.urldecode(hv.fecha);
     this.lineas = hv.lineas.map(
-      (hlv: HistoricoLineaVentaInterface): HistoricoLineaVenta => {
-        return new HistoricoLineaVenta().fromInterface(hlv);
+      (hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
+        return new VentaLineaHistorico().fromInterface(hlv);
       }
     );
 
     return this;
   }
 
-  toInterface(): HistoricoVentaInterface {
+  toInterface(): VentaHistoricoInterface {
     return {
       id: this.id,
       editable: this.editable,
@@ -115,7 +115,7 @@ export class HistoricoVenta {
       saldo: this.saldo,
       fecha: Utils.urlencode(this.fecha),
       lineas: this.lineas.map(
-        (hlv: HistoricoLineaVenta): HistoricoLineaVentaInterface => {
+        (hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {
           return hlv.toInterface();
         }
       ),

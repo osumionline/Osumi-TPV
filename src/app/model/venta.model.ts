@@ -1,10 +1,10 @@
 import {
-  LineaVentaInterface,
   VentaInterface,
+  VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
-import { LineaVenta } from "src/app/model/linea-venta.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { rolList } from "src/app/shared/rol.class";
 
 export class Venta {
@@ -19,7 +19,7 @@ export class Venta {
   constructor(
     public id: number = null,
     public idEmpleado: number = null,
-    public lineas: LineaVenta[] = [],
+    public lineas: VentaLinea[] = [],
     public importe: number = 0
   ) {
     if (this.id === null) {
@@ -56,7 +56,7 @@ export class Venta {
     this.updateImporte();
   }
 
-  fromInterface(v: VentaInterface, lineas: LineaVenta[]): Venta {
+  fromInterface(v: VentaInterface, lineas: VentaLinea[]): Venta {
     this.idEmpleado = v.idEmpleado;
     this.lineas = lineas;
     this.importe = v.importe;
@@ -65,7 +65,7 @@ export class Venta {
   }
 
   toInterface(): VentaInterface {
-    const lineasVentas: LineaVentaInterface[] = [];
+    const lineasVentas: VentaLineaInterface[] = [];
     for (let lv of this.lineas) {
       lineasVentas.push(lv.toInterface());
     }
