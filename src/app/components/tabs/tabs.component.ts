@@ -257,6 +257,8 @@ export class TabsComponent implements AfterViewInit {
     }
 
     this.vs.cliente = cliente;
+    this.vs.fin.idCliente = cliente.id;
+    this.vs.fin.email = cliente.email;
     this.cerrarElegirCliente();
     this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
       if (result.status === "ok") {

@@ -17,7 +17,8 @@ export class VentaFin {
     public idCliente: number = null,
     public total: string = "0",
     public lineas: VentaLinea[] = [],
-    public imprimir: string = "si"
+    public imprimir: string = "si",
+    public email: string = null
   ) {}
 
   toInterface(): VentaFinInterface {
@@ -36,6 +37,7 @@ export class VentaFin {
       lineas: lineas,
       pagoMixto: this.pagoMixto,
       imprimir: Utils.urlencode(this.imprimir),
+      email: Utils.urlencode(this.email),
     };
   }
 }

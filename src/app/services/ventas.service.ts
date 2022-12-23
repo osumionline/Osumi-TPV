@@ -95,7 +95,9 @@ export class VentasService {
       null,
       this.cliente ? this.cliente.id : -1,
       Utils.formatNumber(this.ventaActual.importe),
-      lineas
+      lineas,
+      "si",
+      this.cliente ? this.cliente.email : null
     );
   }
 

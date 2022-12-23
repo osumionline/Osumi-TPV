@@ -29,6 +29,7 @@ export interface VentaFinInterface {
   lineas: VentaLineaInterface[];
   pagoMixto: boolean;
   imprimir: string;
+  email: string;
 }
 
 export interface FinVentaResult {

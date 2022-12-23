@@ -170,16 +170,19 @@
 					<div class="total-importe">{{vs.fin.total}} €</div>
 				</div>
 				<div class="col-line-check">
-					<mat-form-field subscriptSizing="dynamic">
-						<mat-select [(ngModel)]="vs.fin.imprimir"
-									(ngModelChange)="checkTicket()">
-							<mat-option value="si">Imprimir ticket</mat-option>
-							<mat-option value="no">No imprimir</mat-option>
-							<mat-option value="regalo">Ticket regalo</mat-option>
-							<mat-option value="factura">Imprimir factura</mat-option>
-							<mat-option value="email">Enviar email</mat-option>
-						</mat-select>
-					</mat-form-field>
+					<div class="options">
+						<mat-form-field subscriptSizing="dynamic">
+							<mat-select [(ngModel)]="vs.fin.imprimir"
+										(ngModelChange)="checkTicket()">
+								<mat-option value="si">Imprimir ticket</mat-option>
+								<mat-option value="no">No imprimir</mat-option>
+								<mat-option value="regalo">Ticket regalo</mat-option>
+								<mat-option value="factura">Imprimir factura</mat-option>
+								<mat-option value="email">Enviar email</mat-option>
+							</mat-select>
+						</mat-form-field>
+						<span *ngIf="vs.fin.imprimir === 'email' && vs.fin.email !== null">{{vs.fin.email}}</span>
+					</div>
 					<div class="actions">
 						<button mat-raised-button
 								color="warn"

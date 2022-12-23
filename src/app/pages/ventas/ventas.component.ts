@@ -133,7 +133,7 @@ export class VentasComponent implements OnInit, AfterViewInit {
   }
 
   selectClient(cliente: SelectClienteInterface): void {
-    if (cliente.from === null) {
+    if (cliente === null || cliente.from === null) {
       this.startFocus();
     } else {
       this.abreFinalizarVenta();
@@ -229,24 +229,49 @@ export class VentasComponent implements OnInit, AfterViewInit {
   }
 
   checkTicket(): void {
+    console.log(this.vs.fin);
+    // Se ha elegido email y no tiene cliente asignado
     if (this.vs.fin.imprimir === "email" && this.vs.fin.idCliente === -1) {
       this.dialog
         .confirm({
           title: "Enviar email",
           content:
-            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?",
-          ok: "Continuar",
-          cancel: "Cancelar",
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o introducir uno manualmente?",
+          ok: "Elegir cliente",
+          cancel: "Introducir email",
         })
         .subscribe((result) => {
           if (result === true) {
             this.cerrarFinalizarVenta();
             this.tabs.selectClient("venta");
           } else {
-            this.vs.fin.imprimir = "si";
+            this.pedirEmail();
           }
         });
     }
+    // Se ha elegido email, tiene cliente asignado pero no tiene email
+    if (
+      this.vs.fin.imprimir === "email" &&
+      this.vs.fin.idCliente !== -1 &&
+      (this.vs.cliente.email === null || this.vs.cliente.email === "")
+    ) {
+      this.dialog
+        .confirm({
+          title: "Enviar email",
+          content:
+            "El cliente seleccionado no tiene una dirección de email asignada, ¿quieres ir a su ficha o introducir uno manualmente?",
+          ok: "Ir a su ficha",
+          cancel: "Introducir email",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.router.navigate(["/clientes/" + this.vs.cliente.id]);
+          } else {
+            this.pedirEmail();
+          }
+        });
+    }
+    // Se ha elegido factura y no tiene cliente asignado
     if (this.vs.fin.imprimir === "factura" && this.vs.fin.idCliente === -1) {
       this.dialog
         .confirm({
@@ -265,6 +290,26 @@ export class VentasComponent implements OnInit, AfterViewInit {
           }
         });
     }
+  }
+
+  pedirEmail(): void {
+    console.log("pedirEmail");
+    this.dialog
+      .form({
+        title: "Introducir email",
+        content: "Introduce el email del cliente",
+        ok: "Continuar",
+        cancel: "Cancelar",
+        fields: [{ title: "Email", type: "email", value: null }],
+      })
+      .subscribe((result) => {
+        if (result === undefined) {
+          this.vs.fin.imprimir = "si";
+        } else {
+          this.vs.fin.email = result[0].value;
+        }
+        console.log(this.vs.fin);
+      });
   }
 
   finalizarVenta(): void {
