@@ -7,7 +7,8 @@
 	flex-direction: row;
 
 	.col-left {
-		padding: 16px;
+		padding-right: 8px;
+		border-right: 1px solid #eee;
 		flex: 2;
 
 		.col-line {
@@ -35,19 +36,6 @@
 				font-size: 2em;
 				display: inline-block;
 				margin-right: 8px;
-			}
-		}
-
-		.col-line-check {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin-bottom: 8px;
-
-			.actions {
-				width: 220px;
-				display: flex;
-				justify-content: space-between;
 			}
 		}
 
@@ -102,79 +90,57 @@
 				}
 			}
 		}
-
-		.total {
-			box-sizing: border-box;
-			border: 1px solid #ccc;
-			border-radius: 6px;
-			position: relative;
-			padding: 16px;
-			height: 60px;
-			margin-bottom: 16px;
-			margin-top: 8px;
-
-			.total-title {
-				position: absolute;
-				top: 5px;
-				left: 5px;
-				font-weight: bold;
-				color: #888;
-			}
-
-			.total-importe {
-				display: flex;
-				height: 28px;
-				align-items: center;
-				justify-content: flex-end;
-				font-size: 2em;
-			}
-		}
 	}
 
 	.col-right {
 		width: 600px;
 		flex: 3;
+		padding-left: 8px;
 
-		.venta-linea {
+		.venta-table {
+			min-height: 285px;
+			max-height: 400px;
+			overflow-y: auto;
+		}
+	}
+
+	.total {
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		border-radius: 6px;
+		position: relative;
+		padding: 16px;
+		height: 60px;
+		margin-bottom: 16px;
+		margin-top: 8px;
+
+		.total-title {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			font-weight: bold;
+			color: #888;
+		}
+
+		.total-importe {
 			display: flex;
-			border-bottom: 1px solid #ccc;
+			height: 28px;
+			align-items: center;
+			justify-content: flex-end;
+			font-size: 2em;
+		}
+	}
 
-			div {
-				padding: 6px;
-				border-top-left-radius: 6px;
-			}
+	.col-line-check {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
 
-			.venta-linea-localizador {
-				width: 20%;
-			}
-
-			.venta-linea-marca {
-				width: 20%;
-			}
-
-			.venta-linea-nombre {
-				width: 30%;
-			}
-
-			.venta-linea-cant {
-				width: 10%;
-				text-align: center;
-			}
-
-			.venta-linea-desc {
-				width: 10%;
-				text-align: center;
-			}
-
-			.venta-linea-subtotal {
-				width: 10%;
-				text-align: center;
-				border-top-right-radius: 6px;
-			}
-
-			&:first-child {
-				background-color: #eee;
-			}
+		.actions {
+			width: 220px;
+			display: flex;
+			justify-content: space-between;
 		}
 	}
 }

@@ -9,7 +9,6 @@ import {
   ViewChildren,
 } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
-import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -36,7 +35,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
   @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
   @ViewChild("efectivoValue", { static: true }) efectivoValue: ElementRef;
   @ViewChild("tarjetaValue", { static: true }) tarjetaValue: ElementRef;
-  @ViewChild("clientesValue", { static: true }) clientesValue: MatSelect;
   clientes: Cliente[] = [];
 
   saving: boolean = false;
@@ -230,33 +228,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  changeFactura(ev: MatCheckboxChange): void {
-    if (ev.checked) {
-      this.clientes = [
-        new Cliente(-1, "Elige un cliente"),
-        ...this.cs.clientes,
-      ];
-      if (this.vs.fin.idCliente === -1) {
-        setTimeout(() => {
-          this.clientesValue.toggle();
-        }, 0);
-      }
-    } else {
-      this.vs.fin.idCliente = this.vs.cliente ? this.vs.cliente.id : null;
-      if (this.vs.fin.pagoMixto) {
-        setTimeout(() => {
-          this.tarjetaValue.nativeElement.select();
-        }, 0);
-      } else {
-        if (this.vs.fin.idTipoPago === null) {
-          setTimeout(() => {
-            this.efectivoValue.nativeElement.select();
-          }, 0);
-        }
-      }
-    }
-  }
-
   checkTicket(): void {
     if (this.vs.fin.imprimir === "email" && this.vs.fin.idCliente === -1) {
       this.dialog
@@ -276,6 +247,24 @@ export class VentasComponent implements OnInit, AfterViewInit {
           }
         });
     }
+    if (this.vs.fin.imprimir === "factura" && this.vs.fin.idCliente === -1) {
+      this.dialog
+        .confirm({
+          title: "Imprimir factura",
+          content:
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?",
+          ok: "Continuar",
+          cancel: "Cancelar",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.cerrarFinalizarVenta();
+            this.tabs.selectClient("factura");
+          } else {
+            this.vs.fin.imprimir = "si";
+          }
+        });
+    }
   }
 
   finalizarVenta(): void {
@@ -283,23 +272,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
     const efectivo: number = Utils.toNumber(this.vs.fin.efectivo);
     const total: number = Utils.toNumber(this.vs.fin.total);
 
-    if (
-      this.vs.fin.factura &&
-      (this.vs.fin.idCliente === null || this.vs.fin.idCliente === -1)
-    ) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No has elegido ningún cliente!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          setTimeout(() => {
-            this.clientesValue.toggle();
-          }, 0);
-        });
-      return;
-    }
     if (this.vs.fin.pagoMixto) {
       if (this.vs.fin.idTipoPago === null) {
         this.dialog.alert({

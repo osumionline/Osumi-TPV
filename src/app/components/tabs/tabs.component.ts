@@ -253,31 +253,31 @@ export class TabsComponent implements AfterViewInit {
             this.router.navigate(["/clientes/" + cliente.id]);
           }
         });
-    } else {
-      this.vs.cliente = cliente;
-      this.cerrarElegirCliente();
-      this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
-        if (result.status === "ok") {
-          this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-            result.ultimasVentas
-          );
-          this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
-            result.topVentas
-          );
-        } else {
-          this.dialog.alert({
-            title: "Error",
-            content:
-              "¡Ocurrió un error al obtener las estadísticas del cliente!",
-            ok: "Continuar",
-          });
-        }
-      });
-      this.selectClientEvent.emit({
-        id: cliente.id,
-        from: this.selectClienteFrom,
-      });
+      return;
     }
+
+    this.vs.cliente = cliente;
+    this.cerrarElegirCliente();
+    this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
+      if (result.status === "ok") {
+        this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+          result.ultimasVentas
+        );
+        this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
+          result.topVentas
+        );
+      } else {
+        this.dialog.alert({
+          title: "Error",
+          content: "¡Ocurrió un error al obtener las estadísticas del cliente!",
+          ok: "Continuar",
+        });
+      }
+    });
+    this.selectClientEvent.emit({
+      id: cliente.id,
+      from: this.selectClienteFrom,
+    });
   }
 
   removeClient(): void {

@@ -7,8 +7,6 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class VentaFin {
   pagoMixto: boolean = false;
-  factura: boolean = false;
-  regalo: boolean = false;
 
   constructor(
     public efectivo: string = "0",
@@ -37,8 +35,6 @@ export class VentaFin {
       total: Utils.toNumber(this.total),
       lineas: lineas,
       pagoMixto: this.pagoMixto,
-      factura: this.factura,
-      regalo: this.regalo,
       imprimir: Utils.urlencode(this.imprimir),
     };
   }

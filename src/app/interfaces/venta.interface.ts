@@ -28,8 +28,6 @@ export interface VentaFinInterface {
   total: number;
   lineas: VentaLineaInterface[];
   pagoMixto: boolean;
-  factura: boolean;
-  regalo: boolean;
   imprimir: string;
 }
 
