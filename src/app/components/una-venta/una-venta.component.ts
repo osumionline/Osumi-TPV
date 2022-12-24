@@ -10,8 +10,10 @@ import {
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
+import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
@@ -75,10 +77,11 @@ export class UnaVentaComponent implements AfterViewInit {
     private ms: MarcasService,
     public vs: VentasService,
     private ars: ArticulosService,
-    public es: EmpleadosService
+    public es: EmpleadosService,
+    private router: Router
   ) {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.buscadorResultadosDataSource.sort = this.sort;
     this.accesosDirectosDataSource.sort = this.sort;
   }
@@ -140,6 +143,25 @@ export class UnaVentaComponent implements AfterViewInit {
     }
     if (ev.key === "Enter" && !this.observacionesOpen) {
       this.searching = true;
+      // Si es 0, hay que introducir el artículo Varios
+      if (this.vs.ventaActual.lineas[ind].localizador == 0) {
+        console.log("entra en localizador 0");
+        const articulo: Articulo = new Articulo();
+        articulo.id = 0;
+        articulo.localizador = 0;
+        articulo.nombre = "Varios";
+        articulo.pvp = 0;
+        articulo.marca = "Varios";
+        console.log(articulo);
+        this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(
+          articulo
+        );
+        console.log(this.vs.ventaActual);
+        this.vs.addLineaVenta();
+        this.searching = false;
+        this.setFocus();
+        return;
+      }
       this.ars
         .loadArticulo(this.vs.ventaActual.lineas[ind].localizador)
         .subscribe((result) => {
@@ -204,6 +226,18 @@ export class UnaVentaComponent implements AfterViewInit {
           this.deleteVentaLineaEvent.emit(ind);
         }
       });
+  }
+
+  goToArticulo(linea: VentaLinea, ind: number): void {
+    if (linea.idArticulo !== 0) {
+      this.router.navigate([
+        "/articulos",
+        linea.localizador,
+        "return",
+        "ventas",
+      ]);
+    } else {
+    }
   }
 
   showObservaciones(ev: MouseEvent, observaciones: string): void {

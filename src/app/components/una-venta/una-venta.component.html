@@ -17,19 +17,19 @@
 	<div class="linea-venta"
 		 *ngFor="let linea of vs.ventaActual.lineas; let i = index">
 		<div class="col-localizador">
-			<input *ngIf="!linea.idArticulo"
+			<input *ngIf="linea.idArticulo === null"
 				   [id]="'loc-new-' + ind"
 				   class="linea-localizador"
 				   (keydown)="checkLocalizador($event, i)"
 				   [(ngModel)]="linea.localizador"
 				   [disabled]="searching"
 				   aria-label="Localizador">
-			<ng-container *ngIf="linea.idArticulo">{{linea.localizador}}</ng-container>
-			<mat-icon *ngIf="linea.idArticulo"
+			<ng-container *ngIf="linea.idArticulo !== null">{{linea.localizador}}</ng-container>
+			<mat-icon *ngIf="linea.idArticulo !== null"
 					  class="delete-linea"
 					  title="¿Borrar línea?"
 					  (click)="borraLinea(i)">delete</mat-icon>
-			<mat-icon *ngIf="!linea.idArticulo"
+			<mat-icon *ngIf="linea.idArticulo === null"
 					  class="accesos-directos"
 					  title="Abrir accesos directos"
 					  (click)="abreAccesosDirectos()">launch</mat-icon>
@@ -37,7 +37,7 @@
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
 			<span *ngIf="linea.descripcion"
-				  [routerLink]="['/articulos', linea.localizador, 'return', 'ventas']">
+				  (click)="goToArticulo(linea, i)">
 				{{linea.descripcion}}
 				<mat-icon *ngIf="linea.observaciones"
 						  (click)="showObservaciones($event, linea.observaciones)"
@@ -69,8 +69,8 @@
 			</ng-container>
 		</div>
 		<div class="col-pvp">
-			<ng-container *ngIf="!linea.pvp">&nbsp;</ng-container>
-			<span *ngIf="linea.pvp">{{linea.pvp | fixedNumber}} €</span>
+			<ng-container *ngIf="linea.pvp === null">&nbsp;</ng-container>
+			<span *ngIf="linea.pvp !== null">{{linea.pvp | fixedNumber}} €</span>
 		</div>
 		<div class="col-importe">
 			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
