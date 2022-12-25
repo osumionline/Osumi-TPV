@@ -243,6 +243,22 @@
 </div>
 
 <div class="modal-bg"
+	 [ngClass]="{'show': muestraVarios}">
+	<div class="modal-box">
+		<div class="modal-header">
+			<span>Introducir Varios</span>
+			<a href="#"
+			   (click)="cerrarVarios($event)">
+				<mat-icon>close</mat-icon>
+			</a>
+		</div>
+		<div class="modal-body">
+
+		</div>
+	</div>
+</div>
+
+<div class="modal-bg"
 	 [ngClass]="{'show': muestraBuscador}">
 	<div class="modal-box">
 		<div class="modal-header">

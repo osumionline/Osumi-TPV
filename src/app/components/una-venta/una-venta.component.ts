@@ -71,6 +71,8 @@ export class UnaVentaComponent implements AfterViewInit {
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
 
+  muestraVarios: boolean = false;
+
   constructor(
     private cms: ClassMapperService,
     private dialog: DialogService,
@@ -159,7 +161,7 @@ export class UnaVentaComponent implements AfterViewInit {
         console.log(this.vs.ventaActual);
         this.vs.addLineaVenta();
         this.searching = false;
-        this.setFocus();
+        this.abreVarios();
         return;
       }
       this.ars
@@ -237,7 +239,17 @@ export class UnaVentaComponent implements AfterViewInit {
         "ventas",
       ]);
     } else {
+      this.abreVarios();
     }
+  }
+
+  abreVarios(): void {
+    this.muestraVarios = true;
+  }
+
+  cerrarVarios(ev: MouseEvent = null): void {
+    ev && ev.preventDefault();
+    this.muestraVarios = false;
   }
 
   showObservaciones(ev: MouseEvent, observaciones: string): void {
