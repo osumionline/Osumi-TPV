@@ -9,6 +9,8 @@ export interface VentaLineaInterface {
   importe: number;
   descuento: number;
   descuentoManual: boolean;
+  iva: number;
+  re: number;
   observaciones: string;
 }
 

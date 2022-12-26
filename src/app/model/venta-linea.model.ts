@@ -15,6 +15,8 @@ export class VentaLinea {
     public pvp: number = null,
     public importe: number = null,
     public descuento: number = null,
+    public iva: number = null,
+    public re: number = null,
     public observaciones: string = null
   ) {}
 
@@ -48,6 +50,8 @@ export class VentaLinea {
     this.pvp = a.pvp;
     this.importe = a.pvp;
     this.descuento = 0;
+    this.iva = a.iva;
+    this.re = a.re;
     this.observaciones = a.mostrarObsVentas ? a.observaciones : null;
 
     return this;
@@ -63,6 +67,8 @@ export class VentaLinea {
     this.pvp = lv.pvp;
     this.importe = lv.importe;
     this.descuento = lv.descuento;
+    this.iva = lv.iva;
+    this.re = lv.re;
     this.observaciones = lv.observaciones;
 
     return this;
@@ -80,6 +86,8 @@ export class VentaLinea {
       importe: this.importe,
       descuento: this.descuento,
       descuentoManual: this.descuentoManual,
+      iva: this.iva,
+      re: this.re,
       observaciones: this.observaciones,
     };
   }

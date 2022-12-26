@@ -100,7 +100,13 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.tipoIva = this.config.tipoIva;
     this.ivaOptions = this.config.ivaOptions;
-    this.selectedIvaOption = new IVAOption(this.tipoIva);
+    this.selectedIvaOption = new IVAOption(
+      this.tipoIva,
+      21,
+      this.tipoIva === "re" ? 5.2 : -1
+    );
+    console.log(this.selectedIvaOption);
+    console.log(this.ivaOptions);
   }
 
   ngAfterViewInit(): void {
@@ -295,6 +301,9 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
       this.formVarios.get("nombre").value;
     this.vs.ventaActual.lineas[this.variosInd].pvp =
       this.formVarios.get("pvp").value;
+    this.vs.ventaActual.lineas[this.variosInd].iva = this.selectedIvaOption.iva;
+    this.vs.ventaActual.lineas[this.variosInd].re =
+      this.selectedIvaOption.re !== -1 ? this.selectedIvaOption.re : null;
     this.vs.ventaActual.updateImporte();
     this.cerrarVarios();
   }
