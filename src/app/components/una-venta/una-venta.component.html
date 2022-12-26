@@ -46,7 +46,7 @@
 		</div>
 		<div class="col-stock">
 			<ng-container *ngIf="linea.stock === null">&nbsp;</ng-container>
-			<span *ngIf="linea.stock !== null">{{linea.stock}}</span>
+			<span *ngIf="linea.stock !== null">{{linea.idArticulo !== 0 ? linea.stock : '-'}}</span>
 		</div>
 		<div class="col-cantidad">
 			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
@@ -253,7 +253,47 @@
 			</a>
 		</div>
 		<div class="modal-body">
-
+			<form [formGroup]="formVarios"
+				  (ngSubmit)="actualizarVarios()">
+				<div class="form-field">
+					<label>Nombre</label>
+					<mat-form-field subscriptSizing="dynamic">
+						<input matInput
+							   placeholder="Nombre"
+							   formControlName="nombre">
+					</mat-form-field>
+				</div>
+				<div class="form-field">
+					<label>PVP</label>
+					<mat-form-field subscriptSizing="dynamic">
+						<input matInput
+							   type="number"
+							   step="0.01"
+							   placeholder="PVP"
+							   (focus)="$event.target.select()"
+							   formControlName="pvp"
+							   #variosPVPbox>
+					</mat-form-field>
+				</div>
+				<div class="form-field margin-right">
+					<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
+					<mat-form-field>
+						<mat-select [(ngModel)]="selectedIvaOption.id"
+									(ngModelChange)="updateIvaRe($event)"
+									[ngModelOptions]="{standalone: true}">
+							<mat-option *ngFor="let iva of ivaOptions"
+										[value]="iva.id">
+								{{iva.name}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<button mat-raised-button
+						color="primary">
+					<mat-icon>save</mat-icon>
+					Guardar
+				</button>
+			</form>
 		</div>
 	</div>
 </div>

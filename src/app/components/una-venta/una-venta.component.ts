@@ -5,9 +5,11 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -15,9 +17,11 @@ import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
+import { IVAOption } from "src/app/model/iva-option.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
@@ -29,7 +33,7 @@ import { rolList } from "src/app/shared/rol.class";
   templateUrl: "./una-venta.component.html",
   styleUrls: ["./una-venta.component.scss"],
 })
-export class UnaVentaComponent implements AfterViewInit {
+export class UnaVentaComponent implements OnInit, AfterViewInit {
   @Input() ind: number = null;
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
@@ -72,6 +76,15 @@ export class UnaVentaComponent implements AfterViewInit {
     new MatTableDataSource<AccesoDirecto>();
 
   muestraVarios: boolean = false;
+  variosInd: number = null;
+  tipoIva: string = "iva";
+  ivaOptions: IVAOption[] = [];
+  selectedIvaOption: IVAOption = new IVAOption();
+  formVarios: FormGroup = new FormGroup({
+    nombre: new FormControl(null, Validators.required),
+    pvp: new FormControl(null),
+  });
+  @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
 
   constructor(
     private cms: ClassMapperService,
@@ -80,8 +93,15 @@ export class UnaVentaComponent implements AfterViewInit {
     public vs: VentasService,
     private ars: ArticulosService,
     public es: EmpleadosService,
+    private config: ConfigService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.tipoIva = this.config.tipoIva;
+    this.ivaOptions = this.config.ivaOptions;
+    this.selectedIvaOption = new IVAOption(this.tipoIva);
+  }
 
   ngAfterViewInit(): void {
     this.buscadorResultadosDataSource.sort = this.sort;
@@ -161,7 +181,7 @@ export class UnaVentaComponent implements AfterViewInit {
         console.log(this.vs.ventaActual);
         this.vs.addLineaVenta();
         this.searching = false;
-        this.abreVarios();
+        this.abreVarios(ind);
         return;
       }
       this.ars
@@ -239,17 +259,44 @@ export class UnaVentaComponent implements AfterViewInit {
         "ventas",
       ]);
     } else {
-      this.abreVarios();
+      this.abreVarios(ind);
     }
   }
 
-  abreVarios(): void {
+  abreVarios(ind: number): void {
+    this.formVarios
+      .get("nombre")
+      .setValue(this.vs.ventaActual.lineas[ind].descripcion);
+    this.formVarios.get("pvp").setValue(this.vs.ventaActual.lineas[ind].pvp);
+    this.variosInd = ind;
     this.muestraVarios = true;
+    setTimeout(() => {
+      this.variosPVPbox.nativeElement.focus();
+    }, 0);
   }
 
   cerrarVarios(ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.muestraVarios = false;
+  }
+
+  updateIvaRe(ev: string): void {
+    const ivaInd: number = this.config.ivaOptions.findIndex(
+      (x: IVAOption): boolean => x.id == ev
+    );
+    this.selectedIvaOption.updateValues(
+      this.config.ivaOptions[ivaInd].iva,
+      this.config.ivaOptions[ivaInd].re
+    );
+  }
+
+  actualizarVarios(): void {
+    this.vs.ventaActual.lineas[this.variosInd].descripcion =
+      this.formVarios.get("nombre").value;
+    this.vs.ventaActual.lineas[this.variosInd].pvp =
+      this.formVarios.get("pvp").value;
+    this.vs.ventaActual.updateImporte();
+    this.cerrarVarios();
   }
 
   showObservaciones(ev: MouseEvent, observaciones: string): void {
