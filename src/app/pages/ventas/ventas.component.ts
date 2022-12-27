@@ -163,9 +163,18 @@ export class VentasComponent implements OnInit, AfterViewInit {
   }
 
   updateCambio(): void {
-    const cambio: string = Utils.formatNumber(
-      Utils.toNumber(this.vs.fin.efectivo) - Utils.toNumber(this.vs.fin.total)
-    );
+    let cambio: string = "";
+    if (!this.vs.fin.pagoMixto) {
+      cambio = Utils.formatNumber(
+        Utils.toNumber(this.vs.fin.efectivo) - Utils.toNumber(this.vs.fin.total)
+      );
+    } else {
+      cambio = Utils.formatNumber(
+        Utils.toNumber(this.vs.fin.efectivo) +
+          Utils.toNumber(this.vs.fin.tarjeta) -
+          Utils.toNumber(this.vs.fin.total)
+      );
+    }
     if (Utils.toNumber(cambio) > 0) {
       this.vs.fin.cambio = cambio;
     }

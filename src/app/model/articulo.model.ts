@@ -92,14 +92,18 @@ export class Articulo {
         return new Foto(n);
       });
     }
-    this.etiquetas = a.etiquetas.map((e: EtiquetaInterface): Etiqueta => {
-      return new Etiqueta().fromInterface(e);
-    });
-    this.etiquetasWeb = a.etiquetasWeb.map(
-      (e: EtiquetaWebInterface): EtiquetaWeb => {
-        return new EtiquetaWeb().fromInterface(e);
-      }
-    );
+    if (a.etiquetas) {
+      this.etiquetas = a.etiquetas.map((e: EtiquetaInterface): Etiqueta => {
+        return new Etiqueta().fromInterface(e);
+      });
+    }
+    if (a.etiquetasWeb) {
+      this.etiquetasWeb = a.etiquetasWeb.map(
+        (e: EtiquetaWebInterface): EtiquetaWeb => {
+          return new EtiquetaWeb().fromInterface(e);
+        }
+      );
+    }
 
     return this;
   }
