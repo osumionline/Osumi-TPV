@@ -229,7 +229,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
   }
 
   checkTicket(): void {
-    console.log(this.vs.fin);
     // Se ha elegido email y no tiene cliente asignado
     if (this.vs.fin.imprimir === "email" && this.vs.fin.idCliente === -1) {
       this.dialog
@@ -293,7 +292,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
   }
 
   pedirEmail(): void {
-    console.log("pedirEmail");
     this.dialog
       .form({
         title: "Introducir email",
@@ -308,7 +306,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
         } else {
           this.vs.fin.email = result[0].value;
         }
-        console.log(this.vs.fin);
       });
   }
 

@@ -105,8 +105,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
       21,
       this.tipoIva === "re" ? 5.2 : -1
     );
-    console.log(this.selectedIvaOption);
-    console.log(this.ivaOptions);
   }
 
   ngAfterViewInit(): void {
@@ -173,18 +171,17 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
       this.searching = true;
       // Si es 0, hay que introducir el artículo Varios
       if (this.vs.ventaActual.lineas[ind].localizador == 0) {
-        console.log("entra en localizador 0");
         const articulo: Articulo = new Articulo();
         articulo.id = 0;
         articulo.localizador = 0;
         articulo.nombre = "Varios";
         articulo.pvp = 0;
         articulo.marca = "Varios";
-        console.log(articulo);
+
         this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(
           articulo
         );
-        console.log(this.vs.ventaActual);
+
         this.vs.addLineaVenta();
         this.searching = false;
         this.abreVarios(ind);

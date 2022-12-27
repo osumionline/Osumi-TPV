@@ -658,7 +658,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   startAutoSave(): void {
-    console.log("autosave");
     this.updatePedidoData();
     this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
       this.pedido.id = result.id;
