@@ -188,4 +188,33 @@ export class HistoricoVentasComponent implements AfterViewInit {
       window.open("/factura/venta/" + this.historicoVentasSelected.id);
     }
   }
+
+  enviarEmail(): void {
+    if (this.historicoVentasSelected.idCliente === null) {
+      this.dialog
+        .confirm({
+          title: "Cliente",
+          content:
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o crear uno nuevo?",
+          ok: "Crear nuevo",
+          cancel: "Elegir cliente",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.cerrarVentanaEvent.emit(0);
+            this.router.navigate(["/clientes/new"]);
+          } else {
+            setTimeout(() => {
+              this.clientesBox.toggle();
+            }, 0);
+          }
+        });
+    } else {
+      this.vs
+        .sendTicket(this.historicoVentasSelected.id)
+        .subscribe((result) => {
+          console.log(result);
+        });
+    }
+  }
 }

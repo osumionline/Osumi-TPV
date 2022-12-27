@@ -137,4 +137,11 @@ export class VentasService {
       { id, idTipoPago }
     );
   }
+
+  sendTicket(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-ventas/send-ticket",
+      { id }
+    );
+  }
 }
