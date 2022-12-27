@@ -186,14 +186,6 @@ export class TabsComponent implements AfterViewInit {
         });
       return;
     }
-    if (this.nuevoCliente.dniCif === null || this.nuevoCliente.dniCif === "") {
-      this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar en blanco el DNI o CIF del cliente!",
-        ok: "Continuar",
-      });
-      return;
-    }
     if (this.nuevoCliente.factIgual) {
       if (
         this.nuevoCliente.nombreApellidos === null ||
@@ -207,24 +199,13 @@ export class TabsComponent implements AfterViewInit {
         });
         return;
       }
-      if (
-        this.nuevoCliente.dniCif === null ||
-        this.nuevoCliente.dniCif === ""
-      ) {
-        this.dialog.alert({
-          title: "Error",
-          content:
-            "¡No puedes dejar en blanco el DNI o CIF del cliente para la facturación!",
-          ok: "Continuar",
-        });
-        return;
-      }
     }
     this.searching = true;
     this.cs.saveCliente(this.nuevoCliente.toInterface()).subscribe((result) => {
       if (result.status === "ok") {
         this.nuevoCliente.id = result.id;
         this.selectCliente(this.nuevoCliente);
+        window.open("/lopd/" + result.id);
       } else {
         this.dialog.alert({
           title: "Error",

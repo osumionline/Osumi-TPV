@@ -185,4 +185,8 @@ export class ClientesComponent implements OnInit {
         .subscribe((result) => {});
     });
   }
+
+  imprimirLOPD(): void {
+    window.open("/lopd/" + this.selectedClient.id);
+  }
 }

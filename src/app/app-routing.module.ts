@@ -13,6 +13,7 @@ import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-prove
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
+import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: "compras/pedido/:id", component: PedidoComponent },
   { path: "clientes", component: ClientesComponent },
   { path: "clientes/:new", component: ClientesComponent },
+  { path: "lopd/:id", component: LopdComponent },
   { path: "almacen", component: AlmacenComponent },
   { path: "gestion", component: GestionComponent },
   { path: "gestion/empleados", component: GestionEmpleadosComponent },

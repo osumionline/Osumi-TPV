@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   ClienteInterface,
+  ClienteResult,
   ClienteSaveResult,
   ClientesResult,
   EstadisticasClienteResult,
@@ -49,6 +50,13 @@ export class ClientesService {
   resetClientes(): void {
     this.loaded = false;
     this.load();
+  }
+
+  getCliente(id: number): Observable<ClienteResult> {
+    return this.http.post<ClienteResult>(
+      environment.apiUrl + "-clientes/get-cliente",
+      { id }
+    );
   }
 
   searchClientes(name: string): Observable<ClientesResult> {

@@ -312,6 +312,11 @@
                             <div class="others">
                                 <button mat-raised-button
                                         color="primary"
+                                        *ngIf="form.value.id"
+                                        type="button"
+                                        (click)="imprimirLOPD()">Imprimir LOPD</button>
+                                <button mat-raised-button
+                                        color="primary"
                                         [disabled]="!form.dirty"
                                         type="button"
                                         (click)="resetForm()">Cancelar</button>

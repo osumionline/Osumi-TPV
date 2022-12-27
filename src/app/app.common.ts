@@ -15,6 +15,7 @@ import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.componen
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
+import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 
 export const PAGES: any[] = [
   MainComponent,
@@ -31,6 +32,7 @@ export const PAGES: any[] = [
   GestionMarcasComponent,
   GestionProveedoresComponent,
   GestionTiposPagoComponent,
+  LopdComponent,
 ];
 
 /*

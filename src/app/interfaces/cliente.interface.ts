@@ -31,6 +31,11 @@ export interface ClientesResult {
   list: ClienteInterface[];
 }
 
+export interface ClienteResult {
+  status: string;
+  cliente: ClienteInterface;
+}
+
 export interface ClienteSaveResult {
   status: string;
   id: number;
