@@ -50,6 +50,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
     "marca",
     "articulo",
     "unidades",
+    "pvp",
     "descuento",
     "importe",
   ];

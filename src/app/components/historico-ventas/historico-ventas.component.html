@@ -197,6 +197,23 @@
                             *matFooterCellDef> <strong>{{historicoVentasSelected.totalUnidades}}</strong> </td>
                     </ng-container>
 
+                    <!-- PVP -->
+                    <ng-container matColumnDef="pvp">
+                        <th class="center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            sortActionDescription="Ordenar por PVP">
+                            PVP
+                        </th>
+                        <td class="center"
+                            mat-cell
+                            *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
+                        <td class="center"
+                            mat-footer-cell
+                            *matFooterCellDef></td>
+                    </ng-container>
+
                     <!-- Descuento -->
                     <ng-container matColumnDef="descuento">
                         <th class="center"
