@@ -2,6 +2,8 @@ import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface"
 import { Utils } from "src/app/shared/utils.class";
 
 export class VentaLineaHistorico {
+  devolver: number;
+
   constructor(
     public id: number = null,
     public idArticulo: number = null,
@@ -38,6 +40,7 @@ export class VentaLineaHistorico {
     this.importeDescuento = hlv.importeDescuento;
     this.devuelto = hlv.devuelto;
     this.unidades = hlv.unidades;
+    this.devolver = hlv.unidades;
 
     return this;
   }

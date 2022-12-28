@@ -13,6 +13,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
+import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";
@@ -27,6 +29,7 @@ import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
+import { ArticuloInterface } from "./../../interfaces/articulo.interface";
 
 @Component({
   selector: "otpv-una-venta",
@@ -85,6 +88,10 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     pvp: new FormControl(null),
   });
   @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
+
+  devolucionVenta: number = null;
+  @ViewChild("devolucion", { static: true }) devolucion: DevolucionComponent;
+  devolucionList: DevolucionSelectedInterface[] = [];
 
   constructor(
     private cms: ClassMapperService,
@@ -171,20 +178,13 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
       this.searching = true;
       // Si es 0, hay que introducir el artículo Varios
       if (this.vs.ventaActual.lineas[ind].localizador == 0) {
-        const articulo: Articulo = new Articulo();
-        articulo.id = 0;
-        articulo.localizador = 0;
-        articulo.nombre = "Varios";
-        articulo.pvp = 0;
-        articulo.marca = "Varios";
-
-        this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(
-          articulo
-        );
-
-        this.vs.addLineaVenta();
-        this.searching = false;
-        this.abreVarios(ind);
+        this.nuevoVarios(ind);
+        return;
+      }
+      // Si el localizador es un número negativo, está escaneando un ticket.
+      // Los ids de las ventas son números negativos y hay que abrir ventana de devoluciones
+      if (this.vs.ventaActual.lineas[ind].localizador < 0) {
+        this.abreDevoluciones(ind);
         return;
       }
       this.ars
@@ -192,36 +192,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           this.searching = false;
           if (result.status === "ok") {
-            const articulo = this.cms.getArticulo(result.articulo);
-            const marca = this.ms.findById(articulo.idMarca);
-            articulo.marca = marca.nombre;
-            const indArticulo: number = this.vs.ventaActual.lineas.findIndex(
-              (x: VentaLinea): boolean => x.idArticulo === articulo.id
-            );
-
-            if (indArticulo === -1) {
-              this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(
-                articulo
-              );
-              this.vs.addLineaVenta();
-            } else {
-              this.vs.ventaActual.lineas[indArticulo].cantidad++;
-              this.vs.ventaActual.lineas[ind].localizador = null;
-            }
-            this.setFocus();
-
-            this.vs.ventaActual.updateImporte();
-            if (articulo.mostrarObsVentas && articulo.observaciones) {
-              this.dialog
-                .alert({
-                  title: "Observaciones",
-                  content: articulo.observaciones,
-                  ok: "Continuar",
-                })
-                .subscribe((result) => {
-                  this.setFocus();
-                });
-            }
+            this.loadArticulo(result.articulo, ind);
           } else {
             this.dialog
               .alert({
@@ -235,6 +206,133 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
               });
           }
         });
+    }
+  }
+
+  loadArticulo(
+    articuloResult: ArticuloInterface,
+    ind: number,
+    devolucion: DevolucionSelectedInterface = null
+  ): void {
+    const articulo = this.cms.getArticulo(articuloResult);
+    const marca = this.ms.findById(articulo.idMarca);
+    articulo.marca = marca.nombre;
+    const indArticulo: number = this.vs.ventaActual.lineas.findIndex(
+      (x: VentaLinea): boolean => x.idArticulo === articulo.id
+    );
+
+    if (indArticulo === -1) {
+      this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
+      if (devolucion !== null) {
+        this.vs.ventaActual.lineas[ind].cantidad = devolucion.unidades;
+        this.vs.ventaActual.lineas[ind].fromVenta = this.devolucionVenta;
+      }
+      this.vs.addLineaVenta();
+    } else {
+      if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
+        this.vs.ventaActual.lineas[indArticulo].cantidad++;
+        this.vs.ventaActual.lineas[ind].localizador = null;
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content:
+              "Has seleccionado un artículo que está marcado como devolución.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.vs.ventaActual.lineas[ind].localizador = null;
+            this.setFocus();
+            return;
+          });
+      }
+    }
+    this.setFocus();
+
+    this.vs.ventaActual.updateImporte();
+    if (
+      devolucion === null &&
+      articulo.mostrarObsVentas &&
+      articulo.observaciones
+    ) {
+      this.dialog
+        .alert({
+          title: "Observaciones",
+          content: articulo.observaciones,
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.setFocus();
+        });
+    }
+    if (devolucion !== null) {
+      this.loadNextDevolucion();
+    }
+  }
+
+  nuevoVarios(ind: number): void {
+    const articulo: Articulo = new Articulo();
+    articulo.id = 0;
+    articulo.localizador = 0;
+    articulo.nombre = "Varios";
+    articulo.pvp = 0;
+    articulo.marca = "Varios";
+
+    this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
+
+    this.vs.addLineaVenta();
+    this.searching = false;
+    this.abreVarios(ind);
+  }
+
+  abreDevoluciones(ind: number): void {
+    if (this.devolucionVenta !== null) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content:
+            "¡Atención! No puedes realizar una nueva devolución hasta haber terminado la actual.",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.searching = false;
+          this.vs.ventaActual.lineas[ind].localizador = null;
+          this.setFocus();
+        });
+    } else {
+      this.devolucionVenta = this.vs.ventaActual.lineas[ind].localizador * -1;
+      this.devolucion.newDevolucion(this.devolucionVenta);
+      this.searching = false;
+      this.vs.ventaActual.lineas[ind].localizador = null;
+    }
+  }
+
+  mostrarDevolucion(): void {
+    this.devolucion.newDevolucion(this.devolucionVenta);
+  }
+
+  continuarDevolucion(list: DevolucionSelectedInterface[]): void {
+    if (list.length > 0) {
+      this.devolucionList = list;
+      this.loadNextDevolucion();
+    } else {
+      this.devolucionVenta = null;
+      this.setFocus();
+    }
+  }
+
+  loadNextDevolucion(): void {
+    if (this.devolucionList.length > 0) {
+      const item: DevolucionSelectedInterface = this.devolucionList.shift();
+      this.ars.loadArticulo(item.localizador).subscribe((result) => {
+        this.loadArticulo(
+          result.articulo,
+          this.vs.ventaActual.lineas.length - 1,
+          item
+        );
+      });
+    } else {
+      this.setFocus();
     }
   }
 
@@ -587,8 +685,10 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
       })
       .subscribe((result) => {
         if (result === true) {
+          this.devolucionVenta = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
+          this.setFocus();
         }
       });
   }
@@ -598,6 +698,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   loadUltimaVenta(importe: number, cambio: number): void {
+    this.devolucionVenta = null;
     this.ultimaVentaImporte = importe;
     this.ultimaVentaCambio = -1 * cambio;
     this.showUltimaVenta = true;

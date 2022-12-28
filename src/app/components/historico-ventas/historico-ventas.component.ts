@@ -87,6 +87,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.historicoVentasSelected = new VentaHistorico();
     const data: DateValues = {
       modo: "fecha",
+      id: null,
       fecha: Utils.getDate(this.fecha),
       desde: null,
       hasta: null,
@@ -108,6 +109,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
     const data: DateValues = {
       modo: "rango",
       fecha: null,
+      id: null,
       desde: Utils.getDate(this.rangoDesde),
       hasta: Utils.getDate(this.rangoHasta),
     };

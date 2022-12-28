@@ -15,7 +15,8 @@
 <div class="lineas-ventas"
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="linea-venta"
-		 *ngFor="let linea of vs.ventaActual.lineas; let i = index">
+		 *ngFor="let linea of vs.ventaActual.lineas; let i = index"
+		 [ngClass]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">
 			<input *ngIf="linea.idArticulo === null"
 				   [id]="'loc-new-' + ind"
@@ -25,14 +26,17 @@
 				   [disabled]="searching"
 				   aria-label="Localizador">
 			<ng-container *ngIf="linea.idArticulo !== null">{{linea.localizador}}</ng-container>
-			<mat-icon *ngIf="linea.idArticulo !== null"
+			<mat-icon *ngIf="linea.idArticulo !== null && linea.fromVenta === null"
 					  class="delete-linea"
 					  title="¿Borrar línea?"
 					  (click)="borraLinea(i)">delete</mat-icon>
-			<mat-icon *ngIf="linea.idArticulo === null"
+			<mat-icon *ngIf="linea.idArticulo === null && linea.fromVenta === null"
 					  class="accesos-directos"
 					  title="Abrir accesos directos"
 					  (click)="abreAccesosDirectos()">launch</mat-icon>
+			<mat-icon *ngIf="linea.fromVenta !== null"
+					  class="accesos-directos"
+					  (click)="mostrarDevolucion()">shopping_cart_checkout</mat-icon>
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
@@ -51,12 +55,12 @@
 		<div class="col-cantidad">
 			<ng-container *ngIf="linea.idArticulo === null">&nbsp;</ng-container>
 			<ng-container *ngIf="linea.idArticulo !== null">
-				<span *ngIf="!editarCantidad"
+				<span *ngIf="!editarCantidad && linea.fromVenta === null"
 					  class="editar-linea-cantidad"
 					  (click)="editarLineaCantidad(i)">
 					{{linea.cantidad}}
 				</span>
-				<span *ngIf="editarCantidad">
+				<span *ngIf="editarCantidad && linea.fromVenta === null">
 					<input type="number"
 						   class="linea-cantidad"
 						   min="0"
@@ -66,6 +70,7 @@
 						   (keyup)="checkCantidad($event, i, false)"
 						   (blur)="checkCantidad($event, i, true)">
 				</span>
+				<span *ngIf="linea.fromVenta !== null">{{linea.cantidad}}</span>
 			</ng-container>
 		</div>
 		<div class="col-pvp">
@@ -73,8 +78,8 @@
 			<span *ngIf="linea.pvp !== null">{{linea.pvp | fixedNumber}} €</span>
 		</div>
 		<div class="col-importe">
-			<ng-container *ngIf="linea.importe === null">&nbsp;</ng-container>
-			<ng-container *ngIf="linea.importe !== null">
+			<ng-container *ngIf="linea.importe === null && linea.fromVenta === null">&nbsp;</ng-container>
+			<ng-container *ngIf="linea.importe !== null && linea.fromVenta === null">
 				<span *ngIf="!editarImporte"
 					  [ngClass]="{'editar-linea-importe': vs.ventaActual.modificarImportes, 'editar-linea-importe-off': !vs.ventaActual.modificarImportes}"
 					  (click)="editarLineaImporte(i)">
@@ -95,10 +100,11 @@
 					€
 				</span>
 			</ng-container>
+			<span *ngIf="linea.fromVenta !== null">{{linea.total | fixedNumber}} €</span>
 		</div>
 		<div class="col-descuentos">
-			<ng-container *ngIf="linea.descuento === null">&nbsp;</ng-container>
-			<ng-container *ngIf="linea.descuento !== null">
+			<ng-container *ngIf="linea.descuento === null && linea.fromVenta === null">&nbsp;</ng-container>
+			<ng-container *ngIf="linea.descuento !== null && linea.fromVenta === null">
 				<span *ngIf="!editarDescuento"
 					  class="editar-linea-descuento"
 					  (click)="editarLineaDescuento(i)">
@@ -124,6 +130,7 @@
 					%
 				</span>
 			</ng-container>
+			<span *ngIf="linea.fromVenta !== null">{{linea.descuento}} %</span>
 		</div>
 	</div>
 </div>
@@ -443,3 +450,6 @@
 		</div>
 	</div>
 </div>
+
+<otpv-devolucion (continueEvent)="continuarDevolucion($event)"
+				 #devolucion></otpv-devolucion>

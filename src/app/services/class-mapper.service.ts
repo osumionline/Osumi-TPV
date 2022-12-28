@@ -23,6 +23,7 @@ import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
 import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
+  VentaFinInterface,
 } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
@@ -40,6 +41,7 @@ import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
+import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 
 @Injectable({
@@ -207,6 +209,10 @@ export class ClassMapperService {
 
   getCierreCaja(cc: CierreCajaInterface): CierreCaja {
     return new CierreCaja().fromInterface(cc);
+  }
+
+  getVentaFin(vf: VentaFinInterface): VentaFin {
+    return new VentaFin().fromInterface(vf);
   }
 
   getPedido(p: PedidoInterface): Pedido {

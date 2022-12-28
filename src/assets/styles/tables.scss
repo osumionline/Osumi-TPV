@@ -83,10 +83,10 @@ table {
             background-color: var(--table-header-bg) !important;
             cursor: pointer;
         }
+    }
 
-        &.selected-row {
-            background-color: var(--table-row-selected);
-        }
+    tr.selected-row {
+        background-color: var(--table-row-selected) !important;
     }
 
     tr.mark {

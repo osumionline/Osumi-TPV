@@ -12,6 +12,7 @@ export interface VentaLineaInterface {
   iva: number;
   re: number;
   observaciones: string;
+  fromVenta: number;
 }
 
 export interface VentaInterface {
@@ -41,9 +42,9 @@ export interface FinVentaResult {
   cambio: number;
 }
 
-export interface FacturaResult {
+export interface VentaResult {
   status: string;
-  factura: VentaFinInterface;
+  venta: VentaFinInterface;
 }
 
 export interface ArticuloUltimaVentaInterface {
@@ -59,4 +60,9 @@ export interface ArticuloTopVentaInterface {
   localizador: number;
   nombre: string;
   importe: number;
+}
+
+export interface DevolucionSelectedInterface {
+  localizador: number;
+  unidades: number;
 }

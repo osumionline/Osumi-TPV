@@ -17,7 +17,8 @@ export class VentaLinea {
     public descuento: number = null,
     public iva: number = null,
     public re: number = null,
-    public observaciones: string = null
+    public observaciones: string = null,
+    public fromVenta: number = null
   ) {}
 
   get total(): number {
@@ -89,6 +90,7 @@ export class VentaLinea {
       iva: this.iva,
       re: this.re,
       observaciones: this.observaciones,
+      fromVenta: this.fromVenta,
     };
   }
 }

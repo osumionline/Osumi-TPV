@@ -5,8 +5,8 @@ import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
 import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
 import {
-  FacturaResult,
   FinVentaResult,
+  VentaResult,
 } from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { Cliente } from "src/app/model/cliente.model";
@@ -108,8 +108,8 @@ export class VentasService {
     );
   }
 
-  getVenta(id: number): Observable<FacturaResult> {
-    return this.http.post<FacturaResult>(
+  getVenta(id: number): Observable<VentaResult> {
+    return this.http.post<VentaResult>(
       environment.apiUrl + "-ventas/get-venta",
       { id }
     );

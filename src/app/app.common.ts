@@ -50,6 +50,7 @@ import { HistoricoVentasComponent } from "src/app/components/historico-ventas/hi
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
+import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -64,6 +65,7 @@ export const COMPONENTS: any[] = [
   SalidasCajaComponent,
   CierreCajaComponent,
   NewProveedorComponent,
+  DevolucionComponent,
 ];
 
 /*

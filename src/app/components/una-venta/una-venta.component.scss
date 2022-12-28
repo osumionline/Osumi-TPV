@@ -19,6 +19,12 @@
   .linea-venta {
     border-top: 1px solid #888;
 
+    &.linea-devolucion {
+      &>div {
+        background-color: var(--table-row-selected);
+      }
+    }
+
     &>div {
       display: inline-block;
       line-height: 32px;
@@ -27,6 +33,7 @@
       height: 32px;
 
       .linea-localizador {
+        box-sizing: border-box;
         width: 100%;
         height: 30px;
         background-color: transparent;

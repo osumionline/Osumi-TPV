@@ -118,6 +118,7 @@ export interface ColorValues {
 
 export interface DateValues {
   modo: string;
+  id: number;
   fecha: string;
   desde: string;
   hasta: string;
