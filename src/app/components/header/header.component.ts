@@ -19,10 +19,10 @@ export class HeaderComponent implements OnInit {
   title: string;
   @ViewChild("caja", { static: true }) caja: CajaComponent;
 
-  constructor(private cs: ConfigService, private router: Router) {}
+  constructor(private config: ConfigService, private router: Router) {}
 
   ngOnInit(): void {
-    this.title = this.cs.nombre;
+    this.title = this.config.nombre;
   }
 
   @HostListener("window:keydown", ["$event"])

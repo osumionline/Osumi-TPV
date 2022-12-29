@@ -1,1 +1,54 @@
-<div *ngIf="cliente">¡Hola {{cliente.nombreApellidos}}!</div>
+<div *ngIf="cliente"
+     class="lopd">
+    <div class="block">
+        <strong>{{name}}</strong> es el <strong>Responsable del tratamiento</strong> de los datos personales del <strong>Interesado/a</strong> y le informa que estos datos serán tratados de conformidad con lo dispuesto en el Reglamento (UE) 2016/679 de 27 de abril (GDPR) y la Ley Orgánica 3/2018 de 5 de diciembre (LOPDGDD), por lo que se le facilita la siguiente información del tratamiento:
+    </div>
+    <div class="block">
+        <div class="title">Fines del tratamiento:</div>
+        Por consentimiento explicito del interesado:
+        <br>
+        Los datos del cliente se almacenarán con el objetivo de crear una ficha de cliente, de modo que un cliente pueda tener un historial de compras y ofrezca a {{name}} un método de contacto.
+    </div>
+    <div class="block">
+        <div class="title">Criterios de conservación de los datos</div>
+        Se conservarán durante no más tiempo del necesario para mantener el fin del tratamiento y cuando ya no sea necesario para tal fin, se suprimirán con medidas de seguridad adecuadas para garantizar la seudonimización de los datos o la destrucción total de los mismo o durante los años necesarios para cumplir con las obligaciones legales.
+    </div>
+    <div class="block">
+        <div class="title">Cesión de los datos</div>
+        No se comunicarán los datos a terceros, salvo obligación legal o en los casos que sea imprescindible u obligación legal.
+    </div>
+    <div class="block">
+        <div class="title">Derechos que asisten al Interesado:</div>
+        <ul class="list">
+            <li>Derecho a retirar el consentimiento en cualquier momento.</li>
+            <li>Derecho de acceso, rectificación, portabilidad y supresión de sus datos y a la limitación u oposición a su tratamiento.</li>
+            <li>Derecho a presentar una reclamación ante la Autoridad de control (www.aepd.es) si considera que el tratamiento no se ajusta a la normativa vigente.</li>
+        </ul>
+    </div>
+    <div class="block">
+        <div class="title">Datos de contacto para ejercer sus derechos:</div>
+        <div class="data">
+            ___________________________________________________
+            <br>
+            con dirección en __________________________________________________ de ____________________
+            <br>
+            email: _____________________________________
+        </div>
+    </div>
+    <div class="block">
+        Para realizar el tratamiento de datos descrito, el Responsable del tratamiento necesita su consentimiento explícito o el de su representante legal. Con su firma, el Interesado/a consiente el tratamiento de sus datos en los términos expuestos.
+    </div>
+    <div class="block right">
+        En _______ a, {{day}} de {{month}} de {{year}}
+    </div>
+    <div class="block">
+        <div class="data">
+            Nombre del interesado: ________________________________________________________________________
+        </div>
+    </div>
+    <div class="block">
+        <div class="data">
+            DNI: ________________________________ Fdo: __________________________________________
+        </div>
+    </div>
+</div>

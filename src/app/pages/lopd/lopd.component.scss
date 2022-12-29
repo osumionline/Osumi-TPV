@@ -1,0 +1,27 @@
+.lopd {
+    margin: 16px;
+
+    .block {
+        margin-bottom: 16px;
+
+        .title {
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 1.1em;
+            margin-bottom: 16px;
+        }
+
+        .list {
+            margin: 0 32px;
+        }
+
+        .data {
+            margin: 24px 0;
+            line-height: 32px;
+        }
+
+        &.right {
+            text-align: right;
+        }
+    }
+}
