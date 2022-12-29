@@ -218,8 +218,12 @@ export class PedidoComponent implements OnInit, OnDestroy {
   loadPedido(id: number): void {
     this.cs.getPedido(id).subscribe((result) => {
       this.pedido = new Pedido().fromInterface(result.pedido);
+
+      for (let iva of this.ivaOptions) {
+        iva.tipoIVA = this.pedido.re ? "re" : "iva";
+      }
       this.pedido.ivaOptions = this.ivaOptions;
-      console.log(this.ivaOptions);
+
       this.colOptionsSelected = [];
       for (let pv of this.pedido.vista) {
         if (pv.status) {
@@ -240,7 +244,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
         if (this.pedido.re) {
           ivaOption = new IVAOption("re", linea.iva, linea.re);
         }
-        console.log(ivaOption);
         linea.selectedIvaOption = ivaOption;
       }
 
@@ -302,18 +305,16 @@ export class PedidoComponent implements OnInit, OnDestroy {
     for (let ivaOption of this.ivaOptions) {
       ivaOption.tipoIVA = this.pedido.re ? "re" : "iva";
     }
+    this.pedido.ivaOptions = this.ivaOptions;
     for (let linea of this.pedido.lineas) {
       linea.selectedIvaOption.tipoIVA = this.pedido.re ? "re" : "iva";
 
-      const ivaInd: number = this.ivaOptions.findIndex(
-        (x: IVAOption): boolean => x.iva == linea.selectedIvaOption.iva
+      const ivaOption: IVAOption = this.config.findIVAOptionByIVA(
+        linea.selectedIvaOption.iva
       );
-      linea.selectedIvaOption.updateValues(
-        this.ivaOptions[ivaInd].iva,
-        this.ivaOptions[ivaInd].re
-      );
+      linea.selectedIvaOption.updateValues(ivaOption.iva, ivaOption.re);
       linea.iva = linea.selectedIvaOption.iva;
-      linea.re = linea.selectedIvaOption.re;
+      linea.re = this.pedido.re ? linea.selectedIvaOption.re : 0;
     }
   }
 
@@ -342,16 +343,17 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.pedidoDataSource.data = this.pedido.lineas;
   }
 
-  updateIvaRe(ivaOption: string, linea: PedidoLinea): void {
-    const ivaInd: number = this.ivaOptions.findIndex(
-      (x: IVAOption): boolean => x.id == ivaOption
-    );
-    linea.selectedIvaOption.updateValues(
-      this.ivaOptions[ivaInd].iva,
-      this.ivaOptions[ivaInd].re
-    );
+  updateIvaRe(option: string, linea: PedidoLinea): void {
+    for (let iva of this.ivaOptions) {
+      iva.tipoIVA = this.pedido.re ? "re" : "iva";
+    }
+    this.pedido.ivaOptions = this.ivaOptions;
+
+    const ivaOption: IVAOption = this.config.findIVAOptionById(option);
+
+    linea.selectedIvaOption.updateValues(ivaOption.iva, ivaOption.re);
     linea.iva = linea.selectedIvaOption.iva;
-    linea.re = linea.selectedIvaOption.re;
+    linea.re = this.pedido.re ? linea.selectedIvaOption.re : 0;
   }
 
   checkLocalizador(ev: KeyboardEvent): void {

@@ -175,4 +175,15 @@ export class ConfigService {
       this.ivaOptions[ind].re
     );
   }
+
+  findIVAOptionById(id: string): IVAOption {
+    const ind: number = this.ivaOptions.findIndex((x: IVAOption): boolean => {
+      return x.id === id;
+    });
+    return new IVAOption(
+      this.ivaOptions[ind].tipoIVA,
+      this.ivaOptions[ind].iva,
+      this.ivaOptions[ind].re
+    );
+  }
 }
