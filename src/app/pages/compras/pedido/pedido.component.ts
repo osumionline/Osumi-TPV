@@ -199,7 +199,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ivaOptions = this.config.ivaOptions;
     for (let ivaOption of this.ivaOptions) {
-      ivaOption.updateTipoIva("iva");
+      ivaOption.tipoIVA = "iva";
     }
     this.changeOptions();
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -219,7 +219,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.cs.getPedido(id).subscribe((result) => {
       this.pedido = new Pedido().fromInterface(result.pedido);
       this.pedido.ivaOptions = this.ivaOptions;
-
+      console.log(this.ivaOptions);
       this.colOptionsSelected = [];
       for (let pv of this.pedido.vista) {
         if (pv.status) {
@@ -236,10 +236,11 @@ export class PedidoComponent implements OnInit, OnDestroy {
       this.changeOptions();
 
       for (let linea of this.pedido.lineas) {
-        let ivaOption: IVAOption = new IVAOption("iva", linea.iva, linea.re);
+        let ivaOption: IVAOption = this.config.findIVAOptionByIVA(linea.iva);
         if (this.pedido.re) {
           ivaOption = new IVAOption("re", linea.iva, linea.re);
         }
+        console.log(ivaOption);
         linea.selectedIvaOption = ivaOption;
       }
 
@@ -299,10 +300,10 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   updateTipoIva(): void {
     for (let ivaOption of this.ivaOptions) {
-      ivaOption.updateTipoIva(this.pedido.re ? "re" : "iva");
+      ivaOption.tipoIVA = this.pedido.re ? "re" : "iva";
     }
     for (let linea of this.pedido.lineas) {
-      linea.selectedIvaOption.updateTipoIva(this.pedido.re ? "re" : "iva");
+      linea.selectedIvaOption.tipoIVA = this.pedido.re ? "re" : "iva";
 
       const ivaInd: number = this.ivaOptions.findIndex(
         (x: IVAOption): boolean => x.iva == linea.selectedIvaOption.iva

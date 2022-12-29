@@ -164,4 +164,15 @@ export class ConfigService {
       }
     });
   }
+
+  findIVAOptionByIVA(iva: number): IVAOption {
+    const ind: number = this.ivaOptions.findIndex((x: IVAOption): boolean => {
+      return x.iva === iva;
+    });
+    return new IVAOption(
+      this.ivaOptions[ind].tipoIVA,
+      this.ivaOptions[ind].iva,
+      this.ivaOptions[ind].re
+    );
+  }
 }

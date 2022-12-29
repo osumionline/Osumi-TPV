@@ -31,7 +31,7 @@ export class PedidoLinea {
   }
 
   get puc(): number {
-    return this.palb * (1 + this.iva / 100 + this.re / 100);
+    return this.palb * (1 + this.selectedIvaOption.value / 100);
   }
 
   get total(): number {

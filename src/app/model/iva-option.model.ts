@@ -8,16 +8,9 @@ export class IVAOption {
     public re: number = -1
   ) {
     if (iva !== -1 || re !== -1) {
-      this.id = tipoIVA + "_" + iva + "_" + re;
+      this.id = iva + "_" + re;
     }
     this.updateValues(iva, re);
-  }
-
-  updateTipoIva(tipoIVA: string): void {
-    this.tipoIVA = tipoIVA;
-    if (this.iva !== -1 || this.re !== -1) {
-      this.id = this.tipoIVA + "_" + this.iva + "_" + this.re;
-    }
   }
 
   get name(): string {
