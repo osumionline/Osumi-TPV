@@ -198,26 +198,87 @@ export class HistoricoVentasComponent implements AfterViewInit {
         .confirm({
           title: "Cliente",
           content:
-            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o crear uno nuevo?",
-          ok: "Crear nuevo",
-          cancel: "Elegir cliente",
+            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o introducir uno manualmente?",
+          ok: "Elegir cliente",
+          cancel: "Introducir email",
         })
         .subscribe((result) => {
           if (result === true) {
-            this.cerrarVentanaEvent.emit(0);
-            this.router.navigate(["/clientes/new"]);
-          } else {
             setTimeout(() => {
               this.clientesBox.toggle();
             }, 0);
+          } else {
+            this.pedirEmail();
           }
         });
     } else {
-      this.vs
-        .sendTicket(this.historicoVentasSelected.id)
-        .subscribe((result) => {
-          console.log(result);
-        });
+      const cliente: Cliente = this.cs.findById(
+        this.historicoVentasSelected.idCliente
+      );
+      if (cliente.email === null) {
+        this.dialog
+          .confirm({
+            title: "Enviar email",
+            content:
+              "El cliente seleccionado no tiene una dirección de email asignada, ¿quieres ir a su ficha o introducir uno manualmente?",
+            ok: "Ir a su ficha",
+            cancel: "Introducir email",
+          })
+          .subscribe((result) => {
+            if (result === true) {
+              this.router.navigate(["/clientes/" + cliente.id]);
+            } else {
+              this.pedirEmail();
+            }
+          });
+      } else {
+        this.sendTicket(this.historicoVentasSelected.id, cliente.email);
+      }
     }
+  }
+
+  pedirEmail(): void {
+    this.dialog
+      .form({
+        title: "Introducir email",
+        content: "Introduce el email del cliente",
+        ok: "Continuar",
+        cancel: "Cancelar",
+        fields: [{ title: "Email", type: "email", value: null }],
+      })
+      .subscribe((result) => {
+        if (result !== undefined) {
+          this.sendTicket(this.historicoVentasSelected.id, result[0].value);
+        }
+      });
+  }
+
+  sendTicket(id: number, email: string): void {
+    this.vs.sendTicket(id, Utils.urlencode(email)).subscribe((result) => {
+      console.log(result);
+      if (result.status === "ok") {
+        this.dialog
+          .alert({
+            title: "Enviado",
+            content:
+              'El ticket de la venta ha sido correctamente enviado a la dirección "' +
+              email +
+              '"',
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content:
+              'El ticket de la venta no ha podido ser enviado a la dirección "' +
+              email +
+              '", ¿tal vez la dirección no es correcta?',
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      }
+    });
   }
 }

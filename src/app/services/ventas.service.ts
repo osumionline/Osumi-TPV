@@ -138,10 +138,10 @@ export class VentasService {
     );
   }
 
-  sendTicket(id: number): Observable<StatusResult> {
+  sendTicket(id: number, email: string): Observable<StatusResult> {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-ventas/send-ticket",
-      { id }
+      { id, email }
     );
   }
 }

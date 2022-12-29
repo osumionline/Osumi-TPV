@@ -52,6 +52,16 @@ export class ClientesService {
     this.load();
   }
 
+  findById(id: number): Cliente {
+    const ind: number = this.clientes.findIndex(
+      (x: Cliente): boolean => x.id === id
+    );
+    if (ind !== -1) {
+      return this.clientes[ind];
+    }
+    return null;
+  }
+
   getCliente(id: number): Observable<ClienteResult> {
     return this.http.post<ClienteResult>(
       environment.apiUrl + "-clientes/get-cliente",
