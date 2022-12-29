@@ -28,6 +28,14 @@
     padding-right: 0;
   }
 
+  &.form-field-180 {
+    width: 180px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
   .ng-dirty {
     color: var(--form-modified) !important;
   }

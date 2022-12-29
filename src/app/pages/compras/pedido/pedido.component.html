@@ -60,7 +60,7 @@
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
-                <div class="form-field">
+                <div class="form-field form-field-180">
                     <label>Forma de pago</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.idMetodoPago">
@@ -71,7 +71,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="form-field">
+                <div class="form-field form-field-180">
                     <label>Tipo</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.tipo">
@@ -101,7 +101,7 @@
                     </span>
                     <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
-                <div class="form-field">
+                <div class="form-field form-field-180">
                     <label>Fecha pedido</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
@@ -112,7 +112,7 @@
                         <mat-datepicker #fechaPedidoPicker></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="form-field">
+                <div class="form-field form-field-180">
                     <label>Fecha pago</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
@@ -123,8 +123,8 @@
                         <mat-datepicker #fechaPagoPicker></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="form-field">
-                    <label>Mostrar / ocultar columnas</label>
+                <div class="form-field form-field-180">
+                    <label>Columnas</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="colOptionsSelected"
                                     (selectionChange)="changeOptions()"
