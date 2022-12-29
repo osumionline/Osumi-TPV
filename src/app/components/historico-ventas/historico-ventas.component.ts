@@ -44,6 +44,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
     new MatTableDataSource<VentaHistorico>();
   @ViewChild(MatSort) sort: MatSort;
 
+  totalDia: number = 0;
+  ventasEfectivo: number = 0;
+  ventasOtros: number = 0;
+  ventasWeb: number = 0;
+
   historicoVentasSelected: VentaHistorico = new VentaHistorico();
   historicoVentasSelectedDisplayedColumns: string[] = [
     "localizador",
@@ -120,6 +125,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.vs.getHistorico(data).subscribe((result) => {
       this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
       this.historicoVentasDataSource.data = this.historicoVentasList;
+
+      this.totalDia = result.totalDia;
+      this.ventasEfectivo = result.ventasEfectivo;
+      this.ventasOtros = result.ventasOtros;
+      this.ventasWeb = result.ventasWeb;
     });
   }
 

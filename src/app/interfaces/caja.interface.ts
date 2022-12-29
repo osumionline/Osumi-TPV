@@ -35,6 +35,10 @@ export interface VentaHistoricoInterface {
 export interface HistoricoVentasResult {
   status: string;
   list: VentaHistoricoInterface[];
+  totalDia: number;
+  ventasEfectivo: number;
+  ventasOtros: number;
+  ventasWeb: number;
 }
 
 export interface SalidaCajaInterface {

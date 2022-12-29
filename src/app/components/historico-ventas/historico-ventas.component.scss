@@ -50,6 +50,27 @@
         height: 500px;
         flex: 2;
         overflow-y: auto;
+
+        .totales {
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px;
+
+            .totales-row {
+                display: flex;
+                margin-bottom: 4px;
+
+                label {
+                    width: 135px;
+                }
+
+                span {
+                    width: 80px;
+                    text-align: right;
+                }
+            }
+        }
     }
 
     .historico-data {
