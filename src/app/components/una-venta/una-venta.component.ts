@@ -247,9 +247,9 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
           });
       }
     }
+    this.vs.ventaActual.updateImporte();
     this.setFocus();
 
-    this.vs.ventaActual.updateImporte();
     if (
       devolucion === null &&
       articulo.mostrarObsVentas &&
@@ -308,7 +308,16 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   mostrarDevolucion(): void {
-    this.devolucion.newDevolucion(this.devolucionVenta);
+    const list: DevolucionSelectedInterface[] = [];
+    for (let linea of this.vs.ventaActual.lineas) {
+      if (linea.fromVenta === this.devolucionVenta) {
+        list.push({
+          localizador: linea.localizador,
+          unidades: linea.cantidad * -1,
+        });
+      }
+    }
+    this.devolucion.continueDevolucion(this.devolucionVenta, list);
   }
 
   continuarDevolucion(list: DevolucionSelectedInterface[]): void {
@@ -324,13 +333,26 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   loadNextDevolucion(): void {
     if (this.devolucionList.length > 0) {
       const item: DevolucionSelectedInterface = this.devolucionList.shift();
-      this.ars.loadArticulo(item.localizador).subscribe((result) => {
-        this.loadArticulo(
-          result.articulo,
-          this.vs.ventaActual.lineas.length - 1,
-          item
-        );
-      });
+      const ind: number = this.vs.ventaActual.lineas.findIndex(
+        (x: VentaLinea): boolean => {
+          return (
+            x.localizador === item.localizador &&
+            x.fromVenta === this.devolucionVenta
+          );
+        }
+      );
+      if (ind != -1) {
+        this.vs.ventaActual.lineas[ind].cantidad = item.unidades;
+        this.vs.ventaActual.updateImporte();
+      } else {
+        this.ars.loadArticulo(item.localizador).subscribe((result) => {
+          this.loadArticulo(
+            result.articulo,
+            this.vs.ventaActual.lineas.length - 1,
+            item
+          );
+        });
+      }
     } else {
       this.setFocus();
     }

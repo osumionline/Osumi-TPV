@@ -70,6 +70,35 @@ export class DevolucionComponent {
     this.continueEvent.emit([]);
   }
 
+  continueDevolucion(
+    idVenta: number,
+    list: DevolucionSelectedInterface[]
+  ): void {
+    const data: DateValues = {
+      modo: "id",
+      fecha: null,
+      id: idVenta,
+      desde: null,
+      hasta: null,
+    };
+    this.vs.getHistorico(data).subscribe((result) => {
+      this.selection.clear();
+      const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+      this.venta = ventas[0];
+      for (let item of list) {
+        let ind: number = this.venta.lineas.findIndex(
+          (x: VentaLineaHistorico): boolean => {
+            return x.localizador === item.localizador;
+          }
+        );
+        this.venta.lineas[ind].devolver = item.unidades;
+        this.selection.select(this.venta.lineas[ind]);
+      }
+      this.devolucionDataSource.data = this.venta.lineas;
+      this.muestraDevolucion = true;
+    });
+  }
+
   isAllSelected(): boolean {
     const numSelected: number = this.selection.selected.length;
     const numRows: number = this.devolucionDataSource.data.length;
