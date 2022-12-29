@@ -51,6 +51,7 @@ import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-ca
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
+import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -66,6 +67,7 @@ export const COMPONENTS: any[] = [
   CierreCajaComponent,
   NewProveedorComponent,
   DevolucionComponent,
+  BuscadorComponent,
 ];
 
 /*

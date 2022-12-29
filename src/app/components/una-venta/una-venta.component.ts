@@ -13,10 +13,10 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
-import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { IVAOption } from "src/app/model/iva-option.model";
@@ -57,21 +57,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   ultimaVentaImporte: number = null;
   ultimaVentaCambio: number = null;
 
-  muestraBuscador: boolean = false;
-  @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
-  searchName: string = "";
-  buscadorResultadosList: ArticuloBuscador[] = [];
-  buscadorResultadosRow: number = 0;
-  buscadorResultadosDisplayedColumns: string[] = [
-    "nombre",
-    "marca",
-    "pvp",
-    "stock",
-  ];
-  buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
-    new MatTableDataSource<ArticuloBuscador>();
-  @ViewChild(MatSort) sort: MatSort;
-
   muestraAccesosDirectos: boolean = false;
   accesosDirectosList: AccesoDirecto[] = [];
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre"];
@@ -89,9 +74,13 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   });
   @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
 
+  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
+
   devolucionVenta: number = null;
   @ViewChild("devolucion", { static: true }) devolucion: DevolucionComponent;
   devolucionList: DevolucionSelectedInterface[] = [];
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private cms: ClassMapperService,
@@ -115,16 +104,12 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.buscadorResultadosDataSource.sort = this.sort;
     this.accesosDirectosDataSource.sort = this.sort;
   }
 
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent): void {
     if (ev.key === "Escape") {
-      if (this.muestraBuscador) {
-        this.cerrarBuscador();
-      }
       if (this.muestraAccesosDirectos) {
         this.cerrarAccesosDirectos();
       }
@@ -171,7 +156,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters)) {
       ev.preventDefault();
-      this.abreBuscador(ev.key);
+      this.buscador.abreBuscador(ev.key);
       return;
     }
     if (ev.key === "Enter" && !this.observacionesOpen) {
@@ -371,6 +356,14 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
           this.deleteVentaLineaEvent.emit(ind);
         }
       });
+  }
+
+  selectBuscador(localizador: number): void {
+    if (localizador === null) {
+      this.setFocus();
+    } else {
+      this.setFocus(localizador);
+    }
   }
 
   goToArticulo(linea: VentaLinea, ind: number): void {
@@ -608,74 +601,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
 
   closeClienteEstadisticas(): void {
     this.showClienteEstadisticas = !this.showClienteEstadisticas;
-  }
-
-  abreBuscador(key: string): void {
-    this.muestraBuscador = true;
-    this.searchName = key;
-    this.buscadorResultadosRow = 0;
-    setTimeout(() => {
-      this.searchBoxName.nativeElement.focus();
-    }, 0);
-    this.searchStart();
-  }
-
-  cerrarBuscador(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraBuscador = false;
-    this.setFocus();
-  }
-
-  checkSearchKeys(ev: KeyboardEvent = null): void {
-    if (
-      ev !== null &&
-      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
-    ) {
-      ev.preventDefault();
-      if (ev.key === "ArrowUp") {
-        if (this.buscadorResultadosRow === 0) {
-          return;
-        }
-        this.buscadorResultadosRow--;
-      }
-      if (ev.key === "ArrowDown") {
-        if (this.buscadorResultadosRow === this.buscadorResultadosList.length) {
-          return;
-        }
-        this.buscadorResultadosRow++;
-      }
-      if (ev.key === "Enter") {
-        this.selectBuscadorResultadosRow(
-          this.buscadorResultadosList[this.buscadorResultadosRow]
-        );
-      }
-    }
-  }
-
-  searchStart(ev: KeyboardEvent = null): void {
-    if (
-      ev !== null &&
-      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
-    ) {
-      ev.preventDefault();
-    } else {
-      if (this.searchName === "") {
-        this.buscadorResultadosList = [];
-        this.buscadorResultadosRow = 0;
-      } else {
-        this.vs.search(this.searchName).subscribe((result) => {
-          this.buscadorResultadosList = this.cms.getArticulosBuscador(
-            result.list
-          );
-          this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
-        });
-      }
-    }
-  }
-
-  selectBuscadorResultadosRow(row: ArticuloBuscador): void {
-    this.muestraBuscador = false;
-    this.setFocus(row.localizador);
   }
 
   abreAccesosDirectos(): void {

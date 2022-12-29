@@ -317,17 +317,3 @@
     }
   }
 }
-
-.buscador-box {
-  mat-form-field {
-    width: 100%;
-  }
-
-  .resultados {
-    display: none;
-
-    &.show {
-      display: block;
-    }
-  }
-}
