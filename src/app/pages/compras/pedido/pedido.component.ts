@@ -8,6 +8,7 @@ import {
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
@@ -176,6 +177,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   nuevoLocalizador: number = null;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
+  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
 
   pdfsUrl: string = environment.pdfsUrl;
 
@@ -357,11 +359,26 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
+    const letters = /^[a-zA-Z]{1}$/;
+    if (ev.key.match(letters)) {
+      ev.preventDefault();
+      this.buscador.abreBuscador(ev.key);
+      return;
+    }
     if (ev.key == "Enter") {
       ev.preventDefault();
       ev.stopPropagation();
 
       this.loadArticulo();
+    }
+  }
+
+  selectBuscador(localizador: number): void {
+    if (localizador !== null) {
+      this.nuevoLocalizador = localizador;
+      this.loadArticulo();
+    } else {
+      this.localizadorBox.nativeElement.focus();
     }
   }
 

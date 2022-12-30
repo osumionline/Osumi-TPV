@@ -469,9 +469,8 @@
                                 subscriptSizing="dynamic">
                     <input matInput
                            placeholder="Localizador"
-                           type="number"
                            [(ngModel)]="nuevoLocalizador"
-                           (keyup)="checkLocalizador($event)"
+                           (keydown)="checkLocalizador($event)"
                            autocomplete="off"
                            (focus)="$event.target.select()"
                            #localizadorBox>
@@ -617,3 +616,5 @@
 
 <otpv-new-proveedor (savedEvent)="proveedorGuardado($event)"
                     #newProveedor></otpv-new-proveedor>
+<otpv-buscador (closeEvent)="selectBuscador($event)"
+               #buscador></otpv-buscador>

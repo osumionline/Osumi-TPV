@@ -22,9 +22,9 @@
 				   [id]="'loc-new-' + ind"
 				   class="linea-localizador"
 				   (keydown)="checkLocalizador($event, i)"
+				   autocomplete="off"
 				   [(ngModel)]="linea.localizador"
-				   [disabled]="searching"
-				   aria-label="Localizador">
+				   [disabled]="searching">
 			<ng-container *ngIf="linea.idArticulo !== null">{{linea.localizador}}</ng-container>
 			<mat-icon *ngIf="linea.idArticulo !== null && linea.fromVenta === null"
 					  class="delete-linea"
