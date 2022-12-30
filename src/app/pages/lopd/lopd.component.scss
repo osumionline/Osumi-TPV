@@ -18,6 +18,19 @@
         .data {
             margin: 24px 0;
             line-height: 32px;
+
+            .sign {
+                display: inline-flex;
+                width: 50%;
+
+                label {}
+
+                span {
+                    flex: 1;
+                    border-bottom: 1px solid #000;
+                    margin: 0 16px;
+                }
+            }
         }
 
         &.right {
