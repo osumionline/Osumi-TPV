@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
+import { Factura } from "src/app/model/factura.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -47,6 +49,11 @@ export class ClientesComponent implements OnInit {
     factProvincia: new FormControl(null),
     observaciones: new FormControl(null),
   });
+
+  facturasDisplayedColumns: string[] = ["id", "fecha", "importe", "opciones"];
+  facturasDataSource: MatTableDataSource<Factura> =
+    new MatTableDataSource<Factura>();
+
   stats: ChartSelectInterface = {
     data: "consumo",
     type: "units",
@@ -109,6 +116,7 @@ export class ClientesComponent implements OnInit {
     this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
       if (result.status === "ok") {
         this.selectedClient.facturas = this.cms.getFacturas(result.list);
+        this.facturasDataSource.data = this.selectedClient.facturas;
       }
     });
     setTimeout(() => {

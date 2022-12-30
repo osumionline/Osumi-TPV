@@ -14,6 +14,7 @@ export class Factura {
     public codigoPostal: string = null,
     public poblacion: string = null,
     public provincia: number = null,
+    public importe: number = null,
     public fecha: string = null,
     public ventas: VentaHistorico[] = []
   ) {}
@@ -28,6 +29,7 @@ export class Factura {
     this.codigoPostal = Utils.urldecode(f.codigoPostal);
     this.poblacion = Utils.urldecode(f.poblacion);
     this.provincia = f.provincia;
+    this.importe = f.importe;
     this.ventas = f.ventas.map((v: VentaHistoricoInterface): VentaHistorico => {
       return new VentaHistorico().fromInterface(v);
     });
@@ -46,6 +48,7 @@ export class Factura {
       codigoPostal: Utils.urlencode(this.codigoPostal),
       poblacion: Utils.urlencode(this.poblacion),
       provincia: this.provincia,
+      importe: this.importe,
       fecha: Utils.urlencode(this.fecha),
       ventas: this.ventas.map((v: VentaHistorico): VentaHistoricoInterface => {
         return v.toInterface();

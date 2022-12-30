@@ -63,6 +63,7 @@ export interface FacturaInterface {
   codigoPostal: string;
   poblacion: string;
   provincia: number;
+  importe: number;
   fecha: string;
   ventas: VentaHistoricoInterface[];
 }

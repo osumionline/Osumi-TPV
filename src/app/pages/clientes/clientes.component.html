@@ -217,6 +217,81 @@
                             </mat-tab>
                             <mat-tab label="FACTURAS"
                                      *ngIf="form.value.id">
+                                <table *ngIf="selectedClient.facturas.length > 0"
+                                       mat-table
+                                       [dataSource]="facturasDataSource"
+                                       matSort
+                                       class="mat-elevation-z2 ">
+
+                                    <!-- Id -->
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell
+                                            *matHeaderCellDef>
+                                            Factura
+                                        </th>
+                                        <td mat-cell
+                                            *matCellDef="let element"> {{element.id}} </td>
+                                    </ng-container>
+
+                                    <!-- Fecha -->
+                                    <ng-container matColumnDef="fecha">
+                                        <th mat-header-cell
+                                            *matHeaderCellDef>
+                                            Fecha
+                                        </th>
+                                        <td mat-cell
+                                            *matCellDef="let element"> {{element.fecha}} </td>
+                                    </ng-container>
+
+                                    <!-- Importe -->
+                                    <ng-container matColumnDef="importe">
+                                        <th class="center"
+                                            mat-header-cell
+                                            *matHeaderCellDef>
+                                            Importe
+                                        </th>
+                                        <td class="center"
+                                            mat-cell
+                                            *matCellDef="let element"> {{element.importe | fixedNumber}} € </td>
+                                    </ng-container>
+
+                                    <!-- Opciones -->
+                                    <ng-container matColumnDef="opciones">
+                                        <th class="center"
+                                            mat-header-cell
+                                            *matHeaderCellDef>
+                                            Opciones
+                                        </th>
+                                        <td class="center"
+                                            mat-cell
+                                            *matCellDef="let element">
+                                            <button type="button"
+                                                    mat-icon-button>
+                                                <mat-icon>print</mat-icon>
+                                            </button>
+                                            <button type="button"
+                                                    mat-icon-button>
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row
+                                        *matHeaderRowDef="facturasDisplayedColumns"></tr>
+                                    <tr mat-row
+                                        *matRowDef="let row; columns: facturasDisplayedColumns;"></tr>
+                                </table>
+                                <div *ngIf="selectedClient.facturas.length === 0"
+                                     class="no-facturas">
+                                    Este cliente todavía no tiene ninguna factura.
+                                </div>
+                                <div class="new-factura">
+                                    <button mat-raised-button
+                                            type="button"
+                                            color="primary">
+                                        Nueva factura
+                                    </button>
+                                </div>
                             </mat-tab>
                             <mat-tab label="ESTADÍSTICAS"
                                      *ngIf="form.value.id">
