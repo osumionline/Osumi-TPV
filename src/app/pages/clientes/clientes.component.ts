@@ -106,6 +106,11 @@ export class ClientesComponent implements OnInit {
           );
         }
       });
+    this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
+      if (result.status === "ok") {
+        this.selectedClient.facturas = this.cms.getFacturas(result.list);
+      }
+    });
     setTimeout(() => {
       if (!this.focusEmail) {
         this.nameBox.nativeElement.focus();

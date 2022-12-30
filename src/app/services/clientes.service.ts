@@ -7,6 +7,7 @@ import {
   ClienteSaveResult,
   ClientesResult,
   EstadisticasClienteResult,
+  FacturaResult,
 } from "src/app/interfaces/cliente.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
@@ -101,6 +102,13 @@ export class ClientesService {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-clientes/asignar-cliente",
       { id, idCliente }
+    );
+  }
+
+  getFacturas(id: number): Observable<FacturaResult> {
+    return this.http.post<FacturaResult>(
+      environment.apiUrl + "-clientes/get-facturas-cliente",
+      { id }
     );
   }
 }

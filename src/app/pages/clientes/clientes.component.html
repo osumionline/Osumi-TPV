@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="FACTURACIÓN">
+                            <mat-tab label="DATOS FACTURACIÓN">
                                 <div class="same-data"
                                      [ngClass]="{'selected': !selectedClient.factIgual}">
                                     <mat-checkbox formControlName="factIgual">
@@ -214,6 +214,9 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
+                            </mat-tab>
+                            <mat-tab label="FACTURAS"
+                                     *ngIf="form.value.id">
                             </mat-tab>
                             <mat-tab label="ESTADÍSTICAS"
                                      *ngIf="form.value.id">

@@ -1,7 +1,8 @@
+import { VentaHistoricoInterface } from "src/app/interfaces/caja.interface";
 import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
-} from "./venta.interface";
+} from "src/app/interfaces/venta.interface";
 
 export interface ClienteInterface {
   id: number;
@@ -50,4 +51,23 @@ export interface EstadisticasClienteResult {
 export interface SelectClienteInterface {
   id: number;
   from: string;
+}
+
+export interface FacturaInterface {
+  id: number;
+  nombreApellidos: string;
+  dniCif: string;
+  telefono: string;
+  email: string;
+  direccion: string;
+  codigoPostal: string;
+  poblacion: string;
+  provincia: number;
+  fecha: string;
+  ventas: VentaHistoricoInterface[];
+}
+
+export interface FacturaResult {
+  status: string;
+  list: FacturaInterface[];
 }

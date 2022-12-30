@@ -11,7 +11,10 @@ import {
   SalidaCajaInterface,
   VentaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
-import { ClienteInterface } from "src/app/interfaces/cliente.interface";
+import {
+  ClienteInterface,
+  FacturaInterface,
+} from "src/app/interfaces/cliente.interface";
 import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { PedidoInterface } from "src/app/interfaces/pedido.interface";
@@ -36,6 +39,7 @@ import { Cliente } from "src/app/model/cliente.model";
 import { CodigoBarras } from "src/app/model/codigo-barras.model";
 import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
+import { Factura } from "src/app/model/factura.model";
 import { Marca } from "src/app/model/marca.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
@@ -222,6 +226,16 @@ export class ClassMapperService {
   getPedidos(ps: PedidoInterface[]): Pedido[] {
     return ps.map((p: PedidoInterface): Pedido => {
       return this.getPedido(p);
+    });
+  }
+
+  getFactura(f: FacturaInterface): Factura {
+    return new Factura().fromInterface(f);
+  }
+
+  getFacturas(fs: FacturaInterface[]): Factura[] {
+    return fs.map((f: FacturaInterface): Factura => {
+      return this.getFactura(f);
     });
   }
 }
