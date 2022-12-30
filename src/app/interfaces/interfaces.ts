@@ -55,6 +55,7 @@ export interface AppDataInterface {
   cif: string;
   telefono: string;
   direccion: string;
+  poblacion: string;
   email: string;
   logo: string;
   nombreEmpleado: string;
@@ -80,6 +81,7 @@ export interface AppDataResult {
   telefono: string;
   email: string;
   direccion: string;
+  poblacion: string;
   twitter: string;
   facebook: string;
   instagram: string;

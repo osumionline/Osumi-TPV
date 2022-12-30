@@ -11,7 +11,8 @@ import { ConfigService } from "src/app/services/config.service";
   styleUrls: ["./lopd.component.scss"],
 })
 export class LopdComponent implements OnInit {
-  name: string = "";
+  nombre: string = "";
+  poblacion: string = "";
   day: number = null;
   month: string = null;
   year: number = null;
@@ -27,7 +28,9 @@ export class LopdComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.cs.getCliente(params.id).subscribe((result) => {
-        this.name = this.config.nombre;
+        this.nombre = this.config.nombre;
+        this.poblacion = this.config.poblacion;
+        console.log(this.config);
 
         const d: Date = new Date();
         this.day = d.getDate();

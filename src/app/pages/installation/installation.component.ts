@@ -26,6 +26,7 @@ export class InstallationComponent implements OnInit {
   cif: string = "";
   telefono: string = "";
   direccion: string = "";
+  poblacion: string = "";
   email: string = "";
   showEmployee: boolean = true;
   nombreEmpleado: string = "";
@@ -101,6 +102,7 @@ export class InstallationComponent implements OnInit {
       this.telefono = this.config.telefono;
       this.email = this.config.email;
       this.direccion = this.config.direccion;
+      this.poblacion = this.config.poblacion;
       this.twitter = this.config.twitter;
       this.facebook = this.config.facebook;
       this.instagram = this.config.instagram;
@@ -317,6 +319,7 @@ export class InstallationComponent implements OnInit {
       cif: this.cif,
       telefono: this.telefono,
       direccion: this.direccion,
+      poblacion: this.poblacion,
       email: this.email,
       logo: this.logo,
       nombreEmpleado: this.nombreEmpleado,

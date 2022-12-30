@@ -25,6 +25,7 @@ export class ConfigService {
   cif: string = "";
   telefono: string = "";
   direccion: string = "";
+  poblacion: string = "";
   email: string = "";
   twitter: string = "";
   facebook: string = "";
@@ -123,6 +124,7 @@ export class ConfigService {
     this.telefono = data.telefono;
     this.email = data.email;
     this.direccion = data.direccion;
+    this.poblacion = data.poblacion;
     this.twitter = data.twitter;
     this.facebook = data.facebook;
     this.instagram = data.instagram;
