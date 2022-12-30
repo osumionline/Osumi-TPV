@@ -220,6 +220,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   loadPedido(id: number): void {
     this.cs.getPedido(id).subscribe((result) => {
       this.pedido = new Pedido().fromInterface(result.pedido);
+      this.cs.pedidoCargado = this.pedido.id;
 
       for (let iva of this.ivaOptions) {
         iva.tipoIVA = this.pedido.re ? "re" : "iva";
@@ -272,6 +273,11 @@ export class PedidoComponent implements OnInit, OnDestroy {
   newPedido(): void {
     this.pedido.ivaOptions = this.ivaOptions;
     this.localizadorBox.nativeElement.focus();
+  }
+
+  back() {
+    this.cs.pedidoCargado = null;
+    this.router.navigate(["/compras"]);
   }
 
   changeAutoSave(): void {

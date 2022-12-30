@@ -19,6 +19,7 @@ import { environment } from "src/environments/environment";
 })
 export class ComprasService {
   pedidoTemporal: Pedido = null;
+  pedidoCargado: number = null;
 
   constructor(private http: HttpClient, private cms: ClassMapperService) {}
 

@@ -82,26 +82,32 @@ export class ComprasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const filters: PedidosFilterInterface = {
-      fechaDesde: null,
-      fechaHasta: null,
-      idProveedor: null,
-      albaran: null,
-      importeDesde: null,
-      importeHasta: null,
-      pagina: 1,
-    };
-    this.comprasService
-      .getAllPedidos(filters)
-      .subscribe((result: PedidosAllResult): void => {
-        this.pedidosGuardados = this.cms.getPedidos(result.guardados);
-        this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
-        this.guardadosPags = result.guardadosPags;
-        this.recepcionadosPags = result.recepcionadosPags;
+    if (this.comprasService.pedidoCargado !== null) {
+      this.router.navigate([
+        "/compras/pedido/" + this.comprasService.pedidoCargado,
+      ]);
+    } else {
+      const filters: PedidosFilterInterface = {
+        fechaDesde: null,
+        fechaHasta: null,
+        idProveedor: null,
+        albaran: null,
+        importeDesde: null,
+        importeHasta: null,
+        pagina: 1,
+      };
+      this.comprasService
+        .getAllPedidos(filters)
+        .subscribe((result: PedidosAllResult): void => {
+          this.pedidosGuardados = this.cms.getPedidos(result.guardados);
+          this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
+          this.guardadosPags = result.guardadosPags;
+          this.recepcionadosPags = result.recepcionadosPags;
 
-        this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
-        this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
-      });
+          this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
+          this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
+        });
+    }
   }
 
   openGuardadosFilters(): void {
