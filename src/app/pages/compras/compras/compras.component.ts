@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MatPaginatorIntl } from "@angular/material/paginator";
+import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import {
@@ -20,12 +20,13 @@ import { Utils } from "src/app/shared/utils.class";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
 export class ComprasComponent implements OnInit {
+  numPorPag: number = 20;
   pedidosGuardados: Pedido[] = [];
   guardadosPag: number = 1;
-  guardadosPags: number = null;
+  guardadosPags: number = 0;
   pedidosRecepcionados: Pedido[] = [];
   recepcionadosPag: number = 1;
-  recepcionadosPags: number = null;
+  recepcionadosPags: number = 0;
 
   showGuardadosFilters: boolean = false;
   guardadosFilter: PedidosFilterInterface = {
@@ -101,8 +102,8 @@ export class ComprasComponent implements OnInit {
         .subscribe((result: PedidosAllResult): void => {
           this.pedidosGuardados = this.cms.getPedidos(result.guardados);
           this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
-          this.guardadosPags = result.guardadosPags;
-          this.recepcionadosPags = result.recepcionadosPags;
+          this.guardadosPags = result.guardadosPags * this.numPorPag;
+          this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
 
           this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
           this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
@@ -140,6 +141,7 @@ export class ComprasComponent implements OnInit {
     this.guardadosFilter.albaran = null;
     this.guardadosFilter.importeDesde = null;
     this.guardadosFilter.importeHasta = null;
+    this.guardadosFilter.pagina = 1;
   }
 
   filtrarGuardados(): void {
@@ -149,6 +151,7 @@ export class ComprasComponent implements OnInit {
       .getPedidosGuardados(this.guardadosFilter)
       .subscribe((result) => {
         this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
+        this.guardadosPags = result.pags * this.numPorPag;
       });
   }
 
@@ -174,6 +177,7 @@ export class ComprasComponent implements OnInit {
     this.recepcionadosFilter.albaran = null;
     this.recepcionadosFilter.importeDesde = null;
     this.recepcionadosFilter.importeHasta = null;
+    this.recepcionadosFilter.pagina = 1;
   }
 
   filtrarRecepcionados(): void {
@@ -189,10 +193,21 @@ export class ComprasComponent implements OnInit {
         this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(
           result.list
         );
+        this.recepcionadosPags = result.pags * this.numPorPag;
       });
   }
 
   goToPedido(pedido: Pedido): void {
     this.router.navigate(["/compras/pedido", pedido.id]);
+  }
+
+  changePageGuardados(ev: PageEvent): void {
+    this.guardadosFilter.pagina = ev.pageIndex + 1;
+    this.filtrarGuardados();
+  }
+
+  changePageRecepcionados(ev: PageEvent): void {
+    this.recepcionadosFilter.pagina = ev.pageIndex + 1;
+    this.filtrarRecepcionados();
   }
 }

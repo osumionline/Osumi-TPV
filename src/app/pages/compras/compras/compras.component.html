@@ -176,10 +176,10 @@
                 *matRowDef="let row; columns: pedidosGuardadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="pedidosGuardadosDataSource.data.length > 0"
-                       [length]="20"
+                       [length]="guardadosPags"
                        [pageSize]="20"
                        [pageSizeOptions]="[20]"
-                       aria-label="Elige página">
+                       (page)="changePageGuardados($event)">
         </mat-paginator>
         <div class="no-results"
              *ngIf="pedidosGuardadosDataSource.data.length === 0">No se ha encontrado ningún pedido.</div>
@@ -385,10 +385,10 @@
                 *matRowDef="let row; columns: pedidosRecepcionadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="pedidosRecepcionadosDataSource.data.length > 0"
-                       [length]="20"
+                       [length]="recepcionadosPags"
                        [pageSize]="20"
                        [pageSizeOptions]="[20]"
-                       aria-label="Elige página">
+                       (page)="changePageRecepcionados($event)">
         </mat-paginator>
         <div class="no-results"
              *ngIf="pedidosRecepcionadosDataSource.data.length === 0">No se ha encontrado ningún pedido.</div>

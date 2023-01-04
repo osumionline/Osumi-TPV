@@ -88,7 +88,7 @@ export class Pedido {
   get subtotal(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
-      num += linea.unidades * linea.subtotal;
+      num += linea.subtotal;
     }
     return num;
   }
@@ -96,7 +96,7 @@ export class Pedido {
   get total(): number {
     let num: number = 0;
     for (let linea of this.lineas) {
-      num += linea.unidades * linea.total;
+      num += linea.total;
     }
     return num * ((100 - this.descuento) / 100) + this.portes;
   }
