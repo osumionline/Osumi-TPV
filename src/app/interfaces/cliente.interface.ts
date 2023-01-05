@@ -55,6 +55,7 @@ export interface SelectClienteInterface {
 
 export interface FacturaInterface {
   id: number;
+  numFactura: number;
   nombreApellidos: string;
   dniCif: string;
   telefono: string;
@@ -64,6 +65,7 @@ export interface FacturaInterface {
   poblacion: string;
   provincia: number;
   importe: number;
+  impresa: boolean;
   fecha: string;
   ventas: VentaHistoricoInterface[];
 }
@@ -71,4 +73,9 @@ export interface FacturaInterface {
 export interface FacturaResult {
   status: string;
   list: FacturaInterface[];
+}
+
+export interface VentasClienteResult {
+  status: string;
+  list: VentaHistoricoInterface[];
 }

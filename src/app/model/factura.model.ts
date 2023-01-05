@@ -6,6 +6,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class Factura {
   constructor(
     public id: number = null,
+    public numFactura: number = null,
     public nombreApellidos: string = null,
     public dniCif: string = null,
     public telefono: string = null,
@@ -15,12 +16,14 @@ export class Factura {
     public poblacion: string = null,
     public provincia: number = null,
     public importe: number = null,
+    public impresa: boolean = false,
     public fecha: string = null,
     public ventas: VentaHistorico[] = []
   ) {}
 
   fromInterface(f: FacturaInterface): Factura {
     this.id = f.id;
+    this.numFactura = f.numFactura;
     this.nombreApellidos = Utils.urldecode(f.nombreApellidos);
     this.dniCif = Utils.urldecode(f.dniCif);
     this.telefono = Utils.urldecode(f.telefono);
@@ -30,6 +33,8 @@ export class Factura {
     this.poblacion = Utils.urldecode(f.poblacion);
     this.provincia = f.provincia;
     this.importe = f.importe;
+    this.impresa = f.impresa;
+    this.fecha = f.fecha;
     this.ventas = f.ventas.map((v: VentaHistoricoInterface): VentaHistorico => {
       return new VentaHistorico().fromInterface(v);
     });
@@ -40,6 +45,7 @@ export class Factura {
   toInterface(): FacturaInterface {
     return {
       id: this.id,
+      numFactura: this.numFactura,
       nombreApellidos: Utils.urlencode(this.nombreApellidos),
       dniCif: Utils.urlencode(this.dniCif),
       telefono: Utils.urlencode(this.telefono),
@@ -49,6 +55,7 @@ export class Factura {
       poblacion: Utils.urlencode(this.poblacion),
       provincia: this.provincia,
       importe: this.importe,
+      impresa: this.impresa,
       fecha: Utils.urlencode(this.fecha),
       ventas: this.ventas.map((v: VentaHistorico): VentaHistoricoInterface => {
         return v.toInterface();

@@ -96,3 +96,59 @@
     }
   }
 }
+
+.facturas-title {
+  font-size: 1.1em;
+  margin-bottom: 16px;
+}
+
+.facturas-body {
+  display: flex;
+
+  .facturas-left {
+    height: 500px;
+    flex: 2;
+    overflow-y: auto;
+  }
+
+  .facturas-right {
+    height: 500px;
+    overflow-y: auto;
+    margin-left: 16px;
+    flex: 3;
+    box-sizing: border-box;
+
+    .facturas-detail {
+      display: none;
+
+      &.show {
+        display: block;
+      }
+
+      .facturas-detail-lineas {
+        height: 250px;
+        overflow-y: auto;
+
+        .original-price {
+          text-decoration: line-through;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+.facturas-actions {
+  display: flex;
+  margin-top: 16px;
+
+  .facturas-delete {
+    flex: 1;
+  }
+
+  .facturas-others {
+    button {
+      margin-left: 16px;
+    }
+  }
+}
