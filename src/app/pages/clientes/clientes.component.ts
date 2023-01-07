@@ -16,6 +16,7 @@ import { Month } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Factura } from "src/app/model/factura.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
+import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -78,6 +79,19 @@ export class ClientesComponent implements OnInit {
   ventasSelected: VentaHistorico = new VentaHistorico();
   selection: SelectionModel<VentaHistorico> =
     new SelectionModel<VentaHistorico>(true, []);
+
+  ventaSelected: VentaHistorico = new VentaHistorico();
+  ventaSelectedDisplayedColumns: string[] = [
+    "localizador",
+    "marca",
+    "articulo",
+    "unidades",
+    "pvp",
+    "descuento",
+    "importe",
+  ];
+  ventaSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
+    new MatTableDataSource<VentaLineaHistorico>();
 
   stats: ChartSelectInterface = {
     data: "consumo",
@@ -263,5 +277,8 @@ export class ClientesComponent implements OnInit {
       : this.ventasDataSource.data.forEach((row) => this.selection.select(row));
   }
 
-  selectVenta(ind: number): void {}
+  selectVenta(ind: number): void {
+    this.ventaSelected = this.ventasCliente[ind];
+    this.ventaSelectedDataSource.data = this.ventaSelected.lineas;
+  }
 }

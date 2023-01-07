@@ -112,26 +112,38 @@
   }
 
   .facturas-right {
-    height: 500px;
-    overflow-y: auto;
-    margin-left: 16px;
-    flex: 3;
-    box-sizing: border-box;
+    .facturas-no-data {
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      font-size: 1.3em;
+      align-items: center;
+    }
 
-    .facturas-detail {
-      display: none;
+    .facturas-venta-detail {
+      height: 500px;
+      flex: 2;
+      overflow-y: auto;
+      margin-left: 16px;
 
-      &.show {
-        display: block;
-      }
+      .totales {
+        margin-top: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 8px;
 
-      .facturas-detail-lineas {
-        height: 250px;
-        overflow-y: auto;
+        .totales-row {
+          display: flex;
+          margin-bottom: 4px;
 
-        .original-price {
-          text-decoration: line-through;
-          font-style: italic;
+          label {
+            width: 135px;
+          }
+
+          span {
+            width: 80px;
+            text-align: right;
+          }
         }
       }
     }
