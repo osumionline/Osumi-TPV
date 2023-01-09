@@ -1,0 +1,83 @@
+.facturas-title {
+    font-size: 1.1em;
+    margin-bottom: 16px;
+}
+
+.facturas-body {
+    display: flex;
+    height: 90%;
+
+    .facturas-left {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .facturas-right {
+        flex: 1;
+
+        .facturas-no-data {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.3em;
+            align-items: center;
+        }
+
+        .facturas-venta-detail {
+            display: none;
+            flex: 2;
+            overflow-y: auto;
+            margin-left: 16px;
+
+            &.show {
+                display: block;
+            }
+
+            .original-price {
+                text-decoration: line-through;
+                font-style: italic;
+            }
+
+            .totales {
+                margin-top: 8px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                padding: 8px;
+
+                .totales-row {
+                    display: flex;
+                    margin-bottom: 4px;
+
+                    label {
+                        width: 135px;
+                    }
+
+                    span {
+                        width: 80px;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.facturas-actions {
+    display: flex;
+    margin-top: 16px;
+
+    .facturas-delete {
+        flex: 1;
+        visibility: hidden;
+
+        &.show {
+            visibility: initial;
+        }
+    }
+
+    .facturas-others {
+        button {
+            margin-left: 16px;
+        }
+    }
+}

@@ -1,22 +1,13 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
+import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factura.component";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Factura } from "src/app/model/factura.model";
-import { VentaHistorico } from "src/app/model/venta-historico.model";
-import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -63,35 +54,8 @@ export class ClientesComponent implements OnInit {
   facturasDisplayedColumns: string[] = ["id", "fecha", "importe", "opciones"];
   facturasDataSource: MatTableDataSource<Factura> =
     new MatTableDataSource<Factura>();
-  facturasTitle: string = "Nueva factura";
-  showFacturas: boolean = false;
 
-  ventasDisplayedColumns: string[] = [
-    "select",
-    "fecha",
-    "importe",
-    "nombreTipoPago",
-  ];
-  ventasCliente: VentaHistorico[] = [];
-  ventasDataSource: MatTableDataSource<VentaHistorico> =
-    new MatTableDataSource<VentaHistorico>();
-  @ViewChild(MatSort) sort: MatSort;
-  ventasSelected: VentaHistorico = new VentaHistorico();
-  selection: SelectionModel<VentaHistorico> =
-    new SelectionModel<VentaHistorico>(true, []);
-
-  ventaSelected: VentaHistorico = new VentaHistorico();
-  ventaSelectedDisplayedColumns: string[] = [
-    "localizador",
-    "marca",
-    "articulo",
-    "unidades",
-    "pvp",
-    "descuento",
-    "importe",
-  ];
-  ventaSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
-    new MatTableDataSource<VentaLineaHistorico>();
+  @ViewChild("editFactura", { static: true }) editFactura: EditFacturaComponent;
 
   stats: ChartSelectInterface = {
     data: "consumo",
@@ -133,15 +97,6 @@ export class ClientesComponent implements OnInit {
         this.searchBox.nativeElement.focus();
       }
     });
-  }
-
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") {
-      if (this.showFacturas) {
-        this.facturasCerrar();
-      }
-    }
   }
 
   selectCliente(cliente: Cliente): void {
@@ -252,33 +207,6 @@ export class ClientesComponent implements OnInit {
   }
 
   abrirFacturas(): void {
-    this.cs.getVentas(this.selectedClient.id, "no").subscribe((result) => {
-      this.ventasCliente = this.cms.getHistoricoVentas(result.list);
-      this.ventasDataSource.data = this.ventasCliente;
-      this.showFacturas = true;
-    });
-  }
-
-  facturasCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.showFacturas = false;
-    this.selection.clear();
-  }
-
-  isAllSelected(): boolean {
-    const numSelected: number = this.selection.selected.length;
-    const numRows: number = this.ventasDataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle(): void {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.ventasDataSource.data.forEach((row) => this.selection.select(row));
-  }
-
-  selectVenta(ind: number): void {
-    this.ventaSelected = this.ventasCliente[ind];
-    this.ventaSelectedDataSource.data = this.ventaSelected.lineas;
+    this.editFactura.abrirFacturas(this.selectedClient);
   }
 }
