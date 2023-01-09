@@ -209,7 +209,7 @@
             </div>
             <div class="facturas-actions">
                 <div class="facturas-delete"
-                     [ngClass]="{'show': true}">
+                     [ngClass]="{'show': factura.id !== null}">
                     <button mat-raised-button
                             type="button"
                             color="warn">Eliminar</button>

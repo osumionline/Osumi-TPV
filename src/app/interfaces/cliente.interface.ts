@@ -79,3 +79,9 @@ export interface VentasClienteResult {
   status: string;
   list: VentaHistoricoInterface[];
 }
+
+export interface FacturaSaveInterface {
+  id: number;
+  idCliente: number;
+  ventas: number[];
+}

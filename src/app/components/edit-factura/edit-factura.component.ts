@@ -2,6 +2,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { Component, HostListener } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { Cliente } from "src/app/model/cliente.model";
+import { Factura } from "src/app/model/factura.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -15,6 +16,8 @@ import { ClientesService } from "src/app/services/clientes.service";
 export class EditFacturaComponent {
   facturasTitle: string = "Nueva factura";
   showFacturas: boolean = false;
+
+  factura: Factura = new Factura();
 
   ventasDisplayedColumns: string[] = [
     "select",
