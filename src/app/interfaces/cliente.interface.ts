@@ -55,6 +55,7 @@ export interface SelectClienteInterface {
 
 export interface FacturaInterface {
   id: number;
+  idCliente: number;
   numFactura: number;
   nombreApellidos: string;
   dniCif: string;

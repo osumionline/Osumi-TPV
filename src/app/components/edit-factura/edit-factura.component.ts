@@ -56,8 +56,10 @@ export class EditFacturaComponent {
     }
   }
 
-  abrirFacturas(selectedClient: Cliente): void {
+  nuevaFactura(selectedClient: Cliente): void {
     this.cs.getVentas(selectedClient.id, "no").subscribe((result) => {
+      this.factura = new Factura();
+      this.factura.idCliente = selectedClient.id;
       this.ventasCliente = this.cms.getHistoricoVentas(result.list);
       this.ventasDataSource.data = this.ventasCliente;
       this.showFacturas = true;
@@ -85,5 +87,12 @@ export class EditFacturaComponent {
   selectVenta(ind: number): void {
     this.ventaSelected = this.ventasCliente[ind];
     this.ventaSelectedDataSource.data = this.ventaSelected.lineas;
+  }
+
+  saveFactura(): void {
+    this.selection.selected.forEach((v: VentaHistorico) => {
+      this.factura.ventas.push(v);
+    });
+    console.log(this.factura.toSaveInterface());
   }
 }

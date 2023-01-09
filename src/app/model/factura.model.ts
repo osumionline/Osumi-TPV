@@ -1,11 +1,15 @@
 import { VentaHistoricoInterface } from "src/app/interfaces/caja.interface";
-import { FacturaInterface } from "src/app/interfaces/cliente.interface";
+import {
+  FacturaInterface,
+  FacturaSaveInterface,
+} from "src/app/interfaces/cliente.interface";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Factura {
   constructor(
     public id: number = null,
+    public idCliente: number = null,
     public numFactura: number = null,
     public nombreApellidos: string = null,
     public dniCif: string = null,
@@ -23,6 +27,7 @@ export class Factura {
 
   fromInterface(f: FacturaInterface): Factura {
     this.id = f.id;
+    this.idCliente = f.idCliente;
     this.numFactura = f.numFactura;
     this.nombreApellidos = Utils.urldecode(f.nombreApellidos);
     this.dniCif = Utils.urldecode(f.dniCif);
@@ -45,6 +50,7 @@ export class Factura {
   toInterface(): FacturaInterface {
     return {
       id: this.id,
+      idCliente: this.idCliente,
       numFactura: this.numFactura,
       nombreApellidos: Utils.urlencode(this.nombreApellidos),
       dniCif: Utils.urlencode(this.dniCif),
@@ -59,6 +65,16 @@ export class Factura {
       fecha: Utils.urlencode(this.fecha),
       ventas: this.ventas.map((v: VentaHistorico): VentaHistoricoInterface => {
         return v.toInterface();
+      }),
+    };
+  }
+
+  toSaveInterface(): FacturaSaveInterface {
+    return {
+      id: this.id,
+      idCliente: this.idCliente,
+      ventas: this.ventas.map((v: VentaHistorico): number => {
+        return v.id;
       }),
     };
   }

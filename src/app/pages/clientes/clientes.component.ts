@@ -207,6 +207,6 @@ export class ClientesComponent implements OnInit {
   }
 
   abrirFacturas(): void {
-    this.editFactura.abrirFacturas(this.selectedClient);
+    this.editFactura.nuevaFactura(this.selectedClient);
   }
 }
