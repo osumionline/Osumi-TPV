@@ -41,12 +41,20 @@
     }
 
     .datos {
-        border: 1px solid #000;
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+        border-left: 1px solid #000;
+        border-right: 1px solid #000;
         border-spacing: 0;
+
+        th {
+            border-bottom: 2px solid #000;
+        }
 
         th,
         td {
-            border: 1px solid #000;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
             padding: 6px;
 
             &.right {
@@ -160,6 +168,12 @@
 
 @media print {
     .factura {
+
+        .datos,
+        .totales {
+            font-size: 0.6em;
+        }
+
         .print {
             span {
                 text-align: center;
