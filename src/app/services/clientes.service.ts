@@ -8,9 +8,10 @@ import {
   ClientesResult,
   EstadisticasClienteResult,
   FacturaResult,
+  FacturaSaveInterface,
   VentasClienteResult,
 } from "src/app/interfaces/cliente.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
@@ -113,10 +114,28 @@ export class ClientesService {
     );
   }
 
-  getVentas(id: number, facturadas: string): Observable<VentasClienteResult> {
+  getVentas(
+    id: number,
+    facturadas: string,
+    idFacturaInclude: number = null
+  ): Observable<VentasClienteResult> {
     return this.http.post<VentasClienteResult>(
       environment.apiUrl + "-clientes/get-ventas-cliente",
-      { id, facturadas }
+      { id, facturadas, idFacturaInclude }
+    );
+  }
+
+  saveFactura(data: FacturaSaveInterface): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(
+      environment.apiUrl + "-clientes/save-factura",
+      data
+    );
+  }
+
+  deleteFactura(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-clientes/delete-factura",
+      { id }
     );
   }
 }

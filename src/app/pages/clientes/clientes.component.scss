@@ -84,13 +84,17 @@
         display: flex;
 
         .delete {
-          flex: 3;
+          flex: 2;
         }
 
         .others {
           flex: 1;
           display: flex;
           justify-content: space-around;
+
+          button {
+            margin-left: 16px;
+          }
         }
       }
     }

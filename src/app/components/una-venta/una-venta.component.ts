@@ -15,6 +15,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
+import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
@@ -29,7 +30,6 @@ import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
-import { ArticuloInterface } from "./../../interfaces/articulo.interface";
 
 @Component({
   selector: "otpv-una-venta",

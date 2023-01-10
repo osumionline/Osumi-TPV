@@ -116,18 +116,22 @@ export class ClientesComponent implements OnInit {
           );
         }
       });
-    this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
-      if (result.status === "ok") {
-        this.selectedClient.facturas = this.cms.getFacturas(result.list);
-        this.facturasDataSource.data = this.selectedClient.facturas;
-      }
-    });
+    this.loadFacturasCliente();
     setTimeout(() => {
       if (!this.focusEmail) {
         this.nameBox.nativeElement.focus();
       } else {
         this.focusEmail = false;
         this.emailBox.nativeElement.focus();
+      }
+    });
+  }
+
+  loadFacturasCliente(): void {
+    this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
+      if (result.status === "ok") {
+        this.selectedClient.facturas = this.cms.getFacturas(result.list);
+        this.facturasDataSource.data = this.selectedClient.facturas;
       }
     });
   }
@@ -206,7 +210,15 @@ export class ClientesComponent implements OnInit {
     window.open("/lopd/" + this.selectedClient.id);
   }
 
-  abrirFacturas(): void {
+  nuevaFactura(): void {
     this.editFactura.nuevaFactura(this.selectedClient);
+  }
+
+  facturaSaved(id: number): void {
+    this.loadFacturasCliente();
+  }
+
+  selectFactura(ind: number): void {
+    this.editFactura.abreFactura(this.facturasDataSource.data[ind]);
   }
 }

@@ -260,26 +260,25 @@
                                         <th class="center"
                                             mat-header-cell
                                             *matHeaderCellDef>
-                                            Opciones
+                                            Imprimir
                                         </th>
                                         <td class="center"
                                             mat-cell
                                             *matCellDef="let element">
                                             <button type="button"
+                                                    *ngIf="element.impresa"
                                                     mat-icon-button>
                                                 <mat-icon>print</mat-icon>
-                                            </button>
-                                            <button type="button"
-                                                    mat-icon-button>
-                                                <mat-icon>delete</mat-icon>
                                             </button>
                                         </td>
                                     </ng-container>
 
                                     <tr mat-header-row
                                         *matHeaderRowDef="facturasDisplayedColumns"></tr>
-                                    <tr mat-row
-                                        *matRowDef="let row; columns: facturasDisplayedColumns;"></tr>
+                                    <tr class="clickable"
+                                        mat-row
+                                        (click)="selectFactura(i)"
+                                        *matRowDef="let row; columns: facturasDisplayedColumns; let i = index;"></tr>
                                 </table>
                                 <div *ngIf="selectedClient.facturas.length === 0"
                                      class="no-facturas">
@@ -289,7 +288,7 @@
                                     <button mat-raised-button
                                             type="button"
                                             color="primary"
-                                            (click)="abrirFacturas()">
+                                            (click)="nuevaFactura()">
                                         Nueva factura
                                     </button>
                                 </div>
@@ -412,4 +411,5 @@
     </mat-card-content>
 </mat-card>
 
-<otpv-edit-factura #editFactura></otpv-edit-factura>
+<otpv-edit-factura (saveEvent)="facturaSaved($event)"
+                   #editFactura></otpv-edit-factura>

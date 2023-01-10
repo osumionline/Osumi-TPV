@@ -1,12 +1,14 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { Component, HostListener } from "@angular/core";
+import { Component, EventEmitter, HostListener, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { Factura } from "src/app/model/factura.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
+import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
   selector: "otpv-edit-factura",
@@ -45,7 +47,13 @@ export class EditFacturaComponent {
   ventaSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
 
-  constructor(private cs: ClientesService, private cms: ClassMapperService) {}
+  @Output() saveEvent: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor(
+    private cs: ClientesService,
+    private cms: ClassMapperService,
+    private dialog: DialogService
+  ) {}
 
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent) {
@@ -57,9 +65,40 @@ export class EditFacturaComponent {
   }
 
   nuevaFactura(selectedClient: Cliente): void {
-    this.cs.getVentas(selectedClient.id, "no").subscribe((result) => {
+    this.loadVentas(selectedClient.id);
+  }
+
+  abreFactura(factura: Factura): void {
+    this.factura = factura;
+    this.facturasTitle = "Factura " + this.factura.id;
+    if (this.factura.impresa) {
+      this.ventasCliente = this.factura.ventas;
+      this.ventasDataSource.data = this.ventasCliente;
+      this.showFacturas = true;
+    } else {
+      this.cs
+        .getVentas(this.factura.idCliente, "no", this.factura.id)
+        .subscribe((result) => {
+          this.ventasCliente = this.cms.getHistoricoVentas(result.list);
+          this.ventasDataSource.data = this.ventasCliente;
+          this.selection.clear();
+          for (let venta of this.factura.ventas) {
+            let ind: number = this.ventasCliente.findIndex(
+              (x: VentaHistorico): boolean => {
+                return x.id === venta.id;
+              }
+            );
+            this.selection.select(this.ventasCliente[ind]);
+          }
+          this.showFacturas = true;
+        });
+    }
+  }
+
+  loadVentas(id: number): void {
+    this.cs.getVentas(id, "no").subscribe((result) => {
       this.factura = new Factura();
-      this.factura.idCliente = selectedClient.id;
+      this.factura.idCliente = id;
       this.ventasCliente = this.cms.getHistoricoVentas(result.list);
       this.ventasDataSource.data = this.ventasCliente;
       this.showFacturas = true;
@@ -90,9 +129,47 @@ export class EditFacturaComponent {
   }
 
   saveFactura(): void {
+    this.factura.ventas = [];
     this.selection.selected.forEach((v: VentaHistorico) => {
       this.factura.ventas.push(v);
     });
-    console.log(this.factura.toSaveInterface());
+    this.cs
+      .saveFactura(this.factura.toSaveInterface())
+      .subscribe((result: IdSaveResult) => {
+        if (result.status === "ok") {
+          this.facturasCerrar();
+          this.saveEvent.emit(result.id);
+        }
+      });
+  }
+
+  deleteFactura(): void {
+    this.dialog
+      .confirm({
+        title: "Borrar factura",
+        content: "¿Estás seguro de querer borrar esta factura?",
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.confirmDeleteFactura();
+        }
+      });
+  }
+
+  confirmDeleteFactura(): void {
+    this.cs.deleteFactura(this.factura.id).subscribe((result: StatusResult) => {
+      this.dialog
+        .alert({
+          title: "Factura borrada",
+          content: "La factura ha sido correctamente borrada.",
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.facturasCerrar();
+          this.saveEvent.emit(0);
+        });
+    });
   }
 }
