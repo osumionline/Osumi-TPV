@@ -1,1 +1,100 @@
-<p>factura works!</p>
+<div class="factura">
+    <div class="header">
+        <div class="col">
+            <img [src]="logoUrl"
+                 alt="Logo">
+        </div>
+        <div class="col align-bottom">
+            <div class="row-info">
+                <label>FECHA:</label>
+                <span>{{factura.soloFecha}}</span>
+            </div>
+            <div class="row-info">
+                <label>FACTURA:</label>
+                <span>{{factura.numFactura}}_{{factura.year}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="col">
+            {{config.nombre}}
+            <br>
+            {{config.cif}}
+        </div>
+        <div class="col right">
+            <strong>{{factura.nombreApellidos}}</strong>
+            <br>
+            <strong>{{factura.dniCif}}</strong>
+        </div>
+    </div>
+    <div class="header">
+        <div class="col">
+            {{config.direccion}}
+            <br>
+            Tlf: {{config.telefono}} - Email: {{config.email}}
+        </div>
+        <div class="col right">
+            {{factura.direccion}}
+            <br>
+            {{factura.codigoPostal}} {{factura.poblacion}}
+        </div>
+    </div>
+
+    <table class="datos">
+        <thead>
+            <tr>
+                <th class="col-concepto">CONCEPTO</th>
+                <th class="col-precio-iva-unidad">PRECIO IVA UNIDAD</th>
+                <th class="col-precio-sin-iva">PRECIO SIN IVA</th>
+                <th class="col-unidades">UD</th>
+                <th class="col-subtotal">SUBTOTAL</th>
+                <th class="col-iva"
+                    colspan="2">IVA</th>
+                <th class="col-total">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let venta of factura.ventas">
+                <td class="col-concepto">Ticket Nº {{venta.id}}</td>
+                <td class="col-precio-iva-unidad right">77,65 €</td>
+                <td class="col-precio-sin-iva right">77,65 €</td>
+                <td class="col-unidades center">1</td>
+                <td class="col-subtotal right">77,65 €</td>
+                <td class="col-iva-porcentaje center">10%</td>
+                <td class="col-iva-importe right">77,65 €</td>
+                <td class="col-total right">77,65 €</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="totales">
+        <table>
+            <tr>
+                <td class="label">SUBTOTAL</td>
+                <td class="importe">1.846,12 €</td>
+            </tr>
+            <tr>
+                <td class="label">TOTAL IVA 10%</td>
+                <td class="importe">165,29 €</td>
+            </tr>
+            <tr>
+                <td class="label">TOTAL IVA 21%</td>
+                <td class="importe">40,58 €</td>
+            </tr>
+            <tr>
+                <td class="label">TOTAL</td>
+                <td class="importe importe-total">2.051,99 €</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="pagado">PAGADO</div>
+
+    <div *ngIf="preview"
+         class="print">
+        <span>PREVISUALIZACIÓN</span>
+        <button mat-raised-button
+                color="primary"
+                (click)="imprimir()">Imprimir</button>
+    </div>
+</div>

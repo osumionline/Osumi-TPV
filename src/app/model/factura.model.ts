@@ -25,6 +25,22 @@ export class Factura {
     public ventas: VentaHistorico[] = []
   ) {}
 
+  get soloFecha(): string {
+    if (this.fecha === null) {
+      return "";
+    }
+    const partes: string[] = this.fecha.split(" ");
+    return partes[0];
+  }
+
+  get year(): string {
+    if (this.fecha === null) {
+      return "";
+    }
+    const partes: string[] = this.soloFecha.split("/");
+    return partes[2];
+  }
+
   fromInterface(f: FacturaInterface): Factura {
     this.id = f.id;
     this.idCliente = f.idCliente;

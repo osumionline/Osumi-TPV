@@ -9,6 +9,7 @@ import {
   EstadisticasClienteResult,
   FacturaResult,
   FacturaSaveInterface,
+  FacturasResult,
   VentasClienteResult,
 } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
@@ -107,9 +108,16 @@ export class ClientesService {
     );
   }
 
-  getFacturas(id: number): Observable<FacturaResult> {
-    return this.http.post<FacturaResult>(
+  getFacturas(id: number): Observable<FacturasResult> {
+    return this.http.post<FacturasResult>(
       environment.apiUrl + "-clientes/get-facturas-cliente",
+      { id }
+    );
+  }
+
+  getFactura(id: number): Observable<FacturaResult> {
+    return this.http.post<FacturaResult>(
+      environment.apiUrl + "-clientes/get-factura-cliente",
       { id }
     );
   }

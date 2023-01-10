@@ -71,9 +71,14 @@ export interface FacturaInterface {
   ventas: VentaHistoricoInterface[];
 }
 
-export interface FacturaResult {
+export interface FacturasResult {
   status: string;
   list: FacturaInterface[];
+}
+
+export interface FacturaResult {
+  status: string;
+  factura: FacturaInterface;
 }
 
 export interface VentasClienteResult {

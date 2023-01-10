@@ -1,0 +1,173 @@
+.factura {
+    padding: 16px;
+
+    .header {
+        display: flex;
+        margin-bottom: 16px;
+
+        .col {
+            width: 50%;
+
+            &.right {
+                text-align: right;
+            }
+
+            &.align-bottom {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+            }
+
+            img {
+                width: 300px;
+            }
+
+            .row-info {
+                line-height: 24px;
+                display: flex;
+
+                label {
+                    flex: 1;
+                    font-weight: bold;
+                    text-align: right;
+                }
+
+                span {
+                    width: 150px;
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .datos {
+        border: 1px solid #000;
+        border-spacing: 0;
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 6px;
+
+            &.right {
+                text-align: right;
+            }
+
+            &.center {
+                text-align: center;
+            }
+
+            &.col-concepto {
+                width: 41%;
+            }
+
+            &.col-precio-iva-unidad {
+                width: 10%;
+            }
+
+            &.col-precio-sin-iva {
+                width: 10%;
+            }
+
+            &.col-unidades {
+                width: 5%;
+            }
+
+            &.col-subtotal {
+                width: 10%;
+            }
+
+            &.col-iva {
+                width: 14%;
+            }
+
+            &.col-iva-porcentaje {
+                width: 7%;
+            }
+
+            &.col-iva-importe {
+                width: 7%;
+            }
+
+            &.col-total {
+                width: 41%;
+            }
+        }
+    }
+
+    .totales {
+        display: flex;
+        justify-content: flex-end;
+
+        table {
+            border: 2px solid #000;
+            border-spacing: 0;
+            width: 300px;
+            box-sizing: border-box;
+
+            th,
+            td {
+                padding: 6px;
+
+                &.label {
+                    text-align: right;
+                    font-weight: bold;
+                }
+
+                &.importe {
+                    text-align: right;
+                    background-color: #ccc;
+                }
+
+                &.importe-total {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .pagado {
+        line-height: 50px;
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+        width: 40%;
+        margin: 16px auto;
+        text-align: center;
+        font-size: 2em;
+        color: #ccc;
+    }
+
+    .print {
+        position: fixed;
+        bottom: 16px;
+        background-color: #eee;
+        border-radius: 6px;
+        width: 80%;
+        left: 10%;
+        display: flex;
+        align-items: center;
+        height: 100px;
+        padding: 16px;
+        box-sizing: border-box;
+
+        span {
+            font-size: 2em;
+            color: #888;
+            flex: 1;
+        }
+    }
+}
+
+@media print {
+    .factura {
+        .print {
+            span {
+                text-align: center;
+            }
+
+            button {
+                display: none;
+            }
+        }
+    }
+}
