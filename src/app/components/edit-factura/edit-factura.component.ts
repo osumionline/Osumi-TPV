@@ -65,6 +65,12 @@ export class EditFacturaComponent {
   }
 
   nuevaFactura(selectedClient: Cliente): void {
+    this.ventasDisplayedColumns = [
+      "select",
+      "fecha",
+      "importe",
+      "nombreTipoPago",
+    ];
     this.loadVentas(selectedClient.id);
   }
 
@@ -72,10 +78,17 @@ export class EditFacturaComponent {
     this.factura = factura;
     this.facturasTitle = "Factura " + this.factura.id;
     if (this.factura.impresa) {
+      this.ventasDisplayedColumns = ["fecha", "importe", "nombreTipoPago"];
       this.ventasCliente = this.factura.ventas;
       this.ventasDataSource.data = this.ventasCliente;
       this.showFacturas = true;
     } else {
+      this.ventasDisplayedColumns = [
+        "select",
+        "fecha",
+        "importe",
+        "nombreTipoPago",
+      ];
       this.cs
         .getVentas(this.factura.idCliente, "no", this.factura.id)
         .subscribe((result) => {
@@ -171,5 +184,37 @@ export class EditFacturaComponent {
           this.saveEvent.emit(0);
         });
     });
+  }
+
+  preview(): void {
+    this.factura.ventas = [];
+    this.selection.selected.forEach((v: VentaHistorico) => {
+      this.factura.ventas.push(v);
+    });
+    this.cs
+      .saveFactura(this.factura.toSaveInterface())
+      .subscribe((result: IdSaveResult) => {
+        if (result.status === "ok") {
+          this.facturasCerrar();
+          this.saveEvent.emit(result.id);
+          window.open("/factura/" + result.id + "/preview");
+        }
+      });
+  }
+
+  imprimir(): void {
+    this.factura.ventas = [];
+    this.selection.selected.forEach((v: VentaHistorico) => {
+      this.factura.ventas.push(v);
+    });
+    this.cs
+      .saveFactura(this.factura.toSaveInterface(true))
+      .subscribe((result: IdSaveResult) => {
+        if (result.status === "ok") {
+          this.facturasCerrar();
+          this.saveEvent.emit(result.id);
+          window.open("/factura/" + result.id);
+        }
+      });
   }
 }

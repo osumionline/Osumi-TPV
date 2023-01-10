@@ -43,7 +43,16 @@ const routes: Routes = [
   { path: "gestion/marcas", component: GestionMarcasComponent },
   { path: "gestion/proveedores", component: GestionProveedoresComponent },
   { path: "gestion/tipos-pago", component: GestionTiposPagoComponent },
-  { path: "factura/:id", component: FacturaComponent },
+  {
+    path: "factura/:id",
+    component: FacturaComponent,
+    data: { type: "print" },
+  },
+  {
+    path: "factura/:id/preview",
+    component: FacturaComponent,
+    data: { type: "preview" },
+  },
   { path: "**", redirectTo: "/", pathMatch: "full" },
 ];
 

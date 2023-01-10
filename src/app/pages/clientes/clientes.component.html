@@ -267,7 +267,8 @@
                                             *matCellDef="let element">
                                             <button type="button"
                                                     *ngIf="element.impresa"
-                                                    mat-icon-button>
+                                                    mat-icon-button
+                                                    (click)="imprimirFactura($event, element)">
                                                 <mat-icon>print</mat-icon>
                                             </button>
                                         </td>

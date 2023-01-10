@@ -85,4 +85,5 @@ export interface FacturaSaveInterface {
   id: number;
   idCliente: number;
   ventas: number[];
+  imprimir: boolean;
 }

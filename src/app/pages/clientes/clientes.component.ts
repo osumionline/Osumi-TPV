@@ -221,4 +221,9 @@ export class ClientesComponent implements OnInit {
   selectFactura(ind: number): void {
     this.editFactura.abreFactura(this.facturasDataSource.data[ind]);
   }
+
+  imprimirFactura(ev: MouseEvent, factura: Factura): void {
+    ev && ev.stopPropagation();
+    window.open("/factura/" + factura.id);
+  }
 }

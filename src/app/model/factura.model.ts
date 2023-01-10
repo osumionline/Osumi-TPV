@@ -69,13 +69,14 @@ export class Factura {
     };
   }
 
-  toSaveInterface(): FacturaSaveInterface {
+  toSaveInterface(imprimir: boolean = false): FacturaSaveInterface {
     return {
       id: this.id,
       idCliente: this.idCliente,
       ventas: this.ventas.map((v: VentaHistorico): number => {
         return v.id;
       }),
+      imprimir: imprimir,
     };
   }
 }

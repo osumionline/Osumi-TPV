@@ -36,13 +36,11 @@
 
                         <!-- Fecha -->
                         <ng-container matColumnDef="fecha">
-                            <th class="right"
-                                mat-header-cell
+                            <th mat-header-cell
                                 *matHeaderCellDef>
                                 Fecha
                             </th>
-                            <td class="right"
-                                mat-cell
+                            <td mat-cell
                                 *matCellDef="let element"> {{element.fecha}} </td>
                         </ng-container>
 
@@ -65,7 +63,8 @@
                                 *matHeaderCellDef>
                                 Tipo de pago
                             </th>
-                            <td mat-cell
+                            <td class="right"
+                                mat-cell
                                 *matCellDef="let element">
                                 {{element.nombreTipoPago}}
                             </td>
@@ -219,6 +218,7 @@
                     <button mat-raised-button
                             type="button"
                             color="primary"
+                            *ngIf="!factura.impresa"
                             [disabled]="selection.selected.length === 0"
                             (click)="saveFactura()">
                         <mat-icon>save</mat-icon>
@@ -226,15 +226,18 @@
                     </button>
                     <button mat-raised-button
                             type="button"
+                            color="primary"
+                            *ngIf="!factura.impresa"
                             [disabled]="selection.selected.length === 0"
-                            color="primary">
+                            (click)="preview()">
                         <mat-icon>find_in_page</mat-icon>
                         Previsualizar
                     </button>
                     <button mat-raised-button
                             type="button"
-                            [disabled]="selection.selected.length === 0"
-                            color="primary">
+                            [disabled]="selection.selected.length === 0 && !factura.impresa"
+                            color="primary"
+                            (click)="imprimir()">
                         <mat-icon>print</mat-icon>
                         Imprimir
                     </button>
