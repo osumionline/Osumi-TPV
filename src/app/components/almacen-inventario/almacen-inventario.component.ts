@@ -30,7 +30,7 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
     "localizador",
     "marca",
     "referencia",
-    "descripcion",
+    "nombre",
     "stock",
     "pvp",
     "margen",

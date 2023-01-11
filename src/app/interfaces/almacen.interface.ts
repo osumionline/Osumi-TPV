@@ -12,7 +12,7 @@ export interface InventarioItemInterface {
   localizador: number;
   marca: string;
   referencia: string;
-  descripcion: string;
+  nombre: string;
   stock: number;
   pvp: number;
   margen: number;

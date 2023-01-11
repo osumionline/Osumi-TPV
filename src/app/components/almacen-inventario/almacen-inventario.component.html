@@ -74,18 +74,18 @@
             *matCellDef="let element"> {{element.referencia}} </td>
     </ng-container>
 
-    <!-- Descripción -->
-    <ng-container matColumnDef="descripcion">
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
         <th class="center"
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            sortActionDescription="Ordenar por descripción">
-            Descripción
+            sortActionDescription="Ordenar por nombre">
+            Nombre
         </th>
         <td class="center"
             mat-cell
-            *matCellDef="let element"> {{element.descripcion}} </td>
+            *matCellDef="let element"> {{element.nombre}} </td>
     </ng-container>
 
     <!-- Stock -->
