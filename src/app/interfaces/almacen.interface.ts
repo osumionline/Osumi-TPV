@@ -7,7 +7,7 @@ export interface BuscadorAlmacenInterface {
   pagina: number;
 }
 
-export interface BuscadorAlmacenItemInterface {
+export interface InventarioItemInterface {
   idArticulo: number;
   localizador: number;
   marca: string;
@@ -20,5 +20,6 @@ export interface BuscadorAlmacenItemInterface {
 
 export interface BuscadorAlmacenResult {
   status: string;
-  list: BuscadorAlmacenItemInterface[];
+  list: InventarioItemInterface[];
+  pags: number;
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { InventarioItemInterface } from "src/app/interfaces/almacen.interface";
 import {
   AccesoDirectoInterface,
   ArticuloBuscadorInterface,
@@ -47,6 +48,7 @@ import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
+import { InventarioItem } from "./../model/inventario-item.model";
 
 @Injectable({
   providedIn: "root",
@@ -236,6 +238,16 @@ export class ClassMapperService {
   getFacturas(fs: FacturaInterface[]): Factura[] {
     return fs.map((f: FacturaInterface): Factura => {
       return this.getFactura(f);
+    });
+  }
+
+  getInventarioItem(ii: InventarioItemInterface): InventarioItem {
+    return new InventarioItem().fromInterface(ii);
+  }
+
+  getInventarioItems(iis: InventarioItemInterface[]): InventarioItem[] {
+    return iis.map((ii: InventarioItemInterface): InventarioItem => {
+      return this.getInventarioItem(ii);
     });
   }
 }
