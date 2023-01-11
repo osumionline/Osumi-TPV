@@ -264,6 +264,22 @@ export class HistoricoVentasComponent implements AfterViewInit {
   }
 
   sendTicket(id: number, email: string): void {
+    this.dialog
+      .confirm({
+        title: "Enviar email",
+        content:
+          'Se enviará el ticket al email "' + email + '", ¿quieres continuar?',
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.sendTicketConfirm(id, email);
+        }
+      });
+  }
+
+  sendTicketConfirm(id: number, email: string): void {
     this.vs.sendTicket(id, Utils.urlencode(email)).subscribe((result) => {
       console.log(result);
       if (result.status === "ok") {
