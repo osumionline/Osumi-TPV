@@ -266,6 +266,12 @@ export class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.fechaPedido !== null) {
       this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
     }
+    for (let pv of this.pedido.vista) {
+      if (pv.status) {
+        this.colOptionsSelected.push(pv.idColumn);
+      }
+    }
+    this.changeOptions();
     this.pedidoDataSource.data = this.pedido.lineas;
     this.localizadorBox.nativeElement.focus();
   }
@@ -516,12 +522,21 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
-    let id: number = this.pedido.id;
-    if (id === null) {
+    this.updatePedidoData();
+    if (this.pedido.id === null) {
       this.cs.setPedidoTemporal(this.pedido);
-      id = 0;
+      this.router.navigate(["/articulos", localizador, "return", "pedido", 0]);
+    } else {
+      this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
+        this.router.navigate([
+          "/articulos",
+          localizador,
+          "return",
+          "pedido",
+          this.pedido.id,
+        ]);
+      });
     }
-    this.router.navigate(["/articulos", localizador, "return", "pedido", id]);
   }
 
   addPDF(): void {
