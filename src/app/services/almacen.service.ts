@@ -4,7 +4,9 @@ import { Observable } from "rxjs";
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
+  InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -19,6 +21,20 @@ export class AlmacenService {
     return this.http.post<BuscadorAlmacenResult>(
       environment.apiUrl + "-almacen/get-inventario",
       data
+    );
+  }
+
+  saveInventario(item: InventarioItemInterface): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-almacen/save-inventario",
+      item
+    );
+  }
+
+  deleteInventario(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-almacen/delete-inventario",
+      { id }
     );
   }
 }

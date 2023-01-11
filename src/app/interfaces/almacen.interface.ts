@@ -5,17 +5,18 @@ export interface BuscadorAlmacenInterface {
   orderBy: string;
   orderSent: string;
   pagina: number;
+  num: number;
 }
 
 export interface InventarioItemInterface {
-  idArticulo: number;
+  id: number;
   localizador: number;
   marca: string;
   referencia: string;
   nombre: string;
   stock: number;
+  puc: number;
   pvp: number;
-  margen: number;
 }
 
 export interface BuscadorAlmacenResult {
