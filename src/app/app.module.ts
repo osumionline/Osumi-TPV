@@ -17,13 +17,15 @@ import es from "@angular/common/locales/es";
 registerLocaleData(es);
 
 import { COMPONENTS, MATERIAL, PAGES, PIPES, SERVICES } from "./app.common";
+import { AlmacenInventarioComponent } from './components/almacen-inventario/almacen-inventario.component';
+import { AlmacenListasComponent } from './components/almacen-listas/almacen-listas.component';
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
 
 @NgModule({
-  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES],
+  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES, AlmacenInventarioComponent, AlmacenListasComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

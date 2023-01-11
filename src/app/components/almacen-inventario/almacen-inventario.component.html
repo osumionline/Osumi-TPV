@@ -1,0 +1,26 @@
+<div class="filtros">
+    <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Proveedor</mat-label>
+        <mat-select [(ngModel)]="buscador.idProveedor">
+            <mat-option *ngFor="let proveedor of ps.proveedores"
+                        [value]="proveedor.id">
+                {{proveedor.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Marca</mat-label>
+        <mat-select [(ngModel)]="buscador.idMarca">
+            <mat-option *ngFor="let marca of ms.marcas"
+                        [value]="marca.id">
+                {{marca.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="nombre"
+                    subscriptSizing="dynamic">
+        <mat-label>Nombre, etiquetas...</mat-label>
+        <input [(ngModel)]="buscador.nombre"
+               matInput>
+    </mat-form-field>
+</div>
