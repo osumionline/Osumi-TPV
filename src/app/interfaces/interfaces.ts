@@ -65,6 +65,9 @@ export interface AppDataInterface {
   facebook: string;
   instagram: string;
   web: string;
+  cajaInicial: number;
+  ticketInicial: number;
+  facturaInicial: number;
   tipoIva: string;
   ivaList: number[];
   reList: number[];
@@ -86,6 +89,9 @@ export interface AppDataResult {
   facebook: string;
   instagram: string;
   web: string;
+  cajaInicial: number;
+  ticketInicial: number;
+  facturaInicial: number;
   tipoIva: string;
   ivaList: number[];
   reList: number[];

@@ -38,6 +38,9 @@ export class InstallationComponent implements OnInit {
   facebook: string = "";
   instagram: string = "";
   web: string = "";
+  cajaInicial: number = 0;
+  ticketInicial: number = 1;
+  facturaInicial: number = 1;
 
   ivareOptions: IvaReOptionInterface[] = [
     { id: "iva", name: "IVA" },
@@ -107,6 +110,9 @@ export class InstallationComponent implements OnInit {
       this.facebook = this.config.facebook;
       this.instagram = this.config.instagram;
       this.web = this.config.web;
+      this.cajaInicial = this.config.cajaInicial;
+      this.ticketInicial = this.config.ticketInicial;
+      this.facturaInicial = this.config.facturaInicial;
       this.logo = environment.baseUrl + "/logo.jpg";
       this.showEmployee = false;
 
@@ -329,6 +335,9 @@ export class InstallationComponent implements OnInit {
       facebook: this.facebook,
       instagram: this.instagram,
       web: this.web,
+      cajaInicial: this.cajaInicial,
+      ticketInicial: this.ticketInicial,
+      facturaInicial: this.facturaInicial,
       tipoIva: this.selectedOption,
       ivaList: this.selectedIvaList,
       reList: this.selectedReList,

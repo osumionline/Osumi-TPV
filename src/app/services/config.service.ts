@@ -31,6 +31,9 @@ export class ConfigService {
   facebook: string = "";
   instagram: string = "";
   web: string = "";
+  cajaInicial: number = 0;
+  ticketInicial: number = 1;
+  facturaInicial: number = 1;
   tipoIva: string = "";
   ivaOptions: IVAOption[] = [];
   marginList: number[] = [];
@@ -129,6 +132,9 @@ export class ConfigService {
     this.facebook = data.facebook;
     this.instagram = data.instagram;
     this.web = data.web;
+    this.cajaInicial = data.cajaInicial;
+    this.ticketInicial = data.ticketInicial;
+    this.facturaInicial = data.facturaInicial;
     this.tipoIva = data.tipoIva;
     for (let i in data.ivaList) {
       if (this.tipoIva === "iva") {

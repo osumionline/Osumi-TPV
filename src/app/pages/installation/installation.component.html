@@ -139,6 +139,34 @@
 					 alt="Web">
 			</mat-form-field>
 		</div>
+		<p><strong>Caja inicial</strong></p>
+		<div class="row">
+			<mat-form-field class="money">
+				<mat-label>Caja inicial</mat-label>
+				<input matInput
+					   type="number"
+					   placeholder="Caja inicial"
+					   [(ngModel)]="cajaInicial">
+			</mat-form-field>
+			€
+		</div>
+		<p><strong>Valores iniciales</strong></p>
+		<div class="row">
+			<mat-form-field class="money">
+				<mat-label>Num. ticket inicial</mat-label>
+				<input matInput
+					   type="number"
+					   placeholder="Num. ticket inicial"
+					   [(ngModel)]="ticketInicial">
+			</mat-form-field>
+			<mat-form-field class="money">
+				<mat-label>Num. Factura inicial</mat-label>
+				<input matInput
+					   type="number"
+					   placeholder="Num. Factura inicial"
+					   [(ngModel)]="facturaInicial">
+			</mat-form-field>
+		</div>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
 		<button mat-raised-button
