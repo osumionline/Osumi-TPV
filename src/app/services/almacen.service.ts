@@ -44,4 +44,14 @@ export class AlmacenService {
       { id }
     );
   }
+
+  exportInventario(data: BuscadorAlmacenInterface): Observable<any> {
+    return this.http.post(
+      environment.apiUrl + "-almacen/export-inventario",
+      data,
+      {
+        responseType: "text",
+      }
+    );
+  }
 }

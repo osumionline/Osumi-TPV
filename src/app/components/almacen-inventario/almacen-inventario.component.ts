@@ -139,4 +139,18 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
+  exportInventario(): void {
+    this.as.exportInventario(this.buscador).subscribe((result) => {
+      const data: Blob = new Blob([result], {
+        type: "text/csv;charset=utf-8",
+      });
+      let url = window.URL.createObjectURL(data);
+      let a: HTMLAnchorElement = document.createElement("a");
+      a.href = url;
+      a.download = "inventario.csv";
+      a.click();
+      a.remove();
+    });
+  }
 }
