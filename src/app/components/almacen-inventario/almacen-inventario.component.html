@@ -122,6 +122,8 @@
                        (focus)="$event.target.select()"
                        matInput>
             </mat-form-field>
+            <mat-icon *ngIf="element.stockChanged"
+                      (click)="element.stock = element._stock">restart_alt</mat-icon>
         </td>
     </ng-container>
 
@@ -147,6 +149,8 @@
                        matInput>
             </mat-form-field>
             €
+            <mat-icon *ngIf="element.pvpChanged"
+                      (click)="element.pvp = element._pvp">restart_alt</mat-icon>
         </td>
     </ng-container>
 

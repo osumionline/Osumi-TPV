@@ -16,6 +16,13 @@
 
 .modified {
     background-color: #5ef56a;
+    position: relative;
+
+    mat-icon {
+        position: absolute;
+        right: 4px;
+        cursor: pointer;
+    }
 }
 
 .actions {
