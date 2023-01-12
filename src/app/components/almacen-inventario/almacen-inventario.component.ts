@@ -2,7 +2,10 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { BuscadorAlmacenInterface } from "src/app/interfaces/almacen.interface";
+import {
+  BuscadorAlmacenInterface,
+  InventarioItemInterface,
+} from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/inventario-item.model";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -27,6 +30,7 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
   };
   list: InventarioItem[] = [];
   pags: number = 0;
+  pageIndex: number = 0;
 
   inventarioDisplayedColumns: string[] = [
     "localizador",
@@ -66,6 +70,12 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
     this.inventarioDataSource.sort = this.sort;
   }
 
+  resetBuscar(): void {
+    this.pageIndex = 0;
+    this.buscador.pagina = 1;
+    this.buscar();
+  }
+
   cambiarOrden(sort: Sort): void {
     if (sort.direction === "") {
       this.buscador.orderBy = null;
@@ -78,9 +88,27 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
   }
 
   changePage(ev: PageEvent): void {
+    this.pageIndex = ev.pageIndex;
     this.buscador.pagina = ev.pageIndex + 1;
     this.buscador.num = ev.pageSize;
     this.buscar();
+  }
+
+  saveAll(): void {
+    const list: InventarioItemInterface[] = [];
+    for (let item of this.list) {
+      if (item.pvpChanged || item.stockChanged) {
+        list.push(item.toInterface());
+      }
+    }
+    this.as.saveAllInventario(list).subscribe((result) => {
+      for (let item of this.list) {
+        if (item.pvpChanged || item.stockChanged) {
+          item._pvp = item.pvp;
+          item._stock = item.stock;
+        }
+      }
+    });
   }
 
   saveInventario(item: InventarioItem): void {

@@ -17,3 +17,13 @@
 .modified {
     background-color: #5ef56a;
 }
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+
+    button {
+        margin-left: 16px;
+    }
+}

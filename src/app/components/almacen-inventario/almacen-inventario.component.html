@@ -2,7 +2,7 @@
     <mat-form-field subscriptSizing="dynamic">
         <mat-label>Proveedor</mat-label>
         <mat-select [(ngModel)]="buscador.idProveedor"
-                    (ngModelChange)="buscar()">
+                    (ngModelChange)="resetBuscar()">
             <mat-option *ngFor="let proveedor of ps.proveedores"
                         [value]="proveedor.id">
                 {{proveedor.nombre}}
@@ -12,7 +12,7 @@
     <mat-form-field subscriptSizing="dynamic">
         <mat-label>Marca</mat-label>
         <mat-select [(ngModel)]="buscador.idMarca"
-                    (ngModelChange)="buscar()">
+                    (ngModelChange)="resetBuscar()">
             <mat-option *ngFor="let marca of ms.marcas"
                         [value]="marca.id">
                 {{marca.nombre}}
@@ -23,9 +23,28 @@
                     subscriptSizing="dynamic">
         <mat-label>Nombre, etiquetas...</mat-label>
         <input [(ngModel)]="buscador.nombre"
-               (keyup)="buscar()"
+               (keyup)="resetBuscar()"
                matInput>
     </mat-form-field>
+</div>
+
+<div class="actions">
+    <button mat-raised-button
+            color="primary"
+            (click)="saveAll()">
+        <mat-icon>save</mat-icon>
+        Guardar todos
+    </button>
+    <button mat-raised-button
+            color="primary">
+        <mat-icon>border_all</mat-icon>
+        Exportar a Excel
+    </button>
+    <button mat-raised-button
+            color="primary">
+        <mat-icon>print</mat-icon>
+        Imprimir
+    </button>
 </div>
 
 <table mat-table
@@ -176,5 +195,6 @@
 <mat-paginator [length]="pags"
                [pageSize]="buscador.num"
                [pageSizeOptions]="[20, 50, 100]"
+               [pageIndex]="pageIndex"
                (page)="changePage($event)">
 </mat-paginator>

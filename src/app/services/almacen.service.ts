@@ -31,6 +31,13 @@ export class AlmacenService {
     );
   }
 
+  saveAllInventario(list: InventarioItemInterface[]): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-almacen/save-all-inventario",
+      { list }
+    );
+  }
+
   deleteInventario(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-almacen/delete-inventario",
