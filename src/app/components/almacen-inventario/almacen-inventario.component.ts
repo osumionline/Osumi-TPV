@@ -153,4 +153,9 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
       a.remove();
     });
   }
+
+  printInventario(): void {
+    const data: string = btoa(JSON.stringify(this.buscador));
+    window.open("inventario-print/" + data);
+  }
 }

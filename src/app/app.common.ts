@@ -16,6 +16,7 @@ import { InstallationComponent } from "src/app/pages/installation/installation.c
 import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
+import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 
 export const PAGES: any[] = [
   MainComponent,
@@ -33,6 +34,7 @@ export const PAGES: any[] = [
   GestionProveedoresComponent,
   GestionTiposPagoComponent,
   LopdComponent,
+  InventarioPrintComponent,
 ];
 
 /*
@@ -53,6 +55,8 @@ import { NewProveedorComponent } from "src/app/components/new-proveedor/new-prov
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factura.component";
+import { AlmacenInventarioComponent } from "src/app/components/almacen-inventario/almacen-inventario.component";
+import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -70,6 +74,8 @@ export const COMPONENTS: any[] = [
   DevolucionComponent,
   BuscadorComponent,
   EditFacturaComponent,
+  AlmacenInventarioComponent,
+  AlmacenListasComponent,
 ];
 
 /*

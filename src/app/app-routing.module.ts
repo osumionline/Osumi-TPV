@@ -13,6 +13,7 @@ import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-prove
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
+import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
@@ -53,6 +54,7 @@ const routes: Routes = [
     component: FacturaComponent,
     data: { type: "preview" },
   },
+  { path: "inventario-print/:data", component: InventarioPrintComponent },
   { path: "**", redirectTo: "/", pathMatch: "full" },
 ];
 
