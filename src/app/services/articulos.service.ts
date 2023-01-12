@@ -8,7 +8,6 @@ import {
   ArticuloSaveResult,
   ChartResultInterface,
   ChartSelectInterface,
-  SearchArticulosResult,
 } from "src/app/interfaces/articulo.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
@@ -44,16 +43,6 @@ export class ArticulosService {
     return this.http.post<ArticuloResult>(
       environment.apiUrl + "-articulos/load-articulo",
       { localizador }
-    );
-  }
-
-  searchArticulos(
-    name: string,
-    idMarca: number
-  ): Observable<SearchArticulosResult> {
-    return this.http.post<SearchArticulosResult>(
-      environment.apiUrl + "-articulos/search-articulos",
-      { name, idMarca }
     );
   }
 

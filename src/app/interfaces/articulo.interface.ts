@@ -89,11 +89,6 @@ export interface ArticuloResult {
   articulo: ArticuloInterface;
 }
 
-export interface SearchArticulosResult {
-  status: string;
-  list: ArticuloInterface[];
-}
-
 export interface ArticuloBuscadorInterface {
   localizador: number;
   nombre: string;
