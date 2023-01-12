@@ -15,9 +15,7 @@
 					<label>Localizador</label>
 					<mat-form-field class="campo-numero"
 									subscriptSizing="dynamic">
-						<input type="number"
-							   step="1"
-							   matInput
+						<input matInput
 							   placeholder="Localizador"
 							   formControlName="localizador"
 							   (keydown)="checkLocalizador($event)"
@@ -39,15 +37,6 @@
 							   placeholder="Nombre"
 							   formControlName="nombre">
 					</mat-form-field>
-				</div>
-				<div class="articulos-find">
-					<button mat-raised-button
-							color="primary"
-							type="button"
-							(click)="abrirBuscador()">
-						<mat-icon>search</mat-icon>
-						Buscar
-					</button>
 				</div>
 			</div>
 			<mat-tab-group animationDuration="0ms"
@@ -722,95 +711,6 @@
 </div>
 
 <div class="modal-bg"
-	 [ngClass]="{'show': mostrarBuscador}">
-	<div class="modal-box">
-		<div class="modal-header">
-			<span>Buscar</span>
-			<a href="#"
-			   (click)="cerrarBuscador($event)">
-				<mat-icon>close</mat-icon>
-			</a>
-		</div>
-		<div class="modal-body search-box">
-			<div class="search-box-header">
-				<mat-form-field>
-					<input matInput
-						   placeholder="Nombre del artículo"
-						   [(ngModel)]="searchName"
-						   (input)="searchStart()"
-						   #searchBoxName>
-				</mat-form-field>
-				<mat-form-field>
-					<mat-select [(ngModel)]="searchMarca"
-								(selectionChange)="searchArticulos()">
-						<mat-option [value]="-1">
-							Elige marca
-						</mat-option>
-						<mat-option *ngFor="let marca of marcas"
-									[value]="marca.id">
-							{{marca.nombre}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div>
-			<div class="search-box-result"
-				 *ngIf="searchResult.length">
-				<table mat-table
-					   [dataSource]="buscadorDataSource"
-					   matSort
-					   class="mat-elevation-z2 ">
-
-					<!-- Nombre -->
-					<ng-container matColumnDef="nombre">
-						<th mat-header-cell
-							*matHeaderCellDef
-							mat-sort-header
-							sortActionDescription="Ordenar por nombre">
-							Nombre
-						</th>
-						<td mat-cell
-							*matCellDef="let element"> {{element.nombre}} </td>
-					</ng-container>
-
-					<!-- Marca -->
-					<ng-container matColumnDef="marca">
-						<th mat-header-cell
-							*matHeaderCellDef
-							mat-sort-header
-							sortActionDescription="Ordenar por marca">
-							Marca
-						</th>
-						<td mat-cell
-							*matCellDef="let element"> {{element.marca}} </td>
-					</ng-container>
-
-					<!-- Stock -->
-					<ng-container matColumnDef="stock">
-						<th class="center"
-							mat-header-cell
-							*matHeaderCellDef
-							mat-sort-header
-							sortActionDescription="Ordenar por stock">
-							Stock
-						</th>
-						<td class="center"
-							mat-cell
-							*matCellDef="let element"> {{element.stock}} </td>
-					</ng-container>
-
-					<tr mat-header-row
-						*matHeaderRowDef="buscadorDisplayedColumns"></tr>
-					<tr mat-row
-						class="clickable"
-						(click)="selectSearch(row)"
-						*matRowDef="let row; columns: buscadorDisplayedColumns;"></tr>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal-bg"
 	 [ngClass]="{'show': mostrarMargenes}">
 	<div class="modal-box">
 		<div class="modal-header">
@@ -829,3 +729,6 @@
 		</div>
 	</div>
 </div>
+
+<otpv-buscador (closeEvent)="selectBuscador($event)"
+			   #buscador></otpv-buscador>

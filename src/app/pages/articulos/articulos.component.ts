@@ -11,6 +11,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import {
   ChartDataInterface,
@@ -51,6 +52,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
+  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
   showAccesosDirectos: boolean = false;
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
   accesosDirectosList: AccesoDirecto[] = [];
@@ -77,16 +79,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   confirmarDarDeBaja: boolean = false;
   darDeBajaLoading: boolean = false;
   mostrarBuscador: boolean = false;
-
-  searchTimer: number = null;
-  searching: boolean = false;
-  searchName: string = "";
-  @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
-  searchMarca: number = -1;
-  searchResult: Articulo[] = [];
-  buscadorDisplayedColumns: string[] = ["nombre", "marca", "stock"];
-  buscadorDataSource: MatTableDataSource<Articulo> =
-    new MatTableDataSource<Articulo>();
 
   mostrarMargenes: boolean = false;
   marginList: number[] = [];
@@ -175,7 +167,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
-    this.buscadorDataSource.sort = this.sort;
     this.form.get("palb").valueChanges.subscribe((x) => {
       this.updatePalb(x);
     });
@@ -195,9 +186,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       }
       if (this.nuevaMarca) {
         this.newMarcaCerrar();
-      }
-      if (this.mostrarBuscador) {
-        this.cerrarBuscador();
       }
       if (this.mostrarMargenes) {
         this.cerrarMargenes();
@@ -237,11 +225,26 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
+    const letters = /^[a-zA-Z]{1}$/;
+    if (ev.key.match(letters)) {
+      ev.preventDefault();
+      this.buscador.abreBuscador(ev.key);
+      return;
+    }
     if (ev.key == "Enter") {
       ev.preventDefault();
       ev.stopPropagation();
 
       this.loadArticulo();
+    }
+  }
+
+  selectBuscador(localizador: number): void {
+    if (localizador !== null) {
+      this.form.get("localizador").setValue(localizador);
+      this.loadArticulo();
+    } else {
+      this.localizadorBox.nativeElement.focus();
     }
   }
 
@@ -859,75 +862,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         }
       }
     });
-  }
-
-  abrirBuscador(): void {
-    this.searchName = "";
-    this.searchMarca = -1;
-    this.searchResult = [];
-    this.buscadorDataSource.data = this.searchResult;
-    this.mostrarBuscador = true;
-    setTimeout(() => {
-      this.searchBoxName.nativeElement.focus();
-    }, 0);
-  }
-
-  cerrarBuscador(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.mostrarBuscador = false;
-  }
-
-  searchStart(): void {
-    clearTimeout(this.searchTimer);
-    this.searchTimer = window.setTimeout(() => {
-      this.searchArticulos();
-    }, 500);
-  }
-
-  searchArticulos(): void {
-    if (this.searching) {
-      return;
-    }
-    this.searchResult = [];
-    this.buscadorDataSource.data = this.searchResult;
-    if (
-      (this.searchName === null || this.searchName === "") &&
-      this.searchMarca === -1
-    ) {
-      return;
-    }
-    this.searching = true;
-    this.ars
-      .searchArticulos(this.searchName, this.searchMarca)
-      .subscribe((result) => {
-        this.searching = false;
-        if (result.status === "ok") {
-          const articulos: Articulo[] = this.cms.getArticulos(result.list);
-          for (let articulo of articulos) {
-            let marca: Marca = this.ms.findById(articulo.idMarca);
-            articulo.marca = marca !== null ? marca.nombre : "";
-            let proveedor = this.ps.findById(articulo.idProveedor);
-            articulo.proveedor = proveedor !== null ? proveedor.nombre : "";
-            this.searchResult.push(articulo);
-            this.buscadorDataSource.data = this.searchResult;
-          }
-        } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: "Ocurrió un error al buscar los artículos.",
-              ok: "Continuar",
-            })
-            .subscribe((result) => {});
-        }
-      });
-  }
-
-  selectSearch(articulo: Articulo): void {
-    this.articulo.localizador = articulo.localizador;
-    this.form.get("localizador").setValue(this.articulo.localizador);
-    this.loadArticulo();
-    this.cerrarBuscador();
   }
 
   abrirMargenes(): void {

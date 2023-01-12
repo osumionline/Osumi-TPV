@@ -15,6 +15,7 @@
                        [(ngModel)]="searchName"
                        (keydown)="checkSearchKeys($event)"
                        (keyup)="searchStart($event)"
+                       autocomplete="off"
                        #searchBoxName>
             </mat-form-field>
             <div class="resultados"

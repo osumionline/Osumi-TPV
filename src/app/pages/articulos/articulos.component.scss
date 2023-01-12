@@ -8,11 +8,6 @@
     .articulos-space {
       flex: 1;
     }
-
-    .articulos-find {
-      display: inline-flex;
-      align-items: center;
-    }
   }
 
   .articulo-numbers {
@@ -246,13 +241,6 @@
     &:last-child {
       border-bottom: 0;
     }
-  }
-}
-
-.search-box {
-  .search-box-header {
-    display: flex;
-    justify-content: space-around;
   }
 }
 
