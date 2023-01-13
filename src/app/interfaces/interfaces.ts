@@ -103,7 +103,6 @@ export interface AppDataResult {
 }
 
 export interface StartDataInterface {
-  status: string;
   opened: boolean;
   appData: AppDataResult;
   tiposPago: TipoPagoInterface[];
