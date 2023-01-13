@@ -14,11 +14,7 @@ export class IVAOption {
   }
 
   get name(): string {
-    if (this.tipoIVA === "iva") {
-      return this.iva + "%";
-    } else {
-      return this.iva + " + " + this.re + "%";
-    }
+    return this.iva + "%";
   }
 
   get value(): number {

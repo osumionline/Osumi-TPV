@@ -65,14 +65,28 @@
 							</button>
 						</div>
 						<div class="form-field margin-right">
-							<label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
+							<label>IVA (*)</label>
 							<mat-form-field>
 								<mat-select [(ngModel)]="selectedIvaOption.id"
 											(ngModelChange)="updateIvaRe($event)"
 											[ngModelOptions]="{standalone: true}">
 									<mat-option *ngFor="let iva of ivaOptions"
 												[value]="iva.id">
-										{{iva.name}}
+										{{iva.iva}} %
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-field margin-right"
+							 *ngIf="tipoIva==='re'">
+							<label>RE (*)</label>
+							<mat-form-field>
+								<mat-select [(ngModel)]="selectedIvaOption.id"
+											(ngModelChange)="updateIvaRe($event)"
+											[ngModelOptions]="{standalone: true}">
+									<mat-option *ngFor="let iva of ivaOptions"
+												[value]="iva.id">
+										{{iva.re}} %
 									</mat-option>
 								</mat-select>
 							</mat-form-field>

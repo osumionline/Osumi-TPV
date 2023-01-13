@@ -4,6 +4,14 @@
 
     &>div {
         width: 100%;
+
+        .prov-marcas-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
     }
 }
 

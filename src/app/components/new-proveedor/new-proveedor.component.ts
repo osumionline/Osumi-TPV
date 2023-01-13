@@ -24,6 +24,7 @@ export class NewProveedorComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
   proveedor: Proveedor = new Proveedor();
   nuevoProveedor: boolean = false;
+  marcasSelected: Marca[] = [];
   marcas: Marca[] = [];
 
   constructor(
@@ -58,20 +59,40 @@ export class NewProveedorComponent implements OnInit {
     this.nuevoProveedor = false;
   }
 
-  addMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
-    const ind: number = this.proveedor.marcas.findIndex(
-      (x: number): boolean => x == marca.id
+  removeMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
+    const ind: number = this.marcasSelected.findIndex(
+      (x: Marca): boolean => x.id == marca.id
     );
 
-    if (ev.checked) {
-      if (ind === -1) {
-        this.proveedor.marcas.push(marca.id);
-      }
-    } else {
+    if (!ev.checked) {
       if (ind !== -1) {
-        this.proveedor.marcas.splice(ind, 1);
+        this.marcas.push(marca);
+        this.marcasSelected.splice(ind, 1);
+        this.sortMarcasLists();
       }
     }
+  }
+
+  addMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
+    const ind: number = this.marcas.findIndex(
+      (x: Marca): boolean => x.id == marca.id
+    );
+    if (ev.checked) {
+      if (ind !== -1) {
+        this.marcasSelected.push(marca);
+        this.marcas.splice(ind, 1);
+        this.sortMarcasLists();
+      }
+    }
+  }
+
+  sortMarcasLists(): void {
+    this.marcasSelected.sort((a: Marca, b: Marca) =>
+      a.nombre > b.nombre ? 1 : b.nombre > a.nombre ? -1 : 0
+    );
+    this.marcas.sort((a: Marca, b: Marca) =>
+      a.nombre > b.nombre ? 1 : b.nombre > a.nombre ? -1 : 0
+    );
   }
 
   guardarProveedor(): void {
@@ -90,7 +111,7 @@ export class NewProveedorComponent implements OnInit {
       return;
     }
 
-    if (this.proveedor.marcas.length == 0) {
+    if (this.marcasSelected.length == 0) {
       this.dialog
         .confirm({
           title: "Confirmar",
@@ -105,6 +126,10 @@ export class NewProveedorComponent implements OnInit {
           }
         });
     } else {
+      this.proveedor.marcas = this.marcasSelected.map((m: Marca): number => {
+        return m.id;
+      });
+      debugger;
       this.guardarProveedorContinue();
     }
   }
