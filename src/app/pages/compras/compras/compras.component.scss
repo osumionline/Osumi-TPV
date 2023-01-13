@@ -14,17 +14,20 @@
     mat-card-title {
         display: flex;
 
-        span {
-            flex: 1;
-        }
-
         .pedidos-list-header {
             position: relative;
+            width: 100%;
+
+            &>button {
+                position: absolute;
+                right: 0;
+                top: -8px;
+            }
 
             mat-card {
                 display: none;
                 position: absolute;
-                right: -48px;
+                right: 0;
                 top: 38px;
                 z-index: 2;
 
@@ -70,6 +73,10 @@
     .no-results {
         font-size: 1.3em;
         text-align: center;
+    }
+
+    table {
+        margin-top: 8px;
     }
 }
 
