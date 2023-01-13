@@ -65,6 +65,7 @@ export class EditFacturaComponent {
   }
 
   nuevaFactura(selectedClient: Cliente): void {
+    this.ventaSelected = new VentaHistorico();
     this.ventasDisplayedColumns = [
       "select",
       "fecha",
@@ -76,6 +77,7 @@ export class EditFacturaComponent {
 
   abreFactura(factura: Factura): void {
     this.factura = factura;
+    this.ventaSelected = new VentaHistorico();
     this.facturasTitle = "Factura " + this.factura.id;
     if (this.factura.impresa) {
       this.ventasDisplayedColumns = ["fecha", "importe", "nombreTipoPago"];

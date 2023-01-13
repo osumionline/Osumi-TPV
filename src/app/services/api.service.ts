@@ -28,10 +28,10 @@ import { environment } from "src/environments/environment";
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  checkStart(date: string): Observable<StartDataInterface> {
+  checkStart(): Observable<StartDataInterface> {
     return this.http.post<StartDataInterface>(
       environment.apiUrl + "/check-start",
-      { date }
+      {}
     );
   }
 

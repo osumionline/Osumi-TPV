@@ -13,7 +13,6 @@ import { ComprasService } from "src/app/services/compras.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Injectable({
   providedIn: "root",
@@ -80,8 +79,7 @@ export class ConfigService {
       if (this.status === "loaded") {
         resolve(this.status);
       } else {
-        const date: string = Utils.getCurrentDate();
-        this.apiService.checkStart(date).subscribe((result) => {
+        this.apiService.checkStart().subscribe((result) => {
           if (result.appData === null) {
             this.status = "install";
             resolve(this.status);
