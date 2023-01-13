@@ -62,6 +62,7 @@ export interface PedidosFilterInterface {
   importeDesde: number;
   importeHasta: number;
   pagina: number;
+  num: number;
 }
 
 export interface PedidosAllResult {

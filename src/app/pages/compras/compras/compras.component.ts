@@ -20,11 +20,13 @@ import { Utils } from "src/app/shared/utils.class";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
 export class ComprasComponent implements OnInit {
-  numPorPag: number = 20;
+  numPorPag: number = 10;
   pedidosGuardados: Pedido[] = [];
+  pageGuardadosIndex: number = 0;
   guardadosPag: number = 1;
   guardadosPags: number = 0;
   pedidosRecepcionados: Pedido[] = [];
+  pageRecepcionadosIndex: number = 0;
   recepcionadosPag: number = 1;
   recepcionadosPags: number = 0;
 
@@ -37,6 +39,7 @@ export class ComprasComponent implements OnInit {
     importeDesde: null,
     importeHasta: null,
     pagina: 1,
+    num: 10,
   };
   guardadosRangoDesde: Date = null;
   guardadosRangoHasta: Date = null;
@@ -50,6 +53,7 @@ export class ComprasComponent implements OnInit {
     importeDesde: null,
     importeHasta: null,
     pagina: 1,
+    num: 10,
   };
   recepcionadosRangoDesde: Date = null;
   recepcionadosRangoHasta: Date = null;
@@ -96,6 +100,7 @@ export class ComprasComponent implements OnInit {
         importeDesde: null,
         importeHasta: null,
         pagina: 1,
+        num: this.numPorPag,
       };
       this.comprasService
         .getAllPedidos(filters)
@@ -151,7 +156,7 @@ export class ComprasComponent implements OnInit {
       .getPedidosGuardados(this.guardadosFilter)
       .subscribe((result) => {
         this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
-        this.guardadosPags = result.pags * this.numPorPag;
+        this.guardadosPags = result.pags * this.guardadosFilter.num;
       });
   }
 
@@ -193,7 +198,7 @@ export class ComprasComponent implements OnInit {
         this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(
           result.list
         );
-        this.recepcionadosPags = result.pags * this.numPorPag;
+        this.recepcionadosPags = result.pags * this.recepcionadosFilter.num;
       });
   }
 
@@ -202,12 +207,16 @@ export class ComprasComponent implements OnInit {
   }
 
   changePageGuardados(ev: PageEvent): void {
+    this.pageGuardadosIndex = ev.pageIndex;
     this.guardadosFilter.pagina = ev.pageIndex + 1;
+    this.guardadosFilter.num = ev.pageSize;
     this.filtrarGuardados();
   }
 
   changePageRecepcionados(ev: PageEvent): void {
+    this.pageRecepcionadosIndex = ev.pageIndex;
     this.recepcionadosFilter.pagina = ev.pageIndex + 1;
+    this.recepcionadosFilter.num = ev.pageSize;
     this.filtrarRecepcionados();
   }
 }

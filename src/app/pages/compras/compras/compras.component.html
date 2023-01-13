@@ -177,8 +177,9 @@
         </table>
         <mat-paginator *ngIf="pedidosGuardadosDataSource.data.length > 0"
                        [length]="guardadosPags"
-                       [pageSize]="20"
-                       [pageSizeOptions]="[20]"
+                       [pageSize]="numPorPag"
+                       [pageSizeOptions]="[10, 20, 50]"
+                       [pageIndex]="pageGuardadosIndex"
                        (page)="changePageGuardados($event)">
         </mat-paginator>
         <div class="no-results"
@@ -386,8 +387,9 @@
         </table>
         <mat-paginator *ngIf="pedidosRecepcionadosDataSource.data.length > 0"
                        [length]="recepcionadosPags"
-                       [pageSize]="20"
-                       [pageSizeOptions]="[20]"
+                       [pageSize]="numPorPag"
+                       [pageSizeOptions]="[10, 20, 50]"
+                       [pageIndex]="pageRecepcionadosIndex"
                        (page)="changePageRecepcionados($event)">
         </mat-paginator>
         <div class="no-results"
