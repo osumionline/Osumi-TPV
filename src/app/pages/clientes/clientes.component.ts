@@ -211,7 +211,49 @@ export class ClientesComponent implements OnInit {
   }
 
   nuevaFactura(): void {
-    this.editFactura.nuevaFactura(this.selectedClient);
+    if (
+      this.selectedClient.dniCif === null ||
+      this.selectedClient.dniCif === ""
+    ) {
+      this.dialog
+        .alert({
+          title: "Error",
+          content:
+            'El cliente "' +
+            this.selectedClient.nombreApellidos +
+            '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {});
+    } else {
+      if (
+        this.selectedClient.direccion === null ||
+        this.selectedClient.direccion === "" ||
+        this.selectedClient.codigoPostal === null ||
+        this.selectedClient.codigoPostal === "" ||
+        this.selectedClient.poblacion === null ||
+        this.selectedClient.poblacion === "" ||
+        this.selectedClient.provincia === null
+      ) {
+        this.dialog
+          .confirm({
+            title: "Confirmar",
+            content:
+              'El cliente "' +
+              this.selectedClient.nombreApellidos +
+              '" no tiene dirección introducida. ¿Quieres continuar?',
+            ok: "Continuar",
+            cancel: "Cancelar",
+          })
+          .subscribe((result) => {
+            if (result === true) {
+              this.editFactura.nuevaFactura(this.selectedClient);
+            }
+          });
+      } else {
+        this.editFactura.nuevaFactura(this.selectedClient);
+      }
+    }
   }
 
   facturaSaved(id: number): void {
