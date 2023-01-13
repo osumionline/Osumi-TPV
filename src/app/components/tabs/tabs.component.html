@@ -15,15 +15,17 @@
 			<mat-icon>add</mat-icon>
 		</div>
 		<div class="select-client"
-			 (click)="selectClient()"
 			 *ngIf="!vs.cliente">
-			<mat-icon>person_add</mat-icon>
+			<span (click)="selectClient()">
+				<mat-icon>person_add</mat-icon>
+			</span>
 		</div>
 		<div class="select-client"
-			 (click)="removeClient()"
 			 *ngIf="vs.cliente">
-			<span>{{vs.cliente.nombreApellidos}}</span>
-			<mat-icon>close</mat-icon>
+			<a [routerLink]="'/clientes/' + vs.cliente.id">{{vs.cliente.nombreApellidos}}</a>
+			<span>
+				<mat-icon (click)="removeClient()">close</mat-icon>
+			</span>
 		</div>
 	</div>
 </div>

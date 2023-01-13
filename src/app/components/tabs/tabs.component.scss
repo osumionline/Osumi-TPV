@@ -70,21 +70,41 @@
 			justify-content: center;
 			height: 48px;
 			border-bottom: 2px solid transparent;
+			box-sizing: border-box;
 			align-items: center;
 			vertical-align: bottom;
 			cursor: pointer;
 			position: absolute;
 			right: 0;
 
-			&:hover {
-				background-color: #ddd;
-				border-radius: 6px;
+			a {
+				text-decoration: none;
+				color: #000;
+				display: inline-flex;
+				padding: 0 8px;
+				font-weight: bold;
+				height: 100%;
+				align-items: center;
+
+				&:hover {
+					background-color: #ddd;
+					border-radius: 6px;
+				}
 			}
 
 			span {
-				display: inline-block;
+				display: inline-flex;
 				margin: 0 8px;
 				font-weight: bold;
+				height: 100%;
+				align-items: center;
+				width: 50px;
+				justify-content: center;
+
+				&:hover {
+					background-color: #ddd;
+					border-radius: 6px;
+				}
 			}
 		}
 	}
