@@ -170,6 +170,30 @@
             *matCellDef="let element"> {{element.margen | fixedNumber}} % </td>
     </ng-container>
 
+    <!-- Código de barras -->
+    <ng-container matColumnDef="codbarras">
+        <th mat-header-cell
+            class="center"
+            *matHeaderCellDef>
+            Código de barras
+        </th>
+        <td mat-cell
+            class="center"
+            [ngClass]="{'modified': element.codigoBarras !== null}"
+            *matCellDef="let element">
+            <mat-icon *ngIf="element.hasCodigosBarras">check</mat-icon>
+            <mat-form-field *ngIf="!element.hasCodigosBarras"
+                            class="campo-numero-small x-small"
+                            subscriptSizing="dynamic">
+                <input [(ngModel)]="element.codigoBarras"
+                       type="number"
+                       placeholder="Código de barras"
+                       (focus)="$event.target.select()"
+                       matInput>
+            </mat-form-field>
+        </td>
+    </ng-container>
+
     <!-- Opciones -->
     <ng-container matColumnDef="opciones">
         <th class="center"
@@ -181,7 +205,7 @@
             mat-cell
             *matCellDef="let element">
             <button mat-icon-button
-                    [disabled]="!element.stockChanged && !element.pvpChanged"
+                    [disabled]="!element.stockChanged && !element.pvpChanged && element.codigoBarras === null"
                     (click)="saveInventario(element)">
                 <mat-icon>save</mat-icon>
             </button>

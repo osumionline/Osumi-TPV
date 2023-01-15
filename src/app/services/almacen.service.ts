@@ -6,7 +6,11 @@ import {
   BuscadorAlmacenResult,
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
+import {
+  StatusMessageErrorsResult,
+  StatusMessageResult,
+  StatusResult,
+} from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -24,15 +28,19 @@ export class AlmacenService {
     );
   }
 
-  saveInventario(item: InventarioItemInterface): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
+  saveInventario(
+    item: InventarioItemInterface
+  ): Observable<StatusMessageResult> {
+    return this.http.post<StatusMessageResult>(
       environment.apiUrl + "-almacen/save-inventario",
       item
     );
   }
 
-  saveAllInventario(list: InventarioItemInterface[]): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
+  saveAllInventario(
+    list: InventarioItemInterface[]
+  ): Observable<StatusMessageErrorsResult> {
+    return this.http.post<StatusMessageErrorsResult>(
       environment.apiUrl + "-almacen/save-all-inventario",
       { list }
     );

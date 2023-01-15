@@ -23,7 +23,9 @@ export class LopdComponent implements OnInit {
     private config: ConfigService,
     private cs: ClientesService,
     private cms: ClassMapperService
-  ) {}
+  ) {
+    document.body.classList.add("white-bg");
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {

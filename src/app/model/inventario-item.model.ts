@@ -4,6 +4,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class InventarioItem {
   _stock: number = null;
   _pvp: number = null;
+  codigoBarras: number = null;
 
   constructor(
     public id: number = null,
@@ -13,7 +14,8 @@ export class InventarioItem {
     public nombre: string = null,
     public stock: number = null,
     public puc: number = null,
-    public pvp: number = null
+    public pvp: number = null,
+    public hasCodigosBarras: boolean = false
   ) {
     this._stock = stock;
     this._pvp = pvp;
@@ -45,6 +47,7 @@ export class InventarioItem {
     this.puc = ii.puc;
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
+    this.hasCodigosBarras = ii.hasCodigosBarras;
 
     return this;
   }
@@ -59,6 +62,8 @@ export class InventarioItem {
       stock: this.stock,
       puc: this.puc,
       pvp: this.pvp,
+      hasCodigosBarras: this.hasCodigosBarras,
+      codigoBarras: this.codigoBarras,
     };
   }
 }

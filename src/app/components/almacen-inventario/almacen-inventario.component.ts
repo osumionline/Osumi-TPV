@@ -40,6 +40,7 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
     "stock",
     "pvp",
     "margen",
+    "codbarras",
     "opciones",
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
@@ -97,15 +98,24 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
   saveAll(): void {
     const list: InventarioItemInterface[] = [];
     for (let item of this.list) {
-      if (item.pvpChanged || item.stockChanged) {
+      if (item.pvpChanged || item.stockChanged || item.codigoBarras !== null) {
         list.push(item.toInterface());
       }
     }
     this.as.saveAllInventario(list).subscribe((result) => {
+      // Corregiir retorno con message y errors
       for (let item of this.list) {
-        if (item.pvpChanged || item.stockChanged) {
+        if (
+          item.pvpChanged ||
+          item.stockChanged ||
+          item.codigoBarras !== null
+        ) {
           item._pvp = item.pvp;
           item._stock = item.stock;
+          if (item.codigoBarras !== null) {
+            item.hasCodigosBarras = true;
+            item.codigoBarras = null;
+          }
         }
       }
     });
@@ -113,8 +123,22 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
 
   saveInventario(item: InventarioItem): void {
     this.as.saveInventario(item.toInterface()).subscribe((result) => {
-      item._pvp = item.pvp;
-      item._stock = item.stock;
+      if (result.status === "ok") {
+        item._pvp = item.pvp;
+        item._stock = item.stock;
+        if (item.codigoBarras !== null) {
+          item.hasCodigosBarras = true;
+          item.codigoBarras = null;
+        }
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content: result.message,
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      }
     });
   }
 

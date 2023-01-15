@@ -17,6 +17,8 @@ export interface InventarioItemInterface {
   stock: number;
   puc: number;
   pvp: number;
+  hasCodigosBarras: boolean;
+  codigoBarras?: number;
 }
 
 export interface BuscadorAlmacenResult {

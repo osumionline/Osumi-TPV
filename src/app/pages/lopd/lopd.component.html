@@ -30,9 +30,11 @@
         <div class="data">
             <strong>{{cliente.nombreApellidos}}</strong>
             <br>
-            Con dirección en <strong>{{cliente.direccion ? cliente.direccion : '__________________________________________________'}}</strong> de <strong>{{cliente.poblacion ? cliente.poblacion : '____________________'}}</strong>
+            Con dirección en <strong>{{cliente.direccion ? cliente.direccion : '__________________________________________________'}}</strong>
             <br>
-            <div class="sign"><label>Email:</label> <span>{{cliente.email ? cliente.email : ''}}</span></div>
+            de <strong>{{cliente.poblacion ? cliente.poblacion : '____________________'}}</strong>
+            <br>
+            <div class="sign"><label>Email:</label> <span><strong>{{cliente.email ? cliente.email : ''}}</strong></span></div>
         </div>
     </div>
     <div class="block">
@@ -48,7 +50,7 @@
     </div>
     <div class="block">
         <div class="data">
-            <div class="sign"><label>DNI:</label> <span></span></div>
+            <div class="sign"><label>DNI:</label> <span><strong>{{cliente.dniCif}}</strong></span></div>
             <div class="sign"><label>Fdo:</label> <span></span></div>
         </div>
     </div>

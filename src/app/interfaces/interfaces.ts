@@ -117,6 +117,17 @@ export interface IdSaveResult {
   id: number;
 }
 
+export interface StatusMessageResult {
+  status: string;
+  message: string;
+}
+
+export interface StatusMessageErrorsResult {
+  status: string;
+  message: string;
+  errors: number[];
+}
+
 export interface ColorValues {
   r: number;
   g: number;
