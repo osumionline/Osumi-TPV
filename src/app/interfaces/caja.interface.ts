@@ -44,6 +44,7 @@ export interface HistoricoVentasResult {
   ventasEfectivo: number;
   ventasOtros: VentaHistoricoOtrosInterface[];
   ventasWeb: number;
+  ventasBeneficio: number;
 }
 
 export interface SalidaCajaInterface {

@@ -49,6 +49,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
   ventasEfectivo: number = 0;
   ventasOtros: VentaHistoricoOtrosInterface[] = [];
   ventasWeb: number = 0;
+  ventasBeneficio: number = 0;
 
   historicoVentasSelected: VentaHistorico = new VentaHistorico();
   historicoVentasSelectedDisplayedColumns: string[] = [
@@ -131,6 +132,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
       this.ventasEfectivo = result.ventasEfectivo;
       this.ventasOtros = result.ventasOtros;
       this.ventasWeb = result.ventasWeb;
+      this.ventasBeneficio = result.ventasBeneficio;
     });
   }
 
