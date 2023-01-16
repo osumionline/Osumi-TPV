@@ -131,9 +131,10 @@
                     <label>Ventas efectivo:</label>
                     <span>{{ventasEfectivo | fixedNumber}} €</span>
                 </div>
-                <div class="totales-row">
-                    <label>Ventas otros:</label>
-                    <span>{{ventasOtros | fixedNumber}} €</span>
+                <div *ngFor="let otro of ventasOtros"
+                     class="totales-row">
+                    <label>Ventas {{otro.nombre}}:</label>
+                    <span>{{otro.valor | fixedNumber}} €</span>
                 </div>
                 <div class="totales-row">
                     <label>Ventas web:</label>

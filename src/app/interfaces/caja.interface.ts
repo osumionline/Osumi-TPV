@@ -32,12 +32,17 @@ export interface VentaHistoricoInterface {
   lineas: VentaLineaHistoricoInterface[];
 }
 
+export interface VentaHistoricoOtrosInterface {
+  nombre: string;
+  valor: number;
+}
+
 export interface HistoricoVentasResult {
   status: string;
   list: VentaHistoricoInterface[];
   totalDia: number;
   ventasEfectivo: number;
-  ventasOtros: number;
+  ventasOtros: VentaHistoricoOtrosInterface[];
   ventasWeb: number;
 }
 

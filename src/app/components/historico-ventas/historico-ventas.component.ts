@@ -9,6 +9,7 @@ import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { VentaHistoricoOtrosInterface } from "src/app/interfaces/caja.interface";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
@@ -46,7 +47,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   totalDia: number = 0;
   ventasEfectivo: number = 0;
-  ventasOtros: number = 0;
+  ventasOtros: VentaHistoricoOtrosInterface[] = [];
   ventasWeb: number = 0;
 
   historicoVentasSelected: VentaHistorico = new VentaHistorico();
