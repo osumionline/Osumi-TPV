@@ -146,4 +146,11 @@ export class ClientesService {
       { id }
     );
   }
+
+  saveFacturaFromVenta(id: number): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(
+      environment.apiUrl + "-clientes/save-factura-from-venta",
+      { id }
+    );
+  }
 }

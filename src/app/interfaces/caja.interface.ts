@@ -28,6 +28,7 @@ export interface VentaHistoricoInterface {
   nombreTipoPago: string;
   entregadoOtro: number;
   saldo: number;
+  facturada: boolean;
   fecha: string;
   lineas: VentaLineaHistoricoInterface[];
 }

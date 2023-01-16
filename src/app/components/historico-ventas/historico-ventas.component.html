@@ -311,6 +311,7 @@
                         <mat-label>Elige cliente</mat-label>
                         <mat-select [(ngModel)]="historicoVentasSelected.idCliente"
                                     (ngModelChange)="changeCliente()"
+                                    [disabled]="historicoVentasSelected.facturada"
                                     #clientesBox>
                             <mat-option [value]="null">Elige cliente</mat-option>
                             <mat-option *ngFor="let cliente of cs.clientes"

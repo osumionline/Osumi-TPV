@@ -22,6 +22,7 @@ export class VentaHistorico {
     public nombreTipoPago: string = null,
     public entregadoOtro: number = null,
     public saldo: number = null,
+    public facturada: boolean = false,
     public fecha: string = null,
     public lineas: VentaLineaHistorico[] = []
   ) {}
@@ -89,6 +90,7 @@ export class VentaHistorico {
     this.nombreTipoPago = Utils.urldecode(hv.nombreTipoPago);
     this.entregadoOtro = hv.entregadoOtro;
     this.saldo = hv.saldo;
+    this.facturada = hv.facturada;
     this.fecha = Utils.urldecode(hv.fecha);
     this.lineas = hv.lineas.map(
       (hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
@@ -113,6 +115,7 @@ export class VentaHistorico {
       nombreTipoPago: Utils.urlencode(this.nombreTipoPago),
       entregadoOtro: this.entregadoOtro,
       saldo: this.saldo,
+      facturada: this.facturada,
       fecha: Utils.urlencode(this.fecha),
       lineas: this.lineas.map(
         (hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {

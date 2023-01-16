@@ -220,10 +220,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
             '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
           ok: "Continuar",
         })
-        .subscribe((result) => {
-          this.historicoVentasSelected.idCliente = null;
-          this.changeCliente();
-        });
+        .subscribe((result) => {});
     } else {
       if (
         selectedClient.direccion === null ||
@@ -246,14 +243,26 @@ export class HistoricoVentasComponent implements AfterViewInit {
           })
           .subscribe((result) => {
             if (result === true) {
-              //this.editFactura.nuevaFactura(selectedClient);
+              this.saveFacturaFromVenta();
             }
           });
       } else {
-        //this.editFactura.nuevaFactura(selectedClient);
+        this.saveFacturaFromVenta();
       }
     }
-    window.open("/factura/venta/" + this.historicoVentasSelected.id);
+  }
+
+  saveFacturaFromVenta(): void {
+    this.cs
+      .saveFacturaFromVenta(this.historicoVentasSelected.id)
+      .subscribe((result) => {
+        if (result.status === "ok" || result.status === "error-factura") {
+          window.open("/factura/" + result.id + "/preview");
+        }
+        if (result.status === "error-facturada") {
+          window.open("/factura/" + result.id);
+        }
+      });
   }
 
   enviarEmail(): void {

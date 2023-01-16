@@ -88,7 +88,8 @@
         </table>
     </div>
 
-    <div class="pagado">PAGADO</div>
+    <div *ngIf="!preview"
+         class="pagado">PAGADO</div>
 
     <div *ngIf="preview"
          class="print">
