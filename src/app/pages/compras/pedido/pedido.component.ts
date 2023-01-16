@@ -254,7 +254,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
       this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
       this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
       this.pedidoDataSource.data = this.pedido.lineas;
-      this.localizadorBox.nativeElement.focus();
     });
   }
 
@@ -273,7 +272,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
     }
     this.changeOptions();
     this.pedidoDataSource.data = this.pedido.lineas;
-    this.localizadorBox.nativeElement.focus();
   }
 
   newPedido(): void {
