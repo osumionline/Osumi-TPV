@@ -7,8 +7,8 @@ import {
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
 import {
-  StatusMessageErrorsResult,
-  StatusMessageResult,
+  StatusIdMessageErrorsResult,
+  StatusIdMessageResult,
   StatusResult,
 } from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
@@ -30,8 +30,8 @@ export class AlmacenService {
 
   saveInventario(
     item: InventarioItemInterface
-  ): Observable<StatusMessageResult> {
-    return this.http.post<StatusMessageResult>(
+  ): Observable<StatusIdMessageResult> {
+    return this.http.post<StatusIdMessageResult>(
       environment.apiUrl + "-almacen/save-inventario",
       item
     );
@@ -39,8 +39,8 @@ export class AlmacenService {
 
   saveAllInventario(
     list: InventarioItemInterface[]
-  ): Observable<StatusMessageErrorsResult> {
-    return this.http.post<StatusMessageErrorsResult>(
+  ): Observable<StatusIdMessageErrorsResult> {
+    return this.http.post<StatusIdMessageErrorsResult>(
       environment.apiUrl + "-almacen/save-all-inventario",
       { list }
     );

@@ -12,6 +12,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
+import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   selector: "otpv-almacen-inventario",
@@ -103,20 +104,38 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
       }
     }
     this.as.saveAllInventario(list).subscribe((result) => {
-      // Corregiir retorno con message y errors
-      for (let item of this.list) {
-        if (
-          item.pvpChanged ||
-          item.stockChanged ||
-          item.codigoBarras !== null
-        ) {
-          item._pvp = item.pvp;
-          item._stock = item.stock;
-          if (item.codigoBarras !== null) {
-            item.hasCodigosBarras = true;
-            item.codigoBarras = null;
+      const errorList: string[] = [];
+
+      for (let status of result.list) {
+        let ind: number = this.list.findIndex((x: InventarioItem): boolean => {
+          return x.id === status.id;
+        });
+        if (status.status === "ok") {
+          this.list[ind]._pvp = this.list[ind].pvp;
+          this.list[ind]._stock = this.list[ind].stock;
+          if (this.list[ind].codigoBarras !== null) {
+            this.list[ind].hasCodigosBarras = true;
+            this.list[ind].codigoBarras = null;
           }
+        } else {
+          errorList.push(
+            "<strong>" +
+              this.list[ind].nombre +
+              "</strong>: " +
+              Utils.urldecode(status.message)
+          );
         }
+      }
+      if (errorList.length > 0) {
+        this.dialog
+          .alert({
+            title: "Error",
+            content:
+              "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
+              errorList.join("<br>"),
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
       }
     });
   }
@@ -134,7 +153,7 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
         this.dialog
           .alert({
             title: "Error",
-            content: result.message,
+            content: Utils.urldecode(result.message),
             ok: "Continuar",
           })
           .subscribe((result) => {});

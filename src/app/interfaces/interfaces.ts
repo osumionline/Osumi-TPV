@@ -117,15 +117,15 @@ export interface IdSaveResult {
   id: number;
 }
 
-export interface StatusMessageResult {
+export interface StatusIdMessageResult {
   status: string;
+  id: number;
   message: string;
 }
 
-export interface StatusMessageErrorsResult {
+export interface StatusIdMessageErrorsResult {
   status: string;
-  message: string;
-  errors: number[];
+  list: StatusIdMessageResult[];
 }
 
 export interface ColorValues {
