@@ -310,4 +310,9 @@ export class HistoricoVentasComponent implements AfterViewInit {
       }
     });
   }
+
+  devolucion(): void {
+    this.cerrarVentanaEvent.emit(0);
+    this.router.navigate(["/ventas/" + this.historicoVentasSelected.id]);
+  }
 }

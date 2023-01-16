@@ -120,11 +120,13 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     this.vs.ventaActual.setEmpleado(ev);
     this.vs.addLineaVenta();
     this.vs.ventaActual.mostrarEmpleados = false;
-    this.setFocus();
+    console.log("login success");
+    this.setFocus(this.vs.ventaActual.loadValue);
   }
 
   setFocus(value: number = null): void {
     if (!this.vs.ventaActual.mostrarEmpleados) {
+      this.vs.ventaActual.loadValue = null;
       setTimeout(() => {
         const loc: HTMLInputElement = document.getElementById(
           "loc-new-" + this.ind

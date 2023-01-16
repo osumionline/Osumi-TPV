@@ -11,7 +11,7 @@ import {
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
@@ -53,6 +53,7 @@ export class VentasComponent implements OnInit, AfterViewInit {
   @ViewChild("header", { static: true }) header: HeaderComponent;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     public config: ConfigService,
     private dialog: DialogService,
@@ -71,6 +72,18 @@ export class VentasComponent implements OnInit, AfterViewInit {
           this.router.navigate(["/"]);
           return;
         }
+        this.startVentas();
+      }
+    });
+  }
+
+  startVentas(): void {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.id && parseInt(params.id) !== 0) {
+        console.log("start ventas - hay id: " + params.id);
+        this.newVenta(-1 * parseInt(params.id));
+        this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
+      } else {
         if (this.vs.selected === -1) {
           this.newVenta();
           this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
@@ -101,12 +114,13 @@ export class VentasComponent implements OnInit, AfterViewInit {
     }
   }
 
-  newVenta(): void {
+  newVenta(id: number = null): void {
     this.vs.newVenta(
       this.config.empleados,
       this.config.idEmpleadoDef,
       this.config.colorEmpleadoDef,
-      this.config.colorTextEmpleadoDef
+      this.config.colorTextEmpleadoDef,
+      id
     );
     if (!this.config.empleados) {
       this.startFocus();

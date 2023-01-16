@@ -28,7 +28,8 @@ export class VentasService {
     empleados: boolean,
     idEmpleadoDef: number,
     colorEmpleadoDef: string,
-    colorTextEmpleadoDef: string
+    colorTextEmpleadoDef: string,
+    loadValue: number = null
   ): void {
     this.selected = this.list.length;
     const venta = new Venta();
@@ -36,6 +37,7 @@ export class VentasService {
     venta.color = colorEmpleadoDef;
     venta.textColor = colorTextEmpleadoDef;
     venta.mostrarEmpleados = empleados;
+    venta.loadValue = loadValue;
     this.list.push(venta);
     if (!empleados) {
       this.ventaActual.setEmpleado(

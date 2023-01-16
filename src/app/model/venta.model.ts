@@ -16,6 +16,8 @@ export class Venta {
   empleado: Empleado = null;
   modificarImportes: boolean = false;
 
+  loadValue: number = null;
+
   constructor(
     public id: number = null,
     public idEmpleado: number = null,

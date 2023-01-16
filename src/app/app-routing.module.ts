@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: "", component: MainComponent },
   { path: "installation", component: InstallationComponent },
   { path: "ventas", component: VentasComponent },
+  { path: "ventas/:id", component: VentasComponent },
   { path: "articulos", component: ArticulosComponent },
   { path: "articulos/:localizador", component: ArticulosComponent },
   {
