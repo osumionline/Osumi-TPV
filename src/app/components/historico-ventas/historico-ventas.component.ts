@@ -201,8 +201,59 @@ export class HistoricoVentasComponent implements AfterViewInit {
           }
         });
     } else {
-      window.open("/factura/venta/" + this.historicoVentasSelected.id);
+      this.confirmFactura();
     }
+  }
+
+  confirmFactura(): void {
+    const selectedClient: Cliente = this.cs.findById(
+      this.historicoVentasSelected.idCliente
+    );
+
+    if (selectedClient.dniCif === null || selectedClient.dniCif === "") {
+      this.dialog
+        .alert({
+          title: "Error",
+          content:
+            'El cliente "' +
+            selectedClient.nombreApellidos +
+            '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.historicoVentasSelected.idCliente = null;
+          this.changeCliente();
+        });
+    } else {
+      if (
+        selectedClient.direccion === null ||
+        selectedClient.direccion === "" ||
+        selectedClient.codigoPostal === null ||
+        selectedClient.codigoPostal === "" ||
+        selectedClient.poblacion === null ||
+        selectedClient.poblacion === "" ||
+        selectedClient.provincia === null
+      ) {
+        this.dialog
+          .confirm({
+            title: "Confirmar",
+            content:
+              'El cliente "' +
+              selectedClient.nombreApellidos +
+              '" no tiene dirección introducida. ¿Quieres continuar?',
+            ok: "Continuar",
+            cancel: "Cancelar",
+          })
+          .subscribe((result) => {
+            if (result === true) {
+              //this.editFactura.nuevaFactura(selectedClient);
+            }
+          });
+      } else {
+        //this.editFactura.nuevaFactura(selectedClient);
+      }
+    }
+    window.open("/factura/venta/" + this.historicoVentasSelected.id);
   }
 
   enviarEmail(): void {
