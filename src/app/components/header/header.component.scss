@@ -2,7 +2,6 @@
 	justify-content: space-between;
 
 	.toolbar-options {
-		width: 40%;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -24,7 +23,7 @@
 		}
 
 		span {
-			display: none;
+			display: inline-block;
 			font-size: 12pt;
 			margin-left: 8px;
 		}
@@ -34,19 +33,5 @@
 		background-color: #fff;
 		border: 2px solid #000;
 		color: #000;
-	}
-}
-
-@media screen and (min-width: 1024px) {
-	.toolbar {
-		.toolbar-options {
-			width: 25%;
-		}
-
-		.toolbar-btn {
-			span {
-				display: inline-block;
-			}
-		}
 	}
 }
