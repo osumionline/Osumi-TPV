@@ -5,11 +5,11 @@ import { HistoricoVentasComponent } from "src/app/components/historico-ventas/hi
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 
 @Component({
-  selector: "otpv-caja",
-  templateUrl: "./caja.component.html",
-  styleUrls: ["./caja.component.scss"],
+  selector: "otpv-caja-modal",
+  templateUrl: "./caja-modal.component.html",
+  styleUrls: ["./caja-modal.component.scss"],
 })
-export class CajaComponent {
+export class CajaModalComponent {
   mostrarCaja: boolean = false;
   cajaSelectedTab: number = 0;
   @ViewChild("cajaTabs", { static: false })

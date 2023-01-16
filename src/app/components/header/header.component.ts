@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { CajaComponent } from "src/app/components/caja/caja.component";
+import { CajaModalComponent } from "src/app/components/caja-modal/caja-modal.component";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
@@ -17,7 +17,7 @@ import { ConfigService } from "src/app/services/config.service";
 export class HeaderComponent implements OnInit {
   @Input() selectedOption: string = "";
   title: string;
-  @ViewChild("caja", { static: true }) caja: CajaComponent;
+  @ViewChild("caja", { static: true }) caja: CajaModalComponent;
 
   constructor(private config: ConfigService, private router: Router) {}
 

@@ -17,6 +17,7 @@ import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventa
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
+import { CajaComponent } from "src/app/pages/caja/caja.component";
 
 const routes: Routes = [
   { path: "", component: MainComponent },
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: "clientes/:new", component: ClientesComponent },
   { path: "lopd/:id", component: LopdComponent },
   { path: "almacen", component: AlmacenComponent },
+  { path: "caja", component: CajaComponent },
   { path: "gestion", component: GestionComponent },
   { path: "gestion/empleados", component: GestionEmpleadosComponent },
   { path: "gestion/marcas", component: GestionMarcasComponent },

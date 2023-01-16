@@ -17,6 +17,7 @@ import { MainComponent } from "src/app/pages/main/main.component";
 import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
+import { CajaComponent } from "src/app/pages/caja/caja.component";
 
 export const PAGES: any[] = [
   MainComponent,
@@ -35,6 +36,7 @@ export const PAGES: any[] = [
   GestionTiposPagoComponent,
   LopdComponent,
   InventarioPrintComponent,
+  CajaComponent,
 ];
 
 /*
@@ -47,7 +49,7 @@ import { EmployeeLoginComponent } from "src/app/components/employee-login/employ
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
-import { CajaComponent } from "src/app/components/caja/caja.component";
+import { CajaModalComponent } from "src/app/components/caja-modal/caja-modal.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
@@ -66,7 +68,7 @@ export const COMPONENTS: any[] = [
   UnaVentaComponent,
   HeaderComponent,
   EmployeeLoginComponent,
-  CajaComponent,
+  CajaModalComponent,
   HistoricoVentasComponent,
   SalidasCajaComponent,
   CierreCajaComponent,
