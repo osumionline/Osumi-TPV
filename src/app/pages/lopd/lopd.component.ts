@@ -32,7 +32,6 @@ export class LopdComponent implements OnInit {
       this.cs.getCliente(params.id).subscribe((result) => {
         this.nombre = this.config.nombre;
         this.poblacion = this.config.poblacion;
-        console.log(this.config);
 
         const d: Date = new Date();
         this.day = d.getDate();
@@ -40,7 +39,6 @@ export class LopdComponent implements OnInit {
         this.year = d.getFullYear();
 
         this.cliente = this.cms.getCliente(result.cliente);
-        console.log(this.cliente);
 
         setTimeout(() => {
           window.print();

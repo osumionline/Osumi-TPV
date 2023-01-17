@@ -126,7 +126,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     this.vs.ventaActual.setEmpleado(ev);
     this.vs.addLineaVenta();
     this.vs.ventaActual.mostrarEmpleados = false;
-    console.log("login success");
+
     this.setFocus(this.vs.ventaActual.loadValue);
   }
 
@@ -356,15 +356,37 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   afterDevolucion(data): void {
-    console.log(data);
     const checkList: VentaLinea[] = this.vs.ventaActual.lineas.filter(
       (x: VentaLinea): boolean => {
         return x.fromVenta !== null;
       }
     );
-    // aquí compruebo elementos que se hayan desmarcado de la devolución
-    console.log(checkList);
+
     if (data !== null && data.data.length > 0) {
+      debugger;
+      // Busco si hay alguna línea que haya que borrar
+      const toBeDeleted: number[] = [];
+      for (let linea of checkList) {
+        if (linea.localizador !== null) {
+          let ind: number = data.data.findIndex((x): boolean => {
+            return x.localizador === linea.localizador;
+          });
+
+          if (ind === -1) {
+            toBeDeleted.push(linea.localizador);
+          }
+        }
+      }
+
+      for (let localizador of toBeDeleted) {
+        let deleteInd: number = this.vs.ventaActual.lineas.findIndex(
+          (x: VentaLinea): boolean => {
+            return x.localizador === localizador;
+          }
+        );
+        this.vs.ventaActual.lineas.splice(deleteInd, 1);
+      }
+
       this.devolucionList = data.data;
       this.loadNextDevolucion();
     } else {
@@ -374,12 +396,8 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   loadNextDevolucion(): void {
-    console.log("loadNextDevolucion");
-    console.log(this.devolucionList);
     if (this.devolucionList.length > 0) {
-      console.log("list > 0");
       const item: DevolucionSelectedInterface = this.devolucionList.shift();
-      console.log(item);
       const ind: number = this.vs.ventaActual.lineas.findIndex(
         (x: VentaLinea): boolean => {
           return (
@@ -388,7 +406,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
           );
         }
       );
-      console.log("ind: " + ind);
+
       if (ind != -1) {
         this.vs.ventaActual.lineas[ind].cantidad = item.unidades;
         this.vs.ventaActual.updateImporte();

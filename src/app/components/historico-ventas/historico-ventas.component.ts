@@ -344,7 +344,6 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   sendTicketConfirm(id: number, email: string): void {
     this.vs.sendTicket(id, Utils.urlencode(email)).subscribe((result) => {
-      console.log(result);
       if (result.status === "ok") {
         this.dialog
           .alert({

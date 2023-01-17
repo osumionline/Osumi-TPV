@@ -80,7 +80,6 @@ export class VentasComponent implements OnInit, AfterViewInit {
   startVentas(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id && parseInt(params.id) !== 0) {
-        console.log("start ventas - hay id: " + params.id);
         this.newVenta(-1 * parseInt(params.id));
         this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
       } else {
