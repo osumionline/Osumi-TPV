@@ -141,3 +141,8 @@ export interface DateValues {
   desde: string;
   hasta: string;
 }
+
+export interface Modal {
+  modalColor: "blue" | "yellow" | "red";
+  modalTitle: string;
+}

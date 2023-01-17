@@ -53,12 +53,14 @@ import { CajaModalComponent } from "src/app/components/caja-modal/caja-modal.com
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
+import { NewMarcaComponent } from "src/app/components/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factura.component";
 import { AlmacenInventarioComponent } from "src/app/components/almacen-inventario/almacen-inventario.component";
 import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
+import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -72,12 +74,14 @@ export const COMPONENTS: any[] = [
   HistoricoVentasComponent,
   SalidasCajaComponent,
   CierreCajaComponent,
+  NewMarcaComponent,
   NewProveedorComponent,
   DevolucionComponent,
   BuscadorComponent,
   EditFacturaComponent,
   AlmacenInventarioComponent,
   AlmacenListasComponent,
+  OverlayComponent,
 ];
 
 /*
@@ -117,6 +121,7 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { ComprasService } from "src/app/services/compras.service";
+import { OverlayService } from "src/app/services/overlay.service";
 
 export const SERVICES: any[] = [
   ConfigService,
@@ -132,6 +137,7 @@ export const SERVICES: any[] = [
   EmpleadosService,
   GestionService,
   ComprasService,
+  OverlayService,
 ];
 
 /*

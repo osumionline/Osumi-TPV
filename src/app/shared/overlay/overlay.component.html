@@ -1,0 +1,14 @@
+<div class="modal">
+	<div [class]="'modal__header modal__header--' + inputData.modalColor">
+		<div class="titulo"
+			 translate>{{ inputData.modalTitle }}</div>
+		<div class="btn-close"
+			 (click)="close()">
+			<mat-icon>close</mat-icon>
+		</div>
+	</div>
+
+	<div class="modal__content">
+		<ng-container *ngComponentOutlet="content"></ng-container>
+	</div>
+</div>

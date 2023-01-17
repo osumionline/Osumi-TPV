@@ -1,0 +1,68 @@
+<div class="modal-body">
+    <div>
+        <div class="form-field max-width">
+            <label>Nombre</label>
+            <mat-form-field class="max-width">
+                <input matInput
+                       placeholder="Nombre"
+                       [(ngModel)]="marca.nombre"
+                       #nombreBox>
+            </mat-form-field>
+        </div>
+    </div>
+    <div>
+        <div class="form-field half-width">
+            <label>Teléfono</label>
+            <mat-form-field class="max-width">
+                <input matInput
+                       placeholder="Teléfono"
+                       [(ngModel)]="marca.telefono">
+            </mat-form-field>
+        </div>
+        <div class="form-field half-width">
+            <label>Email</label>
+            <mat-form-field class="max-width">
+                <input matInput
+                       placeholder="Email"
+                       [(ngModel)]="marca.email">
+            </mat-form-field>
+        </div>
+    </div>
+    <div>
+        <div class="form-field max-width">
+            <label>Dirección</label>
+            <mat-form-field class="max-width">
+                <input matInput
+                       placeholder="Dirección"
+                       [(ngModel)]="marca.direccion">
+            </mat-form-field>
+        </div>
+    </div>
+    <div>
+        <div class="form-field max-width">
+            <label>Web</label>
+            <mat-form-field class="max-width">
+                <input matInput
+                       placeholder="Web"
+                       [(ngModel)]="marca.web">
+            </mat-form-field>
+        </div>
+    </div>
+    <div>
+        <div class="form-field max-width">
+            <label>Observaciones</label>
+            <mat-form-field class="max-width">
+                <textarea matInput
+                          placeholder="Observaciones"
+                          [(ngModel)]="marca.observaciones"
+                          rows="5"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div class="modal-actions multiple-actions">
+    <mat-checkbox [(ngModel)]="marca.crearProveedor">Crear un proveedor para esta marca.</mat-checkbox>
+    <button mat-raised-button
+            color="primary"
+            (click)="guardarMarca()">Guardar</button>
+</div>

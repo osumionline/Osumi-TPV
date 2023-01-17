@@ -1,4 +1,25 @@
 /* Estilos para ventanas modales */
+.modal-background {
+  opacity: 30% !important;
+  background-color: black;
+}
+
+.modal-panel {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+}
+
+.modal-actions {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  &.multiple-actions {
+    justify-content: space-between;
+  }
+}
 
 .modal-bg {
   position: fixed;

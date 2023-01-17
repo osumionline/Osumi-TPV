@@ -12,12 +12,13 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
+import { NewMarcaComponent } from "src/app/components/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
-import { Month } from "src/app/interfaces/interfaces";
+import { Modal, Month } from "src/app/interfaces/interfaces";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
@@ -32,6 +33,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
+import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { Utils } from "src/app/shared/utils.class";
@@ -61,7 +63,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   acccesoDirectoBox: ElementRef;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
-  nuevaMarca: boolean = false;
   @ViewChild("newProveedor", { static: true })
   newProveedor: NewProveedorComponent;
   tipoIva: string = "iva";
@@ -141,7 +142,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     public ps: ProveedoresService,
     private css: CategoriasService,
     private ars: ArticulosService,
-    private vs: VentasService
+    private vs: VentasService,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
@@ -183,9 +185,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     if (ev.key === "Escape") {
       if (this.showAccesosDirectos) {
         this.accesosDirectosCerrar();
-      }
-      if (this.nuevaMarca) {
-        this.newMarcaCerrar();
       }
       if (this.mostrarMargenes) {
         this.cerrarMargenes();
@@ -402,42 +401,19 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   newMarca(): void {
-    this.marca = new Marca();
-    this.nuevaMarca = true;
-  }
-
-  newMarcaCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.nuevaMarca = false;
-  }
-
-  guardarMarca(): void {
-    if (!this.marca.nombre) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No puedes dejar el nombre de la marca en blanco!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-      return;
-    }
-
-    this.ms.saveMarca(this.marca.toInterface()).subscribe((result) => {
-      if (result.status == "ok") {
-        this.articulo.idMarca = result.id;
-        this.form.get("idMarca").setValue(result.id);
-        this.ms.resetMarcas();
-        this.newMarcaCerrar();
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: "Ocurrió un error al guardar la nueva marca",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-        return;
+    const modalnewMarcaData: Modal = {
+      modalTitle: "Nueva marca",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      NewMarcaComponent,
+      modalnewMarcaData,
+      []
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data !== null) {
+        this.articulo.idMarca = data.data;
+        this.form.get("idMarca").setValue(data.data);
       }
     });
   }
