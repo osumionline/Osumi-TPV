@@ -1,8 +1,9 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { Component, EventEmitter, HostListener, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -14,8 +15,7 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./devolucion.component.html",
   styleUrls: ["./devolucion.component.scss"],
 })
-export class DevolucionComponent {
-  muestraDevolucion: boolean = false;
+export class DevolucionComponent implements OnInit {
   venta: VentaHistorico = new VentaHistorico();
   devolucionDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
@@ -35,39 +35,33 @@ export class DevolucionComponent {
   constructor(
     private vs: VentasService,
     private cms: ClassMapperService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private customOverlayRef: CustomOverlayRef<
+      null,
+      { idVenta: number; list: DevolucionSelectedInterface[] }
+    >
   ) {}
 
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent): void {
-    if (ev.key === "Escape") {
-      if (this.muestraDevolucion) {
-        this.cerrarDevolucion();
-      }
+  ngOnInit(): void {
+    if (this.customOverlayRef.data.list === null) {
+      const data: DateValues = {
+        modo: "id",
+        fecha: null,
+        id: this.customOverlayRef.data.idVenta,
+        desde: null,
+        hasta: null,
+      };
+      this.vs.getHistorico(data).subscribe((result) => {
+        const list: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+        this.venta = list[0];
+        this.devolucionDataSource.data = this.venta.lineas;
+      });
+    } else {
+      this.continueDevolucion(
+        this.customOverlayRef.data.idVenta,
+        this.customOverlayRef.data.list
+      );
     }
-  }
-
-  newDevolucion(idVenta: number): void {
-    const data: DateValues = {
-      modo: "id",
-      fecha: null,
-      id: idVenta,
-      desde: null,
-      hasta: null,
-    };
-    this.vs.getHistorico(data).subscribe((result) => {
-      const list: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
-      this.venta = list[0];
-      this.devolucionDataSource.data = this.venta.lineas;
-      this.muestraDevolucion = true;
-    });
-  }
-
-  cerrarDevolucion(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraDevolucion = false;
-    this.selection.clear();
-    this.continueEvent.emit([]);
   }
 
   continueDevolucion(
@@ -95,7 +89,6 @@ export class DevolucionComponent {
         this.selection.select(this.venta.lineas[ind]);
       }
       this.devolucionDataSource.data = this.venta.lineas;
-      this.muestraDevolucion = true;
     });
   }
 
@@ -128,9 +121,8 @@ export class DevolucionComponent {
         })
         .subscribe((result) => {});
     } else {
-      this.muestraDevolucion = false;
       this.selection.clear();
-      this.continueEvent.emit(list);
+      this.customOverlayRef.close(list);
     }
   }
 }

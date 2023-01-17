@@ -1,3 +1,5 @@
+import { Modal } from "src/app/interfaces/interfaces";
+
 export interface VentaLineaInterface {
   idArticulo: number;
   localizador: number;
@@ -60,6 +62,11 @@ export interface ArticuloTopVentaInterface {
   localizador: number;
   nombre: string;
   importe: number;
+}
+
+export interface DevolucionModal extends Modal {
+  idVenta: number;
+  list: DevolucionSelectedInterface[];
 }
 
 export interface DevolucionSelectedInterface {

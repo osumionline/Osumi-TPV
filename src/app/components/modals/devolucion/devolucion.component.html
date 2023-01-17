@@ -1,0 +1,114 @@
+<div class="devolucion-info">
+    <span>Fecha: {{venta.fecha}}</span>
+    <span>Forma de pago: {{venta.nombreTipoPago}}</span>
+    <span *ngIf="venta.cliente">Cliente: {{venta.cliente}}</span>
+</div>
+<table mat-table
+       [dataSource]="devolucionDataSource"
+       class="mat-elevation-z2 ">
+
+    <!-- Seleccionar -->
+    <ng-container matColumnDef="select">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(element) : null"
+                          [checked]="selection.isSelected(element)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- Descripción -->
+    <ng-container matColumnDef="articulo">
+        <th mat-header-cell
+            *matHeaderCellDef>
+            Descripción
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.articulo}} </td>
+    </ng-container>
+
+    <!-- Unidades -->
+    <ng-container matColumnDef="unidades">
+        <th mat-header-cell
+            class="center"
+            *matHeaderCellDef>
+            Unidades
+        </th>
+        <td mat-cell
+            class="center"
+            *matCellDef="let element">
+            <mat-form-field class="campo-numero-small x-small"
+                            subscriptSizing="dynamic">
+                <input matInput
+                       placeholder="Unidades"
+                       type="number"
+                       min="1"
+                       [max]="element.unidades"
+                       step="1"
+                       [(ngModel)]="element.devolver"
+                       (focus)="$event.target.select()"
+                       autocomplete="off">
+            </mat-form-field>
+            / {{element.unidades}}
+        </td>
+    </ng-container>
+
+    <!-- PVP -->
+    <ng-container matColumnDef="pvp">
+        <th mat-header-cell
+            class="center"
+            *matHeaderCellDef>
+            PVP
+        </th>
+        <td mat-cell
+            class="right"
+            *matCellDef="let element"> {{element.pvp | fixedNumber}} €</td>
+    </ng-container>
+
+    <!-- Descuento -->
+    <ng-container matColumnDef="descuento">
+        <th mat-header-cell
+            class="center"
+            *matHeaderCellDef>
+            Descuento
+        </th>
+        <td mat-cell
+            class="center"
+            *matCellDef="let element"> {{element.descuento}} %</td>
+    </ng-container>
+
+    <!-- Importe -->
+    <ng-container matColumnDef="importe">
+        <th mat-header-cell
+            class="right"
+            *matHeaderCellDef>
+            Importe
+        </th>
+        <td mat-cell
+            class="right"
+            *matCellDef="let element"> {{element.importe | fixedNumber}} €</td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="devolucionDisplayedColumns"></tr>
+    <tr mat-row
+        [ngClass]="{'selected-row': selection.isSelected(row)}"
+        *matRowDef="let row; columns: devolucionDisplayedColumns;"></tr>
+</table>
+<div class="actions">
+    <button mat-raised-button
+            color="primary"
+            (click)="continuar()">
+        Continuar
+    </button>
+</div>
