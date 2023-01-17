@@ -10,6 +10,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
+import { Modal } from "src/app/interfaces/interfaces";
 import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { IVAOption } from "src/app/model/iva-option.model";
@@ -24,6 +25,7 @@ import { ComprasService } from "src/app/services/compras.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
+import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
@@ -36,8 +38,6 @@ import { environment } from "src/environments/environment";
 export class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
-  @ViewChild("newProveedor", { static: true })
-  newProveedor: NewProveedorComponent;
   @ViewChild("proveedoresValue", { static: true }) proveedoresValue: MatSelect;
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
@@ -195,7 +195,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private ms: MarcasService,
     private cs: ComprasService,
-    private router: Router
+    private router: Router,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
@@ -296,11 +297,20 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   openProveedor(): void {
-    this.newProveedor.newProveedor();
-  }
-
-  proveedorGuardado(id: number): void {
-    this.pedido.idProveedor = id;
+    const modalnewProveedorData: Modal = {
+      modalTitle: "Nuevo proveedor",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      NewProveedorComponent,
+      modalnewProveedorData,
+      []
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data !== null) {
+        this.pedido.idProveedor = data.data;
+      }
+    });
   }
 
   changeOptions(): void {

@@ -1,13 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  OnInit,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { DialogService } from "src/app/services/dialog.service";
@@ -20,43 +13,21 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   styleUrls: ["./new-proveedor.component.scss"],
 })
 export class NewProveedorComponent implements OnInit {
-  @Output() savedEvent: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
   proveedor: Proveedor = new Proveedor();
-  nuevoProveedor: boolean = false;
   marcasSelected: Marca[] = [];
   marcas: Marca[] = [];
 
   constructor(
     private ms: MarcasService,
     private dialog: DialogService,
-    private ps: ProveedoresService
+    private ps: ProveedoresService,
+    private customOverlayRef: CustomOverlayRef<null, {}>
   ) {}
 
   ngOnInit(): void {
     this.marcas = this.ms.marcas;
-  }
-
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") {
-      if (this.nuevoProveedor) {
-        this.newProveedorCerrar();
-      }
-    }
-  }
-
-  newProveedor(): void {
-    this.proveedor = new Proveedor();
-    this.nuevoProveedor = true;
-    setTimeout(() => {
-      this.nombreBox.nativeElement.focus();
-    });
-  }
-
-  newProveedorCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.nuevoProveedor = false;
+    this.nombreBox.nativeElement.focus();
   }
 
   removeMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
@@ -129,7 +100,6 @@ export class NewProveedorComponent implements OnInit {
       this.proveedor.marcas = this.marcasSelected.map((m: Marca): number => {
         return m.id;
       });
-      debugger;
       this.guardarProveedorContinue();
     }
   }
@@ -137,9 +107,8 @@ export class NewProveedorComponent implements OnInit {
   guardarProveedorContinue(): void {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result) => {
       if (result.status == "ok") {
-        this.savedEvent.emit(result.id);
         this.ps.resetProveedores();
-        this.newProveedorCerrar();
+        this.customOverlayRef.close(result.id);
       } else {
         this.dialog
           .alert({

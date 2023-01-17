@@ -1,105 +1,93 @@
-<div class="modal-bg"
-     [ngClass]="{'show': nuevoProveedor}">
-    <div class="modal-box modal-wide">
-        <div class="modal-header">
-            <span>Nuevo proveedor</span>
-            <a href="#"
-               (click)="newProveedorCerrar($event)">
-                <mat-icon>close</mat-icon>
-            </a>
-        </div>
-        <div class="modal-body articulo-proveedor-cols">
-            <div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Nombre (*)</label>
-                        <mat-form-field class="max-width">
-                            <input matInput
-                                   placeholder="Nombre"
-                                   [(ngModel)]="proveedor.nombre"
-                                   #nombreBox>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Email</label>
-                        <mat-form-field class="max-width">
-                            <input matInput
-                                   placeholder="Email"
-                                   [(ngModel)]="proveedor.email">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Web</label>
-                        <mat-form-field class="max-width">
-                            <input matInput
-                                   placeholder="Web"
-                                   [(ngModel)]="proveedor.web">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-field half-width">
-                        <label>Teléfono</label>
-                        <mat-form-field class="max-width">
-                            <input matInput
-                                   placeholder="Teléfono"
-                                   [(ngModel)]="proveedor.telefono">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Observaciones</label>
-                        <mat-form-field class="max-width">
-                            <textarea matInput
-                                      placeholder="Observaciones"
-                                      [(ngModel)]="proveedor.observaciones"
-                                      rows="5"></textarea>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Dirección</label>
-                        <mat-form-field class="max-width">
-                            <input matInput
-                                   placeholder="Dirección"
-                                   [(ngModel)]="proveedor.direccion">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div>
-                    <div class="form-field max-width">
-                        <label>Marcas del proveedor</label>
-                        <div class="prov-marcas-list"
-                             *ngIf="marcasSelected.length > 0">
-                            <div class="prov-marcas-item"
-                                 *ngFor="let marca of marcasSelected">
-                                <mat-checkbox [checked]="true"
-                                              (change)="removeMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
-                            </div>
-                        </div>
-                        <div class="prov-marcas-list">
-                            <div class="prov-marcas-item"
-                                 *ngFor="let marca of marcas">
-                                <mat-checkbox [checked]="false"
-                                              (change)="addMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="articulo-proveedor-cols">
+    <div>
+        <div>
+            <div class="form-field max-width">
+                <label>Nombre (*)</label>
+                <mat-form-field class="max-width">
+                    <input matInput
+                           placeholder="Nombre"
+                           [(ngModel)]="proveedor.nombre"
+                           #nombreBox>
+                </mat-form-field>
             </div>
         </div>
-        <div class="modal-actions">
-            <button mat-raised-button
-                    color="primary"
-                    (click)="guardarProveedor()">Guardar</button>
+        <div>
+            <div class="form-field max-width">
+                <label>Email</label>
+                <mat-form-field class="max-width">
+                    <input matInput
+                           placeholder="Email"
+                           [(ngModel)]="proveedor.email">
+                </mat-form-field>
+            </div>
+        </div>
+        <div>
+            <div class="form-field max-width">
+                <label>Web</label>
+                <mat-form-field class="max-width">
+                    <input matInput
+                           placeholder="Web"
+                           [(ngModel)]="proveedor.web">
+                </mat-form-field>
+            </div>
+        </div>
+        <div>
+            <div class="form-field half-width">
+                <label>Teléfono</label>
+                <mat-form-field class="max-width">
+                    <input matInput
+                           placeholder="Teléfono"
+                           [(ngModel)]="proveedor.telefono">
+                </mat-form-field>
+            </div>
+        </div>
+        <div>
+            <div class="form-field max-width">
+                <label>Observaciones</label>
+                <mat-form-field class="max-width">
+                    <textarea matInput
+                              placeholder="Observaciones"
+                              [(ngModel)]="proveedor.observaciones"
+                              rows="5"></textarea>
+                </mat-form-field>
+            </div>
         </div>
     </div>
+    <div>
+        <div>
+            <div class="form-field max-width">
+                <label>Dirección</label>
+                <mat-form-field class="max-width">
+                    <input matInput
+                           placeholder="Dirección"
+                           [(ngModel)]="proveedor.direccion">
+                </mat-form-field>
+            </div>
+        </div>
+        <div>
+            <div class="form-field max-width">
+                <label>Marcas del proveedor</label>
+                <div class="prov-marcas-list"
+                     *ngIf="marcasSelected.length > 0">
+                    <div class="prov-marcas-item"
+                         *ngFor="let marca of marcasSelected">
+                        <mat-checkbox [checked]="true"
+                                      (change)="removeMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="prov-marcas-list">
+                    <div class="prov-marcas-item"
+                         *ngFor="let marca of marcas">
+                        <mat-checkbox [checked]="false"
+                                      (change)="addMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-actions">
+    <button mat-raised-button
+            color="primary"
+            (click)="guardarProveedor()">Guardar</button>
 </div>

@@ -63,8 +63,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   acccesoDirectoBox: ElementRef;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
-  @ViewChild("newProveedor", { static: true })
-  newProveedor: NewProveedorComponent;
   tipoIva: string = "iva";
   ivaOptions: IVAOption[] = [];
   selectedIvaOption: IVAOption = new IVAOption();
@@ -419,12 +417,21 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   openProveedor(): void {
-    this.newProveedor.newProveedor();
-  }
-
-  proveedorGuardado(id: number): void {
-    this.articulo.idProveedor = id;
-    this.form.get("idProveedor").setValue(id);
+    const modalnewProveedorData: Modal = {
+      modalTitle: "Nuevo proveedor",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      NewProveedorComponent,
+      modalnewProveedorData,
+      []
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data !== null) {
+        this.articulo.idProveedor = data.data;
+        this.form.get("idProveedor").setValue(data.data);
+      }
+    });
   }
 
   updateIvaRe(ev: string): void {
