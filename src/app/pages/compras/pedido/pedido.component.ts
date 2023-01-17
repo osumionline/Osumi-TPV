@@ -9,7 +9,7 @@ import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
-import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
+import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import { Modal } from "src/app/interfaces/interfaces";
 import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";

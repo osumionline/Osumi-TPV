@@ -12,8 +12,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
-import { NewMarcaComponent } from "src/app/components/new-marca/new-marca.component";
-import { NewProveedorComponent } from "src/app/components/new-proveedor/new-proveedor.component";
+import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
+import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
