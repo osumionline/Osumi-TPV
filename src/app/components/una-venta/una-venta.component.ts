@@ -13,9 +13,12 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
-import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
+import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
+import {
+  ArticuloInterface,
+  BuscadorModal,
+} from "src/app/interfaces/articulo.interface";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
@@ -28,6 +31,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
+import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
 
@@ -74,8 +78,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   });
   @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
 
-  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
-
   devolucionVenta: number = null;
   @ViewChild("devolucion", { static: true }) devolucion: DevolucionComponent;
   devolucionList: DevolucionSelectedInterface[] = [];
@@ -90,7 +92,8 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     private ars: ArticulosService,
     public es: EmpleadosService,
     private config: ConfigService,
-    private router: Router
+    private router: Router,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
@@ -158,7 +161,24 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters)) {
       ev.preventDefault();
-      this.buscador.abreBuscador(ev.key);
+
+      const modalBuscadorData: BuscadorModal = {
+        modalTitle: "Buscador",
+        modalColor: "blue",
+        key: ev.key,
+      };
+      const dialog = this.overlayService.open(
+        BuscadorComponent,
+        modalBuscadorData
+      );
+      dialog.afterClosed$.subscribe((data) => {
+        if (data !== null) {
+          this.setFocus(data.data);
+        } else {
+          this.setFocus();
+        }
+      });
+
       return;
     }
     if (ev.key === "Enter" && !this.observacionesOpen) {
@@ -358,14 +378,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
           this.deleteVentaLineaEvent.emit(ind);
         }
       });
-  }
-
-  selectBuscador(localizador: number): void {
-    if (localizador === null) {
-      this.setFocus();
-    } else {
-      this.setFocus(localizador);
-    }
   }
 
   goToArticulo(linea: VentaLinea, ind: number): void {

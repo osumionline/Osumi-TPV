@@ -1,3 +1,5 @@
+import { Modal } from "src/app/interfaces/interfaces";
+
 export interface CategoriaInterface {
   id: number;
   nombre: string;
@@ -122,4 +124,8 @@ export interface EtiquetaWebInterface {
   id: number;
   texto: string;
   slug: string;
+}
+
+export interface BuscadorModal extends Modal {
+  key: string;
 }

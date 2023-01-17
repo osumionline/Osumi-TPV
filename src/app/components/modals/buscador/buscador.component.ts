@@ -2,14 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
-  HostListener,
-  Output,
+  OnInit,
   ViewChild,
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { VentasService } from "src/app/services/ventas.service";
 
@@ -18,8 +17,7 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./buscador.component.html",
   styleUrls: ["./buscador.component.scss"],
 })
-export class BuscadorComponent implements AfterViewInit {
-  muestraBuscador: boolean = false;
+export class BuscadorComponent implements OnInit, AfterViewInit {
   @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
   searchName: string = "";
   buscadorResultadosList: ArticuloBuscador[] = [];
@@ -34,26 +32,14 @@ export class BuscadorComponent implements AfterViewInit {
     new MatTableDataSource<ArticuloBuscador>();
   @ViewChild(MatSort) sort: MatSort;
 
-  @Output() closeEvent: EventEmitter<number> = new EventEmitter<number>();
+  constructor(
+    private vs: VentasService,
+    private cms: ClassMapperService,
+    private customOverlayRef: CustomOverlayRef<null, { key: string }>
+  ) {}
 
-  constructor(private vs: VentasService, private cms: ClassMapperService) {}
-
-  ngAfterViewInit(): void {
-    this.buscadorResultadosDataSource.sort = this.sort;
-  }
-
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent): void {
-    if (ev.key === "Escape") {
-      if (this.muestraBuscador) {
-        this.cerrarBuscador();
-      }
-    }
-  }
-
-  abreBuscador(key: string): void {
-    this.muestraBuscador = true;
-    this.searchName = key;
+  ngOnInit(): void {
+    this.searchName = this.customOverlayRef.data.key;
     this.buscadorResultadosRow = 0;
     setTimeout(() => {
       this.searchBoxName.nativeElement.focus();
@@ -61,10 +47,8 @@ export class BuscadorComponent implements AfterViewInit {
     this.searchStart();
   }
 
-  cerrarBuscador(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraBuscador = false;
-    this.closeEvent.emit(null);
+  ngAfterViewInit(): void {
+    this.buscadorResultadosDataSource.sort = this.sort;
   }
 
   checkSearchKeys(ev: KeyboardEvent = null): void {
@@ -115,7 +99,6 @@ export class BuscadorComponent implements AfterViewInit {
   }
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
-    this.muestraBuscador = false;
-    this.closeEvent.emit(row.localizador);
+    this.customOverlayRef.close(row.localizador);
   }
 }

@@ -1,0 +1,81 @@
+<div class="buscador-box">
+    <mat-form-field>
+        <input matInput
+               placeholder="Nombre del artículo"
+               [(ngModel)]="searchName"
+               (keydown)="checkSearchKeys($event)"
+               (keyup)="searchStart($event)"
+               autocomplete="off"
+               #searchBoxName>
+    </mat-form-field>
+    <div class="resultados"
+         [ngClass]="{'show': buscadorResultadosList.length>0}">
+        <table mat-table
+               [dataSource]="buscadorResultadosDataSource"
+               matSort
+               class="mat-elevation-z2 ">
+
+            <!-- Nombre -->
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por nombre">
+                    Nombre
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+
+            <!-- Marca -->
+            <ng-container matColumnDef="marca">
+                <th class="center"
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por marca">
+                    Marca
+                </th>
+                <td class="center"
+                    mat-cell
+                    *matCellDef="let element"> {{element.marca}} </td>
+            </ng-container>
+
+            <!-- PVP -->
+            <ng-container matColumnDef="pvp">
+                <th class="center"
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por PVP">
+                    PVP
+                </th>
+                <td class="center"
+                    mat-cell
+                    *matCellDef="let element"> {{element.pvp}} </td>
+            </ng-container>
+
+            <!-- Stock -->
+            <ng-container matColumnDef="stock">
+                <th class="center"
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por stock">
+                    Stock
+                </th>
+                <td class="center"
+                    mat-cell
+                    *matCellDef="let element"> {{element.stock}} </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="buscadorResultadosDisplayedColumns"></tr>
+            <tr class="clickable"
+                mat-row
+                *matRowDef="let row; columns: buscadorResultadosDisplayedColumns; let i = index;"
+                (click)="selectBuscadorResultadosRow(row)"
+                [ngClass]="{'selected-row':i==buscadorResultadosRow}"></tr>
+        </table>
+    </div>
+</div>

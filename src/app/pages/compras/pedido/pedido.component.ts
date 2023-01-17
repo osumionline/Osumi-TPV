@@ -8,8 +8,9 @@ import {
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
+import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
+import { BuscadorModal } from "src/app/interfaces/articulo.interface";
 import { Modal } from "src/app/interfaces/interfaces";
 import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
@@ -177,7 +178,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   nuevoLocalizador: number = null;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
-  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
 
   pdfsUrl: string = environment.pdfsUrl;
 
@@ -382,7 +382,25 @@ export class PedidoComponent implements OnInit, OnDestroy {
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters)) {
       ev.preventDefault();
-      this.buscador.abreBuscador(ev.key);
+
+      const modalBuscadorData: BuscadorModal = {
+        modalTitle: "Buscador",
+        modalColor: "blue",
+        key: ev.key,
+      };
+      const dialog = this.overlayService.open(
+        BuscadorComponent,
+        modalBuscadorData
+      );
+      dialog.afterClosed$.subscribe((data) => {
+        if (data !== null) {
+          this.nuevoLocalizador = data.data;
+          this.loadArticulo();
+        } else {
+          this.localizadorBox.nativeElement.focus();
+        }
+      });
+
       return;
     }
     if (ev.key == "Enter") {
@@ -390,15 +408,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
       ev.stopPropagation();
 
       this.loadArticulo();
-    }
-  }
-
-  selectBuscador(localizador: number): void {
-    if (localizador !== null) {
-      this.nuevoLocalizador = localizador;
-      this.loadArticulo();
-    } else {
-      this.localizadorBox.nativeElement.focus();
     }
   }
 

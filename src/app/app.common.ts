@@ -44,7 +44,6 @@ export const PAGES: any[] = [
  */
 import { AlmacenInventarioComponent } from "src/app/components/almacen-inventario/almacen-inventario.component";
 import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
-import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
 import { CajaModalComponent } from "src/app/components/caja-modal/caja-modal.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { DevolucionComponent } from "src/app/components/devolucion/devolucion.component";
@@ -55,6 +54,7 @@ import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factu
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
+import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";

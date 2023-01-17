@@ -11,10 +11,11 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { BuscadorComponent } from "src/app/components/buscador/buscador.component";
+import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import {
+  BuscadorModal,
   ChartDataInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
@@ -54,7 +55,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
-  @ViewChild("buscador", { static: true }) buscador: BuscadorComponent;
   showAccesosDirectos: boolean = false;
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
   accesosDirectosList: AccesoDirecto[] = [];
@@ -225,7 +225,25 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters)) {
       ev.preventDefault();
-      this.buscador.abreBuscador(ev.key);
+
+      const modalBuscadorData: BuscadorModal = {
+        modalTitle: "Buscador",
+        modalColor: "blue",
+        key: ev.key,
+      };
+      const dialog = this.overlayService.open(
+        BuscadorComponent,
+        modalBuscadorData
+      );
+      dialog.afterClosed$.subscribe((data) => {
+        if (data !== null) {
+          this.form.get("localizador").setValue(data.data);
+          this.loadArticulo();
+        } else {
+          this.localizadorBox.nativeElement.focus();
+        }
+      });
+
       return;
     }
     if (ev.key == "Enter") {
@@ -233,15 +251,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       ev.stopPropagation();
 
       this.loadArticulo();
-    }
-  }
-
-  selectBuscador(localizador: number): void {
-    if (localizador !== null) {
-      this.form.get("localizador").setValue(localizador);
-      this.loadArticulo();
-    } else {
-      this.localizadorBox.nativeElement.focus();
     }
   }
 
