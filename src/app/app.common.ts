@@ -61,6 +61,7 @@ import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-ca
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
+import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -82,6 +83,7 @@ export const COMPONENTS: any[] = [
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
+  AccesosDirectosComponent,
 ];
 
 /*
