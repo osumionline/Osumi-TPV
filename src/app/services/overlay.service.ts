@@ -14,7 +14,8 @@ export class OverlayService {
   open<R = any>(
     content: Type<any>,
     data: Modal,
-    panelCssClasses: string[] = []
+    panelCssClasses: string[] = [],
+    closeOnBackdropCLick: boolean = true
   ): CustomOverlayRef<R> {
     const _panelCssClasses: string[] = ["modal-panel", "is-active"].concat(
       panelCssClasses
@@ -27,7 +28,12 @@ export class OverlayService {
 
     const overlayRef = this.overlay.create(config);
 
-    const customOverlayRef = new CustomOverlayRef(overlayRef, content, data);
+    const customOverlayRef = new CustomOverlayRef(
+      overlayRef,
+      content,
+      data,
+      closeOnBackdropCLick
+    );
     const injector = this.createInjector(customOverlayRef, this.injector);
     overlayRef.attach(new ComponentPortal(OverlayComponent, null, injector));
 

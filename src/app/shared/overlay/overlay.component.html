@@ -3,7 +3,8 @@
 		<div class="titulo"
 			 translate>{{ inputData.modalTitle }}</div>
 		<div class="btn-close"
-			 (click)="close()">
+			 (click)="close()"
+			 *ngIf="!inputData.hideCloseBtn">
 			<mat-icon>close</mat-icon>
 		</div>
 	</div>

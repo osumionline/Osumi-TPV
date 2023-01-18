@@ -14,13 +14,16 @@ export class CustomOverlayRef<R = any, T = any> {
   constructor(
     public overlay: OverlayRef,
     public content: Type<any>,
-    public data: T
+    public data: T,
+    public closeOnBackdropCLick: boolean = true
   ) {
-    overlay.backdropClick().subscribe({
-      next: () => {
-        this._close("backdropClick", null);
-      },
-    });
+    if (closeOnBackdropCLick) {
+      overlay.backdropClick().subscribe({
+        next: () => {
+          this._close("backdropClick", null);
+        },
+      });
+    }
   }
 
   close(data?: any): void {
