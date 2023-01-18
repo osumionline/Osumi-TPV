@@ -40,3 +40,7 @@ export interface EmpleadoLoginModal extends Modal {
   id: number;
   nombre: string;
 }
+
+export interface ElegirClienteModal extends Modal {
+  from: string;
+}
