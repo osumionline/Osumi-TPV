@@ -215,41 +215,6 @@
 </div>
 
 <div class="modal-bg"
-	 [ngClass]="{'show': muestraDescuento}">
-	<div class="modal-box">
-		<div class="modal-header">
-			<span>Introducir descuento</span>
-			<a href="#"
-			   (click)="cerrarDescuento($event)">
-				<mat-icon>close</mat-icon>
-			</a>
-		</div>
-		<div class="modal-body descuento-box">
-			<div class="descuento-texto">
-				En caso de querer usar un importe concreto de descuento en vez de un porcentaje, introdúcelo a continuación:
-			</div>
-			<div class="descuento-otros">
-				<mat-form-field class="descuento-otros-importe">
-					<mat-label>Importe en euros</mat-label>
-					<input matInput
-						   type="number"
-						   min="0"
-						   step="0.1"
-						   placeholder="Importe en euros"
-						   [(ngModel)]="descuentoImporte"
-						   (keyup)="checkDescuentoImporte($event)"
-						   #descuentoValue>
-				</mat-form-field>
-				€
-				<button mat-raised-button
-						color="primary"
-						(click)="selectDescuento()">Continuar</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal-bg"
 	 [ngClass]="{'show': muestraVarios}">
 	<div class="modal-box">
 		<div class="modal-header">

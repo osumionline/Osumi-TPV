@@ -1,0 +1,26 @@
+.descuento-texto {
+    padding: 16px;
+}
+
+.descuento-otros {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    margin: 32px 0;
+
+    .descuento-otros-importe {
+        margin-right: 8px;
+
+        &>div.mat-form-field-wrapper {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    button {
+        margin-left: 16px;
+        display: inline-block;
+        margin-top: 5px;
+    }
+}

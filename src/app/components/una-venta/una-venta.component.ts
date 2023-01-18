@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
+import { Modal } from "src/app/interfaces/interfaces";
 import {
   BuscadorModal,
   DevolucionModal,
@@ -35,6 +36,7 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
+import { VentaDescuentoComponent } from "../modals/venta-descuento/venta-descuento.component";
 
 @Component({
   selector: "otpv-una-venta",
@@ -52,10 +54,7 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   editarCantidad: boolean = false;
   editarImporte: boolean = false;
   editarDescuento: boolean = false;
-  muestraDescuento: boolean = false;
   descuentoSelected: number = null;
-  descuentoImporte: number = null;
-  @ViewChild("descuentoValue", { static: true }) descuentoValue: ElementRef;
 
   showClienteEstadisticas: boolean = true;
   showUltimaVenta: boolean = false;
@@ -629,46 +628,25 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   abreDescuento(ev: MouseEvent, linea: VentaLinea): void {
     ev.stopPropagation();
     this.descuentoSelected = linea.idArticulo;
-    this.descuentoImporte = null;
-    this.muestraDescuento = true;
-    setTimeout(() => {
-      this.descuentoValue.nativeElement.focus();
-    }, 0);
-  }
 
-  cerrarDescuento(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraDescuento = false;
-  }
-
-  checkDescuentoImporte(ev: KeyboardEvent): void {
-    if (ev.key == "Enter") {
-      this.selectDescuento();
-    }
-  }
-
-  selectDescuento(): void {
-    if (!this.descuentoImporte) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No has introducido ningún descuento!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          setTimeout(() => {
-            this.descuentoValue.nativeElement.focus();
-          }, 0);
-        });
-      return;
-    }
-    const ind = this.vs.ventaActual.lineas.findIndex(
-      (x) => x.idArticulo === this.descuentoSelected
+    const modalDescuentoData: Modal = {
+      modalTitle: "Introducir descuento",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      VentaDescuentoComponent,
+      modalDescuentoData
     );
-    this.vs.ventaActual.lineas[ind].descuento = this.descuentoImporte;
-    this.vs.ventaActual.lineas[ind].descuentoManual = true;
-    this.vs.ventaActual.updateImporte();
-    this.cerrarDescuento();
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        const ind: number = this.vs.ventaActual.lineas.findIndex(
+          (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected
+        );
+        this.vs.ventaActual.lineas[ind].descuento = data.data;
+        this.vs.ventaActual.lineas[ind].descuentoManual = true;
+        this.vs.ventaActual.updateImporte();
+      }
+    });
   }
 
   closeClienteEstadisticas(): void {
