@@ -129,3 +129,7 @@ export interface EtiquetaWebInterface {
 export interface BuscadorModal extends Modal {
   key: string;
 }
+
+export interface AccesosDirectosModal extends Modal {
+  idArticulo: number;
+}

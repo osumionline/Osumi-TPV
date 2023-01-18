@@ -7,20 +7,19 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import {
+  AccesosDirectosModal,
   BuscadorModal,
   ChartDataInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
 import { Modal, Month } from "src/app/interfaces/interfaces";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CodigoBarras } from "src/app/model/codigo-barras.model";
@@ -55,12 +54,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   selectedTab: number = -1;
   @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
-  showAccesosDirectos: boolean = false;
-  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
-  accesosDirectosList: AccesoDirecto[] = [];
-  accesoDirecto: number = null;
-  @ViewChild("acccesoDirectoBox", { static: true })
-  acccesoDirectoBox: ElementRef;
   mostrarWeb: boolean = false;
   marcas: Marca[] = [];
   tipoIva: string = "iva";
@@ -126,10 +119,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     mostrarObsVentas: new FormControl(false),
   });
 
-  accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
-    new MatTableDataSource<AccesoDirecto>();
-  @ViewChild(MatSort) sort: MatSort;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -166,7 +155,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.accesosDirectosDataSource.sort = this.sort;
     this.form.get("palb").valueChanges.subscribe((x) => {
       this.updatePalb(x);
     });
@@ -181,9 +169,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   @HostListener("window:keydown", ["$event"])
   onKeyDown(ev: KeyboardEvent) {
     if (ev.key === "Escape") {
-      if (this.showAccesosDirectos) {
-        this.accesosDirectosCerrar();
-      }
       if (this.mostrarMargenes) {
         this.cerrarMargenes();
       }
@@ -259,113 +244,68 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.ars
       .loadArticulo(this.form.get("localizador").value)
       .subscribe((result) => {
-        this.articulo = this.cms.getArticulo(result.articulo);
-        if (this.articulo.fechaCaducidad) {
-          this.loadFecCad();
+        if (result.status === "ok") {
+          this.articulo = this.cms.getArticulo(result.articulo);
+          if (this.articulo.fechaCaducidad) {
+            this.loadFecCad();
+          }
+
+          this.selectedIvaOption = new IVAOption(
+            this.tipoIva,
+            this.articulo.iva,
+            this.articulo.re
+          );
+          this.loadStatsVentas();
+          this.loadStatsWeb();
+
+          this.form.patchValue(this.articulo.toInterface(false));
+          this.form.get("localizador").markAsPristine();
+          this.form.get("palb").markAsPristine();
+          this.form.get("puc").markAsPristine();
+          this.form.get("pvp").markAsPristine();
+
+          this.selectedTab = 0;
+          this.loading = false;
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content:
+                'No existe ningún artículo con el localizador "' +
+                this.form.get("localizador").value +
+                '".',
+              ok: "Continuar",
+            })
+            .subscribe((result) => {
+              this.form.get("localizador").setValue(null);
+              this.loading = false;
+              setTimeout(() => {
+                this.localizadorBox.nativeElement.select();
+              }, 200);
+            });
         }
-
-        this.selectedIvaOption = new IVAOption(
-          this.tipoIva,
-          this.articulo.iva,
-          this.articulo.re
-        );
-        this.loadStatsVentas();
-        this.loadStatsWeb();
-
-        this.form.patchValue(this.articulo.toInterface(false));
-        this.form.get("localizador").markAsPristine();
-        this.form.get("palb").markAsPristine();
-        this.form.get("puc").markAsPristine();
-        this.form.get("pvp").markAsPristine();
-
-        this.selectedTab = 0;
-        this.loading = false;
       });
   }
 
   abrirAccesosDirectos(): void {
-    this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-      this.accesosDirectosDataSource.data = this.accesosDirectosList;
-      this.showAccesosDirectos = true;
-      this.accesoDirecto = null;
+    const modalAccesosDirectosData: AccesosDirectosModal = {
+      modalTitle: "Accesos directos",
+      modalColor: "blue",
+      idArticulo: this.articulo.id,
+    };
+    const dialog = this.overlayService.open(
+      AccesosDirectosComponent,
+      modalAccesosDirectosData
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.form.get("localizador").setValue(data.data);
+        this.loadArticulo();
+      }
       setTimeout(() => {
-        this.acccesoDirectoBox.nativeElement.focus();
+        this.localizadorBox.nativeElement.focus();
       }, 0);
     });
-  }
-
-  accesosDirectosCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.showAccesosDirectos = false;
-    setTimeout(() => {
-      this.localizadorBox.nativeElement.focus();
-    }, 0);
-  }
-
-  selectAccesoDirecto(row: AccesoDirecto): void {
-    this.form.get("localizador").setValue(row.id);
-    this.loadArticulo();
-    this.accesosDirectosCerrar();
-  }
-
-  borrarAccesoDirecto(ev: MouseEvent, id: number): void {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    this.dialog
-      .confirm({
-        title: "Confirmar",
-        content: "¿Estás seguro de querer borrar este acceso directo?",
-        ok: "Continuar",
-        cancel: "Cancelar",
-      })
-      .subscribe((result) => {
-        if (result === true) {
-          this.borrarAccesoDirectoConfirm(id);
-        }
-      });
-  }
-
-  borrarAccesoDirectoConfirm(id: number): void {
-    this.ars.deleteAccesoDirecto(id).subscribe((result) => {
-      this.abrirAccesosDirectos();
-    });
-  }
-
-  asignarAccesoDirecto(): void {
-    const ind: number = this.accesosDirectosList.findIndex(
-      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto
-    );
-    if (ind != -1) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            "El acceso directo que estás intentando asignar ya está en uso.",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          setTimeout(() => {
-            this.acccesoDirectoBox.nativeElement.focus();
-          }, 0);
-        });
-      return;
-    }
-
-    this.ars
-      .asignarAccesoDirecto(this.articulo.id, this.accesoDirecto)
-      .subscribe((result) => {
-        this.dialog
-          .alert({
-            title: "OK",
-            content: "El acceso directo ha sido asignado.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.abrirAccesosDirectos();
-          });
-      });
   }
 
   checkArticulosTab(ev: MatTabChangeEvent): void {

@@ -275,39 +275,6 @@
   }
 }
 
-.accesos-directos {
-  .asignar {
-    display: none;
-    border-top: 1px solid #ddd;
-    padding-top: 16px;
-
-    &.show {
-      display: block;
-    }
-
-    div {
-      margin: 16px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      label {
-        font-weight: bold;
-        margin-right: 16px;
-      }
-
-      .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
-
-      span {
-        display: block;
-        margin-left: 16px;
-      }
-    }
-  }
-}
-
 @media screen and (min-width: 1024px) {
   .card-margin {
     .articulo-numbers {

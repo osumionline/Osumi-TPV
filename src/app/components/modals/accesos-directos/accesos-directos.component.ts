@@ -1,8 +1,10 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { ArticulosService } from "src/app/services/articulos.service";
+import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
@@ -10,7 +12,8 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./accesos-directos.component.html",
   styleUrls: ["./accesos-directos.component.scss"],
 })
-export class AccesosDirectosComponent {
+export class AccesosDirectosComponent implements OnInit {
+  idArticulo: number = null;
   accesosDirectosList: AccesoDirecto[] = [];
   accesoDirecto: number = null;
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
@@ -21,9 +24,19 @@ export class AccesosDirectosComponent {
   @ViewChild("acccesoDirectoBox", { static: true })
   acccesoDirectoBox: ElementRef;
 
-  constructor(private dialog: DialogService, private ars: ArticulosService) {}
+  constructor(
+    private dialog: DialogService,
+    private ars: ArticulosService,
+    private cms: ClassMapperService,
+    private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }>
+  ) {}
 
-  abrirAccesosDirectos(): void {
+  ngOnInit(): void {
+    this.idArticulo = this.customOverlayRef.data.idArticulo;
+    this.load();
+  }
+
+  load(): void {
     this.ars.getAccesosDirectosList().subscribe((result) => {
       this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
       this.accesosDirectosDataSource.data = this.accesosDirectosList;
@@ -34,18 +47,8 @@ export class AccesosDirectosComponent {
     });
   }
 
-  accesosDirectosCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    //this.showAccesosDirectos = false;
-    setTimeout(() => {
-      this.localizadorBox.nativeElement.focus();
-    }, 0);
-  }
-
   selectAccesoDirecto(row: AccesoDirecto): void {
-    this.form.get("localizador").setValue(row.id);
-    this.loadArticulo();
-    this.accesosDirectosCerrar();
+    this.customOverlayRef.close(row.id);
   }
 
   borrarAccesoDirecto(ev: MouseEvent, id: number): void {
@@ -68,7 +71,7 @@ export class AccesosDirectosComponent {
 
   borrarAccesoDirectoConfirm(id: number): void {
     this.ars.deleteAccesoDirecto(id).subscribe((result) => {
-      this.abrirAccesosDirectos();
+      this.load();
     });
   }
 
@@ -93,7 +96,7 @@ export class AccesosDirectosComponent {
     }
 
     this.ars
-      .asignarAccesoDirecto(this.articulo.id, this.accesoDirecto)
+      .asignarAccesoDirecto(this.idArticulo, this.accesoDirecto)
       .subscribe((result) => {
         this.dialog
           .alert({
@@ -102,7 +105,7 @@ export class AccesosDirectosComponent {
             ok: "Continuar",
           })
           .subscribe((result) => {
-            this.abrirAccesosDirectos();
+            this.load();
           });
       });
   }
