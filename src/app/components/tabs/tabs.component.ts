@@ -57,6 +57,7 @@ export class TabsComponent {
   }
 
   selectClient(from: string = null): void {
+    this.selectClienteFrom = from;
     const modalnewProveedorData: ElegirClienteModal = {
       modalTitle: "Seleccionar cliente",
       modalColor: "blue",

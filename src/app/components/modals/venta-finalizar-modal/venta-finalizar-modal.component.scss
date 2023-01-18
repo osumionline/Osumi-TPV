@@ -1,0 +1,153 @@
+.finalizar-venta {
+    display: flex;
+    flex-direction: row;
+
+    .col-left {
+        padding-right: 8px;
+        border-right: 1px solid #eee;
+        flex: 2;
+
+        .col-line {
+            display: flex;
+            align-items: center;
+
+            button img {
+                width: 24px;
+            }
+
+            button:first-child {
+                margin-right: 16px;
+            }
+
+            mat-form-field {
+                margin-right: 8px;
+                width: 85%;
+            }
+
+            mat-form-field:last-child {
+                margin-left: 16px;
+            }
+
+            .big {
+                font-size: 2em;
+                display: inline-block;
+                margin-right: 8px;
+            }
+        }
+
+        .tipos-pago {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 16px 0;
+
+            .tipo-pago {
+                border: 2px solid #ccc;
+                border-radius: 6px;
+                display: flex;
+                padding: 16px;
+                cursor: pointer;
+                flex: 1 1 calc(50% - 8px);
+                margin-right: 8px;
+                margin-bottom: 8px;
+                align-items: center;
+                transition: all .4s;
+                position: relative;
+
+                img {
+                    display: inline-block;
+                    margin-right: 8px;
+                    height: 32px;
+                }
+
+                &:hover {
+                    border: 2px solid #000;
+                }
+
+                .tipo-pago-check {
+                    position: absolute;
+                    right: 16px;
+                    z-index: 1;
+                }
+
+                .tipo-pago-check-over {
+                    position: absolute;
+                    right: 16px;
+                    height: 50px;
+                    width: 50px;
+                    z-index: 2;
+                }
+            }
+
+            .tipo-pago-selected {
+                border: 2px solid var(--main-color);
+
+                &:hover {
+                    border: 2px solid var(--main-color);
+                }
+            }
+        }
+    }
+
+    .col-right {
+        width: 600px;
+        flex: 3;
+        padding-left: 8px;
+
+        .venta-table {
+            min-height: 285px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    }
+
+    .total {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        position: relative;
+        padding: 16px;
+        height: 60px;
+        margin-bottom: 16px;
+        margin-top: 8px;
+
+        .total-title {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-weight: bold;
+            color: #888;
+        }
+
+        .total-importe {
+            display: flex;
+            height: 28px;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 2em;
+        }
+    }
+
+    .col-line-check {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        .options {
+            &>span {
+                display: inline-block;
+                margin-left: 8px;
+            }
+        }
+
+        .actions {
+            width: 220px;
+            display: flex;
+            justify-content: space-between;
+
+            img {
+                width: 24px;
+            }
+        }
+    }
+}

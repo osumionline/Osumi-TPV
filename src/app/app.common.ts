@@ -82,14 +82,15 @@ import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/artic
 import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
 import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
+import { ElegirClienteModalComponent } from "src/app/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
+import { EmployeeLoginModalComponent } from "src/app/components/modals/employee-login-modal/employee-login-modal.component";
 import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
 import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
 import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { VentaAccesosDirectosModalComponent } from "src/app/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
+import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
 import { VentaVariosModalComponent } from "src/app/components/modals/venta-varios-modal/venta-varios-modal.component";
-import { EmployeeLoginModalComponent } from "./components/modals/employee-login-modal/employee-login-modal.component";
-import { ElegirClienteModalComponent } from "./components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
-import { VentaAccesosDirectosModalComponent } from "./components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 
 export const MODALS: any[] = [
   AccesosDirectosModalComponent,
@@ -105,6 +106,7 @@ export const MODALS: any[] = [
   EditFacturaModalComponent,
   ElegirClienteModalComponent,
   VentaAccesosDirectosModalComponent,
+  VentaFinalizarModalComponent,
 ];
 
 /*
