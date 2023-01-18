@@ -49,7 +49,6 @@ import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
-import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factura.component";
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
@@ -70,7 +69,6 @@ export const COMPONENTS: any[] = [
   HistoricoVentasComponent,
   SalidasCajaComponent,
   CierreCajaComponent,
-  EditFacturaComponent,
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
@@ -83,6 +81,7 @@ import { AccesosDirectosModalComponent } from "src/app/components/modals/accesos
 import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
 import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
+import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
 import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
 import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
 import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
@@ -101,6 +100,7 @@ export const MODALS: any[] = [
   VentaDescuentoModalComponent,
   VentaVariosModalComponent,
   EmployeeLoginModalComponent,
+  EditFacturaModalComponent,
 ];
 
 /*

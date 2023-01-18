@@ -11,11 +11,11 @@ import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
-  selector: "otpv-edit-factura",
-  templateUrl: "./edit-factura.component.html",
-  styleUrls: ["./edit-factura.component.scss"],
+  selector: "otpv-edit-factura-modal",
+  templateUrl: "./edit-factura-modal.component.html",
+  styleUrls: ["./edit-factura-modal.component.scss"],
 })
-export class EditFacturaComponent {
+export class EditFacturaModalComponent {
   facturasTitle: string = "Nueva factura";
   showFacturas: boolean = false;
 

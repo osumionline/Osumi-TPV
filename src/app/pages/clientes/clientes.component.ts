@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
-import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factura.component";
+import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { Cliente } from "src/app/model/cliente.model";
@@ -55,7 +55,8 @@ export class ClientesComponent implements OnInit {
   facturasDataSource: MatTableDataSource<Factura> =
     new MatTableDataSource<Factura>();
 
-  @ViewChild("editFactura", { static: true }) editFactura: EditFacturaComponent;
+  @ViewChild("editFactura", { static: true })
+  editFactura: EditFacturaModalComponent;
 
   stats: ChartSelectInterface = {
     data: "consumo",
