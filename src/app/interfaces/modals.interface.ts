@@ -51,3 +51,7 @@ export interface FacturaModal extends Modal {
   id: number;
   factura: Factura;
 }
+
+export interface CajaModal extends Modal {
+  option: string;
+}

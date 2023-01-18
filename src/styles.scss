@@ -76,6 +76,10 @@ mat-card-content {
   width: 100%;
 }
 
+.mat-mdc-tab-body-wrapper {
+  height: calc(100% - 48px);
+}
+
 .flex-content {
   display: flex;
   flex-direction: row;

@@ -8,7 +8,6 @@
     }
 
     .data-card {
-        min-width: 300px;
         margin: 16px;
 
         .card-title {
@@ -39,7 +38,7 @@
         align-items: flex-start;
 
         mat-card {
-            width: 250px;
+            width: 25%;
             display: inline-block;
         }
     }

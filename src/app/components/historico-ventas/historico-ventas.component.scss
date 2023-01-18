@@ -1,3 +1,8 @@
+:host {
+    height: 100%;
+    display: block;
+}
+
 .historico-header {
     display: flex;
     padding-top: 8px;
@@ -37,6 +42,7 @@
 .historico-body {
     margin-top: 16px;
     display: flex;
+    height: calc(100% - 80px);
 
     .historico-no-data {
         display: flex;
@@ -47,7 +53,7 @@
     }
 
     .historico-table {
-        height: 500px;
+        height: 100%;
         flex: 2;
         overflow-y: auto;
 
@@ -74,7 +80,7 @@
     }
 
     .historico-data {
-        height: 500px;
+        height: 100%;
         overflow-y: auto;
         margin-left: 16px;
         flex: 3;

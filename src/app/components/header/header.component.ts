@@ -1,13 +1,9 @@
-import {
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, HostListener, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { CajaModalComponent } from "src/app/components/caja-modal/caja-modal.component";
+import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
+import { CajaModal } from "src/app/interfaces/modals.interface";
 import { ConfigService } from "src/app/services/config.service";
+import { OverlayService } from "src/app/services/overlay.service";
 
 @Component({
   selector: "otpv-header",
@@ -17,9 +13,12 @@ import { ConfigService } from "src/app/services/config.service";
 export class HeaderComponent implements OnInit {
   @Input() selectedOption: string = "";
   title: string;
-  @ViewChild("caja", { static: true }) caja: CajaModalComponent;
 
-  constructor(private config: ConfigService, private router: Router) {}
+  constructor(
+    private config: ConfigService,
+    private router: Router,
+    private overlayService: OverlayService
+  ) {}
 
   ngOnInit(): void {
     this.title = this.config.nombre;
@@ -34,11 +33,11 @@ export class HeaderComponent implements OnInit {
     }
     if (ev.key === "F10") {
       ev.preventDefault();
-      this.abrirCaja();
+      this.abrirCaja("historico");
     }
     if (ev.key === "F11") {
       ev.preventDefault();
-      this.caja.abrirCaja("salidas");
+      this.abrirCaja("salidas");
     }
   }
 
@@ -56,7 +55,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([whereTo[where]]);
   }
 
-  abrirCaja(): void {
-    this.caja.abrirCaja("historico");
+  abrirCaja(option: string = "historico"): void {
+    const modalCajaData: CajaModal = {
+      modalTitle: "Caja",
+      modalColor: "blue",
+      css: "modal-wide",
+      option: option,
+    };
+    this.overlayService.open(CajaModalComponent, modalCajaData);
   }
 }
