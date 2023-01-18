@@ -523,25 +523,3 @@
 		</form>
 	</mat-card-content>
 </mat-card>
-
-<div class="modal-bg"
-	 [ngClass]="{'show': confirmarDarDeBaja}">
-	<div class="modal-box">
-		<div class="modal-header">
-			<span>Confirmar</span>
-			<a href="#"
-			   (click)="darDeBajaCerrar($event)">
-				<mat-icon>close</mat-icon>
-			</a>
-		</div>
-		<div class="modal-body">
-			Por favor, confirma que quieres dar de baja el artículo "{{articulo.nombre}}":
-			<div class="confirmar-dar-de-baja-btn">
-				<button mat-raised-button
-						color="warn"
-						(click)="darDeBajaOk()"
-						[disabled]="darDeBajaLoading">Dar de baja</button>
-			</div>
-		</div>
-	</div>
-</div>

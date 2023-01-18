@@ -9,18 +9,22 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
+import { ArticuloDarDeBajaComponent } from "src/app/components/modals/articulo-dar-de-baja/articulo-dar-de-baja.component";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { MargenesComponent } from "src/app/components/modals/margenes/margenes.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import {
-  AccesosDirectosModal,
-  BuscadorModal,
   ChartDataInterface,
   ChartSelectInterface,
-  MargenesModal,
 } from "src/app/interfaces/articulo.interface";
 import { Modal, Month } from "src/app/interfaces/interfaces";
+import {
+  AccesosDirectosModal,
+  BuscadorModal,
+  DarDeBajaModal,
+  MargenesModal,
+} from "src/app/interfaces/modals.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";
 import { CodigoBarras } from "src/app/model/codigo-barras.model";
@@ -69,8 +73,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   yearList: number[] = [];
   newCodBarras: number = null;
   @ViewChild("codigoBarrasBox", { static: true }) codigoBarrasBox: ElementRef;
-  confirmarDarDeBaja: boolean = false;
-  darDeBajaLoading: boolean = false;
   mostrarBuscador: boolean = false;
 
   marginList: number[] = [];
@@ -604,38 +606,20 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   darDeBaja(): void {
-    this.confirmarDarDeBaja = true;
-  }
-
-  darDeBajaCerrar(ev: MouseEvent): void {
-    ev.preventDefault();
-    this.confirmarDarDeBaja = false;
-  }
-
-  darDeBajaOk(): void {
-    this.darDeBajaLoading = true;
-    this.ars.deleteArticulo(this.articulo.id).subscribe((response) => {
-      if (response.status == "ok") {
-        this.dialog
-          .alert({
-            title: "Éxito",
-            content:
-              'El artículo "' +
-              this.articulo.nombre +
-              '" ha sido dado de baja.',
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.newArticulo();
-          });
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: "¡Ocurrió un error al dar de baja el artículo!",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
+    const modalDarDeBajaData: DarDeBajaModal = {
+      modalTitle: "Confirmar",
+      modalColor: "red",
+      id: this.articulo.id,
+      nombre: this.articulo.nombre,
+    };
+    const dialog = this.overlayService.open(
+      ArticuloDarDeBajaComponent,
+      modalDarDeBajaData,
+      []
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data === true) {
+        this.newArticulo();
       }
     });
   }

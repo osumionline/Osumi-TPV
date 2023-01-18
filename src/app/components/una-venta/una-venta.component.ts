@@ -15,14 +15,12 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
+import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import {
-  ArticuloInterface,
   BuscadorModal,
-} from "src/app/interfaces/articulo.interface";
-import {
   DevolucionModal,
-  DevolucionSelectedInterface,
-} from "src/app/interfaces/venta.interface";
+} from "src/app/interfaces/modals.interface";
+import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";

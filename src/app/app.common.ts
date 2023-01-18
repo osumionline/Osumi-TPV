@@ -85,6 +85,7 @@ import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.c
 import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
+import { ArticuloDarDeBajaComponent } from "src/app/components/modals/articulo-dar-de-baja/articulo-dar-de-baja.component";
 
 export const MODALS: any[] = [
   AccesosDirectosComponent,
@@ -93,6 +94,7 @@ export const MODALS: any[] = [
   DevolucionComponent,
   NewMarcaComponent,
   NewProveedorComponent,
+  ArticuloDarDeBajaComponent,
 ];
 
 /*
