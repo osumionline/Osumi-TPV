@@ -1,0 +1,21 @@
+<div class="login-texto">¡Hola {{nombre}}! Por favor, introduce tu contraseña para continuar.</div>
+<div class="login-continuar">
+    <mat-form-field class="login-pass"
+                    subscriptSizing="dynamic">
+        <mat-label>Contraseña</mat-label>
+        <input matInput
+               type="password"
+               placeholder="Contraseña"
+               [(ngModel)]="pass"
+               (keyup)="checkLoginPassword($event)"
+               #loginPasswordValue>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            (click)="login()"
+            [disabled]="loginLoading">
+        <img *ngIf="loginLoading"
+             src="/assets/loading.svg">
+        Continuar
+    </button>
+</div>

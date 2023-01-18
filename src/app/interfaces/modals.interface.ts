@@ -35,3 +35,8 @@ export interface VariosModal extends Modal {
   iva: number;
   re: number;
 }
+
+export interface EmpleadoLoginModal extends Modal {
+  id: number;
+  nombre: string;
+}

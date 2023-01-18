@@ -14,37 +14,3 @@
     }
   }
 }
-
-.login-box {
-  .login-texto {
-    text-align: center;
-    padding: 16px;
-  }
-
-  .login-continuar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    margin: 32px 0;
-
-    .login-pass {
-      margin-right: 8px;
-
-      &>div.mat-form-field-wrapper {
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    button {
-      margin-left: 16px;
-      display: inline-block;
-      margin-top: 5px;
-
-      img {
-        width: 24px;
-      }
-    }
-  }
-}
