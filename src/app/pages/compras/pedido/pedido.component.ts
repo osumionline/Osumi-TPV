@@ -8,8 +8,8 @@ import {
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
-import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
+import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
+import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { BuscadorModal, Modal } from "src/app/interfaces/modals.interface";
 import { PedidosColOption } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
@@ -301,7 +301,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
       modalColor: "blue",
     };
     const dialog = this.overlayService.open(
-      NewProveedorComponent,
+      NewProveedorModalComponent,
       modalnewProveedorData,
       []
     );
@@ -388,7 +388,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
         key: ev.key,
       };
       const dialog = this.overlayService.open(
-        BuscadorComponent,
+        BuscadorModalComponent,
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {

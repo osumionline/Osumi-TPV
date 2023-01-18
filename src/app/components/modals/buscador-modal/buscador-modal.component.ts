@@ -13,11 +13,11 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
-  selector: "otpv-buscador",
-  templateUrl: "./buscador.component.html",
-  styleUrls: ["./buscador.component.scss"],
+  selector: "otpv-buscador-modal",
+  templateUrl: "./buscador-modal.component.html",
+  styleUrls: ["./buscador-modal.component.scss"],
 })
-export class BuscadorComponent implements OnInit, AfterViewInit {
+export class BuscadorModalComponent implements OnInit, AfterViewInit {
   @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
   searchName: string = "";
   buscadorResultadosList: ArticuloBuscador[] = [];

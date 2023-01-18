@@ -79,26 +79,26 @@ export const COMPONENTS: any[] = [
 /*
  * Modales
  */
-import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
-import { MargenesComponent } from "src/app/components/modals/margenes/margenes.component";
-import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
-import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
-import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
-import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
-import { ArticuloDarDeBajaComponent } from "src/app/components/modals/articulo-dar-de-baja/articulo-dar-de-baja.component";
-import { VentaDescuentoComponent } from "src/app/components/modals/venta-descuento/venta-descuento.component";
-import { VentaVariosComponent } from "src/app/components/modals/venta-varios/venta-varios.component";
+import { AccesosDirectosModalComponent } from "src/app/components/modals/accesos-directos-modal/accesos-directos-modal.component";
+import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
+import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
+import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
+import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
+import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
+import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
+import { VentaVariosModalComponent } from "src/app/components/modals/venta-varios-modal/venta-varios-modal.component";
 
 export const MODALS: any[] = [
-  AccesosDirectosComponent,
-  MargenesComponent,
-  BuscadorComponent,
-  DevolucionComponent,
-  NewMarcaComponent,
-  NewProveedorComponent,
-  ArticuloDarDeBajaComponent,
-  VentaDescuentoComponent,
-  VentaVariosComponent,
+  AccesosDirectosModalComponent,
+  MargenesModalComponent,
+  BuscadorModalComponent,
+  DevolucionModalComponent,
+  NewMarcaModalComponent,
+  NewProveedorModalComponent,
+  ArticuloDarDeBajaModalComponent,
+  VentaDescuentoModalComponent,
+  VentaVariosModalComponent,
 ];
 
 /*

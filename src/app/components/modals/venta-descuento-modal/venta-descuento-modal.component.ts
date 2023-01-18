@@ -3,11 +3,11 @@ import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
-  selector: "otpv-venta-descuento",
-  templateUrl: "./venta-descuento.component.html",
-  styleUrls: ["./venta-descuento.component.scss"],
+  selector: "otpv-venta-descuento-modal",
+  templateUrl: "./venta-descuento-modal.component.html",
+  styleUrls: ["./venta-descuento-modal.component.scss"],
 })
-export class VentaDescuentoComponent implements OnInit {
+export class VentaDescuentoModalComponent implements OnInit {
   descuentoImporte: number = null;
   @ViewChild("descuentoValue", { static: true }) descuentoValue: ElementRef;
 

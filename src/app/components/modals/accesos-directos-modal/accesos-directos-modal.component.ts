@@ -8,11 +8,11 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
-  selector: "otpv-accesos-directos",
-  templateUrl: "./accesos-directos.component.html",
-  styleUrls: ["./accesos-directos.component.scss"],
+  selector: "otpv-accesos-directos-modal",
+  templateUrl: "./accesos-directos-modal.component.html",
+  styleUrls: ["./accesos-directos-modal.component.scss"],
 })
-export class AccesosDirectosComponent implements OnInit {
+export class AccesosDirectosModalComponent implements OnInit {
   idArticulo: number = null;
   accesosDirectosList: AccesoDirecto[] = [];
   accesoDirecto: number = null;

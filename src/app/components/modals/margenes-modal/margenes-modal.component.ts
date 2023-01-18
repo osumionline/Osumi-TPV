@@ -2,11 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 
 @Component({
-  selector: "otpv-margenes",
-  templateUrl: "./margenes.component.html",
-  styleUrls: ["./margenes.component.scss"],
+  selector: "otpv-margenes-modal",
+  templateUrl: "./margenes-modal.component.html",
+  styleUrls: ["./margenes-modal.component.scss"],
 })
-export class MargenesComponent implements OnInit {
+export class MargenesModalComponent implements OnInit {
   puc: number = 0;
   marginList: number[] = [];
 

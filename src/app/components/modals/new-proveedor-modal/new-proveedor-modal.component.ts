@@ -8,11 +8,11 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
 @Component({
-  selector: "otpv-new-proveedor",
-  templateUrl: "./new-proveedor.component.html",
-  styleUrls: ["./new-proveedor.component.scss"],
+  selector: "otpv-new-proveedor-modal",
+  templateUrl: "./new-proveedor-modal.component.html",
+  styleUrls: ["./new-proveedor-modal.component.scss"],
 })
-export class NewProveedorComponent implements OnInit {
+export class NewProveedorModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
   proveedor: Proveedor = new Proveedor();
   marcasSelected: Marca[] = [];

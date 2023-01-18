@@ -10,10 +10,10 @@ import {
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
-import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
-import { VentaDescuentoComponent } from "src/app/components/modals/venta-descuento/venta-descuento.component";
-import { VentaVariosComponent } from "src/app/components/modals/venta-varios/venta-varios.component";
+import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
+import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
+import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
+import { VentaVariosModalComponent } from "src/app/components/modals/venta-varios-modal/venta-varios-modal.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import {
   BuscadorModal,
@@ -146,7 +146,7 @@ export class UnaVentaComponent implements AfterViewInit {
         key: ev.key,
       };
       const dialog = this.overlayService.open(
-        BuscadorComponent,
+        BuscadorModalComponent,
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
@@ -296,7 +296,7 @@ export class UnaVentaComponent implements AfterViewInit {
         list: null,
       };
       const dialog = this.overlayService.open(
-        DevolucionComponent,
+        DevolucionModalComponent,
         modalDevolucionData
       );
       dialog.afterClosed$.subscribe((data) => {
@@ -322,7 +322,7 @@ export class UnaVentaComponent implements AfterViewInit {
       list: list,
     };
     const dialog = this.overlayService.open(
-      DevolucionComponent,
+      DevolucionModalComponent,
       modalDevolucionData
     );
     dialog.afterClosed$.subscribe((data) => {
@@ -440,7 +440,7 @@ export class UnaVentaComponent implements AfterViewInit {
       re: this.vs.ventaActual.lineas[ind].re,
     };
     const dialog = this.overlayService.open(
-      VentaVariosComponent,
+      VentaVariosModalComponent,
       modalVariosData
     );
     dialog.afterClosed$.subscribe((data) => {
@@ -601,7 +601,7 @@ export class UnaVentaComponent implements AfterViewInit {
       modalColor: "blue",
     };
     const dialog = this.overlayService.open(
-      VentaDescuentoComponent,
+      VentaDescuentoModalComponent,
       modalDescuentoData
     );
     dialog.afterClosed$.subscribe((data) => {

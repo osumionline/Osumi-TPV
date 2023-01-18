@@ -5,11 +5,11 @@ import { IVAOption } from "src/app/model/iva-option.model";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
-  selector: "otpv-venta-varios",
-  templateUrl: "./venta-varios.component.html",
-  styleUrls: ["./venta-varios.component.scss"],
+  selector: "otpv-venta-varios-modal",
+  templateUrl: "./venta-varios-modal.component.html",
+  styleUrls: ["./venta-varios-modal.component.scss"],
 })
-export class VentaVariosComponent implements OnInit {
+export class VentaVariosModalComponent implements OnInit {
   tipoIva: string = "iva";
   ivaOptions: IVAOption[] = [];
   selectedIvaOption: IVAOption = new IVAOption();

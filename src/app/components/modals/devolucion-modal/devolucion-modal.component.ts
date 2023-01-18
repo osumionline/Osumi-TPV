@@ -11,11 +11,11 @@ import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
-  selector: "otpv-devolucion",
-  templateUrl: "./devolucion.component.html",
-  styleUrls: ["./devolucion.component.scss"],
+  selector: "otpv-devolucion-modal",
+  templateUrl: "./devolucion-modal.component.html",
+  styleUrls: ["./devolucion-modal.component.scss"],
 })
-export class DevolucionComponent implements OnInit {
+export class DevolucionModalComponent implements OnInit {
   venta: VentaHistorico = new VentaHistorico();
   devolucionDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();

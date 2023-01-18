@@ -4,11 +4,11 @@ import { ArticulosService } from "src/app/services/articulos.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
-  selector: "otpv-articulo-dar-de-baja",
-  templateUrl: "./articulo-dar-de-baja.component.html",
-  styleUrls: ["./articulo-dar-de-baja.component.scss"],
+  selector: "otpv-articulo-dar-de-baja-modal",
+  templateUrl: "./articulo-dar-de-baja-modal.component.html",
+  styleUrls: ["./articulo-dar-de-baja-modal.component.scss"],
 })
-export class ArticuloDarDeBajaComponent implements OnInit {
+export class ArticuloDarDeBajaModalComponent implements OnInit {
   id: number;
   nombre: string = null;
   darDeBajaLoading: boolean = false;

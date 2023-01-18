@@ -8,12 +8,12 @@ import {
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
-import { ArticuloDarDeBajaComponent } from "src/app/components/modals/articulo-dar-de-baja/articulo-dar-de-baja.component";
-import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
-import { MargenesComponent } from "src/app/components/modals/margenes/margenes.component";
-import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
-import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
+import { AccesosDirectosModalComponent } from "src/app/components/modals/accesos-directos-modal/accesos-directos-modal.component";
+import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
+import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
+import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
+import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
+import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
@@ -211,7 +211,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         key: ev.key,
       };
       const dialog = this.overlayService.open(
-        BuscadorComponent,
+        BuscadorModalComponent,
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
@@ -288,7 +288,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       idArticulo: this.articulo.id,
     };
     const dialog = this.overlayService.open(
-      AccesosDirectosComponent,
+      AccesosDirectosModalComponent,
       modalAccesosDirectosData
     );
     dialog.afterClosed$.subscribe((data) => {
@@ -347,7 +347,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       modalColor: "blue",
     };
     const dialog = this.overlayService.open(
-      NewMarcaComponent,
+      NewMarcaModalComponent,
       modalnewMarcaData,
       []
     );
@@ -365,7 +365,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       modalColor: "blue",
     };
     const dialog = this.overlayService.open(
-      NewProveedorComponent,
+      NewProveedorModalComponent,
       modalnewProveedorData,
       []
     );
@@ -614,7 +614,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       nombre: this.articulo.nombre,
     };
     const dialog = this.overlayService.open(
-      ArticuloDarDeBajaComponent,
+      ArticuloDarDeBajaModalComponent,
       modalDarDeBajaData,
       []
     );
@@ -780,7 +780,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       list: this.marginList,
     };
     const dialog = this.overlayService.open(
-      MargenesComponent,
+      MargenesModalComponent,
       modalMargenesData
     );
     dialog.afterClosed$.subscribe((data) => {

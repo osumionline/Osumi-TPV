@@ -6,11 +6,11 @@ import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 
 @Component({
-  selector: "otpv-new-marca",
-  templateUrl: "./new-marca.component.html",
-  styleUrls: ["./new-marca.component.scss"],
+  selector: "otpv-new-marca-modal",
+  templateUrl: "./new-marca-modal.component.html",
+  styleUrls: ["./new-marca-modal.component.scss"],
 })
-export class NewMarcaComponent implements OnInit {
+export class NewMarcaModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
   marca: Marca = new Marca();
 
