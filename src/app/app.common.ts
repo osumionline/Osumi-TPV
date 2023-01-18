@@ -13,6 +13,8 @@ import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/ges
 import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
+import { CierreMensualComponent } from "src/app/pages/informes/cierre-mensual/cierre-mensual.component";
+import { InformeMensualComponent } from "src/app/pages/informes/informe-mensual/informe-mensual.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
@@ -37,6 +39,8 @@ export const PAGES: any[] = [
   LopdComponent,
   InventarioPrintComponent,
   CajaComponent,
+  InformeMensualComponent,
+  CierreMensualComponent,
 ];
 
 /*
@@ -44,6 +48,7 @@ export const PAGES: any[] = [
  */
 import { AlmacenInventarioComponent } from "src/app/components/almacen-inventario/almacen-inventario.component";
 import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
+import { CajaContentComponent } from "src/app/components/caja-content/caja-content.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
@@ -72,6 +77,7 @@ export const COMPONENTS: any[] = [
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
+  CajaContentComponent,
 ];
 
 /*

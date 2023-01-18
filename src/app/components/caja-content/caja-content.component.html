@@ -1,0 +1,66 @@
+<div class="caja-body">
+    <mat-tab-group class="caja-tabs"
+                   [selectedIndex]="cajaSelectedTab"
+                   (selectedIndexChange)="cajaSelectedTab = $event"
+                   (selectedTabChange)="checkCajaTab($event)"
+                   animationDuration="0ms"
+                   #cajaTabs>
+        <mat-tab label="HISTÓRICO DE VENTAS">
+            <otpv-historico-ventas (cerrarVentanaEvent)="cerrarCaja()"
+                                   #historicoVentas></otpv-historico-ventas>
+        </mat-tab>
+        <mat-tab label="SALIDAS CAJA">
+            <otpv-salidas-caja #salidasCaja></otpv-salidas-caja>
+        </mat-tab>
+        <mat-tab *ngIf="from === 'tab'"
+                 label="CERRAR CAJA">
+            <otpv-cierre-caja #cierreCaja></otpv-cierre-caja>
+        </mat-tab>
+        <mat-tab *ngIf="from === 'tab'"
+                 label="INFORMES">
+            <div class="generar-informe">
+                <div class="form-field margin-right">
+                    <label>Tipo de informe</label>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="tipoInforme">
+                            <mat-option value="cierre-mensual">
+                                Cierre mensual
+                            </mat-option>
+                            <mat-option value="informe-mensual">
+                                Informe mensual
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field margin-right">
+                    <label>Mes</label>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="informeMonth">
+                            <mat-option *ngFor="let month of monthList"
+                                        [value]="month.id">
+                                {{month.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field margin-right">
+                    <label>Año</label>
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="informeYear">
+                            <mat-option *ngFor="let year of yearList"
+                                        [value]="year">
+                                {{year}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-field margin-right">
+                    <button mat-raised-button
+                            color="primary">
+                        Generar informe
+                    </button>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
