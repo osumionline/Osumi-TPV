@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   ViewChild,
@@ -12,6 +11,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
+import { VentaAccesosDirectosModalComponent } from "src/app/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
 import { VentaVariosModalComponent } from "src/app/components/modals/venta-varios-modal/venta-varios-modal.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
@@ -28,7 +28,6 @@ import { Empleado } from "src/app/model/empleado.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
@@ -79,22 +78,12 @@ export class UnaVentaComponent implements AfterViewInit {
     public vs: VentasService,
     private ars: ArticulosService,
     public es: EmpleadosService,
-    private config: ConfigService,
     private router: Router,
     private overlayService: OverlayService
   ) {}
 
   ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
-  }
-
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent): void {
-    if (ev.key === "Escape") {
-      if (this.muestraAccesosDirectos) {
-        this.cerrarAccesosDirectos();
-      }
-    }
   }
 
   loginSuccess(ev: Empleado): void {
@@ -621,22 +610,21 @@ export class UnaVentaComponent implements AfterViewInit {
   }
 
   abreAccesosDirectos(): void {
-    this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-      this.accesosDirectosDataSource.data = this.accesosDirectosList;
-      this.muestraAccesosDirectos = true;
+    const modalAccesosDirectosData: Modal = {
+      modalTitle: "Accesos Directos",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      VentaAccesosDirectosModalComponent,
+      modalAccesosDirectosData
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.setFocus(data.data);
+      } else {
+        this.setFocus();
+      }
     });
-  }
-
-  cerrarAccesosDirectos(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraAccesosDirectos = false;
-    this.setFocus();
-  }
-
-  selectAccesoDirecto(row: AccesoDirecto): void {
-    this.muestraAccesosDirectos = false;
-    this.setFocus(row.accesoDirecto);
   }
 
   cancelarVenta(): void {

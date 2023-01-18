@@ -24,14 +24,13 @@ import {
   PIPES,
   SERVICES,
 } from "./app.common";
-import { ElegirClienteModalComponent } from './components/modals/elegir-cliente-modal/elegir-cliente-modal.component';
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
 
 @NgModule({
-  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...MODALS, ...PIPES, ElegirClienteModalComponent],
+  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...MODALS, ...PIPES],
   imports: [
     BrowserModule,
     AppRoutingModule,
