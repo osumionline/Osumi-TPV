@@ -133,3 +133,8 @@ export interface BuscadorModal extends Modal {
 export interface AccesosDirectosModal extends Modal {
   idArticulo: number;
 }
+
+export interface MargenesModal extends Modal {
+  puc: number;
+  list: number[];
+}

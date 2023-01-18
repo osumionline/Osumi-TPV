@@ -11,7 +11,7 @@
   }
 
   .articulo-numbers {
-    display: block;
+    display: inline-block;
 
     .articulo-col {
       display: flex;
@@ -28,7 +28,7 @@
   }
 
   .new-cod-barras {
-    width: 100%;
+    width: 30%;
     margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -40,16 +40,16 @@
       0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 
     .new-cod-barras-item {
+      font-size: 1.2em;
+      width: 75%;
       height: 36px;
       line-height: 55px;
       outline: 0;
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 0 0.75em 0 0.75em;
-      width: 60%;
       box-sizing: border-box;
       transition: 0.4s border;
-      font-size: 0.9em;
 
       &:hover {
         border: 2px solid #000;
@@ -78,7 +78,7 @@
 
     .cod-barras-item {
       box-sizing: border-box;
-      width: 100%;
+      width: 30%;
       border: 1px solid #ccc;
       border-radius: 6px;
       align-items: center;
@@ -240,60 +240,6 @@
 
     &:last-child {
       border-bottom: 0;
-    }
-  }
-}
-
-.margin-option {
-  border: 1px solid #888;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  display: flex;
-
-  label {
-    box-sizing: border-box;
-    padding: 8px;
-    display: inline-block;
-    background-color: #ccc;
-    font-weight: bold;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    width: 70px;
-    text-align: right;
-  }
-
-  span {
-    padding: 8px;
-    display: inline-block;
-    flex: 1;
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--main-color);
-      color: #fff;
-    }
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .card-margin {
-    .articulo-numbers {
-      display: inline-block;
-    }
-
-    .new-cod-barras {
-      width: 30%;
-
-      .new-cod-barras-item {
-        font-size: 1.2em;
-        width: 75%;
-      }
-    }
-
-    .cod-barras-list {
-      .cod-barras-item {
-        width: 30%;
-      }
     }
   }
 }

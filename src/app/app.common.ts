@@ -53,15 +53,10 @@ import { EditFacturaComponent } from "src/app/components/edit-factura/edit-factu
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
-import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
-import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
-import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
-import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { TabsComponent } from "src/app/components/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
-import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
@@ -75,15 +70,29 @@ export const COMPONENTS: any[] = [
   HistoricoVentasComponent,
   SalidasCajaComponent,
   CierreCajaComponent,
-  NewMarcaComponent,
-  NewProveedorComponent,
-  DevolucionComponent,
-  BuscadorComponent,
   EditFacturaComponent,
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
+];
+
+/*
+ * Modales
+ */
+import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
+import { MargenesComponent } from "src/app/components/modals/margenes/margenes.component";
+import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
+import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
+import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
+import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
+
+export const MODALS: any[] = [
   AccesosDirectosComponent,
+  MargenesComponent,
+  BuscadorComponent,
+  DevolucionComponent,
+  NewMarcaComponent,
+  NewProveedorComponent,
 ];
 
 /*

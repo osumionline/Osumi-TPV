@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -11,6 +10,7 @@ import { MatTabChangeEvent } from "@angular/material/tabs";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { AccesosDirectosComponent } from "src/app/components/modals/accesos-directos/accesos-directos.component";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
+import { MargenesComponent } from "src/app/components/modals/margenes/margenes.component";
 import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca.component";
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import {
@@ -18,6 +18,7 @@ import {
   BuscadorModal,
   ChartDataInterface,
   ChartSelectInterface,
+  MargenesModal,
 } from "src/app/interfaces/articulo.interface";
 import { Modal, Month } from "src/app/interfaces/interfaces";
 import { Articulo } from "src/app/model/articulo.model";
@@ -72,7 +73,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   darDeBajaLoading: boolean = false;
   mostrarBuscador: boolean = false;
 
-  mostrarMargenes: boolean = false;
   marginList: number[] = [];
 
   statsVentas: ChartSelectInterface = {
@@ -164,15 +164,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form.get("pvp").valueChanges.subscribe((x) => {
       this.updatePvp(x);
     });
-  }
-
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") {
-      if (this.mostrarMargenes) {
-        this.cerrarMargenes();
-      }
-    }
   }
 
   loadAppData(): void {
@@ -797,22 +788,25 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   abrirMargenes(): void {
-    this.mostrarMargenes = true;
-  }
-
-  cerrarMargenes(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.mostrarMargenes = false;
-  }
-
-  selectMargen(margen: number): void {
-    this.articulo.margen = margen;
-    this.articulo.pvp = this.getTwoNumberDecimal(
-      this.articulo.puc * (1 + margen / 100)
+    const modalMargenesData: MargenesModal = {
+      modalTitle: "Márgenes",
+      modalColor: "blue",
+      puc: this.articulo.puc,
+      list: this.marginList,
+    };
+    const dialog = this.overlayService.open(
+      MargenesComponent,
+      modalMargenesData
     );
-    this.form.get("pvp").setValue(this.articulo.pvp);
-    this.form.get("pvp").markAsDirty();
-
-    this.cerrarMargenes();
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.articulo.margen = data.data;
+        this.articulo.pvp = this.getTwoNumberDecimal(
+          this.articulo.puc * (1 + data.data / 100)
+        );
+        this.form.get("pvp").setValue(this.articulo.pvp);
+        this.form.get("pvp").markAsDirty();
+      }
+    });
   }
 }

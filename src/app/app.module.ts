@@ -16,14 +16,21 @@ import es from "@angular/common/locales/es";
 
 registerLocaleData(es);
 
-import { COMPONENTS, MATERIAL, PAGES, PIPES, SERVICES } from "./app.common";
+import {
+  COMPONENTS,
+  MODALS,
+  MATERIAL,
+  PAGES,
+  PIPES,
+  SERVICES,
+} from "./app.common";
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
 
 @NgModule({
-  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES],
+  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...MODALS, ...PIPES],
   imports: [
     BrowserModule,
     AppRoutingModule,

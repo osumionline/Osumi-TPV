@@ -1,0 +1,30 @@
+.margin-option {
+    border: 1px solid #888;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+
+    label {
+        box-sizing: border-box;
+        padding: 8px;
+        display: inline-block;
+        background-color: #ccc;
+        font-weight: bold;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        width: 70px;
+        text-align: right;
+    }
+
+    span {
+        padding: 8px;
+        display: inline-block;
+        flex: 1;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--main-color);
+            color: #fff;
+        }
+    }
+}

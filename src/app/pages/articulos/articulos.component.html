@@ -545,23 +545,3 @@
 		</div>
 	</div>
 </div>
-
-<div class="modal-bg"
-	 [ngClass]="{'show': mostrarMargenes}">
-	<div class="modal-box">
-		<div class="modal-header">
-			<span>Márgenes</span>
-			<a href="#"
-			   (click)="cerrarMargenes($event)">
-				<mat-icon>close</mat-icon>
-			</a>
-		</div>
-		<div class="modal-body">
-			<div *ngFor="let margin of marginList"
-				 class="margin-option">
-				<label>{{margin}} %</label>
-				<span (click)="selectMargen(margin)">{{articulo.puc * (1 + (margin/100)) | number:'1.2-2'}} €</span>
-			</div>
-		</div>
-	</div>
-</div>
