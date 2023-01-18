@@ -1,4 +1,4 @@
-import { TipoPagoInterface } from "./tipo-pago.interface";
+import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
 
 export interface DialogField {
   title: string;
@@ -140,10 +140,4 @@ export interface DateValues {
   fecha: string;
   desde: string;
   hasta: string;
-}
-
-export interface Modal {
-  modalColor: "blue" | "yellow" | "red";
-  modalTitle: string;
-  hideCloseBtn?: boolean;
 }

@@ -87,6 +87,7 @@ import { NewMarcaComponent } from "src/app/components/modals/new-marca/new-marca
 import { NewProveedorComponent } from "src/app/components/modals/new-proveedor/new-proveedor.component";
 import { ArticuloDarDeBajaComponent } from "src/app/components/modals/articulo-dar-de-baja/articulo-dar-de-baja.component";
 import { VentaDescuentoComponent } from "src/app/components/modals/venta-descuento/venta-descuento.component";
+import { VentaVariosComponent } from "src/app/components/modals/venta-varios/venta-varios.component";
 
 export const MODALS: any[] = [
   AccesosDirectosComponent,
@@ -97,6 +98,7 @@ export const MODALS: any[] = [
   NewProveedorComponent,
   ArticuloDarDeBajaComponent,
   VentaDescuentoComponent,
+  VentaVariosComponent,
 ];
 
 /*

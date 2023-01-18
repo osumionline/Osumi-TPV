@@ -18,12 +18,13 @@ import {
   ChartDataInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
-import { Modal, Month } from "src/app/interfaces/interfaces";
+import { Month } from "src/app/interfaces/interfaces";
 import {
   AccesosDirectosModal,
   BuscadorModal,
   DarDeBajaModal,
   MargenesModal,
+  Modal,
 } from "src/app/interfaces/modals.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { Categoria } from "src/app/model/categoria.model";

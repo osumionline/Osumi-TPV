@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, Type } from "@angular/core";
-import { Modal } from "src/app/interfaces/interfaces";
+import { Modal } from "src/app/interfaces/modals.interface";
 import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 
 @Component({

@@ -1,0 +1,41 @@
+<form [formGroup]="formVarios"
+      (ngSubmit)="actualizarVarios()">
+    <div class="form-field">
+        <label>Nombre</label>
+        <mat-form-field subscriptSizing="dynamic">
+            <input matInput
+                   placeholder="Nombre"
+                   formControlName="nombre">
+        </mat-form-field>
+    </div>
+    <div class="form-field">
+        <label>PVP</label>
+        <mat-form-field subscriptSizing="dynamic">
+            <input matInput
+                   type="number"
+                   step="0.01"
+                   placeholder="PVP"
+                   (focus)="$event.target.select()"
+                   formControlName="pvp"
+                   #variosPVPbox>
+        </mat-form-field>
+    </div>
+    <div class="form-field margin-right">
+        <label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="selectedIvaOption.id"
+                        (ngModelChange)="updateIvaRe($event)"
+                        [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let iva of ivaOptions"
+                            [value]="iva.id">
+                    {{iva.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button
+            color="primary">
+        <mat-icon>save</mat-icon>
+        Guardar
+    </button>
+</form>

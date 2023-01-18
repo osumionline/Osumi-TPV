@@ -1,31 +1,30 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { BuscadorComponent } from "src/app/components/modals/buscador/buscador.component";
 import { DevolucionComponent } from "src/app/components/modals/devolucion/devolucion.component";
+import { VentaDescuentoComponent } from "src/app/components/modals/venta-descuento/venta-descuento.component";
+import { VentaVariosComponent } from "src/app/components/modals/venta-varios/venta-varios.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
-import { Modal } from "src/app/interfaces/interfaces";
 import {
   BuscadorModal,
   DevolucionModal,
+  Modal,
+  VariosModal,
 } from "src/app/interfaces/modals.interface";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
-import { IVAOption } from "src/app/model/iva-option.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -36,14 +35,13 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
-import { VentaDescuentoComponent } from "../modals/venta-descuento/venta-descuento.component";
 
 @Component({
   selector: "otpv-una-venta",
   templateUrl: "./una-venta.component.html",
   styleUrls: ["./una-venta.component.scss"],
 })
-export class UnaVentaComponent implements OnInit, AfterViewInit {
+export class UnaVentaComponent implements AfterViewInit {
   @Input() ind: number = null;
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
@@ -67,19 +65,9 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
 
-  muestraVarios: boolean = false;
   variosInd: number = null;
-  tipoIva: string = "iva";
-  ivaOptions: IVAOption[] = [];
-  selectedIvaOption: IVAOption = new IVAOption();
-  formVarios: FormGroup = new FormGroup({
-    nombre: new FormControl(null, Validators.required),
-    pvp: new FormControl(null),
-  });
-  @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
 
   devolucionVenta: number = null;
-  @ViewChild("devolucion", { static: true }) devolucion: DevolucionComponent;
   devolucionList: DevolucionSelectedInterface[] = [];
 
   @ViewChild(MatSort) sort: MatSort;
@@ -95,16 +83,6 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
     private router: Router,
     private overlayService: OverlayService
   ) {}
-
-  ngOnInit(): void {
-    this.tipoIva = this.config.tipoIva;
-    this.ivaOptions = this.config.ivaOptions;
-    this.selectedIvaOption = new IVAOption(
-      this.tipoIva,
-      21,
-      this.tipoIva === "re" ? 5.2 : -1
-    );
-  }
 
   ngAfterViewInit(): void {
     this.accesosDirectosDataSource.sort = this.sort;
@@ -451,42 +429,31 @@ export class UnaVentaComponent implements OnInit, AfterViewInit {
   }
 
   abreVarios(ind: number): void {
-    this.formVarios
-      .get("nombre")
-      .setValue(this.vs.ventaActual.lineas[ind].descripcion);
-    this.formVarios.get("pvp").setValue(this.vs.ventaActual.lineas[ind].pvp);
     this.variosInd = ind;
-    this.muestraVarios = true;
-    setTimeout(() => {
-      this.variosPVPbox.nativeElement.focus();
-    }, 0);
-  }
 
-  cerrarVarios(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.muestraVarios = false;
-  }
-
-  updateIvaRe(ev: string): void {
-    const ivaInd: number = this.config.ivaOptions.findIndex(
-      (x: IVAOption): boolean => x.id == ev
+    const modalVariosData: VariosModal = {
+      modalTitle: "Introducir Varios",
+      modalColor: "blue",
+      nombre: this.vs.ventaActual.lineas[ind].descripcion,
+      pvp: this.vs.ventaActual.lineas[ind].pvp,
+      iva: this.vs.ventaActual.lineas[ind].iva,
+      re: this.vs.ventaActual.lineas[ind].re,
+    };
+    const dialog = this.overlayService.open(
+      VentaVariosComponent,
+      modalVariosData
     );
-    this.selectedIvaOption.updateValues(
-      this.config.ivaOptions[ivaInd].iva,
-      this.config.ivaOptions[ivaInd].re
-    );
-  }
-
-  actualizarVarios(): void {
-    this.vs.ventaActual.lineas[this.variosInd].descripcion =
-      this.formVarios.get("nombre").value;
-    this.vs.ventaActual.lineas[this.variosInd].pvp =
-      this.formVarios.get("pvp").value;
-    this.vs.ventaActual.lineas[this.variosInd].iva = this.selectedIvaOption.iva;
-    this.vs.ventaActual.lineas[this.variosInd].re =
-      this.selectedIvaOption.re !== -1 ? this.selectedIvaOption.re : null;
-    this.vs.ventaActual.updateImporte();
-    this.cerrarVarios();
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.vs.ventaActual.lineas[this.variosInd].descripcion =
+          data.data.nombre;
+        this.vs.ventaActual.lineas[this.variosInd].pvp = data.data.pvp;
+        this.vs.ventaActual.lineas[this.variosInd].iva = data.data.iva;
+        this.vs.ventaActual.lineas[this.variosInd].re = data.data.re;
+        this.vs.ventaActual.updateImporte();
+        this.setFocus();
+      }
+    });
   }
 
   showObservaciones(ev: MouseEvent, observaciones: string): void {

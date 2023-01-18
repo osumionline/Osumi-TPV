@@ -1,5 +1,10 @@
-import { Modal } from "src/app/interfaces/interfaces";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
+
+export interface Modal {
+  modalColor: "blue" | "yellow" | "red";
+  modalTitle: string;
+  hideCloseBtn?: boolean;
+}
 
 export interface BuscadorModal extends Modal {
   key: string;
@@ -22,4 +27,11 @@ export interface DarDeBajaModal extends Modal {
 export interface DevolucionModal extends Modal {
   idVenta: number;
   list: DevolucionSelectedInterface[];
+}
+
+export interface VariosModal extends Modal {
+  nombre: string;
+  pvp: number;
+  iva: number;
+  re: number;
 }

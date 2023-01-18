@@ -41,6 +41,7 @@ import { CodigoBarras } from "src/app/model/codigo-barras.model";
 import { Comercial } from "src/app/model/comercial.model";
 import { Empleado } from "src/app/model/empleado.model";
 import { Factura } from "src/app/model/factura.model";
+import { InventarioItem } from "src/app/model/inventario-item.model";
 import { Marca } from "src/app/model/marca.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
@@ -48,7 +49,6 @@ import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
-import { InventarioItem } from "./../model/inventario-item.model";
 
 @Injectable({
   providedIn: "root",
