@@ -6,14 +6,15 @@
 .facturas-body {
     display: flex;
     height: calc(100% - 93px);
+    justify-content: space-between;
 
     .facturas-left {
-        flex: 1;
+        flex: 2;
         overflow-y: auto;
     }
 
     .facturas-right {
-        flex: 1;
+        flex: 3;
 
         .facturas-no-data {
             display: flex;

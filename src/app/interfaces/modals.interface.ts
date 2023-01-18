@@ -1,8 +1,10 @@
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
+import { Factura } from "src/app/model/factura.model";
 
 export interface Modal {
   modalColor: "blue" | "yellow" | "red";
   modalTitle: string;
+  css?: string;
   hideCloseBtn?: boolean;
 }
 
@@ -43,4 +45,9 @@ export interface EmpleadoLoginModal extends Modal {
 
 export interface ElegirClienteModal extends Modal {
   from: string;
+}
+
+export interface FacturaModal extends Modal {
+  id: number;
+  factura: Factura;
 }

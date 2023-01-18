@@ -64,8 +64,7 @@ export class TabsComponent {
     };
     const dialog = this.overlayService.open(
       ElegirClienteModalComponent,
-      modalnewProveedorData,
-      []
+      modalnewProveedorData
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {

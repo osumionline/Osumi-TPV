@@ -24,6 +24,8 @@ export class OverlayService {
       hasBackdrop: true,
       panelClass: _panelCssClasses,
       backdropClass: "modal-background",
+      width: "100%",
+      height: "100%",
     });
 
     const overlayRef = this.overlay.create(config);

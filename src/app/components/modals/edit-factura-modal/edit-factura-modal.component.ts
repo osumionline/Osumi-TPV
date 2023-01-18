@@ -1,8 +1,8 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { Component, EventEmitter, HostListener, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Cliente } from "src/app/model/cliente.model";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { Factura } from "src/app/model/factura.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
@@ -15,10 +15,7 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./edit-factura-modal.component.html",
   styleUrls: ["./edit-factura-modal.component.scss"],
 })
-export class EditFacturaModalComponent {
-  facturasTitle: string = "Nueva factura";
-  showFacturas: boolean = false;
-
+export class EditFacturaModalComponent implements OnInit {
   factura: Factura = new Factura();
 
   ventasDisplayedColumns: string[] = [
@@ -52,38 +49,36 @@ export class EditFacturaModalComponent {
   constructor(
     private cs: ClientesService,
     private cms: ClassMapperService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private customOverlayRef: CustomOverlayRef<
+      null,
+      { id: number; factura: Factura }
+    >
   ) {}
 
-  @HostListener("window:keydown", ["$event"])
-  onKeyDown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") {
-      if (this.showFacturas) {
-        this.facturasCerrar();
-      }
-    }
-  }
-
-  nuevaFactura(selectedClient: Cliente): void {
+  ngOnInit(): void {
     this.ventaSelected = new VentaHistorico();
-    this.ventasDisplayedColumns = [
-      "select",
-      "fecha",
-      "importe",
-      "nombreTipoPago",
-    ];
-    this.loadVentas(selectedClient.id);
+    if (this.customOverlayRef.data.id !== null) {
+      this.ventasDisplayedColumns = [
+        "select",
+        "fecha",
+        "importe",
+        "nombreTipoPago",
+      ];
+      this.loadVentas(this.customOverlayRef.data.id);
+    }
+    if (this.customOverlayRef.data.factura !== null) {
+      this.abreFactura(this.customOverlayRef.data.factura);
+    }
   }
 
   abreFactura(factura: Factura): void {
     this.factura = factura;
     this.ventaSelected = new VentaHistorico();
-    this.facturasTitle = "Factura " + this.factura.id;
     if (this.factura.impresa) {
       this.ventasDisplayedColumns = ["fecha", "importe", "nombreTipoPago"];
       this.ventasCliente = this.factura.ventas;
       this.ventasDataSource.data = this.ventasCliente;
-      this.showFacturas = true;
     } else {
       this.ventasDisplayedColumns = [
         "select",
@@ -105,7 +100,6 @@ export class EditFacturaModalComponent {
             );
             this.selection.select(this.ventasCliente[ind]);
           }
-          this.showFacturas = true;
         });
     }
   }
@@ -116,14 +110,7 @@ export class EditFacturaModalComponent {
       this.factura.idCliente = id;
       this.ventasCliente = this.cms.getHistoricoVentas(result.list);
       this.ventasDataSource.data = this.ventasCliente;
-      this.showFacturas = true;
     });
-  }
-
-  facturasCerrar(ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
-    this.showFacturas = false;
-    this.selection.clear();
   }
 
   isAllSelected(): boolean {
@@ -152,7 +139,6 @@ export class EditFacturaModalComponent {
       .saveFactura(this.factura.toSaveInterface())
       .subscribe((result: IdSaveResult) => {
         if (result.status === "ok") {
-          this.facturasCerrar();
           this.saveEvent.emit(result.id);
         }
       });
@@ -182,8 +168,7 @@ export class EditFacturaModalComponent {
           ok: "Continuar",
         })
         .subscribe((result) => {
-          this.facturasCerrar();
-          this.saveEvent.emit(0);
+          this.customOverlayRef.close(0);
         });
     });
   }
@@ -197,9 +182,8 @@ export class EditFacturaModalComponent {
       .saveFactura(this.factura.toSaveInterface())
       .subscribe((result: IdSaveResult) => {
         if (result.status === "ok") {
-          this.facturasCerrar();
-          this.saveEvent.emit(result.id);
           window.open("/factura/" + result.id + "/preview");
+          this.customOverlayRef.close(result.id);
         }
       });
   }
@@ -213,9 +197,8 @@ export class EditFacturaModalComponent {
       .saveFactura(this.factura.toSaveInterface(true))
       .subscribe((result: IdSaveResult) => {
         if (result.status === "ok") {
-          this.facturasCerrar();
-          this.saveEvent.emit(result.id);
           window.open("/factura/" + result.id);
+          this.customOverlayRef.close(result.id);
         }
       });
   }

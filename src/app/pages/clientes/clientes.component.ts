@@ -6,12 +6,14 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
+import { FacturaModal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/cliente.model";
 import { Factura } from "src/app/model/factura.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
+import { OverlayService } from "./../../services/overlay.service";
 
 @Component({
   selector: "otpv-clientes",
@@ -72,7 +74,8 @@ export class ClientesComponent implements OnInit {
     public cs: ClientesService,
     public config: ConfigService,
     private dialog: DialogService,
-    private cms: ClassMapperService
+    private cms: ClassMapperService,
+    private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
@@ -248,21 +251,50 @@ export class ClientesComponent implements OnInit {
           })
           .subscribe((result) => {
             if (result === true) {
-              this.editFactura.nuevaFactura(this.selectedClient);
+              this.openNuevaFactura(this.selectedClient);
             }
           });
       } else {
-        this.editFactura.nuevaFactura(this.selectedClient);
+        this.openNuevaFactura(this.selectedClient);
       }
     }
   }
 
-  facturaSaved(id: number): void {
-    this.loadFacturasCliente();
+  openNuevaFactura(cliente: Cliente): void {
+    const modalnewProveedorData: FacturaModal = {
+      modalTitle: "Nueva factura",
+      modalColor: "blue",
+      css: "modal-wide",
+      id: cliente.id,
+      factura: null,
+    };
+    const dialog = this.overlayService.open(
+      EditFacturaModalComponent,
+      modalnewProveedorData
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.loadFacturasCliente();
+      }
+    });
   }
 
   selectFactura(ind: number): void {
-    this.editFactura.abreFactura(this.facturasDataSource.data[ind]);
+    const modalnewProveedorData: FacturaModal = {
+      modalTitle: "Factura " + this.facturasDataSource.data[ind].id,
+      modalColor: "blue",
+      id: null,
+      factura: this.facturasDataSource.data[ind],
+    };
+    const dialog = this.overlayService.open(
+      EditFacturaModalComponent,
+      modalnewProveedorData
+    );
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        this.loadFacturasCliente();
+      }
+    });
   }
 
   imprimirFactura(ev: MouseEvent, factura: Factura): void {

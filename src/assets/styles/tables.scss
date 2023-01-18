@@ -21,6 +21,11 @@ table {
         &.right {
             text-align: right;
         }
+
+        &.select {
+            width: 50px;
+            min-width: 50px
+        }
     }
 
     .mat-mdc-cell {
@@ -61,6 +66,11 @@ table {
             mat-icon {
                 margin-left: 8px;
             }
+        }
+
+        &.select {
+            width: 50px;
+            min-width: 50px;
         }
     }
 

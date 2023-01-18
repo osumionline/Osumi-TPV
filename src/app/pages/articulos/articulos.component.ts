@@ -348,8 +348,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     };
     const dialog = this.overlayService.open(
       NewMarcaModalComponent,
-      modalnewMarcaData,
-      []
+      modalnewMarcaData
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data !== null) {
@@ -366,11 +365,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     };
     const dialog = this.overlayService.open(
       NewProveedorModalComponent,
-      modalnewProveedorData,
-      []
+      modalnewProveedorData
     );
     dialog.afterClosed$.subscribe((data) => {
-      if (data !== null) {
+      if (data.data !== null) {
         this.articulo.idProveedor = data.data;
         this.form.get("idProveedor").setValue(data.data);
       }
@@ -615,8 +613,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     };
     const dialog = this.overlayService.open(
       ArticuloDarDeBajaModalComponent,
-      modalDarDeBajaData,
-      []
+      modalDarDeBajaData
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data.data === true) {

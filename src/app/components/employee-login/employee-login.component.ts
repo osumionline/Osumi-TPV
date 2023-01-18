@@ -31,8 +31,7 @@ export class EmployeeLoginComponent {
     };
     const dialog = this.overlayService.open(
       EmployeeLoginModalComponent,
-      modalEmpleadoLoginData,
-      []
+      modalEmpleadoLoginData
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data.data === true) {

@@ -302,8 +302,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     };
     const dialog = this.overlayService.open(
       NewProveedorModalComponent,
-      modalnewProveedorData,
-      []
+      modalnewProveedorData
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data !== null) {
