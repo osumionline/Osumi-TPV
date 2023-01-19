@@ -36,22 +36,6 @@ export class VentasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.config.start().then((status) => {
-      if (status === "install") {
-        this.router.navigate(["/installation"]);
-        return;
-      }
-      if (status === "loaded") {
-        if (!this.config.isOpened) {
-          this.router.navigate(["/"]);
-          return;
-        }
-        this.startVentas();
-      }
-    });
-  }
-
-  startVentas(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id && parseInt(params.id) !== 0) {
         this.newVenta(-1 * parseInt(params.id));

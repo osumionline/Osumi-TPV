@@ -38,21 +38,7 @@ export class FacturaComponent implements OnInit {
 
   start(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
-      const id: number = params.id;
-
-      this.config.start().then((status) => {
-        if (status === "install") {
-          this.router.navigate(["/installation"]);
-          return;
-        }
-        if (status === "loaded") {
-          if (!this.config.isOpened) {
-            this.router.navigate(["/"]);
-            return;
-          }
-          this.loadFactura(id);
-        }
-      });
+      this.loadFactura(parseInt(params.id));
     });
   }
 

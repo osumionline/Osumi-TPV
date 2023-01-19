@@ -84,11 +84,9 @@ export class CajaContentComponent implements OnInit {
         });
     }
     if (this.informeTipo === "informe-mensual") {
-      this.is
-        .getInformeMensual(this.informeMonth, this.informeYear)
-        .subscribe((result) => {
-          console.log(result);
-        });
+      window.open(
+        `informes/informe-mensual/${this.informeYear}/${this.informeMonth}`
+      );
     }
   }
 }

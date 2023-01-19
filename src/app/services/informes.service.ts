@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { InformeMensualResult } from "src/app/interfaces/informes.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
@@ -20,8 +21,11 @@ export class InformesService {
     );
   }
 
-  getInformeMensual(month: number, year: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
+  getInformeMensual(
+    month: number,
+    year: number
+  ): Observable<InformeMensualResult> {
+    return this.http.post<InformeMensualResult>(
       environment.apiUrl + "-informes/get-informe-mensual",
       { month, year }
     );

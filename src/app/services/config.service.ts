@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable, of } from "rxjs";
 import {
   AppDataResult,
   Month,
@@ -191,5 +192,9 @@ export class ConfigService {
       this.ivaOptions[ind].iva,
       this.ivaOptions[ind].re
     );
+  }
+
+  public isBoxOpened(): Observable<boolean> {
+    return of(this.isOpened);
   }
 }

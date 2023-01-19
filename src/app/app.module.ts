@@ -18,8 +18,8 @@ registerLocaleData(es);
 
 import {
   COMPONENTS,
-  MODALS,
   MATERIAL,
+  MODALS,
   PAGES,
   PIPES,
   SERVICES,
