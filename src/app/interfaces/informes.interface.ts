@@ -5,7 +5,7 @@ export interface InformeMensualItemOtrosInterface {
 
 export interface InformeMensualItemInterface {
   num: number;
-  weekDay: "S%C3%A1bado";
+  weekDay: string;
   minTicket: number;
   maxTicket: number;
   efectivo: number;

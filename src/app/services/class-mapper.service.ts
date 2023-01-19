@@ -17,6 +17,7 @@ import {
   FacturaInterface,
 } from "src/app/interfaces/cliente.interface";
 import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
+import { InformeMensualItemInterface } from "src/app/interfaces/informes.interface";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { PedidoInterface } from "src/app/interfaces/pedido.interface";
 import {
@@ -49,6 +50,7 @@ import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
+import { InformeMensualItem } from "./../model/informe-mensual-item.model";
 
 @Injectable({
   providedIn: "root",
@@ -248,6 +250,18 @@ export class ClassMapperService {
   getInventarioItems(iis: InventarioItemInterface[]): InventarioItem[] {
     return iis.map((ii: InventarioItemInterface): InventarioItem => {
       return this.getInventarioItem(ii);
+    });
+  }
+
+  getInformeMensualItem(imi: InformeMensualItemInterface): InformeMensualItem {
+    return new InformeMensualItem().fromInterface(imi);
+  }
+
+  getInformeMensualItems(
+    imis: InformeMensualItemInterface[]
+  ): InformeMensualItem[] {
+    return imis.map((imi: InformeMensualItemInterface): InformeMensualItem => {
+      return this.getInformeMensualItem(imi);
     });
   }
 }

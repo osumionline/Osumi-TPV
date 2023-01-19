@@ -104,3 +104,13 @@ mat-card-content {
 *[aria-labelledby='hidden'] {
   display: none !important;
 }
+
+@media print {
+  .mat-mdc-table .mdc-data-table__row {
+    height: 30px;
+  }
+
+  .mat-mdc-table .mdc-data-table__header-row {
+    height: 35px;
+  }
+}

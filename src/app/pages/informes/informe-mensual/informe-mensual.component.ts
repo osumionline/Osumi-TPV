@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
-import { InformeMensualItemInterface } from "src/app/interfaces/informes.interface";
+import { InformeMensualItem } from "src/app/model/informe-mensual-item.model";
+import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { InformesService } from "src/app/services/informes.service";
 
 @Component({
@@ -9,24 +11,62 @@ import { InformesService } from "src/app/services/informes.service";
   styleUrls: ["./informe-mensual.component.scss"],
 })
 export class InformeMensualComponent implements OnInit {
+  loaded: boolean = false;
   year: number = null;
   month: number = null;
-  list: InformeMensualItemInterface[] = [];
+  list: InformeMensualItem[] = [];
+  otrosList: string[] = [];
+  minTicket: number = 999999999;
+  maxTicket: number = 0;
+  totalEfectivo: number = 0;
+
+  totalTotal: number = 0;
+  totalSuma: number = 0;
+
+  informeDisplayedColumns: string[] = ["fecha", "tickets", "efectivo"];
+  informeDataSource: MatTableDataSource<InformeMensualItem> =
+    new MatTableDataSource<InformeMensualItem>();
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private is: InformesService
-  ) {}
+    private is: InformesService,
+    private cms: ClassMapperService
+  ) {
+    document.body.classList.add("white-bg");
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
-      console.log(params);
       this.month = parseInt(params.month);
       this.year = parseInt(params.year);
       this.is.getInformeMensual(this.month, this.year).subscribe((result) => {
-        this.list = result.list;
-        console.log(this.list);
+        this.list = this.cms.getInformeMensualItems(result.list);
         this.checkOtros();
+        for (let otro of this.otrosList) {
+          this.informeDisplayedColumns.push(otro);
+        }
+        this.informeDisplayedColumns.push("totalDia");
+        this.informeDisplayedColumns.push("suma");
+        this.informeDataSource.data = this.list;
+        for (let item of this.list) {
+          if (item.minTicket !== null && item.minTicket < this.minTicket) {
+            this.minTicket = item.minTicket;
+          }
+          if (item.maxTicket !== null && item.maxTicket > this.maxTicket) {
+            this.maxTicket = item.maxTicket;
+          }
+          if (item.efectivo !== null) {
+            this.totalEfectivo += item.efectivo;
+          }
+          if (item.totalDia !== null) {
+            this.totalTotal += item.totalDia;
+          }
+          if (item.suma !== null) {
+            this.totalSuma = item.suma;
+          }
+        }
+        this.loaded = true;
+        console.log(this.informeDisplayedColumns);
       });
     });
   }
@@ -35,12 +75,21 @@ export class InformeMensualComponent implements OnInit {
     const otros: string[] = [];
     for (let item of this.list) {
       for (let otro of item.otros) {
-        if (!otros.includes(otro.nombre)) {
-          otros.push(otro.nombre);
+        if (!this.otrosList.includes(otro.nombre)) {
+          this.otrosList.push(otro.nombre);
         }
       }
     }
-    otros.sort();
-    console.log(otros);
+    this.otrosList.sort();
+  }
+
+  getTotalOtros(key: string): number {
+    let total: number = 0;
+    for (let item of this.list) {
+      if (item.getOtrosValue(key) !== null) {
+        total += item.getOtrosValue(key);
+      }
+    }
+    return total;
   }
 }
