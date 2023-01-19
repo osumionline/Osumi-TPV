@@ -31,17 +31,19 @@
             </div>
         </div>
         <div class="tipos-pago">
-            <div class="tipo-pago"
-                 *ngFor="let tipo of config.tiposPago"
-                 [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}"
-                 (click)="selectTipoPago(tipo.id)">
-                <img [src]="tipo.foto">
-                {{tipo.nombre}}
-                <div class="tipo-pago-check">
-                    <mat-checkbox [checked]="vs.fin.idTipoPago===tipo.id"></mat-checkbox>
+            <ng-container *ngFor="let tipo of config.tiposPago">
+                <div class="tipo-pago"
+                     *ngIf="tipo.fisico"
+                     [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago===tipo.id}"
+                     (click)="selectTipoPago(tipo.id)">
+                    <img [src]="tipo.foto">
+                    {{tipo.nombre}}
+                    <div class="tipo-pago-check">
+                        <mat-checkbox [checked]="vs.fin.idTipoPago===tipo.id"></mat-checkbox>
+                    </div>
+                    <div class="tipo-pago-check-over"></div>
                 </div>
-                <div class="tipo-pago-check-over"></div>
-            </div>
+            </ng-container>
         </div>
         <div class="col-line-check">
             <mat-checkbox [(ngModel)]="vs.fin.pagoMixto"

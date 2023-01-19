@@ -149,6 +149,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { GestionService } from "src/app/services/gestion.service";
+import { InformesService } from "src/app/services/informes.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -169,6 +170,7 @@ export const SERVICES: any[] = [
   GestionService,
   ComprasService,
   OverlayService,
+  InformesService,
 ];
 
 /*

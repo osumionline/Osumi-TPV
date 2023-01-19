@@ -100,3 +100,7 @@ mat-card-content {
 .mat-mdc-table .mdc-data-table__header-row {
   height: 45px;
 }
+
+*[aria-labelledby='hidden'] {
+  display: none !important;
+}

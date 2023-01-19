@@ -12,17 +12,17 @@
         <mat-tab label="SALIDAS CAJA">
             <otpv-salidas-caja #salidasCaja></otpv-salidas-caja>
         </mat-tab>
-        <mat-tab *ngIf="from === 'tab'"
+        <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
                  label="CERRAR CAJA">
             <otpv-cierre-caja #cierreCaja></otpv-cierre-caja>
         </mat-tab>
-        <mat-tab *ngIf="from === 'tab'"
+        <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
                  label="INFORMES">
             <div class="generar-informe">
                 <div class="form-field margin-right">
                     <label>Tipo de informe</label>
                     <mat-form-field>
-                        <mat-select [(ngModel)]="tipoInforme">
+                        <mat-select [(ngModel)]="informeTipo">
                             <mat-option value="cierre-mensual">
                                 Cierre mensual
                             </mat-option>
@@ -56,7 +56,9 @@
                 </div>
                 <div class="form-field margin-right">
                     <button mat-raised-button
-                            color="primary">
+                            color="primary"
+                            [disabled]="informeTipo === null || informeMonth === null || informeYear === null"
+                            (click)="generarInforme()">
                         Generar informe
                     </button>
                 </div>

@@ -12,6 +12,7 @@ import { HistoricoVentasComponent } from "src/app/components/historico-ventas/hi
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { Month } from "src/app/interfaces/interfaces";
 import { ConfigService } from "src/app/services/config.service";
+import { InformesService } from "src/app/services/informes.service";
 
 @Component({
   selector: "otpv-caja-content",
@@ -33,19 +34,24 @@ export class CajaContentComponent implements OnInit {
   @ViewChild("cierreCaja", { static: true })
   cierreCaja: CierreCajaComponent;
 
-  tipoInforme: string = null;
+  informeTipo: string = null;
   monthList: Month[] = [];
   informeMonth: number = null;
   yearList: number[] = [];
   informeYear: number = null;
 
-  constructor(private config: ConfigService) {}
+  constructor(private config: ConfigService, private is: InformesService) {}
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
     const d: Date = new Date();
     for (let y: number = d.getFullYear(); y > d.getFullYear() - 5; y--) {
       this.yearList.push(y);
+    }
+    this.historicoVentas.changeFecha();
+    this.salidasCaja.changeFecha();
+    if (this.from === "tab") {
+      this.cierreCaja.load();
     }
   }
 
@@ -57,9 +63,6 @@ export class CajaContentComponent implements OnInit {
       this.cajaSelectedTab = 1;
     }
     this.cajaTabs.realignInkBar();
-    this.historicoVentas.changeFecha();
-    this.salidasCaja.changeFecha();
-    this.cierreCaja.load();
   }
 
   checkCajaTab(ev: MatTabChangeEvent): void {
@@ -70,5 +73,22 @@ export class CajaContentComponent implements OnInit {
 
   cerrarCaja(): void {
     this.cerrarVentanaEvent.emit(0);
+  }
+
+  generarInforme(): void {
+    if (this.informeTipo === "cierre-mensual") {
+      this.is
+        .getInformeCierreCajaMensual(this.informeMonth, this.informeYear)
+        .subscribe((result) => {
+          console.log(result);
+        });
+    }
+    if (this.informeTipo === "informe-mensual") {
+      this.is
+        .getInformeMensual(this.informeMonth, this.informeYear)
+        .subscribe((result) => {
+          console.log(result);
+        });
+    }
   }
 }
