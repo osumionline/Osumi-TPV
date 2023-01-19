@@ -48,9 +48,11 @@ export class InformeMensualComponent implements OnInit {
         this.informeDisplayedColumns.push("totalDia");
         this.informeDisplayedColumns.push("suma");
         this.informeDataSource.data = this.list;
+        let hasResults: boolean = false;
         for (let item of this.list) {
           if (item.minTicket !== null && item.minTicket < this.minTicket) {
             this.minTicket = item.minTicket;
+            hasResults = true;
           }
           if (item.maxTicket !== null && item.maxTicket > this.maxTicket) {
             this.maxTicket = item.maxTicket;
@@ -64,6 +66,10 @@ export class InformeMensualComponent implements OnInit {
           if (item.suma !== null) {
             this.totalSuma = item.suma;
           }
+        }
+        if (!hasResults) {
+          this.minTicket = null;
+          this.maxTicket = null;
         }
         this.loaded = true;
         console.log(this.informeDisplayedColumns);
