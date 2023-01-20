@@ -1,5 +1,5 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
@@ -43,8 +43,6 @@ export class EditFacturaModalComponent implements OnInit {
   ];
   ventaSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
-
-  @Output() saveEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private cs: ClientesService,
@@ -139,7 +137,7 @@ export class EditFacturaModalComponent implements OnInit {
       .saveFactura(this.factura.toSaveInterface())
       .subscribe((result: IdSaveResult) => {
         if (result.status === "ok") {
-          this.saveEvent.emit(result.id);
+          this.customOverlayRef.close(result.id);
         }
       });
   }

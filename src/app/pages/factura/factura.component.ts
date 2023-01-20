@@ -58,7 +58,7 @@ export class FacturaComponent implements OnInit {
       .confirm({
         title: "Confirmar",
         content:
-          "¿Estás seguro de querer imprimir esta factura? Una vez impresa no podrás volver a editarla.",
+          "¿Estás seguro de querer imprimir esta factura? Una vez facturada no podrás volver a editarla.",
         ok: "Continuar",
         cancel: "Cancelar",
       })

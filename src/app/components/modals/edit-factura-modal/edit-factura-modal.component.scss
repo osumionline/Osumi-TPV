@@ -15,6 +15,7 @@
 
     .facturas-right {
         flex: 3;
+        overflow-y: auto;
 
         .facturas-no-data {
             display: flex;

@@ -283,6 +283,7 @@ export class ClientesComponent implements OnInit {
     const modalnewProveedorData: FacturaModal = {
       modalTitle: "Factura " + this.facturasDataSource.data[ind].id,
       modalColor: "blue",
+      css: "modal-wide",
       id: null,
       factura: this.facturasDataSource.data[ind],
     };
@@ -293,6 +294,54 @@ export class ClientesComponent implements OnInit {
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
         this.loadFacturasCliente();
+      }
+    });
+  }
+
+  enviarFactura(ev: MouseEvent, factura: Factura): void {
+    ev && ev.stopPropagation();
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content:
+          '¿Estás seguro de querer enviar la factura "' +
+          factura.id +
+          '" al cliente "' +
+          this.selectedClient.nombreApellidos +
+          " (" +
+          this.selectedClient.email +
+          ')"?',
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.confirmEnviarFactura(factura.id);
+        }
+      });
+  }
+
+  confirmEnviarFactura(id: number): void {
+    this.cs.sendFactura(id).subscribe((result) => {
+      if (result.status === "ok") {
+        this.dialog
+          .alert({
+            title: "Factura enviada",
+            content: "La factura ha sido correctamente enviada.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content:
+              'Ocurrió un error al intentar enviar la factura a la dirección "' +
+              this.selectedClient.email +
+              '".',
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
       }
     });
   }

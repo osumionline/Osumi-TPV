@@ -265,7 +265,15 @@
                                         <td class="center"
                                             mat-cell
                                             *matCellDef="let element">
-                                            <button type="button"
+                                            <button *ngIf="element.impresa && selectedClient.email !== null && selectedClient.email !== ''"
+                                                    class="facturas-btn"
+                                                    type="button"
+                                                    mat-icon-button
+                                                    (click)="enviarFactura($event, element)">
+                                                <mat-icon>email</mat-icon>
+                                            </button>
+                                            <button class="facturas-btn"
+                                                    type="button"
                                                     *ngIf="element.impresa"
                                                     mat-icon-button
                                                     (click)="imprimirFactura($event, element)">

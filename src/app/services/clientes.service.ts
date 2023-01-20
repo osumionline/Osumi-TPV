@@ -153,4 +153,11 @@ export class ClientesService {
       { id }
     );
   }
+
+  sendFactura(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-clientes/send-factura",
+      { id }
+    );
+  }
 }
