@@ -1,0 +1,15 @@
+.informe {
+    margin: 16px auto;
+    width: 90%;
+    min-width: 90%;
+}
+
+.loading {
+    display: none;
+}
+
+@media print {
+    * {
+        font-size: 10px;
+    }
+}

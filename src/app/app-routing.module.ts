@@ -14,6 +14,7 @@ import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/ges
 import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
+import { CierreMensualComponent } from "src/app/pages/informes/cierre-mensual/cierre-mensual.component";
 import { InformeMensualComponent } from "src/app/pages/informes/informe-mensual/informe-mensual.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
@@ -139,6 +140,11 @@ const routes: Routes = [
   {
     path: "informes/informe-mensual/:year/:month",
     component: InformeMensualComponent,
+    canActivate: [isOpenedGuardFn],
+  },
+  {
+    path: "informes/cierre-mensual/:year/:month",
+    component: CierreMensualComponent,
     canActivate: [isOpenedGuardFn],
   },
   { path: "**", redirectTo: "/", pathMatch: "full" },

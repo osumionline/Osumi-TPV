@@ -12,7 +12,6 @@ import { HistoricoVentasComponent } from "src/app/components/historico-ventas/hi
 import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
 import { Month } from "src/app/interfaces/interfaces";
 import { ConfigService } from "src/app/services/config.service";
-import { InformesService } from "src/app/services/informes.service";
 
 @Component({
   selector: "otpv-caja-content",
@@ -40,7 +39,7 @@ export class CajaContentComponent implements OnInit {
   yearList: number[] = [];
   informeYear: number = null;
 
-  constructor(private config: ConfigService, private is: InformesService) {}
+  constructor(private config: ConfigService) {}
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -77,11 +76,9 @@ export class CajaContentComponent implements OnInit {
 
   generarInforme(): void {
     if (this.informeTipo === "cierre-mensual") {
-      this.is
-        .getInformeCierreCajaMensual(this.informeMonth, this.informeYear)
-        .subscribe((result) => {
-          console.log(result);
-        });
+      window.open(
+        `informes/cierre-mensual/${this.informeYear}/${this.informeMonth}`
+      );
     }
     if (this.informeTipo === "informe-mensual") {
       window.open(
