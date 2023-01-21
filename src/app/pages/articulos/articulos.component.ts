@@ -187,12 +187,16 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   loadCategorias(): void {
-    this.css.getCategorias().subscribe((result) => {
-      const list: Categoria[] = this.cms.getCategorias([result.list]);
-      this.css.loadCategorias(list);
+    if (!this.css.loaded) {
+      this.css.getCategorias().subscribe((result) => {
+        const list: Categoria[] = this.cms.getCategorias([result.list]);
+        this.css.loadCategorias(list);
 
+        this.categoriesPlain = this.css.categoriasPlain;
+      });
+    } else {
       this.categoriesPlain = this.css.categoriasPlain;
-    });
+    }
   }
 
   showDetails(loc: number): void {

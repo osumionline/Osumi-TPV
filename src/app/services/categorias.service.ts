@@ -11,13 +11,14 @@ import { environment } from "src/environments/environment";
 export class CategoriasService {
   categorias: Categoria[] = [];
   categoriasPlain: Categoria[] = [];
-  loaded: boolean = true;
+  loaded: boolean = false;
 
   constructor(private http: HttpClient) {}
 
   loadCategorias(list: Categoria[]): void {
     this.categorias = list;
     this.loadCategoriasPlain(list);
+    this.loaded = true;
   }
 
   loadCategoriasPlain(catList: Categoria[] = []): void {
