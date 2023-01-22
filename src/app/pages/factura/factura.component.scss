@@ -67,6 +67,16 @@
 
             &.col-concepto {
                 width: 41%;
+
+                mat-icon {
+                    cursor: pointer;
+                    transition: all 0.4s ease-in-out;
+                    vertical-align: middle;
+
+                    &.deployed {
+                        transform: rotate(90deg);
+                    }
+                }
             }
 
             &.col-precio-iva-unidad {
@@ -99,6 +109,14 @@
 
             &.col-total {
                 width: 41%;
+            }
+
+            &.sub-item {
+                background-color: #eee;
+
+                &.col-concepto {
+                    padding-left: 16px;
+                }
             }
         }
     }
@@ -172,6 +190,16 @@
         .datos,
         .totales {
             font-size: 0.6em;
+        }
+
+        .datos {
+            td {
+                &.col-concepto {
+                    mat-icon {
+                        display: none;
+                    }
+                }
+            }
         }
 
         .print {

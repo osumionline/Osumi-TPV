@@ -54,16 +54,34 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let venta of factura.ventas">
-                <td class="col-concepto">Ticket Nº {{venta.id}}</td>
-                <td class="col-precio-iva-unidad right">77,65 €</td>
-                <td class="col-precio-sin-iva right">77,65 €</td>
-                <td class="col-unidades center">1</td>
-                <td class="col-subtotal right">77,65 €</td>
-                <td class="col-iva-porcentaje center">10%</td>
-                <td class="col-iva-importe right">77,65 €</td>
-                <td class="col-total right">77,65 €</td>
-            </tr>
+            <ng-container *ngFor="let item of list">
+                <tr>
+                    <td class="col-concepto">
+                        <mat-icon [ngClass]="{'deployed': item.deployed}"
+                                  (click)="deploy(item)">chevron_right</mat-icon>
+                        {{item.concepto}}
+                    </td>
+                    <td class="col-precio-iva-unidad right">{{item.precioIVA | fixedNumber}} €</td>
+                    <td class="col-precio-sin-iva right">{{item.precioSinIVA | fixedNumber}} €</td>
+                    <td class="col-unidades center">{{item.unidades}}</td>
+                    <td class="col-subtotal right">{{item.subtotal | fixedNumber}} €</td>
+                    <td class="col-iva-porcentaje center">{{item.iva}} %</td>
+                    <td class="col-iva-importe right">{{item.ivaImporte | fixedNumber}} €</td>
+                    <td class="col-total right">{{item.total | fixedNumber}} €</td>
+                </tr>
+                <ng-container *ngFor="let subitem of item.lineas">
+                    <tr *ngIf="item.deployed">
+                        <td class="sub-item col-concepto">{{subitem.concepto}}</td>
+                        <td class="sub-item col-precio-iva-unidad right">{{subitem.precioIVA | fixedNumber}} €</td>
+                        <td class="sub-item col-precio-sin-iva right">{{subitem.precioSinIVA | fixedNumber}} €</td>
+                        <td class="sub-item col-unidades center">{{subitem.unidades}}</td>
+                        <td class="sub-item col-subtotal right">{{subitem.subtotal | fixedNumber}} €</td>
+                        <td class="sub-item col-iva-porcentaje center">{{subitem.iva}} %</td>
+                        <td class="sub-item col-iva-importe right">{{subitem.ivaImporte | fixedNumber}} €</td>
+                        <td class="sub-item col-total right">{{subitem.total | fixedNumber}} €</td>
+                    </tr>
+                </ng-container>
+            </ng-container>
         </tbody>
     </table>
 
@@ -71,19 +89,15 @@
         <table>
             <tr>
                 <td class="label">SUBTOTAL</td>
-                <td class="importe">1.846,12 €</td>
+                <td class="importe">{{subtotal | fixedNumber}} €</td>
             </tr>
-            <tr>
-                <td class="label">TOTAL IVA 10%</td>
-                <td class="importe">165,29 €</td>
-            </tr>
-            <tr>
-                <td class="label">TOTAL IVA 21%</td>
-                <td class="importe">40,58 €</td>
+            <tr *ngFor="let iva of ivas">
+                <td class="label">TOTAL IVA {{iva.iva}}%</td>
+                <td class="importe">{{iva.importe | fixedNumber}} €</td>
             </tr>
             <tr>
                 <td class="label">TOTAL</td>
-                <td class="importe importe-total">2.051,99 €</td>
+                <td class="importe importe-total">{{total | fixedNumber}} €</td>
             </tr>
         </table>
     </div>
