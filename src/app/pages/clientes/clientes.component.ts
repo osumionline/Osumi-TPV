@@ -26,6 +26,7 @@ export class ClientesComponent implements OnInit {
   start: boolean = true;
   @ViewChild("clienteTabs", { static: true })
   clienteTabs: MatTabGroup;
+  selectedIndex: number = 0;
   selectedClient: Cliente = new Cliente();
   @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
   @ViewChild("emailBox", { static: true }) emailBox: ElementRef;
@@ -107,6 +108,7 @@ export class ClientesComponent implements OnInit {
     this.start = false;
     this.selectedClient = cliente;
     this.form.patchValue(this.selectedClient.toInterface(false));
+    this.selectedIndex = 0;
     this.clienteTabs.realignInkBar();
     this.cs
       .getEstadisticasCliente(this.selectedClient.id)
@@ -144,6 +146,7 @@ export class ClientesComponent implements OnInit {
     this.start = false;
     this.selectedClient = new Cliente();
     this.form.patchValue(this.selectedClient.toInterface(false));
+    this.selectedIndex = 0;
     this.clienteTabs.realignInkBar();
     setTimeout(() => {
       this.nameBox.nativeElement.focus();

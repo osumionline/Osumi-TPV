@@ -41,6 +41,8 @@
                     <form [formGroup]="form"
                           (ngSubmit)="onSubmit()">
                         <mat-tab-group dynamicHeight
+                                       [selectedIndex]="selectedIndex"
+                                       (selectedIndexChange)="selectedIndex = $event"
                                        #clienteTabs>
                             <mat-tab label="DATOS">
                                 <div>
