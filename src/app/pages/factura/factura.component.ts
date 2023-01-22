@@ -109,6 +109,7 @@ export class FacturaComponent implements OnInit {
     } else {
       this.ivas[ind].importe += importe;
     }
+    this.ivas.sort((a, b) => a.iva - b.iva);
   }
 
   deploy(item: FacturaItem): void {

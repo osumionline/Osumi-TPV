@@ -3,7 +3,7 @@
 
     .header {
         display: flex;
-        margin-bottom: 16px;
+        margin-bottom: 6px;
 
         .col {
             width: 50%;
@@ -38,23 +38,30 @@
                 }
             }
         }
+
+        .col-datos {
+            font-size: 14px;
+        }
+    }
+
+    .header-logo {
+        margin-bottom: 32px;
     }
 
     .datos {
-        border-top: 2px solid #000;
-        border-bottom: 2px solid #000;
-        border-left: 1px solid #000;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
         border-right: 1px solid #000;
         border-spacing: 0;
+        margin-top: 32px;
 
         th {
-            border-bottom: 2px solid #000;
+            border-bottom: 1px solid #000;
         }
 
         th,
         td {
             border-left: 1px solid #000;
-            border-right: 1px solid #000;
             padding: 6px;
 
             &.right {
@@ -126,9 +133,9 @@
         justify-content: flex-end;
 
         table {
-            border: 2px solid #000;
+            border: 1px solid #000;
             border-spacing: 0;
-            width: 300px;
+            width: 30%;
             box-sizing: border-box;
 
             th,
@@ -137,7 +144,6 @@
 
                 &.label {
                     text-align: right;
-                    font-weight: bold;
                 }
 
                 &.importe {
@@ -147,6 +153,8 @@
 
                 &.importe-total {
                     font-weight: bold;
+                    border-top: 1px solid #000;
+                    font-size: 1.2em;
                 }
             }
         }

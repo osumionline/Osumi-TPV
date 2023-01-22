@@ -1,5 +1,5 @@
 <div class="factura">
-    <div class="header">
+    <div class="header header-logo">
         <div class="col">
             <img [src]="logoUrl"
                  alt="Logo">
@@ -16,24 +16,24 @@
         </div>
     </div>
     <div class="header">
-        <div class="col">
+        <div class="col col-datos">
             {{config.nombre}}
             <br>
             {{config.cif}}
         </div>
-        <div class="col right">
+        <div class="col col-datos right">
             <strong>{{factura.nombreApellidos}}</strong>
             <br>
             <strong>{{factura.dniCif}}</strong>
         </div>
     </div>
     <div class="header">
-        <div class="col">
+        <div class="col col-datos">
             {{config.direccion}}
             <br>
-            Tlf: {{config.telefono}} - Email: {{config.email}}
+            {{config.telefono}} - {{config.email}}
         </div>
-        <div class="col right">
+        <div class="col col-datos right">
             {{factura.direccion}}
             <br>
             {{factura.codigoPostal}} {{factura.poblacion}}
@@ -44,8 +44,8 @@
         <thead>
             <tr>
                 <th class="col-concepto">CONCEPTO</th>
-                <th class="col-precio-iva-unidad">PRECIO IVA UNIDAD</th>
-                <th class="col-precio-sin-iva">PRECIO SIN IVA</th>
+                <th class="col-precio-iva-unidad">PVP</th>
+                <th class="col-precio-sin-iva">BASE UD</th>
                 <th class="col-unidades">UD</th>
                 <th class="col-subtotal">SUBTOTAL</th>
                 <th class="col-iva"
@@ -92,11 +92,11 @@
                 <td class="importe">{{subtotal | fixedNumber}} €</td>
             </tr>
             <tr *ngFor="let iva of ivas">
-                <td class="label">TOTAL IVA {{iva.iva}}%</td>
+                <td class="label">IVA {{iva.iva}}%</td>
                 <td class="importe">{{iva.importe | fixedNumber}} €</td>
             </tr>
             <tr>
-                <td class="label">TOTAL</td>
+                <td class="label importe-total">TOTAL</td>
                 <td class="importe importe-total">{{total | fixedNumber}} €</td>
             </tr>
         </table>
