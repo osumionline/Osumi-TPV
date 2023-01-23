@@ -705,6 +705,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.ars.saveArticulo(this.articulo.toInterface()).subscribe((result) => {
       if (result.status === "ok") {
         this.articulo.localizador = result.localizador;
+        this.form.get("localizador").setValue(result.localizador);
         this.dialog
           .alert({
             title: "Información",

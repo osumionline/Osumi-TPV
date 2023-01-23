@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { Observable, of } from "rxjs";
 import {
   AppDataResult,
@@ -66,6 +67,7 @@ export class ConfigService {
   provincias: ProvinceInterface[] = [];
 
   constructor(
+    private title: Title,
     private apiService: ApiService,
     private cms: ClassMapperService,
     private marcasService: MarcasService,
@@ -120,6 +122,7 @@ export class ConfigService {
   }
 
   load(data: AppDataResult): void {
+    this.title.setTitle(data.nombre);
     this.nombre = data.nombre;
     this.nombreComercial = data.nombreComercial;
     this.cif = data.cif;

@@ -361,7 +361,7 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         class="right">
-                        IVA
+                        IVA {{pedido.re ? ' + RE' : ''}}
                     </th>
                     <td mat-cell
                         class="right"
@@ -374,7 +374,19 @@
                                         (ngModelChange)="updateIvaRe($event, element)">
                                 <mat-option *ngFor="let iva of ivaOptions"
                                             [value]="iva.id">
-                                    {{iva.name}}
+                                    {{iva.iva}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="x-small"
+                                        *ngIf="!pedido.recepcionado && pedido.re"
+                                        [title]="element.selectedIvaOption.name"
+                                        subscriptSizing="dynamic">
+                            <mat-select [(ngModel)]="element.selectedIvaOption.id"
+                                        (ngModelChange)="updateIvaRe($event, element)">
+                                <mat-option *ngFor="let iva of ivaOptions"
+                                            [value]="iva.id">
+                                    {{iva.re}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>

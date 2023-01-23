@@ -21,7 +21,7 @@
         </mat-form-field>
     </div>
     <div class="form-field margin-right">
-        <label>IVA <span *ngIf="tipoIva==='re'"> + RE</span> (*)</label>
+        <label>IVA (*)</label>
         <mat-form-field>
             <mat-select [(ngModel)]="selectedIvaOption.id"
                         (ngModelChange)="updateIvaRe($event)"
