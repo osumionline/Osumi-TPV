@@ -374,7 +374,7 @@
                                         (ngModelChange)="updateIvaRe($event, element)">
                                 <mat-option *ngFor="let iva of ivaOptions"
                                             [value]="iva.id">
-                                    {{iva.iva}}
+                                    {{iva.iva}} %
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -386,7 +386,7 @@
                                         (ngModelChange)="updateIvaRe($event, element)">
                                 <mat-option *ngFor="let iva of ivaOptions"
                                             [value]="iva.id">
-                                    {{iva.re}}
+                                    {{iva.re}} %
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
