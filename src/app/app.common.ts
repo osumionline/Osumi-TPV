@@ -13,8 +13,8 @@ import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/ges
 import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
-import { CierreMensualComponent } from "src/app/pages/informes/cierre-mensual/cierre-mensual.component";
-import { InformeMensualComponent } from "src/app/pages/informes/informe-mensual/informe-mensual.component";
+import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
+import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
@@ -39,8 +39,8 @@ export const PAGES: any[] = [
   LopdComponent,
   InventarioPrintComponent,
   CajaComponent,
-  InformeMensualComponent,
-  CierreMensualComponent,
+  InformeDetalladoComponent,
+  InformeSimpleComponent,
 ];
 
 /*

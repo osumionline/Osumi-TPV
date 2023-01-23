@@ -10,22 +10,22 @@ import { environment } from "src/environments/environment";
 export class InformesService {
   constructor(private http: HttpClient) {}
 
-  getInformeCierreCajaMensual(
+  getInformeSimple(
     month: number,
     year: number
   ): Observable<InformeMensualResult> {
     return this.http.post<InformeMensualResult>(
-      environment.apiUrl + "-informes/get-informe-cierre-caja-mensual",
+      environment.apiUrl + "-informes/get-informe-simple",
       { month, year }
     );
   }
 
-  getInformeMensual(
+  getInformeDetallado(
     month: number,
     year: number
   ): Observable<InformeMensualResult> {
     return this.http.post<InformeMensualResult>(
-      environment.apiUrl + "-informes/get-informe-mensual",
+      environment.apiUrl + "-informes/get-informe-detallado",
       { month, year }
     );
   }

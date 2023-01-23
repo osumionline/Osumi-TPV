@@ -75,15 +75,8 @@ export class CajaContentComponent implements OnInit {
   }
 
   generarInforme(): void {
-    if (this.informeTipo === "cierre-mensual") {
-      window.open(
-        `informes/cierre-mensual/${this.informeYear}/${this.informeMonth}`
-      );
-    }
-    if (this.informeTipo === "informe-mensual") {
-      window.open(
-        `informes/informe-mensual/${this.informeYear}/${this.informeMonth}`
-      );
-    }
+    window.open(
+      `informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`
+    );
   }
 }
