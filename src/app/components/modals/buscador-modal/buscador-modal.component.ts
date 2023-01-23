@@ -89,6 +89,7 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
         this.buscadorResultadosRow = 0;
       } else {
         this.vs.search(this.searchName).subscribe((result) => {
+          this.buscadorResultadosRow = 0;
           this.buscadorResultadosList = this.cms.getArticulosBuscador(
             result.list
           );

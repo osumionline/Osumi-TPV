@@ -5,6 +5,8 @@
 
     .resultados {
         display: none;
+        max-height: 400px;
+        overflow-y: auto;
 
         &.show {
             display: block;
