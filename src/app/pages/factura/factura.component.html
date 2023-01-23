@@ -50,6 +50,7 @@
                 <th class="col-subtotal">SUBTOTAL</th>
                 <th class="col-iva"
                     colspan="2">IVA</th>
+                <th class="col-descuento">Descuento</th>
                 <th class="col-total">TOTAL</th>
             </tr>
         </thead>
@@ -59,15 +60,16 @@
                     <td class="col-concepto">
                         <mat-icon [ngClass]="{'deployed': item.deployed}"
                                   (click)="deploy(item)">chevron_right</mat-icon>
-                        {{item.concepto}}
+                        {{item.concepto}} ({{item.fecha}})
                     </td>
-                    <td class="col-precio-iva-unidad right">{{item.precioIVA | fixedNumber}} €</td>
-                    <td class="col-precio-sin-iva right">{{item.precioSinIVA | fixedNumber}} €</td>
+                    <td class="col-precio-iva-unidad right">{{item.precioIVA | fixedNumber}} <span *ngIf="item.precioIVA !== null"> €</span></td>
+                    <td class="col-precio-sin-iva right">{{item.precioSinIVA | fixedNumber}} <span *ngIf="item.precioSinIVA !== null"> €</span></td>
                     <td class="col-unidades center">{{item.unidades}}</td>
-                    <td class="col-subtotal right">{{item.subtotal | fixedNumber}} €</td>
-                    <td class="col-iva-porcentaje center">{{item.iva}} %</td>
-                    <td class="col-iva-importe right">{{item.ivaImporte | fixedNumber}} €</td>
-                    <td class="col-total right">{{item.total | fixedNumber}} €</td>
+                    <td class="col-subtotal right">{{item.subtotal | fixedNumber}} <span *ngIf="item.subtotal !== null"> €</span></td>
+                    <td class="col-iva-porcentaje center">{{item.iva}} <span *ngIf="item.iva !== null"> %</span></td>
+                    <td class="col-iva-importe right">{{item.ivaImporte | fixedNumber}} <span *ngIf="item.ivaImporte !== null"> €</span></td>
+                    <td class="col-descuento right">{{item.descuento | fixedNumber}} <span *ngIf="item.descuento !== null"> €</span></td>
+                    <td class="col-total right">{{item.total | fixedNumber}} <span *ngIf="item.total !== null"> €</span></td>
                 </tr>
                 <ng-container *ngFor="let subitem of item.lineas">
                     <tr *ngIf="item.deployed">
@@ -78,6 +80,7 @@
                         <td class="sub-item col-subtotal right">{{subitem.subtotal | fixedNumber}} €</td>
                         <td class="sub-item col-iva-porcentaje center">{{subitem.iva}} %</td>
                         <td class="sub-item col-iva-importe right">{{subitem.ivaImporte | fixedNumber}} €</td>
+                        <td class="sub-item col-descuento right">{{subitem.descuento | fixedNumber}} €</td>
                         <td class="sub-item col-total right">{{subitem.total | fixedNumber}} €</td>
                     </tr>
                 </ng-container>
@@ -94,6 +97,10 @@
             <tr *ngFor="let iva of ivas">
                 <td class="label">IVA {{iva.iva}}%</td>
                 <td class="importe">{{iva.importe | fixedNumber}} €</td>
+            </tr>
+            <tr>
+                <td class="label">DESCUENTO</td>
+                <td class="importe">{{descuento | fixedNumber}} €</td>
             </tr>
             <tr>
                 <td class="label importe-total">TOTAL</td>

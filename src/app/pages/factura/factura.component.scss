@@ -73,7 +73,7 @@
             }
 
             &.col-concepto {
-                width: 41%;
+                width: 34%;
 
                 mat-icon {
                     cursor: pointer;
@@ -111,6 +111,10 @@
             }
 
             &.col-iva-importe {
+                width: 7%;
+            }
+
+            &.col-descuento {
                 width: 7%;
             }
 

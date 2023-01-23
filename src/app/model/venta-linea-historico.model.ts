@@ -25,6 +25,16 @@ export class VentaLineaHistorico {
     return this.pvp * this.unidades;
   }
 
+  get totalDescuento(): number {
+    if (this.descuento !== null && this.descuento !== 0) {
+      return this.unidades * this.pvp * (this.descuento / 100);
+    }
+    if (this.importeDescuento !== null && this.importeDescuento !== 0) {
+      return this.unidades * this.importeDescuento;
+    }
+    return 0;
+  }
+
   fromInterface(hlv: VentaLineaHistoricoInterface): VentaLineaHistorico {
     this.id = hlv.id;
     this.idArticulo = hlv.idArticulo;

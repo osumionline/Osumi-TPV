@@ -21,6 +21,7 @@ export class FacturaComponent implements OnInit {
   list: FacturaItem[] = [];
   subtotal: number = 0;
   ivas: { iva: number; importe: number }[] = [];
+  descuento: number = 0;
   total: number = 0;
 
   constructor(
@@ -60,15 +61,13 @@ export class FacturaComponent implements OnInit {
 
   loadData(): void {
     for (let venta of this.factura.ventas) {
-      let ventaTemp = {};
-      for (let linea of venta.lineas) {
-        if (!ventaTemp.hasOwnProperty("iva_" + linea.iva)) {
-          ventaTemp["iva_" + linea.iva] = new FacturaItem();
-          ventaTemp["iva_" + linea.iva].concepto = "Ticket Nº " + venta.id;
-          ventaTemp["iva_" + linea.iva].iva = linea.iva;
-          ventaTemp["iva_" + linea.iva].unidades = 0;
-        }
+      console.log(venta);
+      let temp: FacturaItem = new FacturaItem();
+      temp.concepto = "Ticket Nº " + venta.id;
+      temp.fecha = venta.fecha;
+      temp.total = venta.total;
 
+      for (let linea of venta.lineas) {
         let ventaLinea: FacturaItem = new FacturaItem();
         ventaLinea.concepto = linea.articulo;
         ventaLinea.precioIVA = linea.pvp;
@@ -78,25 +77,24 @@ export class FacturaComponent implements OnInit {
         ventaLinea.iva = linea.iva;
         ventaLinea.ivaImporte =
           linea.pvp * linea.unidades - ventaLinea.subtotal;
+        ventaLinea.descuento = linea.totalDescuento;
         ventaLinea.total = linea.importe;
 
-        ventaTemp["iva_" + linea.iva].lineas.push(ventaLinea);
-      }
-      for (let iva in ventaTemp) {
-        for (let linea of ventaTemp[iva].lineas) {
-          ventaTemp[iva].precioIVA += linea.precioIVA;
-          ventaTemp[iva].precioSinIVA += linea.precioSinIVA;
-          ventaTemp[iva].unidades += linea.unidades;
-          ventaTemp[iva].subtotal += linea.subtotal;
-          ventaTemp[iva].ivaImporte += linea.ivaImporte;
-          ventaTemp[iva].total += linea.total;
+        temp.precioIVA += ventaLinea.unidades * ventaLinea.precioIVA;
+        temp.precioSinIVA += ventaLinea.unidades * ventaLinea.precioSinIVA;
+        temp.unidades += ventaLinea.unidades;
+        temp.subtotal += ventaLinea.subtotal;
+        temp.ivaImporte += ventaLinea.ivaImporte;
+        temp.descuento += ventaLinea.descuento;
+        this.subtotal += ventaLinea.subtotal;
+        this.addIva(ventaLinea.iva, ventaLinea.ivaImporte);
+        this.descuento += ventaLinea.descuento;
+        this.total += ventaLinea.total;
 
-          this.subtotal += linea.subtotal;
-          this.addIva(linea.iva, linea.ivaImporte);
-          this.total += linea.total;
-        }
-        this.list.push(ventaTemp[iva]);
+        temp.lineas.push(ventaLinea);
       }
+
+      this.list.push(temp);
     }
   }
 
