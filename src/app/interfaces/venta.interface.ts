@@ -10,7 +10,6 @@ export interface VentaLineaInterface {
   descuento: number;
   descuentoManual: boolean;
   iva: number;
-  re: number;
   observaciones: string;
   fromVenta: number;
 }

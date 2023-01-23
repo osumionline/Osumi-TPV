@@ -426,7 +426,6 @@ export class UnaVentaComponent implements AfterViewInit {
       nombre: this.vs.ventaActual.lineas[ind].descripcion,
       pvp: this.vs.ventaActual.lineas[ind].pvp,
       iva: this.vs.ventaActual.lineas[ind].iva,
-      re: this.vs.ventaActual.lineas[ind].re,
     };
     const dialog = this.overlayService.open(
       VentaVariosModalComponent,
@@ -438,7 +437,6 @@ export class UnaVentaComponent implements AfterViewInit {
           data.data.nombre;
         this.vs.ventaActual.lineas[this.variosInd].pvp = data.data.pvp;
         this.vs.ventaActual.lineas[this.variosInd].iva = data.data.iva;
-        this.vs.ventaActual.lineas[this.variosInd].re = data.data.re;
         this.vs.ventaActual.updateImporte();
         this.setFocus();
       }
