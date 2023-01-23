@@ -52,6 +52,7 @@ export interface MarginOptionInterface {
 
 export interface AppDataInterface {
   nombre: string;
+  nombreComercial: string;
   cif: string;
   telefono: string;
   direccion: string;
@@ -80,6 +81,7 @@ export interface AppDataInterface {
 
 export interface AppDataResult {
   nombre: string;
+  nombreComercial: string;
   cif: string;
   telefono: string;
   email: string;

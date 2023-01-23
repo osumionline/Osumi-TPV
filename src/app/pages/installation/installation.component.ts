@@ -23,6 +23,7 @@ export class InstallationComponent implements OnInit {
 
   paso: number = 1;
   nombre: string = "";
+  nombreComercial: string = "";
   cif: string = "";
   telefono: string = "";
   direccion: string = "";
@@ -101,6 +102,7 @@ export class InstallationComponent implements OnInit {
     if (this.gs.empleado) {
       this.back = true;
       this.nombre = this.config.nombre;
+      this.nombreComercial = this.config.nombreComercial;
       this.cif = this.config.cif;
       this.telefono = this.config.telefono;
       this.email = this.config.email;
@@ -206,6 +208,15 @@ export class InstallationComponent implements OnInit {
       this.dialog.alert({
         title: "Error",
         content: "¡No puedes dejar el nombre del negocio en blanco!",
+        ok: "Continuar",
+      });
+      this.paso = 1;
+      return;
+    }
+    if (this.nombreComercial === "") {
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar el nombre comercial en blanco!",
         ok: "Continuar",
       });
       this.paso = 1;
@@ -322,6 +333,7 @@ export class InstallationComponent implements OnInit {
 
     const data: AppDataInterface = {
       nombre: this.nombre,
+      nombreComercial: this.nombreComercial,
       cif: this.cif,
       telefono: this.telefono,
       direccion: this.direccion,

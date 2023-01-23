@@ -10,7 +10,6 @@ import { TipoPago } from "src/app/model/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
-import { ComprasService } from "src/app/services/compras.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -22,6 +21,7 @@ export class ConfigService {
   status: string = "new";
 
   nombre: string = "";
+  nombreComercial: string = "";
   cif: string = "";
   telefono: string = "";
   direccion: string = "";
@@ -71,8 +71,7 @@ export class ConfigService {
     private marcasService: MarcasService,
     private proveedoresService: ProveedoresService,
     private empleadosService: EmpleadosService,
-    private clientesService: ClientesService,
-    private comprasService: ComprasService
+    private clientesService: ClientesService
   ) {}
 
   start(): Promise<string> {
@@ -122,6 +121,7 @@ export class ConfigService {
 
   load(data: AppDataResult): void {
     this.nombre = data.nombre;
+    this.nombreComercial = data.nombreComercial;
     this.cif = data.cif;
     this.telefono = data.telefono;
     this.email = data.email;
