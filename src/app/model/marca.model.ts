@@ -6,13 +6,14 @@ export class Marca {
 
   constructor(
     public id: number = null,
-    public nombre: string = "",
-    public direccion: string = "",
+    public nombre: string = null,
+    public direccion: string = null,
     public foto: string = null,
-    public telefono: string = "",
-    public email: string = "",
-    public web: string = "",
-    public observaciones: string = ""
+    public telefono: string = null,
+    public email: string = null,
+    public web: string = null,
+    public observaciones: string = null,
+    public proveedor: string = null
   ) {}
 
   fromInterface(m: MarcaInterface, decode: boolean = true): Marca {
@@ -26,6 +27,7 @@ export class Marca {
     this.observaciones = decode
       ? Utils.urldecode(m.observaciones)
       : m.observaciones;
+    this.proveedor = decode ? Utils.urldecode(m.proveedor) : m.proveedor;
 
     return this;
   }
@@ -43,6 +45,7 @@ export class Marca {
         ? Utils.urlencode(this.observaciones)
         : this.observaciones,
       crearProveedor: this.crearProveedor,
+      proveedor: encode ? Utils.urlencode(this.proveedor) : this.proveedor,
     };
   }
 }

@@ -78,14 +78,20 @@
                     <div class="prov-marcas-item"
                          *ngFor="let marca of marcasSelected">
                         <mat-checkbox [checked]="true"
-                                      (change)="removeMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
+                                      (change)="removeMarcaToProveedor(marca, $event)">
+                            {{ marca.nombre }}
+                        </mat-checkbox>
+                        <span *ngIf="marca.proveedor !== null">{{marca.proveedor}}</span>
                     </div>
                 </div>
                 <div class="prov-marcas-list">
                     <div class="prov-marcas-item"
                          *ngFor="let marca of marcas">
                         <mat-checkbox [checked]="false"
-                                      (change)="addMarcaToProveedor(marca, $event)">{{ marca.nombre }}</mat-checkbox>
+                                      (change)="addMarcaToProveedor(marca, $event)">
+                            {{ marca.nombre }}
+                        </mat-checkbox>
+                        <span *ngIf="marca.proveedor !== null">{{marca.proveedor}}</span>
                     </div>
                 </div>
             </div>

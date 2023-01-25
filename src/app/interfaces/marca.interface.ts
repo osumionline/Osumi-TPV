@@ -7,6 +7,7 @@ export interface MarcaInterface {
   email: string;
   web: string;
   observaciones: string;
+  proveedor: string;
   crearProveedor?: boolean;
 }
 
