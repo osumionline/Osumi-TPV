@@ -392,7 +392,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
-        if (data !== null) {
+        if (data.data !== null) {
           this.nuevoLocalizador = data.data;
           this.loadArticulo();
         } else {
