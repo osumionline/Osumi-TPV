@@ -3,6 +3,7 @@
         <mat-label>Proveedor</mat-label>
         <mat-select [(ngModel)]="buscador.idProveedor"
                     (ngModelChange)="resetBuscar()">
+            <mat-option [value]="null">Elige proveedor</mat-option>
             <mat-option *ngFor="let proveedor of ps.proveedores"
                         [value]="proveedor.id">
                 {{proveedor.nombre}}
@@ -13,6 +14,7 @@
         <mat-label>Marca</mat-label>
         <mat-select [(ngModel)]="buscador.idMarca"
                     (ngModelChange)="resetBuscar()">
+            <mat-option [value]="null">Elige marca</mat-option>
             <mat-option *ngFor="let marca of ms.marcas"
                         [value]="marca.id">
                 {{marca.nombre}}
