@@ -279,7 +279,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.localizadorBox.nativeElement.focus();
   }
 
-  back() {
+  back(): void {
     this.cs.pedidoCargado = null;
     this.router.navigate(["/compras"]);
   }
@@ -538,20 +538,16 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
-    this.updatePedidoData();
     if (this.pedido.id === null) {
-      this.cs.setPedidoTemporal(this.pedido);
       this.router.navigate(["/articulos", localizador, "return", "pedido", 0]);
     } else {
-      this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
-        this.router.navigate([
-          "/articulos",
-          localizador,
-          "return",
-          "pedido",
-          this.pedido.id,
-        ]);
-      });
+      this.router.navigate([
+        "/articulos",
+        localizador,
+        "return",
+        "pedido",
+        this.pedido.id,
+      ]);
     }
   }
 
@@ -698,7 +694,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
             ok: "Continuar",
           })
           .subscribe((result) => {
-            this.router.navigate(["/compras"]);
+            this.back();
           });
       } else {
         this.dialog
@@ -749,8 +745,14 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.autoSaveIntervalId) {
-      clearInterval(this.autoSaveIntervalId);
+    clearInterval(this.autoSaveIntervalId);
+    this.updatePedidoData();
+    if (this.pedido.id === null) {
+      this.cs.setPedidoTemporal(this.pedido);
+    } else {
+      this.cs
+        .autoSavePedido(this.pedido.toInterface())
+        .subscribe((result) => {});
     }
   }
 }
