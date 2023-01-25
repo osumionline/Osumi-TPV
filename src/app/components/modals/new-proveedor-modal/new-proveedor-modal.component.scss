@@ -2,8 +2,17 @@
     display: flex;
     flex-direction: row;
 
-    &>div {
-        width: 50%;
+    .col-two {
+        flex: 2;
+        min-width: 600px;
+
+        .row {
+            margin-bottom: 16px;
+        }
+    }
+
+    .col {
+        flex: 1;
         min-width: 300px;
 
         .prov-marcas-list {
