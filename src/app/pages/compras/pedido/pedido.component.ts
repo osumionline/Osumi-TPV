@@ -384,6 +384,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
       const modalBuscadorData: BuscadorModal = {
         modalTitle: "Buscador",
         modalColor: "blue",
+        css: "modal-wide",
         key: ev.key,
       };
       const dialog = this.overlayService.open(

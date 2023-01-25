@@ -132,6 +132,7 @@ export class UnaVentaComponent implements AfterViewInit {
       const modalBuscadorData: BuscadorModal = {
         modalTitle: "Buscador",
         modalColor: "blue",
+        css: "modal-wide",
         key: ev.key,
       };
       const dialog = this.overlayService.open(

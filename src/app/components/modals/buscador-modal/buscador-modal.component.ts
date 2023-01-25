@@ -20,6 +20,8 @@ import { VentasService } from "src/app/services/ventas.service";
 export class BuscadorModalComponent implements OnInit, AfterViewInit {
   @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
   searchName: string = "";
+  searchTimer: number = null;
+  searching: boolean = false;
   buscadorResultadosList: ArticuloBuscador[] = [];
   buscadorResultadosRow: number = 0;
   buscadorResultadosDisplayedColumns: string[] = [
@@ -51,6 +53,25 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
     this.buscadorResultadosDataSource.sort = this.sort;
   }
 
+  checkVisible(elm: HTMLElement): boolean {
+    const rect: DOMRect = elm.getBoundingClientRect();
+    const viewHeight: number = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight
+    );
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+  }
+
+  focusRow(): void {
+    const element: HTMLElement = document.getElementById(
+      "buscador-row-" +
+        this.buscadorResultadosList[this.buscadorResultadosRow].localizador
+    );
+    if (!this.checkVisible(element)) {
+      element.scrollIntoView();
+    }
+  }
+
   checkSearchKeys(ev: KeyboardEvent = null): void {
     if (
       ev !== null &&
@@ -62,12 +83,14 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
           return;
         }
         this.buscadorResultadosRow--;
+        this.focusRow();
       }
       if (ev.key === "ArrowDown") {
         if (this.buscadorResultadosRow === this.buscadorResultadosList.length) {
           return;
         }
         this.buscadorResultadosRow++;
+        this.focusRow();
       }
       if (ev.key === "Enter") {
         this.selectBuscadorResultadosRow(
@@ -88,15 +111,33 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
         this.buscadorResultadosList = [];
         this.buscadorResultadosRow = 0;
       } else {
-        this.vs.search(this.searchName).subscribe((result) => {
-          this.buscadorResultadosRow = 0;
-          this.buscadorResultadosList = this.cms.getArticulosBuscador(
-            result.list
-          );
-          this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
-        });
+        if (!this.searching) {
+          this.buscadorStart();
+        }
       }
     }
+  }
+
+  buscadorStart(): void {
+    this.buscadorStop();
+    this.searchTimer = window.setTimeout(() => {
+      this.buscar();
+    }, 300);
+  }
+
+  buscadorStop(): void {
+    clearTimeout(this.searchTimer);
+  }
+
+  buscar(): void {
+    this.buscadorStop();
+    this.searching = true;
+    this.vs.search(this.searchName).subscribe((result) => {
+      this.searching = false;
+      this.buscadorResultadosRow = 0;
+      this.buscadorResultadosList = this.cms.getArticulosBuscador(result.list);
+      this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
+    });
   }
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {

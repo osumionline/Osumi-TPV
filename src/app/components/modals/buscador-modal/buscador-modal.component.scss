@@ -1,11 +1,13 @@
 .buscador-box {
+    height: 100%;
+
     mat-form-field {
         width: 100%;
     }
 
     .resultados {
         display: none;
-        max-height: 400px;
+        height: calc(100% - 76px);
         overflow-y: auto;
 
         &.show {

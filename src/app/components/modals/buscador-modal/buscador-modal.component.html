@@ -75,6 +75,7 @@
                 mat-row
                 *matRowDef="let row; columns: buscadorResultadosDisplayedColumns; let i = index;"
                 (click)="selectBuscadorResultadosRow(row)"
+                [id]="'buscador-row-'+row.localizador"
                 [ngClass]="{'selected-row':i==buscadorResultadosRow}"></tr>
         </table>
     </div>
