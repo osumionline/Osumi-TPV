@@ -52,6 +52,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     "Tarjeta",
     "Paypal",
     "Al contado",
+    "Transferencia bancaria",
   ];
 
   @ViewChild("allSelected") private allSelected: MatOption;

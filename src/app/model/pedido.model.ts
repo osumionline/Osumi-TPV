@@ -109,13 +109,13 @@ export class Pedido {
         list["iva_" + linea.iva] = 0;
       }
       list["iva_" + linea.iva] +=
-        linea.unidades * (linea.palb * (1 + linea.iva / 100) - linea.palb);
+        linea.subtotal * (1 + linea.iva / 100) - linea.subtotal;
       if (linea.selectedIvaOption.tipoIVA === "re") {
         if (!list.hasOwnProperty("re_" + linea.re)) {
           list["re_" + linea.re] = 0;
         }
         list["re_" + linea.re] +=
-          linea.unidades * (linea.palb * (1 + linea.re / 100) - linea.palb);
+          linea.subtotal * (1 + linea.re / 100) - linea.subtotal;
       }
     }
 

@@ -345,8 +345,7 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.descuento">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>
-                        %
+                        <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>%
                     </td>
                 </ng-container>
 
@@ -619,10 +618,12 @@
                             {{ pedido.recepcionado ? pedido.descuento : ''}}
                             %
                         </div>
-                        <div class="totales-row mark">
+                        <div class="totales-row mark"
+                             [ngClass]="{'mark-iva': !pedido.ue}">
                             <span>Total {{pedido.nombreTipo}}:</span>{{pedido.total | fixedNumber}} €
                         </div>
-                        <div class="totales-row mark mark-iva">
+                        <div *ngIf="pedido.ue"
+                             class="totales-row mark mark-iva">
                             <span>Total sin IVA:</span>{{pedido.totalSinIva | fixedNumber}} €
                         </div>
                     </div>

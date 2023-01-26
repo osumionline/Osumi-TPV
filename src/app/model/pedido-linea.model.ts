@@ -27,15 +27,19 @@ export class PedidoLinea {
   ) {}
 
   get subtotal(): number {
-    return this.unidades * this.palb;
+    return this.unidades * this.palb * (1 - this.descuento / 100);
   }
 
   get puc(): number {
-    return this.palb * (1 + this.selectedIvaOption.value / 100);
+    return (
+      this.palb *
+      (1 - this.descuento / 100) *
+      (1 + this.selectedIvaOption.value / 100)
+    );
   }
 
   get total(): number {
-    return this.unidades * (this.puc * (1 - this.descuento / 100));
+    return this.unidades * this.puc;
   }
 
   get beneficio(): number {
