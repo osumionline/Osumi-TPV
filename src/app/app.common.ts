@@ -6,11 +6,11 @@ import { ArticulosComponent } from "src/app/pages/articulos/articulos.component"
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
+import { MarcasComponent } from "src/app/pages/compras/marcas/marcas.component";
 import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
+import { ProveedoresComponent } from "src/app/pages/compras/proveedores/proveedores.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
-import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
-import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
@@ -33,8 +33,8 @@ export const PAGES: any[] = [
   GestionComponent,
   FacturaComponent,
   GestionEmpleadosComponent,
-  GestionMarcasComponent,
-  GestionProveedoresComponent,
+  MarcasComponent,
+  ProveedoresComponent,
   GestionTiposPagoComponent,
   LopdComponent,
   InventarioPrintComponent,
@@ -50,6 +50,7 @@ import { AlmacenInventarioComponent } from "src/app/components/almacen-inventari
 import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
 import { CajaContentComponent } from "src/app/components/caja-content/caja-content.component";
 import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
+import { ComprasPedidosListComponent } from "src/app/components/compras-pedidos-list/compras-pedidos-list.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
@@ -78,6 +79,7 @@ export const COMPONENTS: any[] = [
   AlmacenListasComponent,
   OverlayComponent,
   CajaContentComponent,
+  ComprasPedidosListComponent,
 ];
 
 /*

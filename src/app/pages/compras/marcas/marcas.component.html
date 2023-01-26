@@ -1,5 +1,3 @@
-<otpv-header selectedOption="gestion"></otpv-header>
-
 <mat-card class="marcas">
     <mat-card-content>
         <div class="flex-content">
@@ -24,8 +22,7 @@
                         </button>
                     </mat-action-list>
                 </div>
-                <div class="new-brand"
-                     *ngIf="canNewBrands">
+                <div class="new-brand">
                     <button mat-raised-button
                             color="primary"
                             (click)="newMarca()">
@@ -85,8 +82,7 @@
                                             <button mat-raised-button
                                                     color="primary"
                                                     type="button"
-                                                    (click)="addLogo()"
-                                                    [disabled]="!canSaveChanges">Cambiar logo</button>
+                                                    (click)="addLogo()">Cambiar logo</button>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +120,7 @@
                                 <div class="actions">
                                     <div class="delete">
                                         <button mat-raised-button
-                                                *ngIf="form.value.id && canDeleteBrands"
+                                                *ngIf="form.value.id"
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteMarca()">Eliminar</button>
@@ -138,7 +134,7 @@
                                         <button mat-raised-button
                                                 type="submit"
                                                 color="primary"
-                                                [disabled]="!form.valid || !canSaveChanges">Guardar</button>
+                                                [disabled]="!form.valid">Guardar</button>
                                     </div>
                                 </div>
                             </form>

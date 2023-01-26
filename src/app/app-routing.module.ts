@@ -10,8 +10,6 @@ import { ComprasComponent } from "src/app/pages/compras/compras/compras.componen
 import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
-import { GestionMarcasComponent } from "src/app/pages/gestion/gestion-marcas/gestion-marcas.component";
-import { GestionProveedoresComponent } from "src/app/pages/gestion/gestion-proveedores/gestion-proveedores.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
 import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
@@ -103,16 +101,6 @@ const routes: Routes = [
   {
     path: "gestion/empleados",
     component: GestionEmpleadosComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "gestion/marcas",
-    component: GestionMarcasComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "gestion/proveedores",
-    component: GestionProveedoresComponent,
     canActivate: [isOpenedGuardFn],
   },
   {

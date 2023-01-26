@@ -13,21 +13,15 @@ import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { rolList } from "src/app/shared/rol.class";
 
 @Component({
-  selector: "otpv-gestion-proveedores",
-  templateUrl: "./gestion-proveedores.component.html",
-  styleUrls: ["./gestion-proveedores.component.scss"],
+  selector: "otpv-proveedores",
+  templateUrl: "./proveedores.component.html",
+  styleUrls: ["./proveedores.component.scss"],
 })
-export class GestionProveedoresComponent implements OnInit {
+export class ProveedoresComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
-  canNewProviders: boolean = false;
-  canDeleteProviders: boolean = false;
-  canModifyProviders: boolean = false;
-  canSaveChanges: boolean = false;
-  canSeeStatistics: boolean = false;
   start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
   @ViewChild("proveedorTabs", { static: false })
@@ -73,22 +67,6 @@ export class GestionProveedoresComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.gs.empleado) {
-      this.router.navigate(["/gestion"]);
-      return;
-    }
-    this.canNewProviders = this.gs.empleado.hasRol(
-      rolList.proveedor.roles["crear"].id
-    );
-    this.canDeleteProviders = this.gs.empleado.hasRol(
-      rolList.proveedor.roles["borrar"].id
-    );
-    this.canModifyProviders = this.gs.empleado.hasRol(
-      rolList.proveedor.roles["modificar"].id
-    );
-    this.canSeeStatistics = this.gs.empleado.hasRol(
-      rolList.proveedor.roles["estadisticas"].id
-    );
     setTimeout(() => {
       this.searchBox.nativeElement.focus();
     }, 0);
@@ -108,7 +86,6 @@ export class GestionProveedoresComponent implements OnInit {
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
-    this.updateEnabledDisabled("edit");
     this.updateMarcasList();
   }
 
@@ -118,30 +95,7 @@ export class GestionProveedoresComponent implements OnInit {
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
-    this.updateEnabledDisabled("new");
     this.updateMarcasList();
-  }
-
-  updateEnabledDisabled(operation: string): void {
-    this.form.get("nombre")?.enable();
-    this.form.get("direccion")?.enable();
-    this.form.get("telefono")?.enable();
-    this.form.get("email")?.enable();
-    this.form.get("web")?.enable();
-    this.form.get("observaciones")?.enable();
-    this.canSaveChanges = true;
-    if (
-      (operation === "new" && !this.canNewProviders) ||
-      (operation === "edit" && !this.canModifyProviders)
-    ) {
-      this.form.get("nombre")?.disable();
-      this.form.get("direccion")?.disable();
-      this.form.get("telefono")?.disable();
-      this.form.get("email")?.disable();
-      this.form.get("web")?.disable();
-      this.form.get("observaciones")?.disable();
-      this.canSaveChanges = false;
-    }
   }
 
   updateMarcasList(): void {

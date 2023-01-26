@@ -1,5 +1,3 @@
-<otpv-header selectedOption="gestion"></otpv-header>
-
 <mat-card class="proveedores">
     <mat-card-content>
         <div class="flex-content">
@@ -22,8 +20,7 @@
                         {{proveedor.nombre}}
                     </button>
                 </mat-action-list>
-                <div class="new-provider"
-                     *ngIf="canNewProviders">
+                <div class="new-provider">
                     <button mat-raised-button
                             color="primary"
                             (click)="newProveedor()">
@@ -86,8 +83,7 @@
                                             <button mat-raised-button
                                                     color="primary"
                                                     type="button"
-                                                    (click)="addLogo()"
-                                                    [disabled]="!canSaveChanges">Cambiar logo</button>
+                                                    (click)="addLogo()">Cambiar logo</button>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +121,7 @@
                                 <div class="actions">
                                     <div class="delete">
                                         <button mat-raised-button
-                                                *ngIf="form.value.id && canDeleteProviders"
+                                                *ngIf="form.value.id"
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteProveedor()">Eliminar</button>
@@ -139,7 +135,7 @@
                                         <button mat-raised-button
                                                 type="submit"
                                                 color="primary"
-                                                [disabled]="!form.valid || !canSaveChanges">Guardar</button>
+                                                [disabled]="!form.valid">Guardar</button>
                                     </div>
                                 </div>
                             </form>
@@ -236,7 +232,6 @@
                                     <div class="actions">
                                         <div class="delete">
                                             <button mat-raised-button
-                                                    *ngIf="canDeleteProviders"
                                                     color="warn"
                                                     [disabled]="!formComercial.value.id"
                                                     type="button"
@@ -251,7 +246,7 @@
                                             <button mat-raised-button
                                                     type="submit"
                                                     color="primary"
-                                                    [disabled]="!formComercial.valid || !canSaveChanges">Guardar</button>
+                                                    [disabled]="!formComercial.valid">Guardar</button>
                                         </div>
                                     </div>
                                 </form>

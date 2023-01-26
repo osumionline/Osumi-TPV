@@ -1,28 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
-import { Router } from "@angular/router";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marca.model";
 import { DialogService } from "src/app/services/dialog.service";
-import { GestionService } from "src/app/services/gestion.service";
 import { MarcasService } from "src/app/services/marcas.service";
-import { rolList } from "src/app/shared/rol.class";
 
 @Component({
-  selector: "otpv-gestion-marcas",
-  templateUrl: "./gestion-marcas.component.html",
-  styleUrls: ["./gestion-marcas.component.scss"],
+  selector: "otpv-marcas",
+  templateUrl: "./marcas.component.html",
+  styleUrls: ["./marcas.component.scss"],
 })
-export class GestionMarcasComponent implements OnInit {
+export class MarcasComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
-  canNewBrands: boolean = false;
-  canDeleteBrands: boolean = false;
-  canModifyBrands: boolean = false;
-  canSaveChanges: boolean = false;
-  canSeeStatistics: boolean = false;
   @ViewChild("marcaTabs", { static: false })
   marcaTabs: MatTabGroup;
   selectedMarca: Marca = new Marca();
@@ -40,30 +32,9 @@ export class GestionMarcasComponent implements OnInit {
   });
   originalValue: MarcaInterface = null;
 
-  constructor(
-    public ms: MarcasService,
-    private gs: GestionService,
-    private router: Router,
-    private dialog: DialogService
-  ) {}
+  constructor(public ms: MarcasService, private dialog: DialogService) {}
 
   ngOnInit(): void {
-    if (!this.gs.empleado) {
-      this.router.navigate(["/gestion"]);
-      return;
-    }
-    this.canNewBrands = this.gs.empleado.hasRol(
-      rolList.marca.roles["crear"].id
-    );
-    this.canDeleteBrands = this.gs.empleado.hasRol(
-      rolList.marca.roles["borrar"].id
-    );
-    this.canModifyBrands = this.gs.empleado.hasRol(
-      rolList.marca.roles["modificar"].id
-    );
-    this.canSeeStatistics = this.gs.empleado.hasRol(
-      rolList.marca.roles["estadisticas"].id
-    );
     setTimeout(() => {
       this.searchBox.nativeElement.focus();
     }, 0);
@@ -76,7 +47,6 @@ export class GestionMarcasComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.logo = marca.foto || "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
-    this.updateEnabledDisabled("edit");
   }
 
   newMarca(): void {
@@ -86,29 +56,6 @@ export class GestionMarcasComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.logo = "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
-    this.updateEnabledDisabled("new");
-  }
-
-  updateEnabledDisabled(operation: string): void {
-    this.form.get("nombre")?.enable();
-    this.form.get("direccion")?.enable();
-    this.form.get("telefono")?.enable();
-    this.form.get("email")?.enable();
-    this.form.get("web")?.enable();
-    this.form.get("observaciones")?.enable();
-    this.canSaveChanges = true;
-    if (
-      (operation === "new" && !this.canNewBrands) ||
-      (operation === "edit" && !this.canModifyBrands)
-    ) {
-      this.form.get("nombre")?.disable();
-      this.form.get("direccion")?.disable();
-      this.form.get("telefono")?.disable();
-      this.form.get("email")?.disable();
-      this.form.get("web")?.disable();
-      this.form.get("observaciones")?.disable();
-      this.canSaveChanges = false;
-    }
   }
 
   resetForm(): void {
