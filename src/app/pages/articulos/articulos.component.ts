@@ -639,6 +639,11 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
           this.router.navigate(["/compras/pedido/", this.returnWhereId]);
         }
         break;
+      case "almacen":
+        {
+          this.router.navigate(["/almacen"]);
+        }
+        break;
     }
   }
 

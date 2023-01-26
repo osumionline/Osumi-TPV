@@ -40,12 +40,11 @@
     }
 }
 
-.actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
+.link {
+    color: #000;
+    text-decoration: none;
 
-    button {
-        margin-left: 16px;
+    &:hover {
+        font-weight: bold;
     }
 }
