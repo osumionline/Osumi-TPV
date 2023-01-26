@@ -428,7 +428,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
             ivaOption = new IVAOption("re", 21, 5.2);
           }
           lineaPedido.selectedIvaOption = ivaOption;
-
           const marca: Marca = this.ms.findById(lineaPedido.idMarca);
           lineaPedido.marca = marca.nombre;
 
@@ -737,7 +736,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
                 ok: "Continuar",
               })
               .subscribe((result) => {
-                this.router.navigate(["/compras"]);
+                this.back();
               });
           });
         }

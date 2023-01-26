@@ -11,12 +11,27 @@ import {
   StatusIdMessageResult,
   StatusResult,
 } from "src/app/interfaces/interfaces";
+import { InventarioItem } from "src/app/model/inventario-item.model";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class AlmacenService {
+  buscador: BuscadorAlmacenInterface = {
+    idProveedor: null,
+    idMarca: null,
+    nombre: null,
+    orderBy: null,
+    orderSent: null,
+    pagina: 1,
+    num: 50,
+  };
+  list: InventarioItem[] = [];
+  pags: number = 0;
+  pageIndex: number = 0;
+  firstLoad: boolean = true;
+
   constructor(private http: HttpClient) {}
 
   getInventario(

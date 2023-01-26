@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -19,7 +25,9 @@ import { Utils } from "src/app/shared/utils.class";
   templateUrl: "./almacen-inventario.component.html",
   styleUrls: ["./almacen-inventario.component.scss"],
 })
-export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
+export class AlmacenInventarioComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,
     idMarca: null,
@@ -57,7 +65,15 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.buscar();
+    if (!this.as.firstLoad) {
+      this.buscador = this.as.buscador;
+      this.list = this.as.list;
+      this.inventarioDataSource.data = this.list;
+      this.pageIndex = this.as.pageIndex;
+      this.pags = this.as.pags;
+    } else {
+      this.buscar();
+    }
   }
 
   buscar(): void {
@@ -65,6 +81,12 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
       this.list = this.cms.getInventarioItems(result.list);
       this.inventarioDataSource.data = this.list;
       this.pags = result.pags;
+
+      this.as.buscador = this.buscador;
+      this.as.list = this.list;
+      this.as.pags = this.pags;
+      this.as.pageIndex = this.pageIndex;
+      this.as.firstLoad = false;
     });
   }
 
@@ -200,5 +222,13 @@ export class AlmacenInventarioComponent implements OnInit, AfterViewInit {
   printInventario(): void {
     const data: string = btoa(JSON.stringify(this.buscador));
     window.open("inventario-print/" + data);
+  }
+
+  ngOnDestroy(): void {
+    this.as.buscador = this.buscador;
+    this.as.list = this.list;
+    this.as.pags = this.pags;
+    this.as.pageIndex = this.pageIndex;
+    this.as.firstLoad = false;
   }
 }
