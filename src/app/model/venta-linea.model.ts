@@ -4,6 +4,7 @@ import { Articulo } from "src/app/model/articulo.model";
 export class VentaLinea {
   importeManual: boolean = false;
   descuentoManual: boolean = false;
+  animarCantidad: boolean = false;
 
   constructor(
     public idArticulo: number = null,

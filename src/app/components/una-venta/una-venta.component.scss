@@ -32,6 +32,13 @@
       background-color: #fff;
       height: 32px;
 
+      &.animate {
+        animation-iteration-count: infinite;
+        animation-duration: 1s;
+        animation-direction: alternate;
+        animation-name: animate-cantidad;
+      }
+
       .linea-localizador {
         box-sizing: border-box;
         width: 100%;
@@ -157,6 +164,16 @@
         text-align: right;
       }
     }
+  }
+}
+
+@keyframes animate-cantidad {
+  from {
+    background-color: var(--bg-color);
+  }
+
+  to {
+    background-color: var(--main-color-light);
   }
 }
 

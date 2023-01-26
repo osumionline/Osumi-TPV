@@ -206,7 +206,11 @@ export class UnaVentaComponent implements AfterViewInit {
     } else {
       if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
         this.vs.ventaActual.lineas[indArticulo].cantidad++;
+        this.vs.ventaActual.lineas[indArticulo].animarCantidad = true;
         this.vs.ventaActual.lineas[ind].localizador = null;
+        setTimeout(() => {
+          this.vs.ventaActual.lineas[indArticulo].animarCantidad = false;
+        }, 1000);
       } else {
         this.dialog
           .alert({
