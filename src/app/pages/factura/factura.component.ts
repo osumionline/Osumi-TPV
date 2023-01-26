@@ -82,7 +82,7 @@ export class FacturaComponent implements OnInit {
 
         temp.precioIVA += ventaLinea.unidades * ventaLinea.precioIVA;
         temp.precioSinIVA += ventaLinea.unidades * ventaLinea.precioSinIVA;
-        temp.unidades += ventaLinea.unidades;
+        //temp.unidades += ventaLinea.unidades;
         temp.subtotal += ventaLinea.subtotal;
         temp.ivaImporte += ventaLinea.ivaImporte;
         temp.descuento += ventaLinea.descuento;
@@ -92,6 +92,10 @@ export class FacturaComponent implements OnInit {
         this.total += ventaLinea.total;
 
         temp.lineas.push(ventaLinea);
+      }
+      if (venta.lineas.length === 1) {
+        temp.unidades = venta.lineas[0].unidades;
+        temp.iva = venta.lineas[0].iva;
       }
 
       this.list.push(temp);

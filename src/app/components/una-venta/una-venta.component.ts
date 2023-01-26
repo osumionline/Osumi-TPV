@@ -571,6 +571,12 @@ export class UnaVentaComponent implements AfterViewInit {
 
   checkDescuento(ev: KeyboardEvent, close: boolean): void {
     if (ev.key == "Enter" || close) {
+      let id: string[] = (<Element>ev.target).id.split("_");
+      let ind: number = parseInt(id.pop());
+      // Comprobación para que no quede en blanco
+      if (this.vs.ventaActual.lineas[ind].descuento === null) {
+        this.vs.ventaActual.lineas[ind].descuento = 0;
+      }
       this.editarDescuento = false;
       this.vs.ventaActual.updateImporte();
       this.setFocus();

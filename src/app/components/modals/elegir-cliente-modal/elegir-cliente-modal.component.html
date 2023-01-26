@@ -8,6 +8,7 @@
                    placeholder="Introduce el nombre, apellidos, teléfono o email del cliente a buscar"
                    [(ngModel)]="elegirClienteNombre"
                    (input)="searchStart()"
+                   autocomplete="off"
                    #elegirClienteBoxName>
         </mat-form-field>
         <div class="elegir-clientes-result"

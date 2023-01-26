@@ -59,6 +59,7 @@ export interface ArticuloTopVentaInterface {
   localizador: number;
   nombre: string;
   importe: number;
+  unidades: number;
 }
 
 export interface DevolucionSelectedInterface {

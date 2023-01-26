@@ -5,13 +5,15 @@ export class ArticuloTopVenta {
   constructor(
     public localizador: number = null,
     public nombre: string = null,
-    public importe: number = null
+    public importe: number = null,
+    public unidades: number = null
   ) {}
 
   fromInterface(tva: ArticuloTopVentaInterface): ArticuloTopVenta {
     this.localizador = tva.localizador;
     this.nombre = Utils.urldecode(tva.nombre);
     this.importe = tva.importe;
+    this.unidades = tva.unidades;
 
     return this;
   }
@@ -21,6 +23,7 @@ export class ArticuloTopVenta {
       localizador: this.localizador,
       nombre: Utils.urlencode(this.nombre),
       importe: this.importe,
+      unidades: this.unidades,
     };
   }
 }

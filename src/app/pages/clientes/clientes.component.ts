@@ -218,6 +218,7 @@ export class ClientesComponent implements OnInit {
   }
 
   nuevaFactura(): void {
+    debugger;
     if (
       this.selectedClient.dniCif === null ||
       this.selectedClient.dniCif === ""
@@ -248,7 +249,7 @@ export class ClientesComponent implements OnInit {
             content:
               'El cliente "' +
               this.selectedClient.nombreApellidos +
-              '" no tiene dirección introducida. ¿Quieres continuar?',
+              '" no tiene una dirección completa introducida. ¿Quieres continuar?',
             ok: "Continuar",
             cancel: "Cancelar",
           })

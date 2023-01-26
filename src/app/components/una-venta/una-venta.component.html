@@ -104,20 +104,24 @@
 			<span *ngIf="linea.fromVenta !== null">{{linea.total | fixedNumber}} €</span>
 		</div>
 		<div class="col-descuentos">
-			<ng-container *ngIf="linea.descuento === null && linea.fromVenta === null">&nbsp;</ng-container>
-			<ng-container *ngIf="linea.descuento !== null && linea.fromVenta === null">
+			<ng-container *ngIf="!editarDescuento && linea.descuento === null && linea.fromVenta === null">&nbsp;</ng-container>
+			<ng-container *ngIf="(linea.descuento !== null || editarDescuento) && linea.fromVenta === null">
 				<span *ngIf="!editarDescuento"
 					  class="editar-linea-descuento"
 					  (click)="editarLineaDescuento(i)">
 					{{linea.descuento}}
 					<ng-container *ngIf="!linea.descuentoManual">%</ng-container>
 					<ng-container *ngIf="linea.descuentoManual">€</ng-container>
-					<mat-icon *ngIf="!linea.descuentoManual && vs.ventaActual.modificarImportes"
-							  (click)="abreDescuento($event, linea)"
-							  title="introducir un importe como descuento">euro</mat-icon>
-					<mat-icon *ngIf="linea.descuentoManual"
-							  (click)="quitaDescuentoManual($event, i)"
-							  title="Quita el importe introducido como descuento">close</mat-icon>
+					<span *ngIf="!linea.descuentoManual && vs.ventaActual.modificarImportes"
+						  (click)="abreDescuento($event, linea)"
+						  title="introducir un importe como descuento">
+						<mat-icon>euro</mat-icon>
+					</span>
+					<span *ngIf="linea.descuentoManual"
+						  (click)="quitaDescuentoManual($event, i)"
+						  title="Quita el importe introducido como descuento">
+						<mat-icon>close</mat-icon>
+					</span>
 				</span>
 				<span *ngIf="editarDescuento">
 					<input type="number"
@@ -177,12 +181,14 @@
 				<div class="estadisticas-item-localizador">Loc.</div>
 				<div class="estadisticas-item-nombre">Nombre</div>
 				<div class="estadisticas-item-importe">Imp.</div>
+				<div class="estadisticas-item-importe">Ud.</div>
 			</div>
 			<div class="estadisticas-item"
 				 *ngFor="let item of vs.ventaActual.cliente.topVentas">
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>
 				<div class="estadisticas-item-nombre">{{item.nombre}}</div>
 				<div class="estadisticas-item-importe">{{item.importe | fixedNumber}} €</div>
+				<div class="estadisticas-item-importe">{{item.unidades}}</div>
 			</div>
 		</div>
 		<div class="estadisticas-sin-datos"
