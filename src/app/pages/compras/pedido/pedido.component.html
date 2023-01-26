@@ -129,9 +129,15 @@
                         <mat-select [(ngModel)]="colOptionsSelected"
                                     (selectionChange)="changeOptions()"
                                     multiple>
+                            <mat-option #allSelected
+                                        (click)="toggleAllSelection()"
+                                        [value]="0">Todas</mat-option>
                             <ng-container *ngFor="let option of colOptions">
                                 <mat-option *ngIf="!option.default"
-                                            [value]="option.id">{{option.value}}</mat-option>
+                                            [value]="option.id"
+                                            (click)="tosslePerOne()">
+                                    {{option.value}}
+                                </mat-option>
                             </ng-container>
                         </mat-select>
                     </mat-form-field>

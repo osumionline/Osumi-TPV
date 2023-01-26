@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -53,6 +54,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
     "Al contado",
   ];
 
+  @ViewChild("allSelected") private allSelected: MatOption;
   colOptions: PedidosColOption[] = [
     {
       id: 1,
@@ -319,6 +321,44 @@ export class PedidoComponent implements OnInit, OnDestroy {
       }
     }
     this.pedidoDisplayedColumns = list;
+  }
+
+  tosslePerOne(): void {
+    if (this.allSelected.selected) {
+      this.allSelected.deselect();
+      return;
+    }
+    let selectedNum: number = 0;
+    let totalNum: number = 0;
+    for (let i in this.colOptions) {
+      if (!this.colOptions[i].default) {
+        totalNum++;
+        if (this.colOptionsSelected.includes(this.colOptions[i].id)) {
+          selectedNum++;
+        }
+      }
+    }
+    if (selectedNum == totalNum) {
+      this.allSelected.select();
+    }
+    this.changeOptions();
+  }
+
+  toggleAllSelection(): void {
+    if (this.allSelected.selected) {
+      this.allSelected.select();
+      this.colOptionsSelected = [0];
+      for (let i in this.colOptions) {
+        if (!this.colOptions[i].default) {
+          this.colOptionsSelected.push(this.colOptions[i].id);
+        }
+      }
+    } else {
+      this.allSelected.deselect();
+      this.colOptionsSelected = [];
+    }
+    console.log(this.colOptionsSelected);
+    this.changeOptions();
   }
 
   updateTipoIva(): void {
