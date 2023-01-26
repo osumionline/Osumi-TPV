@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatCheckboxChange } from "@angular/material/checkbox";
+import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
+import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -20,13 +22,18 @@ export class NewProveedorModalComponent implements OnInit {
 
   constructor(
     private ms: MarcasService,
+    private cms: ClassMapperService,
     private dialog: DialogService,
     private ps: ProveedoresService,
     private customOverlayRef: CustomOverlayRef<null, {}>
   ) {}
 
   ngOnInit(): void {
-    this.marcas = this.ms.marcas;
+    this.marcas = this.cms.getMarcas(
+      this.ms.marcas.map((m: Marca): MarcaInterface => {
+        return m.toInterface();
+      })
+    );
     this.nombreBox.nativeElement.focus();
   }
 
