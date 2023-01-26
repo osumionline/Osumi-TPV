@@ -30,6 +30,8 @@
             .re-ue {
                 width: 182px;
                 margin-top: 25px;
+                display: flex;
+                flex-direction: column;
 
                 mat-icon {
                     vertical-align: middle;
