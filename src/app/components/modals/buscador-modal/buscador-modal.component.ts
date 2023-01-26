@@ -86,7 +86,10 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
         this.focusRow();
       }
       if (ev.key === "ArrowDown") {
-        if (this.buscadorResultadosRow === this.buscadorResultadosList.length) {
+        if (
+          this.buscadorResultadosRow ===
+          this.buscadorResultadosList.length - 1
+        ) {
           return;
         }
         this.buscadorResultadosRow++;

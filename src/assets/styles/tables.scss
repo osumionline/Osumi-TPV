@@ -87,10 +87,11 @@ table {
     }
 
     tr.clickable {
-        transition: all .2s ease-in-out;
+        transition: all .1s ease-in-out;
 
         &:hover {
-            background-color: var(--table-header-bg) !important;
+            background-color: var(--table-row-hover) !important;
+            color: #fff;
             cursor: pointer;
         }
     }

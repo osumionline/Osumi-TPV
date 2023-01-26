@@ -19,9 +19,7 @@
                             *ngFor="let cliente of cs.clientes | clientListFilter:search"
                             (click)="selectCliente(cliente)"
                             [ngClass]="{'selected-client': selectedClient.id===cliente.id}">
-                        <div matListItemTitle>{{cliente.nombreApellidos}}</div>
-                        <div matListItemLine
-                             class="sub-line">{{cliente.telefono}} {{cliente.direccion}}</div>
+                        {{cliente.nombreApellidos}}
                     </button>
                 </mat-action-list>
                 <div class="new-client">

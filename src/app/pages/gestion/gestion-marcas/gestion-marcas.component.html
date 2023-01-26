@@ -14,14 +14,16 @@
                         <mat-icon>search</mat-icon>
                     </span>
                 </mat-form-field>
-                <mat-action-list>
-                    <button mat-list-item
-                            *ngFor="let marca of ms.marcas | brandListFilter:search"
-                            (click)="selectMarca(marca)"
-                            [ngClass]="{'selected-client': selectedMarca.id===marca.id}">
-                        {{marca.nombre}}
-                    </button>
-                </mat-action-list>
+                <div class="list">
+                    <mat-action-list>
+                        <button mat-list-item
+                                *ngFor="let marca of ms.marcas | brandListFilter:search"
+                                (click)="selectMarca(marca)"
+                                [ngClass]="{'selected-client': selectedMarca.id===marca.id}">
+                            {{marca.nombre}}
+                        </button>
+                    </mat-action-list>
+                </div>
                 <div class="new-brand"
                      *ngIf="canNewBrands">
                     <button mat-raised-button
@@ -141,9 +143,9 @@
                                 </div>
                             </form>
                         </mat-tab>
-                        <mat-tab label="ESTADÍSTICAS"
+                        <!--mat-tab label="ESTADÍSTICAS"
                                  *ngIf="canSeeStatistics">
-                        </mat-tab>
+                        </mat-tab-->
                     </mat-tab-group>
                 </div>
             </main>

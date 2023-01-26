@@ -15,8 +15,13 @@
             }
         }
 
-        .selected-brand {
-            background-color: #eee;
+        .list {
+            max-height: 400px;
+            overflow-y: auto;
+
+            .selected-brand {
+                background-color: #eee;
+            }
         }
 
         .new-brand {
