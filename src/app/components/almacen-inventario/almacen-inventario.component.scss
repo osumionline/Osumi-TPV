@@ -5,12 +5,27 @@
     display: flex;
     flex-direction: row;
 
-    .nombre {
-        width: 50%;
+    .col-filtros {
+        flex: 3;
+
+        .nombre {
+            width: 45%;
+        }
+
+        mat-form-field {
+            margin-right: 16px;
+        }
     }
 
-    mat-form-field {
-        margin-right: 16px;
+    .col-actions {
+        flex: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        button {
+            margin-left: 16px;
+        }
     }
 }
 
