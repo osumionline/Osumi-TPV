@@ -83,7 +83,6 @@ export class InformeSimpleComponent implements OnInit {
           this.maxTicket = null;
         }
         this.loaded = true;
-        console.log(this.informeDisplayedColumns);
       });
     });
   }

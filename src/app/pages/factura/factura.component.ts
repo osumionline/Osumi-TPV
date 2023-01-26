@@ -61,7 +61,6 @@ export class FacturaComponent implements OnInit {
 
   loadData(): void {
     for (let venta of this.factura.ventas) {
-      console.log(venta);
       let temp: FacturaItem = new FacturaItem();
       temp.concepto = "Ticket Nº " + venta.id;
       temp.fecha = venta.fecha;

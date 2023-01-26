@@ -92,7 +92,6 @@ export class VentasComponent implements OnInit {
   }
 
   selectClient(cliente: SelectClienteInterface): void {
-    console.log(cliente);
     if (cliente === null || cliente.from === null) {
       this.startFocus();
     } else {
@@ -129,6 +128,7 @@ export class VentasComponent implements OnInit {
           this.ventas.get(this.vs.selected).setFocus();
         }
         if (data.data.status === "fin") {
+          this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
           this.ventas
