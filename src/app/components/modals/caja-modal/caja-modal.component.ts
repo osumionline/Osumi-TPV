@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { CajaContentComponent } from "src/app/components/caja-content/caja-content.component";
+import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
 import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 
 @Component({

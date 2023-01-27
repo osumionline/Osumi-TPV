@@ -46,21 +46,21 @@ export const PAGES: any[] = [
 /*
  * Componentes
  */
-import { AlmacenInventarioComponent } from "src/app/components/almacen-inventario/almacen-inventario.component";
-import { AlmacenListasComponent } from "src/app/components/almacen-listas/almacen-listas.component";
-import { CajaContentComponent } from "src/app/components/caja-content/caja-content.component";
-import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
-import { ComprasPedidosListComponent } from "src/app/components/compras-pedidos-list/compras-pedidos-list.component";
+import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-inventario/almacen-inventario.component";
+import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
+import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
+import { CierreCajaComponent } from "src/app/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "src/app/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/components/caja/salidas-caja/salidas-caja.component";
+import { ComprasPedidosListComponent } from "src/app/components/compras/compras-pedidos-list/compras-pedidos-list.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
-import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
 import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
-import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
-import { TabsComponent } from "src/app/components/tabs/tabs.component";
-import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
+import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
+import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
 
 export const COMPONENTS: any[] = [

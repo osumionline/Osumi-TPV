@@ -9,8 +9,8 @@ import {
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
-import { TabsComponent } from "src/app/components/tabs/tabs.component";
-import { UnaVentaComponent } from "src/app/components/una-venta/una-venta.component";
+import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
+import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
 import { ConfigService } from "src/app/services/config.service";

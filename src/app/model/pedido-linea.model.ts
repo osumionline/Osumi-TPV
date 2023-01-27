@@ -6,6 +6,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();
   showCodigoBarras: boolean = false;
+  descuentoPedido: number = 0;
 
   constructor(
     public id: number = null,
@@ -27,7 +28,12 @@ export class PedidoLinea {
   ) {}
 
   get subtotal(): number {
-    return this.unidades * this.palb * (1 - this.descuento / 100);
+    return (
+      this.unidades *
+      this.palb *
+      (1 - this.descuento / 100) *
+      (1 - this.descuentoPedido / 100)
+    );
   }
 
   get puc(): number {

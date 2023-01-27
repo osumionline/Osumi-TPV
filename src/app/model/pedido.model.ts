@@ -13,6 +13,7 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];
+  _descuento: number = 0;
 
   constructor(
     public id: number = null,
@@ -30,13 +31,23 @@ export class Pedido {
     public lineas: PedidoLinea[] = [],
     public importe: number = null,
     public portes: number = 0,
-    public descuento: number = 0,
     public faltas: boolean = false,
     public recepcionado: boolean = false,
     public observaciones: string = null,
     public pdfs: PedidoPDF[] = [],
     public vista: PedidoVista[] = []
   ) {}
+
+  get descuento(): number {
+    return this._descuento;
+  }
+
+  set descuento(x: number) {
+    this._descuento = x;
+    for (let i in this.lineas) {
+      this.lineas[i].descuentoPedido = x;
+    }
+  }
 
   get nombreTipo(): string {
     if (this.tipo === null) {
@@ -98,7 +109,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.total;
     }
-    return num * ((100 - this.descuento) / 100) + this.portes;
+    return num + this.portes;
   }
 
   get ivaList(): TotalsIVAOption[] {
@@ -146,7 +157,7 @@ export class Pedido {
   }
 
   get totalSinIva(): number {
-    return this.subtotal * ((100 - this.descuento) / 100) + this.portes;
+    return this.subtotal + this.portes;
   }
 
   get observacionesShort(): string {
@@ -177,7 +188,7 @@ export class Pedido {
     });
     this.importe = p.importe;
     this.portes = p.portes;
-    this.descuento = p.descuento;
+    this._descuento = p.descuento;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
     this.observaciones = Utils.urldecode(p.observaciones);
@@ -210,7 +221,7 @@ export class Pedido {
       }),
       importe: this.importe,
       portes: this.portes,
-      descuento: this.descuento,
+      descuento: this._descuento,
       faltas: this.faltas,
       recepcionado: this.recepcionado,
       observaciones: Utils.urlencode(this.observaciones),

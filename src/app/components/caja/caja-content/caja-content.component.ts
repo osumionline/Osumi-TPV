@@ -7,9 +7,9 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { CierreCajaComponent } from "src/app/components/cierre-caja/cierre-caja.component";
-import { HistoricoVentasComponent } from "src/app/components/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "src/app/components/salidas-caja/salidas-caja.component";
+import { CierreCajaComponent } from "src/app/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "src/app/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/components/caja/salidas-caja/salidas-caja.component";
 import { Month } from "src/app/interfaces/interfaces";
 import { ConfigService } from "src/app/services/config.service";
 
