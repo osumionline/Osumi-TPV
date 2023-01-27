@@ -26,13 +26,6 @@
                 <mat-icon>save</mat-icon>
                 Guardar
             </button>
-            <button mat-raised-button
-                    color="primary"
-                    *ngIf="!pedido.recepcionado"
-                    (click)="recepcionar()">
-                <mat-icon>beenhere</mat-icon>
-                Recepcionar
-            </button>
         </div>
     </div>
 </mat-card>
@@ -625,6 +618,15 @@
                         <div *ngIf="pedido.ue"
                              class="totales-row mark mark-iva">
                             <span>Total sin IVA:</span>{{pedido.totalSinIva | fixedNumber}} €
+                        </div>
+                        <div class="totales-row center">
+                            <button mat-raised-button
+                                    color="primary"
+                                    *ngIf="!pedido.recepcionado"
+                                    (click)="recepcionar()">
+                                <mat-icon>beenhere</mat-icon>
+                                Recepcionar
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -183,6 +183,10 @@
                             background-color: #ccc;
                         }
 
+                        &.center {
+                            justify-content: center;
+                        }
+
                         .iva-row {
                             display: flex;
                             width: 100%;
