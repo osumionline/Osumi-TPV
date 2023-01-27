@@ -40,6 +40,7 @@ export class ConfigService {
   marginList: number[] = [];
   ventaOnline: boolean = false;
   urlApi: string = "";
+  secretApi: string = "";
   fechaCad: boolean = false;
   empleados: boolean = false;
 
@@ -150,6 +151,7 @@ export class ConfigService {
     this.marginList = data.marginList;
     this.ventaOnline = data.ventaOnline;
     this.urlApi = data.urlApi;
+    this.secretApi = data.secretApi;
     this.fechaCad = data.fechaCad;
     this.empleados = data.empleados;
   }

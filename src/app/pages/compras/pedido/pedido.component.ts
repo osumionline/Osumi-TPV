@@ -427,7 +427,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   checkLocalizador(ev: KeyboardEvent): void {
     const letters = /^[a-zA-Z]{1}$/;
-    if (ev.key.match(letters)) {
+    if (ev.key.match(letters) && !ev.ctrlKey) {
       ev.preventDefault();
 
       const modalBuscadorData: BuscadorModal = {

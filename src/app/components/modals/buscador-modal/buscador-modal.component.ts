@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -17,7 +18,9 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./buscador-modal.component.html",
   styleUrls: ["./buscador-modal.component.scss"],
 })
-export class BuscadorModalComponent implements OnInit, AfterViewInit {
+export class BuscadorModalComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
   searchName: string = "";
   searchTimer: number = null;
@@ -145,5 +148,9 @@ export class BuscadorModalComponent implements OnInit, AfterViewInit {
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
     this.customOverlayRef.close(row.localizador);
+  }
+
+  ngOnDestroy(): void {
+    this.buscadorStop();
   }
 }

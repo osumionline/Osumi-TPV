@@ -75,6 +75,7 @@ export interface AppDataInterface {
   marginList: number[];
   ventaOnline: boolean;
   urlApi: string;
+  secretApi: string;
   fechaCad: boolean;
   empleados: boolean;
 }
@@ -100,6 +101,7 @@ export interface AppDataResult {
   marginList: number[];
   ventaOnline: boolean;
   urlApi: string;
+  secretApi: string;
   fechaCad: boolean;
   empleados: boolean;
 }

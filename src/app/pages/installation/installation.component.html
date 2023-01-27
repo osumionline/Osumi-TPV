@@ -276,11 +276,21 @@
 				<mat-radio-button value="0">No</mat-radio-button>
 				<mat-radio-button value="1">Si</mat-radio-button>
 			</mat-radio-group>
+
 			<mat-form-field class="url-api-field"
 							*ngIf="hasOnline==='1'">
+				<mat-label>URL base de la API de la tienda</mat-label>
 				<input matInput
 					   placeholder="URL base de la API de la tienda"
 					   [(ngModel)]="urlApi">
+			</mat-form-field>
+
+			<mat-form-field class="url-api-field"
+							*ngIf="hasOnline==='1'">
+				<mat-label>Secreto de la API de la tienda</mat-label>
+				<input matInput
+					   placeholder="Secreto de la API de la tienda"
+					   [(ngModel)]="secretApi">
 			</mat-form-field>
 		</div>
 
