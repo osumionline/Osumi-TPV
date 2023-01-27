@@ -39,6 +39,9 @@ import { environment } from "src/environments/environment";
 export class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
+
+  pedidoDeleted: boolean = false;
+
   @ViewChild("proveedoresValue", { static: true }) proveedoresValue: MatSelect;
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
@@ -202,6 +205,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.pedidoDeleted = false;
     this.ivaOptions = this.config.ivaOptions;
     for (let ivaOption of this.ivaOptions) {
       ivaOption.tipoIVA = "iva";
@@ -777,6 +781,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
                 ok: "Continuar",
               })
               .subscribe((result) => {
+                this.pedidoDeleted = true;
                 this.back();
               });
           });
@@ -786,13 +791,15 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.autoSaveIntervalId);
-    this.updatePedidoData();
-    if (this.pedido.id === null) {
-      this.cs.setPedidoTemporal(this.pedido);
-    } else {
-      this.cs
-        .autoSavePedido(this.pedido.toInterface())
-        .subscribe((result) => {});
+    if (!this.pedidoDeleted) {
+      this.updatePedidoData();
+      if (this.pedido.id === null) {
+        this.cs.setPedidoTemporal(this.pedido);
+      } else {
+        this.cs
+          .autoSavePedido(this.pedido.toInterface())
+          .subscribe((result) => {});
+      }
     }
   }
 }
