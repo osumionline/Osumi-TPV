@@ -501,7 +501,8 @@
                                        [href]="pdfsUrl + pedido.id + '/' + item.id + '.pdf'"
                                        [title]="item.nombre">{{item.nombre}}</a>
                                     <span *ngIf="item.id === null || pedido.id === null"
-                                          [title]="item.nombre">{{item.nombre}}</span>
+                                          [title]="item.nombre"
+                                          (click)="previewPdf(item)">{{item.nombre}}</span>
                                     <button mat-icon-button
                                             (click)="deletePDF(i, item)">
                                         <mat-icon>delete</mat-icon>
@@ -634,3 +635,11 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+<div class="pdf-preview"
+     *ngIf="selectedPdf">
+    <a href="#"
+       (click)="closePreview($event)">X</a>
+    <embed type="application/pdf"
+           [src]="selectedPdf">
+</div>

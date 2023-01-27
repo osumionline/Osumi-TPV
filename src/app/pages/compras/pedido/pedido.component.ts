@@ -8,6 +8,7 @@ import {
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
@@ -191,6 +192,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
   autoSaveIntervalTime: number = 30000;
   autoSaveManually: boolean = false;
 
+  selectedPdf: SafeUrl = null;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public config: ConfigService,
@@ -201,7 +204,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
     private ms: MarcasService,
     private cs: ComprasService,
     private router: Router,
-    private overlayService: OverlayService
+    private overlayService: OverlayService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -617,6 +621,15 @@ export class PedidoComponent implements OnInit, OnDestroy {
         (<HTMLInputElement>document.getElementById("pdf-file")).value = "";
       };
     }
+  }
+
+  previewPdf(pdf: PedidoPDF): void {
+    this.selectedPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdf.data);
+  }
+
+  closePreview(ev: MouseEvent): void {
+    ev && ev.preventDefault();
+    this.selectedPdf = null;
   }
 
   deletePDF(ind: number, pdf: PedidoPDF): void {
