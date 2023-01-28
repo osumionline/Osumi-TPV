@@ -8,12 +8,14 @@ import {
 import { PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from "@angular/router";
 import {
   BuscadorAlmacenInterface,
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/inventario-item.model";
 import { AlmacenService } from "src/app/services/almacen.service";
+import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
@@ -57,14 +59,17 @@ export class AlmacenInventarioComponent
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private ars: ArticulosService,
     public ms: MarcasService,
     public ps: ProveedoresService,
     private as: AlmacenService,
     private cms: ClassMapperService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.ars.returnInfo = null;
     if (!this.as.firstLoad) {
       this.buscador = this.as.buscador;
       this.list = this.as.list;
@@ -210,7 +215,7 @@ export class AlmacenInventarioComponent
       const data: Blob = new Blob([result], {
         type: "text/csv;charset=utf-8",
       });
-      let url = window.URL.createObjectURL(data);
+      let url: string = window.URL.createObjectURL(data);
       let a: HTMLAnchorElement = document.createElement("a");
       a.href = url;
       a.download = "inventario.csv";
@@ -222,6 +227,16 @@ export class AlmacenInventarioComponent
   printInventario(): void {
     const data: string = btoa(JSON.stringify(this.buscador));
     window.open("inventario-print/" + data);
+  }
+
+  goToArticulo(ev: MouseEvent, item: InventarioItem): void {
+    ev && ev.preventDefault();
+    this.ars.returnInfo = {
+      where: "almacen",
+      id: null,
+      extra: null,
+    };
+    this.router.navigate(["/articulos", item.localizador]);
   }
 
   ngOnDestroy(): void {

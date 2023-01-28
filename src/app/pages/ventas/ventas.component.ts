@@ -6,13 +6,14 @@ import {
   ViewChild,
   ViewChildren,
 } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
 import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
+import { ArticulosService } from "src/app/services/articulos.service";
 import { ConfigService } from "src/app/services/config.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
@@ -29,13 +30,14 @@ export class VentasComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private ars: ArticulosService,
     public config: ConfigService,
     public vs: VentasService,
     private overlayService: OverlayService
   ) {}
 
   ngOnInit(): void {
+    this.ars.returnInfo = null;
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id && parseInt(params.id) !== 0) {
         this.newVenta(-1 * parseInt(params.id));

@@ -9,13 +9,18 @@ import {
   ChartResultInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
+import {
+  ReturnInfoInterface,
+  StatusResult,
+} from "src/app/interfaces/interfaces";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ArticulosService {
+  returnInfo: ReturnInfoInterface = null;
+
   constructor(private http: HttpClient) {}
 
   getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {

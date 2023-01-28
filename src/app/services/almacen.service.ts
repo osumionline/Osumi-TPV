@@ -13,6 +13,7 @@ import {
 } from "src/app/interfaces/interfaces";
 import { InventarioItem } from "src/app/model/inventario-item.model";
 import { environment } from "src/environments/environment";
+import { Articulo } from "../model/articulo.model";
 
 @Injectable({
   providedIn: "root",
@@ -76,5 +77,21 @@ export class AlmacenService {
         responseType: "text",
       }
     );
+  }
+
+  updateArticulo(articulo: Articulo): void {
+    for (let item of this.list) {
+      if (item.id === articulo.id) {
+        item.marca = articulo.marca;
+        item.referencia = articulo.referencia;
+        item.nombre = articulo.nombre;
+        item.stock = articulo.stock;
+        item._stock = articulo.stock;
+        item.puc = articulo.puc;
+        item.pvp = articulo.pvp;
+        item._pvp = articulo.pvp;
+        item.hasCodigosBarras = articulo.hasCodigoBarras;
+      }
+    }
   }
 }

@@ -135,16 +135,6 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="form-field">
-                    <button mat-raised-button
-                            color="primary"
-                            type="button"
-                            *ngIf="!pedido.recepcionado"
-                            (click)="goToArticulo(0)">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        Artículo
-                    </button>
-                </div>
             </div>
         </div>
         <div class="pedido-table">
@@ -483,8 +473,16 @@
                            (keydown)="checkLocalizador($event)"
                            autocomplete="off"
                            (focus)="$event.target.select()"
+                           id="nuevo-localizador"
                            #localizadorBox>
                 </mat-form-field>
+                <button mat-icon-button
+                        title="Añadir nuevo artículo"
+                        type="button"
+                        *ngIf="!pedido.recepcionado"
+                        (click)="goToArticulo(0)">
+                    <mat-icon>add_circle_outline</mat-icon>
+                </button>
             </div>
         </div>
         <div class="pedido-footer">

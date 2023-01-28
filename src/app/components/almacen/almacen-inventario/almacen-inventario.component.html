@@ -103,8 +103,11 @@
             Nombre
         </th>
         <td mat-cell
-            *matCellDef="let element"> <a class="link"
-               [routerLink]="['/articulos', element.localizador, 'return', 'almacen']">{{element.nombre}}</a> </td>
+            *matCellDef="let element">
+            <a class="link"
+               (click)="goToArticulo($event, element)">{{element.nombre}}
+            </a>
+        </td>
     </ng-container>
 
     <!-- Stock -->

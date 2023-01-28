@@ -145,3 +145,9 @@ export interface DateValues {
   desde: string;
   hasta: string;
 }
+
+export interface ReturnInfoInterface {
+  where: string;
+  id: number;
+  extra: number;
+}

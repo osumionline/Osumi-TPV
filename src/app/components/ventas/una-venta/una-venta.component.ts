@@ -411,12 +411,12 @@ export class UnaVentaComponent implements AfterViewInit {
 
   goToArticulo(linea: VentaLinea, ind: number): void {
     if (linea.idArticulo !== 0) {
-      this.router.navigate([
-        "/articulos",
-        linea.localizador,
-        "return",
-        "ventas",
-      ]);
+      this.ars.returnInfo = {
+        where: "ventas",
+        id: null,
+        extra: null,
+      };
+      this.router.navigate(["/articulos", linea.localizador]);
     } else {
       this.abreVarios(ind);
     }

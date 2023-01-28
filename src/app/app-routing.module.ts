@@ -44,16 +44,6 @@ const routes: Routes = [
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "articulos/:localizador/return/:where",
-    component: ArticulosComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "articulos/:localizador/return/:where/:id",
-    component: ArticulosComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
     path: "compras",
     component: ComprasComponent,
     canActivate: [isOpenedGuardFn],

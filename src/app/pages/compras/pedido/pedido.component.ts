@@ -265,6 +265,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
       this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
       this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
       this.pedidoDataSource.data = this.pedido.lineas;
+      this.checkReturnInfo();
     });
   }
 
@@ -283,11 +284,30 @@ export class PedidoComponent implements OnInit, OnDestroy {
     }
     this.changeOptions();
     this.pedidoDataSource.data = this.pedido.lineas;
+    this.checkReturnInfo();
   }
 
   newPedido(): void {
     this.pedido.ivaOptions = this.ivaOptions;
+    this.checkReturnInfo();
     this.localizadorBox.nativeElement.focus();
+  }
+
+  checkReturnInfo(): void {
+    if (this.ars.returnInfo !== null && this.ars.returnInfo.extra !== null) {
+      this.nuevoLocalizador = this.ars.returnInfo.extra;
+      this.ars.returnInfo = null;
+      const loc: HTMLInputElement = document.getElementById(
+        "nuevo-localizador"
+      ) as HTMLInputElement;
+      const ev: KeyboardEvent = new KeyboardEvent("keydown", {
+        code: "Enter",
+        key: "Enter",
+        keyCode: 13,
+        which: 13,
+      });
+      loc.dispatchEvent(ev);
+    }
   }
 
   back(): void {
@@ -586,17 +606,12 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
-    if (this.pedido.id === null) {
-      this.router.navigate(["/articulos", localizador, "return", "pedido", 0]);
-    } else {
-      this.router.navigate([
-        "/articulos",
-        localizador,
-        "return",
-        "pedido",
-        this.pedido.id,
-      ]);
-    }
+    this.ars.returnInfo = {
+      where: "pedido",
+      id: this.pedido.id === null ? 0 : this.pedido.id,
+      extra: null,
+    };
+    this.router.navigate(["/articulos", localizador]);
   }
 
   addPDF(): void {

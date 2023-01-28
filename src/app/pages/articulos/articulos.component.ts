@@ -33,6 +33,7 @@ import { Foto } from "src/app/model/foto.model";
 import { IVAOption } from "src/app/model/iva-option.model";
 import { Marca } from "src/app/model/marca.model";
 import { Proveedor } from "src/app/model/proveedor.model";
+import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -51,8 +52,6 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class ArticulosComponent implements OnInit, AfterViewInit {
   articulo: Articulo = new Articulo();
-  returnWhere: string = null;
-  returnWhereId: number = null;
 
   marca: Marca = new Marca();
   proveedor: Proveedor = new Proveedor();
@@ -133,6 +132,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     private css: CategoriasService,
     private ars: ArticulosService,
     private vs: VentasService,
+    private als: AlmacenService,
     private overlayService: OverlayService
   ) {}
 
@@ -147,12 +147,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         this.articulo.localizador = params.localizador;
         this.form.get("localizador").setValue(params.localizador);
         this.loadArticulo();
-      }
-      if (params.where) {
-        this.returnWhere = params.where;
-      }
-      if (params.id) {
-        this.returnWhereId = params.id;
       }
     });
   }
@@ -628,19 +622,22 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   goToReturn(): void {
-    switch (this.returnWhere) {
+    switch (this.ars.returnInfo.where) {
       case "ventas":
         {
+          this.vs.updateArticulo(this.articulo);
           this.router.navigate(["/ventas"]);
         }
         break;
       case "pedido":
         {
-          this.router.navigate(["/compras/pedido/", this.returnWhereId]);
+          this.ars.returnInfo.extra = this.articulo.localizador;
+          this.router.navigate(["/compras/pedido/", this.ars.returnInfo.id]);
         }
         break;
       case "almacen":
         {
+          this.als.updateArticulo(this.articulo);
           this.router.navigate(["/almacen"]);
         }
         break;
@@ -655,7 +652,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form.get("puc").markAsPristine();
     this.form.get("pvp").markAsPristine();
 
-    if (this.returnWhere !== null) {
+    if (this.ars.returnInfo !== null) {
       this.goToReturn();
     }
   }
@@ -720,8 +717,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
           })
           .subscribe((result) => {
             this.saving = false;
-            this.vs.updateArticulo(this.articulo);
-            if (this.returnWhere === null) {
+            if (this.ars.returnInfo === null) {
               this.articulo.nombreStatus = "ok";
               this.loadArticulo();
             } else {
