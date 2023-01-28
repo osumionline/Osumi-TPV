@@ -2,7 +2,6 @@
 			 #header></otpv-header>
 
 <otpv-tabs [showClose]="true"
-		   [ngClass]="{'hidden': vs.list.length===0}"
 		   (closeTabEvent)="cerrarVenta($event)"
 		   (newTabEvent)="newVenta()"
 		   (changeTabEvent)="startFocus()"

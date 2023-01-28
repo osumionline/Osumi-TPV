@@ -15,7 +15,7 @@
 			<mat-icon>add</mat-icon>
 		</div>
 		<div class="select-client"
-			 *ngIf="!vs.cliente">
+			 *ngIf="vs.list.length > 0 && !vs.cliente">
 			<span (click)="selectClient()">
 				<mat-icon>person_add</mat-icon>
 			</span>
