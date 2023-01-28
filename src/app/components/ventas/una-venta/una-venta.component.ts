@@ -332,7 +332,6 @@ export class UnaVentaComponent implements AfterViewInit {
     );
 
     if (data !== null && data.data.length > 0) {
-      debugger;
       // Busco si hay alguna línea que haya que borrar
       const toBeDeleted: number[] = [];
       for (let linea of checkList) {

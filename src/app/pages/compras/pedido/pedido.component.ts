@@ -386,7 +386,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
       this.allSelected.deselect();
       this.colOptionsSelected = [];
     }
-    console.log(this.colOptionsSelected);
     this.changeOptions();
   }
 

@@ -218,7 +218,6 @@ export class ClientesComponent implements OnInit {
   }
 
   nuevaFactura(): void {
-    debugger;
     if (
       this.selectedClient.dniCif === null ||
       this.selectedClient.dniCif === ""
