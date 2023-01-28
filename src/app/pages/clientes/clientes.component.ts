@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
 import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
@@ -21,6 +21,7 @@ import { OverlayService } from "./../../services/overlay.service";
   styleUrls: ["./clientes.component.scss"],
 })
 export class ClientesComponent implements OnInit {
+  broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
@@ -57,9 +58,8 @@ export class ClientesComponent implements OnInit {
   facturasDisplayedColumns: string[] = ["id", "fecha", "importe", "opciones"];
   facturasDataSource: MatTableDataSource<Factura> =
     new MatTableDataSource<Factura>();
-
-  @ViewChild("editFactura", { static: true })
-  editFactura: EditFacturaModalComponent;
+  @ViewChild("facturasTable", { static: false })
+  facturasTable!: MatTable<Factura>;
 
   stats: ChartSelectInterface = {
     data: "consumo",
@@ -85,6 +85,16 @@ export class ClientesComponent implements OnInit {
     for (let y: number = d.getFullYear() - 5; y <= d.getFullYear(); y++) {
       this.yearList.push(y);
     }
+    this.broadcastChannel.onmessage = (message) => {
+      console.log(message);
+      if (
+        message.data.type === "imprimir" &&
+        message.data.id === this.selectedClient.id
+      ) {
+        console.log("recargo facturas");
+        this.loadFacturasCliente();
+      }
+    };
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.new) {
         if (params.new === "new") {
@@ -134,10 +144,18 @@ export class ClientesComponent implements OnInit {
   }
 
   loadFacturasCliente(): void {
+    console.log("loadFacturasCliente");
+    this.selectedClient.facturas = [];
+    this.facturasDataSource.data = this.selectedClient.facturas;
     this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
       if (result.status === "ok") {
         this.selectedClient.facturas = this.cms.getFacturas(result.list);
-        this.facturasDataSource.data = this.selectedClient.facturas;
+        const facturas: Factura[] = [...this.selectedClient.facturas];
+        this.facturasDataSource.data = facturas;
+        this.facturasDataSource.connect().next(facturas);
+        console.log(this.facturasDataSource.data);
+        console.log(this.facturasTable);
+        this.facturasTable.renderRows();
       }
     });
   }

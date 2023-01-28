@@ -15,6 +15,7 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./factura.component.scss"],
 })
 export class FacturaComponent implements OnInit {
+  broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
   preview: boolean = false;
   logoUrl: string = environment.baseUrl + "logo.jpg";
   factura: Factura = new Factura();
@@ -139,6 +140,10 @@ export class FacturaComponent implements OnInit {
       .subscribe((result: IdSaveResult) => {
         if (result.status === "ok") {
           this.preview = false;
+          this.broadcastChannel.postMessage({
+            type: "imprimir",
+            id: this.factura.idCliente,
+          });
           this.loadFactura(this.factura.id);
         }
       });

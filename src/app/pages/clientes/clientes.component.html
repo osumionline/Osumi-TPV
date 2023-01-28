@@ -217,11 +217,12 @@
                             </mat-tab>
                             <mat-tab label="FACTURAS"
                                      *ngIf="form.value.id">
-                                <table *ngIf="selectedClient.facturas.length > 0"
+                                <table [ngClass]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
                                        mat-table
                                        [dataSource]="facturasDataSource"
                                        matSort
-                                       class="mat-elevation-z2 ">
+                                       class="mat-elevation-z2"
+                                       #facturasTable>
 
                                     <!-- Id -->
                                     <ng-container matColumnDef="id">
@@ -265,6 +266,7 @@
                                         <td class="center"
                                             mat-cell
                                             *matCellDef="let element">
+                                            {{element.impresa | json}}
                                             <button *ngIf="element.impresa && selectedClient.email !== null && selectedClient.email !== ''"
                                                     class="facturas-btn"
                                                     type="button"
