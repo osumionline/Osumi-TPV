@@ -100,15 +100,47 @@ export class NewProveedorModalComponent implements OnInit {
         })
         .subscribe((result) => {
           if (result === true) {
-            this.guardarProveedorContinue();
+            this.guardarProveedorMarcas();
           }
         });
-    } else {
-      this.proveedor.marcas = this.marcasSelected.map((m: Marca): number => {
-        return m.id;
-      });
-      this.guardarProveedorContinue();
+      return;
     }
+
+    this.guardarProveedorMarcas();
+  }
+
+  guardarProveedorMarcas(check: boolean = true): void {
+    if (check) {
+      let marcasCheck: boolean = true;
+      for (let m of this.marcasSelected) {
+        if (m.proveedor !== null) {
+          marcasCheck = false;
+          break;
+        }
+      }
+
+      if (!marcasCheck) {
+        this.dialog
+          .confirm({
+            title: "Confirmar",
+            content:
+              "Has elegido alguna marca que ya tenía asignado un proveedor, ¿quieres continuar? En caso de continuar será reemplazado y los artículos de dicha marca también cambiarán a este nuevo proveedor.",
+            ok: "Continuar",
+            cancel: "Cancelar",
+          })
+          .subscribe((result) => {
+            if (result === true) {
+              this.guardarProveedorMarcas(false);
+            }
+          });
+        return;
+      }
+    }
+
+    this.proveedor.marcas = this.marcasSelected.map((m: Marca): number => {
+      return m.id;
+    });
+    this.guardarProveedorContinue();
   }
 
   guardarProveedorContinue(): void {

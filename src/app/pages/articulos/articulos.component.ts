@@ -214,7 +214,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
-        if (data !== null) {
+        if (data.data !== null) {
           this.form.get("localizador").setValue(data.data);
           this.loadArticulo();
         } else {
