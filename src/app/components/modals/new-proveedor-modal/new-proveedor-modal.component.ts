@@ -113,14 +113,25 @@ export class NewProveedorModalComponent implements OnInit {
 
   guardarProveedorContinue(): void {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result) => {
-      if (result.status == "ok") {
+      if (result.status === "ok") {
         this.ps.resetProveedores();
         this.customOverlayRef.close(result.id);
-      } else {
+      }
+      if (result.status === "error-nombre") {
         this.dialog
           .alert({
             title: "Error",
-            content: "Ocurrió un error al guardar el nuevo proveedor",
+            content: "Ya existe un proveedor con el nombre indicado.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+        return;
+      }
+      if (result.status === "error") {
+        this.dialog
+          .alert({
+            title: "Error",
+            content: "Ocurrió un error al guardar el nuevo proveedor.",
             ok: "Continuar",
           })
           .subscribe((result) => {});

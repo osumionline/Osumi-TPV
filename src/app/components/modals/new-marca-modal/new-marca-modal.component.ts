@@ -39,14 +39,27 @@ export class NewMarcaModalComponent implements OnInit {
     this.ms
       .saveMarca(this.marca.toInterface())
       .subscribe((result: IdSaveResult): void => {
-        if (result.status == "ok") {
+        if (result.status === "ok") {
           this.ms.resetMarcas();
           this.customOverlayRef.close(result.id);
-        } else {
+        }
+        if (result.status === "error-nombre") {
           this.dialog
             .alert({
               title: "Error",
-              content: "Ocurrió un error al guardar la nueva marca",
+              content: "Ya existe una marca con el nombre indicado.",
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {
+              this.nombreBox.nativeElement.focus();
+            });
+          return;
+        }
+        if (result.status === "error") {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "Ocurrió un error al guardar la nueva marca.",
               ok: "Continuar",
             })
             .subscribe((result: boolean): void => {});
