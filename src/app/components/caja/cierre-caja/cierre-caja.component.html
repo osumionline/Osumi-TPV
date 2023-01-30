@@ -21,15 +21,14 @@
                                 <label>Saldo final</label>
                                 <span class="value-placeholder">{{cierreCaja.saldoFinal | fixedNumber}} €</span>
                             </div>
-                            <div class="form-field">
+                            <div class="form-field deploy">
                                 <label>Importe real (*)</label>
-                                <mat-form-field class="form-title campo-numero">
-                                    <input matInput
-                                           type="number"
-                                           placeholder="Importe real"
-                                           [(ngModel)]="cierreCaja.real"
-                                           #importeRealBox>
-                                </mat-form-field>
+                                <span *ngIf="cierreCaja.real === null">
+                                    Importe real
+                                </span>
+                                <span *ngIf="cierreCaja.real !== null">
+                                    {{cierreCaja.real | fixedNumber}}
+                                </span>
                                 €
                             </div>
                             <div class="form-field">
@@ -52,6 +51,138 @@
                             <div class="form-field">
                                 <label>Saldo siguiente caja</label>
                                 <span class="value-placeholder">{{cierreCaja.saldoSiguiente | fixedNumber}} €</span>
+                            </div>
+                        </div>
+                        <div class="coin-row">
+                            <div class="coin-col">
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>1c</mat-label>
+                                    <input matInput
+                                           placeholder="1c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe1c">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>2c</mat-label>
+                                    <input matInput
+                                           placeholder="2c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe2c">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>5c</mat-label>
+                                    <input matInput
+                                           placeholder="5c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe5c">
+                                </mat-form-field>
+                            </div>
+                            <div class="coin-col">
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>10c</mat-label>
+                                    <input matInput
+                                           placeholder="10c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe10c">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>20c</mat-label>
+                                    <input matInput
+                                           placeholder="20c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe20c">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>50c</mat-label>
+                                    <input matInput
+                                           placeholder="50c"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe50c">
+                                </mat-form-field>
+                            </div>
+                            <div class="coin-col">
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>1 €</mat-label>
+                                    <input matInput
+                                           placeholder="1 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe1">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>2 €</mat-label>
+                                    <input matInput
+                                           placeholder="2 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe2">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>5 €</mat-label>
+                                    <input matInput
+                                           placeholder="5 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe5">
+                                </mat-form-field>
+                            </div>
+                            <div class="coin-col">
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>10 €</mat-label>
+                                    <input matInput
+                                           placeholder="10 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe10">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>20 €</mat-label>
+                                    <input matInput
+                                           placeholder="20 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe20">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>50 €</mat-label>
+                                    <input matInput
+                                           placeholder="50 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe50">
+                                </mat-form-field>
+                            </div>
+                            <div class="coin-col">
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>100 €</mat-label>
+                                    <input matInput
+                                           placeholder="100 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe100">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>200 €</mat-label>
+                                    <input matInput
+                                           placeholder="200 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe200">
+                                </mat-form-field>
+                                <mat-form-field class="campo-numero-small x-small"
+                                                subscriptSizing="dynamic">
+                                    <mat-label>500 €</mat-label>
+                                    <input matInput
+                                           placeholder="500 €"
+                                           type="number"
+                                           [(ngModel)]="cierreCaja.importe500">
+                                </mat-form-field>
                             </div>
                         </div>
                     </mat-card-content>

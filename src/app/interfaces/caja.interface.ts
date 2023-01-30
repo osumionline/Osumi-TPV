@@ -71,13 +71,28 @@ export interface CierreCajaTipoInterface {
 }
 
 export interface CierreCajaInterface {
-  date?: string;
+  date: string;
   saldoInicial: number;
   importeEfectivo: number;
   salidasCaja: number;
   saldoFinal: number;
-  real?: number;
-  retirado?: number;
+  real: number;
+  importe1c: number;
+  importe2c: number;
+  importe5c: number;
+  importe10c: number;
+  importe20c: number;
+  importe50c: number;
+  importe1: number;
+  importe2: number;
+  importe5: number;
+  importe10: number;
+  importe20: number;
+  importe50: number;
+  importe100: number;
+  importe200: number;
+  importe500: number;
+  retirado: number;
   tipos: CierreCajaTipoInterface[];
 }
 

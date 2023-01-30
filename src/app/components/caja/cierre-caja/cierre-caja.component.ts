@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { CierreCaja } from "src/app/model/cierre-caja.model";
 import { ApiService } from "src/app/services/api.service";
@@ -14,8 +14,6 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class CierreCajaComponent {
   cierreCaja: CierreCaja = new CierreCaja();
-
-  @ViewChild("importeRealBox", { static: true }) importeRealBox: ElementRef;
 
   constructor(
     private as: ApiService,
@@ -40,11 +38,7 @@ export class CierreCajaComponent {
           content: 'El campo "Importe real" es obligatorio.',
           ok: "Continuar",
         })
-        .subscribe((result) => {
-          setTimeout(() => {
-            this.importeRealBox.nativeElement.focus();
-          }, 0);
-        });
+        .subscribe((result) => {});
       return;
     }
 
