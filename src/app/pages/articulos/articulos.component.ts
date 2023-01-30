@@ -257,6 +257,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
           this.form.get("puc").markAsPristine();
           this.form.get("pvp").markAsPristine();
 
+          const marca: Marca = this.ms.findById(this.articulo.idMarca);
+          this.articulo.marca = marca.nombre;
+
           this.selectedTab = 0;
           this.loading = false;
         } else {
