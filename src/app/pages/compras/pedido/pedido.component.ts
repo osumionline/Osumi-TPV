@@ -506,11 +506,11 @@ export class PedidoComponent implements OnInit, OnDestroy {
         }
 
         this.nuevoLocalizador = null;
-        if (!this.autoSaveManually) {
+        /*if (!this.autoSaveManually) {
           this.autoSave = true;
           this.changeAutoSave();
           this.autoSaveManually = false;
-        }
+        }*/
         this.localizadorBox.nativeElement.focus();
       } else {
         this.dialog

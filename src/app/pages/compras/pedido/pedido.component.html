@@ -17,9 +17,9 @@
                 <mat-icon>delete</mat-icon>
                 Eliminar
             </button>
-            <mat-checkbox *ngIf="!pedido.recepcionado && pedido.lineas.length > 0"
+            <!--mat-checkbox *ngIf="!pedido.recepcionado && pedido.lineas.length > 0"
                           [(ngModel)]="autoSave"
-                          (ngModelChange)="changeAutoSave()">Autoguardado</mat-checkbox>
+                          (ngModelChange)="changeAutoSave()">Autoguardado</mat-checkbox-->
             <button mat-raised-button
                     color="primary"
                     (click)="guardar()">
