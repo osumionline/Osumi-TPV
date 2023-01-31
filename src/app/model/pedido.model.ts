@@ -101,7 +101,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.subtotal;
     }
-    return num;
+    return num + this.portes * 0.79;
   }
 
   get total(): number {
@@ -130,6 +130,13 @@ export class Pedido {
       }
     }
 
+    if (this.portes !== null && this.portes > 0) {
+      if (!list.hasOwnProperty("iva_21")) {
+        list["iva_21"] = 0;
+      }
+      list["iva_21"] += this.portes * 0.21;
+    }
+
     const ret: TotalsIVAOption[] = [];
     for (let ivaOption of this.ivaOptions) {
       ret.push({
@@ -153,6 +160,9 @@ export class Pedido {
       puc += linea.puc * linea.unidades;
     }
     puc += this.portes;
+    if (pvp === 0) {
+      return 0;
+    }
     return (100 * (pvp - puc)) / pvp;
   }
 
