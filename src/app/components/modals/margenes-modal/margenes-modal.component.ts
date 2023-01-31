@@ -18,7 +18,6 @@ export class MargenesModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.customOverlayRef);
     this.puc = this.customOverlayRef.data.puc;
     this.marginList = this.customOverlayRef.data.list;
   }
