@@ -14,6 +14,7 @@ import { Utils } from "src/app/shared/utils.class";
 })
 export class CierreCajaComponent {
   cierreCaja: CierreCaja = new CierreCaja();
+  showCoins: boolean = false;
 
   constructor(
     private as: ApiService,
@@ -27,7 +28,31 @@ export class CierreCajaComponent {
     const date: string = Utils.getCurrentDate();
     this.as.getCierreCaja(date).subscribe((result) => {
       this.cierreCaja = this.cms.getCierreCaja(result.datos);
+      console.log(this.cierreCaja);
     });
+  }
+
+  openCoins(): void {
+    this.showCoins = !this.showCoins;
+  }
+
+  updateImporteReal(): void {
+    this.cierreCaja.real =
+      this.cierreCaja.importe1c * 0.01 +
+      this.cierreCaja.importe2c * 0.02 +
+      this.cierreCaja.importe5c * 0.05 +
+      this.cierreCaja.importe10c * 0.1 +
+      this.cierreCaja.importe20c * 0.2 +
+      this.cierreCaja.importe50c * 0.5 +
+      this.cierreCaja.importe1 +
+      this.cierreCaja.importe2 * 2 +
+      this.cierreCaja.importe5 * 5 +
+      this.cierreCaja.importe10 * 10 +
+      this.cierreCaja.importe20 * 20 +
+      this.cierreCaja.importe50 * 50 +
+      this.cierreCaja.importe100 * 100 +
+      this.cierreCaja.importe200 * 200 +
+      this.cierreCaja.importe500 * 500;
   }
 
   cerrarCaja(): void {

@@ -42,11 +42,20 @@
         }
 
         .coin-row {
-            display: flex;
+            display: none;
+            justify-content: space-around;
+
+            &.show {
+                display: flex;
+            }
 
             .coin-col {
                 display: flex;
                 flex-direction: column;
+
+                mat-form-field {
+                    margin-bottom: 8px;
+                }
             }
         }
 

@@ -155,6 +155,14 @@
   input {
     text-align: right;
   }
+
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+    top: 14px;
+  }
+
+  .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+    --mat-mdc-form-field-label-transform: translateY(-20px) scale(var(--mat-mdc-form-field-floating-label-scale, 0.75));
+  }
 }
 
 .third-width {

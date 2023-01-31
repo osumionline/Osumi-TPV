@@ -2,14 +2,14 @@ import { ColorValues } from "src/app/interfaces/interfaces";
 
 export class Utils {
   static formatNumber(num: number): string {
-    if (num === null) {
+    if (num === null || num === undefined) {
       return "";
     }
     return num.toFixed(2).replace(".", ",");
   }
 
   static toNumber(str: string): number {
-    if (str === null || str === "") {
+    if (str === null || str === undefined || str === "") {
       return 0;
     }
     return parseFloat(str.replace(",", "."));
