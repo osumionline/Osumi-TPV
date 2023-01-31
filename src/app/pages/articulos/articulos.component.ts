@@ -71,7 +71,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   @ViewChild("fecCadValue", { static: true }) fecCadValue: ElementRef;
   monthList: Month[] = [];
   yearList: number[] = [];
-  newCodBarras: number = null;
+  newCodBarras: string = null;
   @ViewChild("codigoBarrasBox", { static: true }) codigoBarrasBox: ElementRef;
   mostrarBuscador: boolean = false;
 

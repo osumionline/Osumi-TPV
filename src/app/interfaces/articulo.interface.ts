@@ -33,7 +33,7 @@ export interface ChartResultInterface {
 
 export interface CodigoBarrasInterface {
   id: number;
-  codigoBarras: number;
+  codigoBarras: string;
   porDefecto: boolean;
 }
 
