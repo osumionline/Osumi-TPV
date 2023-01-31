@@ -20,7 +20,7 @@ export class Articulo {
   constructor(
     public id: number = null,
     public localizador: number = null,
-    public nombre: string = "Nuevo artículo",
+    public nombre: string = null,
     public idCategoria: number = null,
     public idMarca: number = null,
     public idProveedor: number = null,
