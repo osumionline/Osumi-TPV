@@ -182,7 +182,12 @@
                         *matCellDef="let element">
                         <a href="#"
                            tabindex="-1"
-                           (click)="goToArticulo(element.localizador, $event)">{{element.nombreArticulo}}</a>
+                           (click)="goToArticulo(element.localizador, $event)">
+                            {{element.nombreArticulo}}
+                        </a>
+                        <mat-icon *ngIf="element.mostrarObsPedidos"
+                                  [matTooltip]="element.observaciones"
+                                  class="icon">info_outline</mat-icon>
                     </td>
                 </ng-container>
 

@@ -197,6 +197,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 export const MATERIAL: any[] = [
   MatToolbarModule,
@@ -218,4 +219,5 @@ export const MATERIAL: any[] = [
   DragDropModule,
   MatNativeDateModule,
   MatPaginatorModule,
+  MatTooltipModule,
 ];

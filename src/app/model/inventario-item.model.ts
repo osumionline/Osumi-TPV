@@ -15,7 +15,8 @@ export class InventarioItem {
     public stock: number = null,
     public puc: number = null,
     public pvp: number = null,
-    public hasCodigosBarras: boolean = false
+    public hasCodigosBarras: boolean = false,
+    public observaciones: string = null
   ) {
     this._stock = stock;
     this._pvp = pvp;
@@ -48,6 +49,7 @@ export class InventarioItem {
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
     this.hasCodigosBarras = ii.hasCodigosBarras;
+    this.observaciones = Utils.urldecode(ii.observaciones);
 
     return this;
   }
@@ -64,6 +66,7 @@ export class InventarioItem {
       pvp: this.pvp,
       hasCodigosBarras: this.hasCodigosBarras,
       codigoBarras: this.codigoBarras,
+      observaciones: Utils.urlencode(this.observaciones),
     };
   }
 }

@@ -137,7 +137,7 @@
                     {{ element.proveedor !== '' ? element.proveedor : '-' }}
                     <mat-icon *ngIf="element.observaciones"
                               class="icon"
-                              [title]="element.observacionesShort">info_outline</mat-icon>
+                              [matTooltip]="element.observacionesShort">info_outline</mat-icon>
                 </td>
             </ng-container>
 
@@ -333,7 +333,7 @@
                     {{element.proveedor}}
                     <mat-icon *ngIf="element.observaciones"
                               class="icon"
-                              [title]="element.observacionesShort">info_outline</mat-icon>
+                              [matTooltip]="element.observacionesShort">info_outline</mat-icon>
                 </td>
             </ng-container>
 

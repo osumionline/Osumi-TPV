@@ -19,6 +19,7 @@ export interface InventarioItemInterface {
   pvp: number;
   hasCodigosBarras: boolean;
   codigoBarras?: string;
+  observaciones: string;
 }
 
 export interface BuscadorAlmacenResult {

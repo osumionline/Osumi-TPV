@@ -7,6 +7,8 @@ export class PedidoLinea {
   selectedIvaOption: IVAOption = new IVAOption();
   showCodigoBarras: boolean = false;
   descuentoPedido: number = 0;
+  mostrarObsPedidos: boolean = false;
+  observaciones: string = null;
 
   constructor(
     public id: number = null,
@@ -100,6 +102,8 @@ export class PedidoLinea {
     if (!a.hasCodigoBarras) {
       this.showCodigoBarras = true;
     }
+    this.mostrarObsPedidos = a.mostrarObsPedidos;
+    this.observaciones = a.observaciones;
 
     return this;
   }

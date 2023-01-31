@@ -107,6 +107,9 @@
             <a class="link"
                (click)="goToArticulo($event, element)">{{element.nombre}}
             </a>
+            <mat-icon *ngIf="element.observaciones"
+                      [matTooltip]="element.observaciones"
+                      class="icon">info_outline</mat-icon>
         </td>
     </ng-container>
 
