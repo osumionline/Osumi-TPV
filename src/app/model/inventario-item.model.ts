@@ -4,7 +4,7 @@ import { Utils } from "src/app/shared/utils.class";
 export class InventarioItem {
   _stock: number = null;
   _pvp: number = null;
-  codigoBarras: number = null;
+  codigoBarras: string = null;
 
   constructor(
     public id: number = null,
