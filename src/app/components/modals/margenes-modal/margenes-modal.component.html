@@ -1,5 +1,7 @@
-<div *ngFor="let margin of marginList"
-     class="margin-option">
-    <label>{{margin}} %</label>
-    <span (click)="selectMargen(margin)">{{puc * (1 + (margin/100)) | fixedNumber}} €</span>
+<div class="margin-list">
+    <div *ngFor="let margin of marginList"
+         class="margin-option">
+        <label>{{margin}} %</label>
+        <span (click)="selectMargen(margin)">{{puc * (1 + (margin/100)) | fixedNumber}} €</span>
+    </div>
 </div>

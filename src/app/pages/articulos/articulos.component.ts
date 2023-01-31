@@ -389,7 +389,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     const ivare: number =
       (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
       (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
-    const puc: number = this.getTwoNumberDecimal(
+    const puc: string = this.getTwoNumberDecimal(
       this.form.get("palb").value * (1 + ivare / 100)
     );
     this.updatePuc(puc);
@@ -466,15 +466,25 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   setTwoNumberDecimal(ev: Event): void {
     const target = ev.target as HTMLInputElement;
     target.value =
-      target.value != "" ? parseFloat(target.value).toFixed(2) : "0.00";
+      target.value != ""
+        ? parseFloat(target.value.replace(",", ".")).toFixed(2)
+        : "0.00";
   }
 
-  getTwoNumberDecimal(value: number): number {
-    return Math.floor(value * 100) / 100;
+  getTwoNumberDecimal(value: number): string {
+    return (Math.floor(value * 100) / 100).toFixed(2);
   }
 
-  updatePalb(ev: number): void {
-    this.form.get("palb").setValue(ev, { emitEvent: false });
+  updatePalb(ev: string): void {
+    const letters = /^\d+[,|.]$/;
+    if (ev.toString().match(letters)) {
+      return;
+    }
+    let num: number = parseFloat(ev.toString().replace(",", "."));
+    if (Number.isNaN(num)) {
+      num = 0;
+    }
+    this.form.get("palb").setValue(num, { emitEvent: false });
     this.form.get("palb").markAsDirty();
 
     let ivare: number = 0;
@@ -483,15 +493,23 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
         (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
     }
-    const puc: number = ev * (1 + ivare / 100);
+    const puc: number = num * (1 + ivare / 100);
     this.updatePuc(this.getTwoNumberDecimal(puc));
   }
 
-  updatePuc(ev: number): void {
-    this.form.get("puc").setValue(ev, { emitEvent: false });
+  updatePuc(ev: string): void {
+    const letters = /^\d+[,|.]$/;
+    if (ev.toString().match(letters)) {
+      return;
+    }
+    let num: number = parseFloat(ev.toString().replace(",", "."));
+    if (Number.isNaN(num)) {
+      num = 0;
+    }
+    this.form.get("puc").setValue(num, { emitEvent: false });
     this.form.get("puc").markAsDirty();
 
-    this.updateMargen(this.form.get("pvp").value, ev);
+    this.updateMargen(this.form.get("pvp").value, num);
   }
 
   updateMargen(pvp: number, puc: number): void {
@@ -505,11 +523,19 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       .setValue(this.articulo.margen, { emitEvent: false });
   }
 
-  updatePvp(ev: number): void {
-    this.form.get("pvp").setValue(ev, { emitEvent: false });
+  updatePvp(ev: string): void {
+    const letters = /^\d+[,|.]$/;
+    if (ev.toString().match(letters)) {
+      return;
+    }
+    let num: number = parseFloat(ev.toString().replace(",", "."));
+    if (Number.isNaN(num)) {
+      num = 0;
+    }
+    this.form.get("pvp").setValue(num, { emitEvent: false });
     this.form.get("pvp").markAsDirty();
 
-    this.updateMargen(ev, this.form.get("puc").value);
+    this.updateMargen(num, this.form.get("puc").value);
   }
 
   preventCodBarras(ev: KeyboardEvent): void {
@@ -783,7 +809,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     const modalMargenesData: MargenesModal = {
       modalTitle: "Márgenes",
       modalColor: "blue",
-      puc: this.articulo.puc,
+      puc: this.form.get("puc").value,
       list: this.marginList,
     };
     const dialog = this.overlayService.open(
@@ -793,8 +819,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
         this.articulo.margen = data.data;
-        this.articulo.pvp = this.getTwoNumberDecimal(
-          this.articulo.puc * (1 + data.data / 100)
+        this.articulo.pvp = parseFloat(
+          this.getTwoNumberDecimal(
+            this.form.get("puc").value * (1 + data.data / 100)
+          )
         );
         this.form.get("pvp").setValue(this.articulo.pvp);
         this.form.get("pvp").markAsDirty();
