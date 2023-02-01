@@ -135,6 +135,12 @@ export class Pedido {
         list["iva_21"] = 0;
       }
       list["iva_21"] += this.portes * 0.21;
+      if (this.re) {
+        if (!list.hasOwnProperty("re_5.2")) {
+          list["re_5.2"] = 0;
+        }
+        list["re_5.2"] += this.portes * 0.052;
+      }
     }
 
     const ret: TotalsIVAOption[] = [];
