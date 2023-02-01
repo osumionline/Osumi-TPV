@@ -45,7 +45,7 @@
 						   (selectedTabChange)="checkArticulosTab($event)"
 						   dynamicHeight>
 				<mat-tab label="GENERAL">
-					<div class="margin-bottom">
+					<div>
 						<div class="form-field margin-right">
 							<label>Marca (*)</label>
 							<mat-form-field>
@@ -96,6 +96,65 @@
 							<label>Venta online</label>
 							<mat-slide-toggle color="primary"
 											  formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+						</div>
+					</div>
+
+					<div>
+						<div class="form-field margin-right">
+							<label>Proveedor</label>
+							<mat-form-field>
+								<mat-select formControlName="idProveedor">
+									<mat-option *ngFor="let prov of ps.proveedores"
+												[value]="prov.id">
+										{{prov.nombre}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<button mat-icon-button
+									title="Añadir nuevo proveedor"
+									type="button"
+									(click)="openProveedor()">
+								<mat-icon>add_circle_outline</mat-icon>
+							</button>
+						</div>
+						<!--div class="form-field">
+												<label>Categoría</label>
+												<mat-form-field>
+													<mat-select formControlName="idCategoria">
+														<mat-option *ngFor="let cat of categoriesPlain"
+																	[value]="cat.id">
+															<span style="display: block;"
+																  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div-->
+						<div class="form-field margin-right">
+							<label>Referencia</label>
+							<mat-form-field>
+								<input matInput
+									   placeholder="Referencia"
+									   formControlName="referencia">
+							</mat-form-field>
+						</div>
+						<div class="form-field"
+							 [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
+							<label>Fecha de caducidad</label>
+							<mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
+											(click)="editFecCad()">
+								<input matInput
+									   placeholder="Fecha de caducidad"
+									   [(ngModel)]="fecCad"
+									   [ngModelOptions]="{standalone: true}">
+							</mat-form-field>
+							<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
+								<input matInput
+									   placeholder="Fecha de caducidad"
+									   formControlName="fechaCaducidad"
+									   (keyup)="checkFecCad($event)"
+									   (blur)="checkFecCad($event, true)"
+									   #fecCadValue>
+							</mat-form-field>
 						</div>
 					</div>
 
@@ -198,153 +257,6 @@
 						</div>
 					</div>
 				</mat-tab>
-				<mat-tab label="AUXILIAR">
-					<div>
-						<div class="form-field">
-							<label>Proveedor</label>
-							<mat-form-field>
-								<mat-select formControlName="idProveedor">
-									<mat-option *ngFor="let prov of ps.proveedores"
-												[value]="prov.id">
-										{{prov.nombre}}
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-							<button mat-icon-button
-									title="Añadir nuevo proveedor"
-									type="button"
-									(click)="openProveedor()">
-								<mat-icon>add_circle_outline</mat-icon>
-							</button>
-						</div>
-						<!--div class="form-field">
-							<label>Categoría</label>
-							<mat-form-field>
-								<mat-select formControlName="idCategoria">
-									<mat-option *ngFor="let cat of categoriesPlain"
-												[value]="cat.id">
-										<span style="display: block;"
-											  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
-									</mat-option>
-								</mat-select>
-							</mat-form-field>
-						</div-->
-						<div class="form-field">
-							<label>Referencia</label>
-							<mat-form-field>
-								<input matInput
-									   placeholder="Referencia"
-									   formControlName="referencia">
-							</mat-form-field>
-						</div>
-					</div>
-					<div [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
-						<div class="form-field">
-							<label>Fecha de caducidad</label>
-							<mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
-											(click)="editFecCad()">
-								<input matInput
-									   placeholder="Fecha de caducidad"
-									   [(ngModel)]="fecCad"
-									   [ngModelOptions]="{standalone: true}">
-							</mat-form-field>
-							<mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
-								<input matInput
-									   placeholder="Fecha de caducidad"
-									   formControlName="fechaCaducidad"
-									   (keyup)="checkFecCad($event)"
-									   (blur)="checkFecCad($event, true)"
-									   #fecCadValue>
-							</mat-form-field>
-						</div>
-					</div>
-					<div class="stats-box"
-						 *ngIf="articulo.id !== null">
-						<label>Estadísticas ventas</label>
-						<div class="stats-data"></div>
-						<div class="stats-controls">
-							<div class="form-field">
-								<label>Estadísticas ventas (tipo)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsVentas.type"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option value="units">Unidades</mat-option>
-										<mat-option value="amount">Importe</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="form-field">
-								<label>Estadísticas ventas (mes)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsVentas.month"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option [value]="-1">Todos</mat-option>
-										<mat-option *ngFor="let month of monthList"
-													[value]="month.id">
-											{{month.name}}
-										</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="form-field">
-								<label>Estadísticas ventas (año)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsVentas.year"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option [value]="-1">Todos</mat-option>
-										<mat-option *ngFor="let year of statsYearList"
-													[value]="year">
-											{{year}}
-										</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-						</div>
-					</div>
-					<div class="stats-box"
-						 *ngIf="articulo.id !== null">
-						<label>Estadísticas web</label>
-						<div class="stats-data"></div>
-						<div class="stats-controls">
-							<div class="form-field">
-								<label>Estadísticas web (tipo)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsWeb.type"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option value="units">Unidades</mat-option>
-										<mat-option value="amount">Importe</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="form-field">
-								<label>Estadísticas web (mes)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsWeb.month"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option [value]="-1">Todos</mat-option>
-										<mat-option *ngFor="let month of monthList"
-													[value]="month.id">
-											{{month.name}}
-										</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="form-field">
-								<label>Estadísticas web (año)</label>
-								<mat-form-field>
-									<mat-select [(ngModel)]="statsWeb.year"
-												[ngModelOptions]="{standalone: true}">
-										<mat-option [value]="-1">Todos</mat-option>
-										<mat-option *ngFor="let year of statsYearList"
-													[value]="year">
-											{{year}}
-										</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-						</div>
-					</div>
-				</mat-tab>
 				<mat-tab label="CÓDIGOS DE BARRAS">
 					<div class="new-cod-barras">
 						<input type="text"
@@ -389,6 +301,94 @@
 										(click)="deleteCodBarras(codBarras)">
 									<mat-icon>delete</mat-icon>
 								</button>
+							</div>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab label="ESTADÍSTICAS"
+						 *ngIf="articulo.id !== null">
+					<div class="stats-box">
+						<label>Estadísticas ventas</label>
+						<div class="stats-data"></div>
+						<div class="stats-controls">
+							<div class="form-field">
+								<label>Estadísticas ventas (tipo)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.type"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option value="units">Unidades</mat-option>
+										<mat-option value="amount">Importe</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas ventas (mes)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.month"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let month of monthList"
+													[value]="month.id">
+											{{month.name}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas ventas (año)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsVentas.year"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let year of statsYearList"
+													[value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+					<div class="stats-box stats-box-margin-bottom"
+						 *ngIf="articulo.id !== null">
+						<label>Estadísticas web</label>
+						<div class="stats-data"></div>
+						<div class="stats-controls">
+							<div class="form-field">
+								<label>Estadísticas web (tipo)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.type"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option value="units">Unidades</mat-option>
+										<mat-option value="amount">Importe</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas web (mes)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.month"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let month of monthList"
+													[value]="month.id">
+											{{month.name}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="form-field">
+								<label>Estadísticas web (año)</label>
+								<mat-form-field>
+									<mat-select [(ngModel)]="statsWeb.year"
+												[ngModelOptions]="{standalone: true}">
+										<mat-option [value]="-1">Todos</mat-option>
+										<mat-option *ngFor="let year of statsYearList"
+													[value]="year">
+											{{year}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
 							</div>
 						</div>
 					</div>
@@ -475,7 +475,7 @@
 								<textarea matInput
 										  placeholder="Observaciones"
 										  formControlName="observaciones"
-										  rows="30"></textarea>
+										  rows="5"></textarea>
 							</mat-form-field>
 						</div>
 					</div>

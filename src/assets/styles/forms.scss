@@ -309,6 +309,10 @@ mat-form-field {
   }
 }
 
+.stats-box-margin-bottom {
+  margin-bottom: 48px;
+}
+
 @media screen and (min-width: 1024px) {
   .form-field-left {
     &>label {

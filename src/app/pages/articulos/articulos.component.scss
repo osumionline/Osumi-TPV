@@ -1,5 +1,6 @@
 .card-margin {
   margin: 16px;
+  position: relative;
 
   .articulo-header {
     display: flex;
@@ -74,6 +75,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 16px;
+    margin-bottom: 48px;
     justify-content: space-around;
 
     .cod-barras-item {
@@ -200,6 +202,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
 
     button {
       width: 150px;
