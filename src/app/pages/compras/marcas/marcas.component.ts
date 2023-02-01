@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
@@ -11,7 +11,7 @@ import { MarcasService } from "src/app/services/marcas.service";
   templateUrl: "./marcas.component.html",
   styleUrls: ["./marcas.component.scss"],
 })
-export class MarcasComponent implements OnInit {
+export class MarcasComponent {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;
@@ -19,6 +19,7 @@ export class MarcasComponent implements OnInit {
   marcaTabs: MatTabGroup;
   selectedMarca: Marca = new Marca();
 
+  @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
   logo: string = "/assets/default.jpg";
 
   form: FormGroup = new FormGroup({
@@ -34,10 +35,10 @@ export class MarcasComponent implements OnInit {
 
   constructor(public ms: MarcasService, private dialog: DialogService) {}
 
-  ngOnInit(): void {
+  searchFocus(): void {
     setTimeout(() => {
       this.searchBox.nativeElement.focus();
-    }, 0);
+    }, 100);
   }
 
   selectMarca(marca: Marca): void {
@@ -47,6 +48,9 @@ export class MarcasComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.logo = marca.foto || "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    }, 0);
   }
 
   newMarca(): void {
@@ -56,6 +60,9 @@ export class MarcasComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.logo = "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    }, 0);
   }
 
   resetForm(): void {

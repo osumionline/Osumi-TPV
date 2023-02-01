@@ -2,15 +2,15 @@
 
 <mat-card class="compras">
     <mat-card-content>
-        <mat-tab-group>
+        <mat-tab-group (selectedTabChange)="tabChange($event)">
             <mat-tab label="PEDIDOS">
                 <otpv-compras-pedidos-list #compras></otpv-compras-pedidos-list>
             </mat-tab>
             <mat-tab label="MARCAS">
-                <otpv-marcas></otpv-marcas>
+                <otpv-marcas #marcas></otpv-marcas>
             </mat-tab>
             <mat-tab label="PROVEEDORES">
-                <otpv-proveedores></otpv-proveedores>
+                <otpv-proveedores #proveedores></otpv-proveedores>
             </mat-tab>
         </mat-tab-group>
     </mat-card-content>

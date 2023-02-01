@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { Router } from "@angular/router";
 import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 import {
   ComercialInterface,
@@ -10,7 +9,6 @@ import {
 import { Comercial } from "src/app/model/comercial.model";
 import { Proveedor } from "src/app/model/proveedor.model";
 import { DialogService } from "src/app/services/dialog.service";
-import { GestionService } from "src/app/services/gestion.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
@@ -31,6 +29,8 @@ export class ProveedoresComponent implements OnInit {
   searchMarcas: string = "";
   @ViewChild("searchMarcasBox", { static: true }) searchMarcasBox: ElementRef;
   marcasList: SelectMarcaInterface[] = [];
+
+  @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -61,16 +61,10 @@ export class ProveedoresComponent implements OnInit {
   constructor(
     public ps: ProveedoresService,
     private ms: MarcasService,
-    private router: Router,
-    private gs: GestionService,
     private dialog: DialogService
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.searchBox.nativeElement.focus();
-    }, 0);
-
     for (let marca of this.ms.marcas) {
       this.marcasList.push({
         id: marca.id,
@@ -80,6 +74,12 @@ export class ProveedoresComponent implements OnInit {
     }
   }
 
+  searchFocus(): void {
+    setTimeout(() => {
+      this.searchBox.nativeElement.focus();
+    }, 100);
+  }
+
   selectProveedor(proveedor: Proveedor): void {
     this.start = false;
     this.selectedProveedor = proveedor;
@@ -87,6 +87,9 @@ export class ProveedoresComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
     this.updateMarcasList();
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    }, 0);
   }
 
   newProveedor(): void {
@@ -96,6 +99,9 @@ export class ProveedoresComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
     this.updateMarcasList();
+    setTimeout(() => {
+      this.nameBox.nativeElement.focus();
+    }, 0);
   }
 
   updateMarcasList(): void {
