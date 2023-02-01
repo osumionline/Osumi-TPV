@@ -22,7 +22,7 @@ export class VentaLineaHistorico {
   ) {}
 
   get total(): number {
-    return this.pvp * this.unidades;
+    return Math.floor(this.pvp * this.unidades * 100) / 100;
   }
 
   get totalDescuento(): number {
