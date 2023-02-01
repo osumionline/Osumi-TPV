@@ -805,6 +805,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
   guardarPedido(): void {
     this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
       if (result.status === "ok") {
+        this.pedido.id = result.id;
+        this.titulo = "Pedido " + this.pedido.id;
         this.dialog
           .alert({
             title: "OK",
