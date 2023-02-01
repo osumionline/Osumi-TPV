@@ -55,7 +55,7 @@ export class PedidoLinea {
   }
 
   get margen(): number {
-    if (this.pvp === 0) {
+    if (this.pvp === null || this.pvp === 0) {
       return 0;
     }
     return (100 * (this.pvp - this.puc)) / this.pvp;

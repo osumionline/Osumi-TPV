@@ -576,6 +576,29 @@ export class PedidoComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkNull(element: PedidoLinea = null): void {
+    if (element !== null) {
+      if (element.unidades === null) {
+        element.unidades = 1;
+      }
+      if (element.palb === null) {
+        element.palb = 0;
+      }
+      if (element.descuento === null) {
+        element.descuento = 0;
+      }
+      if (element.pvp === null) {
+        element.pvp = 0;
+      }
+    }
+    if (this.pedido.portes === null) {
+      this.pedido.portes = 0;
+    }
+    if (this.pedido.descuento === null) {
+      this.pedido.descuento = 0;
+    }
+  }
+
   borrarLinea(localizador: number): void {
     const ind: number = this.pedido.lineas.findIndex(
       (x: PedidoLinea): boolean => {

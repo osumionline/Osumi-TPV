@@ -256,6 +256,7 @@
                                    id="tabla-unidades-{{element.localizador}}"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
+                                   (blur)="checkNull(element)"
                                    [(ngModel)]="element.unidades">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.unidades}}</span>
@@ -305,6 +306,7 @@
                                    id="tabla-palb-{{element.localizador}}"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
+                                   (blur)="checkNull(element)"
                                    [(ngModel)]="element.palb">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.palb}}</span>
@@ -331,6 +333,7 @@
                                    id="tabla-descuento-{{element.localizador}}"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
+                                   (blur)="checkNull(element)"
                                    [(ngModel)]="element.descuento">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>%
@@ -430,6 +433,7 @@
                                    id="tabla-pvp-{{element.localizador}}"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
+                                   (blur)="checkNull(element)"
                                    [(ngModel)]="element.pvp">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.pvp}}</span>
@@ -568,6 +572,7 @@
                                        type="number"
                                        (focus)="$event.target.select()"
                                        autocomplete="off"
+                                       (blur)="checkNull()"
                                        [(ngModel)]="pedido.portes">
                             </mat-form-field>
                             {{ pedido.recepcionado ? pedido.portes : ''}}
@@ -610,6 +615,7 @@
                                        type="number"
                                        (focus)="$event.target.select()"
                                        autocomplete="off"
+                                       (blur)="checkNull()"
                                        [(ngModel)]="pedido.descuento">
                             </mat-form-field>
                             {{ pedido.recepcionado ? pedido.descuento : ''}}
