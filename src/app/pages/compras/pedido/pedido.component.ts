@@ -653,7 +653,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.ars.returnInfo = {
-      where: "pedido-edit",
+      where: localizador === 0 ? "pedido" : "pedido-edit",
       id: this.pedido.id === null ? 0 : this.pedido.id,
       extra: null,
     };
