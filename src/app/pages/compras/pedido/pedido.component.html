@@ -309,7 +309,7 @@
                                    (blur)="checkNull(element)"
                                    [(ngModel)]="element.palb">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.palb}}</span>
+                        <span *ngIf="pedido.recepcionado">{{element.palb | fixedNumber}}</span>
                         €
                     </td>
                 </ng-container>
@@ -436,7 +436,7 @@
                                    (blur)="checkNull(element)"
                                    [(ngModel)]="element.pvp">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.pvp}}</span>
+                        <span *ngIf="pedido.recepcionado">{{element.pvp | fixedNumber}}</span>
                         €
                     </td>
                 </ng-container>

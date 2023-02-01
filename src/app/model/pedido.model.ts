@@ -109,7 +109,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.total;
     }
-    return num + this.portes;
+    return (num + this.portes) * ((100 + this.descuento) / 100);
   }
 
   get ivaList(): TotalsIVAOption[] {
