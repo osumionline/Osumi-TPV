@@ -113,7 +113,7 @@ export class NewProveedorModalComponent implements OnInit {
     if (check) {
       let marcasCheck: boolean = true;
       for (let m of this.marcasSelected) {
-        if (m.proveedor !== null) {
+        if (m.proveedor !== null && m.proveedor !== "") {
           marcasCheck = false;
           break;
         }
