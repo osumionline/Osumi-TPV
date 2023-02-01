@@ -41,7 +41,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
 
-  pedidoDeleted: boolean = false;
+  dontSave: boolean = false;
 
   @ViewChild("proveedoresValue", { static: true }) proveedoresValue: MatSelect;
   fechaPedido: Date = new Date();
@@ -209,7 +209,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.pedidoDeleted = false;
+    this.dontSave = false;
     this.ivaOptions = this.config.ivaOptions;
     for (let ivaOption of this.ivaOptions) {
       ivaOption.tipoIVA = "iva";
@@ -765,6 +765,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
             ok: "Continuar",
           })
           .subscribe((result) => {
+            this.dontSave = true;
             this.back();
           });
       } else {
@@ -808,7 +809,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
                 ok: "Continuar",
               })
               .subscribe((result) => {
-                this.pedidoDeleted = true;
+                this.dontSave = true;
                 this.back();
               });
           });
@@ -818,7 +819,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.autoSaveIntervalId);
-    if (!this.pedidoDeleted) {
+    if (!this.dontSave) {
       this.updatePedidoData();
       if (this.pedido.id === null) {
         this.cs.setPedidoTemporal(this.pedido);
