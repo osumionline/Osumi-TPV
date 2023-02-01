@@ -311,8 +311,28 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.cs.pedidoCargado = null;
-    this.router.navigate(["/compras"]);
+    if (this.pedido.id === null) {
+      this.dialog
+        .confirm({
+          title: "Confirmar",
+          content:
+            "¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.",
+          ok: "Continuar",
+          cancel: "Cancelar",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.dontSave = true;
+            this.cs.pedidoCargado = null;
+            this.cs.pedidoTemporal = null;
+            this.router.navigate(["/compras"]);
+          }
+        });
+    } else {
+      this.cs.pedidoCargado = null;
+      this.cs.pedidoTemporal = null;
+      this.router.navigate(["/compras"]);
+    }
   }
 
   changeAutoSave(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -19,7 +19,7 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./compras-pedidos-list.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
-export class ComprasPedidosListComponent implements OnInit {
+export class ComprasPedidosListComponent {
   numPorPag: number = 10;
   pedidosGuardados: Pedido[] = [];
   pageGuardadosIndex: number = 0;
@@ -86,34 +86,28 @@ export class ComprasPedidosListComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    if (this.comprasService.pedidoCargado !== null) {
-      this.router.navigate([
-        "/compras/pedido/" + this.comprasService.pedidoCargado,
-      ]);
-    } else {
-      const filters: PedidosFilterInterface = {
-        fechaDesde: null,
-        fechaHasta: null,
-        idProveedor: null,
-        albaran: null,
-        importeDesde: null,
-        importeHasta: null,
-        pagina: 1,
-        num: this.numPorPag,
-      };
-      this.comprasService
-        .getAllPedidos(filters)
-        .subscribe((result: PedidosAllResult): void => {
-          this.pedidosGuardados = this.cms.getPedidos(result.guardados);
-          this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
-          this.guardadosPags = result.guardadosPags * this.numPorPag;
-          this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
+  load(): void {
+    const filters: PedidosFilterInterface = {
+      fechaDesde: null,
+      fechaHasta: null,
+      idProveedor: null,
+      albaran: null,
+      importeDesde: null,
+      importeHasta: null,
+      pagina: 1,
+      num: this.numPorPag,
+    };
+    this.comprasService
+      .getAllPedidos(filters)
+      .subscribe((result: PedidosAllResult): void => {
+        this.pedidosGuardados = this.cms.getPedidos(result.guardados);
+        this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
+        this.guardadosPags = result.guardadosPags * this.numPorPag;
+        this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
 
-          this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
-          this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
-        });
-    }
+        this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
+        this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
+      });
   }
 
   openGuardadosFilters(): void {

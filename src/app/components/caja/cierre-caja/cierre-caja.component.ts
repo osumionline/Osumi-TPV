@@ -28,7 +28,6 @@ export class CierreCajaComponent {
     const date: string = Utils.getCurrentDate();
     this.as.getCierreCaja(date).subscribe((result) => {
       this.cierreCaja = this.cms.getCierreCaja(result.datos);
-      console.log(this.cierreCaja);
     });
   }
 
