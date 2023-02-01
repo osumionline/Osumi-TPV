@@ -664,6 +664,12 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
           this.router.navigate(["/compras/pedido/", this.ars.returnInfo.id]);
         }
         break;
+      case "pedido-edit":
+        {
+          this.ars.returnInfo.extra = null;
+          this.router.navigate(["/compras/pedido/", this.ars.returnInfo.id]);
+        }
+        break;
       case "almacen":
         {
           this.als.updateArticulo(this.articulo);
