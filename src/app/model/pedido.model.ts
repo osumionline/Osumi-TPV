@@ -101,7 +101,7 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.subtotal;
     }
-    return num + this.portes * 0.79;
+    return num + this.portes;
   }
 
   get total(): number {
@@ -109,7 +109,8 @@ export class Pedido {
     for (let linea of this.lineas) {
       num += linea.total;
     }
-    return (num + this.portes) * ((100 + this.descuento) / 100);
+    const ivaPortes: number = (100 + (this.re ? 26.2 : 21)) / 100;
+    return (num + this.portes * ivaPortes) * ((100 + this.descuento) / 100);
   }
 
   get ivaList(): TotalsIVAOption[] {
