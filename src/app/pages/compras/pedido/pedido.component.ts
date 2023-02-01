@@ -491,9 +491,13 @@ export class PedidoComponent implements OnInit, OnDestroy {
           const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
             articulo
           );
-          let ivaOption: IVAOption = new IVAOption("iva", 21, 5.2);
+          let ivaOption: IVAOption = new IVAOption(
+            "iva",
+            articulo.iva,
+            articulo.re
+          );
           if (this.pedido.re) {
-            ivaOption = new IVAOption("re", 21, 5.2);
+            ivaOption = new IVAOption("re", articulo.iva, articulo.re);
           }
           lineaPedido.selectedIvaOption = ivaOption;
           const marca: Marca = this.ms.findById(lineaPedido.idMarca);
