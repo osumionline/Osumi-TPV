@@ -180,6 +180,22 @@ export class HistoricoVentasComponent implements AfterViewInit {
       });
   }
 
+  printTicket(regalo: boolean): void {
+    this.vs
+      .printTicket(this.historicoVentasSelected.id, regalo)
+      .subscribe((result) => {
+        if (result.status === "error") {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "Ocurrió un error al imprimir el ticket.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {});
+        }
+      });
+  }
+
   generarFactura(): void {
     if (this.historicoVentasSelected.idCliente === null) {
       this.dialog

@@ -130,6 +130,13 @@ export class VentasService {
     );
   }
 
+  printTicket(id: number, regalo: boolean): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-ventas/print-ticket",
+      { id, regalo }
+    );
+  }
+
   sendTicket(id: number, email: string): Observable<StatusResult> {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-ventas/send-ticket",

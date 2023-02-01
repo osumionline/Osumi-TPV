@@ -323,12 +323,14 @@
                 </div>
                 <div class="historico-details-options-right">
                     <button mat-raised-button
-                            color="primary">
+                            color="primary"
+                            (click)="printTicket(false)">
                         <mat-icon>print</mat-icon>
                         Ticket
                     </button>
                     <button mat-raised-button
-                            color="primary">
+                            color="primary"
+                            (click)="printTicket(true)">
                         <mat-icon>card_giftcard</mat-icon>
                         Ticket regalo
                     </button>
