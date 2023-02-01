@@ -4,7 +4,10 @@ import { Observable } from "rxjs";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
 import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
-import { FinVentaResult } from "src/app/interfaces/venta.interface";
+import {
+  FinVentaResult,
+  LineasTicketResult,
+} from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulo.model";
 import { Cliente } from "src/app/model/cliente.model";
 import { Empleado } from "src/app/model/empleado.model";
@@ -113,6 +116,13 @@ export class VentasService {
       {
         q,
       }
+    );
+  }
+
+  getLineasTicket(lineas: string): Observable<LineasTicketResult> {
+    return this.http.post<LineasTicketResult>(
+      environment.apiUrl + "-ventas/get-lineas-ticket",
+      { lineas }
     );
   }
 

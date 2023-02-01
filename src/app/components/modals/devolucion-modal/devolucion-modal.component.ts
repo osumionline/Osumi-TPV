@@ -109,7 +109,10 @@ export class DevolucionModalComponent implements OnInit {
   continuar(): void {
     const list: DevolucionSelectedInterface[] = [];
     this.selection.selected.forEach((s) => {
-      list.push({ localizador: s.localizador, unidades: s.devolver * -1 });
+      list.push({
+        localizador: s.localizador !== null ? s.localizador : 0,
+        unidades: s.devolver * -1,
+      });
     });
     if (list.length === 0) {
       this.dialog
