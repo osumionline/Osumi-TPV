@@ -70,13 +70,13 @@ export class VentasComponent implements OnInit {
       id
     );
     if (!this.config.empleados) {
-      this.startFocus();
+      this.startFocus(id);
     }
   }
 
-  startFocus(): void {
+  startFocus(id: number = null): void {
     setTimeout(() => {
-      this.ventas.get(this.vs.selected).setFocus();
+      this.ventas.get(this.vs.selected).setFocus(id);
     }, 0);
   }
 

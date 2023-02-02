@@ -21,6 +21,7 @@ import {
   Modal,
   VariosModal,
 } from "src/app/interfaces/modals.interface";
+import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
@@ -34,7 +35,6 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
-import { DevolucionSelectedInterface } from "./../../../interfaces/venta.interface";
 
 @Component({
   selector: "otpv-una-venta",
