@@ -21,10 +21,10 @@ import {
   Modal,
   VariosModal,
 } from "src/app/interfaces/modals.interface";
-import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { AccesoDirecto } from "src/app/model/acceso-directo.model";
 import { Articulo } from "src/app/model/articulo.model";
 import { Empleado } from "src/app/model/empleado.model";
+import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -34,6 +34,7 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
+import { DevolucionSelectedInterface } from "./../../../interfaces/venta.interface";
 
 @Component({
   selector: "otpv-una-venta",
@@ -184,11 +185,7 @@ export class UnaVentaComponent implements AfterViewInit {
     }
   }
 
-  loadArticulo(
-    articuloResult: ArticuloInterface,
-    ind: number,
-    devolucion: DevolucionSelectedInterface = null
-  ): void {
+  loadArticulo(articuloResult: ArticuloInterface, ind: number): void {
     const articulo = this.cms.getArticulo(articuloResult);
     const marca = this.ms.findById(articulo.idMarca);
     articulo.marca = marca.nombre;
@@ -198,10 +195,6 @@ export class UnaVentaComponent implements AfterViewInit {
 
     if (indArticulo === -1) {
       this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
-      if (devolucion !== null) {
-        this.vs.ventaActual.lineas[ind].cantidad = devolucion.unidades;
-        this.vs.ventaActual.lineas[ind].fromVenta = this.devolucionVenta;
-      }
       this.vs.addLineaVenta();
     } else {
       if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
@@ -229,11 +222,7 @@ export class UnaVentaComponent implements AfterViewInit {
     this.vs.ventaActual.updateImporte();
     this.setFocus();
 
-    if (
-      devolucion === null &&
-      articulo.mostrarObsVentas &&
-      articulo.observaciones
-    ) {
+    if (articulo.mostrarObsVentas && articulo.observaciones) {
       this.dialog
         .alert({
           title: "Observaciones",
@@ -243,9 +232,6 @@ export class UnaVentaComponent implements AfterViewInit {
         .subscribe((result) => {
           this.setFocus();
         });
-    }
-    if (devolucion !== null) {
-      this.loadNextDevolucion();
     }
   }
 
@@ -304,7 +290,7 @@ export class UnaVentaComponent implements AfterViewInit {
     for (let linea of this.vs.ventaActual.lineas) {
       if (linea.fromVenta === this.devolucionVenta) {
         list.push({
-          localizador: linea.localizador,
+          id: linea.id,
           unidades: linea.cantidad * -1,
         });
       }
@@ -336,59 +322,81 @@ export class UnaVentaComponent implements AfterViewInit {
       const toBeDeleted: number[] = [];
       for (let linea of checkList) {
         if (linea.localizador !== null) {
-          let ind: number = data.data.findIndex((x): boolean => {
-            return x.localizador === linea.localizador;
-          });
+          let ind: number = data.data.findIndex(
+            (x: DevolucionSelectedInterface): boolean => {
+              return x.id === linea.id;
+            }
+          );
 
           if (ind === -1) {
-            toBeDeleted.push(linea.localizador);
+            toBeDeleted.push(linea.id);
           }
         }
       }
 
-      for (let localizador of toBeDeleted) {
+      for (let id of toBeDeleted) {
         let deleteInd: number = this.vs.ventaActual.lineas.findIndex(
           (x: VentaLinea): boolean => {
-            return x.localizador === localizador;
+            return x.id === id;
           }
         );
         this.vs.ventaActual.lineas.splice(deleteInd, 1);
       }
 
-      this.devolucionList = data.data;
-      this.loadNextDevolucion();
-    } else {
-      this.devolucionVenta = null;
-      this.setFocus();
-    }
-  }
-
-  loadNextDevolucion(): void {
-    if (this.devolucionList.length > 0) {
-      const item: DevolucionSelectedInterface = this.devolucionList.shift();
-      const ind: number = this.vs.ventaActual.lineas.findIndex(
-        (x: VentaLinea): boolean => {
-          return (
-            x.localizador === item.localizador &&
-            x.fromVenta === this.devolucionVenta
-          );
+      // Busco líneas nuevas
+      const toBeAddded: number[] = [];
+      for (let item of data.data) {
+        const addInd: number = this.vs.ventaActual.lineas.findIndex(
+          (x: VentaLinea): boolean => x.id === item.id
+        );
+        if (addInd === -1) {
+          toBeAddded.push(item.id);
         }
-      );
+      }
 
-      if (ind != -1) {
-        this.vs.ventaActual.lineas[ind].cantidad = item.unidades;
-        this.vs.ventaActual.updateImporte();
-        this.loadNextDevolucion();
-      } else {
-        this.ars.loadArticulo(item.localizador).subscribe((result) => {
-          this.loadArticulo(
-            result.articulo,
+      this.devolucionList = data.data;
+      if (toBeAddded.length > 0) {
+        this.vs.getLineasTicket(toBeAddded.join(",")).subscribe((result) => {
+          const lineas: VentaLineaHistorico[] =
+            this.cms.getHistoricoVentaLineas(result.list);
+          this.vs.ventaActual.lineas.splice(
             this.vs.ventaActual.lineas.length - 1,
-            item
+            1
           );
+          for (let linea of lineas) {
+            const articulo: Articulo = new Articulo();
+            articulo.id = linea.idArticulo !== null ? linea.id : 0;
+            articulo.localizador =
+              linea.localizador !== null ? linea.localizador : 0;
+            articulo.nombre = linea.articulo;
+            articulo.pvp = linea.pvp;
+            articulo.marca = linea.marca;
+
+            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
+              articulo
+            );
+            ventaLinea.fromVenta = this.devolucionVenta;
+            const devolucionLinea: DevolucionSelectedInterface =
+              this.devolucionList.find(
+                (x: DevolucionSelectedInterface): boolean => {
+                  return x.id == linea.id;
+                }
+              );
+            ventaLinea.id = devolucionLinea.id;
+            ventaLinea.cantidad = devolucionLinea.unidades;
+
+            this.vs.ventaActual.lineas.push(ventaLinea);
+          }
+          this.vs.addLineaVenta();
+          this.ind = this.vs.ventaActual.lineas.length;
+          this.setFocus();
         });
+      } else {
+        this.ind = this.vs.ventaActual.lineas.length;
+        this.setFocus();
       }
     } else {
+      this.devolucionVenta = null;
       this.setFocus();
     }
   }
@@ -442,8 +450,8 @@ export class UnaVentaComponent implements AfterViewInit {
         this.vs.ventaActual.lineas[this.variosInd].pvp = data.data.pvp;
         this.vs.ventaActual.lineas[this.variosInd].iva = data.data.iva;
         this.vs.ventaActual.updateImporte();
-        this.setFocus();
       }
+      this.setFocus();
     });
   }
 

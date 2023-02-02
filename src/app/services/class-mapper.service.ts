@@ -11,6 +11,7 @@ import {
   CierreCajaInterface,
   SalidaCajaInterface,
   VentaHistoricoInterface,
+  VentaLineaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
 import {
   ClienteInterface,
@@ -51,6 +52,7 @@ import { TipoPago } from "src/app/model/tipo-pago.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaHistorico } from "src/app/model/venta-historico.model";
 import { InformeMensualItem } from "./../model/informe-mensual-item.model";
+import { VentaLineaHistorico } from "./../model/venta-linea-historico.model";
 
 @Injectable({
   providedIn: "root",
@@ -203,6 +205,16 @@ export class ClassMapperService {
     return hvs.map((hv: VentaHistoricoInterface): VentaHistorico => {
       return new VentaHistorico().fromInterface(hv);
     });
+  }
+
+  getHistoricoVentaLineas(
+    hvls: VentaLineaHistoricoInterface[]
+  ): VentaLineaHistorico[] {
+    return hvls.map(
+      (hvl: VentaLineaHistoricoInterface): VentaLineaHistorico => {
+        return new VentaLineaHistorico().fromInterface(hvl);
+      }
+    );
   }
 
   getSalidaCaja(sc: SalidaCajaInterface): SalidaCaja {

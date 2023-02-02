@@ -1,6 +1,7 @@
 import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface";
 
 export interface VentaLineaInterface {
+  id: number;
   idArticulo: number;
   localizador: number;
   descripcion: string;
@@ -65,7 +66,7 @@ export interface ArticuloTopVentaInterface {
 }
 
 export interface DevolucionSelectedInterface {
-  localizador: number;
+  id: number;
   unidades: number;
 }
 

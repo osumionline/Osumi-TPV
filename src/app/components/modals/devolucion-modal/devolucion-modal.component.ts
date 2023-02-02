@@ -82,7 +82,7 @@ export class DevolucionModalComponent implements OnInit {
       for (let item of list) {
         let ind: number = this.venta.lineas.findIndex(
           (x: VentaLineaHistorico): boolean => {
-            return x.localizador === item.localizador;
+            return x.id === item.id;
           }
         );
         this.venta.lineas[ind].devolver = item.unidades;
@@ -110,7 +110,7 @@ export class DevolucionModalComponent implements OnInit {
     const list: DevolucionSelectedInterface[] = [];
     this.selection.selected.forEach((s) => {
       list.push({
-        localizador: s.localizador !== null ? s.localizador : 0,
+        id: s.id,
         unidades: s.devolver * -1,
       });
     });

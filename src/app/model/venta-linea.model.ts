@@ -7,6 +7,7 @@ export class VentaLinea {
   animarCantidad: boolean = false;
 
   constructor(
+    public id: number = null,
     public idArticulo: number = null,
     public localizador: number = null,
     public descripcion: string = null,
@@ -58,6 +59,7 @@ export class VentaLinea {
   }
 
   fromInterface(lv: VentaLineaInterface): VentaLinea {
+    this.id = lv.id;
     this.idArticulo = lv.idArticulo;
     this.localizador = lv.localizador;
     this.descripcion = lv.descripcion;
@@ -75,6 +77,7 @@ export class VentaLinea {
 
   toInterface(): VentaLineaInterface {
     return {
+      id: this.id,
       idArticulo: this.idArticulo,
       localizador: this.localizador,
       descripcion: this.descripcion,
