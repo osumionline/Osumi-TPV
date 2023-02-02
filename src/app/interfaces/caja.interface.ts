@@ -93,6 +93,7 @@ export interface CierreCajaInterface {
   importe200: number;
   importe500: number;
   retirado: number;
+  entrada: number;
   tipos: CierreCajaTipoInterface[];
 }
 

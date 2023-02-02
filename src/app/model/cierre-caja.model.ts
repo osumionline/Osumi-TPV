@@ -31,6 +31,7 @@ export class CierreCaja {
     public importe200: number = null,
     public importe500: number = null,
     public retirado: number = null,
+    public entrada: number = null,
     public tipos: CierreCajaTipo[] = []
   ) {
     this.date = Utils.getCurrentDate();
@@ -44,7 +45,7 @@ export class CierreCaja {
   }
 
   get saldoSiguiente(): number {
-    return this.real - this.retirado;
+    return this.real - this.retirado + this.entrada;
   }
 
   fromInterface(cc: CierreCajaInterface): CierreCaja {
@@ -70,6 +71,7 @@ export class CierreCaja {
     this.importe200 = cc.importe200;
     this.importe500 = cc.importe500;
     this.retirado = cc.retirado;
+    this.entrada = cc.entrada;
     this.tipos = cc.tipos.map(
       (cct: CierreCajaTipoInterface): CierreCajaTipo => {
         return new CierreCajaTipo().fromInterface(cct);
@@ -102,6 +104,7 @@ export class CierreCaja {
       importe200: this.importe200,
       importe500: this.importe500,
       retirado: this.retirado,
+      entrada: this.entrada,
       tipos: this.tipos.map((cct: CierreCajaTipo): CierreCajaTipoInterface => {
         return cct.toInterface();
       }),

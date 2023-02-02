@@ -46,6 +46,19 @@
                                            type="number"
                                            placeholder="Retirado"
                                            [(ngModel)]="cierreCaja.retirado"
+                                           (focus)="$event.target.select()"
+                                           #importeRealBox>
+                                </mat-form-field>
+                                €
+                            </div>
+                            <div class="form-field">
+                                <label>Entrada</label>
+                                <mat-form-field class="form-title campo-numero">
+                                    <input matInput
+                                           type="number"
+                                           placeholder="Entrada"
+                                           [(ngModel)]="cierreCaja.entrada"
+                                           (focus)="$event.target.select()"
                                            #importeRealBox>
                                 </mat-form-field>
                                 €
