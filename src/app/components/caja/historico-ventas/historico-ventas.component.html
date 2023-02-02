@@ -322,35 +322,35 @@
                     </mat-form-field>
                 </div>
                 <div class="historico-details-options-right">
-                    <button mat-raised-button
+                    <button mat-fab
                             color="primary"
-                            (click)="printTicket(false)">
+                            (click)="printTicket(false)"
+                            matTooltip="Imprimir ticket">
                         <mat-icon>print</mat-icon>
-                        Ticket
                     </button>
-                    <button mat-raised-button
+                    <button mat-fab
                             color="primary"
-                            (click)="printTicket(true)">
+                            (click)="printTicket(true)"
+                            matTooltip="Imprimir ticket regalo">
                         <mat-icon>card_giftcard</mat-icon>
-                        Ticket regalo
                     </button>
-                    <button mat-raised-button
+                    <button mat-fab
                             color="primary"
-                            (click)="generarFactura()">
+                            (click)="generarFactura()"
+                            matTooltip="Generar factura">
                         <mat-icon>library_books</mat-icon>
-                        Factura
                     </button>
-                    <button mat-raised-button
+                    <button mat-fab
                             color="primary"
-                            (click)="enviarEmail()">
+                            (click)="enviarEmail()"
+                            matTooltip="Enviar ticket por email">
                         <mat-icon>email</mat-icon>
-                        Enviar ticket por email
                     </button>
-                    <button mat-raised-button
+                    <button mat-fab
                             color="primary"
-                            (click)="devolucion()">
+                            (click)="devolucion()"
+                            matTooltip="Devolución">
                         <mat-icon>restart_alt</mat-icon>
-                        Devolución
                     </button>
                 </div>
             </div>
