@@ -59,10 +59,14 @@
               ],
               "outputHashing": "all",
               "assets": [
-                "src/favicon.ico",
                 "src/assets",
                 "src/manifest.webmanifest",
-                "src/.htaccess"
+                "src/.htaccess",
+                {
+                  "input": "src/replace/prod",
+                  "output": "/",
+                  "glob": "favicon.ico"
+                }
               ]
             },
             "test": {
@@ -84,7 +88,16 @@
                   "with": "src/environments/environment.test.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "assets": [
+                "src/assets",
+                "src/manifest.webmanifest",
+                {
+                  "input": "src/replace/test",
+                  "output": "/",
+                  "glob": "favicon.ico"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
