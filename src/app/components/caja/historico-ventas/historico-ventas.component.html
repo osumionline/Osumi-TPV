@@ -109,7 +109,7 @@
                              [ngClass]="{'margin': element.idCliente === null}">
                             {{element.nombreTipoPago}}
                             <mat-icon *ngIf="element.idCliente !== null"
-                                      [title]="element.cliente">account_circle</mat-icon>
+                                      [matTooltip]="element.cliente">account_circle</mat-icon>
                         </div>
                     </td>
                 </ng-container>

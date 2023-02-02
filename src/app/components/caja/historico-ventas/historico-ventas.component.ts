@@ -304,7 +304,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
       const cliente: Cliente = this.cs.findById(
         this.historicoVentasSelected.idCliente
       );
-      if (cliente.email === null) {
+      if (cliente.email === null || cliente.email === "") {
         this.dialog
           .confirm({
             title: "Enviar email",
