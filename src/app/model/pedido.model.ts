@@ -173,10 +173,6 @@ export class Pedido {
     return (100 * (pvp - puc)) / pvp;
   }
 
-  get totalSinIva(): number {
-    return this.subtotal + this.portes;
-  }
-
   get observacionesShort(): string {
     if (this.observaciones === null) {
       return null;

@@ -627,7 +627,7 @@
                         </div>
                         <div *ngIf="pedido.ue"
                              class="totales-row mark mark-iva">
-                            <span>Total sin IVA:</span>{{pedido.totalSinIva | fixedNumber}} €
+                            <span>Total sin IVA:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
                         <div class="totales-row center">
                             <button mat-raised-button
