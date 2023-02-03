@@ -180,9 +180,9 @@ export class HistoricoVentasComponent implements AfterViewInit {
       });
   }
 
-  printTicket(regalo: boolean): void {
+  printTicket(tipo: string): void {
     this.vs
-      .printTicket(this.historicoVentasSelected.id, regalo)
+      .printTicket(this.historicoVentasSelected.id, tipo)
       .subscribe((result) => {
         if (result.status === "error") {
           this.dialog

@@ -140,10 +140,10 @@ export class VentasService {
     );
   }
 
-  printTicket(id: number, regalo: boolean): Observable<StatusResult> {
+  printTicket(id: number, tipo: string): Observable<StatusResult> {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-ventas/print-ticket",
-      { id, regalo }
+      { id, tipo }
     );
   }
 
