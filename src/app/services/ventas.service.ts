@@ -110,6 +110,13 @@ export class VentasService {
     );
   }
 
+  guardarReserva(): Observable<FinVentaResult> {
+    return this.http.post<FinVentaResult>(
+      environment.apiUrl + "-clientes/save-reserva",
+      this.fin.toInterface()
+    );
+  }
+
   search(q: string): Observable<ArticuloBuscadorResult> {
     return this.http.post<ArticuloBuscadorResult>(
       environment.apiUrl + "-ventas/search",

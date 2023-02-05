@@ -199,6 +199,24 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           }
         });
     }
+    // Se ha elegido reserva y no tiene cliente asignado
+    if (this.vs.fin.imprimir === "reserva" && this.vs.fin.idCliente === -1) {
+      this.dialog
+        .confirm({
+          title: "Reserva",
+          content:
+            "Esta reserva no tiene ningún cliente asignado, ¿quieres elegir uno?",
+          ok: "Continuar",
+          cancel: "Cancelar",
+        })
+        .subscribe((result) => {
+          if (result === true) {
+            this.customOverlayRef.close({ status: "reserva" });
+          } else {
+            this.vs.fin.imprimir = "si";
+          }
+        });
+    }
   }
 
   pedirEmail(): void {
@@ -227,6 +245,15 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
     const tarjeta: number = Utils.toNumber(this.vs.fin.tarjeta);
     const efectivo: number = Utils.toNumber(this.vs.fin.efectivo);
     const total: number = Utils.toNumber(this.vs.fin.total);
+
+    if (this.vs.fin.imprimir === "reserva") {
+      this.vs.guardarReserva().subscribe((result) => {
+        this.customOverlayRef.close({
+          status: "fin-reserva",
+        });
+      });
+      return;
+    }
 
     if (this.vs.fin.pagoMixto) {
       if (this.vs.fin.idTipoPago === null) {

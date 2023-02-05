@@ -126,7 +126,16 @@ export class VentasComponent implements OnInit {
         if (data.data.status === "factura") {
           this.tabs.selectClient("factura");
         }
+        if (data.data.status === "reserva") {
+          this.tabs.selectClient("reserva");
+        }
         if (data.data.status === "cancelar") {
+          this.ventas.get(this.vs.selected).setFocus();
+        }
+        if (data.data.status === "fin-reserva") {
+          this.vs.cliente = null;
+          this.vs.ventaActual.resetearVenta();
+          this.vs.addLineaVenta();
           this.ventas.get(this.vs.selected).setFocus();
         }
         if (data.data.status === "fin") {

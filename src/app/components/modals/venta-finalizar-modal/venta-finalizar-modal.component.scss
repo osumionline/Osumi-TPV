@@ -2,10 +2,28 @@
     display: flex;
     flex-direction: row;
 
+    .col-reserva {
+        padding-right: 8px;
+        border-right: 1px solid #eee;
+        width: 450px;
+        box-sizing: border-box;
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        &.show {
+            display: flex;
+        }
+    }
+
     .col-left {
         padding-right: 8px;
         border-right: 1px solid #eee;
         flex: 2;
+
+        &.hide {
+            display: none;
+        }
 
         .col-line {
             display: flex;

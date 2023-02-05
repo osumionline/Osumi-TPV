@@ -95,6 +95,7 @@ import { EmployeeLoginModalComponent } from "src/app/components/modals/employee-
 import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
 import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
 import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { ReservasModalComponent } from "src/app/components/modals/reservas-modal/reservas-modal.component";
 import { VentaAccesosDirectosModalComponent } from "src/app/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
 import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
@@ -115,6 +116,7 @@ export const MODALS: any[] = [
   ElegirClienteModalComponent,
   VentaAccesosDirectosModalComponent,
   VentaFinalizarModalComponent,
+  ReservasModalComponent,
 ];
 
 /*

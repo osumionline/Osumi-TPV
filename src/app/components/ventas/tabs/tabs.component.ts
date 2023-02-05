@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ElegirClienteModalComponent } from "src/app/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
+import { ReservasModalComponent } from "src/app/components/modals/reservas-modal/reservas-modal.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
-import { ElegirClienteModal } from "src/app/interfaces/modals.interface";
+import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -101,5 +102,17 @@ export class TabsComponent {
   removeClient(): void {
     this.vs.cliente = null;
     this.selectClientEvent.emit(null);
+  }
+
+  showReservas(): void {
+    const modalReservasData: Modal = {
+      modalTitle: "Reservas",
+      modalColor: "blue",
+    };
+    const dialog = this.overlayService.open(
+      ReservasModalComponent,
+      modalReservasData
+    );
+    dialog.afterClosed$.subscribe((data) => {});
   }
 }
