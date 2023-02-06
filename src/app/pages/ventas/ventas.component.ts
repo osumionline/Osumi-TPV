@@ -94,7 +94,7 @@ export class VentasComponent implements OnInit {
     if (linea.fromReserva === null) {
       this.vs.ventaActual.lineas.splice(ind, 1);
     } else {
-      linea.cantidad = -1 * linea.cantidad;
+      linea.cantidad = 0;
     }
     this.vs.ventaActual.updateImporte();
     this.startFocus();

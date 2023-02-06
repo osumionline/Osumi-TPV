@@ -45,7 +45,7 @@
 				{{linea.descripcion}}
 				<mat-icon *ngIf="linea.observaciones"
 						  (click)="showObservaciones($event, linea.observaciones)"
-						  title="Mostrar observaciones del artículo">info_outline</mat-icon>
+						  matTooltip="Mostrar observaciones del artículo">info_outline</mat-icon>
 			</span>
 		</div>
 		<div class="col-stock">
@@ -87,7 +87,7 @@
 					{{linea.total | fixedNumber}} €
 					<mat-icon *ngIf="linea.importeManual"
 							  (click)="quitaImporteManual($event, i)"
-							  title="Quita el importe introducido manualmente">close</mat-icon>
+							  matTooltip="Quita el importe introducido manualmente">close</mat-icon>
 				</span>
 				<span *ngIf="editarImporte">
 					<input type="number"
@@ -114,12 +114,12 @@
 					<ng-container *ngIf="linea.descuentoManual">€</ng-container>
 					<span *ngIf="!linea.descuentoManual && vs.ventaActual.modificarImportes"
 						  (click)="abreDescuento($event, linea)"
-						  title="introducir un importe como descuento">
+						  matTooltip="introducir un importe como descuento">
 						<mat-icon>euro</mat-icon>
 					</span>
 					<span *ngIf="linea.descuentoManual"
 						  (click)="quitaDescuentoManual($event, i)"
-						  title="Quita el importe introducido como descuento">
+						  matTooltip="Quita el importe introducido como descuento">
 						<mat-icon>close</mat-icon>
 					</span>
 				</span>

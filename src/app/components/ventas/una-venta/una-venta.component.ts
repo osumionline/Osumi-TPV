@@ -402,37 +402,18 @@ export class UnaVentaComponent implements AfterViewInit {
   }
 
   borraLinea(ind: number): void {
-    if (
-      this.vs.ventaActual.lineas[ind].fromReserva !== null &&
-      this.vs.ventaActual.lineas[ind].cantidad < 0
-    ) {
-      this.dialog
-        .confirm({
-          title: "¡Atención!",
-          content:
-            "¿Quieres recuperar esta línea de la reserva que habías borrado?",
-          ok: "Confirmar",
-          cancel: "Cancelar",
-        })
-        .subscribe((result) => {
-          if (result === true) {
-            this.deleteVentaLineaEvent.emit(ind);
-          }
-        });
-    } else {
-      this.dialog
-        .confirm({
-          title: "¡Atención!",
-          content: "¿Está seguro de querer borrar esta línea?",
-          ok: "Confirmar",
-          cancel: "Cancelar",
-        })
-        .subscribe((result) => {
-          if (result === true) {
-            this.deleteVentaLineaEvent.emit(ind);
-          }
-        });
-    }
+    this.dialog
+      .confirm({
+        title: "¡Atención!",
+        content: "¿Está seguro de querer borrar esta línea?",
+        ok: "Confirmar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.deleteVentaLineaEvent.emit(ind);
+        }
+      });
   }
 
   goToArticulo(linea: VentaLinea, ind: number): void {
