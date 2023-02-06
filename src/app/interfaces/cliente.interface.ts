@@ -3,6 +3,7 @@ import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
 } from "src/app/interfaces/venta.interface";
+import { Cliente } from "src/app/model/cliente.model";
 
 export interface ClienteInterface {
   id: number;
@@ -49,7 +50,7 @@ export interface EstadisticasClienteResult {
 }
 
 export interface SelectClienteInterface {
-  id: number;
+  cliente: Cliente;
   from: string;
 }
 
@@ -99,6 +100,7 @@ export interface ReservaLineaInterface {
   nombreArticulo: string;
   localizador: number;
   marca: string;
+  stock: number;
   puc: number;
   pvp: number;
   iva: number;
@@ -111,7 +113,7 @@ export interface ReservaLineaInterface {
 export interface ReservaInterface {
   id: number;
   idCliente: number;
-  cliente: string;
+  cliente: ClienteInterface;
   total: number;
   fecha: string;
   lineas: ReservaLineaInterface[];

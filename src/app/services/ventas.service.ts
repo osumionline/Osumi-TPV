@@ -14,6 +14,9 @@ import { Empleado } from "src/app/model/empleado.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
 import { VentaLinea } from "src/app/model/venta-linea.model";
 import { Venta } from "src/app/model/venta.model";
+import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { ClientesService } from "src/app/services/clientes.service";
+import { DialogService } from "src/app/services/dialog.service";
 import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
 
@@ -25,7 +28,12 @@ export class VentasService {
   list: Venta[] = [];
   fin: VentaFin = new VentaFin();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cs: ClientesService,
+    private dialog: DialogService,
+    private cms: ClassMapperService
+  ) {}
 
   newVenta(
     empleados: boolean,
@@ -82,6 +90,28 @@ export class VentasService {
         ? this.ventaActual.cliente
         : null
       : null;
+  }
+
+  loadVentaCliente(cliente: Cliente): void {
+    this.cliente = cliente;
+    this.fin.idCliente = cliente.id;
+    this.fin.email = cliente.email;
+    this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
+      if (result.status === "ok") {
+        this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+          result.ultimasVentas
+        );
+        this.cliente.topVentas = this.cms.getTopVentaArticulos(
+          result.topVentas
+        );
+      } else {
+        this.dialog.alert({
+          title: "Error",
+          content: "¡Ocurrió un error al obtener las estadísticas del cliente!",
+          ok: "Continuar",
+        });
+      }
+    });
   }
 
   loadFinVenta(): void {

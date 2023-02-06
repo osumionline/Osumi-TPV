@@ -8,6 +8,7 @@ export class ReservaLinea {
     public nombreArticulo: string = null,
     public localizador: number = null,
     public marca: string = null,
+    public stock: number = null,
     public puc: number = null,
     public pvp: number = null,
     public iva: number = null,
@@ -27,6 +28,7 @@ export class ReservaLinea {
     this.nombreArticulo = Utils.urldecode(rl.nombreArticulo);
     this.localizador = rl.localizador;
     this.marca = Utils.urldecode(rl.marca);
+    this.stock = rl.stock;
     this.puc = rl.puc;
     this.pvp = rl.pvp;
     this.iva = rl.iva;
@@ -45,6 +47,7 @@ export class ReservaLinea {
       nombreArticulo: Utils.urlencode(this.nombreArticulo),
       localizador: this.localizador,
       marca: Utils.urlencode(this.marca),
+      stock: this.stock,
       puc: this.puc,
       pvp: this.pvp,
       iva: this.iva,

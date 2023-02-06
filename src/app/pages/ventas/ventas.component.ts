@@ -13,6 +13,8 @@ import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
+import { Reserva } from "src/app/model/reserva.model";
+import { VentaLinea } from "src/app/model/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ConfigService } from "src/app/services/config.service";
 import { OverlayService } from "src/app/services/overlay.service";
@@ -88,17 +90,38 @@ export class VentasComponent implements OnInit {
   }
 
   deleteVentaLinea(ind: number): void {
-    this.vs.ventaActual.lineas.splice(ind, 1);
+    const linea: VentaLinea = this.vs.ventaActual.lineas[ind];
+    if (linea.fromReserva === null) {
+      this.vs.ventaActual.lineas.splice(ind, 1);
+    } else {
+      linea.cantidad = -1 * linea.cantidad;
+    }
     this.vs.ventaActual.updateImporte();
     this.startFocus();
   }
 
-  selectClient(cliente: SelectClienteInterface): void {
-    if (cliente === null || cliente.from === null) {
+  selectClient(selected: SelectClienteInterface): void {
+    if (selected !== null) {
+      this.vs.loadVentaCliente(selected.cliente);
+    }
+    if (selected === null || selected.from === null) {
       this.startFocus();
     } else {
       this.abreFinalizarVenta();
     }
+  }
+
+  selectReserva(reserva: Reserva): void {
+    this.newVenta();
+    this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
+    this.vs.loadVentaCliente(reserva.cliente);
+    this.vs.ventaActual.lineas = [];
+    for (let linea of reserva.lineas) {
+      let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
+      lineaVenta.fromReserva = reserva.id;
+      this.vs.ventaActual.lineas.push(lineaVenta);
+    }
+    this.vs.ventaActual.updateImporte();
   }
 
   endVenta(id: number = null): void {

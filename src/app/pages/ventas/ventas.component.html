@@ -6,6 +6,7 @@
 		   (newTabEvent)="newVenta()"
 		   (changeTabEvent)="startFocus()"
 		   (selectClientEvent)="selectClient($event)"
+		   (selectReservaEvent)="selectReserva($event)"
 		   #tabs></otpv-tabs>
 <otpv-una-venta *ngFor="let venta of vs.list; let i = index"
 				[ind]="i"

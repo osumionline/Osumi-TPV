@@ -28,11 +28,11 @@
 			<ng-container *ngIf="linea.idArticulo !== null">{{linea.localizador}}</ng-container>
 			<mat-icon *ngIf="linea.idArticulo !== null && linea.fromVenta === null"
 					  class="delete-linea"
-					  title="¿Borrar línea?"
-					  (click)="borraLinea(i)">delete</mat-icon>
+					  [matTooltip]="(linea.fromReserva !== null && linea.cantidad < 0) ? 'Recuperar línea': '¿Borrar línea?'"
+					  (click)="borraLinea(i)">{{(linea.fromReserva !== null && linea.cantidad < 0) ? 'refresh': 'delete'}}</mat-icon>
 			<mat-icon *ngIf="linea.idArticulo === null && linea.fromVenta === null"
 					  class="accesos-directos"
-					  title="Abrir accesos directos"
+					  matTooltip="Abrir accesos directos"
 					  (click)="abreAccesosDirectos()">launch</mat-icon>
 			<mat-icon *ngIf="linea.fromVenta !== null"
 					  class="accesos-directos"

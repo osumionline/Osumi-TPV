@@ -4,6 +4,7 @@ import { ReservasModalComponent } from "src/app/components/modals/reservas-modal
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/cliente.model";
+import { Reserva } from "src/app/model/reserva.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -22,6 +23,8 @@ export class TabsComponent {
   @Output() changeTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() selectClientEvent: EventEmitter<SelectClienteInterface> =
     new EventEmitter<SelectClienteInterface>();
+  @Output() selectReservaEvent: EventEmitter<Reserva> =
+    new EventEmitter<Reserva>();
 
   selectClienteFrom: string = null;
 
@@ -71,28 +74,8 @@ export class TabsComponent {
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
         const cliente: Cliente = data.data;
-        this.vs.cliente = cliente;
-        this.vs.fin.idCliente = cliente.id;
-        this.vs.fin.email = cliente.email;
-        this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
-          if (result.status === "ok") {
-            this.vs.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-              result.ultimasVentas
-            );
-            this.vs.cliente.topVentas = this.cms.getTopVentaArticulos(
-              result.topVentas
-            );
-          } else {
-            this.dialog.alert({
-              title: "Error",
-              content:
-                "¡Ocurrió un error al obtener las estadísticas del cliente!",
-              ok: "Continuar",
-            });
-          }
-        });
         this.selectClientEvent.emit({
-          id: cliente.id,
+          cliente: cliente,
           from: this.selectClienteFrom,
         });
       }
@@ -114,6 +97,11 @@ export class TabsComponent {
       ReservasModalComponent,
       modalReservasData
     );
-    dialog.afterClosed$.subscribe((data) => {});
+    dialog.afterClosed$.subscribe((data) => {
+      if (data.data !== null) {
+        const reserva: Reserva = data.data;
+        this.selectReservaEvent.emit(reserva);
+      }
+    });
   }
 }

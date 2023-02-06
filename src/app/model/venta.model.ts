@@ -34,7 +34,12 @@ export class Venta {
     let cant: number = 0;
     for (let i in this.lineas) {
       this.lineas[i].updateImporte();
-      cant += this.lineas[i].total;
+      if (
+        this.lineas[i].fromReserva === null ||
+        (this.lineas[i].fromReserva !== null && this.lineas[i].cantidad > 0)
+      ) {
+        cant += this.lineas[i].total;
+      }
     }
     this.importe = cant;
   }

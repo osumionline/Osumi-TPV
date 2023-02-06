@@ -2,8 +2,8 @@ import {
   ReservaInterface,
   ReservaLineaInterface,
 } from "src/app/interfaces/cliente.interface";
+import { Cliente } from "src/app/model/cliente.model";
 import { ReservaLinea } from "src/app/model/reserva-linea.model";
-import { Utils } from "src/app/shared/utils.class";
 
 export class Reserva {
   _totalUnidades: number = null;
@@ -12,7 +12,7 @@ export class Reserva {
   constructor(
     public id: number = null,
     public idCliente: number = null,
-    public cliente: string = null,
+    public cliente: Cliente = null,
     public total: number = null,
     public fecha: string = null,
     public lineas: ReservaLinea[] = []
@@ -57,7 +57,7 @@ export class Reserva {
   fromInterface(r: ReservaInterface): Reserva {
     this.id = r.id;
     this.idCliente = r.idCliente;
-    this.cliente = Utils.urldecode(r.cliente);
+    this.cliente = new Cliente().fromInterface(r.cliente);
     this.total = r.total;
     this.fecha = r.fecha;
     this.lineas = r.lineas.map((rl: ReservaLineaInterface): ReservaLinea => {
@@ -71,7 +71,7 @@ export class Reserva {
     return {
       id: this.id,
       idCliente: this.idCliente,
-      cliente: this.cliente,
+      cliente: this.cliente.toInterface(),
       total: this.total,
       fecha: this.fecha,
       lineas: this.lineas.map((rl: ReservaLinea): ReservaLineaInterface => {

@@ -1,5 +1,6 @@
 import { VentaLineaInterface } from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulo.model";
+import { ReservaLinea } from "src/app/model/reserva-linea.model";
 
 export class VentaLinea {
   importeManual: boolean = false;
@@ -19,7 +20,8 @@ export class VentaLinea {
     public descuento: number = null,
     public iva: number = null,
     public observaciones: string = null,
-    public fromVenta: number = null
+    public fromVenta: number = null,
+    public fromReserva: number = null
   ) {}
 
   get total(): number {
@@ -58,6 +60,22 @@ export class VentaLinea {
     return this;
   }
 
+  fromLineaReserva(rl: ReservaLinea): VentaLinea {
+    this.idArticulo = rl.idArticulo;
+    this.localizador = rl.localizador;
+    this.descripcion = rl.nombreArticulo;
+    this.marca = rl.marca;
+    this.stock = rl.stock;
+    this.cantidad = rl.unidades;
+    this.pvp = rl.pvp;
+    this.importe = rl.pvp;
+    this.descuento = rl.descuento;
+    this.iva = rl.iva;
+    this.observaciones = null;
+
+    return this;
+  }
+
   fromInterface(lv: VentaLineaInterface): VentaLinea {
     this.id = lv.id;
     this.idArticulo = lv.idArticulo;
@@ -91,6 +109,7 @@ export class VentaLinea {
       iva: this.iva,
       observaciones: this.observaciones,
       fromVenta: this.fromVenta,
+      fromReserva: this.fromReserva,
     };
   }
 }

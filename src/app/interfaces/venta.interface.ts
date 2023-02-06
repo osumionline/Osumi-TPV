@@ -15,6 +15,7 @@ export interface VentaLineaInterface {
   iva: number;
   observaciones: string;
   fromVenta: number;
+  fromReserva: number;
 }
 
 export interface VentaInterface {

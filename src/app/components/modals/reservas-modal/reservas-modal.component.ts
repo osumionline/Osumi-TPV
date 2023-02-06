@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
 import { ReservaLinea } from "src/app/model/reserva-linea.model";
 import { Reserva } from "src/app/model/reserva.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -35,7 +36,8 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   constructor(
     private cs: ClientesService,
     private cms: ClassMapperService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private customOverlayRef: CustomOverlayRef<null, {}>
   ) {}
 
   ngOnInit(): void {
@@ -82,5 +84,7 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
     });
   }
 
-  cargarVenta(): void {}
+  cargarVenta(): void {
+    this.customOverlayRef.close(this.reservaSelected);
+  }
 }
