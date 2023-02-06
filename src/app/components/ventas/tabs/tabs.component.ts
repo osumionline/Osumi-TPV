@@ -108,6 +108,7 @@ export class TabsComponent {
     const modalReservasData: Modal = {
       modalTitle: "Reservas",
       modalColor: "blue",
+      css: "modal-wide",
     };
     const dialog = this.overlayService.open(
       ReservasModalComponent,

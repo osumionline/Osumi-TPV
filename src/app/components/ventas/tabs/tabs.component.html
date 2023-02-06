@@ -11,23 +11,26 @@
 					  (click)="closeTab(i)">close</mat-icon>
 		</div>
 		<div class="new-tab"
-			 (click)="newTab()">
+			 (click)="newTab()"
+			 matTooltip="Nueva venta">
 			<mat-icon>add</mat-icon>
 		</div>
 		<div class="show-reservas"
-			 (click)="showReservas()">
+			 (click)="showReservas()"
+			 matTooltip="Abrir reservas">
 			<mat-icon>grading</mat-icon>
 		</div>
 		<div class="select-client"
 			 *ngIf="vs.list.length > 0 && !vs.cliente">
-			<span (click)="selectClient()">
+			<span (click)="selectClient()"
+				  matTooltip="Elegir cliente">
 				<mat-icon>person_add</mat-icon>
 			</span>
 		</div>
 		<div class="select-client"
 			 *ngIf="vs.cliente">
 			<a [routerLink]="'/clientes/' + vs.cliente.id">{{vs.cliente.nombreApellidos}}</a>
-			<span>
+			<span matTooltip="Quitar cliente">
 				<mat-icon (click)="removeClient()">close</mat-icon>
 			</span>
 		</div>

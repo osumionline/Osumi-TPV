@@ -92,3 +92,32 @@ export interface FacturaSaveInterface {
   ventas: number[];
   imprimir: boolean;
 }
+
+export interface ReservaLineaInterface {
+  id: number;
+  idArticulo: number;
+  nombreArticulo: string;
+  localizador: number;
+  marca: string;
+  puc: number;
+  pvp: number;
+  iva: number;
+  importe: number;
+  descuento: number;
+  importeDescuento: number;
+  unidades: number;
+}
+
+export interface ReservaInterface {
+  id: number;
+  idCliente: number;
+  cliente: string;
+  total: number;
+  fecha: string;
+  lineas: ReservaLineaInterface[];
+}
+
+export interface ReservasResult {
+  status: string;
+  list: ReservaInterface[];
+}

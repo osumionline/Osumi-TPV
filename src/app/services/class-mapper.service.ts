@@ -16,6 +16,7 @@ import {
 import {
   ClienteInterface,
   FacturaInterface,
+  ReservaInterface,
 } from "src/app/interfaces/cliente.interface";
 import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
 import { InformeMensualItemInterface } from "src/app/interfaces/informes.interface";
@@ -47,6 +48,7 @@ import { InventarioItem } from "src/app/model/inventario-item.model";
 import { Marca } from "src/app/model/marca.model";
 import { Pedido } from "src/app/model/pedido.model";
 import { Proveedor } from "src/app/model/proveedor.model";
+import { Reserva } from "src/app/model/reserva.model";
 import { SalidaCaja } from "src/app/model/salida-caja.model";
 import { TipoPago } from "src/app/model/tipo-pago.model";
 import { VentaFin } from "src/app/model/venta-fin.model";
@@ -274,6 +276,12 @@ export class ClassMapperService {
   ): InformeMensualItem[] {
     return imis.map((imi: InformeMensualItemInterface): InformeMensualItem => {
       return this.getInformeMensualItem(imi);
+    });
+  }
+
+  getReservas(rs: ReservaInterface[]): Reserva[] {
+    return rs.map((r: ReservaInterface): Reserva => {
+      return new Reserva().fromInterface(r);
     });
   }
 }

@@ -1,0 +1,55 @@
+.reservas {
+    display: flex;
+    height: 100%;
+
+    .reservas-no-data {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        font-size: 1.3em;
+        align-items: center;
+    }
+
+    .reservas-list {
+        height: 100%;
+        flex: 2;
+        overflow-y: auto;
+    }
+
+    .reservas-detail {
+        height: 100%;
+        overflow-y: auto;
+        margin-left: 16px;
+        flex: 3;
+        box-sizing: border-box;
+
+        .reserva-detail-no-data {
+            font-size: 1.3em;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reserva-detail {
+            display: none;
+
+            &.show {
+                display: block;
+            }
+
+            .reserva-detail-lineas {
+                .original-price {
+                    text-decoration: line-through;
+                    font-style: italic;
+                }
+            }
+
+            .reserva-detail-options {
+                display: flex;
+                margin-top: 16px;
+                justify-content: space-between;
+            }
+        }
+    }
+}

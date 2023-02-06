@@ -10,6 +10,7 @@ import {
   FacturaResult,
   FacturaSaveInterface,
   FacturasResult,
+  ReservasResult,
   VentasClienteResult,
 } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
@@ -157,6 +158,20 @@ export class ClientesService {
   sendFactura(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
       environment.apiUrl + "-clientes/send-factura",
+      { id }
+    );
+  }
+
+  getReservas(): Observable<ReservasResult> {
+    return this.http.post<ReservasResult>(
+      environment.apiUrl + "-clientes/get-reservas",
+      {}
+    );
+  }
+
+  deleteReserva(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + "-clientes/delete-reserva",
       { id }
     );
   }
