@@ -354,6 +354,16 @@ export class UnaVentaComponent implements AfterViewInit {
         }
       }
 
+      // Actualizo cantidades
+      for (let item of data.data) {
+        const updateInd: number = this.vs.ventaActual.lineas.findIndex(
+          (x: VentaLinea): boolean => x.id === item.id
+        );
+        if (updateInd !== -1) {
+          this.vs.ventaActual.lineas[updateInd].cantidad = item.unidades;
+        }
+      }
+
       this.devolucionList = data.data;
       if (toBeAddded.length > 0) {
         this.vs.getLineasTicket(toBeAddded.join(",")).subscribe((result) => {
