@@ -4,6 +4,7 @@
   width: 10%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
   position: relative;
 }
 
@@ -11,6 +12,7 @@
   width: 55%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
   user-select: none;
 
   span {
@@ -45,24 +47,36 @@
   width: 5%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
 }
 
 .col-cantidad {
   width: 5%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
 }
 
 .col-pvp {
   width: 10%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
+  position: relative;
+
+  mat-icon {
+    position: absolute;
+    cursor: pointer;
+    right: 4px;
+    top: 4px;
+  }
 }
 
 .col-importe {
   width: 10%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
 }
 
 .col-descuentos {

@@ -78,6 +78,7 @@
 		<div class="col-pvp">
 			<ng-container *ngIf="linea.pvp === null">&nbsp;</ng-container>
 			<span *ngIf="linea.pvp !== null">{{linea.pvp | fixedNumber}} €</span>
+			<mat-icon matTooltip="Marcar como regalo">loyalty</mat-icon>
 		</div>
 		<div class="col-importe">
 			<ng-container *ngIf="linea.importe === null && linea.fromVenta === null">&nbsp;</ng-container>
