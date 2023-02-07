@@ -221,10 +221,10 @@
                     <td mat-cell
                         class="center"
                         *matCellDef="let element">
-                        <mat-icon *ngIf="!element.showCodigoBarras">check</mat-icon>
+                        <mat-icon *ngIf="element.hasCodBarras">check</mat-icon>
                         <mat-form-field class="campo-numero-small x-small"
                                         subscriptSizing="dynamic"
-                                        *ngIf="!pedido.recepcionado && element.showCodigoBarras">
+                                        *ngIf="!pedido.recepcionado && !element.hasCodBarras">
                             <input matInput
                                    placeholder="Cod. Barras"
                                    type="number"

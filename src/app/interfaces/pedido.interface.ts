@@ -14,6 +14,7 @@ export interface PedidoLineaInterface {
   descuento: number;
   idCategoria: number;
   codBarras: number;
+  hasCodBarras: boolean;
   referencia: string;
 }
 

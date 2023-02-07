@@ -26,6 +26,7 @@ export class PedidoLinea {
     public descuento: number = null,
     public idCategoria: number = null,
     public codBarras: number = null,
+    public hasCodBarras: boolean = false,
     public referencia: string = null
   ) {}
 
@@ -77,6 +78,7 @@ export class PedidoLinea {
     this.descuento = pl.descuento;
     this.idCategoria = pl.idCategoria;
     this.codBarras = pl.codBarras;
+    this.hasCodBarras = pl.hasCodBarras;
     this.referencia = Utils.urldecode(pl.referencia);
 
     return this;
@@ -99,9 +101,7 @@ export class PedidoLinea {
     this.idCategoria = a.idCategoria;
     this.codBarras = null;
     this.referencia = a.referencia;
-    if (!a.hasCodigoBarras) {
-      this.showCodigoBarras = true;
-    }
+    this.hasCodBarras = a.hasCodigoBarras;
     this.mostrarObsPedidos = a.mostrarObsPedidos;
     this.observaciones = a.observaciones;
 
@@ -125,6 +125,7 @@ export class PedidoLinea {
       descuento: this.descuento,
       idCategoria: this.idCategoria,
       codBarras: this.codBarras,
+      hasCodBarras: this.hasCodBarras,
       referencia: Utils.urlencode(this.referencia),
     };
   }

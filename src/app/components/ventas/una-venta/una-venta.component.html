@@ -36,7 +36,8 @@
 					  (click)="abreAccesosDirectos()">launch</mat-icon>
 			<mat-icon *ngIf="linea.fromVenta !== null"
 					  class="accesos-directos"
-					  (click)="mostrarDevolucion()">shopping_cart_checkout</mat-icon>
+					  (click)="mostrarDevolucion()"
+					  matTooltip="Abrir devolución">shopping_cart_checkout</mat-icon>
 		</div>
 		<div class="col-descripcion">
 			<ng-container *ngIf="!linea.descripcion">&nbsp;</ng-container>
