@@ -505,12 +505,36 @@ export class UnaVentaComponent implements AfterViewInit {
     }
   }
 
+  setRegalo(i: number): void {
+    if (!this.vs.ventaActual.lineas[i].regalo) {
+      this.vs.ventaActual.lineas[i].regalo = true;
+      this.vs.ventaActual.lineas[i].descuento = 100;
+    } else {
+      this.vs.ventaActual.lineas[i].regalo = false;
+      this.vs.ventaActual.lineas[i].descuento = 0;
+    }
+    this.vs.ventaActual.updateImporte();
+  }
+
   editarLineaImporte(i: number): void {
     if (
       !this.vs.ventaActual.empleado.hasRol(
         rolList.ventas.roles["modificarImportes"].id
       )
     ) {
+      return;
+    }
+    if (this.vs.ventaActual.lineas[i].regalo) {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content:
+            'La línea se ha marcado como "regalo", de modo que no se puede modificar su importe',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.setFocus();
+        });
       return;
     }
     if (this.vs.ventaActual.lineas[i].descuentoManual) {
@@ -551,6 +575,19 @@ export class UnaVentaComponent implements AfterViewInit {
   }
 
   editarLineaDescuento(i: number): void {
+    if (this.vs.ventaActual.lineas[i].regalo) {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content:
+            'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.setFocus();
+        });
+      return;
+    }
     if (this.vs.ventaActual.lineas[i].importeManual) {
       this.dialog
         .alert({
@@ -609,6 +646,19 @@ export class UnaVentaComponent implements AfterViewInit {
 
   abreDescuento(ev: MouseEvent, linea: VentaLinea): void {
     ev.stopPropagation();
+    if (linea.regalo) {
+      this.dialog
+        .alert({
+          title: "Atención",
+          content:
+            'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
+          ok: "Continuar",
+        })
+        .subscribe((result) => {
+          this.setFocus();
+        });
+      return;
+    }
     this.descuentoSelected = linea.idArticulo;
 
     const modalDescuentoData: Modal = {

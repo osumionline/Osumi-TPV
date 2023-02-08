@@ -69,6 +69,10 @@
     cursor: pointer;
     right: 4px;
     top: 4px;
+
+    &.selected {
+      color: blue;
+    }
   }
 }
 

@@ -21,7 +21,8 @@ export class VentaLinea {
     public iva: number = null,
     public observaciones: string = null,
     public fromVenta: number = null,
-    public fromReserva: number = null
+    public fromReserva: number = null,
+    public regalo: boolean = false
   ) {}
 
   get total(): number {
@@ -89,6 +90,7 @@ export class VentaLinea {
     this.descuento = lv.descuento;
     this.iva = lv.iva;
     this.observaciones = lv.observaciones;
+    this.regalo = lv.regalo;
 
     return this;
   }
@@ -110,6 +112,7 @@ export class VentaLinea {
       observaciones: this.observaciones,
       fromVenta: this.fromVenta,
       fromReserva: this.fromReserva,
+      regalo: this.regalo,
     };
   }
 }
