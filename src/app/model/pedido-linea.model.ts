@@ -1,10 +1,8 @@
 import { PedidoLineaInterface } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulo.model";
-import { IVAOption } from "src/app/model/iva-option.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class PedidoLinea {
-  selectedIvaOption: IVAOption = new IVAOption();
   showCodigoBarras: boolean = false;
   descuentoPedido: number = 0;
   mostrarObsPedidos: boolean = false;
@@ -41,9 +39,7 @@ export class PedidoLinea {
 
   get puc(): number {
     return (
-      this.palb *
-      (1 - this.descuento / 100) *
-      (1 + this.selectedIvaOption.value / 100)
+      this.palb * (1 - this.descuento / 100) * (1 + (this.iva + this.re) / 100)
     );
   }
 

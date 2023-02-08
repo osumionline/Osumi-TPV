@@ -63,7 +63,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   marcas: Marca[] = [];
   tipoIva: string = "iva";
   ivaOptions: IVAOption[] = [];
-  selectedIvaOption: IVAOption = new IVAOption();
+  ivaList: number[] = [];
+  reList: number[] = [];
   categoriesPlain: Categoria[] = [];
   mostrarCaducidad: boolean = false;
   fecCad: string = null;
@@ -100,6 +101,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     localizador: new FormControl(null),
     nombre: new FormControl(null, Validators.required),
     idMarca: new FormControl(null, Validators.required),
+    iva: new FormControl(null, Validators.required),
+    re: new FormControl(null),
     ventaOnline: new FormControl(false),
     palb: new FormControl(null),
     puc: new FormControl(null),
@@ -142,7 +145,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       this.yearList.push(y);
     }
     this.loadAppData();
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       if (params.localizador && parseInt(params.localizador) !== 0) {
         this.articulo.localizador = params.localizador;
         this.form.get("localizador").setValue(params.localizador);
@@ -152,13 +155,19 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.form.get("palb").valueChanges.subscribe((x) => {
+    this.form.get("iva").valueChanges.subscribe((x: number): void => {
+      this.updateIva(x.toString());
+    });
+    this.form.get("re").valueChanges.subscribe((x: number): void => {
+      this.updateRe(x.toString());
+    });
+    this.form.get("palb").valueChanges.subscribe((x: string): void => {
       this.updatePalb(x);
     });
-    this.form.get("puc").valueChanges.subscribe((x) => {
+    this.form.get("puc").valueChanges.subscribe((x: string): void => {
       this.updatePuc(x);
     });
-    this.form.get("pvp").valueChanges.subscribe((x) => {
+    this.form.get("pvp").valueChanges.subscribe((x: string): void => {
       this.updatePvp(x);
     });
   }
@@ -166,7 +175,10 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   loadAppData(): void {
     this.tipoIva = this.config.tipoIva;
     this.ivaOptions = this.config.ivaOptions;
-    this.selectedIvaOption = new IVAOption(this.tipoIva);
+    for (let ivaOption of this.ivaOptions) {
+      this.ivaList.push(ivaOption.iva);
+      this.reList.push(ivaOption.re);
+    }
     this.mostrarWeb = this.config.ventaOnline;
     this.mostrarCaducidad = this.config.fechaCad;
     this.monthList = this.config.monthList;
@@ -243,11 +255,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
             this.loadFecCad();
           }
 
-          this.selectedIvaOption = new IVAOption(
-            this.tipoIva,
-            this.articulo.iva,
-            this.articulo.re
-          );
           this.loadStatsVentas();
           this.loadStatsWeb();
 
@@ -377,18 +384,30 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updateIvaRe(ev: string): void {
-    const ivaInd: number = this.config.ivaOptions.findIndex(
-      (x: IVAOption): boolean => x.id == ev
+  updateIva(ev: string): void {
+    const ind: number = this.ivaList.findIndex(
+      (x: number): boolean => x == parseInt(ev)
     );
-    this.selectedIvaOption.updateValues(
-      this.config.ivaOptions[ivaInd].iva,
-      this.config.ivaOptions[ivaInd].re
-    );
+    this.form.get("re").setValue(this.reList[ind], { emitEvent: false });
 
     const ivare: number =
-      (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
-      (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
+      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
+      (this.form.get("re").value !== null ? this.form.get("re").value : 0);
+    const puc: string = this.getTwoNumberDecimal(
+      this.form.get("palb").value * (1 + ivare / 100)
+    );
+    this.updatePuc(puc);
+  }
+
+  updateRe(ev: string): void {
+    const ind: number = this.reList.findIndex(
+      (x: number): boolean => x == parseFloat(ev)
+    );
+    this.form.get("iva").setValue(this.ivaList[ind], { emitEvent: false });
+
+    const ivare: number =
+      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
+      (this.form.get("re").value !== null ? this.form.get("re").value : 0);
     const puc: string = this.getTwoNumberDecimal(
       this.form.get("palb").value * (1 + ivare / 100)
     );
@@ -487,12 +506,9 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form.get("palb").setValue(num, { emitEvent: false });
     this.form.get("palb").markAsDirty();
 
-    let ivare: number = 0;
-    if (this.selectedIvaOption.id !== null) {
-      ivare =
-        (this.selectedIvaOption.iva != -1 ? this.selectedIvaOption.iva : 0) +
-        (this.selectedIvaOption.re != -1 ? this.selectedIvaOption.re : 0);
-    }
+    const ivare: number =
+      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
+      (this.form.get("re").value != -1 ? this.form.get("re").value : 0);
     const puc: number = num * (1 + ivare / 100);
     this.updatePuc(this.getTwoNumberDecimal(puc));
   }
@@ -721,23 +737,6 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
       this.selectedTab = 0;
       return;
     }
-
-    if (this.selectedIvaOption.id === null) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No has elegido IVA para el artículo!",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-      this.selectedTab = 0;
-      return;
-    }
-    const ivaInd: number = this.config.ivaOptions.findIndex(
-      (x: IVAOption): boolean => x.id == this.selectedIvaOption.id
-    );
-    this.articulo.iva = this.config.ivaOptions[ivaInd].iva;
-    this.articulo.re = this.config.ivaOptions[ivaInd].re;
 
     this.saving = true;
     this.ars.saveArticulo(this.articulo.toInterface()).subscribe((result) => {

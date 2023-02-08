@@ -122,7 +122,7 @@ export class Pedido {
       }
       list["iva_" + linea.iva] +=
         linea.subtotal * (1 + linea.iva / 100) - linea.subtotal;
-      if (linea.selectedIvaOption.tipoIVA === "re") {
+      if (this.re) {
         if (!list.hasOwnProperty("re_" + linea.re)) {
           list["re_" + linea.re] = 0;
         }

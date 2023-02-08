@@ -364,25 +364,23 @@
                         *matCellDef="let element">
                         <mat-form-field class="x-small"
                                         *ngIf="!pedido.recepcionado"
-                                        [title]="element.selectedIvaOption.name"
                                         subscriptSizing="dynamic">
-                            <mat-select [(ngModel)]="element.selectedIvaOption.id"
-                                        (ngModelChange)="updateIvaRe($event, element)">
-                                <mat-option *ngFor="let iva of ivaOptions"
-                                            [value]="iva.id">
-                                    {{iva.iva}} %
+                            <mat-select [(ngModel)]="element.iva"
+                                        (ngModelChange)="updateIva($event, element)">
+                                <mat-option *ngFor="let iva of ivaList"
+                                            [value]="iva">
+                                    {{iva}} %
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field class="x-small"
                                         *ngIf="!pedido.recepcionado && pedido.re"
-                                        [title]="element.selectedIvaOption.name"
                                         subscriptSizing="dynamic">
-                            <mat-select [(ngModel)]="element.selectedIvaOption.id"
-                                        (ngModelChange)="updateIvaRe($event, element)">
-                                <mat-option *ngFor="let iva of ivaOptions"
-                                            [value]="iva.id">
-                                    {{iva.re}} %
+                            <mat-select [(ngModel)]="element.re"
+                                        (ngModelChange)="updateRe($event, element)">
+                                <mat-option *ngFor="let re of reList"
+                                            [value]="re">
+                                    {{re}} %
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>

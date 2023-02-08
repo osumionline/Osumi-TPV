@@ -50,6 +50,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
   numAlbaranFacturaBox: ElementRef;
 
   ivaOptions: IVAOption[] = [];
+  ivaList: number[] = [];
+  reList: number[] = [];
 
   metodosPago: string[] = [
     "Domiciliación bancaria",
@@ -212,7 +214,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.dontSave = false;
     this.ivaOptions = this.config.ivaOptions;
     for (let ivaOption of this.ivaOptions) {
-      ivaOption.tipoIVA = "iva";
+      this.ivaList.push(ivaOption.iva);
+      this.reList.push(ivaOption.re);
     }
     this.changeOptions();
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -252,14 +255,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
         this.colOptions.splice(borrarInd, 1);
       }
       this.changeOptions();
-
-      for (let linea of this.pedido.lineas) {
-        let ivaOption: IVAOption = this.config.findIVAOptionByIVA(linea.iva);
-        if (this.pedido.re) {
-          ivaOption = new IVAOption("re", linea.iva, linea.re);
-        }
-        linea.selectedIvaOption = ivaOption;
-      }
 
       this.titulo = "Pedido " + this.pedido.id;
       this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
@@ -409,23 +404,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.changeOptions();
   }
 
-  updateTipoIva(): void {
-    for (let ivaOption of this.ivaOptions) {
-      ivaOption.tipoIVA = this.pedido.re ? "re" : "iva";
-    }
-    this.pedido.ivaOptions = this.ivaOptions;
-    for (let linea of this.pedido.lineas) {
-      linea.selectedIvaOption.tipoIVA = this.pedido.re ? "re" : "iva";
-
-      const ivaOption: IVAOption = this.config.findIVAOptionByIVA(
-        linea.selectedIvaOption.iva
-      );
-      linea.selectedIvaOption.updateValues(ivaOption.iva, ivaOption.re);
-      linea.iva = linea.selectedIvaOption.iva;
-      linea.re = this.pedido.re ? linea.selectedIvaOption.re : 0;
-    }
-  }
-
   ordenarLinea(localizador: number, sent: string): void {
     const ind: number = this.pedido.lineas.findIndex(
       (x: PedidoLinea): boolean => {
@@ -451,17 +429,28 @@ export class PedidoComponent implements OnInit, OnDestroy {
     this.pedidoDataSource.data = this.pedido.lineas;
   }
 
-  updateIvaRe(option: string, linea: PedidoLinea): void {
-    for (let iva of this.ivaOptions) {
-      iva.tipoIVA = this.pedido.re ? "re" : "iva";
+  updateTipoIva(): void {
+    for (let linea of this.pedido.lineas) {
+      const ind: number = this.ivaList.findIndex(
+        (x: number): boolean => x == linea.iva
+      );
+      linea.re = this.pedido.re ? this.reList[ind] : 0;
     }
-    this.pedido.ivaOptions = this.ivaOptions;
+    console.log(this.pedido.lineas);
+  }
 
-    const ivaOption: IVAOption = this.config.findIVAOptionById(option);
+  updateIva(option: string, linea: PedidoLinea): void {
+    const ind: number = this.ivaList.findIndex(
+      (x: number): boolean => x == parseInt(option)
+    );
+    linea.re = this.pedido.re ? this.reList[ind] : 0;
+  }
 
-    linea.selectedIvaOption.updateValues(ivaOption.iva, ivaOption.re);
-    linea.iva = linea.selectedIvaOption.iva;
-    linea.re = this.pedido.re ? linea.selectedIvaOption.re : 0;
+  updateRe(option: string, linea: PedidoLinea): void {
+    const ind: number = this.reList.findIndex(
+      (x: number): boolean => x == parseFloat(option)
+    );
+    linea.iva = this.ivaList[ind];
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
@@ -511,15 +500,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
           const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
             articulo
           );
-          let ivaOption: IVAOption = new IVAOption(
-            "iva",
-            articulo.iva,
-            articulo.re
-          );
-          if (this.pedido.re) {
-            ivaOption = new IVAOption("re", articulo.iva, articulo.re);
-          }
-          lineaPedido.selectedIvaOption = ivaOption;
+          lineaPedido.iva = articulo.iva;
+          lineaPedido.re = this.pedido.re ? articulo.re : 0;
           const marca: Marca = this.ms.findById(lineaPedido.idMarca);
           lineaPedido.marca = marca.nombre;
 
