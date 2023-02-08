@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { SalidaCajaInterface } from "src/app/interfaces/caja.interface";
 import { DateValues } from "src/app/interfaces/interfaces";
@@ -14,6 +20,8 @@ import { Utils } from "src/app/shared/utils.class";
   styleUrls: ["./salidas-caja.component.scss"],
 })
 export class SalidasCajaComponent {
+  @Output() salidaCajaEvent: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   salidasModo: "fecha" | "rango" = "fecha";
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
@@ -144,6 +152,7 @@ export class SalidasCajaComponent {
           })
           .subscribe((result) => {
             this.resetBusqueda();
+            this.salidaCajaEvent.emit(true);
           });
       });
   }

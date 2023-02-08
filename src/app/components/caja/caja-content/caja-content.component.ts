@@ -70,6 +70,12 @@ export class CajaContentComponent implements OnInit {
     }
   }
 
+  newSalidaCaja(ev: boolean): void {
+    if (ev === true) {
+      this.cierreCaja.load();
+    }
+  }
+
   cerrarCaja(): void {
     this.cerrarVentanaEvent.emit(0);
   }

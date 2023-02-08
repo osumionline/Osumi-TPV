@@ -10,7 +10,8 @@
                                    #historicoVentas></otpv-historico-ventas>
         </mat-tab>
         <mat-tab label="SALIDAS CAJA">
-            <otpv-salidas-caja #salidasCaja></otpv-salidas-caja>
+            <otpv-salidas-caja (salidaCajaEvent)="newSalidaCaja($event)"
+                               #salidasCaja></otpv-salidas-caja>
         </mat-tab>
         <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
                  label="CERRAR CAJA">
