@@ -384,7 +384,9 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.selectedIvaOption.name}}</span>
+                        <span *ngIf="pedido.recepcionado">
+                            {{element.iva}} %{{pedido.re ? ' + ' + element.re + ' %' : ''}}
+                        </span>
                     </td>
                 </ng-container>
 
