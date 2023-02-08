@@ -35,12 +35,6 @@
                                 €
                             </div>
                             <div class="form-field">
-                                <label>Diferencia</label>
-                                <span class="value-placeholder"
-                                      [ngClass]="{'form-ok': cierreCaja.diferencia>0, 'form-not-ok': cierreCaja.diferencia<0}">{{cierreCaja.diferencia | fixedNumber}} €
-                                </span>
-                            </div>
-                            <div class="form-field">
                                 <label>Retirado</label>
                                 <mat-form-field class="form-title campo-numero">
                                     <input matInput
@@ -51,6 +45,12 @@
                                            #importeRealBox>
                                 </mat-form-field>
                                 €
+                            </div>
+                            <div class="form-field">
+                                <label>Diferencia</label>
+                                <span class="value-placeholder"
+                                      [ngClass]="{'form-ok': cierreCaja.diferencia>0, 'form-not-ok': cierreCaja.diferencia<0}">{{cierreCaja.diferencia | fixedNumber}} €
+                                </span>
                             </div>
                             <div class="form-field">
                                 <label>Entrada</label>

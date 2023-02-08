@@ -41,11 +41,11 @@ export class CierreCaja {
     if (this.real === null) {
       return 0;
     }
-    return -1 * (this.saldoFinal - this.real);
+    return -1 * (this.saldoFinal - this.real - this.retirado);
   }
 
   get saldoSiguiente(): number {
-    return this.real - this.retirado + this.entrada;
+    return this.real + this.entrada;
   }
 
   fromInterface(cc: CierreCajaInterface): CierreCaja {
