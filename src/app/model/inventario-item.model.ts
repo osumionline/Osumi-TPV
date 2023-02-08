@@ -10,6 +10,7 @@ export class InventarioItem {
     public id: number = null,
     public localizador: number = null,
     public marca: string = null,
+    public proveedor: string = null,
     public referencia: string = null,
     public nombre: string = null,
     public stock: number = null,
@@ -41,6 +42,8 @@ export class InventarioItem {
     this.id = ii.id;
     this.localizador = ii.localizador;
     this.marca = Utils.urldecode(ii.marca);
+    this.proveedor =
+      ii.proveedor !== null ? Utils.urldecode(ii.proveedor) : null;
     this.referencia = Utils.urldecode(ii.referencia);
     this.nombre = Utils.urldecode(ii.nombre);
     this.stock = ii.stock;
@@ -59,6 +62,8 @@ export class InventarioItem {
       id: this.id,
       localizador: this.localizador,
       marca: Utils.urlencode(this.marca),
+      proveedor:
+        this.proveedor !== null ? Utils.urlencode(this.proveedor) : null,
       referencia: Utils.urlencode(this.referencia),
       nombre: Utils.urlencode(this.nombre),
       stock: this.stock,

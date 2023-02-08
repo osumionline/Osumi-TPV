@@ -45,6 +45,7 @@ export class AlmacenInventarioComponent
 
   inventarioDisplayedColumns: string[] = [
     "localizador",
+    "proveedor",
     "marca",
     "referencia",
     "nombre",

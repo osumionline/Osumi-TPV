@@ -12,6 +12,7 @@ export interface InventarioItemInterface {
   id: number;
   localizador: number;
   marca: string;
+  proveedor: string;
   referencia: string;
   nombre: string;
   stock: number;

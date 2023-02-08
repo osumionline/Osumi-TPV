@@ -70,6 +70,18 @@
             *matCellDef="let element"> {{element.localizador}} </td>
     </ng-container>
 
+    <!-- Proveedor -->
+    <ng-container matColumnDef="proveedor">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por proveedor">
+            Proveedor
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.proveedor}} </td>
+    </ng-container>
+
     <!-- Marca -->
     <ng-container matColumnDef="marca">
         <th mat-header-cell
