@@ -13,6 +13,7 @@ export interface VentaLineaHistoricoInterface {
   importeDescuento: number;
   devuelto: number;
   unidades: number;
+  regalo: boolean;
 }
 
 export interface VentaHistoricoInterface {

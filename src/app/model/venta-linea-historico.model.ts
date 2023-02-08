@@ -18,7 +18,8 @@ export class VentaLineaHistorico {
     public descuento: number = null,
     public importeDescuento: number = null,
     public devuelto: number = null,
-    public unidades: number = null
+    public unidades: number = null,
+    public regalo: boolean = false
   ) {}
 
   get total(): number {
@@ -51,6 +52,7 @@ export class VentaLineaHistorico {
     this.devuelto = hlv.devuelto;
     this.unidades = hlv.unidades;
     this.devolver = hlv.unidades;
+    this.regalo = hlv.regalo;
 
     return this;
   }
@@ -71,6 +73,7 @@ export class VentaLineaHistorico {
       importeDescuento: this.importeDescuento,
       devuelto: this.devuelto,
       unidades: this.unidades,
+      regalo: this.regalo,
     };
   }
 }

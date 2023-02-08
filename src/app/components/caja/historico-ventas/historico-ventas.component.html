@@ -250,9 +250,11 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            <div *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</div>
-                            <div *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</div>
-                            <div *ngIf="!element.importeDescuento && element.descuento === 0">-</div>
+                            <span *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</span>
+                            <span *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</span>
+                            <span *ngIf="!element.importeDescuento && element.descuento === 0">-</span>
+                            <mat-icon class="icon"
+                                      *ngIf="element.regalo">loyalty</mat-icon>
                         </td>
                         <td class="center"
                             mat-footer-cell
