@@ -10,12 +10,12 @@ import { ConfigService } from "src/app/services/config.service";
   styleUrls: ["./venta-varios-modal.component.scss"],
 })
 export class VentaVariosModalComponent implements OnInit {
-  tipoIva: string = "iva";
-  ivaOptions: IVAOption[] = [];
+  ivaList: number[] = [];
   selectedIvaOption: IVAOption = new IVAOption();
   formVarios: FormGroup = new FormGroup({
-    nombre: new FormControl(null, Validators.required),
-    pvp: new FormControl(null),
+    nombre: new FormControl<string>(null, Validators.required),
+    pvp: new FormControl<number>(null, Validators.required),
+    iva: new FormControl<number>(21, Validators.required),
   });
   @ViewChild("variosPVPbox", { static: true }) variosPVPbox: ElementRef;
 
@@ -28,40 +28,22 @@ export class VentaVariosModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tipoIva = this.config.tipoIva;
-    this.ivaOptions = this.config.ivaOptions;
-    this.selectedIvaOption = new IVAOption(
-      this.tipoIva,
-      21,
-      this.tipoIva === "re" ? 5.2 : -1
-    );
+    for (let ivaOption of this.config.ivaOptions) {
+      this.ivaList.push(ivaOption.iva);
+    }
     this.formVarios.get("nombre").setValue(this.customOverlayRef.data.nombre);
     this.formVarios.get("pvp").setValue(this.customOverlayRef.data.pvp);
-    this.selectedIvaOption.updateValues(
-      this.customOverlayRef.data.iva,
-      this.customOverlayRef.data.re
-    );
+    this.formVarios.get("iva").setValue(this.customOverlayRef.data.iva);
     setTimeout(() => {
       this.variosPVPbox.nativeElement.focus();
     }, 0);
-  }
-
-  updateIvaRe(ev: string): void {
-    const ivaInd: number = this.config.ivaOptions.findIndex(
-      (x: IVAOption): boolean => x.id == ev
-    );
-    this.selectedIvaOption.updateValues(
-      this.config.ivaOptions[ivaInd].iva,
-      this.config.ivaOptions[ivaInd].re
-    );
   }
 
   actualizarVarios(): void {
     this.customOverlayRef.close({
       nombre: this.formVarios.get("nombre").value,
       pvp: this.formVarios.get("pvp").value,
-      iva: this.selectedIvaOption.iva,
-      re: this.selectedIvaOption.re !== -1 ? this.selectedIvaOption.re : null,
+      iva: this.formVarios.get("iva").value,
     });
   }
 }

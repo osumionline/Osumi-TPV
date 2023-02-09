@@ -447,8 +447,11 @@ export class UnaVentaComponent implements AfterViewInit {
       modalColor: "blue",
       nombre: this.vs.ventaActual.lineas[ind].descripcion,
       pvp: this.vs.ventaActual.lineas[ind].pvp,
-      iva: this.vs.ventaActual.lineas[ind].iva,
+      iva: !this.vs.ventaActual.lineas[ind].iva
+        ? 21
+        : this.vs.ventaActual.lineas[ind].iva,
     };
+    console.log(this.vs.ventaActual.lineas[ind]);
     const dialog = this.overlayService.open(
       VentaVariosModalComponent,
       modalVariosData

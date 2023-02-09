@@ -23,12 +23,10 @@
     <div class="form-field margin-right">
         <label>IVA (*)</label>
         <mat-form-field>
-            <mat-select [(ngModel)]="selectedIvaOption.id"
-                        (ngModelChange)="updateIvaRe($event)"
-                        [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let iva of ivaOptions"
-                            [value]="iva.id">
-                    {{iva.name}}
+            <mat-select formControlName="iva">
+                <mat-option *ngFor="let iva of ivaList"
+                            [value]="iva">
+                    {{iva}} %
                 </mat-option>
             </mat-select>
         </mat-form-field>
