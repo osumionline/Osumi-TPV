@@ -2,8 +2,8 @@ import {
   ReservaInterface,
   ReservaLineaInterface,
 } from "src/app/interfaces/cliente.interface";
-import { Cliente } from "src/app/model/cliente.model";
-import { ReservaLinea } from "src/app/model/reserva-linea.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
 
 export class Reserva {
   _totalUnidades: number = null;

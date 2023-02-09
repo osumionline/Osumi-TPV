@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";

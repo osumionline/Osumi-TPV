@@ -32,29 +32,29 @@ import {
   ArticuloUltimaVentaInterface,
   VentaFinInterface,
 } from "src/app/interfaces/venta.interface";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
-import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
-import { ArticuloTopVenta } from "src/app/model/articulo-top-venta.model";
-import { ArticuloUltimaVenta } from "src/app/model/articulo-ultima-venta.model";
-import { Articulo } from "src/app/model/articulo.model";
-import { Categoria } from "src/app/model/categoria.model";
-import { CierreCaja } from "src/app/model/cierre-caja.model";
-import { Cliente } from "src/app/model/cliente.model";
-import { CodigoBarras } from "src/app/model/codigo-barras.model";
-import { Comercial } from "src/app/model/comercial.model";
-import { Empleado } from "src/app/model/empleado.model";
-import { Factura } from "src/app/model/factura.model";
-import { InventarioItem } from "src/app/model/inventario-item.model";
-import { Marca } from "src/app/model/marca.model";
-import { Pedido } from "src/app/model/pedido.model";
-import { Proveedor } from "src/app/model/proveedor.model";
-import { Reserva } from "src/app/model/reserva.model";
-import { SalidaCaja } from "src/app/model/salida-caja.model";
-import { TipoPago } from "src/app/model/tipo-pago.model";
-import { VentaFin } from "src/app/model/venta-fin.model";
-import { VentaHistorico } from "src/app/model/venta-historico.model";
-import { InformeMensualItem } from "./../model/informe-mensual-item.model";
-import { VentaLineaHistorico } from "./../model/venta-linea-historico.model";
+import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
+import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
+import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
+import { ArticuloTopVenta } from "src/app/model/articulos/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-venta.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
+import { Categoria } from "src/app/model/articulos/categoria.model";
+import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
+import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
+import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
+import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { Factura } from "src/app/model/clientes/factura.model";
+import { Pedido } from "src/app/model/compras/pedido.model";
+import { Marca } from "src/app/model/marcas/marca.model";
+import { Comercial } from "src/app/model/proveedores/comercial.model";
+import { Proveedor } from "src/app/model/proveedores/proveedor.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
+import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
+import { Reserva } from "src/app/model/ventas/reserva.model";
+import { VentaFin } from "src/app/model/ventas/venta-fin.model";
+import { InformeMensualItem } from "../model/caja/informe-mensual-item.model";
+import { VentaLineaHistorico } from "../model/caja/venta-linea-historico.model";
 
 @Injectable({
   providedIn: "root",

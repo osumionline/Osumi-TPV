@@ -22,11 +22,11 @@ import {
   VariosModal,
 } from "src/app/interfaces/modals.interface";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
-import { Articulo } from "src/app/model/articulo.model";
-import { Empleado } from "src/app/model/empleado.model";
-import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
-import { VentaLinea } from "src/app/model/venta-linea.model";
+import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
+import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
+import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";

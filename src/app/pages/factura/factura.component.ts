@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Data, Params } from "@angular/router";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
-import { FacturaItem } from "src/app/model/factura-item.model";
-import { Factura } from "src/app/model/factura.model";
+import { FacturaItem } from "src/app/model/clientes/factura-item.model";
+import { Factura } from "src/app/model/clientes/factura.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";

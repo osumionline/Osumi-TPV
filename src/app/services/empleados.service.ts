@@ -7,7 +7,7 @@ import {
   EmpleadosResult,
 } from "src/app/interfaces/empleado.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
-import { Empleado } from "src/app/model/empleado.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
 

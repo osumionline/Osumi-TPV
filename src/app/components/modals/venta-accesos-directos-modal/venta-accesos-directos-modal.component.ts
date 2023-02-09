@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { AccesoDirecto } from "src/app/model/acceso-directo.model";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 

@@ -13,7 +13,7 @@ import {
   BuscadorAlmacenInterface,
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
-import { InventarioItem } from "src/app/model/inventario-item.model";
+import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";

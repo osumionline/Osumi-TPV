@@ -5,10 +5,10 @@ import {
   PedidoVistaInterface,
   TotalsIVAOption,
 } from "src/app/interfaces/pedido.interface";
-import { IVAOption } from "src/app/model/iva-option.model";
-import { PedidoLinea } from "src/app/model/pedido-linea.model";
-import { PedidoPDF } from "src/app/model/pedido-pdf.model";
-import { PedidoVista } from "src/app/model/pedido-vista.model";
+import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
+import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
+import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
+import { IVAOption } from "src/app/model/tpv/iva-option.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Pedido {

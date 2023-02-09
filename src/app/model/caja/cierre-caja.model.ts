@@ -2,7 +2,7 @@ import {
   CierreCajaInterface,
   CierreCajaTipoInterface,
 } from "src/app/interfaces/caja.interface";
-import { CierreCajaTipo } from "src/app/model/cierre-caja-tipo.model";
+import { CierreCajaTipo } from "src/app/model/caja/cierre-caja-tipo.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class CierreCaja {

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
-import { Marca } from "src/app/model/marca.model";
+import { Marca } from "src/app/model/marcas/marca.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { EmpleadoLoginInterface } from "src/app/interfaces/empleado.interface";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 

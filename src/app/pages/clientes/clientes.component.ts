@@ -7,8 +7,8 @@ import { EditFacturaModalComponent } from "src/app/components/modals/edit-factur
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { FacturaModal } from "src/app/interfaces/modals.interface";
-import { Cliente } from "src/app/model/cliente.model";
-import { Factura } from "src/app/model/factura.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { Factura } from "src/app/model/clientes/factura.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";

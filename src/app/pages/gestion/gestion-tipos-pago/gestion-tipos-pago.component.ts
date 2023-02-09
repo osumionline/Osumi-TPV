@@ -7,7 +7,7 @@ import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
 } from "src/app/interfaces/tipo-pago.interface";
-import { TipoPago } from "src/app/model/tipo-pago.model";
+import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";

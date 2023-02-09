@@ -1,5 +1,5 @@
 import { PedidoLineaInterface } from "src/app/interfaces/pedido.interface";
-import { Articulo } from "src/app/model/articulo.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class PedidoLinea {

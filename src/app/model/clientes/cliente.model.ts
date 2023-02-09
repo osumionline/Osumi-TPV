@@ -1,7 +1,7 @@
 import { ClienteInterface } from "src/app/interfaces/cliente.interface";
-import { ArticuloTopVenta } from "src/app/model/articulo-top-venta.model";
-import { ArticuloUltimaVenta } from "src/app/model/articulo-ultima-venta.model";
-import { Factura } from "src/app/model/factura.model";
+import { ArticuloTopVenta } from "src/app/model/articulos/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-venta.model";
+import { Factura } from "src/app/model/clientes/factura.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Cliente {

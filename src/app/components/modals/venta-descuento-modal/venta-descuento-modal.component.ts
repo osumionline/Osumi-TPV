@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({

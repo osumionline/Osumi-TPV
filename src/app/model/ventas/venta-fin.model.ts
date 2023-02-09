@@ -2,7 +2,7 @@ import {
   VentaFinInterface,
   VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
-import { VentaLinea } from "src/app/model/venta-linea.model";
+import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class VentaFin {

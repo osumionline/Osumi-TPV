@@ -8,12 +8,12 @@ import {
   FinVentaResult,
   LineasTicketResult,
 } from "src/app/interfaces/venta.interface";
-import { Articulo } from "src/app/model/articulo.model";
-import { Cliente } from "src/app/model/cliente.model";
-import { Empleado } from "src/app/model/empleado.model";
-import { VentaFin } from "src/app/model/venta-fin.model";
-import { VentaLinea } from "src/app/model/venta-linea.model";
-import { Venta } from "src/app/model/venta.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
+import { VentaFin } from "src/app/model/ventas/venta-fin.model";
+import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+import { Venta } from "src/app/model/ventas/venta.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";

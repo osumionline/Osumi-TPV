@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
-import { IVAOption } from "src/app/model/iva-option.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { IVAOption } from "src/app/model/tpv/iva-option.model";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({

@@ -10,7 +10,7 @@ import {
   PedidosFilterInterface,
   PedidosResult,
 } from "src/app/interfaces/pedido.interface";
-import { Pedido } from "src/app/model/pedido.model";
+import { Pedido } from "src/app/model/compras/pedido.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
 

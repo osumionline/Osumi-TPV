@@ -6,8 +6,8 @@ import {
   Month,
   ProvinceInterface,
 } from "src/app/interfaces/interfaces";
-import { IVAOption } from "src/app/model/iva-option.model";
-import { TipoPago } from "src/app/model/tipo-pago.model";
+import { IVAOption } from "src/app/model/tpv/iva-option.model";
+import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";

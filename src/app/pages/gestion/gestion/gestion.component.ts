@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Empleado } from "src/app/model/empleado.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { rolList } from "src/app/shared/rol.class";

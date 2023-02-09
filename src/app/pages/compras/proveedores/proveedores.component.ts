@@ -6,8 +6,8 @@ import {
   ComercialInterface,
   ProveedorInterface,
 } from "src/app/interfaces/proveedor.interface";
-import { Comercial } from "src/app/model/comercial.model";
-import { Proveedor } from "src/app/model/proveedor.model";
+import { Comercial } from "src/app/model/proveedores/comercial.model";
+import { Proveedor } from "src/app/model/proveedores/proveedor.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";

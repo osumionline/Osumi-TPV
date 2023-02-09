@@ -2,7 +2,7 @@ import {
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
-import { VentaLineaHistorico } from "src/app/model/venta-linea-historico.model";
+import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class VentaHistorico {

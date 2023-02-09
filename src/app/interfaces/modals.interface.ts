@@ -1,5 +1,5 @@
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
-import { Factura } from "src/app/model/factura.model";
+import { Factura } from "src/app/model/clientes/factura.model";
 
 export interface Modal {
   modalColor: "blue" | "yellow" | "red";

@@ -6,7 +6,7 @@ import {
   MarcaInterface,
   MarcasResult,
 } from "src/app/interfaces/marca.interface";
-import { Marca } from "src/app/model/marca.model";
+import { Marca } from "src/app/model/marcas/marca.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
 

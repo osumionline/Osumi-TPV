@@ -6,7 +6,7 @@ import {
   PedidosAllResult,
   PedidosFilterInterface,
 } from "src/app/interfaces/pedido.interface";
-import { Pedido } from "src/app/model/pedido.model";
+import { Pedido } from "src/app/model/compras/pedido.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";

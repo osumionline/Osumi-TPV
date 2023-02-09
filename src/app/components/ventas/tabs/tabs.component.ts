@@ -3,8 +3,8 @@ import { ElegirClienteModalComponent } from "src/app/components/modals/elegir-cl
 import { ReservasModalComponent } from "src/app/components/modals/reservas-modal/reservas-modal.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
-import { Cliente } from "src/app/model/cliente.model";
-import { Reserva } from "src/app/model/reserva.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { Reserva } from "src/app/model/ventas/reserva.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";

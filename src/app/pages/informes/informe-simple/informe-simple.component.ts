@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Month } from "src/app/interfaces/interfaces";
-import { InformeMensualItem } from "src/app/model/informe-mensual-item.model";
+import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { InformesService } from "src/app/services/informes.service";

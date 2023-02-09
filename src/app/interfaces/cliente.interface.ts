@@ -3,7 +3,7 @@ import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
 } from "src/app/interfaces/venta.interface";
-import { Cliente } from "src/app/model/cliente.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
 
 export interface ClienteInterface {
   id: number;

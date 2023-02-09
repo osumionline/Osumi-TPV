@@ -7,7 +7,7 @@ import {
   ProveedoresResult,
   ProveedorInterface,
 } from "src/app/interfaces/proveedor.interface";
-import { Proveedor } from "src/app/model/proveedor.model";
+import { Proveedor } from "src/app/model/proveedores/proveedor.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
 

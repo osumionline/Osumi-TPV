@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
-import { Empleado } from "src/app/model/empleado.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";

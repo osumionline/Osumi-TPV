@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 
 @Component({
   selector: "otpv-caja-modal",

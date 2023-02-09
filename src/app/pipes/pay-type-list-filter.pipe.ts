@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { TipoPago } from "src/app/model/tipo-pago.model";
+import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 
 @Pipe({
   name: "payTypeListFilter",

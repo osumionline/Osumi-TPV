@@ -2,9 +2,9 @@ import {
   VentaInterface,
   VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
-import { Cliente } from "src/app/model/cliente.model";
-import { Empleado } from "src/app/model/empleado.model";
-import { VentaLinea } from "src/app/model/venta-linea.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
+import { Empleado } from "src/app/model/tpv/empleado.model";
+import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { rolList } from "src/app/shared/rol.class";
 
 export class Venta {

@@ -11,9 +11,9 @@ import {
   StatusIdMessageResult,
   StatusResult,
 } from "src/app/interfaces/interfaces";
-import { InventarioItem } from "src/app/model/inventario-item.model";
+import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { environment } from "src/environments/environment";
-import { Articulo } from "../model/articulo.model";
+import { Articulo } from "../model/articulos/articulo.model";
 
 @Injectable({
   providedIn: "root",

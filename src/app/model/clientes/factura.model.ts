@@ -3,7 +3,7 @@ import {
   FacturaInterface,
   FacturaSaveInterface,
 } from "src/app/interfaces/cliente.interface";
-import { VentaHistorico } from "src/app/model/venta-historico.model";
+import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Factura {

@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
-import { ReservaLinea } from "src/app/model/reserva-linea.model";
-import { Reserva } from "src/app/model/reserva.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
+import { Reserva } from "src/app/model/ventas/reserva.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";

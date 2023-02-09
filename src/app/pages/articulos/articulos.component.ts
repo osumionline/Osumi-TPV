@@ -26,13 +26,13 @@ import {
   MargenesModal,
   Modal,
 } from "src/app/interfaces/modals.interface";
-import { Articulo } from "src/app/model/articulo.model";
-import { Categoria } from "src/app/model/categoria.model";
-import { CodigoBarras } from "src/app/model/codigo-barras.model";
-import { Foto } from "src/app/model/foto.model";
-import { IVAOption } from "src/app/model/iva-option.model";
-import { Marca } from "src/app/model/marca.model";
-import { Proveedor } from "src/app/model/proveedor.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
+import { Categoria } from "src/app/model/articulos/categoria.model";
+import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
+import { Foto } from "src/app/model/articulos/foto.model";
+import { Marca } from "src/app/model/marcas/marca.model";
+import { Proveedor } from "src/app/model/proveedores/proveedor.model";
+import { IVAOption } from "src/app/model/tpv/iva-option.model";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";

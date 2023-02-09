@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import { BuscadorAlmacenInterface } from "src/app/interfaces/almacen.interface";
-import { InventarioItem } from "src/app/model/inventario-item.model";
+import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 

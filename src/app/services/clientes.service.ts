@@ -14,7 +14,7 @@ import {
   VentasClienteResult,
 } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Cliente } from "src/app/model/cliente.model";
+import { Cliente } from "src/app/model/clientes/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { environment } from "src/environments/environment";
 

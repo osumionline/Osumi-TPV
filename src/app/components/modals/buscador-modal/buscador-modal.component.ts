@@ -8,8 +8,8 @@ import {
 } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { ArticuloBuscador } from "src/app/model/articulo-buscador.model";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { VentasService } from "src/app/services/ventas.service";
 

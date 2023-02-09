@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CustomOverlayRef } from "src/app/model/custom-overlay-ref.model";
+import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { DialogService } from "src/app/services/dialog.service";
 

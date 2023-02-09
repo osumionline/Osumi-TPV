@@ -1,6 +1,6 @@
 import { VentaLineaInterface } from "src/app/interfaces/venta.interface";
-import { Articulo } from "src/app/model/articulo.model";
-import { ReservaLinea } from "src/app/model/reserva-linea.model";
+import { Articulo } from "src/app/model/articulos/articulo.model";
+import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
 
 export class VentaLinea {
   importeManual: boolean = false;
