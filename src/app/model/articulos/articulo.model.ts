@@ -12,6 +12,7 @@ import { Foto } from "src/app/model/articulos/foto.model";
 import { Utils } from "src/app/shared/utils.class";
 
 export class Articulo {
+  tabName: string = "";
   marca: string = "";
   proveedor: string = "";
   fotosList: Foto[] = [];

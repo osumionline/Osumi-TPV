@@ -13,15 +13,29 @@ import {
   ReturnInfoInterface,
   StatusResult,
 } from "src/app/interfaces/interfaces";
+import { Articulo } from "src/app/model/articulos/articulo.model";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ArticulosService {
+  selected: number = -1;
+  list: Articulo[] = [];
   returnInfo: ReturnInfoInterface = null;
 
   constructor(private http: HttpClient) {}
+
+  get articuloActual(): Articulo {
+    return this.list[this.selected];
+  }
+
+  newArticulo(): void {
+    this.selected = this.list.length;
+    const articulo: Articulo = new Articulo();
+    articulo.tabName = "ARTÍCULO " + (this.list.length + 1);
+    this.list.push(articulo);
+  }
 
   getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {
     return this.http.post<ChartResultInterface>(

@@ -9,8 +9,8 @@ import {
 import { ActivatedRoute, Params } from "@angular/router";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
-import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
+import { VentasTabsComponent } from "src/app/components/ventas/ventas-tabs/ventas-tabs.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
 import { Reserva } from "src/app/model/ventas/reserva.model";
@@ -26,7 +26,7 @@ import { VentasService } from "src/app/services/ventas.service";
   styleUrls: ["./ventas.component.scss"],
 })
 export class VentasComponent implements OnInit {
-  @ViewChild("tabs", { static: true }) tabs: TabsComponent;
+  @ViewChild("tabs", { static: true }) tabs: VentasTabsComponent;
   @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
   @ViewChild("header", { static: true }) header: HeaderComponent;
 
@@ -87,6 +87,9 @@ export class VentasComponent implements OnInit {
       this.vs.selected = 0;
     }
     this.vs.list.splice(ind, 1);
+    for (let ind in this.vs.list) {
+      this.vs.list[ind].tabName = "VENTA " + (parseInt(ind) + 1);
+    }
   }
 
   deleteVentaLinea(ind: number): void {

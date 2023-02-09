@@ -44,7 +44,7 @@ export class VentasService {
   ): void {
     this.selected = this.list.length;
     const venta = new Venta();
-    venta.name = "VENTA " + (this.list.length + 1);
+    venta.tabName = "VENTA " + (this.list.length + 1);
     venta.color = colorEmpleadoDef;
     venta.textColor = colorTextEmpleadoDef;
     venta.mostrarEmpleados = empleados;

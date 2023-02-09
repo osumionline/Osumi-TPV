@@ -48,6 +48,8 @@ export const PAGES: any[] = [
  */
 import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-inventario/almacen-inventario.component";
 import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
+import { ArticulosTabsComponent } from "src/app/components/articulos/articulos-tabs/articulos-tabs.component";
+import { UnArticuloComponent } from "src/app/components/articulos/un-articulo/un-articulo.component";
 import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
 import { CierreCajaComponent } from "src/app/components/caja/cierre-caja/cierre-caja.component";
 import { HistoricoVentasComponent } from "src/app/components/caja/historico-ventas/historico-ventas.component";
@@ -59,16 +61,15 @@ import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/components/header/header.component";
 import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
-import { TabsComponent } from "src/app/components/ventas/tabs/tabs.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
+import { VentasTabsComponent } from "src/app/components/ventas/ventas-tabs/ventas-tabs.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
-import { UnArticuloComponent } from "./components/articulos/un-articulo/un-articulo.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
   AlertDialogComponent,
   FormDialogComponent,
-  TabsComponent,
+  VentasTabsComponent,
   UnaVentaComponent,
   HeaderComponent,
   EmployeeLoginComponent,
@@ -82,6 +83,7 @@ export const COMPONENTS: any[] = [
   CajaContentComponent,
   ComprasPedidosListComponent,
   UnArticuloComponent,
+  ArticulosTabsComponent,
 ];
 
 /*

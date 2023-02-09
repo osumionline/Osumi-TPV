@@ -5,18 +5,16 @@ import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Reserva } from "src/app/model/ventas/reserva.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
-  selector: "otpv-tabs",
-  templateUrl: "./tabs.component.html",
-  styleUrls: ["./tabs.component.scss"],
+  selector: "otpv-ventas-tabs",
+  templateUrl: "./ventas-tabs.component.html",
+  styleUrls: ["./ventas-tabs.component.scss"],
 })
-export class TabsComponent {
+export class VentasTabsComponent {
   @Input() showClose: boolean = false;
   @Output() closeTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() newTabEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -30,8 +28,6 @@ export class TabsComponent {
 
   constructor(
     private dialog: DialogService,
-    private cms: ClassMapperService,
-    private cs: ClientesService,
     public vs: VentasService,
     private overlayService: OverlayService
   ) {}

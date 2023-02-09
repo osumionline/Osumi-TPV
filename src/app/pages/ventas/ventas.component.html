@@ -1,13 +1,13 @@
 <otpv-header selectedOption="ventas"
 			 #header></otpv-header>
 
-<otpv-tabs [showClose]="true"
-		   (closeTabEvent)="cerrarVenta($event)"
-		   (newTabEvent)="newVenta()"
-		   (changeTabEvent)="startFocus()"
-		   (selectClientEvent)="selectClient($event)"
-		   (selectReservaEvent)="selectReserva($event)"
-		   #tabs></otpv-tabs>
+<otpv-ventas-tabs [showClose]="true"
+				  (closeTabEvent)="cerrarVenta($event)"
+				  (newTabEvent)="newVenta()"
+				  (changeTabEvent)="startFocus()"
+				  (selectClientEvent)="selectClient($event)"
+				  (selectReservaEvent)="selectReserva($event)"
+				  #tabs></otpv-ventas-tabs>
 <otpv-una-venta *ngFor="let venta of vs.list; let i = index"
 				[ind]="i"
 				[ngClass]="{'hidden':i!=vs.selected}"

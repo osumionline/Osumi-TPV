@@ -8,7 +8,7 @@ import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { rolList } from "src/app/shared/rol.class";
 
 export class Venta {
-  name: string = "";
+  tabName: string = "";
   cliente: Cliente = null;
   mostrarEmpleados: boolean = false;
   color: string = "#c0c8f7";
