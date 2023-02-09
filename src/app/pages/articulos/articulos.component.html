@@ -160,10 +160,12 @@
 								<label>Precio albarán</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
+										   type="number"
 										   placeholder="Precio albarán"
 										   class="align-right"
 										   (blur)="setTwoNumberDecimal($event)"
 										   (focus)="$event.target.select()"
+										   (keyup)="updatePalb()"
 										   formControlName="palb">
 								</mat-form-field>
 								<span>€</span>
@@ -172,10 +174,12 @@
 								<label>PUC</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
+										   type="number"
 										   placeholder="Precio Unitario de Compra"
 										   class="align-right"
 										   (blur)="setTwoNumberDecimal($event)"
 										   (focus)="$event.target.select()"
+										   (keyup)="updatePuc()"
 										   formControlName="puc">
 								</mat-form-field>
 								<span>€</span>
@@ -190,10 +194,12 @@
 								<label>PVP</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
+										   type="number"
 										   placeholder="Precio de Venta al Público"
 										   class="align-right"
 										   (blur)="setTwoNumberDecimal($event)"
 										   (focus)="$event.target.select()"
+										   (keyup)="updatePvp()"
 										   formControlName="pvp">
 								</mat-form-field>
 								<span>€</span>

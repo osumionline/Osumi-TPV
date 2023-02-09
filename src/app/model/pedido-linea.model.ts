@@ -28,6 +28,10 @@ export class PedidoLinea {
     public referencia: string = null
   ) {}
 
+  getTwoNumberDecimal(value: number): number {
+    return parseFloat((Math.round(value * 100) / 100).toFixed(2));
+  }
+
   get subtotal(): number {
     return (
       this.unidades *
@@ -38,7 +42,7 @@ export class PedidoLinea {
   }
 
   get puc(): number {
-    return (
+    return this.getTwoNumberDecimal(
       this.palb * (1 - this.descuento / 100) * (1 + (this.iva + this.re) / 100)
     );
   }

@@ -155,6 +155,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    /*
     this.form.get("iva").valueChanges.subscribe((x: number): void => {
       this.updateIva(x.toString());
     });
@@ -170,6 +171,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     this.form.get("pvp").valueChanges.subscribe((x: string): void => {
       this.updatePvp(x);
     });
+    */
   }
 
   loadAppData(): void {
@@ -393,9 +395,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     const ivare: number =
       (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
       (this.form.get("re").value !== null ? this.form.get("re").value : 0);
-    const puc: string = this.getTwoNumberDecimal(
-      this.form.get("palb").value * (1 + ivare / 100)
-    );
+    const puc: number = this.form.get("palb").value * (1 + ivare / 100);
     this.updatePuc(puc);
   }
 
@@ -408,9 +408,7 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     const ivare: number =
       (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
       (this.form.get("re").value !== null ? this.form.get("re").value : 0);
-    const puc: string = this.getTwoNumberDecimal(
-      this.form.get("palb").value * (1 + ivare / 100)
-    );
+    const puc: number = this.form.get("palb").value * (1 + ivare / 100);
     this.updatePuc(puc);
   }
 
@@ -490,68 +488,47 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
         : "0.00";
   }
 
-  getTwoNumberDecimal(value: number): string {
-    return (Math.floor(value * 100) / 100).toFixed(2);
+  getTwoNumberDecimal(value: number): number {
+    return parseFloat((Math.round(value * 100) / 100).toFixed(2));
   }
 
-  updatePalb(ev: string): void {
-    const letters = /^\d+[,|.]$/;
-    if (ev.toString().match(letters)) {
-      return;
-    }
-    let num: number = parseFloat(ev.toString().replace(",", "."));
-    if (Number.isNaN(num)) {
-      num = 0;
-    }
-    this.form.get("palb").setValue(num, { emitEvent: false });
+  updatePalb(): void {
     this.form.get("palb").markAsDirty();
 
     const ivare: number =
       (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
       (this.form.get("re").value != -1 ? this.form.get("re").value : 0);
-    const puc: number = num * (1 + ivare / 100);
-    this.updatePuc(this.getTwoNumberDecimal(puc));
+    const puc: number = this.getTwoNumberDecimal(
+      this.form.get("palb").value * (1 + ivare / 100)
+    );
+    this.updatePuc(puc);
   }
 
-  updatePuc(ev: string): void {
-    const letters = /^\d+[,|.]$/;
-    if (ev.toString().match(letters)) {
-      return;
+  updatePuc(puc: number = null): void {
+    if (puc !== null) {
+      this.form.get("puc").setValue(puc);
     }
-    let num: number = parseFloat(ev.toString().replace(",", "."));
-    if (Number.isNaN(num)) {
-      num = 0;
-    }
-    this.form.get("puc").setValue(num, { emitEvent: false });
     this.form.get("puc").markAsDirty();
 
-    this.updateMargen(this.form.get("pvp").value, num);
+    this.updateMargen();
   }
 
-  updateMargen(pvp: number, puc: number): void {
+  updateMargen(): void {
     if (this.form.get("puc").value !== 0) {
-      this.articulo.margen = (pvp * 100) / puc - 100;
+      this.articulo.margen =
+        ((this.form.get("pvp").value - this.form.get("puc").value) /
+          this.form.get("pvp").value) *
+        100;
     } else {
       this.articulo.margen = 0;
     }
-    this.form
-      .get("margen")
-      .setValue(this.articulo.margen, { emitEvent: false });
+    this.form.get("margen").setValue(this.articulo.margen);
   }
 
-  updatePvp(ev: string): void {
-    const letters = /^\d+[,|.]$/;
-    if (ev.toString().match(letters)) {
-      return;
-    }
-    let num: number = parseFloat(ev.toString().replace(",", "."));
-    if (Number.isNaN(num)) {
-      num = 0;
-    }
-    this.form.get("pvp").setValue(num, { emitEvent: false });
+  updatePvp(): void {
     this.form.get("pvp").markAsDirty();
 
-    this.updateMargen(num, this.form.get("puc").value);
+    this.updateMargen();
   }
 
   preventCodBarras(ev: KeyboardEvent): void {
@@ -824,10 +801,8 @@ export class ArticulosComponent implements OnInit, AfterViewInit {
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
         this.articulo.margen = data.data;
-        this.articulo.pvp = parseFloat(
-          this.getTwoNumberDecimal(
-            this.form.get("puc").value * (1 + data.data / 100)
-          )
+        this.articulo.pvp = this.getTwoNumberDecimal(
+          this.form.get("puc").value * (1 + data.data / 100)
         );
         this.form.get("pvp").setValue(this.articulo.pvp);
         this.form.get("pvp").markAsDirty();
