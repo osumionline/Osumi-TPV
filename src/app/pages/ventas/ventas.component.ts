@@ -125,6 +125,9 @@ export class VentasComponent implements OnInit {
       this.vs.ventaActual.lineas.push(lineaVenta);
     }
     this.vs.ventaActual.updateImporte();
+    if (!this.config.empleados) {
+      this.vs.addLineaVenta();
+    }
   }
 
   endVenta(id: number = null): void {
