@@ -133,6 +133,8 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
     mostrarObsVentas: new FormControl(false),
   });
 
+  showBuscador: boolean = false;
+
   constructor(
     private router: Router,
     private dialog: DialogService,
@@ -207,10 +209,14 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
+    if (this.showBuscador) {
+      return;
+    }
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters) && !ev.ctrlKey) {
       ev.preventDefault();
 
+      this.showBuscador = true;
       const modalBuscadorData: BuscadorModal = {
         modalTitle: "Buscador",
         modalColor: "blue",
@@ -222,6 +228,7 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
+        this.showBuscador = false;
         if (data.data !== null) {
           this.form.get("localizador").setValue(data.data);
           this.loadArticulo();

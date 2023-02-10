@@ -196,6 +196,8 @@ export class PedidoComponent implements OnInit, OnDestroy {
 
   selectedPdf: SafeUrl = null;
 
+  showBuscador: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     public config: ConfigService,
@@ -453,10 +455,14 @@ export class PedidoComponent implements OnInit, OnDestroy {
   }
 
   checkLocalizador(ev: KeyboardEvent): void {
+    if (this.showBuscador) {
+      return;
+    }
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters) && !ev.ctrlKey) {
       ev.preventDefault();
 
+      this.showBuscador = true;
       const modalBuscadorData: BuscadorModal = {
         modalTitle: "Buscador",
         modalColor: "blue",
@@ -468,6 +474,7 @@ export class PedidoComponent implements OnInit, OnDestroy {
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
+        this.showBuscador = false;
         if (data.data !== null) {
           this.nuevoLocalizador = data.data;
           this.loadArticulo();

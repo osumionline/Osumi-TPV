@@ -72,6 +72,8 @@ export class UnaVentaComponent implements AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  showBuscador: boolean = false;
+
   constructor(
     private cms: ClassMapperService,
     private dialog: DialogService,
@@ -126,10 +128,14 @@ export class UnaVentaComponent implements AfterViewInit {
   }
 
   checkLocalizador(ev: KeyboardEvent, ind: number): void {
+    if (this.showBuscador) {
+      return;
+    }
     const letters = /^[a-zA-Z]{1}$/;
     if (ev.key.match(letters) && !ev.ctrlKey) {
       ev.preventDefault();
 
+      this.showBuscador = true;
       const modalBuscadorData: BuscadorModal = {
         modalTitle: "Buscador",
         modalColor: "blue",
@@ -141,7 +147,8 @@ export class UnaVentaComponent implements AfterViewInit {
         modalBuscadorData
       );
       dialog.afterClosed$.subscribe((data) => {
-        if (data !== null) {
+        this.showBuscador = false;
+        if (data.data !== null) {
           this.setFocus(data.data);
         } else {
           this.setFocus();
