@@ -723,6 +723,7 @@ export class UnaVentaComponent implements AfterViewInit {
       .subscribe((result) => {
         if (result === true) {
           this.devolucionVenta = null;
+          this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
           this.setFocus();
