@@ -1,7 +1,20 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatTabChangeEvent } from "@angular/material/tabs";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Router } from "@angular/router";
+import { AccesosDirectosModalComponent } from "src/app/components/modals/accesos-directos-modal/accesos-directos-modal.component";
+import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
+import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
+import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
+import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
+import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
@@ -32,20 +45,21 @@ import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { Utils } from "src/app/shared/utils.class";
-import { AccesosDirectosModalComponent } from "../../modals/accesos-directos-modal/accesos-directos-modal.component";
-import { ArticuloDarDeBajaModalComponent } from "../../modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
-import { BuscadorModalComponent } from "../../modals/buscador-modal/buscador-modal.component";
-import { MargenesModalComponent } from "../../modals/margenes-modal/margenes-modal.component";
-import { NewMarcaModalComponent } from "../../modals/new-marca-modal/new-marca-modal.component";
-import { NewProveedorModalComponent } from "../../modals/new-proveedor-modal/new-proveedor-modal.component";
 
 @Component({
   selector: "otpv-un-articulo",
   templateUrl: "./un-articulo.component.html",
   styleUrls: ["./un-articulo.component.scss"],
 })
-export class UnArticuloComponent implements OnInit {
-  @Input() articulo: Articulo = new Articulo();
+export class UnArticuloComponent implements OnInit, OnDestroy {
+  _articulo: Articulo = null;
+  @Input() set articulo(a: Articulo) {
+    this._articulo = a === null ? new Articulo() : a;
+    this.loadArticuloObj();
+  }
+  get articulo(): Articulo {
+    return this._articulo;
+  }
   @Input() ind: number = -1;
 
   marca: Marca = new Marca();
@@ -120,7 +134,6 @@ export class UnArticuloComponent implements OnInit {
   });
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: DialogService,
     private config: ConfigService,
@@ -140,13 +153,6 @@ export class UnArticuloComponent implements OnInit {
       this.yearList.push(y);
     }
     this.loadAppData();
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      if (params.localizador && parseInt(params.localizador) !== 0) {
-        this.articulo.localizador = params.localizador;
-        this.form.get("localizador").setValue(params.localizador);
-        this.loadArticulo();
-      }
-    });
   }
 
   loadAppData(): void {
@@ -161,12 +167,25 @@ export class UnArticuloComponent implements OnInit {
     this.monthList = this.config.monthList;
     this.marginList = this.config.marginList;
 
-    this.loadData();
-  }
-
-  loadData(): void {
     this.loadCategorias();
-    this.newArticulo();
+    switch (this.articulo.status) {
+      case "new":
+        {
+          this.newArticulo();
+        }
+        break;
+      case "load":
+        {
+          this.form.get("localizador").setValue(this.articulo.localizador);
+          this.loadArticulo();
+        }
+        break;
+      case "loaded":
+        {
+          this.loadArticuloObj();
+        }
+        break;
+    }
   }
 
   loadCategorias(): void {
@@ -227,25 +246,9 @@ export class UnArticuloComponent implements OnInit {
       .loadArticulo(this.form.get("localizador").value)
       .subscribe((result) => {
         if (result.status === "ok") {
+          const tabName: string = this.articulo.tabName;
           this.articulo = this.cms.getArticulo(result.articulo);
-          if (this.articulo.fechaCaducidad) {
-            this.loadFecCad();
-          }
-
-          this.loadStatsVentas();
-          this.loadStatsWeb();
-
-          this.form.patchValue(this.articulo.toInterface(false));
-          this.form.get("localizador").markAsPristine();
-          this.form.get("palb").markAsPristine();
-          this.form.get("puc").markAsPristine();
-          this.form.get("pvp").markAsPristine();
-
-          const marca: Marca = this.ms.findById(this.articulo.idMarca);
-          this.articulo.marca = marca.nombre;
-
-          this.selectedTab = 0;
-          this.loading = false;
+          this.articulo.tabName = tabName;
         } else {
           this.dialog
             .alert({
@@ -265,6 +268,29 @@ export class UnArticuloComponent implements OnInit {
             });
         }
       });
+  }
+
+  loadArticuloObj(): void {
+    if (this.articulo.fechaCaducidad) {
+      this.loadFecCad();
+    }
+
+    this.loadStatsVentas();
+    this.loadStatsWeb();
+
+    this.form.patchValue(this.articulo.toInterface(false));
+    this.form.get("localizador").markAsPristine();
+    this.form.get("palb").markAsPristine();
+    this.form.get("puc").markAsPristine();
+    this.form.get("pvp").markAsPristine();
+
+    if (this.articulo.idMarca !== null) {
+      const marca: Marca = this.ms.findById(this.articulo.idMarca);
+      this.articulo.marca = marca.nombre;
+    }
+
+    this.selectedTab = 0;
+    this.loading = false;
   }
 
   abrirAccesosDirectos(): void {
@@ -319,7 +345,9 @@ export class UnArticuloComponent implements OnInit {
   }
 
   newArticulo(): void {
+    const tabName: string = this.articulo.tabName;
     this.articulo = new Articulo();
+    this.articulo.tabName = tabName;
     this.form.patchValue(this.articulo.toInterface(false));
     this.selectedTab = 0;
     setTimeout(() => {
@@ -783,5 +811,11 @@ export class UnArticuloComponent implements OnInit {
         this.form.get("pvp").markAsDirty();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.ars.list[this.ind] !== undefined) {
+      this.ars.list[this.ind] = this.articulo;
+    }
   }
 }

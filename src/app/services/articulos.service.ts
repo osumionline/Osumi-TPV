@@ -30,10 +30,14 @@ export class ArticulosService {
     return this.list[this.selected];
   }
 
-  newArticulo(): void {
+  newArticulo(localizador: number = null): void {
     this.selected = this.list.length;
     const articulo: Articulo = new Articulo();
     articulo.tabName = "ARTÍCULO " + (this.list.length + 1);
+    articulo.localizador = localizador;
+    if (localizador !== null) {
+      articulo.status = "load";
+    }
     this.list.push(articulo);
   }
 

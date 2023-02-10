@@ -451,7 +451,6 @@ export class UnaVentaComponent implements AfterViewInit {
         ? 21
         : this.vs.ventaActual.lineas[ind].iva,
     };
-    console.log(this.vs.ventaActual.lineas[ind]);
     const dialog = this.overlayService.open(
       VentaVariosModalComponent,
       modalVariosData

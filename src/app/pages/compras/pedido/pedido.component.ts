@@ -436,7 +436,6 @@ export class PedidoComponent implements OnInit, OnDestroy {
       );
       linea.re = this.pedido.re ? this.reList[ind] : 0;
     }
-    console.log(this.pedido.lineas);
   }
 
   updateIva(option: string, linea: PedidoLinea): void {

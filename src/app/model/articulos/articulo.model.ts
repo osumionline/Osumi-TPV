@@ -13,6 +13,7 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class Articulo {
   tabName: string = "";
+  status: string = "new";
   marca: string = "";
   proveedor: string = "";
   fotosList: Foto[] = [];
@@ -105,6 +106,7 @@ export class Articulo {
         }
       );
     }
+    this.status = "loaded";
 
     return this;
   }
