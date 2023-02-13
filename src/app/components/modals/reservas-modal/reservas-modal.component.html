@@ -6,6 +6,26 @@
                    matSort
                    class="mat-elevation-z2 ">
 
+                <!-- Seleccionar -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell
+                        class="select"
+                        *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                      [checked]="selection.hasValue() && isAllSelected()"
+                                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell
+                        class="select"
+                        *matCellDef="let element">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                                      (change)="$event ? selection.toggle(element) : null"
+                                      [checked]="selection.isSelected(element)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
                 <!-- Fecha -->
                 <ng-container matColumnDef="fecha">
                     <th mat-header-cell
@@ -54,6 +74,13 @@
                     (click)="selectReserva(i)"
                     *matRowDef="let row; columns: reservasDisplayedColumns; let i = index;"></tr>
             </table>
+            <div class="reservas-load-selected">
+                <button mat-raised-button
+                        color="primary"
+                        type="button"
+                        [disabled]="selection.selected.length === 0"
+                        (click)="cargarVentas()">Cargar ventas</button>
+            </div>
         </div>
         <div class="reservas-no-data"
              *ngIf="list.length === 0">No hay reservas.</div>

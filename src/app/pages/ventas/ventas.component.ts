@@ -114,15 +114,17 @@ export class VentasComponent implements OnInit {
     }
   }
 
-  selectReserva(reserva: Reserva): void {
+  selectReserva(reservas: Reserva[]): void {
     this.newVenta();
     this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
-    this.vs.loadVentaCliente(reserva.cliente);
+    this.vs.loadVentaCliente(reservas[0].cliente);
     this.vs.ventaActual.lineas = [];
-    for (let linea of reserva.lineas) {
-      let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
-      lineaVenta.fromReserva = reserva.id;
-      this.vs.ventaActual.lineas.push(lineaVenta);
+    for (let reserva of reservas) {
+      for (let linea of reserva.lineas) {
+        let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
+        lineaVenta.fromReserva = reserva.id;
+        this.vs.ventaActual.lineas.push(lineaVenta);
+      }
     }
     this.vs.ventaActual.updateImporte();
     if (!this.config.empleados) {

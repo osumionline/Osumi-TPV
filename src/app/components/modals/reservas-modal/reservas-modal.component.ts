@@ -1,3 +1,4 @@
+import { SelectionModel } from "@angular/cdk/collections";
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -17,7 +18,12 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   list: Reserva[] = [];
   reservaSelected: Reserva = null;
 
-  reservasDisplayedColumns: string[] = ["fecha", "cliente", "importe"];
+  reservasDisplayedColumns: string[] = [
+    "select",
+    "fecha",
+    "cliente",
+    "importe",
+  ];
   reservasDataSource: MatTableDataSource<Reserva> =
     new MatTableDataSource<Reserva>();
   reservaSelectedDisplayedColumns: string[] = [
@@ -32,6 +38,8 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
   @ViewChild(MatSort) sort: MatSort;
+
+  selection: SelectionModel<Reserva> = new SelectionModel<Reserva>(true, []);
 
   constructor(
     private cs: ClientesService,
@@ -53,6 +61,20 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.reservasDataSource.sort = this.sort;
+  }
+
+  isAllSelected(): boolean {
+    const numSelected: number = this.selection.selected.length;
+    const numRows: number = this.reservasDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle(): void {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.reservasDataSource.data.forEach((row) =>
+          this.selection.select(row)
+        );
   }
 
   selectReserva(ind: number): void {
@@ -85,6 +107,26 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   cargarVenta(): void {
-    this.customOverlayRef.close(this.reservaSelected);
+    this.customOverlayRef.close([this.reservaSelected]);
+  }
+
+  cargarVentas(): void {
+    let idCliente: number = null;
+    for (let reserva of this.selection.selected) {
+      if (idCliente === null) {
+        idCliente = reserva.idCliente;
+      }
+      if (idCliente !== reserva.idCliente) {
+        this.dialog
+          .alert({
+            title: "Error",
+            content: "Las reservas elegidas pertenecen a distintos clientes.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+        return;
+      }
+    }
+    this.customOverlayRef.close(this.selection.selected);
   }
 }

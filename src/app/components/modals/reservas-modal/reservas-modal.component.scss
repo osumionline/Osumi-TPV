@@ -14,6 +14,11 @@
         height: 100%;
         flex: 2;
         overflow-y: auto;
+
+        .reservas-load-selected {
+            display: flex;
+            justify-content: center;
+        }
     }
 
     .reservas-detail {

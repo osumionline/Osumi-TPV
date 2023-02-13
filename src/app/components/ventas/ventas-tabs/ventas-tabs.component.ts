@@ -21,8 +21,9 @@ export class VentasTabsComponent {
   @Output() changeTabEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() selectClientEvent: EventEmitter<SelectClienteInterface> =
     new EventEmitter<SelectClienteInterface>();
-  @Output() selectReservaEvent: EventEmitter<Reserva> =
-    new EventEmitter<Reserva>();
+  @Output() selectReservaEvent: EventEmitter<Reserva[]> = new EventEmitter<
+    Reserva[]
+  >();
 
   selectClienteFrom: string = null;
 
@@ -95,8 +96,7 @@ export class VentasTabsComponent {
     );
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
-        const reserva: Reserva = data.data;
-        this.selectReservaEvent.emit(reserva);
+        this.selectReservaEvent.emit(data.data);
       }
     });
   }
