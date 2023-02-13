@@ -105,12 +105,16 @@ export class Pedido {
   }
 
   get total(): number {
-    let num: number = 0;
-    for (let linea of this.lineas) {
-      num += linea.total;
+    let totalIVA: number = 0;
+    for (let lineaIVA of this.ivaList) {
+      if (lineaIVA.iva !== undefined) {
+        totalIVA += lineaIVA.iva;
+      }
+      if (lineaIVA.re !== undefined) {
+        totalIVA += lineaIVA.re;
+      }
     }
-    const ivaPortes: number = (100 + (this.re ? 26.2 : 21)) / 100;
-    return (num + this.portes * ivaPortes) * ((100 + this.descuento) / 100);
+    return this.subtotal + totalIVA;
   }
 
   get ivaList(): TotalsIVAOption[] {

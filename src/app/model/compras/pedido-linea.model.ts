@@ -48,7 +48,7 @@ export class PedidoLinea {
   }
 
   get total(): number {
-    return this.unidades * this.puc;
+    return this.getTwoNumberDecimal(this.unidades * this.puc);
   }
 
   get beneficio(): number {
