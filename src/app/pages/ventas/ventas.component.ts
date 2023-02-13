@@ -121,9 +121,18 @@ export class VentasComponent implements OnInit {
     this.vs.ventaActual.lineas = [];
     for (let reserva of reservas) {
       for (let linea of reserva.lineas) {
-        let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
-        lineaVenta.fromReserva = reserva.id;
-        this.vs.ventaActual.lineas.push(lineaVenta);
+        let ind: number = this.vs.ventaActual.lineas.findIndex(
+          (x: VentaLinea): boolean => {
+            return x.idArticulo === linea.idArticulo;
+          }
+        );
+        if (ind === -1) {
+          let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
+          lineaVenta.fromReserva = reserva.id;
+          this.vs.ventaActual.lineas.push(lineaVenta);
+        } else {
+          this.vs.ventaActual.lineas[ind].cantidad += linea.unidades;
+        }
       }
     }
     this.vs.ventaActual.updateImporte();
