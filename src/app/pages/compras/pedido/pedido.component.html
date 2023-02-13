@@ -3,7 +3,7 @@
 <mat-card class="pedido-header">
     <div class="pedido-header-bar">
         <button mat-icon-button
-                title="Volver"
+                matTooltip="Volver"
                 type="button"
                 (click)="back()">
             <mat-icon>chevron_left</mat-icon>
@@ -47,7 +47,7 @@
                         </mat-select>
                     </mat-form-field>
                     <button mat-icon-button
-                            title="Añadir nuevo proveedor"
+                            matTooltip="Añadir nuevo proveedor"
                             type="button"
                             (click)="openProveedor()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -153,10 +153,10 @@
                         *matCellDef="let element; let i = index">
                         <mat-icon class="icon-button"
                                   [ngClass]="{'icon-button-disabled': i === 0}"
-                                  title="Mover línea arriba"
+                                  matTooltip="Mover línea arriba"
                                   (click)="ordenarLinea(element.localizador, 'up')">expand_less</mat-icon>
                         <mat-icon class="icon-button"
-                                  title="Mover línea abajo"
+                                  matTooltip="Mover línea abajo"
                                   [ngClass]="{'icon-button-disabled': i === pedido.lineas.length-1}"
                                   (click)="ordenarLinea(element.localizador, 'down')">expand_more</mat-icon>
                     </td>
@@ -462,7 +462,7 @@
                         mat-cell
                         *matCellDef="let element">
                         <mat-icon class="icon-button"
-                                  title="Borrar línea"
+                                  matTooltip="Borrar línea"
                                   (click)="borrarLinea(element.localizador)">delete</mat-icon>
                     </td>
                 </ng-container>
@@ -486,7 +486,7 @@
                            #localizadorBox>
                 </mat-form-field>
                 <button mat-icon-button
-                        title="Añadir nuevo artículo"
+                        matTooltip="Añadir nuevo artículo"
                         type="button"
                         *ngIf="!pedido.recepcionado"
                         (click)="goToArticulo(0)">
@@ -506,9 +506,9 @@
                                     <a *ngIf="item.id !== null && pedido.id !== null"
                                        target="_blank"
                                        [href]="pdfsUrl + pedido.id + '/' + item.id + '.pdf'"
-                                       [title]="item.nombre">{{item.nombre}}</a>
+                                       [matTooltip]="item.nombre">{{item.nombre}}</a>
                                     <span *ngIf="item.id === null || pedido.id === null"
-                                          [title]="item.nombre"
+                                          [matTooltip]="item.nombre"
                                           (click)="previewPdf(item)">{{item.nombre}}</span>
                                     <button mat-icon-button
                                             (click)="deletePDF(i, item)">
