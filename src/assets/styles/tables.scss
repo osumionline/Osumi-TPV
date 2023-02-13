@@ -105,6 +105,14 @@ table {
     }
 
     tr.mark {
-        background-color: rgb(166 222 238 / 30%);
+        background-color: var(--table-row-mark);
+    }
+
+    tr.warn {
+        background-color: var(--table-row-warn);
+    }
+
+    tr.disabled {
+        background-color: var(--table-row-disabled);
     }
 }

@@ -30,6 +30,7 @@ export interface VentaHistoricoInterface {
   entregadoOtro: number;
   saldo: number;
   facturada: boolean;
+  statusFactura: string;
   fecha: string;
   lineas: VentaLineaHistoricoInterface[];
 }

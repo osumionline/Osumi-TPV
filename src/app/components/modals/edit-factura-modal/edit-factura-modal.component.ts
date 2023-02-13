@@ -16,6 +16,7 @@ import { DialogService } from "src/app/services/dialog.service";
   styleUrls: ["./edit-factura-modal.component.scss"],
 })
 export class EditFacturaModalComponent implements OnInit {
+  title: string = "Selecciona las ventas que quieras incluir en la factura:";
   factura: Factura = new Factura();
 
   ventasDisplayedColumns: string[] = [
@@ -72,6 +73,7 @@ export class EditFacturaModalComponent implements OnInit {
 
   abreFactura(factura: Factura): void {
     this.factura = factura;
+    this.title = "Ventas incluidas en la factura " + this.factura.id + ":";
     this.ventaSelected = new VentaHistorico();
     if (this.factura.impresa) {
       this.ventasDisplayedColumns = ["fecha", "importe", "nombreTipoPago"];
@@ -85,7 +87,7 @@ export class EditFacturaModalComponent implements OnInit {
         "nombreTipoPago",
       ];
       this.cs
-        .getVentas(this.factura.idCliente, "no", this.factura.id)
+        .getVentas(this.factura.idCliente, this.factura.id)
         .subscribe((result) => {
           this.ventasCliente = this.cms.getHistoricoVentas(result.list);
           this.ventasDataSource.data = this.ventasCliente;
@@ -103,7 +105,7 @@ export class EditFacturaModalComponent implements OnInit {
   }
 
   loadVentas(id: number): void {
-    this.cs.getVentas(id, "no").subscribe((result) => {
+    this.cs.getVentas(id).subscribe((result) => {
       this.factura = new Factura();
       this.factura.idCliente = id;
       this.ventasCliente = this.cms.getHistoricoVentas(result.list);
@@ -113,24 +115,31 @@ export class EditFacturaModalComponent implements OnInit {
 
   isAllSelected(): boolean {
     const numSelected: number = this.selection.selected.length;
-    const numRows: number = this.ventasDataSource.data.length;
+    const numRows: number = this.ventasDataSource.data.filter(
+      (v: VentaHistorico): boolean => {
+        return v.statusFactura === "no";
+      }
+    ).length;
     return numSelected === numRows;
   }
 
   masterToggle(): void {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.ventasDataSource.data.forEach((row) => this.selection.select(row));
+      : this.ventasDataSource.data.forEach((v: VentaHistorico): void => {
+          v.statusFactura === "no" && this.selection.select(v);
+        });
   }
 
   selectVenta(ind: number): void {
     this.ventaSelected = this.ventasCliente[ind];
+    console.log(this.ventaSelected);
     this.ventaSelectedDataSource.data = this.ventaSelected.lineas;
   }
 
   saveFactura(): void {
     this.factura.ventas = [];
-    this.selection.selected.forEach((v: VentaHistorico) => {
+    this.selection.selected.forEach((v: VentaHistorico): void => {
       this.factura.ventas.push(v);
     });
     this.cs

@@ -23,6 +23,7 @@ export class VentaHistorico {
     public entregadoOtro: number = null,
     public saldo: number = null,
     public facturada: boolean = false,
+    public statusFactura: string = null,
     public fecha: string = null,
     public lineas: VentaLineaHistorico[] = []
   ) {}
@@ -91,6 +92,7 @@ export class VentaHistorico {
     this.entregadoOtro = hv.entregadoOtro;
     this.saldo = hv.saldo;
     this.facturada = hv.facturada;
+    this.statusFactura = hv.statusFactura;
     this.fecha = Utils.urldecode(hv.fecha);
     this.lineas = hv.lineas.map(
       (hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
@@ -116,6 +118,7 @@ export class VentaHistorico {
       entregadoOtro: this.entregadoOtro,
       saldo: this.saldo,
       facturada: this.facturada,
+      statusFactura: this.statusFactura,
       fecha: Utils.urlencode(this.fecha),
       lineas: this.lineas.map(
         (hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {

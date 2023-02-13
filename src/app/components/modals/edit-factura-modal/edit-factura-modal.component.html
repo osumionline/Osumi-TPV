@@ -1,4 +1,4 @@
-<div class="facturas-title">Selecciona las ventas que quieras incluir en la factura:</div>
+<div class="facturas-title">{{title}}</div>
 <div class="facturas-body">
     <div class="facturas-left">
         <table mat-table
@@ -18,7 +18,8 @@
                 <td mat-cell
                     class="select"
                     *matCellDef="let element">
-                    <mat-checkbox (click)="$event.stopPropagation()"
+                    <mat-checkbox [disabled]="element.statusFactura !== 'no'"
+                                  (click)="$event.stopPropagation()"
                                   (change)="$event ? selection.toggle(element) : null"
                                   [checked]="selection.isSelected(element)">
                     </mat-checkbox>
@@ -65,7 +66,7 @@
                 *matHeaderRowDef="ventasDisplayedColumns"></tr>
             <tr class="clickable"
                 mat-row
-                [ngClass]="{'selected-row': row.id===ventasSelected.id}"
+                [ngClass]="{'selected-row': row.id===ventaSelected.id, 'warn': row.statusFactura === 'used', 'disabled': row.statusFactura === 'si'}"
                 (click)="selectVenta(i)"
                 *matRowDef="let row; columns: ventasDisplayedColumns; let i = index;"></tr>
         </table>

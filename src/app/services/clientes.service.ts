@@ -125,12 +125,11 @@ export class ClientesService {
 
   getVentas(
     id: number,
-    facturadas: string,
     idFacturaInclude: number = null
   ): Observable<VentasClienteResult> {
     return this.http.post<VentasClienteResult>(
       environment.apiUrl + "-clientes/get-ventas-cliente",
-      { id, facturadas, idFacturaInclude }
+      { id, idFacturaInclude }
     );
   }
 
