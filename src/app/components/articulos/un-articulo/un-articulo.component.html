@@ -498,6 +498,10 @@
             </mat-tab-group>
             <div class="articulo-save">
                 <button mat-button
+                        *ngIf="articulo.id"
+                        (click)="duplicar()"
+                        type="button">Duplicar</button>
+                <button mat-button
                         (click)="cancelar()"
                         type="button">Cancelar</button>
                 <button mat-raised-button

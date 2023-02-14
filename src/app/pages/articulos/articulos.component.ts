@@ -33,4 +33,13 @@ export class ArticulosComponent implements OnInit {
       }
     });
   }
+
+  duplicar(articulo: Articulo): void {
+    articulo.id = null;
+    articulo.localizador = null;
+    articulo.tabName = "ARTÍCULO " + (this.ars.list.length + 1);
+    articulo.nombre += " (copia)";
+    this.ars.list.push(articulo);
+    this.ars.selected = this.ars.list.length - 1;
+  }
 }

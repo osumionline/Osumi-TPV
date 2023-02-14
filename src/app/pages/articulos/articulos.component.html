@@ -5,4 +5,5 @@
 <otpv-un-articulo *ngFor="let articulo of ars.list; let i = index"
                   [ind]="i"
                   [ngClass]="{'hidden':i!=ars.selected}"
+                  (duplicarArticuloEvent)="duplicar($event)"
                   [articulo]="articulo"></otpv-un-articulo>

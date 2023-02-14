@@ -1,9 +1,11 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -61,6 +63,8 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
     return this._articulo;
   }
   @Input() ind: number = -1;
+  @Output() duplicarArticuloEvent: EventEmitter<Articulo> =
+    new EventEmitter<Articulo>();
 
   marca: Marca = new Marca();
   proveedor: Proveedor = new Proveedor();
@@ -818,6 +822,21 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
         this.form.get("pvp").markAsDirty();
       }
     });
+  }
+
+  duplicar(): void {
+    this.dialog
+      .confirm({
+        title: "Confirmar",
+        content: "¿Quieres duplicar este artículo y crear uno nuevo?",
+        ok: "Continuar",
+        cancel: "Cancelar",
+      })
+      .subscribe((result) => {
+        if (result === true) {
+          this.duplicarArticuloEvent.emit(this.articulo);
+        }
+      });
   }
 
   ngOnDestroy(): void {
