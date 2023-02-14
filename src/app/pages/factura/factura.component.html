@@ -82,7 +82,7 @@
                         <td class="sub-item col-subtotal right">{{subitem.subtotal | fixedNumber}} €</td>
                         <td class="sub-item col-iva-porcentaje right">{{subitem.iva}} %</td>
                         <td class="sub-item col-iva-importe right">{{subitem.ivaImporte | fixedNumber}} €</td>
-                        <td class="sub-item col-descuento right">{{subitem.descuento | fixedNumber}} €</td>
+                        <td class="sub-item col-descuento right">{{subitem.descuento !== 0 ? '-' : ''}}{{subitem.descuento | fixedNumber}} €</td>
                         <td class="sub-item col-total right">{{subitem.total | fixedNumber}} €</td>
                     </tr>
                 </ng-container>
