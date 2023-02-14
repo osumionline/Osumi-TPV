@@ -39,6 +39,12 @@ export class ArticulosComponent implements OnInit {
     articulo.localizador = null;
     articulo.tabName = "ARTÍCULO " + (this.ars.list.length + 1);
     articulo.nombre += " (copia)";
+    articulo.referencia = "";
+    articulo.codigosBarras = [];
+    articulo.fechaCaducidad = null;
+    articulo.stock = 0;
+    articulo.status = "loaded";
+    articulo.observaciones = "";
     this.ars.list.push(articulo);
     this.ars.selected = this.ars.list.length - 1;
   }

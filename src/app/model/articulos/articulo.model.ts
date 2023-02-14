@@ -13,11 +13,11 @@ import { Utils } from "src/app/shared/utils.class";
 
 export class Articulo {
   tabName: string = "";
-  status: string = "new";
+  status: "new" | "load" | "loaded" = "new";
   marca: string = "";
   proveedor: string = "";
   fotosList: Foto[] = [];
-  nombreStatus: string = "ok";
+  nombreStatus: "ok" | "checked" = "ok";
 
   constructor(
     public id: number = null,
