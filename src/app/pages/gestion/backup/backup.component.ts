@@ -67,6 +67,33 @@ export class BackupComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result === true) {
+          this.confirmDeleteBackup(backup);
+        }
+      });
+  }
+
+  confirmDeleteBackup(backup: Backup): void {
+    this.gs
+      .deleteBackup(this.config.backupApiKey, backup.id)
+      .subscribe((result) => {
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Copia borrada",
+              content: "La copia de seguridad ha sido correctamente eliminada.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {
+              this.loadBackups();
+            });
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "Ha ocurrido un error al borrar la copia de seguridad.",
+              ok: "Continuar",
+            })
+            .subscribe((result) => {});
         }
       });
   }

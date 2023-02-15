@@ -23,4 +23,11 @@ export class GestionService {
   newBackup(): Observable<StatusResult> {
     return this.http.post<StatusResult>(environment.apiUrl + "/new-backup", {});
   }
+
+  deleteBackup(backupApiKey: string, id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.backupApiUrl + "/delete-account-backup",
+      { api_key: backupApiKey, id }
+    );
+  }
 }
