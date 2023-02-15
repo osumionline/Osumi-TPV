@@ -311,6 +311,17 @@
 			<mat-radio-button value="0">No</mat-radio-button>
 			<mat-radio-button value="1">Si</mat-radio-button>
 		</mat-radio-group>
+
+		<p>Si tienes aquí una suscripción con TPV Backup, introduce aquí la clave API para realizar las copias de seguridad.</p>
+
+		<div class="row">
+			<mat-form-field class="three">
+				<mat-label>Backup API key</mat-label>
+				<input matInput
+					   placeholder="Backup API key"
+					   [(ngModel)]="backupApiKey">
+			</mat-form-field>
+		</div>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
 		<button mat-raised-button
