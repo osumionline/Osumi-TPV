@@ -9,6 +9,7 @@ import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
 import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
+import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
@@ -96,6 +97,11 @@ const routes: Routes = [
   {
     path: "gestion/tipos-pago",
     component: GestionTiposPagoComponent,
+    canActivate: [isOpenedGuardFn],
+  },
+  {
+    path: "gestion/backup",
+    component: BackupComponent,
     canActivate: [isOpenedGuardFn],
   },
   {

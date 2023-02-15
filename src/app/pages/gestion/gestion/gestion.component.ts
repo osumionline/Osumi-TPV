@@ -91,4 +91,9 @@ export class GestionComponent implements OnInit {
         .subscribe((result) => {});
     }
   }
+
+  selectBackup(): void {
+    this.gs.empleado = this.empleado;
+    this.router.navigate(["/gestion/backup"]);
+  }
 }

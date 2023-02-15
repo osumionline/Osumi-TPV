@@ -76,6 +76,7 @@ export interface AppDataInterface {
   ventaOnline: boolean;
   urlApi: string;
   secretApi: string;
+  backupApiKey: string;
   fechaCad: boolean;
   empleados: boolean;
 }
@@ -102,6 +103,7 @@ export interface AppDataResult {
   ventaOnline: boolean;
   urlApi: string;
   secretApi: string;
+  backupApiKey: string;
   fechaCad: boolean;
   empleados: boolean;
 }

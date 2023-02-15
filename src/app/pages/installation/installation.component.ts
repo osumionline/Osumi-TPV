@@ -86,6 +86,7 @@ export class InstallationComponent implements OnInit {
   hasOnline: string = "0";
   urlApi: string = "";
   secretApi: string = "";
+  backupApiKey: string = "";
   hasExpiryDate: string = "0";
   hasEmpleados: string = "0";
 
@@ -141,6 +142,7 @@ export class InstallationComponent implements OnInit {
       this.hasOnline = this.config.ventaOnline ? "1" : "0";
       this.urlApi = this.config.urlApi;
       this.secretApi = this.config.secretApi;
+      this.backupApiKey = this.config.backupApiKey;
       this.hasExpiryDate = this.config.fechaCad ? "1" : "0";
       this.hasEmpleados = this.config.empleados ? "1" : "0";
     }
@@ -359,6 +361,7 @@ export class InstallationComponent implements OnInit {
       ventaOnline: this.hasOnline == "1",
       urlApi: this.urlApi,
       secretApi: this.secretApi,
+      backupApiKey: this.backupApiKey,
       fechaCad: this.hasExpiryDate == "1",
       empleados: this.hasEmpleados == "1",
     };

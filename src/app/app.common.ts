@@ -10,6 +10,7 @@ import { MarcasComponent } from "src/app/pages/compras/marcas/marcas.component";
 import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
 import { ProveedoresComponent } from "src/app/pages/compras/proveedores/proveedores.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
+import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
@@ -41,6 +42,7 @@ export const PAGES: any[] = [
   CajaComponent,
   InformeDetalladoComponent,
   InformeSimpleComponent,
+  BackupComponent,
 ];
 
 /*

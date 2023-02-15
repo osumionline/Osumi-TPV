@@ -4,4 +4,5 @@ export const environment = {
   apiUrl: "http://apitpv/api",
   fotosUrl: "http://apitpv/fotos/",
   pdfsUrl: "http://apitpv/pdf/",
+  backupApiUrl: "https://tpvbackup.osumi.dev/api",
 };

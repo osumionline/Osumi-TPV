@@ -41,6 +41,7 @@ export class ConfigService {
   ventaOnline: boolean = false;
   urlApi: string = "";
   secretApi: string = "";
+  backupApiKey: string = "";
   fechaCad: boolean = false;
   empleados: boolean = false;
 
@@ -152,6 +153,7 @@ export class ConfigService {
     this.ventaOnline = data.ventaOnline;
     this.urlApi = data.urlApi;
     this.secretApi = data.secretApi;
+    this.backupApiKey = data.backupApiKey;
     this.fechaCad = data.fechaCad;
     this.empleados = data.empleados;
   }
