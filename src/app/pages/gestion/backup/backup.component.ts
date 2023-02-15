@@ -32,7 +32,27 @@ export class BackupComponent implements OnInit {
 
   newBackup(): void {
     this.gs.newBackup().subscribe((result) => {
-      console.log(result);
+      if (result.status === "ok") {
+        this.dialog
+          .alert({
+            title: "Nueva copia de seguridad",
+            content:
+              "La nueva copia de seguridad ha sido correctamente creada.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {
+            this.loadBackups();
+          });
+      } else {
+        this.dialog
+          .alert({
+            title: "Error",
+            content:
+              "Ha ocurrido un error al crear la nueva copia de seguridad.",
+            ok: "Continuar",
+          })
+          .subscribe((result) => {});
+      }
     });
   }
 
