@@ -153,3 +153,15 @@ export interface ReturnInfoInterface {
   id: number;
   extra: number;
 }
+
+export interface BackupInterface {
+  id: number;
+  idAccount: number;
+  account: string;
+  date: string;
+}
+
+export interface BackupResult {
+  status: string;
+  list: BackupInterface[];
+}

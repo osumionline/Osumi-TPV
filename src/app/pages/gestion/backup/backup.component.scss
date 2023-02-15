@@ -2,7 +2,26 @@
     margin: 16px;
 
     .title {
-        font-size: 2em;
+        display: flex;
         margin-bottom: 16px;
+
+        span {
+            font-size: 2em;
+            flex: 1;
+        }
+    }
+
+    .backup-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .backup-info {}
+
+        .backup-actions {
+            button {
+                margin-left: 16px;
+            }
+        }
     }
 }

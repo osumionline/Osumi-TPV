@@ -2,8 +2,31 @@
 
 <mat-card class="backup">
     <mat-card-content>
-        <div class="title">Copias de seguridad</div>
+        <div class="title">
+            <span>Copias de seguridad</span>
+            <button mat-raised-button
+                    color="primary"
+                    (click)="newBackup()">Crear nueva copia</button>
+        </div>
         <p>Últimas copias de seguridad:</p>
-
+        <mat-list>
+            <mat-list-item *ngFor="let backup of backups">
+                <div class="backup-line">
+                    <div class="backup-info">
+                        <strong>{{backup.account}}</strong>
+                        <br>
+                        {{backup.date}}
+                    </div>
+                    <div class="backup-actions">
+                        <button mat-raised-button
+                                color="warn"
+                                (click)="deleteBackup(backup)">Eliminar</button>
+                        <button mat-raised-button
+                                color="primary"
+                                (click)="loadBackup(backup)">Cargar</button>
+                    </div>
+                </div>
+            </mat-list-item>
+        </mat-list>
     </mat-card-content>
 </mat-card>

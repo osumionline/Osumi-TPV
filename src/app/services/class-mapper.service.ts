@@ -20,6 +20,7 @@ import {
 } from "src/app/interfaces/cliente.interface";
 import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
 import { InformeMensualItemInterface } from "src/app/interfaces/informes.interface";
+import { BackupInterface } from "src/app/interfaces/interfaces";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { PedidoInterface } from "src/app/interfaces/pedido.interface";
 import {
@@ -41,20 +42,21 @@ import { Articulo } from "src/app/model/articulos/articulo.model";
 import { Categoria } from "src/app/model/articulos/categoria.model";
 import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
 import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
+import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
+import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Factura } from "src/app/model/clientes/factura.model";
 import { Pedido } from "src/app/model/compras/pedido.model";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { Comercial } from "src/app/model/proveedores/comercial.model";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
+import { Backup } from "src/app/model/tpv/backup.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 import { Reserva } from "src/app/model/ventas/reserva.model";
 import { VentaFin } from "src/app/model/ventas/venta-fin.model";
-import { InformeMensualItem } from "../model/caja/informe-mensual-item.model";
-import { VentaLineaHistorico } from "../model/caja/venta-linea-historico.model";
 
 @Injectable({
   providedIn: "root",
@@ -282,6 +284,12 @@ export class ClassMapperService {
   getReservas(rs: ReservaInterface[]): Reserva[] {
     return rs.map((r: ReservaInterface): Reserva => {
       return new Reserva().fromInterface(r);
+    });
+  }
+
+  getBackups(bs: BackupInterface[]): Backup[] {
+    return bs.map((b: BackupInterface): Backup => {
+      return new Backup().fromInterface(b);
     });
   }
 }
