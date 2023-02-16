@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -53,7 +54,7 @@ import { Utils } from "src/app/shared/utils.class";
   templateUrl: "./un-articulo.component.html",
   styleUrls: ["./un-articulo.component.scss"],
 })
-export class UnArticuloComponent implements OnInit, OnDestroy {
+export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   _articulo: Articulo = null;
   @Input() set articulo(a: Articulo) {
     this._articulo = a === null ? new Articulo() : a;
@@ -159,6 +160,15 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
       this.yearList.push(y);
     }
     this.loadAppData();
+  }
+
+  ngAfterViewInit(): void {
+    this.form.get("iva").valueChanges.subscribe((x: number): void => {
+      this.updateIva(x.toString());
+    });
+    this.form.get("re").valueChanges.subscribe((x: number): void => {
+      this.updateRe(x.toString());
+    });
   }
 
   loadAppData(): void {
