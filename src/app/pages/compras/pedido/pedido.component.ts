@@ -287,6 +287,9 @@ export class PedidoComponent implements OnInit, OnDestroy {
   newPedido(): void {
     this.pedido.ivaOptions = this.ivaOptions;
     this.checkReturnInfo();
+    if (this.config.tipoIva === "re") {
+      this.pedido.re = true;
+    }
     this.localizadorBox.nativeElement.focus();
   }
 
