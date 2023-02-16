@@ -66,6 +66,8 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() ind: number = -1;
   @Output() duplicarArticuloEvent: EventEmitter<Articulo> =
     new EventEmitter<Articulo>();
+  @Output() cerrarArticuloEvent: EventEmitter<number> =
+    new EventEmitter<number>();
 
   marca: Marca = new Marca();
   proveedor: Proveedor = new Proveedor();
@@ -709,7 +711,11 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  guardar(): void {
+  guardarYCerrar(): void {
+    this.guardar(true);
+  }
+
+  guardar(cerrar: boolean = false): void {
     this.articulo.fromInterface(this.form.value, false);
     this.articulo.stock = this.articulo.stock || 0;
     this.articulo.stockMin = this.articulo.stockMin || 0;
@@ -752,6 +758,9 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
           })
           .subscribe((result) => {
             this.saving = false;
+            if (cerrar) {
+              this.cerrarArticuloEvent.emit(this.ind);
+            }
             if (this.ars.returnInfo === null) {
               this.articulo.nombreStatus = "ok";
               this.loadArticulo();
@@ -776,7 +785,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe((result) => {
               if (result === true) {
                 this.articulo.nombreStatus = "checked";
-                this.guardar();
+                this.guardar(cerrar);
               }
             });
         }
@@ -792,7 +801,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               ok: "Continuar",
             })
             .subscribe((result) => {
-              this.selectedTab = 1;
+              this.selectedTab = 0;
             });
         }
         if (result.status === "cb-used") {
@@ -804,7 +813,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               ok: "Continuar",
             })
             .subscribe((result) => {
-              this.selectedTab = 2;
+              this.selectedTab = 1;
             });
         }
       }

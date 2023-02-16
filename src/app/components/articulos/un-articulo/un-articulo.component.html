@@ -509,6 +509,13 @@
                         [disabled]="saving">
                     Guardar
                 </button>
+                <button mat-raised-button
+                        color="primary"
+                        [disabled]="saving"
+                        type="button"
+                        (click)="guardarYCerrar()">
+                    Guardar y cerrar
+                </button>
             </div>
         </form>
     </mat-card-content>

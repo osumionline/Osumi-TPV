@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ArticulosTabsComponent } from "src/app/components/articulos/articulos-tabs/articulos-tabs.component";
 import { Articulo } from "src/app/model/articulos/articulo.model";
 import { ArticulosService } from "src/app/services/articulos.service";
 
@@ -9,6 +10,8 @@ import { ArticulosService } from "src/app/services/articulos.service";
   styleUrls: ["./articulos.component.scss"],
 })
 export class ArticulosComponent implements OnInit {
+  @ViewChild("tabs", { static: true }) tabs: ArticulosTabsComponent;
+
   constructor(
     public ars: ArticulosService,
     private activatedRoute: ActivatedRoute,
@@ -47,5 +50,9 @@ export class ArticulosComponent implements OnInit {
     articulo.observaciones = "";
     this.ars.list.push(articulo);
     this.ars.selected = this.ars.list.length - 1;
+  }
+
+  cerrar(ind: number): void {
+    this.tabs.closeTab(ind);
   }
 }

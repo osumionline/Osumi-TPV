@@ -1,9 +1,10 @@
 <otpv-header selectedOption="articulos"></otpv-header>
 
-<otpv-articulos-tabs></otpv-articulos-tabs>
+<otpv-articulos-tabs #tabs></otpv-articulos-tabs>
 
 <otpv-un-articulo *ngFor="let articulo of ars.list; let i = index"
                   [ind]="i"
                   [ngClass]="{'hidden':i!=ars.selected}"
                   (duplicarArticuloEvent)="duplicar($event)"
+                  (cerrarArticuloEvent)="cerrar($event)"
                   [articulo]="articulo"></otpv-un-articulo>
