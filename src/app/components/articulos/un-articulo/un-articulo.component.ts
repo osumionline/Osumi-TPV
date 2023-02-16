@@ -514,17 +514,13 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         : "0.00";
   }
 
-  getTwoNumberDecimal(value: number): number {
-    return parseFloat((Math.round(value * 100) / 100).toFixed(2));
-  }
-
   updatePalb(): void {
     this.form.get("palb").markAsDirty();
 
     const ivare: number =
       (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
       (this.form.get("re").value != -1 ? this.form.get("re").value : 0);
-    const puc: number = this.getTwoNumberDecimal(
+    const puc: number = Utils.getTwoNumberDecimal(
       this.form.get("palb").value * (1 + ivare / 100)
     );
     this.updatePuc(puc);
@@ -834,7 +830,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     dialog.afterClosed$.subscribe((data) => {
       if (data.data !== null) {
         this.articulo.margen = data.data;
-        this.articulo.pvp = this.getTwoNumberDecimal(
+        this.articulo.pvp = Utils.getTwoNumberDecimal(
           this.form.get("puc").value * (1 + data.data / 100)
         );
         this.form.get("pvp").setValue(this.articulo.pvp);

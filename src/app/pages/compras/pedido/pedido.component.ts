@@ -443,11 +443,21 @@ export class PedidoComponent implements OnInit, OnDestroy {
     }
   }
 
+  updatePalb(linea: PedidoLinea): void {
+    linea.puc = Utils.getTwoNumberDecimal(
+      linea.palb *
+        (1 - linea.descuento / 100) *
+        (1 + (linea.iva + linea.re) / 100)
+    );
+    this.updateMargen(linea);
+  }
+
   updateIva(option: string, linea: PedidoLinea): void {
     const ind: number = this.ivaList.findIndex(
       (x: number): boolean => x == parseInt(option)
     );
     linea.re = this.pedido.re ? this.reList[ind] : 0;
+    this.updatePalb(linea);
   }
 
   updateRe(option: string, linea: PedidoLinea): void {
@@ -455,6 +465,13 @@ export class PedidoComponent implements OnInit, OnDestroy {
       (x: number): boolean => x == parseFloat(option)
     );
     linea.iva = this.ivaList[ind];
+    this.updatePalb(linea);
+  }
+
+  updateMargen(linea: PedidoLinea): void {
+    linea.margen = Utils.getTwoNumberDecimal(
+      (100 * (linea.pvp - linea.puc)) / linea.pvp
+    );
   }
 
   checkLocalizador(ev: KeyboardEvent): void {

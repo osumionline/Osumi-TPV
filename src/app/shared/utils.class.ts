@@ -138,4 +138,8 @@ export class Utils {
     const date: Date = new Date(year, month, day, hour, minutes, seconds);
     return date;
   }
+
+  static getTwoNumberDecimal(value: number): number {
+    return parseFloat((Math.round(value * 100) / 100).toFixed(2));
+  }
 }

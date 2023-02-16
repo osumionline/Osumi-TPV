@@ -307,7 +307,8 @@
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
-                                   [(ngModel)]="element.palb">
+                                   [(ngModel)]="element.palb"
+                                   (ngModelChange)="updatePalb(element)">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.palb | fixedNumber}}</span>
                         €
@@ -334,7 +335,8 @@
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
-                                   [(ngModel)]="element.descuento">
+                                   [(ngModel)]="element.descuento"
+                                   (ngModelChange)="updatePalb(element)">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>%
                     </td>
@@ -434,7 +436,8 @@
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
-                                   [(ngModel)]="element.pvp">
+                                   [(ngModel)]="element.pvp"
+                                   (ngModelChange)="updateMargen(element)">
                         </mat-form-field>
                         <span *ngIf="pedido.recepcionado">{{element.pvp | fixedNumber}}</span>
                         €

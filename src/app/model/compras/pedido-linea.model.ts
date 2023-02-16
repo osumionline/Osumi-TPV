@@ -17,7 +17,9 @@ export class PedidoLinea {
     public marca: string = null,
     public unidades: number = null,
     public palb: number = null,
+    public puc: number = null,
     public pvp: number = null,
+    public margen: number = null,
     public stock: number = null,
     public iva: number = null,
     public re: number = null,
@@ -28,10 +30,6 @@ export class PedidoLinea {
     public referencia: string = null
   ) {}
 
-  getTwoNumberDecimal(value: number): number {
-    return parseFloat((Math.round(value * 100) / 100).toFixed(2));
-  }
-
   get subtotal(): number {
     return (
       this.unidades *
@@ -41,25 +39,12 @@ export class PedidoLinea {
     );
   }
 
-  get puc(): number {
-    return this.getTwoNumberDecimal(
-      this.palb * (1 - this.descuento / 100) * (1 + (this.iva + this.re) / 100)
-    );
-  }
-
   get total(): number {
-    return this.getTwoNumberDecimal(this.unidades * this.puc);
+    return Utils.getTwoNumberDecimal(this.unidades * this.puc);
   }
 
   get beneficio(): number {
     return this.unidades * (this.pvp - this.puc);
-  }
-
-  get margen(): number {
-    if (this.pvp === null || this.pvp === 0) {
-      return 0;
-    }
-    return (100 * (this.pvp - this.puc)) / this.pvp;
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
@@ -71,7 +56,9 @@ export class PedidoLinea {
     this.marca = Utils.urldecode(pl.marca);
     this.unidades = pl.unidades;
     this.palb = pl.palb;
+    this.puc = pl.puc;
     this.pvp = pl.pvp;
+    this.margen = pl.margen;
     this.stock = pl.stock;
     this.iva = pl.iva;
     this.re = pl.re;
@@ -93,7 +80,9 @@ export class PedidoLinea {
     this.marca = a.marca;
     this.unidades = 1;
     this.palb = a.palb;
+    this.puc = a.puc;
     this.pvp = a.pvp;
+    this.margen = a.margen;
     this.stock = a.stock;
     this.iva = a.iva;
     this.re = a.re;
@@ -118,7 +107,9 @@ export class PedidoLinea {
       marca: Utils.urlencode(this.marca),
       unidades: this.unidades,
       palb: this.palb,
+      puc: this.puc,
       pvp: this.pvp,
+      margen: this.margen,
       stock: this.stock,
       iva: this.iva,
       re: this.re,

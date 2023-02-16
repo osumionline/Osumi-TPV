@@ -7,7 +7,9 @@ export interface PedidoLineaInterface {
   marca: string;
   unidades: number;
   palb: number;
+  puc: number;
   pvp: number;
+  margen: number;
   stock: number;
   iva: number;
   re: number;
