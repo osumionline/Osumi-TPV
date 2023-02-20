@@ -121,11 +121,14 @@ export class VentasComponent implements OnInit {
     this.vs.ventaActual.lineas = [];
     for (let reserva of reservas) {
       for (let linea of reserva.lineas) {
-        let ind: number = this.vs.ventaActual.lineas.findIndex(
-          (x: VentaLinea): boolean => {
-            return x.idArticulo === linea.idArticulo;
-          }
-        );
+        let ind: number = -1;
+        if (linea.idArticulo !== null) {
+          ind = this.vs.ventaActual.lineas.findIndex(
+            (x: VentaLinea): boolean => {
+              return x.idArticulo === linea.idArticulo;
+            }
+          );
+        }
         if (ind === -1) {
           let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
           lineaVenta.fromReserva = reserva.id;

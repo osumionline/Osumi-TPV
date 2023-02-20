@@ -62,8 +62,8 @@ export class VentaLinea {
   }
 
   fromLineaReserva(rl: ReservaLinea): VentaLinea {
-    this.idArticulo = rl.idArticulo;
-    this.localizador = rl.localizador;
+    this.idArticulo = rl.idArticulo !== null ? rl.idArticulo : 0;
+    this.localizador = rl.localizador !== null ? rl.localizador : 0;
     this.descripcion = rl.nombreArticulo;
     this.marca = rl.marca;
     this.stock = rl.stock;
