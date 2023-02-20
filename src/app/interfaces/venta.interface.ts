@@ -16,6 +16,7 @@ export interface VentaLineaInterface {
   observaciones: string;
   fromVenta: number;
   fromReserva: number;
+  fromReservaLineaId: number;
   regalo: boolean;
 }
 

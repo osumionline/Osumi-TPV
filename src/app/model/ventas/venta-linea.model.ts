@@ -22,6 +22,7 @@ export class VentaLinea {
     public observaciones: string = null,
     public fromVenta: number = null,
     public fromReserva: number = null,
+    public fromReservaLineaId: number = null,
     public regalo: boolean = false
   ) {}
 
@@ -62,6 +63,7 @@ export class VentaLinea {
   }
 
   fromLineaReserva(rl: ReservaLinea): VentaLinea {
+    this.fromReservaLineaId = rl.id;
     this.idArticulo = rl.idArticulo !== null ? rl.idArticulo : 0;
     this.localizador = rl.localizador !== null ? rl.localizador : 0;
     this.descripcion = rl.nombreArticulo;
@@ -112,6 +114,7 @@ export class VentaLinea {
       observaciones: this.observaciones,
       fromVenta: this.fromVenta,
       fromReserva: this.fromReserva,
+      fromReservaLineaId: this.fromReservaLineaId,
       regalo: this.regalo,
     };
   }
