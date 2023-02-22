@@ -25,6 +25,7 @@ export interface ClienteInterface {
   factPoblacion: string;
   factProvincia: number;
   observaciones: string;
+  descuento: number;
   ultimaVenta: string;
 }
 

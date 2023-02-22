@@ -96,6 +96,15 @@ export class VentasService {
     this.cliente = cliente;
     this.fin.idCliente = cliente.id;
     this.fin.email = cliente.email;
+    if (cliente.descuento !== 0) {
+      for (let linea of this.ventaActual.lineas) {
+        if (linea.localizador !== null) {
+          linea.descuentoManual = false;
+          linea.descuento = cliente.descuento;
+        }
+      }
+      this.ventaActual.updateImporte();
+    }
     this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
       if (result.status === "ok") {
         this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(

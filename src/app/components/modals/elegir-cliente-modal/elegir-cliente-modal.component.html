@@ -79,24 +79,31 @@
                        #nuevoClienteBoxName>
             </mat-form-field>
             <mat-form-field class="cliente-nuevo-half">
+                <mat-label>Email</mat-label>
+                <input matInput
+                       placeholder="Email"
+                       [(ngModel)]="nuevoCliente.email">
+            </mat-form-field>
+        </div>
+        <div class="cliente-nuevo-row">
+            <mat-form-field class="cliente-nuevo-third">
                 <mat-label>DNI / CIF</mat-label>
                 <input matInput
                        placeholder="DNI / CIF"
                        [(ngModel)]="nuevoCliente.dniCif">
             </mat-form-field>
-        </div>
-        <div class="cliente-nuevo-row">
-            <mat-form-field class="cliente-nuevo-half">
+            <mat-form-field class="cliente-nuevo-third">
                 <mat-label>Telefono</mat-label>
                 <input matInput
                        placeholder="Telefono"
                        [(ngModel)]="nuevoCliente.telefono">
             </mat-form-field>
-            <mat-form-field class="cliente-nuevo-half">
-                <mat-label>Email</mat-label>
+            <mat-form-field class="cliente-nuevo-third">
+                <mat-label>Descuento</mat-label>
                 <input matInput
-                       placeholder="Email"
-                       [(ngModel)]="nuevoCliente.email">
+                       placeholder="Descuento"
+                       [(ngModel)]="nuevoCliente.descuento">
+                <span matTextSuffix>%</span>
             </mat-form-field>
         </div>
         <div class="cliente-nuevo-row">

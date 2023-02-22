@@ -172,6 +172,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
     this.searching = true;
     this.cs.saveCliente(this.nuevoCliente.toInterface()).subscribe((result) => {
       if (result.status === "ok") {
+        this.cs.resetClientes();
         this.nuevoCliente.id = result.id;
         this.selectCliente(this.nuevoCliente);
         window.open("/lopd/" + result.id);

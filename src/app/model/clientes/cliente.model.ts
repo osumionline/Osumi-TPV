@@ -29,6 +29,7 @@ export class Cliente {
     public factPoblacion: string = null,
     public factProvincia: number = null,
     public observaciones: string = null,
+    public descuento: number = 0,
     public ultimaVenta: string = null
   ) {}
 
@@ -68,6 +69,7 @@ export class Cliente {
     this.observaciones = decode
       ? Utils.urldecode(c.observaciones)
       : c.observaciones;
+    this.descuento = c.descuento;
     this.ultimaVenta = decode ? Utils.urldecode(c.ultimaVenta) : c.ultimaVenta;
 
     return this;
@@ -110,6 +112,7 @@ export class Cliente {
       observaciones: encode
         ? Utils.urlencode(this.observaciones)
         : this.observaciones,
+      descuento: this.descuento,
       ultimaVenta: encode
         ? Utils.urlencode(this.ultimaVenta)
         : this.ultimaVenta,

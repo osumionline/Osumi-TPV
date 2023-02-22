@@ -54,6 +54,17 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="form-field half-width">
+                                        <label>Email</label>
+                                        <mat-form-field class="max-width">
+                                            <input matInput
+                                                   placeholder="Email"
+                                                   formControlName="email"
+                                                   #emailBox>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-field third-width">
                                         <label>DNI / CIF</label>
                                         <mat-form-field class="max-width">
                                             <input matInput
@@ -61,9 +72,7 @@
                                                    formControlName="dniCif">
                                         </mat-form-field>
                                     </div>
-                                </div>
-                                <div>
-                                    <div class="form-field half-width">
+                                    <div class="form-field third-width">
                                         <label>Teléfono</label>
                                         <mat-form-field class="max-width">
                                             <input matInput
@@ -71,13 +80,17 @@
                                                    formControlName="telefono">
                                         </mat-form-field>
                                     </div>
-                                    <div class="form-field half-width">
-                                        <label>Email</label>
+                                    <div class="form-field third-width">
+                                        <label>Descuento</label>
                                         <mat-form-field class="max-width">
                                             <input matInput
-                                                   placeholder="Email"
-                                                   formControlName="email"
-                                                   #emailBox>
+                                                   type="number"
+                                                   min="0"
+                                                   max="100"
+                                                   step="1"
+                                                   placeholder="Descuento"
+                                                   formControlName="descuento">
+                                            <span matTextSuffix>%</span>
                                         </mat-form-field>
                                     </div>
                                 </div>

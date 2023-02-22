@@ -53,6 +53,7 @@ export class ClientesComponent implements OnInit {
     factPoblacion: new FormControl(null),
     factProvincia: new FormControl(null),
     observaciones: new FormControl(null),
+    descuento: new FormControl(0),
   });
 
   facturasDisplayedColumns: string[] = ["id", "fecha", "importe", "opciones"];

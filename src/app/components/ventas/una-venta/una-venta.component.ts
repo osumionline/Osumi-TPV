@@ -226,6 +226,10 @@ export class UnaVentaComponent implements AfterViewInit {
           });
       }
     }
+    if (this.vs.cliente !== null && this.vs.cliente.descuento !== 0) {
+      this.vs.ventaActual.lineas[ind].descuentoManual = false;
+      this.vs.ventaActual.lineas[ind].descuento = this.vs.cliente.descuento;
+    }
     this.vs.ventaActual.updateImporte();
     this.setFocus();
 
