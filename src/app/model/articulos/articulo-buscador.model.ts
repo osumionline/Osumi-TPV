@@ -2,6 +2,8 @@ import { ArticuloBuscadorInterface } from "src/app/interfaces/articulo.interface
 import { Utils } from "src/app/shared/utils.class";
 
 export class ArticuloBuscador {
+  num: number = 0;
+
   constructor(
     public localizador: number = null,
     public nombre: string = null,

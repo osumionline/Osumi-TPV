@@ -50,6 +50,8 @@ export const PAGES: any[] = [
  */
 import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-inventario/almacen-inventario.component";
 import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
+import { ImprentaTableComponent } from "src/app/components/almacen/imprenta-table/imprenta-table.component";
+import { ImprentaComponent } from "src/app/components/almacen/imprenta/imprenta.component";
 import { ArticulosTabsComponent } from "src/app/components/articulos/articulos-tabs/articulos-tabs.component";
 import { UnArticuloComponent } from "src/app/components/articulos/un-articulo/un-articulo.component";
 import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
@@ -86,6 +88,8 @@ export const COMPONENTS: any[] = [
   ComprasPedidosListComponent,
   UnArticuloComponent,
   ArticulosTabsComponent,
+  ImprentaComponent,
+  ImprentaTableComponent,
 ];
 
 /*

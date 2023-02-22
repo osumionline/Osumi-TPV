@@ -1,0 +1,93 @@
+<div class="imprenta">
+    <div class="col-articulos">
+        <mat-form-field class="search"
+                        subscriptSizing="dynamic">
+            <input matInput
+                   placeholder="Nombre del artículo"
+                   [(ngModel)]="search"
+                   (keyup)="searchStart($event)"
+                   #searchBox>
+            <span matTextPrefix>
+                <mat-icon>search</mat-icon>
+            </span>
+        </mat-form-field>
+        <mat-action-list>
+            <button mat-list-item
+                    *ngFor="let articulo of articulos"
+                    (click)="selectArticulo(articulo)">
+                {{articulo.nombre}}
+            </button>
+        </mat-action-list>
+    </div>
+    <div class="col-seleccionados">
+        <div class="seleccionados-title">
+            <span>Seleccionados</span>
+            <button mat-raised-button
+                    color="primary"
+                    (click)="addHueco()">
+                <mat-icon>add_circle_outline</mat-icon>
+                Hueco
+            </button>
+        </div>
+        <div class="seleccionados-list"
+             cdkDropList
+             (cdkDropListDropped)="drop($event)">
+            <div class="seleccionado-item"
+                 cdkDrag
+                 *ngFor="let articulo of seleccionados; let i = index">
+                <div class="seleccionado-options">
+                    <mat-icon class="seleccionado-drag"
+                              cdkDragHandle>drag_indicator</mat-icon>
+                    <span>{{articulo.nombre}}</span>
+                    <mat-icon class="seleccionado-delete"
+                              (click)="deleteLinea(i)"
+                              [matTooltip]="articulo.localizador !== null ? 'Borrar artículo' : 'Borrar hueco'">delete_forever</mat-icon>
+                </div>
+                <div class="seleccionado-marca">{{articulo.marca}}</div>
+                <div class="seleccionado-controls">
+                    <span (click)="addLineaNum(i, -1)">-</span>
+                    <mat-form-field class="campo-numero-small x-small"
+                                    subscriptSizing="dynamic">
+                        <input matInput
+                               placeholder="Núm."
+                               type="number"
+                               min="1"
+                               step="1"
+                               [(ngModel)]="articulo.num"
+                               (focus)="$event.target.select()">
+                    </mat-form-field>
+                    <span (click)="addLineaNum(i, 1)">+</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-tabla">
+        <otpv-imprenta-table></otpv-imprenta-table>
+        <div class="col-tabla-options">
+            <div class="form-field margin-right">
+                <label>Número de filas</label>
+                <mat-form-field>
+                    <input matInput
+                           placeholder="Núm. filas"
+                           type="number"
+                           min="1"
+                           step="1"
+                           [(ngModel)]="filas"
+                           (focus)="$event.target.select()">
+                </mat-form-field>
+            </div>
+            <div class="form-field margin-right">
+                <label>Número de columnas</label>
+                <mat-form-field>
+                    <input matInput
+                           placeholder="Núm. columnas"
+                           type="number"
+                           min="1"
+                           step="1"
+                           [(ngModel)]="columnas"
+                           (focus)="$event.target.select()">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>

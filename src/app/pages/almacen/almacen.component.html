@@ -2,14 +2,13 @@
 
 <mat-card class="almacen">
     <mat-card-content>
-        <otpv-almacen-inventario></otpv-almacen-inventario>
-        <!--mat-tab-group>
+        <mat-tab-group (selectedTabChange)="tabChange($event)">
             <mat-tab label="Inventario">
                 <otpv-almacen-inventario></otpv-almacen-inventario>
             </mat-tab>
-            <mat-tab label="Listas">
-                <otpv-almacen-listas></otpv-almacen-listas>
+            <mat-tab label="Imprenta">
+                <otpv-imprenta #imprenta></otpv-imprenta>
             </mat-tab>
-        </mat-tab-group-->
+        </mat-tab-group>
     </mat-card-content>
 </mat-card>
