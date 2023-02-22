@@ -43,13 +43,6 @@
   }
 }
 
-.col-stock {
-  width: 5%;
-  border-right: 1px solid var(--table-border);
-  border-bottom: 1px solid var(--table-border);
-  box-sizing: border-box;
-}
-
 .col-cantidad {
   width: 5%;
   border-right: 1px solid var(--table-border);
@@ -86,4 +79,12 @@
 .col-descuentos {
   width: 5%;
   border-bottom: 1px solid var(--table-border);
+  border-right: 1px solid var(--table-border);
+  box-sizing: border-box;
+}
+
+.col-stock {
+  width: 5%;
+  border-bottom: 1px solid var(--table-border);
+  box-sizing: border-box;
 }

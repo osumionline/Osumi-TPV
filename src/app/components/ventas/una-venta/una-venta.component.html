@@ -5,11 +5,11 @@
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
-	<div class="col-stock">Stock</div>
 	<div class="col-cantidad">Cantidad</div>
 	<div class="col-pvp">PVP</div>
 	<div class="col-importe">Importe</div>
 	<div class="col-descuentos">Desc.</div>
+	<div class="col-stock">Stock</div>
 </div>
 
 <div class="lineas-ventas"
@@ -48,10 +48,6 @@
 						  (click)="showObservaciones($event, linea.observaciones)"
 						  matTooltip="Mostrar observaciones del artículo">info_outline</mat-icon>
 			</span>
-		</div>
-		<div class="col-stock">
-			<ng-container *ngIf="linea.stock === null">&nbsp;</ng-container>
-			<span *ngIf="linea.stock !== null">{{linea.idArticulo !== 0 ? linea.stock : '-'}}</span>
 		</div>
 		<div class="col-cantidad"
 			 [ngClass]="{'animate': linea.animarCantidad}">
@@ -141,6 +137,10 @@
 				</span>
 			</ng-container>
 			<span *ngIf="linea.fromVenta !== null">{{linea.descuento}} %</span>
+		</div>
+		<div class="col-stock">
+			<ng-container *ngIf="linea.stock === null">&nbsp;</ng-container>
+			<span *ngIf="linea.stock !== null">{{linea.idArticulo !== 0 ? linea.stock : '-'}}</span>
 		</div>
 	</div>
 </div>
