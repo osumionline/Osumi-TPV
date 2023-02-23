@@ -1,0 +1,17 @@
+.table {
+    border: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+
+    .row {
+        display: flex;
+        flex-direction: row;
+
+        .col {
+            border: 1px solid;
+            height: 80px;
+            box-sizing: border-box;
+            flex: 1;
+        }
+    }
+}

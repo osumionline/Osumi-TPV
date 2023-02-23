@@ -62,31 +62,48 @@
         </div>
     </div>
     <div class="col-tabla">
-        <otpv-imprenta-table></otpv-imprenta-table>
+        <otpv-imprenta-table [filas]="filas"
+                             [columnas]="columnas"
+                             [mostrarPVP]="mostrarPVP"></otpv-imprenta-table>
         <div class="col-tabla-options">
-            <div class="form-field margin-right">
-                <label>Número de filas</label>
-                <mat-form-field>
-                    <input matInput
-                           placeholder="Núm. filas"
-                           type="number"
-                           min="1"
-                           step="1"
-                           [(ngModel)]="filas"
-                           (focus)="$event.target.select()">
-                </mat-form-field>
+            <div class="col-options-config">
+                <div class="form-field margin-right">
+                    <label>Número de filas</label>
+                    <mat-form-field>
+                        <input matInput
+                               placeholder="Núm. filas"
+                               type="number"
+                               min="1"
+                               step="1"
+                               [(ngModel)]="filas"
+                               (focus)="$event.target.select()">
+                    </mat-form-field>
+                </div>
+                <div class="form-field margin-right">
+                    <label>Número de columnas</label>
+                    <mat-form-field>
+                        <input matInput
+                               placeholder="Núm. columnas"
+                               type="number"
+                               min="1"
+                               step="1"
+                               [(ngModel)]="columnas"
+                               (focus)="$event.target.select()">
+                    </mat-form-field>
+                </div>
+                <div class="form-field">
+                    <label>Mostrar PVP</label>
+                    <mat-slide-toggle color="primary"
+                                      [(ngModel)]="mostrarPVP">{{ mostrarPVP ? 'Sí' : 'No' }}</mat-slide-toggle>
+                </div>
             </div>
-            <div class="form-field margin-right">
-                <label>Número de columnas</label>
-                <mat-form-field>
-                    <input matInput
-                           placeholder="Núm. columnas"
-                           type="number"
-                           min="1"
-                           step="1"
-                           [(ngModel)]="columnas"
-                           (focus)="$event.target.select()">
-                </mat-form-field>
+            <div class="col-options-print">
+                <button mat-raised-button
+                        color="primary"
+                        (click)="addHueco()">
+                    <mat-icon>print</mat-icon>
+                    Imprimir
+                </button>
             </div>
         </div>
     </div>

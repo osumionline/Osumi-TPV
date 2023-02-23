@@ -18,6 +18,7 @@ export class ImprentaComponent {
   seleccionados: ArticuloBuscador[] = [];
   filas: number = 4;
   columnas: number = 5;
+  mostrarPVP: boolean = true;
 
   constructor(private vs: VentasService, private cms: ClassMapperService) {}
 

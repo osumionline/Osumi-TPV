@@ -35,6 +35,21 @@
 
     .col-tabla {
         width: 60%;
+
+        .col-tabla-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+
+            .col-options-config {
+                display: flex;
+            }
+
+            .col-options-print {
+                display: flex;
+                align-items: center;
+            }
+        }
     }
 }
 
