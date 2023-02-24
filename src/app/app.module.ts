@@ -14,16 +14,11 @@ import { ConfigService } from "src/app/services/config.service";
 import { registerLocaleData } from "@angular/common";
 import es from "@angular/common/locales/es";
 
+import { MaterialModule } from "./modules/material/material.module";
+
 registerLocaleData(es);
 
-import {
-  COMPONENTS,
-  MATERIAL,
-  MODALS,
-  PAGES,
-  PIPES,
-  SERVICES,
-} from "./app.common";
+import { COMPONENTS, MODALS, PAGES, PIPES, SERVICES } from "./app.common";
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
@@ -40,7 +35,7 @@ export function servicesOnRun(config: ConfigService) {
     BrowserAnimationsModule,
     MatSortModule,
     QRCodeModule,
-    ...MATERIAL,
+    MaterialModule,
   ],
   providers: [
     {
