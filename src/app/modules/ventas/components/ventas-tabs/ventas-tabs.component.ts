@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { ElegirClienteModalComponent } from "src/app/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
-import { ReservasModalComponent } from "src/app/components/modals/reservas-modal/reservas-modal.component";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Reserva } from "src/app/model/ventas/reserva.model";
+import { ElegirClienteModalComponent } from "src/app/modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
+import { ReservasModalComponent } from "src/app/modules/ventas/components/modals/reservas-modal/reservas-modal.component";
 import { DialogService } from "src/app/services/dialog.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";

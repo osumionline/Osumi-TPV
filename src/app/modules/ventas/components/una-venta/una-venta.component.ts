@@ -10,10 +10,6 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
-import { DevolucionModalComponent } from "src/app/components/modals/devolucion-modal/devolucion-modal.component";
-import { VentaAccesosDirectosModalComponent } from "src/app/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
-import { VentaDescuentoModalComponent } from "src/app/components/modals/venta-descuento-modal/venta-descuento-modal.component";
-import { VentaVariosModalComponent } from "src/app/components/modals/venta-varios-modal/venta-varios-modal.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import {
   BuscadorModal,
@@ -27,6 +23,10 @@ import { Articulo } from "src/app/model/articulos/articulo.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+import { DevolucionModalComponent } from "src/app/modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
+import { VentaAccesosDirectosModalComponent } from "src/app/modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
+import { VentaDescuentoModalComponent } from "src/app/modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
+import { VentaVariosModalComponent } from "src/app/modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
