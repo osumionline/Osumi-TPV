@@ -1,14 +1,18 @@
+import { CommonModule } from "@angular/common";
 import { Component, HostListener, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
 import { CajaModal } from "src/app/interfaces/modals.interface";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ConfigService } from "src/app/services/config.service";
 import { OverlayService } from "src/app/services/overlay.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
+  imports: [MaterialModule, CommonModule],
 })
 export class HeaderComponent implements OnInit {
   @Input() selectedOption: string = "";

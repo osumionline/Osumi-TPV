@@ -7,7 +7,6 @@ import {
   ViewChildren,
 } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { HeaderComponent } from "src/app/components/header/header.component";
 import { VentaFinalizarModalComponent } from "src/app/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { VentasTabsComponent } from "src/app/components/ventas/ventas-tabs/ventas-tabs.component";
@@ -15,6 +14,7 @@ import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
 import { Reserva } from "src/app/model/ventas/reserva.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+import { HeaderComponent } from "src/app/modules/standalone/components/header/header.component";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ConfigService } from "src/app/services/config.service";
 import { OverlayService } from "src/app/services/overlay.service";

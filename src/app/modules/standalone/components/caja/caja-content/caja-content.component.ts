@@ -6,17 +6,27 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { CierreCajaComponent } from "src/app/components/caja/cierre-caja/cierre-caja.component";
-import { HistoricoVentasComponent } from "src/app/components/caja/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "src/app/components/caja/salidas-caja/salidas-caja.component";
 import { Month } from "src/app/interfaces/interfaces";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { CierreCajaComponent } from "src/app/modules/standalone/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "src/app/modules/standalone/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/modules/standalone/components/caja/salidas-caja/salidas-caja.component";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-caja-content",
   templateUrl: "./caja-content.component.html",
   styleUrls: ["./caja-content.component.scss"],
+  imports: [
+    MaterialModule,
+    FormsModule,
+    HistoricoVentasComponent,
+    SalidasCajaComponent,
+    CierreCajaComponent,
+  ],
 })
 export class CajaContentComponent implements OnInit {
   @Output() cerrarVentanaEvent: EventEmitter<number> =

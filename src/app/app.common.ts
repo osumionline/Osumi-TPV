@@ -54,16 +54,11 @@ import { ImprentaTableComponent } from "src/app/components/almacen/imprenta-tabl
 import { ImprentaComponent } from "src/app/components/almacen/imprenta/imprenta.component";
 import { ArticulosTabsComponent } from "src/app/components/articulos/articulos-tabs/articulos-tabs.component";
 import { UnArticuloComponent } from "src/app/components/articulos/un-articulo/un-articulo.component";
-import { CajaContentComponent } from "src/app/components/caja/caja-content/caja-content.component";
-import { CierreCajaComponent } from "src/app/components/caja/cierre-caja/cierre-caja.component";
-import { HistoricoVentasComponent } from "src/app/components/caja/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "src/app/components/caja/salidas-caja/salidas-caja.component";
 import { ComprasPedidosListComponent } from "src/app/components/compras/compras-pedidos-list/compras-pedidos-list.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
 import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
-import { HeaderComponent } from "src/app/components/header/header.component";
 import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
 import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
 import { VentasTabsComponent } from "src/app/components/ventas/ventas-tabs/ventas-tabs.component";
@@ -75,16 +70,11 @@ export const COMPONENTS: any[] = [
   FormDialogComponent,
   VentasTabsComponent,
   UnaVentaComponent,
-  HeaderComponent,
   EmployeeLoginComponent,
   CajaModalComponent,
-  HistoricoVentasComponent,
-  SalidasCajaComponent,
-  CierreCajaComponent,
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
-  CajaContentComponent,
   ComprasPedidosListComponent,
   UnArticuloComponent,
   ArticulosTabsComponent,
@@ -135,13 +125,11 @@ export const MODALS: any[] = [
 import { BrandListFilterPipe } from "src/app/pipes/brand-list-filter.pipe";
 import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
-import { FixedNumberPipe } from "src/app/pipes/fixed-number.pipe";
 import { PayTypeListFilterPipe } from "src/app/pipes/pay-type-list-filter.pipe";
 import { ProviderBrandListFilterPipe } from "src/app/pipes/provider-brand-list-filter.pipe";
 import { ProviderListFilterPipe } from "src/app/pipes/provider-list-filter.pipe";
 
 export const PIPES: any[] = [
-  FixedNumberPipe,
   ClientListFilterPipe,
   EmployeeListFilterPipe,
   BrandListFilterPipe,

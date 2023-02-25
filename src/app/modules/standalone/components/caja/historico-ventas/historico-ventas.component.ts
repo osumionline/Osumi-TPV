@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -5,6 +6,7 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatSelect } from "@angular/material/select";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -15,6 +17,8 @@ import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -23,9 +27,11 @@ import { VentasService } from "src/app/services/ventas.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-historico-ventas",
   templateUrl: "./historico-ventas.component.html",
   styleUrls: ["./historico-ventas.component.scss"],
+  imports: [MaterialModule, FormsModule, FixedNumberPipe, CommonModule],
 })
 export class HistoricoVentasComponent implements AfterViewInit {
   @Output() cerrarVentanaEvent: EventEmitter<number> =

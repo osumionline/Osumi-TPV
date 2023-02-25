@@ -20,6 +20,15 @@ registerLocaleData(es);
 
 import { COMPONENTS, MODALS, PAGES, PIPES, SERVICES } from "./app.common";
 
+import { HeaderComponent } from "src/app/modules/standalone/components/header/header.component";
+
+import { CajaContentComponent } from "src/app/modules/standalone/components/caja/caja-content/caja-content.component";
+import { CierreCajaComponent } from "src/app/modules/standalone/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "src/app/modules/standalone/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/modules/standalone/components/caja/salidas-caja/salidas-caja.component";
+
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
+
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
@@ -36,6 +45,12 @@ export function servicesOnRun(config: ConfigService) {
     MatSortModule,
     QRCodeModule,
     MaterialModule,
+    HeaderComponent,
+    HistoricoVentasComponent,
+    SalidasCajaComponent,
+    CierreCajaComponent,
+    CajaContentComponent,
+    FixedNumberPipe,
   ],
   providers: [
     {

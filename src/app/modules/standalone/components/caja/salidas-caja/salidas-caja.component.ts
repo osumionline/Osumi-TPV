@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -5,19 +6,35 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { SalidaCajaInterface } from "src/app/interfaces/caja.interface";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-salidas-caja",
   templateUrl: "./salidas-caja.component.html",
   styleUrls: ["./salidas-caja.component.scss"],
+  imports: [
+    MaterialModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FixedNumberPipe,
+  ],
 })
 export class SalidasCajaComponent {
   @Output() salidaCajaEvent: EventEmitter<boolean> =

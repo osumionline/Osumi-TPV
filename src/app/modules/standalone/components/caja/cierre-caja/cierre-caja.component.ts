@@ -1,6 +1,10 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -8,9 +12,11 @@ import { DialogService } from "src/app/services/dialog.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-cierre-caja",
   templateUrl: "./cierre-caja.component.html",
   styleUrls: ["./cierre-caja.component.scss"],
+  imports: [MaterialModule, FormsModule, FixedNumberPipe, CommonModule],
 })
 export class CierreCajaComponent {
   cierreCaja: CierreCaja = new CierreCaja();
