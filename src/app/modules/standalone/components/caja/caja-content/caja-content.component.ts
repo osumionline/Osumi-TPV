@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -22,6 +23,7 @@ import { ConfigService } from "src/app/services/config.service";
   styleUrls: ["./caja-content.component.scss"],
   imports: [
     MaterialModule,
+    CommonModule,
     FormsModule,
     HistoricoVentasComponent,
     SalidasCajaComponent,

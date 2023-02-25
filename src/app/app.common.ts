@@ -20,12 +20,10 @@ import { InstallationComponent } from "src/app/pages/installation/installation.c
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
-import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 
 export const PAGES: any[] = [
   MainComponent,
   InstallationComponent,
-  VentasComponent,
   ArticulosComponent,
   ComprasComponent,
   PedidoComponent,
@@ -58,19 +56,13 @@ import { ComprasPedidosListComponent } from "src/app/components/compras/compras-
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
-import { EmployeeLoginComponent } from "src/app/components/employee-login/employee-login.component";
 import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
-import { UnaVentaComponent } from "src/app/components/ventas/una-venta/una-venta.component";
-import { VentasTabsComponent } from "src/app/components/ventas/ventas-tabs/ventas-tabs.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
 
 export const COMPONENTS: any[] = [
   ConfirmDialogComponent,
   AlertDialogComponent,
   FormDialogComponent,
-  VentasTabsComponent,
-  UnaVentaComponent,
-  EmployeeLoginComponent,
   CajaModalComponent,
   AlmacenInventarioComponent,
   AlmacenListasComponent,

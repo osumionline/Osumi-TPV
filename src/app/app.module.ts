@@ -20,6 +20,9 @@ registerLocaleData(es);
 
 import { COMPONENTS, MODALS, PAGES, PIPES, SERVICES } from "./app.common";
 
+import { VentasModule } from "./modules/ventas/ventas.module";
+
+import { EmployeeLoginComponent } from "src/app/modules/standalone/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/modules/standalone/components/header/header.component";
 
 import { CajaContentComponent } from "src/app/modules/standalone/components/caja/caja-content/caja-content.component";
@@ -45,7 +48,9 @@ export function servicesOnRun(config: ConfigService) {
     MatSortModule,
     QRCodeModule,
     MaterialModule,
+    VentasModule,
     HeaderComponent,
+    EmployeeLoginComponent,
     HistoricoVentasComponent,
     SalidasCajaComponent,
     CierreCajaComponent,

@@ -19,20 +19,16 @@ import { InstallationComponent } from "src/app/pages/installation/installation.c
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
-import { VentasComponent } from "src/app/pages/ventas/ventas.component";
 
 const routes: Routes = [
   { path: "", component: MainComponent },
   { path: "installation", component: InstallationComponent },
   {
     path: "ventas",
-    component: VentasComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "ventas/:id",
-    component: VentasComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/ventas/ventas.module").then(
+        (m) => m.VentasModule
+      ),
   },
   {
     path: "articulos",
