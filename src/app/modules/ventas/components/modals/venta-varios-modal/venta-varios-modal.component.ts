@@ -1,13 +1,21 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-venta-varios-modal",
   templateUrl: "./venta-varios-modal.component.html",
   styleUrls: ["./venta-varios-modal.component.scss"],
+  imports: [MaterialModule, ReactiveFormsModule],
 })
 export class VentaVariosModalComponent implements OnInit {
   ivaList: number[] = [];

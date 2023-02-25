@@ -5,21 +5,25 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-elegir-cliente-modal",
   templateUrl: "./elegir-cliente-modal.component.html",
   styleUrls: ["./elegir-cliente-modal.component.scss"],
+  imports: [MaterialModule, FormsModule],
 })
 export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
   selectClienteFrom: string = null;

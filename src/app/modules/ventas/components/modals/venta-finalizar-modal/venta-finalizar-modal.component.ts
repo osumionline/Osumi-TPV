@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -6,21 +7,26 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-venta-finalizar-modal",
   templateUrl: "./venta-finalizar-modal.component.html",
   styleUrls: ["./venta-finalizar-modal.component.scss"],
+  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
 })
 export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
   @ViewChild("efectivoValue", { static: true }) efectivoValue: ElementRef;

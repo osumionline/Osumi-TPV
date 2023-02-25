@@ -2,13 +2,16 @@ import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-venta-accesos-directos-modal",
   templateUrl: "./venta-accesos-directos-modal.component.html",
   styleUrls: ["./venta-accesos-directos-modal.component.scss"],
+  imports: [MaterialModule],
 })
 export class VentaAccesosDirectosModalComponent implements OnInit {
   accesosDirectosList: AccesoDirecto[] = [];

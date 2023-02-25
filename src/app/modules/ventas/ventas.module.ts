@@ -22,7 +22,16 @@ import { HeaderComponent } from "src/app/modules/standalone/components/header/he
 import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 
 @NgModule({
-  declarations: [
+  declarations: [],
+  imports: [
+    VentasRoutingModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    HeaderComponent,
+    EmployeeLoginComponent,
+    FixedNumberPipe,
     VentasComponent,
     UnaVentaComponent,
     VentasTabsComponent,
@@ -33,16 +42,6 @@ import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.p
     VentaDescuentoModalComponent,
     VentaFinalizarModalComponent,
     VentaVariosModalComponent,
-  ],
-  imports: [
-    VentasRoutingModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    HeaderComponent,
-    EmployeeLoginComponent,
-    FixedNumberPipe,
   ],
 })
 export class VentasModule {}

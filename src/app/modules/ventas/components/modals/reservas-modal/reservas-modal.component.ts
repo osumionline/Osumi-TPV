@@ -1,18 +1,24 @@
 import { SelectionModel } from "@angular/cdk/collections";
+import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
 import { Reserva } from "src/app/model/ventas/reserva.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-reservas-modal",
   templateUrl: "./reservas-modal.component.html",
   styleUrls: ["./reservas-modal.component.scss"],
+  imports: [CommonModule, FormsModule, MaterialModule, FixedNumberPipe],
 })
 export class ReservasModalComponent implements OnInit, AfterViewInit {
   list: Reserva[] = [];

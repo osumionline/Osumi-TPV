@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -6,6 +7,7 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -23,6 +25,9 @@ import { Articulo } from "src/app/model/articulos/articulo.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { EmployeeLoginComponent } from "src/app/modules/standalone/components/employee-login/employee-login.component";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { DevolucionModalComponent } from "src/app/modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
 import { VentaAccesosDirectosModalComponent } from "src/app/modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
@@ -37,9 +42,17 @@ import { VentasService } from "src/app/services/ventas.service";
 import { rolList } from "src/app/shared/rol.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-una-venta",
   templateUrl: "./una-venta.component.html",
   styleUrls: ["./una-venta.component.scss"],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule,
+    FixedNumberPipe,
+    EmployeeLoginComponent,
+  ],
 })
 export class UnaVentaComponent implements AfterViewInit {
   @Input() ind: number = null;

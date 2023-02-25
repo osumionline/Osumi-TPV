@@ -1,19 +1,25 @@
 import { SelectionModel } from "@angular/cdk/collections";
+import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-devolucion-modal",
   templateUrl: "./devolucion-modal.component.html",
   styleUrls: ["./devolucion-modal.component.scss"],
+  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
 })
 export class DevolucionModalComponent implements OnInit {
   venta: VentaHistorico = new VentaHistorico();

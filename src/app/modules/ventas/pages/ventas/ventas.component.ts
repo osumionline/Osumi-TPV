@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   HostListener,
@@ -21,9 +22,16 @@ import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-ventas",
   templateUrl: "./ventas.component.html",
   styleUrls: ["./ventas.component.scss"],
+  imports: [
+    CommonModule,
+    VentasTabsComponent,
+    UnaVentaComponent,
+    HeaderComponent,
+  ],
 })
 export class VentasComponent implements OnInit {
   @ViewChild("tabs", { static: true }) tabs: VentasTabsComponent;
