@@ -1,6 +1,7 @@
+import { CommonModule } from "@angular/common";
 import { KeyValue } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
@@ -10,11 +11,23 @@ import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { Rol, RolGroup, rolList } from "src/app/shared/rol.class";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-list-filter.pipe";
 
 @Component({
+  standalone: true,
   selector: "otpv-gestion-empleados",
   templateUrl: "./gestion-empleados.component.html",
   styleUrls: ["./gestion-empleados.component.scss"],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    EmployeeListFilterPipe
+  ],
 })
 export class GestionEmpleadosComponent implements OnInit {
   search: string = "";

@@ -1,21 +1,9 @@
 /*
  * Páginas
  */
-import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
-import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
-import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
-import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
-import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
-export const PAGES: any[] = [
-  MainComponent,
-  InstallationComponent,
-  GestionComponent,
-  GestionEmpleadosComponent,
-  GestionTiposPagoComponent,
-  BackupComponent,
-];
+export const PAGES: any[] = [MainComponent];
 
 /*
  * Componentes
@@ -31,14 +19,6 @@ export const COMPONENTS: any[] = [
   FormDialogComponent,
   OverlayComponent,
 ];
-
-/*
- * Pipes
- */
-import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
-import { PayTypeListFilterPipe } from "src/app/pipes/pay-type-list-filter.pipe";
-
-export const PIPES: any[] = [EmployeeListFilterPipe, PayTypeListFilterPipe];
 
 /*
  * Servicios

@@ -94,7 +94,7 @@ export class CajaContentComponent implements OnInit {
 
   generarInforme(): void {
     window.open(
-      `informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`
+      `/caja/informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`
     );
   }
 }

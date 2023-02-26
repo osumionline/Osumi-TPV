@@ -4,11 +4,20 @@ import { Empleado } from "src/app/model/tpv/empleado.model";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { rolList } from "src/app/shared/rol.class";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 
 @Component({
+  standalone: true,
   selector: "otpv-gestion",
   templateUrl: "./gestion.component.html",
   styleUrls: ["./gestion.component.scss"],
+  imports: [
+    MaterialModule,
+    HeaderComponent,
+    EmployeeLoginComponent,
+  ]
 })
 export class GestionComponent implements OnInit {
   empleado: Empleado = null;
@@ -40,7 +49,7 @@ export class GestionComponent implements OnInit {
       )
     ) {
       this.gs.empleado = this.empleado;
-      this.router.navigate(["/installation"]);
+      this.router.navigate(["/gestion/installation"]);
     } else {
       this.dialog
         .alert({

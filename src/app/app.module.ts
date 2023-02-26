@@ -18,7 +18,7 @@ import { MaterialModule } from "./modules/material/material.module";
 
 registerLocaleData(es);
 
-import { COMPONENTS, PAGES, PIPES, SERVICES } from "./app.common";
+import { COMPONENTS, PAGES, SERVICES } from "./app.common";
 
 import { VentasModule } from "./modules/ventas/ventas.module";
 
@@ -37,7 +37,7 @@ export function servicesOnRun(config: ConfigService) {
 }
 
 @NgModule({
-  declarations: [AppComponent, ...PAGES, ...COMPONENTS, ...PIPES],
+  declarations: [AppComponent, ...PAGES, ...COMPONENTS],
   imports: [
     BrowserModule,
     AppRoutingModule,

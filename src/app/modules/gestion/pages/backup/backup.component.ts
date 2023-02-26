@@ -4,11 +4,15 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 
 @Component({
+  standalone: true,
   selector: "otpv-backup",
   templateUrl: "./backup.component.html",
   styleUrls: ["./backup.component.scss"],
+  imports: [MaterialModule, HeaderComponent],
 })
 export class BackupComponent implements OnInit {
   backups: Backup[] = [];

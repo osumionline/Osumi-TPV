@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 
 @Pipe({
+  standalone: true,
   name: "employeeListFilter",
 })
 export class EmployeeListFilterPipe implements PipeTransform {

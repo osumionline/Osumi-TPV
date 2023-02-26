@@ -2,16 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
-import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
-import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
-import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
-import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
 const routes: Routes = [
   { path: "", component: MainComponent },
-  { path: "installation", component: InstallationComponent },
   {
     path: "ventas",
     loadChildren: () =>
@@ -56,23 +50,10 @@ const routes: Routes = [
   },
   {
     path: "gestion",
-    component: GestionComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "gestion/empleados",
-    component: GestionEmpleadosComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "gestion/tipos-pago",
-    component: GestionTiposPagoComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "gestion/backup",
-    component: BackupComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/gestion/gestion.module").then(
+        (m) => m.GestionModule
+      ),
   },
   { path: "**", redirectTo: "/", pathMatch: "full" },
 ];

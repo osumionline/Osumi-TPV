@@ -8,7 +8,7 @@ export const isOpenedGuardFn: CanActivateFn = () => {
   const config: ConfigService = inject(ConfigService);
 
   if (config.status === "install") {
-    router.navigate(["/installation"]);
+    router.navigate(["/gestion/installation"]);
   }
   return inject(ConfigService)
     .isBoxOpened()

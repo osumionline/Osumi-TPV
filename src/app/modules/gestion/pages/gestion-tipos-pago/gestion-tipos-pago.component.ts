@@ -1,6 +1,7 @@
+import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import {
@@ -13,11 +14,23 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-list-filter.pipe";
 
 @Component({
+  standalone: true,
   selector: "otpv-gestion-tipos-pago",
   templateUrl: "./gestion-tipos-pago.component.html",
   styleUrls: ["./gestion-tipos-pago.component.scss"],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HeaderComponent,
+    PayTypeListFilterPipe
+  ],
 })
 export class GestionTiposPagoComponent implements OnInit {
   search: string = "";

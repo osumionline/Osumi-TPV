@@ -21,7 +21,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.config.status === "install") {
-      this.router.navigate(["/installation"]);
+      this.router.navigate(["/gestion/installation"]);
     }
     if (this.config.status === "loaded") {
       this.title = this.config.nombre;
