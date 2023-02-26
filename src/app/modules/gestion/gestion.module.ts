@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { GestionRoutingModule } from "./gestion-routing.module";
 
 @NgModule({
   declarations: [],
-  imports: [GestionRoutingModule]
+  imports: [GestionRoutingModule],
 })
 export class GestionModule {}

@@ -1,12 +1,13 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Empleado } from "src/app/model/tpv/empleado.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { rolList } from "src/app/shared/rol.class";
-import { MaterialModule } from "src/app/modules/material/material.module";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 
 @Component({
   standalone: true,
@@ -14,10 +15,11 @@ import { EmployeeLoginComponent } from "src/app/modules/shared/components/employ
   templateUrl: "./gestion.component.html",
   styleUrls: ["./gestion.component.scss"],
   imports: [
+    CommonModule,
     MaterialModule,
     HeaderComponent,
     EmployeeLoginComponent,
-  ]
+  ],
 })
 export class GestionComponent implements OnInit {
   empleado: Empleado = null;

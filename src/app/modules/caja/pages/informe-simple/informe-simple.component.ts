@@ -4,11 +4,11 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Month } from "src/app/interfaces/interfaces";
 import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { InformesService } from "src/app/services/informes.service";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { MaterialModule } from "src/app/modules/material/material.module";
 
 @Component({
   standalone: true,

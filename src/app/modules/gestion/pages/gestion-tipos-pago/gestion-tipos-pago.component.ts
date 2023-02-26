@@ -1,7 +1,13 @@
-import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import {
@@ -9,14 +15,14 @@ import {
   TiposPagoOrderInterface,
 } from "src/app/interfaces/tipo-pago.interface";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-list-filter.pipe";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
-import { MaterialModule } from "src/app/modules/material/material.module";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-list-filter.pipe";
 
 @Component({
   standalone: true,
@@ -29,7 +35,7 @@ import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-lis
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    PayTypeListFilterPipe
+    PayTypeListFilterPipe,
   ],
 })
 export class GestionTiposPagoComponent implements OnInit {

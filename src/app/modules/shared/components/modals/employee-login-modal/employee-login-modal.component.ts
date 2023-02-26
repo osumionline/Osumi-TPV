@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { EmpleadoLoginInterface } from "src/app/interfaces/empleado.interface";
@@ -11,7 +12,7 @@ import { EmpleadosService } from "src/app/services/empleados.service";
   selector: "otpv-employee-login-modal",
   templateUrl: "./employee-login-modal.component.html",
   styleUrls: ["./employee-login-modal.component.scss"],
-  imports: [MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule],
 })
 export class EmployeeLoginModalComponent implements OnInit {
   id: number = null;

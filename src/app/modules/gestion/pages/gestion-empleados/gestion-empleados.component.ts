@@ -1,19 +1,24 @@
-import { CommonModule } from "@angular/common";
-import { KeyValue } from "@angular/common";
+import { CommonModule, KeyValue } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
 import { Empleado } from "src/app/model/tpv/empleado.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-list-filter.pipe";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { Rol, RolGroup, rolList } from "src/app/shared/rol.class";
-import { MaterialModule } from "src/app/modules/material/material.module";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-list-filter.pipe";
 
 @Component({
   standalone: true,
@@ -26,7 +31,7 @@ import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-li
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    EmployeeListFilterPipe
+    EmployeeListFilterPipe,
   ],
 })
 export class GestionEmpleadosComponent implements OnInit {

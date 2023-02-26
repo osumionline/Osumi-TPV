@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
@@ -16,7 +17,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   selector: "otpv-new-proveedor-modal",
   templateUrl: "./new-proveedor-modal.component.html",
   styleUrls: ["./new-proveedor-modal.component.scss"],
-  imports: [MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule],
 })
 export class NewProveedorModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;

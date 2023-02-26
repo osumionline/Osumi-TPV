@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { Router } from "@angular/router";
 import {
@@ -7,23 +8,19 @@ import {
   IvaReOptionInterface,
   MarginOptionInterface,
 } from "src/app/interfaces/interfaces";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ApiService } from "src/app/services/api.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
 import { environment } from "src/environments/environment";
-import { MaterialModule } from "src/app/modules/material/material.module";
-import { FormsModule } from "@angular/forms";
 
 @Component({
   standalone: true,
   selector: "otpv-installation",
   templateUrl: "./installation.component.html",
   styleUrls: ["./installation.component.scss"],
-  imports: [
-    MaterialModule,
-    FormsModule,
-  ],
+  imports: [MaterialModule, FormsModule],
 })
 export class InstallationComponent implements OnInit {
   back: boolean = false;

@@ -1,4 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
@@ -12,7 +13,7 @@ import { ImprentaTableComponent } from "../imprenta-table/imprenta-table.compone
   selector: "otpv-imprenta",
   templateUrl: "./imprenta.component.html",
   styleUrls: ["./imprenta.component.scss"],
-  imports: [MaterialModule, FormsModule, ImprentaTableComponent],
+  imports: [CommonModule, MaterialModule, FormsModule, ImprentaTableComponent],
 })
 export class ImprentaComponent {
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;

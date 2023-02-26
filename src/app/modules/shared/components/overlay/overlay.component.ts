@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit, Renderer2, Type } from "@angular/core";
 import { Modal } from "src/app/interfaces/modals.interface";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
@@ -8,7 +9,7 @@ import { MaterialModule } from "src/app/modules/material/material.module";
   selector: "app-overlay",
   templateUrl: "./overlay.component.html",
   styleUrls: ["./overlay.component.scss"],
-  imports: [MaterialModule]
+  imports: [CommonModule, MaterialModule],
 })
 export class OverlayComponent implements OnInit {
   content: Type<any> = this.customOverlayRef.content;
