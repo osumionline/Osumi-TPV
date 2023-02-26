@@ -20,7 +20,6 @@ import {
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { QRCodeModule } from "angularx-qrcode";
-import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import {
   ChartDataInterface,
   ChartSelectInterface,
@@ -46,6 +45,7 @@ import { MargenesModalComponent } from "src/app/modules/articulos/components/mod
 import { NewMarcaModalComponent } from "src/app/modules/articulos/components/modals/new-marca-modal/new-marca-modal.component";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
+import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";

@@ -1,13 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { EmpleadoLoginInterface } from "src/app/interfaces/empleado.interface";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-employee-login-modal",
   templateUrl: "./employee-login-modal.component.html",
   styleUrls: ["./employee-login-modal.component.scss"],
+  imports: [MaterialModule, FormsModule],
 })
 export class EmployeeLoginModalComponent implements OnInit {
   id: number = null;

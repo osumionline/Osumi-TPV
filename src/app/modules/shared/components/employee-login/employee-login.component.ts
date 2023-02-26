@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Output } from "@angular/core";
-import { EmployeeLoginModalComponent } from "src/app/components/modals/employee-login-modal/employee-login-modal.component";
 import { EmpleadoLoginModal } from "src/app/interfaces/modals.interface";
 import { Empleado } from "src/app/model/tpv/empleado.model";
+import { EmployeeLoginModalComponent } from "src/app/modules/shared/components/modals/employee-login-modal/employee-login-modal.component";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { MaterialModule } from "../../../material/material.module";

@@ -62,14 +62,8 @@ export const COMPONENTS: any[] = [
  * Modales
  */
 import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
-import { EmployeeLoginModalComponent } from "src/app/components/modals/employee-login-modal/employee-login-modal.component";
-import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 
-export const MODALS: any[] = [
-  NewProveedorModalComponent,
-  EmployeeLoginModalComponent,
-  EditFacturaModalComponent,
-];
+export const MODALS: any[] = [EditFacturaModalComponent];
 
 /*
  * Pipes

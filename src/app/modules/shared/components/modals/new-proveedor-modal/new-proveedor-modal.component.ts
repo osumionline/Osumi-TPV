@@ -1,18 +1,22 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-new-proveedor-modal",
   templateUrl: "./new-proveedor-modal.component.html",
   styleUrls: ["./new-proveedor-modal.component.scss"],
+  imports: [MaterialModule, FormsModule],
 })
 export class NewProveedorModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
