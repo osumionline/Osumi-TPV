@@ -2,13 +2,10 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
 import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.component";
-import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
-import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
@@ -52,8 +49,10 @@ const routes: Routes = [
   },
   {
     path: "caja",
-    component: CajaComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/caja/caja.module").then(
+        (m) => m.CajaModule
+      ),
   },
   {
     path: "gestion",
@@ -73,16 +72,6 @@ const routes: Routes = [
   {
     path: "gestion/backup",
     component: BackupComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "informes/detallado/:year/:month",
-    component: InformeDetalladoComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "informes/simple/:year/:month",
-    component: InformeSimpleComponent,
     canActivate: [isOpenedGuardFn],
   },
   { path: "**", redirectTo: "/", pathMatch: "full" },

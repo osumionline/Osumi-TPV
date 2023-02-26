@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, HostListener, Input, OnInit } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
-import { CajaModalComponent } from "src/app/components/modals/caja-modal/caja-modal.component";
+import { CajaModalComponent } from "src/app/modules/caja/components/modals/caja-modal/caja-modal.component";
 import { CajaModal } from "src/app/interfaces/modals.interface";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { ConfigService } from "src/app/services/config.service";

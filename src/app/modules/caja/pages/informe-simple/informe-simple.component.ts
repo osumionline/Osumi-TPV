@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -6,11 +7,15 @@ import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.mode
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { InformesService } from "src/app/services/informes.service";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { MaterialModule } from "src/app/modules/material/material.module";
 
 @Component({
+  standalone: true,
   selector: "otpv-informe-simple",
   templateUrl: "./informe-simple.component.html",
   styleUrls: ["./informe-simple.component.scss"],
+  imports: [CommonModule, MaterialModule, FixedNumberPipe],
 })
 export class InformeSimpleComponent implements OnInit {
   loaded: boolean = false;

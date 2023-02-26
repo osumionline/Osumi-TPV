@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { InformesService } from "src/app/services/informes.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-informe-detallado",
   templateUrl: "./informe-detallado.component.html",
   styleUrls: ["./informe-detallado.component.scss"],
