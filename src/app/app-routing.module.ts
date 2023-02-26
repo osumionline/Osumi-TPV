@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
@@ -11,7 +10,6 @@ import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.componen
 import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
 import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
-import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
 const routes: Routes = [
@@ -47,8 +45,10 @@ const routes: Routes = [
   },
   {
     path: "almacen",
-    component: AlmacenComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/almacen/almacen.module").then(
+        (m) => m.AlmacenModule
+      ),
   },
   {
     path: "caja",
@@ -73,11 +73,6 @@ const routes: Routes = [
   {
     path: "gestion/backup",
     component: BackupComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "inventario-print/:data",
-    component: InventarioPrintComponent,
     canActivate: [isOpenedGuardFn],
   },
   {

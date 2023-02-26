@@ -1,7 +1,6 @@
 /*
  * Páginas
  */
-import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
@@ -10,17 +9,14 @@ import { GestionComponent } from "src/app/pages/gestion/gestion/gestion.componen
 import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detallado/informe-detallado.component";
 import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
-import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
 export const PAGES: any[] = [
   MainComponent,
   InstallationComponent,
-  AlmacenComponent,
   GestionComponent,
   GestionEmpleadosComponent,
   GestionTiposPagoComponent,
-  InventarioPrintComponent,
   CajaComponent,
   InformeDetalladoComponent,
   InformeSimpleComponent,
@@ -30,10 +26,6 @@ export const PAGES: any[] = [
 /*
  * Componentes
  */
-import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-inventario/almacen-inventario.component";
-import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
-import { ImprentaTableComponent } from "src/app/components/almacen/imprenta-table/imprenta-table.component";
-import { ImprentaComponent } from "src/app/components/almacen/imprenta/imprenta.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
@@ -45,11 +37,7 @@ export const COMPONENTS: any[] = [
   AlertDialogComponent,
   FormDialogComponent,
   CajaModalComponent,
-  AlmacenInventarioComponent,
-  AlmacenListasComponent,
   OverlayComponent,
-  ImprentaComponent,
-  ImprentaTableComponent,
 ];
 
 /*

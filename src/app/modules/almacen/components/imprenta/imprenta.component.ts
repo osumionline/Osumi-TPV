@@ -1,13 +1,18 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, ViewChild } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { VentasService } from "src/app/services/ventas.service";
+import { ImprentaTableComponent } from "../imprenta-table/imprenta-table.component";
 
 @Component({
+  standalone: true,
   selector: "otpv-imprenta",
   templateUrl: "./imprenta.component.html",
   styleUrls: ["./imprenta.component.scss"],
+  imports: [MaterialModule, FormsModule, ImprentaTableComponent],
 })
 export class ImprentaComponent {
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;

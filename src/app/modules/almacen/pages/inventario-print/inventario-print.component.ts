@@ -3,13 +3,17 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import { BuscadorAlmacenInterface } from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-inventario-print",
   templateUrl: "./inventario-print.component.html",
   styleUrls: ["./inventario-print.component.scss"],
+  imports: [MaterialModule, FixedNumberPipe],
 })
 export class InventarioPrintComponent implements OnInit {
   buscador: BuscadorAlmacenInterface = null;

@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -5,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -14,6 +16,8 @@ import {
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -23,9 +27,11 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-almacen-inventario",
   templateUrl: "./almacen-inventario.component.html",
   styleUrls: ["./almacen-inventario.component.scss"],
+  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
 })
 export class AlmacenInventarioComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -227,7 +233,7 @@ export class AlmacenInventarioComponent
 
   printInventario(): void {
     const data: string = btoa(JSON.stringify(this.buscador));
-    window.open("inventario-print/" + data);
+    window.open("/almacen/inventario-print/" + data);
   }
 
   goToArticulo(ev: MouseEvent, item: InventarioItem): void {

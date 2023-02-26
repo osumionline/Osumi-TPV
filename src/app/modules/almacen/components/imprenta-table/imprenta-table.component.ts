@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
+  standalone: true,
   selector: "otpv-imprenta-table",
   templateUrl: "./imprenta-table.component.html",
   styleUrls: ["./imprenta-table.component.scss"],
