@@ -6,15 +6,6 @@ import { MainComponent } from "src/app/pages/main/main.component";
 export const PAGES: any[] = [MainComponent];
 
 /*
- * Componentes
- */
-import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
-
-export const COMPONENTS: any[] = [
-  OverlayComponent,
-];
-
-/*
  * Servicios
  */
 import { ApiService } from "src/app/services/api.service";
