@@ -1,15 +1,32 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatTabGroup } from "@angular/material/tabs";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marcas/marca.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { BrandListFilterPipe } from "src/app/modules/shared/pipes/brand-list-filter.pipe";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-marcas",
   templateUrl: "./marcas.component.html",
   styleUrls: ["./marcas.component.scss"],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrandListFilterPipe,
+  ],
 })
 export class MarcasComponent {
   search: string = "";

@@ -4,10 +4,6 @@
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
-import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
-import { MarcasComponent } from "src/app/pages/compras/marcas/marcas.component";
-import { PedidoComponent } from "src/app/pages/compras/pedido/pedido.component";
-import { ProveedoresComponent } from "src/app/pages/compras/proveedores/proveedores.component";
 import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
@@ -23,15 +19,11 @@ import { MainComponent } from "src/app/pages/main/main.component";
 export const PAGES: any[] = [
   MainComponent,
   InstallationComponent,
-  ComprasComponent,
-  PedidoComponent,
   ClientesComponent,
   AlmacenComponent,
   GestionComponent,
   FacturaComponent,
   GestionEmpleadosComponent,
-  MarcasComponent,
-  ProveedoresComponent,
   GestionTiposPagoComponent,
   LopdComponent,
   InventarioPrintComponent,
@@ -48,7 +40,6 @@ import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-i
 import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
 import { ImprentaTableComponent } from "src/app/components/almacen/imprenta-table/imprenta-table.component";
 import { ImprentaComponent } from "src/app/components/almacen/imprenta/imprenta.component";
-import { ComprasPedidosListComponent } from "src/app/components/compras/compras-pedidos-list/compras-pedidos-list.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
@@ -63,7 +54,6 @@ export const COMPONENTS: any[] = [
   AlmacenInventarioComponent,
   AlmacenListasComponent,
   OverlayComponent,
-  ComprasPedidosListComponent,
   ImprentaComponent,
   ImprentaTableComponent,
 ];
@@ -84,19 +74,13 @@ export const MODALS: any[] = [
 /*
  * Pipes
  */
-import { BrandListFilterPipe } from "src/app/pipes/brand-list-filter.pipe";
 import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
 import { PayTypeListFilterPipe } from "src/app/pipes/pay-type-list-filter.pipe";
-import { ProviderBrandListFilterPipe } from "src/app/pipes/provider-brand-list-filter.pipe";
-import { ProviderListFilterPipe } from "src/app/pipes/provider-list-filter.pipe";
 
 export const PIPES: any[] = [
   ClientListFilterPipe,
   EmployeeListFilterPipe,
-  BrandListFilterPipe,
-  ProviderListFilterPipe,
-  ProviderBrandListFilterPipe,
   PayTypeListFilterPipe,
 ];
 

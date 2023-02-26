@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -5,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource } from "@angular/material/table";
@@ -20,7 +22,10 @@ import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
 import { Pedido } from "src/app/model/compras/pedido.model";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
@@ -33,9 +38,17 @@ import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
 
 @Component({
+  standalone: true,
   selector: "otpv-pedido",
   templateUrl: "./pedido.component.html",
   styleUrls: ["./pedido.component.scss"],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule,
+    HeaderComponent,
+    FixedNumberPipe,
+  ],
 })
 export class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";

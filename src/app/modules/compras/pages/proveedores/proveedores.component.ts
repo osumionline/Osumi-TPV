@@ -1,5 +1,12 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 import {
@@ -8,14 +15,26 @@ import {
 } from "src/app/interfaces/proveedor.interface";
 import { Comercial } from "src/app/model/proveedores/comercial.model";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { ProviderBrandListFilterPipe } from "src/app/modules/shared/pipes/provider-brand-list-filter.pipe";
+import { ProviderListFilterPipe } from "src/app/modules/shared/pipes/provider-list-filter.pipe";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-proveedores",
   templateUrl: "./proveedores.component.html",
   styleUrls: ["./proveedores.component.scss"],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ProviderBrandListFilterPipe,
+    ProviderListFilterPipe,
+  ],
 })
 export class ProveedoresComponent implements OnInit {
   search: string = "";

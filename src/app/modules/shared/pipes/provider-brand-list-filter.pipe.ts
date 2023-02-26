@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 
 @Pipe({
+  standalone: true,
   name: "providerBrandListFilter",
 })
 export class ProviderBrandListFilterPipe implements PipeTransform {

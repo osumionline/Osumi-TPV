@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { Marca } from "src/app/model/marcas/marca.model";
 
 @Pipe({
+  standalone: true,
   name: "brandListFilter",
 })
 export class BrandListFilterPipe implements PipeTransform {

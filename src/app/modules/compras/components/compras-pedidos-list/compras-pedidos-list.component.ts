@@ -1,4 +1,6 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -7,6 +9,8 @@ import {
   PedidosFilterInterface,
 } from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/compras/pedido.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -14,10 +18,12 @@ import { CustomPaginatorIntl } from "src/app/shared/custom-paginator-intl.class"
 import { Utils } from "src/app/shared/utils.class";
 
 @Component({
+  standalone: true,
   selector: "otpv-compras-pedidos-list",
   templateUrl: "./compras-pedidos-list.component.html",
   styleUrls: ["./compras-pedidos-list.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
+  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
 })
 export class ComprasPedidosListComponent {
   numPorPag: number = 10;
