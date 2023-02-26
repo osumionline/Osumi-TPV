@@ -26,6 +26,7 @@ import { HeaderComponent } from "src/app/modules/shared/components/header/header
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
@@ -34,7 +35,6 @@ import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
 
 @Component({

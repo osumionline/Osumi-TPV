@@ -1,11 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { MainComponent } from "src/app/pages/main/main.component";
-
 const routes: Routes = [
-  { path: "", component: MainComponent },
+  {
+    path: "",
+    loadChildren: () =>
+      import("src/app/modules/main/main.module").then((m) => m.MainModule),
+  },
   {
     path: "ventas",
     loadChildren: () =>
@@ -44,9 +45,7 @@ const routes: Routes = [
   {
     path: "caja",
     loadChildren: () =>
-      import("src/app/modules/caja/caja.module").then(
-        (m) => m.CajaModule
-      ),
+      import("src/app/modules/caja/caja.module").then((m) => m.CajaModule),
   },
   {
     path: "gestion",

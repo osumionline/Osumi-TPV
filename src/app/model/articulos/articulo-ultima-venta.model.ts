@@ -1,5 +1,5 @@
 import { ArticuloUltimaVentaInterface } from "src/app/interfaces/venta.interface";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class ArticuloUltimaVenta {
   constructor(

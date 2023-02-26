@@ -18,13 +18,13 @@ import {
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

@@ -5,9 +5,9 @@ import { Empleado } from "src/app/model/tpv/empleado.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { rolList } from "src/app/modules/shared/rol.class";
 import { DialogService } from "src/app/services/dialog.service";
 import { GestionService } from "src/app/services/gestion.service";
-import { rolList } from "src/app/shared/rol.class";
 
 @Component({
   standalone: true,

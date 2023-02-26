@@ -28,6 +28,7 @@ import { MaterialModule } from "src/app/modules/material/material.module";
 import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { rolList } from "src/app/modules/shared/rol.class";
 import { DevolucionModalComponent } from "src/app/modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
 import { VentaAccesosDirectosModalComponent } from "src/app/modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
@@ -39,7 +40,6 @@ import { EmpleadosService } from "src/app/services/empleados.service";
 import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { rolList } from "src/app/shared/rol.class";
 
 @Component({
   standalone: true,

@@ -10,12 +10,12 @@ import {
 } from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/compras/pedido.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
+import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
-import { CustomPaginatorIntl } from "src/app/shared/custom-paginator-intl.class";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

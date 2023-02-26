@@ -3,7 +3,7 @@ import {
   VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class VentaFin {
   pagoMixto: boolean = false;

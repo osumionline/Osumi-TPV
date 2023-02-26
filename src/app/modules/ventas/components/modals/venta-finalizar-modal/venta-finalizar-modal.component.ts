@@ -16,10 +16,10 @@ import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

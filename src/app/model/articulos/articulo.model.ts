@@ -9,7 +9,7 @@ import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
 import { EtiquetaWeb } from "src/app/model/articulos/etiqueta-web.model";
 import { Etiqueta } from "src/app/model/articulos/etiqueta.model";
 import { Foto } from "src/app/model/articulos/foto.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Articulo {
   tabName: string = "";

@@ -1,11 +1,4 @@
 /*
- * Páginas
- */
-import { MainComponent } from "src/app/pages/main/main.component";
-
-export const PAGES: any[] = [MainComponent];
-
-/*
  * Servicios
  */
 import { ApiService } from "src/app/services/api.service";

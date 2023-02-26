@@ -2,7 +2,7 @@ import { ClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ArticuloTopVenta } from "src/app/model/articulos/articulo-top-venta.model";
 import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-venta.model";
 import { Factura } from "src/app/model/clientes/factura.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Cliente {
   ultimasVentas: ArticuloUltimaVenta[] = [];

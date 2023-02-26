@@ -3,7 +3,7 @@ import {
   VentaLineaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class VentaHistorico {
   _totalUnidades: number = null;

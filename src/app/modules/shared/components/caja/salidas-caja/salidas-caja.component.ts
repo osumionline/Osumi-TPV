@@ -18,10 +18,10 @@ import { DateValues } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

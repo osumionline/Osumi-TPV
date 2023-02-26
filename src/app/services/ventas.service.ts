@@ -14,10 +14,10 @@ import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaFin } from "src/app/model/ventas/venta-fin.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { Venta } from "src/app/model/ventas/venta.model";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
-import { Utils } from "src/app/shared/utils.class";
 import { environment } from "src/environments/environment";
 
 @Injectable({

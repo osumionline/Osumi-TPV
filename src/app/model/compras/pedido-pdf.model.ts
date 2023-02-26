@@ -1,5 +1,5 @@
 import { PedidoPDFInterface } from "src/app/interfaces/pedido.interface";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class PedidoPDF {
   constructor(

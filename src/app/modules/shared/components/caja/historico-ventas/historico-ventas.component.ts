@@ -19,12 +19,12 @@ import { Cliente } from "src/app/model/clientes/cliente.model";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

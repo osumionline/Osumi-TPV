@@ -3,8 +3,8 @@ import {
   EmpleadoLoginInterface,
 } from "src/app/interfaces/empleado.interface";
 import { ColorValues } from "src/app/interfaces/interfaces";
-import { rolList } from "src/app/shared/rol.class";
-import { Utils } from "src/app/shared/utils.class";
+import { rolList } from "src/app/modules/shared/rol.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Empleado {
   pass: string = null;

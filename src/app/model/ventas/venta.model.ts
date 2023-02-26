@@ -5,7 +5,7 @@ import {
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { rolList } from "src/app/shared/rol.class";
+import { rolList } from "src/app/modules/shared/rol.class";
 
 export class Venta {
   tabName: string = "";

@@ -1,12 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { ApiService } from "src/app/services/api.service";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-main",
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.scss"],
+  imports: [MaterialModule, HeaderComponent],
 })
 export class MainComponent implements OnInit {
   title: string = "";

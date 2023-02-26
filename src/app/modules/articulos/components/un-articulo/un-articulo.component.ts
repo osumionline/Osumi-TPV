@@ -47,6 +47,7 @@ import { MaterialModule } from "src/app/modules/material/material.module";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
@@ -57,7 +58,6 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
-import { Utils } from "src/app/shared/utils.class";
 
 @Component({
   standalone: true,

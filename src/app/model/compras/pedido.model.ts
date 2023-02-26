@@ -9,7 +9,7 @@ import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
 import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];

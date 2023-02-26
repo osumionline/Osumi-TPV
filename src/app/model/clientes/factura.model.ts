@@ -4,7 +4,7 @@ import {
   FacturaSaveInterface,
 } from "src/app/interfaces/cliente.interface";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Factura {
   constructor(

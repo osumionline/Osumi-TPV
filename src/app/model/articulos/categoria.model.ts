@@ -1,5 +1,5 @@
 import { CategoriaInterface } from "src/app/interfaces/articulo.interface";
-import { Utils } from "src/app/shared/utils.class";
+import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Categoria {
   constructor(
