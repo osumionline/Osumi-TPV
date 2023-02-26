@@ -8,15 +8,9 @@ export const PAGES: any[] = [MainComponent];
 /*
  * Componentes
  */
-import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
-import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
-import { FormDialogComponent } from "src/app/components/dialogs/form-dialog/form-dialog.component";
 import { OverlayComponent } from "src/app/shared/overlay/overlay.component";
 
 export const COMPONENTS: any[] = [
-  ConfirmDialogComponent,
-  AlertDialogComponent,
-  FormDialogComponent,
   OverlayComponent,
 ];
 

@@ -2,7 +2,7 @@
 <div mat-dialog-content>
 	<p>{{ content }}</p>
 </div>
-<div mat-dialog-actions class="action-buttons">
+<div mat-dialog-actions align="end">
 	<button type="button" mat-button (click)="dialogRef.close()">{{ cancel }}</button>
 	<button type="button" mat-raised-button color="primary" (click)="dialogRef.close(true)" cdkFocusInitial>{{ ok }}</button>
 </div>
