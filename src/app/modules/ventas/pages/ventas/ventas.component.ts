@@ -12,7 +12,7 @@ import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { Modal } from "src/app/interfaces/modals.interface";
 import { Reserva } from "src/app/model/ventas/reserva.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { HeaderComponent } from "src/app/modules/standalone/components/header/header.component";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { VentaFinalizarModalComponent } from "src/app/modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
 import { UnaVentaComponent } from "src/app/modules/ventas/components/una-venta/una-venta.component";
 import { VentasTabsComponent } from "src/app/modules/ventas/components/ventas-tabs/ventas-tabs.component";

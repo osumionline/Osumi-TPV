@@ -11,7 +11,6 @@ import { FormsModule } from "@angular/forms";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import {
   BuscadorModal,
@@ -26,8 +25,9 @@ import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.mo
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
-import { EmployeeLoginComponent } from "src/app/modules/standalone/components/employee-login/employee-login.component";
-import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
+import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
+import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { DevolucionModalComponent } from "src/app/modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
 import { VentaAccesosDirectosModalComponent } from "src/app/modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
 import { VentaDescuentoModalComponent } from "src/app/modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";

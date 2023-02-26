@@ -3,7 +3,6 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
-import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
@@ -32,13 +31,10 @@ const routes: Routes = [
   },
   {
     path: "articulos",
-    component: ArticulosComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "articulos/:localizador",
-    component: ArticulosComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/articulos/articulos.module").then(
+        (m) => m.ArticulosModule
+      ),
   },
   {
     path: "compras",

@@ -2,7 +2,6 @@
  * Páginas
  */
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
-import { ArticulosComponent } from "src/app/pages/articulos/articulos.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
 import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
 import { ComprasComponent } from "src/app/pages/compras/compras/compras.component";
@@ -24,7 +23,6 @@ import { MainComponent } from "src/app/pages/main/main.component";
 export const PAGES: any[] = [
   MainComponent,
   InstallationComponent,
-  ArticulosComponent,
   ComprasComponent,
   PedidoComponent,
   ClientesComponent,
@@ -50,8 +48,6 @@ import { AlmacenInventarioComponent } from "src/app/components/almacen/almacen-i
 import { AlmacenListasComponent } from "src/app/components/almacen/almacen-listas/almacen-listas.component";
 import { ImprentaTableComponent } from "src/app/components/almacen/imprenta-table/imprenta-table.component";
 import { ImprentaComponent } from "src/app/components/almacen/imprenta/imprenta.component";
-import { ArticulosTabsComponent } from "src/app/components/articulos/articulos-tabs/articulos-tabs.component";
-import { UnArticuloComponent } from "src/app/components/articulos/un-articulo/un-articulo.component";
 import { ComprasPedidosListComponent } from "src/app/components/compras/compras-pedidos-list/compras-pedidos-list.component";
 import { AlertDialogComponent } from "src/app/components/dialogs/alert-dialog/alert-dialog.component";
 import { ConfirmDialogComponent } from "src/app/components/dialogs/confirm-dialog/confirm-dialog.component";
@@ -68,8 +64,6 @@ export const COMPONENTS: any[] = [
   AlmacenListasComponent,
   OverlayComponent,
   ComprasPedidosListComponent,
-  UnArticuloComponent,
-  ArticulosTabsComponent,
   ImprentaComponent,
   ImprentaTableComponent,
 ];
@@ -77,22 +71,12 @@ export const COMPONENTS: any[] = [
 /*
  * Modales
  */
-import { AccesosDirectosModalComponent } from "src/app/components/modals/accesos-directos-modal/accesos-directos-modal.component";
-import { ArticuloDarDeBajaModalComponent } from "src/app/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
-import { BuscadorModalComponent } from "src/app/components/modals/buscador-modal/buscador-modal.component";
 import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
 import { EmployeeLoginModalComponent } from "src/app/components/modals/employee-login-modal/employee-login-modal.component";
-import { MargenesModalComponent } from "src/app/components/modals/margenes-modal/margenes-modal.component";
-import { NewMarcaModalComponent } from "src/app/components/modals/new-marca-modal/new-marca-modal.component";
 import { NewProveedorModalComponent } from "src/app/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 
 export const MODALS: any[] = [
-  AccesosDirectosModalComponent,
-  MargenesModalComponent,
-  BuscadorModalComponent,
-  NewMarcaModalComponent,
   NewProveedorModalComponent,
-  ArticuloDarDeBajaModalComponent,
   EmployeeLoginModalComponent,
   EditFacturaModalComponent,
 ];

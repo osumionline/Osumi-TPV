@@ -22,15 +22,15 @@ import { COMPONENTS, MODALS, PAGES, PIPES, SERVICES } from "./app.common";
 
 import { VentasModule } from "./modules/ventas/ventas.module";
 
-import { EmployeeLoginComponent } from "src/app/modules/standalone/components/employee-login/employee-login.component";
-import { HeaderComponent } from "src/app/modules/standalone/components/header/header.component";
+import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 
-import { CajaContentComponent } from "src/app/modules/standalone/components/caja/caja-content/caja-content.component";
-import { CierreCajaComponent } from "src/app/modules/standalone/components/caja/cierre-caja/cierre-caja.component";
-import { HistoricoVentasComponent } from "src/app/modules/standalone/components/caja/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "src/app/modules/standalone/components/caja/salidas-caja/salidas-caja.component";
+import { CajaContentComponent } from "src/app/modules/shared/components/caja/caja-content/caja-content.component";
+import { CierreCajaComponent } from "src/app/modules/shared/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "src/app/modules/shared/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "src/app/modules/shared/components/caja/salidas-caja/salidas-caja.component";
 
-import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 
 export function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();

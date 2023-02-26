@@ -9,7 +9,7 @@ import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
-import { FixedNumberPipe } from "src/app/modules/standalone/pipes/fixed-number.pipe";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
