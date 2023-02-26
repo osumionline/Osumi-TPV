@@ -279,10 +279,10 @@ export class HistoricoVentasComponent implements AfterViewInit {
       .saveFacturaFromVenta(this.historicoVentasSelected.id)
       .subscribe((result) => {
         if (result.status === "ok" || result.status === "error-factura") {
-          window.open("/factura/" + result.id + "/preview");
+          window.open("/clientes/factura/" + result.id + "/preview");
         }
         if (result.status === "error-facturada") {
-          window.open("/factura/" + result.id);
+          window.open("/clientes/factura/" + result.id);
         }
       });
   }

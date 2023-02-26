@@ -179,7 +179,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
         this.cs.resetClientes();
         this.nuevoCliente.id = result.id;
         this.selectCliente(this.nuevoCliente);
-        window.open("/lopd/" + result.id);
+        window.open("/clientes/lopd/" + result.id);
       } else {
         this.dialog.alert({
           title: "Error",

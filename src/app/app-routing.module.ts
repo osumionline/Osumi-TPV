@@ -4,8 +4,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
-import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
-import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
@@ -14,7 +12,6 @@ import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detall
 import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
-import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
 const routes: Routes = [
@@ -43,18 +40,10 @@ const routes: Routes = [
   },
   {
     path: "clientes",
-    component: ClientesComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "clientes/:new",
-    component: ClientesComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "lopd/:id",
-    component: LopdComponent,
-    canActivate: [isOpenedGuardFn],
+    loadChildren: () =>
+      import("src/app/modules/clientes/clientes.module").then(
+        (m) => m.ClientesModule
+      ),
   },
   {
     path: "almacen",
@@ -84,18 +73,6 @@ const routes: Routes = [
   {
     path: "gestion/backup",
     component: BackupComponent,
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "factura/:id",
-    component: FacturaComponent,
-    data: { type: "print" },
-    canActivate: [isOpenedGuardFn],
-  },
-  {
-    path: "factura/:id/preview",
-    component: FacturaComponent,
-    data: { type: "preview" },
     canActivate: [isOpenedGuardFn],
   },
   {

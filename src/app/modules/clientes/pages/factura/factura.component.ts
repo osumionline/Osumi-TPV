@@ -1,8 +1,11 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Data, Params } from "@angular/router";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
 import { FacturaItem } from "src/app/model/clientes/factura-item.model";
 import { Factura } from "src/app/model/clientes/factura.model";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -10,9 +13,11 @@ import { DialogService } from "src/app/services/dialog.service";
 import { environment } from "src/environments/environment";
 
 @Component({
+  standalone: true,
   selector: "otpv-factura",
   templateUrl: "./factura.component.html",
   styleUrls: ["./factura.component.scss"],
+  imports: [CommonModule, MaterialModule, FixedNumberPipe],
 })
 export class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");

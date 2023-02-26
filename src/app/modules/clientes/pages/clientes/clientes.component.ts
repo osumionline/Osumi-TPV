@@ -1,24 +1,45 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
-import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { FacturaModal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Factura } from "src/app/model/clientes/factura.model";
+import { EditFacturaModalComponent } from "src/app/modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component";
+import { MaterialModule } from "src/app/modules/material/material.module";
+import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { ClientListFilterPipe } from "src/app/modules/shared/pipes/client-list-filter.pipe";
+import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
-import { OverlayService } from "./../../services/overlay.service";
+import { OverlayService } from "src/app/services/overlay.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-clientes",
   templateUrl: "./clientes.component.html",
   styleUrls: ["./clientes.component.scss"],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FixedNumberPipe,
+    ClientListFilterPipe,
+    HeaderComponent,
+  ],
 })
 export class ClientesComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
@@ -233,7 +254,7 @@ export class ClientesComponent implements OnInit {
   }
 
   imprimirLOPD(): void {
-    window.open("/lopd/" + this.selectedClient.id);
+    window.open("/clientes/lopd/" + this.selectedClient.id);
   }
 
   nuevaFactura(): void {
@@ -370,6 +391,6 @@ export class ClientesComponent implements OnInit {
 
   imprimirFactura(ev: MouseEvent, factura: Factura): void {
     ev && ev.stopPropagation();
-    window.open("/factura/" + factura.id);
+    window.open("/clientes/factura/" + factura.id);
   }
 }

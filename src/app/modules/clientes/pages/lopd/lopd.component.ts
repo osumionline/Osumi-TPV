@@ -6,6 +6,7 @@ import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
+  standalone: true,
   selector: "otpv-lopd",
   templateUrl: "./lopd.component.html",
   styleUrls: ["./lopd.component.scss"],

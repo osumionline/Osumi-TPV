@@ -3,8 +3,6 @@
  */
 import { AlmacenComponent } from "src/app/pages/almacen/almacen.component";
 import { CajaComponent } from "src/app/pages/caja/caja.component";
-import { ClientesComponent } from "src/app/pages/clientes/clientes.component";
-import { FacturaComponent } from "src/app/pages/factura/factura.component";
 import { BackupComponent } from "src/app/pages/gestion/backup/backup.component";
 import { GestionEmpleadosComponent } from "src/app/pages/gestion/gestion-empleados/gestion-empleados.component";
 import { GestionTiposPagoComponent } from "src/app/pages/gestion/gestion-tipos-pago/gestion-tipos-pago.component";
@@ -13,19 +11,15 @@ import { InformeDetalladoComponent } from "src/app/pages/informes/informe-detall
 import { InformeSimpleComponent } from "src/app/pages/informes/informe-simple/informe-simple.component";
 import { InstallationComponent } from "src/app/pages/installation/installation.component";
 import { InventarioPrintComponent } from "src/app/pages/inventario-print/inventario-print.component";
-import { LopdComponent } from "src/app/pages/lopd/lopd.component";
 import { MainComponent } from "src/app/pages/main/main.component";
 
 export const PAGES: any[] = [
   MainComponent,
   InstallationComponent,
-  ClientesComponent,
   AlmacenComponent,
   GestionComponent,
-  FacturaComponent,
   GestionEmpleadosComponent,
   GestionTiposPagoComponent,
-  LopdComponent,
   InventarioPrintComponent,
   CajaComponent,
   InformeDetalladoComponent,
@@ -59,24 +53,12 @@ export const COMPONENTS: any[] = [
 ];
 
 /*
- * Modales
- */
-import { EditFacturaModalComponent } from "src/app/components/modals/edit-factura-modal/edit-factura-modal.component";
-
-export const MODALS: any[] = [EditFacturaModalComponent];
-
-/*
  * Pipes
  */
-import { ClientListFilterPipe } from "src/app/pipes/client-list-filter.pipe";
 import { EmployeeListFilterPipe } from "src/app/pipes/employee-list-filter.pipe";
 import { PayTypeListFilterPipe } from "src/app/pipes/pay-type-list-filter.pipe";
 
-export const PIPES: any[] = [
-  ClientListFilterPipe,
-  EmployeeListFilterPipe,
-  PayTypeListFilterPipe,
-];
+export const PIPES: any[] = [EmployeeListFilterPipe, PayTypeListFilterPipe];
 
 /*
  * Servicios
