@@ -8,7 +8,6 @@ import { MaterialModule } from "src/app/modules/material/material.module";
   standalone: true,
   selector: "otpv-form-dialog",
   templateUrl: "./form-dialog.component.html",
-  styleUrls: [],
   imports: [MaterialModule, FormsModule],
 })
 export class FormDialogComponent {

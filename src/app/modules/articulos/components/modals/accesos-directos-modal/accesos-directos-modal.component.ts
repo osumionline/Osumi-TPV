@@ -53,7 +53,7 @@ export class AccesosDirectosModalComponent implements OnInit {
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
-    this.customOverlayRef.close(row.id);
+    this.customOverlayRef.close(row.accesoDirecto);
   }
 
   borrarAccesoDirecto(ev: MouseEvent, id: number): void {
