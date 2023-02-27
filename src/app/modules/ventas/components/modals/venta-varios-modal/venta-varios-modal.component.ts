@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -15,7 +16,7 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-venta-varios-modal",
   templateUrl: "./venta-varios-modal.component.html",
   styleUrls: ["./venta-varios-modal.component.scss"],
-  imports: [MaterialModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
 })
 export class VentaVariosModalComponent implements OnInit {
   ivaList: number[] = [];

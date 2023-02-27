@@ -1,7 +1,8 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import {
   AppDataInterface,
   IvaOptionInterface,
@@ -20,7 +21,7 @@ import { environment } from "src/environments/environment";
   selector: "otpv-installation",
   templateUrl: "./installation.component.html",
   styleUrls: ["./installation.component.scss"],
-  imports: [MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule, RouterModule],
 })
 export class InstallationComponent implements OnInit {
   back: boolean = false;

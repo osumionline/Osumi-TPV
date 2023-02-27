@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -23,7 +24,7 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-elegir-cliente-modal",
   templateUrl: "./elegir-cliente-modal.component.html",
   styleUrls: ["./elegir-cliente-modal.component.scss"],
-  imports: [MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule],
 })
 export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
   selectClienteFrom: string = null;

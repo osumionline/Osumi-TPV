@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Backup } from "src/app/model/tpv/backup.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
@@ -12,7 +13,7 @@ import { GestionService } from "src/app/services/gestion.service";
   selector: "otpv-backup",
   templateUrl: "./backup.component.html",
   styleUrls: ["./backup.component.scss"],
-  imports: [MaterialModule, HeaderComponent],
+  imports: [CommonModule, MaterialModule, HeaderComponent],
 })
 export class BackupComponent implements OnInit {
   backups: Backup[] = [];

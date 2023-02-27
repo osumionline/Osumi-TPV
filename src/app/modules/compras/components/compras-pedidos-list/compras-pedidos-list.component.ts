@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import {
   PedidosAllResult,
   PedidosFilterInterface,
@@ -23,7 +23,13 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   templateUrl: "./compras-pedidos-list.component.html",
   styleUrls: ["./compras-pedidos-list.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
-  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    RouterModule,
+    FixedNumberPipe,
+  ],
 })
 export class ComprasPedidosListComponent {
   numPorPag: number = 10;
