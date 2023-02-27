@@ -1,8 +1,7 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Route } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
 
-const routes: Routes = [
+export const CLIENTES_ROUTES: Route[] = [
   {
     path: "",
     loadComponent: () =>
@@ -44,9 +43,3 @@ const routes: Routes = [
     canActivate: [isOpenedGuardFn],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class ClientesRoutingModule {}

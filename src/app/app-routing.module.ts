@@ -1,57 +1,61 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Route, RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("src/app/modules/main/main.module").then((m) => m.MainModule),
+      import("src/app/modules/main/main-routes").then(
+        (m): Route[] => m.MAIN_ROUTES
+      ),
   },
   {
     path: "ventas",
     loadChildren: () =>
-      import("src/app/modules/ventas/ventas.module").then(
-        (m) => m.VentasModule
+      import("src/app/modules/ventas/ventas-routes").then(
+        (m): Route[] => m.VENTAS_ROUTES
       ),
   },
   {
     path: "articulos",
     loadChildren: () =>
-      import("src/app/modules/articulos/articulos.module").then(
-        (m) => m.ArticulosModule
+      import("src/app/modules/articulos/articulos-routes").then(
+        (m): Route[] => m.ARTICULOS_ROUTES
       ),
   },
   {
     path: "compras",
     loadChildren: () =>
-      import("src/app/modules/compras/compras.module").then(
-        (m) => m.ComprasModule
+      import("src/app/modules/compras/compras-routes").then(
+        (m): Route[] => m.COMPRAS_ROUTES
       ),
   },
   {
     path: "clientes",
     loadChildren: () =>
-      import("src/app/modules/clientes/clientes.module").then(
-        (m) => m.ClientesModule
+      import("src/app/modules/clientes/clientes-routes").then(
+        (m): Route[] => m.CLIENTES_ROUTES
       ),
   },
   {
     path: "almacen",
     loadChildren: () =>
-      import("src/app/modules/almacen/almacen.module").then(
-        (m) => m.AlmacenModule
+      import("src/app/modules/almacen/almacen-routes").then(
+        (m): Route[] => m.ALMACEN_ROUTES
       ),
   },
   {
     path: "caja",
     loadChildren: () =>
-      import("src/app/modules/caja/caja.module").then((m) => m.CajaModule),
+      import("src/app/modules/caja/caja-routes").then(
+        (m): Route[] => m.CAJA_ROUTES
+      ),
   },
   {
     path: "gestion",
     loadChildren: () =>
-      import("src/app/modules/gestion/gestion.module").then(
-        (m) => m.GestionModule
+      import("src/app/modules/gestion/gestion-routes").then(
+        (m): Route[] => m.GESTION_ROUTES
       ),
   },
   { path: "**", redirectTo: "/", pathMatch: "full" },
