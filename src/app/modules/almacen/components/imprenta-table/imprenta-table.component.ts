@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 
 @Component({
@@ -5,6 +6,7 @@ import { Component, Input } from "@angular/core";
   selector: "otpv-imprenta-table",
   templateUrl: "./imprenta-table.component.html",
   styleUrls: ["./imprenta-table.component.scss"],
+  imports: [CommonModule],
 })
 export class ImprentaTableComponent {
   @Input() filas: number = 4;

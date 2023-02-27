@@ -1,17 +1,22 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { ArticulosComponent } from "src/app/modules/articulos/pages/articulos/articulos.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: ArticulosComponent,
+    loadComponent: () =>
+      import("./pages/articulos/articulos.component").then(
+        (m) => m.ArticulosComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: ":localizador",
-    component: ArticulosComponent,
+    loadComponent: () =>
+      import("./pages/articulos/articulos.component").then(
+        (m) => m.ArticulosComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
 ];

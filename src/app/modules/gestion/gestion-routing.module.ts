@@ -1,32 +1,43 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { BackupComponent } from "src/app/modules/gestion/pages/backup/backup.component";
-import { GestionEmpleadosComponent } from "src/app/modules/gestion/pages/gestion-empleados/gestion-empleados.component";
-import { GestionTiposPagoComponent } from "src/app/modules/gestion/pages/gestion-tipos-pago/gestion-tipos-pago.component";
-import { GestionComponent } from "src/app/modules/gestion/pages/gestion/gestion.component";
-import { InstallationComponent } from "src/app/modules/gestion/pages/installation/installation.component";
 
 const routes: Routes = [
-  { path: "installation", component: InstallationComponent },
+  {
+    path: "installation",
+    loadComponent: () =>
+      import("./pages/installation/installation.component").then(
+        (m) => m.InstallationComponent
+      ),
+  },
   {
     path: "",
-    component: GestionComponent,
+    loadComponent: () =>
+      import("./pages/gestion/gestion.component").then(
+        (m) => m.GestionComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "empleados",
-    component: GestionEmpleadosComponent,
+    loadComponent: () =>
+      import("./pages/gestion-empleados/gestion-empleados.component").then(
+        (m) => m.GestionEmpleadosComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "tipos-pago",
-    component: GestionTiposPagoComponent,
+    loadComponent: () =>
+      import("./pages/gestion-tipos-pago/gestion-tipos-pago.component").then(
+        (m) => m.GestionTiposPagoComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "backup",
-    component: BackupComponent,
+    loadComponent: () =>
+      import("./pages/backup/backup.component").then((m) => m.BackupComponent),
     canActivate: [isOpenedGuardFn],
   },
 ];

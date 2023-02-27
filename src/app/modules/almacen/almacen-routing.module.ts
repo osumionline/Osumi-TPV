@@ -1,18 +1,22 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { AlmacenComponent } from "src/app/modules/almacen/pages/almacen/almacen.component";
-import { InventarioPrintComponent } from "src/app/modules/almacen/pages/inventario-print/inventario-print.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: AlmacenComponent,
+    loadComponent: () =>
+      import("./pages/almacen/almacen.component").then(
+        (m) => m.AlmacenComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "inventario-print/:data",
-    component: InventarioPrintComponent,
+    loadComponent: () =>
+      import("./pages/inventario-print/inventario-print.component").then(
+        (m) => m.InventarioPrintComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
 ];

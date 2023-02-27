@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { MaterialModule } from "src/app/modules/material/material.module";
@@ -10,7 +11,7 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-main",
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.scss"],
-  imports: [MaterialModule, HeaderComponent],
+  imports: [CommonModule, MaterialModule, HeaderComponent],
 })
 export class MainComponent implements OnInit {
   title: string = "";

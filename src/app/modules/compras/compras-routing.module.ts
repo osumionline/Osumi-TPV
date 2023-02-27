@@ -1,23 +1,26 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { ComprasComponent } from "src/app/modules/compras/pages/compras/compras.component";
-import { PedidoComponent } from "src/app/modules/compras/pages/pedido/pedido.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: ComprasComponent,
+    loadComponent: () =>
+      import("./pages/compras/compras.component").then(
+        (m) => m.ComprasComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "pedido",
-    component: PedidoComponent,
+    loadComponent: () =>
+      import("./pages/pedido/pedido.component").then((m) => m.PedidoComponent),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "pedido/:id",
-    component: PedidoComponent,
+    loadComponent: () =>
+      import("./pages/pedido/pedido.component").then((m) => m.PedidoComponent),
     canActivate: [isOpenedGuardFn],
   },
 ];

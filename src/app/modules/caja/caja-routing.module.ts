@@ -1,24 +1,28 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
-import { CajaComponent } from "src/app/modules/caja/pages/caja/caja.component";
-import { InformeDetalladoComponent } from "src/app/modules/caja/pages/informe-detallado/informe-detallado.component";
-import { InformeSimpleComponent } from "src/app/modules/caja/pages/informe-simple/informe-simple.component";
 
 const routes: Routes = [
   {
     path: "",
-    component: CajaComponent,
+    loadComponent: () =>
+      import("./pages/caja/caja.component").then((m) => m.CajaComponent),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "informes/detallado/:year/:month",
-    component: InformeDetalladoComponent,
+    loadComponent: () =>
+      import("./pages/informe-detallado/informe-detallado.component").then(
+        (m) => m.InformeDetalladoComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "informes/simple/:year/:month",
-    component: InformeSimpleComponent,
+    loadComponent: () =>
+      import("./pages/informe-simple/informe-simple.component").then(
+        (m) => m.InformeSimpleComponent
+      ),
     canActivate: [isOpenedGuardFn],
   },
 ];
