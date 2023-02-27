@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Cliente } from "src/app/model/clientes/cliente.model";
@@ -10,6 +11,7 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-lopd",
   templateUrl: "./lopd.component.html",
   styleUrls: ["./lopd.component.scss"],
+  imports: [CommonModule],
 })
 export class LopdComponent implements OnInit {
   nombre: string = "";
