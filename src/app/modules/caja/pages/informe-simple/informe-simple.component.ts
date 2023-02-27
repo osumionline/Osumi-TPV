@@ -6,6 +6,7 @@ import { Month } from "src/app/interfaces/interfaces";
 import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { InformesService } from "src/app/services/informes.service";
@@ -34,6 +35,7 @@ export class InformeSimpleComponent implements OnInit {
   informeDisplayedColumns: string[] = ["fecha", "tickets", "efectivo"];
   informeDataSource: MatTableDataSource<InformeMensualItem> =
     new MatTableDataSource<InformeMensualItem>();
+  otrosNames = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -60,6 +62,7 @@ export class InformeSimpleComponent implements OnInit {
         this.checkOtros();
         for (let otro of this.otrosList) {
           this.informeDisplayedColumns.push(otro);
+          this.otrosNames[otro] = Utils.urldecode(otro);
         }
         this.informeDisplayedColumns.push("totalDia");
         this.informeDisplayedColumns.push("suma");

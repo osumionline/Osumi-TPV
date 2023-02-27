@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
@@ -8,7 +9,7 @@ import { MaterialModule } from "src/app/modules/material/material.module";
   standalone: true,
   selector: "otpv-form-dialog",
   templateUrl: "./form-dialog.component.html",
-  imports: [MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule],
 })
 export class FormDialogComponent {
   public title: string;

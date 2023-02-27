@@ -34,7 +34,7 @@
 
     <!-- Efectivo -->
     <ng-container matColumnDef="efectivo">
-        <th class="center"
+        <th class="right"
             mat-header-cell
             *matHeaderCellDef>
             Efectivo
@@ -53,10 +53,10 @@
     <!-- Otros tipos de pago -->
     <ng-container *ngFor="let otro of otrosList"
                   [matColumnDef]="otro">
-        <th class="center"
+        <th class="right"
             mat-header-cell
             *matHeaderCellDef>
-            {{otro}}
+            {{otrosNames[otro]}}
         </th>
         <td class="right"
             mat-cell
@@ -68,7 +68,7 @@
 
     <!-- Total -->
     <ng-container matColumnDef="totalDia">
-        <th class="center"
+        <th class="right"
             mat-header-cell
             *matHeaderCellDef>
             Total
@@ -86,7 +86,7 @@
 
     <!-- Suma -->
     <ng-container matColumnDef="suma">
-        <th class="center"
+        <th class="right"
             mat-header-cell
             *matHeaderCellDef>
             Suma
