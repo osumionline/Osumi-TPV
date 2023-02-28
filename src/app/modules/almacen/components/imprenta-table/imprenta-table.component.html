@@ -1,7 +1,30 @@
-<div class="table">
-    <div class="row"
-         *ngFor="let f of [].constructor(filas)">
-        <div class="col"
-             *ngFor="let c of [].constructor(columnas)"></div>
+<div *ngIf="list"
+     class="table">
+    <div *ngFor="let row of list">
+        <div class="row">
+            <div *ngFor="let item of row"
+                 class="col">
+                <div class="content"
+                     *ngIf="item">
+                    <div class="qr-code">
+                        <qrcode [qrdata]="item.localizador.toString()"
+                                [allowEmptyString]="true"
+                                [elementType]="'svg'"
+                                [errorCorrectionLevel]="'M'"
+                                [colorDark]="'#000000ff'"
+                                [colorLight]="'#ffffff00'"
+                                [margin]="0"
+                                [cssClass]="'qr-fill'"
+                                [scale]="1"></qrcode>
+                    </div>
+                    <div class="info">
+                        <div class="info-nombre">{{ item.nombre }}</div>
+                        <div class="info-marca">{{ item.marca }}</div>
+                        <div *ngIf="mostrarPVP"
+                             class="info-pvp">{{ item.pvp | fixedNumber }} €</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

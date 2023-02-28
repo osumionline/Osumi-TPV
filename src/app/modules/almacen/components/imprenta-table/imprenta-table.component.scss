@@ -12,6 +12,36 @@
             height: 80px;
             box-sizing: border-box;
             flex: 1;
+
+            .content {
+                display: flex;
+                height: 100%;
+
+                .qr-code {
+                    width: 30%;
+
+                    qrcode {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                    }
+                }
+
+                .info {
+                    width: 70%;
+                    height: 100%;
+
+                    .info-nombre {
+                        font-size: 1.1em;
+                    }
+
+                    .info-marca {
+                        color: #888;
+                    }
+
+                    .info-pvp {}
+                }
+            }
         }
     }
 }

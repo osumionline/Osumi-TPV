@@ -54,6 +54,7 @@
                                min="1"
                                step="1"
                                [(ngModel)]="articulo.num"
+                               (ngModelChange)="updateTable()"
                                (focus)="$event.target.select()">
                     </mat-form-field>
                     <span (click)="addLineaNum(i, 1)">+</span>
@@ -62,9 +63,7 @@
         </div>
     </div>
     <div class="col-tabla">
-        <otpv-imprenta-table [filas]="filas"
-                             [columnas]="columnas"
-                             [mostrarPVP]="mostrarPVP"></otpv-imprenta-table>
+        <otpv-imprenta-table #tabla></otpv-imprenta-table>
         <div class="col-tabla-options">
             <div class="col-options-config">
                 <div class="form-field margin-right">
@@ -76,6 +75,7 @@
                                min="1"
                                step="1"
                                [(ngModel)]="filas"
+                               (ngModelChange)="updateTable()"
                                (focus)="$event.target.select()">
                     </mat-form-field>
                 </div>
@@ -88,13 +88,15 @@
                                min="1"
                                step="1"
                                [(ngModel)]="columnas"
+                               (ngModelChange)="updateTable()"
                                (focus)="$event.target.select()">
                     </mat-form-field>
                 </div>
                 <div class="form-field">
                     <label>Mostrar PVP</label>
                     <mat-slide-toggle color="primary"
-                                      [(ngModel)]="mostrarPVP">{{ mostrarPVP ? 'Sí' : 'No' }}</mat-slide-toggle>
+                                      [(ngModel)]="mostrarPVP"
+                                      (ngModelChange)="updateTable()">{{ mostrarPVP ? 'Sí' : 'No' }}</mat-slide-toggle>
                 </div>
             </div>
             <div class="col-options-print">
