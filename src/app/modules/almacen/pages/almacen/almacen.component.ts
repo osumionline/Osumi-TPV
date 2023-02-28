@@ -17,7 +17,7 @@ import { AlmacenInventarioComponent } from "../../components/almacen-inventario/
     HeaderComponent,
   ],
 })
-export class AlmacenComponent {
+export default class AlmacenComponent {
   @ViewChild("imprenta", { static: true }) imprenta: ImprentaComponent;
 
   constructor() {}

@@ -23,7 +23,7 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./installation.component.scss"],
   imports: [CommonModule, MaterialModule, FormsModule, RouterModule],
 })
-export class InstallationComponent implements OnInit {
+export default class InstallationComponent implements OnInit {
   back: boolean = false;
 
   paso: number = 1;

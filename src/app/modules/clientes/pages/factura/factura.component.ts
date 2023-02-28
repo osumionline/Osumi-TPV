@@ -19,7 +19,7 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./factura.component.scss"],
   imports: [CommonModule, MaterialModule, FixedNumberPipe],
 })
-export class FacturaComponent implements OnInit {
+export default class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
   preview: boolean = false;
   logoUrl: string = environment.baseUrl + "logo.jpg";

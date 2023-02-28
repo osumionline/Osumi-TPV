@@ -33,7 +33,7 @@ import { VentasService } from "src/app/services/ventas.service";
     HeaderComponent,
   ],
 })
-export class VentasComponent implements OnInit {
+export default class VentasComponent implements OnInit {
   @ViewChild("tabs", { static: true }) tabs: VentasTabsComponent;
   @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
   @ViewChild("header", { static: true }) header: HeaderComponent;

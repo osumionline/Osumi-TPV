@@ -38,7 +38,7 @@ import { GestionService } from "src/app/services/gestion.service";
     PayTypeListFilterPipe,
   ],
 })
-export class GestionTiposPagoComponent implements OnInit {
+export default class GestionTiposPagoComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   start: boolean = true;

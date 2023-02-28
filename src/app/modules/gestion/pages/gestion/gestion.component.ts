@@ -21,7 +21,7 @@ import { GestionService } from "src/app/services/gestion.service";
     EmployeeLoginComponent,
   ],
 })
-export class GestionComponent implements OnInit {
+export default class GestionComponent implements OnInit {
   empleado: Empleado = null;
 
   constructor(

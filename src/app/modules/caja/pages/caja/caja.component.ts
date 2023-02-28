@@ -10,4 +10,4 @@ import { HeaderComponent } from "src/app/modules/shared/components/header/header
   styleUrls: ["./caja.component.scss"],
   imports: [MaterialModule, HeaderComponent, CajaContentComponent],
 })
-export class CajaComponent {}
+export default class CajaComponent {}

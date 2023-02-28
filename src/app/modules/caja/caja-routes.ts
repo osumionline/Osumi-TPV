@@ -4,24 +4,19 @@ import { isOpenedGuardFn } from "src/app/guard/opened.guard.fn";
 export const CAJA_ROUTES: Route[] = [
   {
     path: "",
-    loadComponent: () =>
-      import("./pages/caja/caja.component").then((m) => m.CajaComponent),
+    loadComponent: () => import("./pages/caja/caja.component"),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "informes/detallado/:year/:month",
     loadComponent: () =>
-      import("./pages/informe-detallado/informe-detallado.component").then(
-        (m) => m.InformeDetalladoComponent
-      ),
+      import("./pages/informe-detallado/informe-detallado.component"),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: "informes/simple/:year/:month",
     loadComponent: () =>
-      import("./pages/informe-simple/informe-simple.component").then(
-        (m) => m.InformeSimpleComponent
-      ),
+      import("./pages/informe-simple/informe-simple.component"),
     canActivate: [isOpenedGuardFn],
   },
 ];

@@ -18,7 +18,7 @@ import { InformesService } from "src/app/services/informes.service";
   styleUrls: ["./informe-simple.component.scss"],
   imports: [CommonModule, MaterialModule, FixedNumberPipe],
 })
-export class InformeSimpleComponent implements OnInit {
+export default class InformeSimpleComponent implements OnInit {
   loaded: boolean = false;
   year: number = null;
   monthName: string = null;

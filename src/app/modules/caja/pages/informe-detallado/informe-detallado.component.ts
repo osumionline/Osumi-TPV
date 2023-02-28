@@ -8,7 +8,7 @@ import { InformesService } from "src/app/services/informes.service";
   templateUrl: "./informe-detallado.component.html",
   styleUrls: ["./informe-detallado.component.scss"],
 })
-export class InformeDetalladoComponent implements OnInit {
+export default class InformeDetalladoComponent implements OnInit {
   loaded: boolean = false;
   year: number = null;
   month: number = null;

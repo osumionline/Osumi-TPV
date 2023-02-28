@@ -13,7 +13,7 @@ import { ConfigService } from "src/app/services/config.service";
   styleUrls: ["./main.component.scss"],
   imports: [CommonModule, MaterialModule, HeaderComponent],
 })
-export class MainComponent implements OnInit {
+export default class MainComponent implements OnInit {
   title: string = "";
   loading: boolean = true;
   isOpened: boolean = false;

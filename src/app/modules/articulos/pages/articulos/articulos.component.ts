@@ -19,7 +19,7 @@ import { UnArticuloComponent } from "../../components/un-articulo/un-articulo.co
     ArticulosTabsComponent,
   ],
 })
-export class ArticulosComponent implements OnInit {
+export default class ArticulosComponent implements OnInit {
   @ViewChild("tabs", { static: true }) tabs: ArticulosTabsComponent;
 
   constructor(

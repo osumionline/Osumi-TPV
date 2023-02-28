@@ -50,7 +50,7 @@ import { environment } from "src/environments/environment";
     FixedNumberPipe,
   ],
 })
-export class PedidoComponent implements OnInit, OnDestroy {
+export default class PedidoComponent implements OnInit, OnDestroy {
   titulo: string = "Nuevo pedido";
   pedido: Pedido = new Pedido();
 

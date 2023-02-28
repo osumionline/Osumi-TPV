@@ -15,7 +15,7 @@ import { GestionService } from "src/app/services/gestion.service";
   styleUrls: ["./backup.component.scss"],
   imports: [CommonModule, MaterialModule, HeaderComponent],
 })
-export class BackupComponent implements OnInit {
+export default class BackupComponent implements OnInit {
   backups: Backup[] = [];
 
   constructor(

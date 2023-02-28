@@ -15,7 +15,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
   styleUrls: ["./inventario-print.component.scss"],
   imports: [MaterialModule, FixedNumberPipe],
 })
-export class InventarioPrintComponent implements OnInit {
+export default class InventarioPrintComponent implements OnInit {
   buscador: BuscadorAlmacenInterface = null;
   list: InventarioItem[] = [];
   inventarioDisplayedColumns: string[] = [

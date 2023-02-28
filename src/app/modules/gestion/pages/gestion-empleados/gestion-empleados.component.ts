@@ -34,7 +34,7 @@ import { GestionService } from "src/app/services/gestion.service";
     EmployeeListFilterPipe,
   ],
 })
-export class GestionEmpleadosComponent implements OnInit {
+export default class GestionEmpleadosComponent implements OnInit {
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
   selectedTab: number = 0;

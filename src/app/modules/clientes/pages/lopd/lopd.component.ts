@@ -13,7 +13,7 @@ import { ConfigService } from "src/app/services/config.service";
   styleUrls: ["./lopd.component.scss"],
   imports: [CommonModule],
 })
-export class LopdComponent implements OnInit {
+export default class LopdComponent implements OnInit {
   nombre: string = "";
   poblacion: string = "";
   day: number = null;

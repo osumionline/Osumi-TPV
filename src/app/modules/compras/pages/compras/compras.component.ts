@@ -21,7 +21,7 @@ import { ComprasService } from "src/app/services/compras.service";
     HeaderComponent,
   ],
 })
-export class ComprasComponent implements OnInit {
+export default class ComprasComponent implements OnInit {
   @ViewChild("compras", { static: true }) compras: ComprasPedidosListComponent;
   @ViewChild("marcas", { static: true }) marcas: MarcasComponent;
   @ViewChild("proveedores", { static: true }) proveedores: ProveedoresComponent;

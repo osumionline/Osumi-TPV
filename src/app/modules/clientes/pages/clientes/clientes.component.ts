@@ -41,7 +41,7 @@ import { OverlayService } from "src/app/services/overlay.service";
     HeaderComponent,
   ],
 })
-export class ClientesComponent implements OnInit {
+export default class ClientesComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
   search: string = "";
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
