@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
 import { DragDropModule } from "@angular/cdk/drag-drop";
@@ -25,7 +24,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,

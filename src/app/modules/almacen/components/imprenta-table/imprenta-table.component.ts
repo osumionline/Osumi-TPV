@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { QRCodeModule } from "angularx-qrcode";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
@@ -11,17 +11,21 @@ import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe"
   styleUrls: ["./imprenta-table.component.scss"],
   imports: [CommonModule, QRCodeModule, FixedNumberPipe],
 })
-export class ImprentaTableComponent {
+export class ImprentaTableComponent implements OnInit {
   filas: number = 4;
   columnas: number = 5;
   list: ArticuloBuscador[][] = [];
   mostrarPVP: boolean = true;
 
+  ngOnInit(): void {
+    this.calcularLista();
+  }
+
   calcularLista(
-    filas: number,
-    columnas: number,
-    seleccionados: ArticuloBuscador[],
-    mostrarPVP: boolean
+    filas: number = 4,
+    columnas: number = 5,
+    seleccionados: ArticuloBuscador[] = [],
+    mostrarPVP: boolean = true
   ): void {
     this.filas = filas;
     this.columnas = columnas;
