@@ -30,16 +30,22 @@ export default class ArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params): void => {
-      if (params.localizador && parseInt(params.localizador) !== 0) {
-        const ind: number = this.ars.list.findIndex((x: Articulo): boolean => {
-          return x.localizador === parseInt(params.localizador);
-        });
-        if (ind !== -1) {
-          this.ars.selected = ind;
+      if (params.localizador) {
+        if (parseInt(params.localizador) !== 0) {
+          const ind: number = this.ars.list.findIndex(
+            (x: Articulo): boolean => {
+              return x.localizador === parseInt(params.localizador);
+            }
+          );
+          if (ind !== -1) {
+            this.ars.selected = ind;
+          } else {
+            this.ars.newArticulo(parseInt(params.localizador));
+          }
+          this.router.navigate(["/articulos"]);
         } else {
-          this.ars.newArticulo(parseInt(params.localizador));
+          this.tabs.newTab();
         }
-        this.router.navigate(["/articulos"]);
       }
       if (this.ars.list.length === 0) {
         this.ars.newArticulo();
