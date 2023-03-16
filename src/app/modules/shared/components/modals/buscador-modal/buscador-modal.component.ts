@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
@@ -21,7 +21,7 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-buscador-modal",
   templateUrl: "./buscador-modal.component.html",
   styleUrls: ["./buscador-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule, MatSortModule],
 })
 export class BuscadorModalComponent
   implements OnInit, AfterViewInit, OnDestroy

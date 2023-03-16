@@ -9,6 +9,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatOption } from "@angular/material/core";
 import { MatSelect } from "@angular/material/select";
+import { MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -45,6 +46,7 @@ import { environment } from "src/environments/environment";
   imports: [
     CommonModule,
     FormsModule,
+    MatSortModule,
     MaterialModule,
     HeaderComponent,
     FixedNumberPipe,

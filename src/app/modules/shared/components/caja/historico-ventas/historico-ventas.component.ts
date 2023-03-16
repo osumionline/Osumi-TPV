@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatSelect } from "@angular/material/select";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { VentaHistoricoOtrosInterface } from "src/app/interfaces/caja.interface";
@@ -31,7 +31,13 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-historico-ventas",
   templateUrl: "./historico-ventas.component.html",
   styleUrls: ["./historico-ventas.component.scss"],
-  imports: [MaterialModule, FormsModule, FixedNumberPipe, CommonModule],
+  imports: [
+    MaterialModule,
+    FormsModule,
+    MatSortModule,
+    FixedNumberPipe,
+    CommonModule,
+  ],
 })
 export class HistoricoVentasComponent implements AfterViewInit {
   @Output() cerrarVentanaEvent: EventEmitter<number> =

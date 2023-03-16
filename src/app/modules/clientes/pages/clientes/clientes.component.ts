@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatSortModule } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -36,6 +37,7 @@ import { OverlayService } from "src/app/services/overlay.service";
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSortModule,
     FixedNumberPipe,
     ClientListFilterPipe,
     HeaderComponent,

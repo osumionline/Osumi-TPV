@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
@@ -24,7 +24,7 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-elegir-cliente-modal",
   templateUrl: "./elegir-cliente-modal.component.html",
   styleUrls: ["./elegir-cliente-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule],
+  imports: [CommonModule, MaterialModule, FormsModule, MatSortModule],
 })
 export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
   selectClienteFrom: string = null;

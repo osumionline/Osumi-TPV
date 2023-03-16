@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { PageEvent } from "@angular/material/paginator";
-import { MatSort, Sort } from "@angular/material/sort";
+import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import {
@@ -31,7 +31,13 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   selector: "otpv-almacen-inventario",
   templateUrl: "./almacen-inventario.component.html",
   styleUrls: ["./almacen-inventario.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    MatSortModule,
+    FixedNumberPipe,
+  ],
 })
 export class AlmacenInventarioComponent
   implements OnInit, AfterViewInit, OnDestroy

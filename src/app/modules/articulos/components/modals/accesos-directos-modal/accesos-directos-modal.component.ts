@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
+import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
@@ -15,7 +15,7 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-accesos-directos-modal",
   templateUrl: "./accesos-directos-modal.component.html",
   styleUrls: ["./accesos-directos-modal.component.scss"],
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [CommonModule, FormsModule, MatSortModule, MaterialModule],
 })
 export class AccesosDirectosModalComponent implements OnInit {
   idArticulo: number = null;

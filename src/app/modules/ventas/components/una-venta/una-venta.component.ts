@@ -1,15 +1,6 @@
 import { CommonModule } from "@angular/common";
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
 import {
@@ -19,7 +10,6 @@ import {
   VariosModal,
 } from "src/app/interfaces/modals.interface";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
-import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
 import { Articulo } from "src/app/model/articulos/articulo.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
@@ -54,7 +44,7 @@ import { VentasService } from "src/app/services/ventas.service";
     EmployeeLoginComponent,
   ],
 })
-export class UnaVentaComponent implements AfterViewInit {
+export class UnaVentaComponent {
   @Input() ind: number = null;
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
@@ -72,18 +62,10 @@ export class UnaVentaComponent implements AfterViewInit {
   ultimaVentaImporte: number = null;
   ultimaVentaCambio: number = null;
 
-  muestraAccesosDirectos: boolean = false;
-  accesosDirectosList: AccesoDirecto[] = [];
-  accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre"];
-  accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
-    new MatTableDataSource<AccesoDirecto>();
-
   variosInd: number = null;
 
   devolucionVenta: number = null;
   devolucionList: DevolucionSelectedInterface[] = [];
-
-  @ViewChild(MatSort) sort: MatSort;
 
   showBuscador: boolean = false;
 
@@ -97,10 +79,6 @@ export class UnaVentaComponent implements AfterViewInit {
     private router: Router,
     private overlayService: OverlayService
   ) {}
-
-  ngAfterViewInit(): void {
-    this.accesosDirectosDataSource.sort = this.sort;
-  }
 
   loginSuccess(ev: Empleado): void {
     this.vs.ventaActual.setEmpleado(ev);
