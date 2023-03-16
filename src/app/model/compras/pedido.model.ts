@@ -205,7 +205,7 @@ export class Pedido {
     });
     this.importe = p.importe;
     this.portes = p.portes;
-    this._descuento = p.descuento;
+    this.descuento = p.descuento;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
     this.observaciones = Utils.urldecode(p.observaciones);
