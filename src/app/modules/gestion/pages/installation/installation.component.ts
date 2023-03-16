@@ -85,7 +85,6 @@ export default class InstallationComponent implements OnInit {
     { value: 85, checked: false },
     { value: 90, checked: false },
     { value: 95, checked: false },
-    { value: 100, checked: false },
   ];
 
   hasOnline: string = "0";

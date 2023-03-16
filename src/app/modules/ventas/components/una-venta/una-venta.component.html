@@ -5,6 +5,7 @@
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
+	<div class="col-marca">Marca</div>
 	<div class="col-cantidad">Cantidad</div>
 	<div class="col-pvp">PVP</div>
 	<div class="col-importe">Importe</div>
@@ -47,6 +48,12 @@
 				<mat-icon *ngIf="linea.observaciones"
 						  (click)="showObservaciones($event, linea.observaciones)"
 						  matTooltip="Mostrar observaciones del artículo">info_outline</mat-icon>
+			</span>
+		</div>
+		<div class="col-marca">
+			<ng-container *ngIf="!linea.marca">&nbsp;</ng-container>
+			<span *ngIf="linea.marca">
+				{{linea.marca}}
 			</span>
 		</div>
 		<div class="col-cantidad"

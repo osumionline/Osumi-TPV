@@ -9,7 +9,7 @@
 }
 
 .col-descripcion {
-  width: 55%;
+  width: 45%;
   border-right: 1px solid var(--table-border);
   border-bottom: 1px solid var(--table-border);
   box-sizing: border-box;
@@ -41,6 +41,13 @@
       color: var(--main-color-contrast);
     }
   }
+}
+
+.col-marca {
+  width: 10%;
+  border-bottom: 1px solid var(--table-border);
+  border-right: 1px solid var(--table-border);
+  box-sizing: border-box;
 }
 
 .col-cantidad {
