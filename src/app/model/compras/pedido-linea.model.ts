@@ -25,7 +25,7 @@ export class PedidoLinea {
     public re: number = null,
     public descuento: number = null,
     public idCategoria: number = null,
-    public codBarras: number = null,
+    public codBarras: string = null,
     public hasCodBarras: boolean = false,
     public referencia: string = null
   ) {}
