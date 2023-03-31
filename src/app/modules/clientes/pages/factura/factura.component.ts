@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Data, Params } from "@angular/router";
+import { FacturaResult } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
 import { FacturaItem } from "src/app/model/clientes/factura-item.model";
 import { Factura } from "src/app/model/clientes/factura.model";
@@ -41,24 +42,24 @@ export default class FacturaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data: Data) => {
+    this.activatedRoute.data.subscribe((data: Data): void => {
       this.preview = data.type === "preview";
       this.start();
     });
   }
 
   start(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       this.loadFactura(parseInt(params.id));
     });
   }
 
   loadFactura(id: number): void {
-    this.cs.getFactura(id).subscribe((result) => {
+    this.cs.getFactura(id).subscribe((result: FacturaResult): void => {
       this.factura = this.cms.getFactura(result.factura);
       this.loadData();
       if (this.factura.impresa) {
-        setTimeout(() => {
+        setTimeout((): void => {
           window.print();
         });
       }
@@ -100,7 +101,6 @@ export default class FacturaComponent implements OnInit {
       }
       if (venta.lineas.length === 1) {
         temp.unidades = venta.lineas[0].unidades;
-        temp.iva = venta.lineas[0].iva;
       }
 
       this.list.push(temp);
@@ -132,7 +132,7 @@ export default class FacturaComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.saveFactura();
         }
@@ -142,7 +142,7 @@ export default class FacturaComponent implements OnInit {
   saveFactura(): void {
     this.cs
       .saveFactura(this.factura.toSaveInterface(true))
-      .subscribe((result: IdSaveResult) => {
+      .subscribe((result: IdSaveResult): void => {
         if (result.status === "ok") {
           this.preview = false;
           this.broadcastChannel.postMessage({
