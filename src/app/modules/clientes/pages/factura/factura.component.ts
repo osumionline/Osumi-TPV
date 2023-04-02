@@ -24,6 +24,7 @@ export default class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
   preview: boolean = false;
   logoUrl: string = environment.baseUrl + "logo.jpg";
+  deployedAll: boolean = false;
   factura: Factura = new Factura();
   list: FacturaItem[] = [];
   subtotal: number = 0;
@@ -99,9 +100,6 @@ export default class FacturaComponent implements OnInit {
 
         temp.lineas.push(ventaLinea);
       }
-      if (venta.lineas.length === 1) {
-        temp.unidades = venta.lineas[0].unidades;
-      }
 
       this.list.push(temp);
     }
@@ -117,6 +115,17 @@ export default class FacturaComponent implements OnInit {
       this.ivas[ind].importe += importe;
     }
     this.ivas.sort((a, b) => a.iva - b.iva);
+  }
+
+  deployAll(): void {
+    let mode: boolean = false;
+    if (!this.deployedAll) {
+      mode = true;
+    }
+    for (let item of this.list) {
+      item.deployed = mode;
+    }
+    this.deployedAll = mode;
   }
 
   deploy(item: FacturaItem): void {

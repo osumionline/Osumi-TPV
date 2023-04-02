@@ -74,6 +74,7 @@
 
             &.col-concepto {
                 width: 34%;
+                position: relative;
 
                 mat-icon {
                     cursor: pointer;
@@ -82,6 +83,12 @@
 
                     &.deployed {
                         transform: rotate(90deg);
+                    }
+
+                    &.header-icon {
+                        position: absolute;
+                        left: 6px;
+                        top: 4px;
                     }
                 }
             }
@@ -135,6 +142,18 @@
     .totales {
         display: flex;
         justify-content: flex-end;
+        position: relative;
+
+        .pagado {
+            line-height: 50px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            width: 40%;
+            margin: 48px auto;
+            text-align: center;
+            font-size: 2em;
+            color: #888;
+        }
 
         table {
             border: 1px solid #000;
@@ -162,17 +181,6 @@
                 }
             }
         }
-    }
-
-    .pagado {
-        line-height: 50px;
-        border-top: 2px solid #000;
-        border-bottom: 2px solid #000;
-        width: 40%;
-        margin: 48px auto;
-        text-align: center;
-        font-size: 2em;
-        color: #888;
     }
 
     .print {
@@ -205,7 +213,9 @@
         }
 
         .datos {
-            td {
+
+            td,
+            th {
                 &.col-concepto {
                     mat-icon {
                         display: none;

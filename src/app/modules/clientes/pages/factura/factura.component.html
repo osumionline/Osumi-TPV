@@ -43,7 +43,12 @@
     <table class="datos">
         <thead>
             <tr>
-                <th class="col-concepto">CONCEPTO</th>
+                <th class="col-concepto">
+                    <mat-icon class="header-icon"
+                              [ngClass]="{'deployed': deployedAll}"
+                              (click)="deployAll()">chevron_right</mat-icon>
+                    CONCEPTO
+                </th>
                 <th class="col-precio-iva-unidad">PVP</th>
                 <th class="col-precio-sin-iva">BASE UD</th>
                 <th class="col-unidades">UD</th>
@@ -91,6 +96,9 @@
     </table>
 
     <div class="totales">
+        <div *ngIf="!preview"
+             class="pagado">PAGADO</div>
+
         <table>
             <tr>
                 <td class="label">SUBTOTAL</td>
@@ -110,9 +118,6 @@
             </tr>
         </table>
     </div>
-
-    <div *ngIf="!preview"
-         class="pagado">PAGADO</div>
 
     <div *ngIf="preview"
          class="print">
