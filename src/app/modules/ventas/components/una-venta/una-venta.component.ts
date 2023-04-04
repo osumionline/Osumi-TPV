@@ -377,7 +377,7 @@ export class UnaVentaComponent {
           );
           for (let linea of lineas) {
             const articulo: Articulo = new Articulo();
-            articulo.id = linea.idArticulo !== null ? linea.id : 0;
+            articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
             articulo.localizador =
               linea.localizador !== null ? linea.localizador : 0;
             articulo.nombre = linea.articulo;
@@ -402,14 +402,17 @@ export class UnaVentaComponent {
           this.vs.addLineaVenta();
           this.ind = this.vs.ventaActual.lineas.length;
           this.setFocus();
+          this.vs.ventaActual.updateImporte();
         });
       } else {
         this.ind = this.vs.ventaActual.lineas.length;
         this.setFocus();
+        this.vs.ventaActual.updateImporte();
       }
     } else {
       this.devolucionVenta = null;
       this.setFocus();
+      this.vs.ventaActual.updateImporte();
     }
   }
 
