@@ -227,7 +227,6 @@
                                         *ngIf="!pedido.recepcionado && !element.hasCodBarras">
                             <input matInput
                                    placeholder="Cod. Barras"
-                                   type="number"
                                    id="tabla-codBarras-{{element.localizador}}"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
