@@ -7,6 +7,9 @@ import { Utils } from "src/app/modules/shared/utils.class";
 })
 export class FixedNumberPipe implements PipeTransform {
   transform(num: number): string {
+    if (Number.isNaN(num)) {
+      return "0,00";
+    }
     return Utils.formatNumber(num);
   }
 }

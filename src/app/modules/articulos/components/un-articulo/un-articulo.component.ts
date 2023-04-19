@@ -21,7 +21,11 @@ import { MatTabChangeEvent } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { QRCodeModule } from "angularx-qrcode";
 import {
+  ArticuloResult,
+  ArticuloSaveResult,
+  CategoriasResult,
   ChartDataInterface,
+  ChartResultInterface,
   ChartSelectInterface,
 } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
@@ -227,7 +231,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadCategorias(): void {
     if (!this.css.loaded) {
-      this.css.getCategorias().subscribe((result) => {
+      this.css.getCategorias().subscribe((result: CategoriasResult): void => {
         const list: Categoria[] = this.cms.getCategorias([result.list]);
         this.css.loadCategorias(list);
 
@@ -262,7 +266,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         BuscadorModalComponent,
         modalBuscadorData
       );
-      dialog.afterClosed$.subscribe((data) => {
+      dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
           this.form.get("localizador").setValue(data.data);
@@ -286,7 +290,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loading = true;
     this.ars
       .loadArticulo(this.form.get("localizador").value)
-      .subscribe((result) => {
+      .subscribe((result: ArticuloResult): void => {
         if (result.status === "ok") {
           const tabName: string = this.articulo.tabName;
           this.articulo = this.cms.getArticulo(result.articulo);
@@ -301,10 +305,10 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 '".',
               ok: "Continuar",
             })
-            .subscribe((result) => {
+            .subscribe((result: boolean): void => {
               this.form.get("localizador").setValue(null);
               this.loading = false;
-              setTimeout(() => {
+              setTimeout((): void => {
                 this.localizadorBox.nativeElement.select();
               }, 200);
             });
@@ -345,12 +349,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       AccesosDirectosModalComponent,
       modalAccesosDirectosData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.form.get("localizador").setValue(data.data);
         this.loadArticulo();
       }
-      setTimeout(() => {
+      setTimeout((): void => {
         this.localizadorBox.nativeElement.focus();
       }, 0);
     });
@@ -358,7 +362,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkArticulosTab(ev: MatTabChangeEvent): void {
     if (ev.index === 2) {
-      setTimeout(() => {
+      setTimeout((): void => {
         this.codigoBarrasBox.nativeElement.focus();
       }, 0);
     }
@@ -375,15 +379,19 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadStatsVentas(): void {
-    this.ars.getStatistics(this.statsVentas).subscribe((result) => {
-      this.statsVentasData = result.data;
-    });
+    this.ars
+      .getStatistics(this.statsVentas)
+      .subscribe((result: ChartResultInterface): void => {
+        this.statsVentasData = result.data;
+      });
   }
 
   loadStatsWeb(): void {
-    this.ars.getStatistics(this.statsWeb).subscribe((result) => {
-      this.statsWebData = result.data;
-    });
+    this.ars
+      .getStatistics(this.statsWeb)
+      .subscribe((result: ChartResultInterface): void => {
+        this.statsWebData = result.data;
+      });
   }
 
   newArticulo(): void {
@@ -392,7 +400,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.articulo.tabName = tabName;
     this.form.patchValue(this.articulo.toInterface(false));
     this.selectedTab = 0;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.localizadorBox.nativeElement.focus();
     }, 0);
   }
@@ -406,7 +414,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       NewMarcaModalComponent,
       modalnewMarcaData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data !== null) {
         this.articulo.idMarca = data.data;
         this.form.get("idMarca").setValue(data.data);
@@ -423,7 +431,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       NewProveedorModalComponent,
       modalnewProveedorData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.articulo.idProveedor = data.data;
         this.form.get("idProveedor").setValue(data.data);
@@ -459,7 +467,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editFecCad(): void {
     this.fecCadEdit = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       if (this.articulo.fechaCaducidad) {
         this.fecCadValue.nativeElement.select();
       } else {
@@ -498,8 +506,8 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 "La fecha introducida no puede ser inferior a la actual.",
               ok: "Continuar",
             })
-            .subscribe((result) => {
-              setTimeout(() => {
+            .subscribe((result: boolean): void => {
+              setTimeout((): void => {
                 this.fecCadValue.nativeElement.select();
               }, 200);
             });
@@ -515,8 +523,8 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
             ok: "Continuar",
           })
-          .subscribe((result) => {
-            setTimeout(() => {
+          .subscribe((result: boolean): void => {
+            setTimeout((): void => {
               this.fecCadValue.nativeElement.select();
             }, 200);
           });
@@ -555,7 +563,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateMargen(): void {
-    if (this.form.get("puc").value !== 0) {
+    if (
+      this.form.get("puc").value !== null &&
+      this.form.get("puc").value !== 0 &&
+      this.form.get("pvp").value !== null &&
+      this.form.get("pvp").value !== 0
+    ) {
       this.articulo.margen =
         ((this.form.get("pvp").value - this.form.get("puc").value) /
           this.form.get("pvp").value) *
@@ -618,7 +631,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       let file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         const foto: Foto = new Foto();
         foto.load(reader.result as string);
         this.articulo.fotosList.push(foto);
@@ -635,7 +648,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           if (this.articulo.fotosList[i].status === "ok") {
             this.articulo.fotosList[i].status = "deleted";
@@ -677,7 +690,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       ArticuloDarDeBajaModalComponent,
       modalDarDeBajaData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data === true) {
         this.newArticulo();
       }
@@ -736,6 +749,10 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.articulo.stockMin = this.articulo.stockMin || 0;
     this.articulo.stockMax = this.articulo.stockMax || 0;
     this.articulo.loteOptimo = this.articulo.loteOptimo || 0;
+    this.articulo.palb = this.articulo.palb || 0;
+    this.articulo.puc = this.articulo.puc || 0;
+    this.articulo.pvp = this.articulo.pvp || 0;
+    this.articulo.margen = this.articulo.margen || 0;
 
     if (this.articulo.nombre === null || this.articulo.nombre === "") {
       this.dialog
@@ -744,7 +761,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
           content: "¡No puedes dejar en blanco el nombre del artículo!",
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
       return;
     }
 
@@ -755,84 +772,86 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
           content: "¡No has elegido la marca del artículo!",
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
       this.selectedTab = 0;
       return;
     }
 
     this.saving = true;
-    this.ars.saveArticulo(this.articulo.toInterface()).subscribe((result) => {
-      if (result.status === "ok") {
-        this.articulo.localizador = result.localizador;
-        this.form.get("localizador").setValue(result.localizador);
-        this.dialog
-          .alert({
-            title: "Información",
-            content: "El artículo ha sido guardado correctamente.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.saving = false;
-            if (cerrar) {
-              this.cerrarArticuloEvent.emit(this.ind);
-            }
-            if (this.ars.returnInfo === null) {
-              this.articulo.nombreStatus = "ok";
-              this.loadArticulo();
-            } else {
-              this.goToReturn();
-            }
-          });
-      } else {
-        this.saving = false;
-        if (result.status === "nombre-used") {
+    this.ars
+      .saveArticulo(this.articulo.toInterface())
+      .subscribe((result: ArticuloSaveResult): void => {
+        if (result.status === "ok") {
+          this.articulo.localizador = result.localizador;
+          this.form.get("localizador").setValue(result.localizador);
           this.dialog
-            .confirm({
-              title: "Confirmar",
-              content: `Ya existe un artículo con el nombre "${
-                this.articulo.nombre
-              }" para la marca "${Utils.urldecode(
-                result.message
-              )}" , ¿quieres continuar?`,
+            .alert({
+              title: "Información",
+              content: "El artículo ha sido guardado correctamente.",
               ok: "Continuar",
-              cancel: "Cancelar",
             })
-            .subscribe((result) => {
-              if (result === true) {
-                this.articulo.nombreStatus = "checked";
-                this.guardar(cerrar);
+            .subscribe((result: boolean): void => {
+              this.saving = false;
+              if (cerrar) {
+                this.cerrarArticuloEvent.emit(this.ind);
+              }
+              if (this.ars.returnInfo === null) {
+                this.articulo.nombreStatus = "ok";
+                this.loadArticulo();
+              } else {
+                this.goToReturn();
               }
             });
+        } else {
+          this.saving = false;
+          if (result.status === "nombre-used") {
+            this.dialog
+              .confirm({
+                title: "Confirmar",
+                content: `Ya existe un artículo con el nombre "${
+                  this.articulo.nombre
+                }" para la marca "${Utils.urldecode(
+                  result.message
+                )}" , ¿quieres continuar?`,
+                ok: "Continuar",
+                cancel: "Cancelar",
+              })
+              .subscribe((result: boolean): void => {
+                if (result === true) {
+                  this.articulo.nombreStatus = "checked";
+                  this.guardar(cerrar);
+                }
+              });
+          }
+          if (result.status === "referencia-used") {
+            this.dialog
+              .alert({
+                title: "Error",
+                content: `La referencia "${
+                  this.articulo.referencia
+                }" ya está en uso por el artículo "${Utils.urldecode(
+                  result.message
+                )}".`,
+                ok: "Continuar",
+              })
+              .subscribe((result: boolean): void => {
+                this.selectedTab = 0;
+              });
+          }
+          if (result.status === "cb-used") {
+            const data: string[] = Utils.urldecode(result.message).split("/");
+            this.dialog
+              .alert({
+                title: "Error",
+                content: `El código de barras "${data[0]}" ya está en uso por el artículo "${data[1]}/${data[2]}".`,
+                ok: "Continuar",
+              })
+              .subscribe((result: boolean): void => {
+                this.selectedTab = 1;
+              });
+          }
         }
-        if (result.status === "referencia-used") {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: `La referencia "${
-                this.articulo.referencia
-              }" ya está en uso por el artículo "${Utils.urldecode(
-                result.message
-              )}".`,
-              ok: "Continuar",
-            })
-            .subscribe((result) => {
-              this.selectedTab = 0;
-            });
-        }
-        if (result.status === "cb-used") {
-          const data: string[] = Utils.urldecode(result.message).split("/");
-          this.dialog
-            .alert({
-              title: "Error",
-              content: `El código de barras "${data[0]}" ya está en uso por el artículo "${data[1]}/${data[2]}".`,
-              ok: "Continuar",
-            })
-            .subscribe((result) => {
-              this.selectedTab = 1;
-            });
-        }
-      }
-    });
+      });
   }
 
   abrirMargenes(): void {
@@ -846,7 +865,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       MargenesModalComponent,
       modalMargenesData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.articulo.margen = data.data;
         this.articulo.pvp = Utils.getTwoNumberDecimal(
@@ -866,7 +885,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.duplicarArticuloEvent.emit(this.articulo);
         }
