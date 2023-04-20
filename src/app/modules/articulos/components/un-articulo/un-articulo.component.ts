@@ -869,7 +869,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data.data !== null) {
         this.articulo.margen = data.data;
         this.articulo.pvp = Utils.getTwoNumberDecimal(
-          this.form.get("puc").value * (1 + data.data / 100)
+          (this.form.get("puc").value * 100) / (100 - data.data)
         );
         this.form.get("pvp").setValue(this.articulo.pvp);
         this.form.get("pvp").markAsDirty();
