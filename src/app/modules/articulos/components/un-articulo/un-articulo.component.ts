@@ -17,6 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatPaginatorIntl } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
@@ -54,6 +55,7 @@ import { NewMarcaModalComponent } from "src/app/modules/articulos/components/mod
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
@@ -72,6 +74,7 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-un-articulo",
   templateUrl: "./un-articulo.component.html",
   styleUrls: ["./un-articulo.component.scss"],
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     CommonModule,
     MaterialModule,

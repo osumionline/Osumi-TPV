@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { PageEvent } from "@angular/material/paginator";
+import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -17,6 +17,7 @@ import {
 } from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
+import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
@@ -31,6 +32,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   selector: "otpv-almacen-inventario",
   templateUrl: "./almacen-inventario.component.html",
   styleUrls: ["./almacen-inventario.component.scss"],
+  providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     CommonModule,
     MaterialModule,
