@@ -17,6 +17,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { QRCodeModule } from "angularx-qrcode";
@@ -27,6 +29,7 @@ import {
   ChartDataInterface,
   ChartResultInterface,
   ChartSelectInterface,
+  HistoricoArticuloResult,
 } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import {
@@ -40,6 +43,7 @@ import { Articulo } from "src/app/model/articulos/articulo.model";
 import { Categoria } from "src/app/model/articulos/categoria.model";
 import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
 import { Foto } from "src/app/model/articulos/foto.model";
+import { HistoricoArticulo } from "src/app/model/articulos/historico-articulo.model";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
@@ -133,6 +137,26 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   statsYearList: number[] = [];
   statsWebData: ChartDataInterface[] = [];
 
+  historicoArticulo: HistoricoArticulo[] = [];
+  historicoArticuloPag: number = 0;
+  historicoArticuloPags: number = 0;
+  historicoArticuloNumRes: number = 20;
+
+  historicoArticuloDisplayedColumns: string[] = [
+    "createdAt",
+    "tipo",
+    "stockPrevio",
+    "diferencia",
+    "stockFinal",
+    "puc",
+    "pvp",
+    "idVenta",
+    "idPedido",
+  ];
+  historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =
+    new MatTableDataSource<HistoricoArticulo>();
+  @ViewChild(MatSort) sort: MatSort;
+
   saving: boolean = false;
 
   form: FormGroup = new FormGroup({
@@ -194,6 +218,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.get("re").valueChanges.subscribe((x: number): void => {
       this.updateRe(x.toString());
     });
+    this.historicoArticuloDataSource.sort = this.sort;
   }
 
   loadAppData(): void {
@@ -321,8 +346,11 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadFecCad();
     }
 
-    this.loadStatsVentas();
-    this.loadStatsWeb();
+    if (this.articulo.id) {
+      this.loadStatsVentas();
+      this.loadStatsWeb();
+      this.loadHistorico();
+    }
 
     this.form.patchValue(this.articulo.toInterface(false));
     this.form.get("localizador").markAsPristine();
@@ -391,6 +419,17 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       .getStatistics(this.statsWeb)
       .subscribe((result: ChartResultInterface): void => {
         this.statsWebData = result.data;
+      });
+  }
+
+  loadHistorico(): void {
+    this.ars
+      .getHistoricoArticulo(this.articulo.id, this.historicoArticuloPag)
+      .subscribe((result: HistoricoArticuloResult): void => {
+        this.historicoArticuloPags = result.pags;
+        this.historicoArticulo = this.cms.getHistoricoArticulos(result.list);
+        this.historicoArticuloDataSource.data = this.historicoArticulo;
+        console.log(this.historicoArticulo);
       });
   }
 

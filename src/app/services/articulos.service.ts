@@ -8,6 +8,7 @@ import {
   ArticuloSaveResult,
   ChartResultInterface,
   ChartSelectInterface,
+  HistoricoArticuloResult,
 } from "src/app/interfaces/articulo.interface";
 import {
   ReturnInfoInterface,
@@ -45,6 +46,16 @@ export class ArticulosService {
     return this.http.post<ChartResultInterface>(
       environment.apiUrl + "-articulos/get-statistics",
       data
+    );
+  }
+
+  getHistoricoArticulo(
+    id: number,
+    pag: number
+  ): Observable<HistoricoArticuloResult> {
+    return this.http.post<HistoricoArticuloResult>(
+      environment.apiUrl + "-articulos/get-historico-articulo",
+      { id, pag }
     );
   }
 

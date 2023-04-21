@@ -123,3 +123,22 @@ export interface EtiquetaWebInterface {
   texto: string;
   slug: string;
 }
+
+export interface HistoricoArticuloInterface {
+  id: number;
+  tipo: number;
+  stockPrevio: number;
+  diferencia: number;
+  stockFinal: number;
+  idVenta: number;
+  idPedido: number;
+  puc: number;
+  pvp: number;
+  createdAt: string;
+}
+
+export interface HistoricoArticuloResult {
+  status: string;
+  pags: number;
+  list: HistoricoArticuloInterface[];
+}

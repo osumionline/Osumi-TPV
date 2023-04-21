@@ -6,6 +6,7 @@ import {
   ArticuloInterface,
   CategoriaInterface,
   CodigoBarrasInterface,
+  HistoricoArticuloInterface,
 } from "src/app/interfaces/articulo.interface";
 import {
   CierreCajaInterface,
@@ -41,6 +42,7 @@ import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-ven
 import { Articulo } from "src/app/model/articulos/articulo.model";
 import { Categoria } from "src/app/model/articulos/categoria.model";
 import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
+import { HistoricoArticulo } from "src/app/model/articulos/historico-articulo.model";
 import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
 import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
@@ -290,6 +292,18 @@ export class ClassMapperService {
   getBackups(bs: BackupInterface[]): Backup[] {
     return bs.map((b: BackupInterface): Backup => {
       return new Backup().fromInterface(b);
+    });
+  }
+
+  getHistoricoArticulo(ha: HistoricoArticuloInterface): HistoricoArticulo {
+    return new HistoricoArticulo().fromInterface(ha);
+  }
+
+  getHistoricoArticulos(
+    has: HistoricoArticuloInterface[]
+  ): HistoricoArticulo[] {
+    return has.map((ha: HistoricoArticuloInterface): HistoricoArticulo => {
+      return this.getHistoricoArticulo(ha);
     });
   }
 }
