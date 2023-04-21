@@ -17,8 +17,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatPaginatorIntl } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
+import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
+import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { Router } from "@angular/router";
@@ -30,6 +30,7 @@ import {
   ChartDataInterface,
   ChartResultInterface,
   ChartSelectInterface,
+  HistoricoArticuloBuscadorInterface,
   HistoricoArticuloResult,
 } from "src/app/interfaces/articulo.interface";
 import { Month } from "src/app/interfaces/interfaces";
@@ -80,6 +81,7 @@ import { VentasService } from "src/app/services/ventas.service";
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSortModule,
     QRCodeModule,
     FixedNumberPipe,
   ],
@@ -140,10 +142,15 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   statsYearList: number[] = [];
   statsWebData: ChartDataInterface[] = [];
 
+  historicoArticuloBuscador: HistoricoArticuloBuscadorInterface = {
+    id: null,
+    orderBy: "createdAt",
+    orderSent: "desc",
+    pagina: 1,
+    num: 20,
+  };
   historicoArticulo: HistoricoArticulo[] = [];
-  historicoArticuloPag: number = 0;
   historicoArticuloPags: number = 0;
-  historicoArticuloNumRes: number = 20;
 
   historicoArticuloDisplayedColumns: string[] = [
     "createdAt",
@@ -352,6 +359,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.articulo.id) {
       this.loadStatsVentas();
       this.loadStatsWeb();
+      this.historicoArticuloBuscador.id = this.articulo.id;
       this.loadHistorico();
     }
 
@@ -427,13 +435,30 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadHistorico(): void {
     this.ars
-      .getHistoricoArticulo(this.articulo.id, this.historicoArticuloPag)
+      .getHistoricoArticulo(this.historicoArticuloBuscador)
       .subscribe((result: HistoricoArticuloResult): void => {
         this.historicoArticuloPags = result.pags;
         this.historicoArticulo = this.cms.getHistoricoArticulos(result.list);
         this.historicoArticuloDataSource.data = this.historicoArticulo;
         console.log(this.historicoArticulo);
       });
+  }
+
+  cambiarOrdenHistoricoArticulo(sort: Sort): void {
+    if (sort.direction === "") {
+      this.historicoArticuloBuscador.orderBy = null;
+      this.historicoArticuloBuscador.orderSent = null;
+    } else {
+      this.historicoArticuloBuscador.orderBy = sort.active;
+      this.historicoArticuloBuscador.orderSent = sort.direction;
+    }
+    this.loadHistorico();
+  }
+
+  changePageHistoricoArticulo(ev: PageEvent): void {
+    this.historicoArticuloBuscador.pagina = ev.pageIndex + 1;
+    this.historicoArticuloBuscador.num = ev.pageSize;
+    this.loadHistorico();
   }
 
   newArticulo(): void {

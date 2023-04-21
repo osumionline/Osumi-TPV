@@ -142,3 +142,11 @@ export interface HistoricoArticuloResult {
   pags: number;
   list: HistoricoArticuloInterface[];
 }
+
+export interface HistoricoArticuloBuscadorInterface {
+  id: number;
+  orderBy: string;
+  orderSent: string;
+  pagina: number;
+  num: number;
+}

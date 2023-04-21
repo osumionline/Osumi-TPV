@@ -8,6 +8,7 @@ import {
   ArticuloSaveResult,
   ChartResultInterface,
   ChartSelectInterface,
+  HistoricoArticuloBuscadorInterface,
   HistoricoArticuloResult,
 } from "src/app/interfaces/articulo.interface";
 import {
@@ -50,12 +51,11 @@ export class ArticulosService {
   }
 
   getHistoricoArticulo(
-    id: number,
-    pag: number
+    data: HistoricoArticuloBuscadorInterface
   ): Observable<HistoricoArticuloResult> {
     return this.http.post<HistoricoArticuloResult>(
       environment.apiUrl + "-articulos/get-historico-articulo",
-      { id, pag }
+      data
     );
   }
 
