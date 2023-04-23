@@ -146,73 +146,106 @@
                         </div>
                     </div>
 
-                    <div class="articulo-numbers">
-                        <div class="articulo-col">
-                            <div class="form-field-left">
-                                <label>Precio albarán</label>
-                                <mat-form-field class="campo-numero">
-                                    <input matInput
-                                           type="number"
-                                           placeholder="Precio albarán"
-                                           class="align-right"
-                                           (blur)="setTwoNumberDecimal($event)"
-                                           (focus)="$event.target.select()"
-                                           (keyup)="updatePalb()"
-                                           formControlName="palb">
-                                </mat-form-field>
-                                <span>€</span>
-                            </div>
-                            <div class="form-field-left">
-                                <label>PUC</label>
-                                <mat-form-field class="campo-numero">
-                                    <input matInput
-                                           type="number"
-                                           placeholder="Precio Unitario de Compra"
-                                           class="align-right"
-                                           (blur)="setTwoNumberDecimal($event)"
-                                           (focus)="$event.target.select()"
-                                           (keyup)="updatePuc()"
-                                           formControlName="puc">
-                                </mat-form-field>
-                                <span>€</span>
-                            </div>
-                            <div class="form-field-left margen">
-                                <label>Margen</label>
-                                <span (click)="abrirMargenes()">
-                                    {{articulo.margen | fixedNumber}} %
-                                </span>
-                            </div>
-                            <div class="form-field-left">
-                                <label>PVP</label>
-                                <mat-form-field class="campo-numero">
-                                    <input matInput
-                                           type="number"
-                                           placeholder="Precio de Venta al Público"
-                                           class="align-right"
-                                           (blur)="setTwoNumberDecimal($event)"
-                                           (focus)="$event.target.select()"
-                                           (keyup)="updatePvp()"
-                                           formControlName="pvp">
-                                </mat-form-field>
-                                <span>€</span>
+                    <div class="articulo-numbers-row">
+                        <div class="articulo-numbers">
+                            <div class="articulo-col">
+                                <div class="form-field-left">
+                                    <label>Precio albarán</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               placeholder="Precio albarán"
+                                               class="align-right"
+                                               (blur)="setTwoNumberDecimal($event)"
+                                               (focus)="$event.target.select()"
+                                               (keyup)="updatePalb()"
+                                               formControlName="palb">
+                                    </mat-form-field>
+                                    <span>€</span>
+                                </div>
+                                <div class="form-field-left">
+                                    <label>PUC</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               placeholder="Precio Unitario de Compra"
+                                               class="align-right"
+                                               (blur)="setTwoNumberDecimal($event)"
+                                               (focus)="$event.target.select()"
+                                               (keyup)="updatePuc()"
+                                               formControlName="puc">
+                                    </mat-form-field>
+                                    <span>€</span>
+                                </div>
+                                <div class="form-field-left margen">
+                                    <label>Margen</label>
+                                    <span (click)="abrirMargenes()">
+                                        {{articulo.margen | fixedNumber}} %
+                                    </span>
+                                </div>
+                                <div class="form-field-left">
+                                    <label>PVP</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               placeholder="Precio de Venta al Público"
+                                               class="align-right"
+                                               (blur)="setTwoNumberDecimal($event)"
+                                               (focus)="$event.target.select()"
+                                               (keyup)="updatePvp()"
+                                               formControlName="pvp">
+                                    </mat-form-field>
+                                    <span>€</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="articulo-numbers">
-                        <div class="articulo-col">
-                            <div class="form-field-left">
-                                <label>Stock</label>
-                                <mat-form-field class="campo-numero">
-                                    <input matInput
-                                           type="number"
-                                           step="1"
-                                           placeholder="Stock"
-                                           formControlName="stock"
-                                           (focus)="$event.target.select()"
-                                           class="align-right">
-                                </mat-form-field>
+                        <div class="articulo-numbers">
+                            <div class="articulo-col">
+                                <div class="form-field-left fixed-height">
+                                    &nbsp;
+                                </div>
+                                <div class="form-field-left fixed-height">
+                                    <label>Descuento</label>
+                                    <mat-slide-toggle color="primary"
+                                                      formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+                                </div>
+                                <div class="form-field-left margen">
+                                    <label>Margen con descuento</label>
+                                    <span (click)="abrirMargenes()">
+                                        {{articulo.margen | fixedNumber}} %
+                                    </span>
+                                </div>
+                                <div class="form-field-left">
+                                    <label>PVP con descuento</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               placeholder="Precio de Venta al Público"
+                                               class="align-right"
+                                               (blur)="setTwoNumberDecimal($event)"
+                                               (focus)="$event.target.select()"
+                                               (keyup)="updatePvp()"
+                                               formControlName="pvp">
+                                    </mat-form-field>
+                                    <span>€</span>
+                                </div>
                             </div>
-                            <!--div class="form-field-left">
+                        </div>
+                        <div class="articulo-numbers">
+                            <div class="articulo-col">
+                                <div class="form-field-left">
+                                    <label>Stock</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               step="1"
+                                               placeholder="Stock"
+                                               formControlName="stock"
+                                               (focus)="$event.target.select()"
+                                               class="align-right">
+                                    </mat-form-field>
+                                </div>
+                                <!--div class="form-field-left">
 								<label>Stock mínimo</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
@@ -224,7 +257,7 @@
 										   class="align-right">
 								</mat-form-field>
 							</div-->
-                            <!--div class="form-field-left">
+                                <!--div class="form-field-left">
 								<label>Stock máximo</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
@@ -236,7 +269,7 @@
 										   class="align-right">
 								</mat-form-field>
 							</div-->
-                            <!--div class="form-field-left">
+                                <!--div class="form-field-left">
 								<label>Lote óptimo</label>
 								<mat-form-field class="campo-numero">
 									<input matInput
@@ -248,6 +281,7 @@
 										   class="align-right">
 								</mat-form-field>
 							</div-->
+                            </div>
                         </div>
                     </div>
                 </mat-tab>

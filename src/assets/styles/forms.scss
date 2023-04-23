@@ -73,6 +73,13 @@
   display: inline-block;
   margin-right: 48px;
 
+  &.fixed-height {
+    height: 78px;
+    display: flex;
+    padding-top: 16px;
+    box-sizing: border-box;
+  }
+
   label {
     display: inline-block;
     line-height: 24px;

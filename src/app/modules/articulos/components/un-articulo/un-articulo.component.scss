@@ -11,12 +11,16 @@
         }
     }
 
-    .articulo-numbers {
-        display: inline-block;
+    .articulo-numbers-row {
+        display: flex;
 
-        .articulo-col {
-            display: flex;
-            flex-direction: column;
+        .articulo-numbers {
+            display: inline-block;
+
+            .articulo-col {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 
