@@ -519,9 +519,12 @@
                                 </th>
                                 <td mat-cell
                                     *matCellDef="let element">
-                                    <span *ngIf="element.tipo === 0">Venta</span>
-                                    <span *ngIf="element.tipo === 1">Reposición</span>
-                                    <span *ngIf="element.tipo === 2">Manual</span>
+                                    <span *ngIf="element.tipo === 1">Venta</span>
+                                    <span *ngIf="element.tipo === 2">Venta (web)</span>
+                                    <span *ngIf="element.tipo === 3">Pedido</span>
+                                    <span *ngIf="element.tipo === 4">Manual</span>
+                                    <span *ngIf="element.tipo === 5">Inventario</span>
+                                    <span *ngIf="element.tipo === 6">Inventario (múltiple)</span>
                                 </td>
                             </ng-container>
 
