@@ -13,8 +13,20 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import {
+  getDate,
+  getDateFromString,
+  getTwoNumberDecimal,
+  urldecode,
+} from "@osumi/tools";
+import { ArticuloResult } from "src/app/interfaces/articulo.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { BuscadorModal, Modal } from "src/app/interfaces/modals.interface";
-import { PedidosColOption } from "src/app/interfaces/pedido.interface";
+import {
+  PedidoResult,
+  PedidoSaveResult,
+  PedidosColOption,
+} from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulos/articulo.model";
 import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
@@ -27,7 +39,6 @@ import { HeaderComponent } from "src/app/modules/shared/components/header/header
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
@@ -235,7 +246,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.reList.push(ivaOption.re);
     }
     this.changeOptions();
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       if (params.id) {
         if (parseInt(params.id) !== 0) {
           this.loadPedido(params.id);
@@ -249,7 +260,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   loadPedido(id: number): void {
-    this.cs.getPedido(id).subscribe((result) => {
+    this.cs.getPedido(id).subscribe((result: PedidoResult): void => {
       this.pedido = new Pedido().fromInterface(result.pedido);
       this.cs.pedidoCargado = this.pedido.id;
 
@@ -274,8 +285,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.changeOptions();
 
       this.titulo = "Pedido " + this.pedido.id;
-      this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
-      this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+      this.fechaPago = getDateFromString(this.pedido.fechaPago);
+      this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
       this.pedidoDataSource.data = this.pedido.lineas;
       this.checkReturnInfo();
     });
@@ -284,10 +295,10 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   loadPedidoTemporal(): void {
     this.pedido = this.cs.pedidoTemporal;
     if (this.pedido.fechaPago !== null) {
-      this.fechaPago = Utils.getDateFromString(this.pedido.fechaPago);
+      this.fechaPago = getDateFromString(this.pedido.fechaPago);
     }
     if (this.pedido.fechaPedido !== null) {
-      this.fechaPedido = Utils.getDateFromString(this.pedido.fechaPedido);
+      this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
     }
     for (let pv of this.pedido.vista) {
       if (pv.status) {
@@ -335,7 +346,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           ok: "Continuar",
           cancel: "Cancelar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.dontSave = true;
             this.cs.pedidoCargado = null;
@@ -353,7 +364,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   changeAutoSave(): void {
     this.autoSaveManually = true;
     if (this.autoSave) {
-      this.autoSaveIntervalId = window.setInterval(() => {
+      this.autoSaveIntervalId = window.setInterval((): void => {
         this.startAutoSave();
       }, this.autoSaveIntervalTime);
     } else {
@@ -370,7 +381,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       NewProveedorModalComponent,
       modalnewProveedorData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data !== null) {
         this.pedido.idProveedor = data.data;
       }
@@ -459,7 +470,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   updatePalb(linea: PedidoLinea): void {
-    linea.puc = Utils.getTwoNumberDecimal(
+    linea.puc = getTwoNumberDecimal(
       linea.palb *
         (1 - linea.descuento / 100) *
         (1 + (linea.iva + linea.re) / 100)
@@ -484,7 +495,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   updateMargen(linea: PedidoLinea): void {
-    linea.margen = Utils.getTwoNumberDecimal(
+    linea.margen = getTwoNumberDecimal(
       (100 * (linea.pvp - linea.puc)) / linea.pvp
     );
   }
@@ -508,7 +519,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         BuscadorModalComponent,
         modalBuscadorData
       );
-      dialog.afterClosed$.subscribe((data) => {
+      dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
           this.nuevoLocalizador = data.data;
@@ -529,48 +540,52 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   loadArticulo(): void {
-    this.ars.loadArticulo(this.nuevoLocalizador).subscribe((result) => {
-      if (result.status === "ok") {
-        const articulo: Articulo = this.cms.getArticulo(result.articulo);
+    this.ars
+      .loadArticulo(this.nuevoLocalizador)
+      .subscribe((result: ArticuloResult): void => {
+        if (result.status === "ok") {
+          const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
-        const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea) => {
-          return x.localizador === articulo.localizador;
-        });
-
-        if (ind === -1) {
-          const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
-            articulo
+          const ind: number = this.pedido.lineas.findIndex(
+            (x: PedidoLinea): boolean => {
+              return x.localizador === articulo.localizador;
+            }
           );
-          lineaPedido.iva = articulo.iva;
-          lineaPedido.re = this.pedido.re ? articulo.re : 0;
-          const marca: Marca = this.ms.findById(lineaPedido.idMarca);
-          lineaPedido.marca = marca.nombre;
 
-          this.pedido.lineas.push(lineaPedido);
-          this.pedidoDataSource.data = this.pedido.lineas;
-        } else {
-          this.pedido.lineas[ind].unidades++;
-        }
+          if (ind === -1) {
+            const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
+              articulo
+            );
+            lineaPedido.iva = articulo.iva;
+            lineaPedido.re = this.pedido.re ? articulo.re : 0;
+            const marca: Marca = this.ms.findById(lineaPedido.idMarca);
+            lineaPedido.marca = marca.nombre;
 
-        this.nuevoLocalizador = null;
-        /*if (!this.autoSaveManually) {
+            this.pedido.lineas.push(lineaPedido);
+            this.pedidoDataSource.data = this.pedido.lineas;
+          } else {
+            this.pedido.lineas[ind].unidades++;
+          }
+
+          this.nuevoLocalizador = null;
+          /*if (!this.autoSaveManually) {
           this.autoSave = true;
           this.changeAutoSave();
           this.autoSaveManually = false;
         }*/
-        this.localizadorBox.nativeElement.focus();
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: "No se encuentra el localizador indicado.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.localizadorBox.nativeElement.focus();
-          });
-      }
-    });
+          this.localizadorBox.nativeElement.focus();
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: "No se encuentra el localizador indicado.",
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {
+              this.localizadorBox.nativeElement.focus();
+            });
+        }
+      });
   }
 
   checkArrows(ev: KeyboardEvent): void {
@@ -663,7 +678,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           ok: "Continuar",
           cancel: "Cancelar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.pedido.lineas.splice(ind, 1);
             this.pedidoDataSource.data = this.pedido.lineas;
@@ -695,7 +710,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     ) {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         const pdf: PedidoPDF = new PedidoPDF(
           null,
           reader.result as string,
@@ -725,7 +740,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           if (!this.pedido.pdfs[ind].id) {
             this.pedido.pdfs.splice(ind, 1);
@@ -738,8 +753,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   updatePedidoData(): void {
-    this.pedido.fechaPago = Utils.getDate(this.fechaPago);
-    this.pedido.fechaPedido = Utils.getDate(this.fechaPedido);
+    this.pedido.fechaPago = getDate(this.fechaPago);
+    this.pedido.fechaPedido = getDate(this.fechaPedido);
     this.pedido.importe = this.pedido.total;
     this.pedido.vista = [];
     for (let opt of this.colOptions) {
@@ -762,7 +777,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: "No has indicado ningún proveedor.",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           this.proveedoresValue.toggle();
         });
       return false;
@@ -778,7 +793,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             ".",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           this.numAlbaranFacturaBox.nativeElement.focus();
         });
       return false;
@@ -791,7 +806,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: "No has añadido ningún artículo al pedido.",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           this.localizadorBox.nativeElement.focus();
         });
       return false;
@@ -815,7 +830,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         ok: "Recepcionar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           if (this.validarPedido()) {
             this.pedido.recepcionado = true;
@@ -826,40 +841,44 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   guardarPedido(): void {
-    this.cs.savePedido(this.pedido.toInterface()).subscribe((result) => {
-      if (result.status === "ok") {
-        this.pedido.id = result.id;
-        this.titulo = "Pedido " + this.pedido.id;
-        this.dialog
-          .alert({
-            title: "OK",
-            content: "El pedido ha sido correctamente guardado.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.dontSave = true;
-            this.back();
-          });
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              "Los siguientes códigos de barras ya están siendo usados: " +
-              Utils.urldecode(result.message),
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-      }
-    });
+    this.cs
+      .savePedido(this.pedido.toInterface())
+      .subscribe((result: PedidoSaveResult): void => {
+        if (result.status === "ok") {
+          this.pedido.id = result.id;
+          this.titulo = "Pedido " + this.pedido.id;
+          this.dialog
+            .alert({
+              title: "OK",
+              content: "El pedido ha sido correctamente guardado.",
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {
+              this.dontSave = true;
+              this.back();
+            });
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content:
+                "Los siguientes códigos de barras ya están siendo usados: " +
+                urldecode(result.message),
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {});
+        }
+      });
   }
 
   startAutoSave(): void {
     this.updatePedidoData();
-    this.cs.autoSavePedido(this.pedido.toInterface()).subscribe((result) => {
-      this.pedido.id = result.id;
-      this.titulo = "Pedido " + this.pedido.id;
-    });
+    this.cs
+      .autoSavePedido(this.pedido.toInterface())
+      .subscribe((result: PedidoSaveResult): void => {
+        this.pedido.id = result.id;
+        this.titulo = "Pedido " + this.pedido.id;
+      });
   }
 
   deletePedido(): void {
@@ -870,21 +889,23 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
-          this.cs.deletePedido(this.pedido.id).subscribe((result) => {
-            this.dialog
-              .alert({
-                title: "Pedido borrado",
-                content:
-                  "El pedido y todos sus datos han sido correctamente eliminados.",
-                ok: "Continuar",
-              })
-              .subscribe((result) => {
-                this.dontSave = true;
-                this.back();
-              });
-          });
+          this.cs
+            .deletePedido(this.pedido.id)
+            .subscribe((result: StatusResult): void => {
+              this.dialog
+                .alert({
+                  title: "Pedido borrado",
+                  content:
+                    "El pedido y todos sus datos han sido correctamente eliminados.",
+                  ok: "Continuar",
+                })
+                .subscribe((result: boolean): void => {
+                  this.dontSave = true;
+                  this.back();
+                });
+            });
         }
       });
   }
@@ -898,7 +919,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       } else {
         this.cs
           .autoSavePedido(this.pedido.toInterface())
-          .subscribe((result) => {});
+          .subscribe((result: PedidoSaveResult): void => {});
       }
     }
   }

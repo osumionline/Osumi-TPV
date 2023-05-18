@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { CierreCajaTipoInterface } from "src/app/interfaces/caja.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class CierreCajaTipo {
   real: number = null;
@@ -20,7 +20,7 @@ export class CierreCajaTipo {
 
   fromInterface(cct: CierreCajaTipoInterface): CierreCajaTipo {
     this.id = cct.id;
-    this.nombre = Utils.urldecode(cct.nombre);
+    this.nombre = urldecode(cct.nombre);
     this.ventas = cct.ventas;
     this.operaciones = cct.operaciones;
     this.real = cct.ventas;
@@ -31,7 +31,7 @@ export class CierreCajaTipo {
   toInterface(): CierreCajaTipoInterface {
     return {
       id: this.id,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
       ventas: this.ventas,
       real: this.real,
       operaciones: this.operaciones,

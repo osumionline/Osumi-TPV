@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { ReservaLineaInterface } from "src/app/interfaces/cliente.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class ReservaLinea {
   constructor(
@@ -25,9 +25,9 @@ export class ReservaLinea {
   fromInterface(rl: ReservaLineaInterface): ReservaLinea {
     this.id = rl.id;
     this.idArticulo = rl.idArticulo;
-    this.nombreArticulo = Utils.urldecode(rl.nombreArticulo);
+    this.nombreArticulo = urldecode(rl.nombreArticulo);
     this.localizador = rl.localizador;
-    this.marca = Utils.urldecode(rl.marca);
+    this.marca = urldecode(rl.marca);
     this.stock = rl.stock;
     this.puc = rl.puc;
     this.pvp = rl.pvp;
@@ -44,9 +44,9 @@ export class ReservaLinea {
     return {
       id: this.id,
       idArticulo: this.idArticulo,
-      nombreArticulo: Utils.urlencode(this.nombreArticulo),
+      nombreArticulo: urlencode(this.nombreArticulo),
       localizador: this.localizador,
-      marca: Utils.urlencode(this.marca),
+      marca: urlencode(this.marca),
       stock: this.stock,
       puc: this.puc,
       pvp: this.pvp,

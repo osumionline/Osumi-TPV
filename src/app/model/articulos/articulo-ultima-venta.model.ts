@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { ArticuloUltimaVentaInterface } from "src/app/interfaces/venta.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class ArticuloUltimaVenta {
   constructor(
@@ -14,7 +14,7 @@ export class ArticuloUltimaVenta {
   fromInterface(uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta {
     this.fecha = uva.fecha;
     this.localizador = uva.localizador;
-    this.nombre = Utils.urldecode(uva.nombre);
+    this.nombre = urldecode(uva.nombre);
     this.unidades = uva.unidades;
     this.pvp = uva.pvp;
     this.importe = uva.importe;
@@ -26,7 +26,7 @@ export class ArticuloUltimaVenta {
     return {
       fecha: this.fecha,
       localizador: this.localizador,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
       unidades: this.unidades,
       pvp: this.pvp,
       importe: this.importe,

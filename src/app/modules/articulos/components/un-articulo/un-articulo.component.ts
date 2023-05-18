@@ -22,6 +22,7 @@ import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatTabChangeEvent } from "@angular/material/tabs";
 import { Router } from "@angular/router";
+import { getTwoNumberDecimal, urldecode } from "@osumi/tools";
 import { QRCodeModule } from "angularx-qrcode";
 import {
   ArticuloResult,
@@ -58,7 +59,6 @@ import { BuscadorModalComponent } from "src/app/modules/shared/components/modals
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
@@ -614,7 +614,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     const ivare: number =
       (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
       (this.form.get("re").value != -1 ? this.form.get("re").value : 0);
-    const puc: number = Utils.getTwoNumberDecimal(
+    const puc: number = getTwoNumberDecimal(
       this.form.get("palb").value * (1 + ivare / 100)
     );
     this.updatePuc(puc);
@@ -877,7 +877,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 title: "Confirmar",
                 content: `Ya existe un artículo con el nombre "${
                   this.articulo.nombre
-                }" para la marca "${Utils.urldecode(
+                }" para la marca "${urldecode(
                   result.message
                 )}" , ¿quieres continuar?`,
                 ok: "Continuar",
@@ -896,7 +896,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 title: "Error",
                 content: `La referencia "${
                   this.articulo.referencia
-                }" ya está en uso por el artículo "${Utils.urldecode(
+                }" ya está en uso por el artículo "${urldecode(
                   result.message
                 )}".`,
                 ok: "Continuar",
@@ -906,7 +906,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               });
           }
           if (result.status === "cb-used") {
-            const data: string[] = Utils.urldecode(result.message).split("/");
+            const data: string[] = urldecode(result.message).split("/");
             this.dialog
               .alert({
                 title: "Error",
@@ -935,7 +935,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.articulo.margen = data.data;
-        this.articulo.pvp = Utils.getTwoNumberDecimal(
+        this.articulo.pvp = getTwoNumberDecimal(
           (this.form.get("puc").value * 100) / (100 - data.data)
         );
         this.form.get("pvp").setValue(this.articulo.pvp);

@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { InventarioItemInterface } from "src/app/interfaces/almacen.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class InventarioItem {
   _stock: number = null;
@@ -41,18 +41,17 @@ export class InventarioItem {
   fromInterface(ii: InventarioItemInterface): InventarioItem {
     this.id = ii.id;
     this.localizador = ii.localizador;
-    this.marca = Utils.urldecode(ii.marca);
-    this.proveedor =
-      ii.proveedor !== null ? Utils.urldecode(ii.proveedor) : null;
-    this.referencia = Utils.urldecode(ii.referencia);
-    this.nombre = Utils.urldecode(ii.nombre);
+    this.marca = urldecode(ii.marca);
+    this.proveedor = ii.proveedor !== null ? urldecode(ii.proveedor) : null;
+    this.referencia = urldecode(ii.referencia);
+    this.nombre = urldecode(ii.nombre);
     this.stock = ii.stock;
     this._stock = ii.stock;
     this.puc = ii.puc;
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
     this.hasCodigosBarras = ii.hasCodigosBarras;
-    this.observaciones = Utils.urldecode(ii.observaciones);
+    this.observaciones = urldecode(ii.observaciones);
 
     return this;
   }
@@ -61,17 +60,16 @@ export class InventarioItem {
     return {
       id: this.id,
       localizador: this.localizador,
-      marca: Utils.urlencode(this.marca),
-      proveedor:
-        this.proveedor !== null ? Utils.urlencode(this.proveedor) : null,
-      referencia: Utils.urlencode(this.referencia),
-      nombre: Utils.urlencode(this.nombre),
+      marca: urlencode(this.marca),
+      proveedor: this.proveedor !== null ? urlencode(this.proveedor) : null,
+      referencia: urlencode(this.referencia),
+      nombre: urlencode(this.nombre),
       stock: this.stock,
       puc: this.puc,
       pvp: this.pvp,
       hasCodigosBarras: this.hasCodigosBarras,
       codigoBarras: this.codigoBarras,
-      observaciones: Utils.urlencode(this.observaciones),
+      observaciones: urlencode(this.observaciones),
     };
   }
 }

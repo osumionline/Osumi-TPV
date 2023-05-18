@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { PedidoPDFInterface } from "src/app/interfaces/pedido.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class PedidoPDF {
   constructor(
@@ -13,7 +13,7 @@ export class PedidoPDF {
   fromInterface(p: PedidoPDFInterface): PedidoPDF {
     this.id = p.id;
     this.data = p.data;
-    this.nombre = Utils.urldecode(p.nombre);
+    this.nombre = urldecode(p.nombre);
     this.url = p.url;
     this.deleted = p.deleted;
 
@@ -24,7 +24,7 @@ export class PedidoPDF {
     return {
       id: this.id,
       data: this.data,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
       url: this.url,
       deleted: this.deleted,
     };

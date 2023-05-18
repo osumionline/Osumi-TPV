@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Utils } from "src/app/modules/shared/utils.class";
+import { formatNumber } from "@osumi/tools";
 
 @Pipe({
   standalone: true,
@@ -10,6 +10,6 @@ export class FixedNumberPipe implements PipeTransform {
     if (Number.isNaN(num)) {
       return "0,00";
     }
-    return Utils.formatNumber(num);
+    return formatNumber(num);
   }
 }

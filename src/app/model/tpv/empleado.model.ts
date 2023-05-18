@@ -1,10 +1,10 @@
+import { hexToRgbFloat, urldecode, urlencode } from "@osumi/tools";
 import {
   EmpleadoInterface,
   EmpleadoLoginInterface,
 } from "src/app/interfaces/empleado.interface";
 import { ColorValues } from "src/app/interfaces/interfaces";
 import { rolList } from "src/app/modules/shared/rol.class";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Empleado {
   pass: string = null;
@@ -26,7 +26,7 @@ export class Empleado {
       this._textColor = "#000";
       return this._textColor;
     }
-    const color: ColorValues = Utils.hexToRgbFloat(this.color);
+    const color: ColorValues = hexToRgbFloat(this.color);
     if (!color) {
       this._textColor = "#000";
       return this._textColor;
@@ -48,7 +48,7 @@ export class Empleado {
 
   fromInterface(e: EmpleadoInterface, decode: boolean = true): Empleado {
     this.id = e.id;
-    this.nombre = decode ? Utils.urldecode(e.nombre) : e.nombre;
+    this.nombre = decode ? urldecode(e.nombre) : e.nombre;
     this.hasPassword = e.hasPassword;
     this.color = e.color;
     this.roles = e.roles;
@@ -68,7 +68,7 @@ export class Empleado {
   toInterface(encode: boolean = true): EmpleadoInterface {
     return {
       id: this.id,
-      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      nombre: encode ? urlencode(this.nombre) : this.nombre,
       hasPassword: this.hasPassword,
       color: this.color,
       roles: this.roles,
@@ -78,7 +78,7 @@ export class Empleado {
   toLoginInterface(): EmpleadoLoginInterface {
     return {
       id: this.id,
-      pass: Utils.urlencode(this.pass),
+      pass: urlencode(this.pass),
     };
   }
 

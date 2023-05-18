@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { formatNumber } from "@osumi/tools";
 import { Observable } from "rxjs";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
@@ -14,7 +15,6 @@ import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaFin } from "src/app/model/ventas/venta-fin.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { Venta } from "src/app/model/ventas/venta.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -129,13 +129,13 @@ export class VentasService {
     );
 
     this.fin = new VentaFin(
-      Utils.formatNumber(this.ventaActual.importe),
+      formatNumber(this.ventaActual.importe),
       "0",
       null,
       this.ventaActual.idEmpleado,
       null,
       this.cliente ? this.cliente.id : -1,
-      Utils.formatNumber(this.ventaActual.importe),
+      formatNumber(this.ventaActual.importe),
       lineas,
       "si",
       this.cliente ? this.cliente.email : null

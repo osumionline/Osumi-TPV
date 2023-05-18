@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { CategoriaInterface } from "src/app/interfaces/articulo.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Categoria {
   constructor(
@@ -11,7 +11,7 @@ export class Categoria {
 
   fromInterface(c: CategoriaInterface, hijos: Categoria[]): Categoria {
     this.id = c.id;
-    this.nombre = Utils.urldecode(c.nombre);
+    this.nombre = urldecode(c.nombre);
     this.profundidad = c.profundidad;
     this.hijos = hijos;
 
@@ -25,7 +25,7 @@ export class Categoria {
     }
     return {
       id: this.id,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
       profundidad: this.profundidad,
       hijos: hijos,
     };

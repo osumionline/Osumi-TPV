@@ -12,11 +12,12 @@ import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { formatNumber, toNumber } from "@osumi/tools";
+import { FinVentaResult } from "src/app/interfaces/venta.interface";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
@@ -61,7 +62,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.ventasFinDataSource.data = this.vs.fin.lineas;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.efectivoValue.nativeElement.select();
     }, 0);
   }
@@ -80,17 +81,17 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
   updateCambio(): void {
     let cambio: string = "";
     if (!this.vs.fin.pagoMixto) {
-      cambio = Utils.formatNumber(
-        Utils.toNumber(this.vs.fin.efectivo) - Utils.toNumber(this.vs.fin.total)
+      cambio = formatNumber(
+        toNumber(this.vs.fin.efectivo) - toNumber(this.vs.fin.total)
       );
     } else {
-      cambio = Utils.formatNumber(
-        Utils.toNumber(this.vs.fin.efectivo) +
-          Utils.toNumber(this.vs.fin.tarjeta) -
-          Utils.toNumber(this.vs.fin.total)
+      cambio = formatNumber(
+        toNumber(this.vs.fin.efectivo) +
+          toNumber(this.vs.fin.tarjeta) -
+          toNumber(this.vs.fin.total)
       );
     }
-    if (Utils.toNumber(cambio) > 0) {
+    if (toNumber(cambio) > 0) {
       this.vs.fin.cambio = cambio;
     }
   }
@@ -99,14 +100,14 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
     if (this.vs.fin.idTipoPago === id) {
       this.vs.fin.idTipoPago = null;
       this.vs.fin.efectivo = this.vs.fin.total;
-      setTimeout(() => {
+      setTimeout((): void => {
         this.efectivoValue.nativeElement.select();
       }, 0);
     } else {
       this.vs.fin.idTipoPago = id;
       if (this.vs.fin.pagoMixto) {
         this.updateEfectivoMixto();
-        setTimeout(() => {
+        setTimeout((): void => {
           this.tarjetaValue.nativeElement.select();
         }, 0);
       } else {
@@ -117,20 +118,20 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
   }
 
   updateEfectivoMixto(): void {
-    if (Utils.toNumber(this.vs.fin.tarjeta) === 0) {
+    if (toNumber(this.vs.fin.tarjeta) === 0) {
       this.vs.fin.efectivo = "0";
       this.vs.fin.cambio = "0";
       return;
     }
-    const efectivo: string = Utils.formatNumber(
-      Utils.toNumber(this.vs.fin.total) - Utils.toNumber(this.vs.fin.tarjeta)
+    const efectivo: string = formatNumber(
+      toNumber(this.vs.fin.total) - toNumber(this.vs.fin.tarjeta)
     );
-    if (Utils.toNumber(efectivo) > 0) {
+    if (toNumber(efectivo) > 0) {
       this.vs.fin.efectivo = efectivo;
       this.vs.fin.cambio = "0";
     } else {
       this.vs.fin.efectivo = "0";
-      this.vs.fin.cambio = Utils.formatNumber(Utils.toNumber(efectivo) * -1);
+      this.vs.fin.cambio = formatNumber(toNumber(efectivo) * -1);
     }
   }
 
@@ -254,12 +255,12 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
   }
 
   finalizarVenta(): void {
-    const tarjeta: number = Utils.toNumber(this.vs.fin.tarjeta);
-    const efectivo: number = Utils.toNumber(this.vs.fin.efectivo);
-    const total: number = Utils.toNumber(this.vs.fin.total);
+    const tarjeta: number = toNumber(this.vs.fin.tarjeta);
+    const efectivo: number = toNumber(this.vs.fin.efectivo);
+    const total: number = toNumber(this.vs.fin.total);
 
     if (this.vs.fin.imprimir === "reserva") {
-      this.vs.guardarReserva().subscribe((result) => {
+      this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
         this.customOverlayRef.close({
           status: "fin-reserva",
         });

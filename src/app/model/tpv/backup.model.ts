@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { BackupInterface } from "src/app/interfaces/interfaces";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Backup {
   constructor(
@@ -12,7 +12,7 @@ export class Backup {
   fromInterface(b: BackupInterface): Backup {
     this.id = b.id;
     this.idAccount = b.idAccount;
-    this.account = Utils.urldecode(b.account);
+    this.account = urldecode(b.account);
     this.date = b.date;
 
     return this;
@@ -22,7 +22,7 @@ export class Backup {
     return {
       id: this.id,
       idAccount: this.idAccount,
-      account: Utils.urlencode(this.account),
+      account: urlencode(this.account),
       date: this.date,
     };
   }

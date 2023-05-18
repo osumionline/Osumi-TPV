@@ -1,6 +1,6 @@
+import { getTwoNumberDecimal, urldecode, urlencode } from "@osumi/tools";
 import { PedidoLineaInterface } from "src/app/interfaces/pedido.interface";
 import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class PedidoLinea {
   showCodigoBarras: boolean = false;
@@ -40,7 +40,7 @@ export class PedidoLinea {
   }
 
   get total(): number {
-    return Utils.getTwoNumberDecimal(this.unidades * this.puc);
+    return getTwoNumberDecimal(this.unidades * this.puc);
   }
 
   get beneficio(): number {
@@ -50,10 +50,10 @@ export class PedidoLinea {
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {
     this.id = pl.id;
     this.idArticulo = pl.idArticulo;
-    this.nombreArticulo = Utils.urldecode(pl.nombreArticulo);
+    this.nombreArticulo = urldecode(pl.nombreArticulo);
     this.localizador = pl.localizador;
     this.idMarca = pl.idMarca;
-    this.marca = Utils.urldecode(pl.marca);
+    this.marca = urldecode(pl.marca);
     this.unidades = pl.unidades;
     this.palb = pl.palb;
     this.puc = pl.puc;
@@ -66,7 +66,7 @@ export class PedidoLinea {
     this.idCategoria = pl.idCategoria;
     this.codBarras = pl.codBarras;
     this.hasCodBarras = pl.hasCodBarras;
-    this.referencia = Utils.urldecode(pl.referencia);
+    this.referencia = urldecode(pl.referencia);
 
     return this;
   }
@@ -101,10 +101,10 @@ export class PedidoLinea {
     return {
       id: this.id,
       idArticulo: this.idArticulo,
-      nombreArticulo: Utils.urlencode(this.nombreArticulo),
+      nombreArticulo: urlencode(this.nombreArticulo),
       localizador: this.localizador,
       idMarca: this.idMarca,
-      marca: Utils.urlencode(this.marca),
+      marca: urlencode(this.marca),
       unidades: this.unidades,
       palb: this.palb,
       puc: this.puc,
@@ -117,7 +117,7 @@ export class PedidoLinea {
       idCategoria: this.idCategoria,
       codBarras: this.codBarras,
       hasCodBarras: this.hasCodBarras,
-      referencia: Utils.urlencode(this.referencia),
+      referencia: urlencode(this.referencia),
     };
   }
 }

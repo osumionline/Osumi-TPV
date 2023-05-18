@@ -1,9 +1,9 @@
+import { toNumber, urldecode, urlencode } from "@osumi/tools";
 import {
   VentaFinInterface,
   VentaLineaInterface,
 } from "src/app/interfaces/venta.interface";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class VentaFin {
   pagoMixto: boolean = false;
@@ -32,27 +32,27 @@ export class VentaFin {
     this.lineas = vf.lineas.map((l: VentaLineaInterface): VentaLinea => {
       return new VentaLinea().fromInterface(l);
     });
-    this.imprimir = Utils.urldecode(vf.imprimir);
-    this.email = Utils.urldecode(vf.email);
+    this.imprimir = urldecode(vf.imprimir);
+    this.email = urldecode(vf.email);
 
     return this;
   }
 
   toInterface(): VentaFinInterface {
     return {
-      efectivo: Utils.toNumber(this.efectivo),
-      cambio: Utils.toNumber(this.cambio),
-      tarjeta: Utils.toNumber(this.tarjeta),
+      efectivo: toNumber(this.efectivo),
+      cambio: toNumber(this.cambio),
+      tarjeta: toNumber(this.tarjeta),
       idEmpleado: this.idEmpleado,
       idTipoPago: this.idTipoPago,
       idCliente: this.idCliente,
-      total: Utils.toNumber(this.total),
+      total: toNumber(this.total),
       lineas: this.lineas.map((l: VentaLinea): VentaLineaInterface => {
         return l.toInterface();
       }),
       pagoMixto: this.pagoMixto,
-      imprimir: Utils.urlencode(this.imprimir),
-      email: Utils.urlencode(this.email),
+      imprimir: urlencode(this.imprimir),
+      email: urlencode(this.email),
     };
   }
 }

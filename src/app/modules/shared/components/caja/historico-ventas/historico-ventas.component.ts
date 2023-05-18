@@ -11,15 +11,23 @@ import { MatSelect } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
-import { VentaHistoricoOtrosInterface } from "src/app/interfaces/caja.interface";
-import { DateValues } from "src/app/interfaces/interfaces";
+import { addDays, getDate, urlencode } from "@osumi/tools";
+import {
+  HistoricoVentasResult,
+  VentaHistoricoOtrosInterface,
+} from "src/app/interfaces/caja.interface";
+import {
+  DateValues,
+  DialogOptions,
+  IdSaveResult,
+  StatusResult,
+} from "src/app/interfaces/interfaces";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -93,12 +101,12 @@ export class HistoricoVentasComponent implements AfterViewInit {
   }
 
   previousFecha(): void {
-    this.fecha = Utils.addDays(this.fecha, -1);
+    this.fecha = addDays(this.fecha, -1);
     this.changeFecha();
   }
 
   nextFecha(): void {
-    this.fecha = Utils.addDays(this.fecha, 1);
+    this.fecha = addDays(this.fecha, 1);
     this.changeFecha();
   }
 
@@ -107,7 +115,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
     const data: DateValues = {
       modo: "fecha",
       id: null,
-      fecha: Utils.getDate(this.fecha),
+      fecha: getDate(this.fecha),
       desde: null,
       hasta: null,
     };
@@ -122,30 +130,32 @@ export class HistoricoVentasComponent implements AfterViewInit {
           content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
       return;
     }
     const data: DateValues = {
       modo: "rango",
       fecha: null,
       id: null,
-      desde: Utils.getDate(this.rangoDesde),
-      hasta: Utils.getDate(this.rangoHasta),
+      desde: getDate(this.rangoDesde),
+      hasta: getDate(this.rangoHasta),
     };
     this.buscarHistorico(data);
   }
 
   buscarHistorico(data: DateValues): void {
-    this.vs.getHistorico(data).subscribe((result) => {
-      this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
-      this.historicoVentasDataSource.data = this.historicoVentasList;
+    this.vs
+      .getHistorico(data)
+      .subscribe((result: HistoricoVentasResult): void => {
+        this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
+        this.historicoVentasDataSource.data = this.historicoVentasList;
 
-      this.totalDia = result.totalDia;
-      this.ventasEfectivo = result.ventasEfectivo;
-      this.ventasOtros = result.ventasOtros;
-      this.ventasWeb = result.ventasWeb;
-      this.ventasBeneficio = result.ventasBeneficio;
-    });
+        this.totalDia = result.totalDia;
+        this.ventasEfectivo = result.ventasEfectivo;
+        this.ventasOtros = result.ventasOtros;
+        this.ventasWeb = result.ventasWeb;
+        this.ventasBeneficio = result.ventasBeneficio;
+      });
   }
 
   selectVenta(ind: number): void {
@@ -160,7 +170,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         this.historicoVentasSelected.id,
         this.historicoVentasSelected.idCliente
       )
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         if (result.status == "ok") {
           const cliente: Cliente = this.cs.clientes.find(
             (x: Cliente): boolean =>
@@ -177,7 +187,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         this.historicoVentasSelected.id,
         this.historicoVentasSelected.idTipoPago
       )
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         if (result.status == "ok") {
           if (this.historicoVentasSelected.idTipoPago !== null) {
             const tp: TipoPago = this.config.tiposPago.find(
@@ -195,7 +205,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
   printTicket(tipo: string): void {
     this.vs
       .printTicket(this.historicoVentasSelected.id, tipo)
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         if (result.status === "error") {
           this.dialog
             .alert({
@@ -203,7 +213,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
               content: "Ocurrió un error al imprimir el ticket.",
               ok: "Continuar",
             })
-            .subscribe((result) => {});
+            .subscribe((result: boolean): void => {});
         }
       });
   }
@@ -218,12 +228,12 @@ export class HistoricoVentasComponent implements AfterViewInit {
           ok: "Crear nuevo",
           cancel: "Elegir cliente",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.cerrarVentanaEvent.emit(0);
             this.router.navigate(["/clientes/new"]);
           } else {
-            setTimeout(() => {
+            setTimeout((): void => {
               this.clientesBox.toggle();
             }, 0);
           }
@@ -248,7 +258,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
             '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
     } else {
       if (
         selectedClient.direccion === null ||
@@ -269,7 +279,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
             ok: "Continuar",
             cancel: "Cancelar",
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             if (result === true) {
               this.saveFacturaFromVenta();
             }
@@ -283,7 +293,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
   saveFacturaFromVenta(): void {
     this.cs
       .saveFacturaFromVenta(this.historicoVentasSelected.id)
-      .subscribe((result) => {
+      .subscribe((result: IdSaveResult): void => {
         if (result.status === "ok" || result.status === "error-factura") {
           window.open("/clientes/factura/" + result.id + "/preview");
         }
@@ -303,9 +313,9 @@ export class HistoricoVentasComponent implements AfterViewInit {
           ok: "Elegir cliente",
           cancel: "Introducir email",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
-            setTimeout(() => {
+            setTimeout((): void => {
               this.clientesBox.toggle();
             }, 0);
           } else {
@@ -325,7 +335,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
             ok: "Ir a su ficha",
             cancel: "Introducir email",
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             if (result === true) {
               this.router.navigate(["/clientes/" + cliente.id]);
             } else {
@@ -347,7 +357,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         cancel: "Cancelar",
         fields: [{ title: "Email", type: "email", value: null }],
       })
-      .subscribe((result) => {
+      .subscribe((result: DialogOptions): void => {
         if (result !== undefined) {
           this.sendTicket(this.historicoVentasSelected.id, result[0].value);
         }
@@ -363,7 +373,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.sendTicketConfirm(id, email);
         }
@@ -371,31 +381,33 @@ export class HistoricoVentasComponent implements AfterViewInit {
   }
 
   sendTicketConfirm(id: number, email: string): void {
-    this.vs.sendTicket(id, Utils.urlencode(email)).subscribe((result) => {
-      if (result.status === "ok") {
-        this.dialog
-          .alert({
-            title: "Enviado",
-            content:
-              'El ticket de la venta ha sido correctamente enviado a la dirección "' +
-              email +
-              '"',
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              'El ticket de la venta no ha podido ser enviado a la dirección "' +
-              email +
-              '", ¿tal vez la dirección no es correcta?',
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-      }
-    });
+    this.vs
+      .sendTicket(id, urlencode(email))
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Enviado",
+              content:
+                'El ticket de la venta ha sido correctamente enviado a la dirección "' +
+                email +
+                '"',
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {});
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content:
+                'El ticket de la venta no ha podido ser enviado a la dirección "' +
+                email +
+                '", ¿tal vez la dirección no es correcta?',
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {});
+        }
+      });
   }
 
   devolucion(): void {

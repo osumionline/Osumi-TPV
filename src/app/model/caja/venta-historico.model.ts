@@ -1,9 +1,9 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import {
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
 } from "src/app/interfaces/caja.interface";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class VentaHistorico {
   _totalUnidades: number = null;
@@ -83,17 +83,17 @@ export class VentaHistorico {
     this.editable = hv.editable;
     this.idEmpleado = hv.idEmpleado;
     this.idCliente = hv.idCliente;
-    this.cliente = hv.cliente !== null ? Utils.urldecode(hv.cliente) : null;
+    this.cliente = hv.cliente !== null ? urldecode(hv.cliente) : null;
     this.total = hv.total;
     this.entregado = hv.entregado;
     this.pagoMixto = hv.pagoMixto;
     this.idTipoPago = hv.idTipoPago;
-    this.nombreTipoPago = Utils.urldecode(hv.nombreTipoPago);
+    this.nombreTipoPago = urldecode(hv.nombreTipoPago);
     this.entregadoOtro = hv.entregadoOtro;
     this.saldo = hv.saldo;
     this.facturada = hv.facturada;
     this.statusFactura = hv.statusFactura;
-    this.fecha = Utils.urldecode(hv.fecha);
+    this.fecha = urldecode(hv.fecha);
     this.lineas = hv.lineas.map(
       (hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
         return new VentaLineaHistorico().fromInterface(hlv);
@@ -109,17 +109,17 @@ export class VentaHistorico {
       editable: this.editable,
       idEmpleado: this.idEmpleado,
       idCliente: this.idCliente,
-      cliente: Utils.urlencode(this.cliente),
+      cliente: urlencode(this.cliente),
       total: this.total,
       entregado: this.entregado,
       pagoMixto: this.pagoMixto,
       idTipoPago: this.idTipoPago,
-      nombreTipoPago: Utils.urlencode(this.nombreTipoPago),
+      nombreTipoPago: urlencode(this.nombreTipoPago),
       entregadoOtro: this.entregadoOtro,
       saldo: this.saldo,
       facturada: this.facturada,
       statusFactura: this.statusFactura,
-      fecha: Utils.urlencode(this.fecha),
+      fecha: urlencode(this.fecha),
       lineas: this.lineas.map(
         (hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {
           return hlv.toInterface();

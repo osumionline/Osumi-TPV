@@ -2,10 +2,12 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { getCurrentDate } from "@osumi/tools";
+import { CierreCajaResult } from "src/app/interfaces/caja.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -31,8 +33,8 @@ export class CierreCajaComponent {
   ) {}
 
   load(): void {
-    const date: string = Utils.getCurrentDate();
-    this.as.getCierreCaja(date).subscribe((result) => {
+    const date: string = getCurrentDate();
+    this.as.getCierreCaja(date).subscribe((result: CierreCajaResult): void => {
       this.cierreCaja = this.cms.getCierreCaja(result.datos);
     });
   }
@@ -68,7 +70,7 @@ export class CierreCajaComponent {
           content: 'El campo "Importe real" es obligatorio.',
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
       return;
     }
 
@@ -81,7 +83,7 @@ export class CierreCajaComponent {
           ok: "Continuar",
           cancel: "Cancelar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.confirmCerrarCaja();
           }
@@ -94,7 +96,7 @@ export class CierreCajaComponent {
   confirmCerrarCaja(): void {
     this.as
       .saveCierreCaja(this.cierreCaja.toInterface())
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         if (result.status === "ok") {
           this.config.isOpened = false;
           this.router.navigate(["/"]);
@@ -105,7 +107,7 @@ export class CierreCajaComponent {
               content: "Ocurrió un error al realizar el cierre de caja.",
               ok: "Continuar",
             })
-            .subscribe((result) => {});
+            .subscribe((result: boolean): void => {});
         }
       });
   }

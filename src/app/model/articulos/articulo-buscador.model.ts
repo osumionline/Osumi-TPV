@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { ArticuloBuscadorInterface } from "src/app/interfaces/articulo.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class ArticuloBuscador {
   num: number = 0;
@@ -14,8 +14,8 @@ export class ArticuloBuscador {
 
   fromInterface(ab: ArticuloBuscadorInterface): ArticuloBuscador {
     this.localizador = ab.localizador;
-    this.nombre = Utils.urldecode(ab.nombre);
-    this.marca = Utils.urldecode(ab.marca);
+    this.nombre = urldecode(ab.nombre);
+    this.marca = urldecode(ab.marca);
     this.pvp = ab.pvp;
     this.stock = ab.stock;
 
@@ -25,8 +25,8 @@ export class ArticuloBuscador {
   toInterface(): ArticuloBuscadorInterface {
     return {
       localizador: this.localizador,
-      nombre: Utils.urlencode(this.nombre),
-      marca: Utils.urlencode(this.marca),
+      nombre: urlencode(this.nombre),
+      marca: urlencode(this.marca),
       pvp: this.pvp,
       stock: this.stock,
     };

@@ -1,8 +1,8 @@
+import { formatNumber, urldecode, urlencode } from "@osumi/tools";
 import {
   InformeMensualItemInterface,
   InformeMensualItemOtrosInterface,
 } from "src/app/interfaces/informes.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class InformeMensualItem {
   constructor(
@@ -37,9 +37,9 @@ export class InformeMensualItem {
       }
     );
     if (ind === -1) {
-      return Utils.formatNumber(0) + " €";
+      return formatNumber(0) + " €";
     }
-    return Utils.formatNumber(this.otros[ind].valor) + " €";
+    return formatNumber(this.otros[ind].valor) + " €";
   }
 
   getOtrosValue(key: string): number {
@@ -59,7 +59,7 @@ export class InformeMensualItem {
 
   fromInterface(imi: InformeMensualItemInterface): InformeMensualItem {
     this.num = imi.num;
-    this.weekDay = Utils.urldecode(imi.weekDay);
+    this.weekDay = urldecode(imi.weekDay);
     this.minTicket = imi.minTicket;
     this.maxTicket = imi.maxTicket;
     this.efectivo = imi.efectivo;
@@ -73,7 +73,7 @@ export class InformeMensualItem {
   toInterface(): InformeMensualItemInterface {
     return {
       num: this.num,
-      weekDay: Utils.urlencode(this.weekDay),
+      weekDay: urlencode(this.weekDay),
       minTicket: this.minTicket,
       maxTicket: this.maxTicket,
       efectivo: this.efectivo,

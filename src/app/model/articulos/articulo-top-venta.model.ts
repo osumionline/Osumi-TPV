@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { ArticuloTopVentaInterface } from "src/app/interfaces/venta.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class ArticuloTopVenta {
   constructor(
@@ -11,7 +11,7 @@ export class ArticuloTopVenta {
 
   fromInterface(tva: ArticuloTopVentaInterface): ArticuloTopVenta {
     this.localizador = tva.localizador;
-    this.nombre = Utils.urldecode(tva.nombre);
+    this.nombre = urldecode(tva.nombre);
     this.importe = tva.importe;
     this.unidades = tva.unidades;
 
@@ -21,7 +21,7 @@ export class ArticuloTopVenta {
   toInterface(): ArticuloTopVentaInterface {
     return {
       localizador: this.localizador,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
       importe: this.importe,
       unidades: this.unidades,
     };

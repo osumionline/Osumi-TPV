@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class TipoPago {
   constructor(
@@ -13,7 +13,7 @@ export class TipoPago {
 
   fromInterface(tp: TipoPagoInterface, decode: boolean = true): TipoPago {
     this.id = tp.id;
-    this.nombre = decode ? Utils.urldecode(tp.nombre) : tp.nombre;
+    this.nombre = decode ? urldecode(tp.nombre) : tp.nombre;
     this.foto = tp.foto;
     this.afectaCaja = tp.afectaCaja;
     this.orden = tp.orden;
@@ -25,7 +25,7 @@ export class TipoPago {
   toInterface(encode: boolean = true): TipoPagoInterface {
     return {
       id: this.id,
-      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      nombre: encode ? urlencode(this.nombre) : this.nombre,
       foto: this.foto,
       afectaCaja: this.afectaCaja,
       orden: this.orden,

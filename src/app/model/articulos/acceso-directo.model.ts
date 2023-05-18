@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { AccesoDirectoInterface } from "src/app/interfaces/articulo.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class AccesoDirecto {
   constructor(
@@ -11,7 +11,7 @@ export class AccesoDirecto {
   fromInterface(ad: AccesoDirectoInterface): AccesoDirecto {
     this.id = ad.id;
     this.accesoDirecto = ad.accesoDirecto;
-    this.nombre = Utils.urldecode(ad.nombre);
+    this.nombre = urldecode(ad.nombre);
 
     return this;
   }
@@ -20,7 +20,7 @@ export class AccesoDirecto {
     return {
       id: this.id,
       accesoDirecto: this.accesoDirecto,
-      nombre: Utils.urlencode(this.nombre),
+      nombre: urlencode(this.nombre),
     };
   }
 }

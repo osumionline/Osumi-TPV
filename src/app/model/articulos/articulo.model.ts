@@ -1,3 +1,4 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import {
   ArticuloInterface,
   CodigoBarrasInterface,
@@ -9,7 +10,6 @@ import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
 import { EtiquetaWeb } from "src/app/model/articulos/etiqueta-web.model";
 import { Etiqueta } from "src/app/model/articulos/etiqueta.model";
 import { Foto } from "src/app/model/articulos/foto.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Articulo {
   tabName: string = "";
@@ -55,7 +55,7 @@ export class Articulo {
   fromInterface(a: ArticuloInterface, decode: boolean = true): Articulo {
     this.id = a.id;
     this.localizador = a.localizador;
-    this.nombre = decode ? Utils.urldecode(a.nombre) : a.nombre;
+    this.nombre = decode ? urldecode(a.nombre) : a.nombre;
     this.idCategoria = a.idCategoria;
     this.idMarca = a.idMarca;
     this.idProveedor = a.idProveedor;
@@ -72,14 +72,12 @@ export class Articulo {
     this.loteOptimo = a.loteOptimo;
     this.ventaOnline = a.ventaOnline;
     this.fechaCaducidad = a.fechaCaducidad;
-    this.observaciones = decode
-      ? Utils.urldecode(a.observaciones)
-      : a.observaciones;
+    this.observaciones = decode ? urldecode(a.observaciones) : a.observaciones;
     this.mostrarObsPedidos = a.mostrarObsPedidos;
     this.mostrarObsVentas = a.mostrarObsVentas;
     this.mostrarEnWeb = a.mostrarEnWeb;
-    this.descCorta = decode ? Utils.urldecode(a.descCorta) : a.descCorta;
-    this.descripcion = decode ? Utils.urldecode(a.descripcion) : a.descripcion;
+    this.descCorta = decode ? urldecode(a.descCorta) : a.descCorta;
+    this.descripcion = decode ? urldecode(a.descripcion) : a.descripcion;
     this.accesoDirecto = a.accesoDirecto;
     if (a.codigosBarras) {
       this.codigosBarras = a.codigosBarras.map(
@@ -124,7 +122,7 @@ export class Articulo {
     return {
       id: this.id,
       localizador: this.localizador,
-      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
+      nombre: encode ? urlencode(this.nombre) : this.nombre,
       idCategoria: this.idCategoria,
       idMarca: this.idMarca,
       idProveedor: this.idProveedor,
@@ -142,16 +140,14 @@ export class Articulo {
       ventaOnline: this.ventaOnline,
       fechaCaducidad: this.fechaCaducidad,
       observaciones: encode
-        ? Utils.urlencode(this.observaciones)
+        ? urlencode(this.observaciones)
         : this.observaciones,
       mostrarObsPedidos: this.mostrarObsPedidos,
       mostrarObsVentas: this.mostrarObsVentas,
       accesoDirecto: this.accesoDirecto,
       mostrarEnWeb: this.mostrarEnWeb,
-      descCorta: encode ? Utils.urlencode(this.descCorta) : this.descCorta,
-      descripcion: encode
-        ? Utils.urlencode(this.descripcion)
-        : this.descripcion,
+      descCorta: encode ? urlencode(this.descCorta) : this.descCorta,
+      descripcion: encode ? urlencode(this.descripcion) : this.descripcion,
       codigosBarras: this.codigosBarras.map(
         (cb: CodigoBarras): CodigoBarrasInterface => {
           return cb.toInterface();

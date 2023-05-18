@@ -1,9 +1,9 @@
+import { getCurrentDate, urldecode } from "@osumi/tools";
 import {
   CierreCajaInterface,
   CierreCajaTipoInterface,
 } from "src/app/interfaces/caja.interface";
 import { CierreCajaTipo } from "src/app/model/caja/cierre-caja-tipo.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class CierreCaja {
   saldoSiguienteCaja: number = null;
@@ -34,7 +34,7 @@ export class CierreCaja {
     public entrada: number = null,
     public tipos: CierreCajaTipo[] = []
   ) {
-    this.date = Utils.getCurrentDate();
+    this.date = getCurrentDate();
   }
 
   get diferencia(): number {
@@ -49,7 +49,7 @@ export class CierreCaja {
   }
 
   fromInterface(cc: CierreCajaInterface): CierreCaja {
-    this.date = Utils.urldecode(this.date);
+    this.date = urldecode(this.date);
     this.saldoInicial = cc.saldoInicial;
     this.importeEfectivo = cc.importeEfectivo;
     this.salidasCaja = cc.salidasCaja;

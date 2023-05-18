@@ -30,7 +30,7 @@ export class CustomOverlayRef<R = any, T = any> {
     this._close("close", data!);
   }
 
-  private _close(type: "backdropClick" | "close", data: R | null) {
+  private _close(type: "backdropClick" | "close", data: R | null): void {
     this.overlay.dispose();
     this.afterClosed$.next({
       type,

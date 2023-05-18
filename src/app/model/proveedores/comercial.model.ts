@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { ComercialInterface } from "src/app/interfaces/proveedor.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Comercial {
   constructor(
@@ -14,12 +14,10 @@ export class Comercial {
   fromInterface(c: ComercialInterface, decode: boolean = true): Comercial {
     this.id = c.id;
     this.idProveedor = c.idProveedor;
-    this.nombre = decode ? Utils.urldecode(c.nombre) : c.nombre;
-    this.telefono = decode ? Utils.urldecode(c.telefono) : c.telefono;
-    this.email = decode ? Utils.urldecode(c.email) : c.email;
-    this.observaciones = decode
-      ? Utils.urldecode(c.observaciones)
-      : c.observaciones;
+    this.nombre = decode ? urldecode(c.nombre) : c.nombre;
+    this.telefono = decode ? urldecode(c.telefono) : c.telefono;
+    this.email = decode ? urldecode(c.email) : c.email;
+    this.observaciones = decode ? urldecode(c.observaciones) : c.observaciones;
 
     return this;
   }
@@ -28,11 +26,11 @@ export class Comercial {
     return {
       id: this.id,
       idProveedor: this.idProveedor,
-      nombre: encode ? Utils.urlencode(this.nombre) : this.nombre,
-      telefono: encode ? Utils.urlencode(this.telefono) : this.telefono,
-      email: encode ? Utils.urlencode(this.email) : this.email,
+      nombre: encode ? urlencode(this.nombre) : this.nombre,
+      telefono: encode ? urlencode(this.telefono) : this.telefono,
+      email: encode ? urlencode(this.email) : this.email,
       observaciones: encode
-        ? Utils.urlencode(this.observaciones)
+        ? urlencode(this.observaciones)
         : this.observaciones,
     };
   }

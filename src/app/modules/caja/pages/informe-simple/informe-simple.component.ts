@@ -2,11 +2,12 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
+import { urldecode } from "@osumi/tools";
+import { InformeMensualResult } from "src/app/interfaces/informes.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { InformesService } from "src/app/services/informes.service";
@@ -47,7 +48,7 @@ export default class InformeSimpleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       this.month = parseInt(params.month);
       this.year = parseInt(params.year);
       const indMonth: number = this.config.monthList.findIndex(
@@ -57,41 +58,43 @@ export default class InformeSimpleComponent implements OnInit {
       );
       this.monthName = this.config.monthList[indMonth].name;
 
-      this.is.getInformeSimple(this.month, this.year).subscribe((result) => {
-        this.list = this.cms.getInformeMensualItems(result.list);
-        this.checkOtros();
-        for (let otro of this.otrosList) {
-          this.informeDisplayedColumns.push(otro);
-          this.otrosNames[otro] = Utils.urldecode(otro);
-        }
-        this.informeDisplayedColumns.push("totalDia");
-        this.informeDisplayedColumns.push("suma");
-        this.informeDataSource.data = this.list;
-        let hasResults: boolean = false;
-        for (let item of this.list) {
-          if (item.minTicket !== null && item.minTicket < this.minTicket) {
-            this.minTicket = item.minTicket;
-            hasResults = true;
+      this.is
+        .getInformeSimple(this.month, this.year)
+        .subscribe((result: InformeMensualResult): void => {
+          this.list = this.cms.getInformeMensualItems(result.list);
+          this.checkOtros();
+          for (let otro of this.otrosList) {
+            this.informeDisplayedColumns.push(otro);
+            this.otrosNames[otro] = urldecode(otro);
           }
-          if (item.maxTicket !== null && item.maxTicket > this.maxTicket) {
-            this.maxTicket = item.maxTicket;
+          this.informeDisplayedColumns.push("totalDia");
+          this.informeDisplayedColumns.push("suma");
+          this.informeDataSource.data = this.list;
+          let hasResults: boolean = false;
+          for (let item of this.list) {
+            if (item.minTicket !== null && item.minTicket < this.minTicket) {
+              this.minTicket = item.minTicket;
+              hasResults = true;
+            }
+            if (item.maxTicket !== null && item.maxTicket > this.maxTicket) {
+              this.maxTicket = item.maxTicket;
+            }
+            if (item.efectivo !== null) {
+              this.totalEfectivo += item.efectivo;
+            }
+            if (item.totalDia !== null) {
+              this.totalTotal += item.totalDia;
+            }
+            if (item.suma !== null) {
+              this.totalSuma = item.suma;
+            }
           }
-          if (item.efectivo !== null) {
-            this.totalEfectivo += item.efectivo;
+          if (!hasResults) {
+            this.minTicket = null;
+            this.maxTicket = null;
           }
-          if (item.totalDia !== null) {
-            this.totalTotal += item.totalDia;
-          }
-          if (item.suma !== null) {
-            this.totalSuma = item.suma;
-          }
-        }
-        if (!hasResults) {
-          this.minTicket = null;
-          this.maxTicket = null;
-        }
-        this.loaded = true;
-      });
+          this.loaded = true;
+        });
     });
   }
 

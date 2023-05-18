@@ -13,12 +13,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { SalidaCajaInterface } from "src/app/interfaces/caja.interface";
-import { DateValues } from "src/app/interfaces/interfaces";
+import { addDays, getDate } from "@osumi/tools";
+import {
+  SalidaCajaInterface,
+  SalidaCajaResult,
+} from "src/app/interfaces/caja.interface";
+import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -66,12 +69,12 @@ export class SalidasCajaComponent {
   ) {}
 
   previousFecha(): void {
-    this.fecha = Utils.addDays(this.fecha, -1);
+    this.fecha = addDays(this.fecha, -1);
     this.changeFecha();
   }
 
   nextFecha(): void {
-    this.fecha = Utils.addDays(this.fecha, 1);
+    this.fecha = addDays(this.fecha, 1);
     this.changeFecha();
   }
 
@@ -80,7 +83,7 @@ export class SalidasCajaComponent {
     const data: DateValues = {
       modo: "fecha",
       id: null,
-      fecha: Utils.getDate(this.fecha),
+      fecha: getDate(this.fecha),
       desde: null,
       hasta: null,
     };
@@ -95,22 +98,22 @@ export class SalidasCajaComponent {
           content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
           ok: "Continuar",
         })
-        .subscribe((result) => {});
+        .subscribe((result: boolean): void => {});
       return;
     }
     const data: DateValues = {
       modo: "rango",
       fecha: null,
       id: null,
-      desde: Utils.getDate(this.rangoDesde),
-      hasta: Utils.getDate(this.rangoHasta),
+      desde: getDate(this.rangoDesde),
+      hasta: getDate(this.rangoHasta),
     };
     this.buscarSalidasCaja(data);
   }
 
   buscarSalidasCaja(data: DateValues): void {
     this.start = true;
-    this.as.getSalidasCaja(data).subscribe((result) => {
+    this.as.getSalidasCaja(data).subscribe((result: SalidaCajaResult): void => {
       this.salidasCajaList = this.cms.getSalidasCaja(result.list);
     });
   }
@@ -127,7 +130,7 @@ export class SalidasCajaComponent {
     this.salidaCajaSelected = new SalidaCaja();
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.conceptoBox.nativeElement.focus();
     }, 0);
   }
@@ -157,7 +160,7 @@ export class SalidasCajaComponent {
     this.salidaCajaSelected.fromInterface(data, false);
     this.as
       .saveSalidaCaja(this.salidaCajaSelected.toInterface())
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         this.dialog
           .alert({
             title: "Datos guardados",
@@ -167,7 +170,7 @@ export class SalidasCajaComponent {
               '" correctamente guardada.',
             ok: "Continuar",
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             this.resetBusqueda();
             this.salidaCajaEvent.emit(true);
           });
@@ -185,7 +188,7 @@ export class SalidasCajaComponent {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteSalidaCaja();
         }
@@ -193,19 +196,21 @@ export class SalidasCajaComponent {
   }
 
   confirmDeleteSalidaCaja(): void {
-    this.as.deleteSalidaCaja(this.salidaCajaSelected.id).subscribe((result) => {
-      this.dialog
-        .alert({
-          title: "Salida de caja borrada",
-          content:
-            'La salida de caja con concepto "' +
-            this.salidaCajaSelected.concepto +
-            '" ha sido correctamente borrada.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          this.resetBusqueda();
-        });
-    });
+    this.as
+      .deleteSalidaCaja(this.salidaCajaSelected.id)
+      .subscribe((result: StatusResult): void => {
+        this.dialog
+          .alert({
+            title: "Salida de caja borrada",
+            content:
+              'La salida de caja con concepto "' +
+              this.salidaCajaSelected.concepto +
+              '" ha sido correctamente borrada.',
+            ok: "Continuar",
+          })
+          .subscribe((result: boolean): void => {
+            this.resetBusqueda();
+          });
+      });
   }
 }

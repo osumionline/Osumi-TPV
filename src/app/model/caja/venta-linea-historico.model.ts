@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class VentaLineaHistorico {
   devolver: number;
@@ -39,9 +39,9 @@ export class VentaLineaHistorico {
   fromInterface(hlv: VentaLineaHistoricoInterface): VentaLineaHistorico {
     this.id = hlv.id;
     this.idArticulo = hlv.idArticulo;
-    this.articulo = Utils.urldecode(hlv.articulo);
+    this.articulo = urldecode(hlv.articulo);
     this.localizador = hlv.localizador;
-    this.marca = Utils.urldecode(hlv.marca);
+    this.marca = urldecode(hlv.marca);
     this.puc = hlv.puc;
     this.pvp = hlv.pvp;
     this.iva = hlv.iva;
@@ -61,9 +61,9 @@ export class VentaLineaHistorico {
     return {
       id: this.id,
       idArticulo: this.idArticulo,
-      articulo: Utils.urlencode(this.articulo),
+      articulo: urlencode(this.articulo),
       localizador: this.localizador,
-      marca: Utils.urlencode(this.marca),
+      marca: urlencode(this.marca),
       puc: this.puc,
       pvp: this.pvp,
       iva: this.iva,

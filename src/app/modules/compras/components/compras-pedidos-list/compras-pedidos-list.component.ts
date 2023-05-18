@@ -4,15 +4,16 @@ import { FormsModule } from "@angular/forms";
 import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router, RouterModule } from "@angular/router";
+import { getDate } from "@osumi/tools";
 import {
   PedidosAllResult,
   PedidosFilterInterface,
+  PedidosResult,
 } from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/compras/pedido.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ComprasService } from "src/app/services/compras.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
@@ -156,11 +157,11 @@ export class ComprasPedidosListComponent {
   }
 
   filtrarGuardados(): void {
-    this.guardadosFilter.fechaDesde = Utils.getDate(this.guardadosRangoDesde);
-    this.guardadosFilter.fechaHasta = Utils.getDate(this.guardadosRangoHasta);
+    this.guardadosFilter.fechaDesde = getDate(this.guardadosRangoDesde);
+    this.guardadosFilter.fechaHasta = getDate(this.guardadosRangoHasta);
     this.comprasService
       .getPedidosGuardados(this.guardadosFilter)
-      .subscribe((result) => {
+      .subscribe((result: PedidosResult): void => {
         this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
         this.guardadosPags = result.pags * this.guardadosFilter.num;
       });
@@ -192,15 +193,11 @@ export class ComprasPedidosListComponent {
   }
 
   filtrarRecepcionados(): void {
-    this.recepcionadosFilter.fechaDesde = Utils.getDate(
-      this.recepcionadosRangoDesde
-    );
-    this.recepcionadosFilter.fechaHasta = Utils.getDate(
-      this.recepcionadosRangoHasta
-    );
+    this.recepcionadosFilter.fechaDesde = getDate(this.recepcionadosRangoDesde);
+    this.recepcionadosFilter.fechaHasta = getDate(this.recepcionadosRangoHasta);
     this.comprasService
       .getPedidosRecepcionados(this.recepcionadosFilter)
-      .subscribe((result) => {
+      .subscribe((result: PedidosResult): void => {
         this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(
           result.list
         );

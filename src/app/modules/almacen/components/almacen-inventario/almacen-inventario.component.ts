@@ -11,15 +11,21 @@ import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { urldecode } from "@osumi/tools";
 import {
   BuscadorAlmacenInterface,
+  BuscadorAlmacenResult,
   InventarioItemInterface,
 } from "src/app/interfaces/almacen.interface";
+import {
+  StatusIdMessageErrorsResult,
+  StatusIdMessageResult,
+  StatusResult,
+} from "src/app/interfaces/interfaces";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
 import { MaterialModule } from "src/app/modules/material/material.module";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -97,17 +103,19 @@ export class AlmacenInventarioComponent
   }
 
   buscar(): void {
-    this.as.getInventario(this.buscador).subscribe((result) => {
-      this.list = this.cms.getInventarioItems(result.list);
-      this.inventarioDataSource.data = this.list;
-      this.pags = result.pags;
+    this.as
+      .getInventario(this.buscador)
+      .subscribe((result: BuscadorAlmacenResult): void => {
+        this.list = this.cms.getInventarioItems(result.list);
+        this.inventarioDataSource.data = this.list;
+        this.pags = result.pags;
 
-      this.as.buscador = this.buscador;
-      this.as.list = this.list;
-      this.as.pags = this.pags;
-      this.as.pageIndex = this.pageIndex;
-      this.as.firstLoad = false;
-    });
+        this.as.buscador = this.buscador;
+        this.as.list = this.list;
+        this.as.pags = this.pags;
+        this.as.pageIndex = this.pageIndex;
+        this.as.firstLoad = false;
+      });
   }
 
   ngAfterViewInit(): void {
@@ -145,62 +153,68 @@ export class AlmacenInventarioComponent
         list.push(item.toInterface());
       }
     }
-    this.as.saveAllInventario(list).subscribe((result) => {
-      const errorList: string[] = [];
+    this.as
+      .saveAllInventario(list)
+      .subscribe((result: StatusIdMessageErrorsResult): void => {
+        const errorList: string[] = [];
 
-      for (let status of result.list) {
-        let ind: number = this.list.findIndex((x: InventarioItem): boolean => {
-          return x.id === status.id;
-        });
-        if (status.status === "ok") {
-          this.list[ind]._pvp = this.list[ind].pvp;
-          this.list[ind]._stock = this.list[ind].stock;
-          if (this.list[ind].codigoBarras !== null) {
-            this.list[ind].hasCodigosBarras = true;
-            this.list[ind].codigoBarras = null;
-          }
-        } else {
-          errorList.push(
-            "<strong>" +
-              this.list[ind].nombre +
-              "</strong>: " +
-              Utils.urldecode(status.message)
+        for (let status of result.list) {
+          let ind: number = this.list.findIndex(
+            (x: InventarioItem): boolean => {
+              return x.id === status.id;
+            }
           );
+          if (status.status === "ok") {
+            this.list[ind]._pvp = this.list[ind].pvp;
+            this.list[ind]._stock = this.list[ind].stock;
+            if (this.list[ind].codigoBarras !== null) {
+              this.list[ind].hasCodigosBarras = true;
+              this.list[ind].codigoBarras = null;
+            }
+          } else {
+            errorList.push(
+              "<strong>" +
+                this.list[ind].nombre +
+                "</strong>: " +
+                urldecode(status.message)
+            );
+          }
         }
-      }
-      if (errorList.length > 0) {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
-              errorList.join("<br>"),
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-      }
-    });
+        if (errorList.length > 0) {
+          this.dialog
+            .alert({
+              title: "Error",
+              content:
+                "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
+                errorList.join("<br>"),
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {});
+        }
+      });
   }
 
   saveInventario(item: InventarioItem): void {
-    this.as.saveInventario(item.toInterface()).subscribe((result) => {
-      if (result.status === "ok") {
-        item._pvp = item.pvp;
-        item._stock = item.stock;
-        if (item.codigoBarras !== null) {
-          item.hasCodigosBarras = true;
-          item.codigoBarras = null;
+    this.as
+      .saveInventario(item.toInterface())
+      .subscribe((result: StatusIdMessageResult): void => {
+        if (result.status === "ok") {
+          item._pvp = item.pvp;
+          item._stock = item.stock;
+          if (item.codigoBarras !== null) {
+            item.hasCodigosBarras = true;
+            item.codigoBarras = null;
+          }
+        } else {
+          this.dialog
+            .alert({
+              title: "Error",
+              content: urldecode(result.message),
+              ok: "Continuar",
+            })
+            .subscribe((result: boolean): void => {});
         }
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: Utils.urldecode(result.message),
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
-      }
-    });
+      });
   }
 
   deleteInventario(item: InventarioItem): void {
@@ -212,21 +226,23 @@ export class AlmacenInventarioComponent
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
-          this.as.deleteInventario(item.id).subscribe((result) => {
-            const ind: number = this.list.findIndex(
-              (x: InventarioItem): boolean => x.id === item.id
-            );
-            this.list.splice(ind, 1);
-            this.inventarioDataSource.data = this.list;
-          });
+          this.as
+            .deleteInventario(item.id)
+            .subscribe((result: StatusResult): void => {
+              const ind: number = this.list.findIndex(
+                (x: InventarioItem): boolean => x.id === item.id
+              );
+              this.list.splice(ind, 1);
+              this.inventarioDataSource.data = this.list;
+            });
         }
       });
   }
 
   exportInventario(): void {
-    this.as.exportInventario(this.buscador).subscribe((result) => {
+    this.as.exportInventario(this.buscador).subscribe((result): void => {
       const data: Blob = new Blob([result], {
         type: "text/csv;charset=utf-8",
       });

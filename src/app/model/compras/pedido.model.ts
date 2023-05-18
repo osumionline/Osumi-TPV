@@ -1,3 +1,4 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import {
   PedidoInterface,
   PedidoLineaInterface,
@@ -9,7 +10,6 @@ import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
 import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
 import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];
@@ -190,16 +190,16 @@ export class Pedido {
   fromInterface(p: PedidoInterface): Pedido {
     this.id = p.id;
     this.idProveedor = p.idProveedor;
-    this.proveedor = Utils.urldecode(p.proveedor);
+    this.proveedor = urldecode(p.proveedor);
     this.idMetodoPago = p.idMetodoPago;
-    this.metodoPago = Utils.urldecode(p.metodoPago);
+    this.metodoPago = urldecode(p.metodoPago);
     this.re = p.re;
     this.ue = p.ue;
     this.tipo = p.tipo;
-    this.num = Utils.urldecode(p.num);
-    this.fechaPago = Utils.urldecode(p.fechaPago);
-    this.fechaPedido = Utils.urldecode(p.fechaPedido);
-    this.fechaRecepcionado = Utils.urldecode(p.fechaRecepcionado);
+    this.num = urldecode(p.num);
+    this.fechaPago = urldecode(p.fechaPago);
+    this.fechaPedido = urldecode(p.fechaPedido);
+    this.fechaRecepcionado = urldecode(p.fechaRecepcionado);
     this.lineas = p.lineas.map((l: PedidoLineaInterface): PedidoLinea => {
       return new PedidoLinea().fromInterface(l);
     });
@@ -208,7 +208,7 @@ export class Pedido {
     this.descuento = p.descuento;
     this.faltas = p.faltas;
     this.recepcionado = p.recepcionado;
-    this.observaciones = Utils.urldecode(p.observaciones);
+    this.observaciones = urldecode(p.observaciones);
     this.pdfs = p.pdfs.map((p: PedidoPDFInterface): PedidoPDF => {
       return new PedidoPDF().fromInterface(p);
     });
@@ -223,16 +223,16 @@ export class Pedido {
     return {
       id: this.id,
       idProveedor: this.idProveedor,
-      proveedor: Utils.urlencode(this.proveedor),
+      proveedor: urlencode(this.proveedor),
       idMetodoPago: this.idMetodoPago,
-      metodoPago: Utils.urlencode(this.metodoPago),
+      metodoPago: urlencode(this.metodoPago),
       re: this.re,
       ue: this.ue,
       tipo: this.tipo,
-      num: Utils.urlencode(this.num),
-      fechaPago: Utils.urlencode(this.fechaPago),
-      fechaPedido: Utils.urlencode(this.fechaPedido),
-      fechaRecepcionado: Utils.urlencode(this.fechaRecepcionado),
+      num: urlencode(this.num),
+      fechaPago: urlencode(this.fechaPago),
+      fechaPedido: urlencode(this.fechaPedido),
+      fechaRecepcionado: urlencode(this.fechaRecepcionado),
       lineas: this.lineas.map((l: PedidoLinea): PedidoLineaInterface => {
         return l.toInterface();
       }),
@@ -241,7 +241,7 @@ export class Pedido {
       descuento: this._descuento,
       faltas: this.faltas,
       recepcionado: this.recepcionado,
-      observaciones: Utils.urlencode(this.observaciones),
+      observaciones: urlencode(this.observaciones),
       pdfs: this.pdfs.map((p: PedidoPDF): PedidoPDFInterface => {
         return p.toInterface();
       }),

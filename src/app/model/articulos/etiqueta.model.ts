@@ -1,5 +1,5 @@
+import { urldecode, urlencode } from "@osumi/tools";
 import { EtiquetaInterface } from "src/app/interfaces/articulo.interface";
-import { Utils } from "src/app/modules/shared/utils.class";
 
 export class Etiqueta {
   constructor(
@@ -10,8 +10,8 @@ export class Etiqueta {
 
   fromInterface(e: EtiquetaInterface): Etiqueta {
     this.id = e.id;
-    this.texto = Utils.urldecode(e.texto);
-    this.slug = Utils.urldecode(e.slug);
+    this.texto = urldecode(e.texto);
+    this.slug = urldecode(e.slug);
 
     return this;
   }
@@ -19,8 +19,8 @@ export class Etiqueta {
   toInterface(): EtiquetaInterface {
     return {
       id: this.id,
-      texto: Utils.urlencode(this.texto),
-      slug: Utils.urlencode(this.slug),
+      texto: urlencode(this.texto),
+      slug: urlencode(this.slug),
     };
   }
 }
