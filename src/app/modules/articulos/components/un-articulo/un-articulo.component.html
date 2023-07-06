@@ -211,7 +211,7 @@
                                 </div>
                                 <div class="form-field-left margen">
                                     <label>Margen con descuento</label>
-                                    <span (click)="abrirMargenes()">
+                                    <span (click)="abrirMargenesDescuento()">
                                         {{articulo.margen | fixedNumber}} %
                                     </span>
                                 </div>
@@ -224,8 +224,8 @@
                                                class="align-right"
                                                (blur)="setTwoNumberDecimal($event)"
                                                (focus)="$event.target.select()"
-                                               (keyup)="updatePvp()"
-                                               formControlName="pvp">
+                                               (keyup)="updatePvpDescuento()"
+                                               formControlName="pvpDescuento">
                                     </mat-form-field>
                                     <span>€</span>
                                 </div>

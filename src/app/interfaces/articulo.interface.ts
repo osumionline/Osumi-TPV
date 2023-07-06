@@ -54,9 +54,11 @@ export interface ArticuloInterface {
   palb: number;
   puc: number;
   pvp: number;
+  pvpDescuento: number;
   iva: number;
   re: number;
   margen: number;
+  margenDescuento: number;
   stock: number;
   stockMin: number;
   stockMax: number;

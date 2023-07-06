@@ -181,6 +181,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     puc: new FormControl(null),
     margen: new FormControl(null),
     pvp: new FormControl(null),
+    pvpDescuento: new FormControl(null),
     stock: new FormControl(null),
     stockMin: new FormControl(null),
     stockMax: new FormControl(null),
@@ -646,10 +647,33 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.get("margen").setValue(this.articulo.margen);
   }
 
+  updateMargenDescuento(): void {
+    if (
+      this.form.get("puc").value !== null &&
+      this.form.get("puc").value !== 0 &&
+      this.form.get("pvpDescuento").value !== null &&
+      this.form.get("pvpDescuento").value !== 0
+    ) {
+      this.articulo.margenDescuento =
+        ((this.form.get("pvpDescuento").value - this.form.get("puc").value) /
+          this.form.get("pvpDescuento").value) *
+        100;
+    } else {
+      this.articulo.margenDescuento = 0;
+    }
+    this.form.get("margenDescuento").setValue(this.articulo.margenDescuento);
+  }
+
   updatePvp(): void {
     this.form.get("pvp").markAsDirty();
 
     this.updateMargen();
+  }
+
+  updatePvpDescuento(): void {
+    this.form.get("pvpDescuento").markAsDirty();
+
+    this.updateMargenDescuento();
   }
 
   preventCodBarras(ev: KeyboardEvent): void {
@@ -940,6 +964,29 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         this.form.get("pvp").setValue(this.articulo.pvp);
         this.form.get("pvp").markAsDirty();
+      }
+    });
+  }
+
+  abrirMargenesDescuento(): void {
+    const modalMargenesData: MargenesModal = {
+      modalTitle: "Márgenes",
+      modalColor: "blue",
+      puc: this.form.get("puc").value,
+      list: this.marginList,
+    };
+    const dialog = this.overlayService.open(
+      MargenesModalComponent,
+      modalMargenesData
+    );
+    dialog.afterClosed$.subscribe((data): void => {
+      if (data.data !== null) {
+        this.articulo.margenDescuento = data.data;
+        this.articulo.pvpDescuento = getTwoNumberDecimal(
+          (this.form.get("puc").value * 100) / (100 - data.data)
+        );
+        this.form.get("pvpDescuento").setValue(this.articulo.pvpDescuento);
+        this.form.get("pvpDescuento").markAsDirty();
       }
     });
   }

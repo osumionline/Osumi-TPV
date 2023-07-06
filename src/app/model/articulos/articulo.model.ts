@@ -30,9 +30,11 @@ export class Articulo {
     public palb: number = 0,
     public puc: number = 0,
     public pvp: number = 0,
+    public pvpDescuento: number = null,
     public iva: number = 0,
     public re: number = 0,
     public margen: number = 0,
+    public margenDescuento: number = null,
     public stock: number = 0,
     public stockMin: number = 0,
     public stockMax: number = 0,
@@ -62,10 +64,12 @@ export class Articulo {
     this.referencia = a.referencia;
     this.puc = a.puc;
     this.pvp = a.pvp;
+    this.pvpDescuento = a.pvpDescuento;
     this.palb = a.palb;
     this.iva = a.iva;
     this.re = a.re;
     this.margen = a.margen;
+    this.margenDescuento = a.margenDescuento;
     this.stock = a.stock;
     this.stockMin = a.stockMin;
     this.stockMax = a.stockMax;
@@ -129,10 +133,12 @@ export class Articulo {
       referencia: this.referencia,
       puc: this.puc,
       pvp: this.pvp,
+      pvpDescuento: this.pvpDescuento,
       palb: this.palb,
       iva: this.iva,
       re: this.re,
       margen: this.margen,
+      margenDescuento: this.margenDescuento,
       stock: this.stock,
       stockMin: this.stockMin,
       stockMax: this.stockMax,
