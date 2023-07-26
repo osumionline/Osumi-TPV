@@ -13,6 +13,7 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { formatNumber, toNumber } from "@osumi/tools";
+import { DialogOptions } from "src/app/interfaces/interfaces";
 import { FinVentaResult } from "src/app/interfaces/venta.interface";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
@@ -137,14 +138,14 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
 
   changePagoMixto(ev: MatCheckboxChange): void {
     if (ev.checked) {
-      setTimeout(() => {
+      setTimeout((): void => {
         this.tarjetaValue.nativeElement.select();
       }, 0);
     } else {
       if (this.vs.fin.idTipoPago === null) {
         this.vs.fin.efectivo = "0";
         this.vs.fin.tarjeta = "0";
-        setTimeout(() => {
+        setTimeout((): void => {
           this.efectivoValue.nativeElement.select();
         }, 0);
       } else {
@@ -164,7 +165,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           ok: "Elegir cliente",
           cancel: "Introducir email",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.customOverlayRef.close({ status: "cliente" });
           } else {
@@ -186,7 +187,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           ok: "Ir a su ficha",
           cancel: "Introducir email",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.router.navigate(["/clientes/" + this.vs.cliente.id]);
           } else {
@@ -204,7 +205,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           ok: "Continuar",
           cancel: "Cancelar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.customOverlayRef.close({ status: "factura" });
           } else {
@@ -222,7 +223,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           ok: "Continuar",
           cancel: "Cancelar",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.customOverlayRef.close({ status: "reserva" });
           } else {
@@ -241,7 +242,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
         cancel: "Cancelar",
         fields: [{ title: "Email", type: "email", value: null }],
       })
-      .subscribe((result) => {
+      .subscribe((result: DialogOptions): void => {
         if (result === undefined) {
           this.vs.fin.imprimir = "si";
         } else {
@@ -286,8 +287,8 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
                 "¡Las cantidades introducidas (tarjeta y efectivo) son inferiores al importe total!",
               ok: "Continuar",
             })
-            .subscribe((result) => {
-              setTimeout(() => {
+            .subscribe((result: boolean): void => {
+              setTimeout((): void => {
                 this.tarjetaValue.nativeElement.select();
               }, 0);
             });
@@ -302,8 +303,8 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
             content: "¡La cantidad introducida es inferior al importe total!",
             ok: "Continuar",
           })
-          .subscribe((result) => {
-            setTimeout(() => {
+          .subscribe((result: boolean): void => {
+            setTimeout((): void => {
               this.efectivoValue.nativeElement.select();
             }, 0);
           });
@@ -312,7 +313,17 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
     }
 
     this.saving = true;
-    this.vs.guardarVenta().subscribe((result) => {
+    this.vs.guardarVenta().subscribe((result: FinVentaResult): void => {
+      if (result.status === "ok-tbai-error") {
+        this.dialog
+          .alert({
+            title: "Atención",
+            content:
+              "La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.",
+            ok: "Continuar",
+          })
+          .subscribe((result: boolean): void => {});
+      }
       this.customOverlayRef.close({
         status: "fin",
         importe: result.importe,
