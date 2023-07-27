@@ -71,7 +71,6 @@
 
 .form-field-left {
   display: inline-block;
-  margin-right: 48px;
 
   &.fixed-height {
     height: 78px;
@@ -120,6 +119,10 @@
         outline: 1px solid #000;
       }
     }
+  }
+
+  &.hide {
+    visibility: hidden;
   }
 }
 
@@ -323,7 +326,7 @@ mat-form-field {
 @media screen and (min-width: 1024px) {
   .form-field-left {
     &>label {
-      min-width: 100px;
+      min-width: 105px;
       width: auto;
     }
 

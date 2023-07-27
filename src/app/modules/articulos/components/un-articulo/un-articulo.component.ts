@@ -180,6 +180,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     palb: new FormControl(null),
     puc: new FormControl(null),
     margen: new FormControl(null),
+    margenDescuento: new FormControl(null),
     pvp: new FormControl(null),
     pvpDescuento: new FormControl(null),
     stock: new FormControl(null),

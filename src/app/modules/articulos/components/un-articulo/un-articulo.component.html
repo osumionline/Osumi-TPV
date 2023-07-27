@@ -201,22 +201,37 @@
                         </div>
                         <div class="articulo-numbers">
                             <div class="articulo-col">
-                                <div class="form-field-left fixed-height">
-                                    &nbsp;
+                                <!-- div class="form-field-left fixed-height">
+                                    &nbsp; Este campo se volverá a habilitar cuando se ponga el stock mínimo y máximo
+                                </div -->
+                                <div class="form-field-left">
+                                    <label>Stock</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               step="1"
+                                               placeholder="Stock"
+                                               formControlName="stock"
+                                               (focus)="$event.target.select()"
+                                               class="align-right">
+                                    </mat-form-field>
                                 </div>
                                 <div class="form-field-left fixed-height">
                                     <label>Descuento</label>
                                     <mat-slide-toggle color="primary"
-                                                      formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
+                                                      [(ngModel)]="articulo.descuento"
+                                                      [ngModelOptions]="{standalone: true}">{{ articulo.descuento ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
                                 </div>
-                                <div class="form-field-left margen">
-                                    <label>Margen con descuento</label>
+                                <div class="form-field-left margen"
+                                     [ngClass]="{'hide': !articulo.descuento}">
+                                    <label>Margen (desc)</label>
                                     <span (click)="abrirMargenesDescuento()">
-                                        {{articulo.margen | fixedNumber}} %
+                                        {{articulo.margenDescuento | fixedNumber}} %
                                     </span>
                                 </div>
-                                <div class="form-field-left">
-                                    <label>PVP con descuento</label>
+                                <div class="form-field-left"
+                                     [ngClass]="{'hide': !articulo.descuento}">
+                                    <label>PVP (desc)</label>
                                     <mat-form-field class="campo-numero">
                                         <input matInput
                                                type="number"
@@ -233,18 +248,7 @@
                         </div>
                         <div class="articulo-numbers">
                             <div class="articulo-col">
-                                <div class="form-field-left">
-                                    <label>Stock</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               step="1"
-                                               placeholder="Stock"
-                                               formControlName="stock"
-                                               (focus)="$event.target.select()"
-                                               class="align-right">
-                                    </mat-form-field>
-                                </div>
+                                <!-- El campo stock irá aquí al volver a poner el stock mínimo y máximo -->
                                 <!--div class="form-field-left">
 								<label>Stock mínimo</label>
 								<mat-form-field class="campo-numero">

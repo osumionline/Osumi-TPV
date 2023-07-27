@@ -18,6 +18,7 @@ export class Articulo {
   proveedor: string = "";
   fotosList: Foto[] = [];
   nombreStatus: "ok" | "checked" = "ok";
+  descuento: boolean = false;
 
   constructor(
     public id: number = null,
@@ -109,6 +110,7 @@ export class Articulo {
       );
     }
     this.status = "loaded";
+    this.descuento = this.pvpDescuento !== null;
 
     return this;
   }
