@@ -54,11 +54,12 @@ export class VentaLinea {
     this.stock = a.stock;
     this.cantidad = 1;
     this.pvp = a.pvp;
+    this.descuento = 0;
     if (a.pvpDescuento !== null) {
-      this.pvp = a.pvpDescuento;
+      this.descuento = a.pvp - a.pvpDescuento;
+      this.descuentoManual = true;
     }
     this.importe = a.pvp;
-    this.descuento = 0;
     this.iva = a.iva;
     this.observaciones = a.mostrarObsVentas ? a.observaciones : null;
 
