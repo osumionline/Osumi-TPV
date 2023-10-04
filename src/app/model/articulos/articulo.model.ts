@@ -19,6 +19,7 @@ export class Articulo {
   fotosList: Foto[] = [];
   nombreStatus: "ok" | "checked" = "ok";
   descuento: boolean = false;
+  porcentajeDescuento: number = null;
 
   constructor(
     public id: number = null,

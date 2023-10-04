@@ -183,6 +183,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     margenDescuento: new FormControl(null),
     pvp: new FormControl(null),
     pvpDescuento: new FormControl(null),
+    porcentajeDescuento: new FormControl(null),
     stock: new FormControl(null),
     stockMin: new FormControl(null),
     stockMax: new FormControl(null),
@@ -673,6 +674,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updatePvpDescuento(): void {
     this.form.get("pvpDescuento").markAsDirty();
+
+    this.updateMargenDescuento();
+  }
+
+  updatePorcentajeDescuento(): void {
+    this.form.get("porcentajeDescuento").markAsDirty();
 
     this.updateMargenDescuento();
   }

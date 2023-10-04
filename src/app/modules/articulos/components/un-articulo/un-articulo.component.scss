@@ -15,12 +15,16 @@
         display: flex;
 
         .articulo-numbers {
-            display: inline-block;
+            display: inline-flex;
             margin-right: 48px;
 
             .articulo-col {
                 display: flex;
                 flex-direction: column;
+
+                &.articulo-col-reverse {
+                    justify-content: flex-end;
+                }
             }
         }
     }

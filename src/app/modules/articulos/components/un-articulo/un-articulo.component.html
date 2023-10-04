@@ -224,14 +224,14 @@
                                 </div>
                                 <div class="form-field-left margen"
                                      [ngClass]="{'hide': !articulo.descuento}">
-                                    <label>Margen (desc)</label>
+                                    <label>Margen (dto)</label>
                                     <span (click)="abrirMargenesDescuento()">
                                         {{articulo.margenDescuento | fixedNumber}} %
                                     </span>
                                 </div>
                                 <div class="form-field-left"
                                      [ngClass]="{'hide': !articulo.descuento}">
-                                    <label>PVP (desc)</label>
+                                    <label>PVP (dto)</label>
                                     <mat-form-field class="campo-numero">
                                         <input matInput
                                                type="number"
@@ -243,6 +243,25 @@
                                                formControlName="pvpDescuento">
                                     </mat-form-field>
                                     <span>€</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="articulo-numbers">
+                            <div class="articulo-col articulo-col-reverse">
+                                <div class="form-field-left"
+                                     [ngClass]="{'hide': !articulo.descuento}">
+                                    <label>Descuento</label>
+                                    <mat-form-field class="campo-numero">
+                                        <input matInput
+                                               type="number"
+                                               placeholder="% (dto)"
+                                               class="align-right"
+                                               (blur)="setTwoNumberDecimal($event)"
+                                               (focus)="$event.target.select()"
+                                               (keyup)="updatePorcentajeDescuento()"
+                                               formControlName="porcentajeDescuento">
+                                    </mat-form-field>
+                                    <span>%</span>
                                 </div>
                             </div>
                         </div>
