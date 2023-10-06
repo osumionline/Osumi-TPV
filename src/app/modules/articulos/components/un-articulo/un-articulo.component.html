@@ -254,6 +254,9 @@
                                     <mat-form-field class="campo-numero">
                                         <input matInput
                                                type="number"
+                                               min="0"
+                                               max="100"
+                                               step="1"
                                                placeholder="% (dto)"
                                                class="align-right"
                                                (blur)="setTwoNumberDecimal($event)"

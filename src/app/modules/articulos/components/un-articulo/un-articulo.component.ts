@@ -679,7 +679,19 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updatePorcentajeDescuento(): void {
-    this.form.get("porcentajeDescuento").markAsDirty();
+    if (
+      this.form.get("puc").value !== null &&
+      this.form.get("puc").value !== 0 &&
+      this.form.get("pvpDescuento").value !== null &&
+      this.form.get("pvpDescuento").value !== 0
+    ) {
+      this.articulo.pvpDescuento =
+        this.form.get("pvp").value *
+        ((100 - this.form.get("porcentajeDescuento").value) / 100);
+    } else {
+      this.articulo.pvpDescuento = 0;
+    }
+    this.form.get("pvpDescuento").setValue(this.articulo.pvpDescuento);
 
     this.updateMargenDescuento();
   }
