@@ -193,13 +193,14 @@ export class UnaVentaComponent {
 
     if (indArticulo === -1) {
       this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
+      console.log(this.vs.ventaActual.lineas[ind]);
       this.vs.addLineaVenta();
     } else {
       if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
         this.vs.ventaActual.lineas[indArticulo].cantidad++;
         this.vs.ventaActual.lineas[indArticulo].animarCantidad = true;
         this.vs.ventaActual.lineas[ind].localizador = null;
-        setTimeout(() => {
+        setTimeout((): void => {
           this.vs.ventaActual.lineas[indArticulo].animarCantidad = false;
         }, 1000);
       } else {
@@ -210,7 +211,7 @@ export class UnaVentaComponent {
               "Has seleccionado un artículo que está marcado como devolución.",
             ok: "Continuar",
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             this.vs.ventaActual.lineas[ind].localizador = null;
             this.setFocus();
             return;

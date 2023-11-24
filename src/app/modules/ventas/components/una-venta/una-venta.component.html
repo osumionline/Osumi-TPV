@@ -117,7 +117,7 @@
 				<span *ngIf="!editarDescuento"
 					  class="editar-linea-descuento"
 					  (click)="editarLineaDescuento(i)">
-					{{linea.descuento}}
+					{{linea.descuento | fixedNumber}}
 					<ng-container *ngIf="!linea.descuentoManual">%</ng-container>
 					<ng-container *ngIf="linea.descuentoManual">€</ng-container>
 					<span *ngIf="!linea.descuentoManual && vs.ventaActual.modificarImportes"
