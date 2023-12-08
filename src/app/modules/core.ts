@@ -1,6 +1,4 @@
-/*
- * Servicios
- */
+import { Provider } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { CategoriasService } from "src/app/services/categorias.service";
@@ -17,20 +15,22 @@ import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
 
-export const SERVICES: any[] = [
-  ConfigService,
-  ApiService,
-  DialogService,
-  CategoriasService,
-  ClassMapperService,
-  MarcasService,
-  ProveedoresService,
-  VentasService,
-  ArticulosService,
-  ClientesService,
-  EmpleadosService,
-  GestionService,
-  ComprasService,
-  OverlayService,
-  InformesService,
-];
+export function provideCore(): Provider[] {
+  return [
+    ConfigService,
+    ApiService,
+    DialogService,
+    CategoriasService,
+    ClassMapperService,
+    MarcasService,
+    ProveedoresService,
+    VentasService,
+    ArticulosService,
+    ClientesService,
+    EmpleadosService,
+    GestionService,
+    ComprasService,
+    OverlayService,
+    InformesService,
+  ];
+}
