@@ -5,14 +5,13 @@ import { Empleado } from "src/app/model/tpv/empleado.model";
 import { EmployeeLoginModalComponent } from "src/app/modules/shared/components/modals/employee-login-modal/employee-login-modal.component";
 import { EmpleadosService } from "src/app/services/empleados.service";
 import { OverlayService } from "src/app/services/overlay.service";
-import { MaterialModule } from "../../../material/material.module";
 
 @Component({
   standalone: true,
   selector: "otpv-employee-login",
   templateUrl: "./employee-login.component.html",
   styleUrls: ["./employee-login.component.scss"],
-  imports: [MaterialModule, CommonModule],
+  imports: [CommonModule],
 })
 export class EmployeeLoginComponent {
   selectedEmpleado: Empleado = new Empleado();
@@ -37,7 +36,7 @@ export class EmployeeLoginComponent {
       EmployeeLoginModalComponent,
       modalEmpleadoLoginData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data === true) {
         this.successEvent.emit(this.selectedEmpleado);
       }

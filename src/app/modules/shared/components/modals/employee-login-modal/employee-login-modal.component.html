@@ -14,8 +14,10 @@
             color="primary"
             (click)="login()"
             [disabled]="loginLoading">
-        <img *ngIf="loginLoading"
-             src="/assets/loading.svg">
+        @if (loginLoading) {
+        <img src="/assets/loading.svg"
+             alt="">
+        }
         Continuar
     </button>
 </div>

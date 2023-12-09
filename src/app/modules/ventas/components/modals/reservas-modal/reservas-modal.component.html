@@ -1,6 +1,7 @@
 <div class="reservas">
     <div class="reservas-list">
-        <div *ngIf="list.length>0">
+        @if (list.length>0) {
+        <div>
             <table mat-table
                    [dataSource]="reservasDataSource"
                    matSort
@@ -82,16 +83,19 @@
                         (click)="cargarVentas()">Cargar ventas</button>
             </div>
         </div>
-        <div class="reservas-no-data"
-             *ngIf="list.length === 0">No hay reservas.</div>
+        }
+        @else {
+        <div class="reservas-no-data">No hay reservas.</div>
+        }
     </div>
     <div class="reservas-detail">
-        <div class="reserva-detail-no-data"
-             *ngIf="reservaSelected === null">Elige una reserva de la lista.</div>
+        @if (reservaSelected === null) {
+        <div class="reserva-detail-no-data">Elige una reserva de la lista.</div>
+        }
         <div class="reserva-detail"
              [ngClass]="{'show':reservaSelected !== null}">
-            <div class="reserva-detail-lineas"
-                 *ngIf="list.length > 0 && reservaSelected !== null">
+            @if (list.length > 0 && reservaSelected !== null) {
+            <div class="reserva-detail-lineas">
 
                 <table mat-table
                        [dataSource]="reservaSelectedDataSource"
@@ -186,16 +190,26 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            <div *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</div>
-                            <div *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</div>
-                            <div *ngIf="!element.importeDescuento && element.descuento === 0">-</div>
+                            <div>
+                                @if (element.importeDescuento) {
+                                {{element.importeDescuento | fixedNumber}} €
+                                }
+                                @if (!element.importeDescuento && element.descuento !== 0) {
+                                {{element.descuento}} %
+                                }
+                                @if (!element.importeDescuento && element.descuento === 0) {
+                                -
+                                }
+                            </div>
                         </td>
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef>
-                            <div *ngIf="reservaSelected.totalDescuento !== 0">
+                            @if (reservaSelected.totalDescuento !== 0) {
+                            <div>
                                 <strong>{{reservaSelected.totalDescuento | fixedNumber}} €</strong>
                             </div>
+                            }
                         </td>
                     </ng-container>
 
@@ -212,8 +226,9 @@
                             mat-cell
                             *matCellDef="let element">
                             {{element.importe | fixedNumber}} €
-                            <div *ngIf="element.total != element.importe"
-                                 class="original-price">{{element.total | fixedNumber}} €</div>
+                            @if (element.total !== element.importe) {
+                            <div class="original-price">{{element.total | fixedNumber}} €</div>
+                            }
                         </td>
                         <td class="center"
                             mat-footer-cell
@@ -229,6 +244,7 @@
                 </table>
 
             </div>
+            }
             <div class="reserva-detail-options">
                 <button mat-raised-button
                         color="warn"

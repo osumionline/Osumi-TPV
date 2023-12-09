@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -7,13 +6,25 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import {
+  MatTabChangeEvent,
+  MatTabGroup,
+  MatTabsModule,
+} from "@angular/material/tabs";
 import { Router } from "@angular/router";
+import {
+  ClienteSaveResult,
+  ClientesResult,
+} from "src/app/interfaces/cliente.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -24,7 +35,17 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-elegir-cliente-modal",
   templateUrl: "./elegir-cliente-modal.component.html",
   styleUrls: ["./elegir-cliente-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, MatSortModule],
+  imports: [
+    FormsModule,
+    MatSortModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatButtonModule,
+  ],
 })
 export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
   selectClienteFrom: string = null;
@@ -69,7 +90,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
     this.searching = false;
     this.searched = false;
     this.nuevoCliente = new Cliente();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.elegirClienteBoxName.nativeElement.focus();
     }, 0);
   }
@@ -90,7 +111,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
 
   searchStart(): void {
     clearTimeout(this.searchTimer);
-    this.searchTimer = window.setTimeout(() => {
+    this.searchTimer = window.setTimeout((): void => {
       this.searchClientes();
     }, 500);
   }
@@ -104,20 +125,22 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
       return;
     }
     this.searching = true;
-    this.cs.searchClientes(this.elegirClienteNombre).subscribe((result) => {
-      this.searching = false;
-      this.searched = true;
-      if (result.status === "ok") {
-        this.searchResult = this.cms.getClientes(result.list);
-        this.buscadorDataSource.data = this.searchResult;
-      } else {
-        this.dialog.alert({
-          title: "Error",
-          content: "Ocurrió un error al buscar los clientes.",
-          ok: "Continuar",
-        });
-      }
-    });
+    this.cs
+      .searchClientes(this.elegirClienteNombre)
+      .subscribe((result: ClientesResult): void => {
+        this.searching = false;
+        this.searched = true;
+        if (result.status === "ok") {
+          this.searchResult = this.cms.getClientes(result.list);
+          this.buscadorDataSource.data = this.searchResult;
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al buscar los clientes.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   selectCliente(cliente: Cliente): void {
@@ -133,7 +156,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
           ok: "Ir a su ficha",
           cancel: "Elegir otro cliente",
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.router.navigate(["/clientes/" + cliente.id]);
           }
@@ -155,7 +178,7 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
           content: "¡No puedes dejar en blanco el nombre del cliente!",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.nuevoClienteBoxName.nativeElement.focus();
         });
       return;
@@ -175,19 +198,21 @@ export class ElegirClienteModalComponent implements OnInit, AfterViewInit {
       }
     }
     this.searching = true;
-    this.cs.saveCliente(this.nuevoCliente.toInterface()).subscribe((result) => {
-      if (result.status === "ok") {
-        this.cs.resetClientes();
-        this.nuevoCliente.id = result.id;
-        this.selectCliente(this.nuevoCliente);
-        window.open("/clientes/lopd/" + result.id);
-      } else {
-        this.dialog.alert({
-          title: "Error",
-          content: "¡Ocurrió un error al guardar el cliente!",
-          ok: "Continuar",
-        });
-      }
-    });
+    this.cs
+      .saveCliente(this.nuevoCliente.toInterface())
+      .subscribe((result: ClienteSaveResult): void => {
+        if (result.status === "ok") {
+          this.cs.resetClientes();
+          this.nuevoCliente.id = result.id;
+          this.selectCliente(this.nuevoCliente);
+          window.open("/clientes/lopd/" + result.id);
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "¡Ocurrió un error al guardar el cliente!",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component, HostListener, Input, OnInit } from "@angular/core";
+import { MatIconModule } from "@angular/material/icon";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
-import { CajaModalComponent } from "src/app/modules/caja/components/modals/caja-modal/caja-modal.component";
 import { CajaModal } from "src/app/interfaces/modals.interface";
-import { MaterialModule } from "src/app/modules/material/material.module";
+import { CajaModalComponent } from "src/app/modules/caja/components/modals/caja-modal/caja-modal.component";
 import { ConfigService } from "src/app/services/config.service";
 import { OverlayService } from "src/app/services/overlay.service";
 
@@ -12,7 +13,7 @@ import { OverlayService } from "src/app/services/overlay.service";
   selector: "otpv-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
-  imports: [MaterialModule, CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatToolbarModule, MatIconModule],
 })
 export class HeaderComponent implements OnInit {
   @Input() selectedOption: string = "";

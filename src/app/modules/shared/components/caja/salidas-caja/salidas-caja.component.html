@@ -23,8 +23,8 @@
                    [(ngModel)]="fecha"
                    (ngModelChange)="changeFecha()">
             <mat-datepicker-toggle matSuffix
-                                   [for]="fechaPicker"></mat-datepicker-toggle>
-            <mat-datepicker #fechaPicker></mat-datepicker>
+                                   [for]="fechaPicker" />
+            <mat-datepicker #fechaPicker />
         </mat-form-field>
         <button mat-icon-button
                 (click)="nextFecha()">
@@ -39,8 +39,8 @@
                    [matDatepicker]="rangoDesdePicker"
                    [(ngModel)]="rangoDesde">
             <mat-datepicker-toggle matSuffix
-                                   [for]="rangoDesdePicker"></mat-datepicker-toggle>
-            <mat-datepicker #rangoDesdePicker></mat-datepicker>
+                                   [for]="rangoDesdePicker" />
+            <mat-datepicker #rangoDesdePicker />
         </mat-form-field>
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Fecha hasta</mat-label>
@@ -48,8 +48,8 @@
                    [matDatepicker]="rangoHastaPicker"
                    [(ngModel)]="rangoHasta">
             <mat-datepicker-toggle matSuffix
-                                   [for]="rangoHastaPicker"></mat-datepicker-toggle>
-            <mat-datepicker #rangoHastaPicker></mat-datepicker>
+                                   [for]="rangoHastaPicker" />
+            <mat-datepicker #rangoHastaPicker />
         </mat-form-field>
         <button mat-raised-button
                 color="primary"
@@ -65,16 +65,18 @@
         <div class="flex-content">
             <aside>
                 <mat-action-list>
+                    @if (salidasCajaList.length === 0) {
                     <button mat-list-item
-                            *ngIf="salidasCajaList.length === 0"
                             (click)="newSalidaCaja()">No hay entradas para la fecha elegida.</button>
+                    }
+                    @for (salidaCaja of salidasCajaList; track salidaCaja.id) {
                     <button mat-list-item
-                            *ngFor="let salidaCaja of salidasCajaList"
                             (click)="selectSalidaCaja(salidaCaja)"
-                            [ngClass]="{'selected-salida-caja': salidaCajaSelected.id===salidaCaja.id}">
+                            [ngClass]="{'selected-salida-caja': salidaCajaSelected.id === salidaCaja.id}">
                         <div matListItemTitle>{{salidaCaja.concepto}}</div>
                         <div matListItemLine>{{salidaCaja.fecha}} - {{salidaCaja.importe | fixedNumber}} €</div>
                     </button>
+                    }
                 </mat-action-list>
                 <div class="new-salida-caja">
                     <button mat-raised-button
@@ -128,12 +130,13 @@
                         </div>
                         <div class="actions">
                             <div class="delete">
+                                @if (form.value.id && salidaCajaSelected.editable) {
                                 <button mat-raised-button
                                         color="warn"
-                                        *ngIf="form.value.id && salidaCajaSelected.editable"
                                         [disabled]="!form.value.id"
                                         type="button"
                                         (click)="deleteSalidaCaja()">Eliminar</button>
+                                }
                             </div>
                             <div class="others">
                                 <button mat-raised-button

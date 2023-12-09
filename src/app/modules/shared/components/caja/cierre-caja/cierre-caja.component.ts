@@ -1,12 +1,17 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { getCurrentDate } from "@osumi/tools";
 import { CierreCajaResult } from "src/app/interfaces/caja.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -18,7 +23,17 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-cierre-caja",
   templateUrl: "./cierre-caja.component.html",
   styleUrls: ["./cierre-caja.component.scss"],
-  imports: [MaterialModule, FormsModule, FixedNumberPipe, CommonModule],
+  imports: [
+    FormsModule,
+    FixedNumberPipe,
+    CommonModule,
+    MatCardModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class CierreCajaComponent {
   cierreCaja: CierreCaja = new CierreCaja();
@@ -64,13 +79,11 @@ export class CierreCajaComponent {
 
   cerrarCaja(): void {
     if (this.cierreCaja.real === null) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: 'El campo "Importe real" es obligatorio.',
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content: 'El campo "Importe real" es obligatorio.',
+        ok: "Continuar",
+      });
       return;
     }
 
@@ -101,13 +114,11 @@ export class CierreCajaComponent {
           this.config.isOpened = false;
           this.router.navigate(["/"]);
         } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: "Ocurrió un error al realizar el cierre de caja.",
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al realizar el cierre de caja.",
+            ok: "Continuar",
+          });
         }
       });
   }

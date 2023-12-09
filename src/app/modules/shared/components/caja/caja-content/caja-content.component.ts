@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -8,9 +7,15 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import {
+  MatTabChangeEvent,
+  MatTabGroup,
+  MatTabsModule,
+} from "@angular/material/tabs";
 import { Month } from "src/app/interfaces/interfaces";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { CierreCajaComponent } from "src/app/modules/shared/components/caja/cierre-caja/cierre-caja.component";
 import { HistoricoVentasComponent } from "src/app/modules/shared/components/caja/historico-ventas/historico-ventas.component";
 import { SalidasCajaComponent } from "src/app/modules/shared/components/caja/salidas-caja/salidas-caja.component";
@@ -22,12 +27,14 @@ import { ConfigService } from "src/app/services/config.service";
   templateUrl: "./caja-content.component.html",
   styleUrls: ["./caja-content.component.scss"],
   imports: [
-    MaterialModule,
-    CommonModule,
     FormsModule,
     HistoricoVentasComponent,
     SalidasCajaComponent,
     CierreCajaComponent,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
 })
 export class CajaContentComponent implements OnInit {

@@ -24,14 +24,16 @@
                             </div>
                             <div class="form-field deploy">
                                 <label>Importe real (*)</label>
-                                <span *ngIf="cierreCaja.real === null"
-                                      (click)="openCoins()">
+                                @if (cierreCaja.real === null) {
+                                <span (click)="openCoins()">
                                     Importe real
                                 </span>
-                                <span *ngIf="cierreCaja.real !== null"
-                                      (click)="openCoins()">
+                                }
+                                @else {
+                                <span (click)="openCoins()">
                                     {{cierreCaja.real | fixedNumber}}
                                 </span>
+                                }
                                 €
                             </div>
                             <div class="form-field">
@@ -250,14 +252,18 @@
                     </mat-card-content>
                 </mat-card>
                 <div class="tipos-row">
-                    <mat-card *ngFor="let tipo of cierreCaja.tipos"
-                              class="data-card">
+                    @for (tipo of cierreCaja.tipos; track tipo.id) {
+                    <mat-card class="data-card">
                         <mat-card-header>
                             <mat-card-title class="card-title">
                                 <button mat-icon-button
                                         (click)="tipo.show = !tipo.show">
-                                    <mat-icon *ngIf="tipo.show">expand_less</mat-icon>
-                                    <mat-icon *ngIf="!tipo.show">expand_more</mat-icon>
+                                    @if (tipo.show) {
+                                    <mat-icon>expand_less</mat-icon>
+                                    }
+                                    @else {
+                                    <mat-icon>expand_more</mat-icon>
+                                    }
                                 </button>
                                 <span>{{tipo.nombre}}</span>
                             </mat-card-title>
@@ -292,13 +298,14 @@
                             </div>
                         </mat-card-content>
                     </mat-card>
+                    }
                 </div>
             </div>
         </mat-tab>
-        <mat-tab *ngIf="config.ventaOnline"
-                 label="WEB"></mat-tab>
-        <mat-tab *ngIf="config.ventaOnline"
-                 label="TOTALES"></mat-tab>
+        @if (config.ventaOnline) {
+        <mat-tab label="WEB"></mat-tab>
+        <mat-tab label="TOTALES"></mat-tab>
+        }
     </mat-tab-group>
     <div class="actions">
         <button mat-raised-button

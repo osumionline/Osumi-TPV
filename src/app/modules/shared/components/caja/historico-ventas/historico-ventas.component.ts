@@ -7,9 +7,14 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatSelect } from "@angular/material/select";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatSelect, MatSelectModule } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import { addDays, getDate, urlencode } from "@osumi/tools";
 import {
@@ -26,7 +31,6 @@ import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -40,11 +44,18 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./historico-ventas.component.html",
   styleUrls: ["./historico-ventas.component.scss"],
   imports: [
-    MaterialModule,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
     CommonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatSelectModule,
   ],
 })
 export class HistoricoVentasComponent implements AfterViewInit {
@@ -124,13 +135,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   buscarPorRango(): void {
     if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
+        ok: "Continuar",
+      });
       return;
     }
     const data: DateValues = {
@@ -207,13 +216,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
       .printTicket(this.historicoVentasSelected.id, tipo)
       .subscribe((result: StatusResult): void => {
         if (result.status === "error") {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: "Ocurrió un error al imprimir el ticket.",
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al imprimir el ticket.",
+            ok: "Continuar",
+          });
         }
       });
   }
@@ -249,16 +256,14 @@ export class HistoricoVentasComponent implements AfterViewInit {
     );
 
     if (selectedClient.dniCif === null || selectedClient.dniCif === "") {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            'El cliente "' +
-            selectedClient.nombreApellidos +
-            '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content:
+          'El cliente "' +
+          selectedClient.nombreApellidos +
+          '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
+        ok: "Continuar",
+      });
     } else {
       if (
         selectedClient.direccion === null ||
@@ -385,27 +390,23 @@ export class HistoricoVentasComponent implements AfterViewInit {
       .sendTicket(id, urlencode(email))
       .subscribe((result: StatusResult): void => {
         if (result.status === "ok") {
-          this.dialog
-            .alert({
-              title: "Enviado",
-              content:
-                'El ticket de la venta ha sido correctamente enviado a la dirección "' +
-                email +
-                '"',
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Enviado",
+            content:
+              'El ticket de la venta ha sido correctamente enviado a la dirección "' +
+              email +
+              '"',
+            ok: "Continuar",
+          });
         } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content:
-                'El ticket de la venta no ha podido ser enviado a la dirección "' +
-                email +
-                '", ¿tal vez la dirección no es correcta?',
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content:
+              'El ticket de la venta no ha podido ser enviado a la dirección "' +
+              email +
+              '", ¿tal vez la dirección no es correcta?',
+            ok: "Continuar",
+          });
         }
       });
   }

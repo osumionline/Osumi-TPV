@@ -1,7 +1,9 @@
 <div class="devolucion-info">
     <span>Fecha: {{venta.fecha}}</span>
     <span>Forma de pago: {{venta.nombreTipoPago}}</span>
-    <span *ngIf="venta.cliente">Cliente: {{venta.cliente}}</span>
+    @if (venta.cliente) {
+    <span>Cliente: {{venta.cliente}}</span>
+    }
 </div>
 <table mat-table
        [dataSource]="devolucionDataSource"
@@ -14,16 +16,14 @@
             *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
+                          [indeterminate]="selection.hasValue() && !isAllSelected()" />
         </th>
         <td class="center"
             mat-cell
             *matCellDef="let element">
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(element) : null"
-                          [checked]="selection.isSelected(element)">
-            </mat-checkbox>
+                          [checked]="selection.isSelected(element)" />
         </td>
     </ng-container>
 

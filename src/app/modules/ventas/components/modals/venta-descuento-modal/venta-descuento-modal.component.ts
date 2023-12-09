@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { DialogService } from "src/app/services/dialog.service";
 
 @Component({
@@ -9,7 +11,7 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-venta-descuento-modal",
   templateUrl: "./venta-descuento-modal.component.html",
   styleUrls: ["./venta-descuento-modal.component.scss"],
-  imports: [MaterialModule, FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
 })
 export class VentaDescuentoModalComponent implements OnInit {
   descuentoImporte: number = null;
@@ -40,8 +42,8 @@ export class VentaDescuentoModalComponent implements OnInit {
           content: "¡No has introducido ningún descuento!",
           ok: "Continuar",
         })
-        .subscribe((result) => {
-          setTimeout(() => {
+        .subscribe((): void => {
+          setTimeout((): void => {
             this.descuentoValue.nativeElement.focus();
           }, 0);
         });

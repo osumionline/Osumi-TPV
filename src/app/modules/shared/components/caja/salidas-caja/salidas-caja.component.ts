@@ -13,6 +13,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSelectModule } from "@angular/material/select";
 import { addDays, getDate } from "@osumi/tools";
 import {
   SalidaCajaInterface,
@@ -20,7 +28,6 @@ import {
 } from "src/app/interfaces/caja.interface";
 import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
 import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ApiService } from "src/app/services/api.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -32,11 +39,18 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./salidas-caja.component.html",
   styleUrls: ["./salidas-caja.component.scss"],
   imports: [
-    MaterialModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FixedNumberPipe,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatCardModule,
+    MatListModule,
   ],
 })
 export class SalidasCajaComponent {
@@ -92,13 +106,11 @@ export class SalidasCajaComponent {
 
   buscarPorRango(): void {
     if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
+        ok: "Continuar",
+      });
       return;
     }
     const data: DateValues = {
@@ -161,19 +173,27 @@ export class SalidasCajaComponent {
     this.as
       .saveSalidaCaja(this.salidaCajaSelected.toInterface())
       .subscribe((result: StatusResult): void => {
-        this.dialog
-          .alert({
-            title: "Datos guardados",
-            content:
-              'Salida de caja con concepto "' +
-              this.salidaCajaSelected.concepto +
-              '" correctamente guardada.',
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Datos guardados",
+              content:
+                'Salida de caja con concepto "' +
+                this.salidaCajaSelected.concepto +
+                '" correctamente guardada.',
+              ok: "Continuar",
+            })
+            .subscribe((): void => {
+              this.resetBusqueda();
+              this.salidaCajaEvent.emit(true);
+            });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al guardar la salida de caja.",
             ok: "Continuar",
-          })
-          .subscribe((result: boolean): void => {
-            this.resetBusqueda();
-            this.salidaCajaEvent.emit(true);
           });
+        }
       });
   }
 
@@ -199,18 +219,26 @@ export class SalidasCajaComponent {
     this.as
       .deleteSalidaCaja(this.salidaCajaSelected.id)
       .subscribe((result: StatusResult): void => {
-        this.dialog
-          .alert({
-            title: "Salida de caja borrada",
-            content:
-              'La salida de caja con concepto "' +
-              this.salidaCajaSelected.concepto +
-              '" ha sido correctamente borrada.',
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Salida de caja borrada",
+              content:
+                'La salida de caja con concepto "' +
+                this.salidaCajaSelected.concepto +
+                '" ha sido correctamente borrada.',
+              ok: "Continuar",
+            })
+            .subscribe((): void => {
+              this.resetBusqueda();
+            });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Error al borrar la salida de caja.",
             ok: "Continuar",
-          })
-          .subscribe((result: boolean): void => {
-            this.resetBusqueda();
           });
+        }
       });
   }
 }

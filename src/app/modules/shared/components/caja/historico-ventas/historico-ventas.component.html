@@ -23,8 +23,8 @@
                    [(ngModel)]="fecha"
                    (ngModelChange)="changeFecha()">
             <mat-datepicker-toggle matSuffix
-                                   [for]="fechaPicker"></mat-datepicker-toggle>
-            <mat-datepicker #fechaPicker></mat-datepicker>
+                                   [for]="fechaPicker" />
+            <mat-datepicker #fechaPicker />
         </mat-form-field>
         <button mat-icon-button
                 (click)="nextFecha()">
@@ -39,8 +39,8 @@
                    [matDatepicker]="rangoDesdePicker"
                    [(ngModel)]="rangoDesde">
             <mat-datepicker-toggle matSuffix
-                                   [for]="rangoDesdePicker"></mat-datepicker-toggle>
-            <mat-datepicker #rangoDesdePicker></mat-datepicker>
+                                   [for]="rangoDesdePicker" />
+            <mat-datepicker #rangoDesdePicker />
         </mat-form-field>
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Fecha hasta</mat-label>
@@ -48,8 +48,8 @@
                    [matDatepicker]="rangoHastaPicker"
                    [(ngModel)]="rangoHasta">
             <mat-datepicker-toggle matSuffix
-                                   [for]="rangoHastaPicker"></mat-datepicker-toggle>
-            <mat-datepicker #rangoHastaPicker></mat-datepicker>
+                                   [for]="rangoHastaPicker" />
+            <mat-datepicker #rangoHastaPicker />
         </mat-form-field>
         <button mat-raised-button
                 color="primary"
@@ -62,7 +62,8 @@
 
 <div class="historico-body">
     <div class="historico-table">
-        <div *ngIf="historicoVentasList.length > 0">
+        @if (historicoVentasList.length > 0) {
+        <div>
             <table mat-table
                    [dataSource]="historicoVentasDataSource"
                    matSort
@@ -108,8 +109,9 @@
                         <div class="pay-type"
                              [ngClass]="{'margin': element.idCliente === null}">
                             {{element.nombreTipoPago}}
-                            <mat-icon *ngIf="element.idCliente !== null"
-                                      [matTooltip]="element.cliente">account_circle</mat-icon>
+                            @if (element.idCliente !== null) {
+                            <mat-icon [matTooltip]="element.cliente">account_circle</mat-icon>
+                            }
                         </div>
                     </td>
                 </ng-container>
@@ -131,11 +133,12 @@
                     <label>Ventas efectivo:</label>
                     <span>{{ventasEfectivo | fixedNumber}} €</span>
                 </div>
-                <div *ngFor="let otro of ventasOtros"
-                     class="totales-row">
+                @for (otro of ventasOtros; track otro.nombre) {
+                <div class="totales-row">
                     <label>Ventas {{otro.nombre}}:</label>
                     <span>{{otro.valor | fixedNumber}} €</span>
                 </div>
+                }
                 <div class="totales-row">
                     <label>Ventas web:</label>
                     <span>{{ventasWeb | fixedNumber}} €</span>
@@ -146,16 +149,19 @@
                 </div>
             </div>
         </div>
-        <div class="historico-no-data"
-             *ngIf="historicoVentasList.length === 0">No hay ventas para la fecha elegida.</div>
+        }
+        @else {
+        <div class="historico-no-data">No hay ventas para la fecha elegida.</div>
+        }
     </div>
     <div class="historico-data">
-        <div class="historico-no-data"
-             *ngIf="historicoVentasSelected.id === null">Elige una venta de la lista.</div>
+        @if (historicoVentasSelected.id === null) {
+        <div class="historico-no-data">Elige una venta de la lista.</div>
+        }
         <div class="historico-detail"
              [ngClass]="{'show':historicoVentasSelected.id !== null}">
-            <div class="historico-detail-lineas"
-                 *ngIf="historicoVentasList.length > 0 && historicoVentasSelected !== null">
+            @if (historicoVentasList.length > 0 && historicoVentasSelected !== null) {
+            <div class="historico-detail-lineas">
 
                 <table mat-table
                        [dataSource]="historicoVentasSelectedDataSource"
@@ -250,18 +256,27 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            <span *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</span>
-                            <span *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</span>
-                            <span *ngIf="!element.importeDescuento && element.descuento === 0">-</span>
-                            <mat-icon class="icon"
-                                      *ngIf="element.regalo">loyalty</mat-icon>
+                            @if (element.importeDescuento) {
+                            <span>{{element.importeDescuento | fixedNumber}} €</span>
+                            }
+                            @if (!element.importeDescuento && element.descuento !== 0) {
+                            <span>{{element.descuento}} %</span>
+                            }
+                            @if (!element.importeDescuento && element.descuento === 0) {
+                            <span>-</span>
+                            }
+                            @if (element.regalo) {
+                            <mat-icon class="icon">loyalty</mat-icon>
+                            }
                         </td>
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef>
-                            <div *ngIf="historicoVentasSelected.totalDescuento !== 0">
+                            @if (historicoVentasSelected.totalDescuento !== 0) {
+                            <div>
                                 <strong>{{historicoVentasSelected.totalDescuento | fixedNumber}} €</strong>
                             </div>
+                            }
                         </td>
                     </ng-container>
 
@@ -278,8 +293,9 @@
                             mat-cell
                             *matCellDef="let element">
                             {{element.importe | fixedNumber}} €
-                            <div *ngIf="element.total != element.importe"
-                                 class="original-price">{{element.total | fixedNumber}} €</div>
+                            @if (element.total !== element.importe) {
+                            <div class="original-price">{{element.total | fixedNumber}} €</div>
+                            }
                         </td>
                         <td class="center"
                             mat-footer-cell
@@ -295,6 +311,7 @@
                 </table>
 
             </div>
+            }
             <div class="historico-detail-options">
                 <div class="historico-details-options-left">
                     <mat-form-field subscriptSizing="dynamic">
@@ -303,10 +320,11 @@
                                     (ngModelChange)="changeFormaPago()"
                                     [disabled]="!historicoVentasSelected.editable">
                             <mat-option [value]="-1">Efectivo</mat-option>
-                            <mat-option *ngFor="let tipoPago of config.tiposPago"
-                                        [value]="tipoPago.id">
+                            @for (tipoPago of config.tiposPago; track tipoPago.id) {
+                            <mat-option [value]="tipoPago.id">
                                 {{tipoPago.nombre}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field subscriptSizing="dynamic">
@@ -316,10 +334,11 @@
                                     [disabled]="historicoVentasSelected.facturada"
                                     #clientesBox>
                             <mat-option [value]="null">Elige cliente</mat-option>
-                            <mat-option *ngFor="let cliente of cs.clientes"
-                                        [value]="cliente.id">
+                            @for (cliente of cs.clientes; track cliente.id) {
+                            <mat-option [value]="cliente.id">
                                 {{cliente.nombreApellidos}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                 </div>

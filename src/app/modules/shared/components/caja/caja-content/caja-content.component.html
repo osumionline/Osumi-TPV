@@ -7,15 +7,15 @@
                    #cajaTabs>
         <mat-tab label="HISTÓRICO DE VENTAS">
             <otpv-historico-ventas (cerrarVentanaEvent)="cerrarCaja()"
-                                   #historicoVentas></otpv-historico-ventas>
+                                   #historicoVentas />
         </mat-tab>
         <mat-tab label="SALIDAS CAJA">
             <otpv-salidas-caja (salidaCajaEvent)="newSalidaCaja($event)"
-                               #salidasCaja></otpv-salidas-caja>
+                               #salidasCaja />
         </mat-tab>
         <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
                  label="CERRAR CAJA">
-            <otpv-cierre-caja #cierreCaja></otpv-cierre-caja>
+            <otpv-cierre-caja #cierreCaja />
         </mat-tab>
         <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
                  label="INFORMES">
@@ -37,10 +37,11 @@
                     <label>Mes</label>
                     <mat-form-field>
                         <mat-select [(ngModel)]="informeMonth">
-                            <mat-option *ngFor="let month of monthList"
-                                        [value]="month.id">
+                            @for (month of monthList; track month.id) {
+                            <mat-option [value]="month.id">
                                 {{month.name}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -48,10 +49,11 @@
                     <label>Año</label>
                     <mat-form-field>
                         <mat-select [(ngModel)]="informeYear">
-                            <mat-option *ngFor="let year of yearList"
-                                        [value]="year">
+                            @for (year of yearList; track year) {
+                            <mat-option [value]="year">
                                 {{year}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                 </div>

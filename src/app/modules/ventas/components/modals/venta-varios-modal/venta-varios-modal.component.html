@@ -24,10 +24,11 @@
         <label>IVA (*)</label>
         <mat-form-field>
             <mat-select formControlName="iva">
-                <mat-option *ngFor="let iva of ivaList"
-                            [value]="iva">
+                @for (iva of ivaList; track iva) {
+                <mat-option [value]="iva">
                     {{iva}} %
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
     </div>

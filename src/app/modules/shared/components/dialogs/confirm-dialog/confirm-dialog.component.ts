@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
-import { MaterialModule } from "src/app/modules/material/material.module";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   standalone: true,
   selector: "otpv-confirm-dialog",
   templateUrl: "./confirm-dialog.component.html",
-  imports: [MaterialModule],
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class ConfirmDialogComponent {
   public title: string;

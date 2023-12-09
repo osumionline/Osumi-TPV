@@ -2,12 +2,15 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { ReservasResult } from "src/app/interfaces/cliente.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
 import { Reserva } from "src/app/model/ventas/reserva.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -21,9 +24,11 @@ import { DialogService } from "src/app/services/dialog.service";
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule,
     MatSortModule,
     FixedNumberPipe,
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule,
   ],
 })
 export class ReservasModalComponent implements OnInit, AfterViewInit {
@@ -65,7 +70,7 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   loadReservas(): void {
-    this.cs.getReservas().subscribe((result) => {
+    this.cs.getReservas().subscribe((result: ReservasResult): void => {
       this.list = this.cms.getReservas(result.list);
       this.reservasDataSource.data = this.list;
     });
@@ -84,7 +89,7 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   masterToggle(): void {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.reservasDataSource.data.forEach((row) =>
+      : this.reservasDataSource.data.forEach((row: Reserva): boolean | void =>
           this.selection.select(row)
         );
   }
@@ -102,7 +107,7 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteVenta();
         }
@@ -110,12 +115,14 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteVenta(): void {
-    this.cs.deleteReserva(this.reservaSelected.id).subscribe((result) => {
-      if (result.status === "ok") {
-        this.reservaSelected = null;
-        this.loadReservas();
-      }
-    });
+    this.cs
+      .deleteReserva(this.reservaSelected.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.reservaSelected = null;
+          this.loadReservas();
+        }
+      });
   }
 
   cargarVenta(): void {
@@ -124,18 +131,16 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
 
   cargarVentas(): void {
     let idCliente: number = null;
-    for (let reserva of this.selection.selected) {
+    for (const reserva of this.selection.selected) {
       if (idCliente === null) {
         idCliente = reserva.idCliente;
       }
       if (idCliente !== reserva.idCliente) {
-        this.dialog
-          .alert({
-            title: "Error",
-            content: "Las reservas elegidas pertenecen a distintos clientes.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
+        this.dialog.alert({
+          title: "Error",
+          content: "Las reservas elegidas pertenecen a distintos clientes.",
+          ok: "Continuar",
+        });
         return;
       }
     }

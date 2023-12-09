@@ -8,16 +8,22 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatCheckboxChange } from "@angular/material/checkbox";
+import { MatButtonModule } from "@angular/material/button";
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { formatNumber, toNumber } from "@osumi/tools";
 import { DialogOptions } from "src/app/interfaces/interfaces";
 import { FinVentaResult } from "src/app/interfaces/venta.interface";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -30,10 +36,15 @@ import { VentasService } from "src/app/services/ventas.service";
   styleUrls: ["./venta-finalizar-modal.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatTableModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
 })
 export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
@@ -262,9 +273,17 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
 
     if (this.vs.fin.imprimir === "reserva") {
       this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
-        this.customOverlayRef.close({
-          status: "fin-reserva",
-        });
+        if (result.status === "ok") {
+          this.customOverlayRef.close({
+            status: "fin-reserva",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al guardar la reserva.",
+            ok: "Continuar",
+          });
+        }
       });
       return;
     }
@@ -287,7 +306,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
                 "¡Las cantidades introducidas (tarjeta y efectivo) son inferiores al importe total!",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               setTimeout((): void => {
                 this.tarjetaValue.nativeElement.select();
               }, 0);
@@ -303,7 +322,7 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
             content: "¡La cantidad introducida es inferior al importe total!",
             ok: "Continuar",
           })
-          .subscribe((result: boolean): void => {
+          .subscribe((): void => {
             setTimeout((): void => {
               this.efectivoValue.nativeElement.select();
             }, 0);
@@ -315,14 +334,12 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
     this.saving = true;
     this.vs.guardarVenta().subscribe((result: FinVentaResult): void => {
       if (result.status === "ok-tbai-error") {
-        this.dialog
-          .alert({
-            title: "Atención",
-            content:
-              "La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.",
-            ok: "Continuar",
-          })
-          .subscribe((result: boolean): void => {});
+        this.dialog.alert({
+          title: "Atención",
+          content:
+            "La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.",
+          ok: "Continuar",
+        });
       }
       this.customOverlayRef.close({
         status: "fin",

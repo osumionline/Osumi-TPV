@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -6,17 +5,27 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ConfigService } from "src/app/services/config.service";
 
 @Component({
   standalone: true,
   selector: "otpv-venta-varios-modal",
   templateUrl: "./venta-varios-modal.component.html",
-  styleUrls: ["./venta-varios-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class VentaVariosModalComponent implements OnInit {
   ivaList: number[] = [];
@@ -37,13 +46,13 @@ export class VentaVariosModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    for (let ivaOption of this.config.ivaOptions) {
+    for (const ivaOption of this.config.ivaOptions) {
       this.ivaList.push(ivaOption.iva);
     }
     this.formVarios.get("nombre").setValue(this.customOverlayRef.data.nombre);
     this.formVarios.get("pvp").setValue(this.customOverlayRef.data.pvp);
     this.formVarios.get("iva").setValue(this.customOverlayRef.data.iva);
-    setTimeout(() => {
+    setTimeout((): void => {
       this.variosPVPbox.nativeElement.focus();
     }, 0);
   }

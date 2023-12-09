@@ -1,12 +1,13 @@
-<div class="modal {{inputData.css}}">
+<div [class]="'modal ' + inputData.css">
 	<div [class]="'modal__header modal__header--' + inputData.modalColor">
 		<div class="titulo"
 			 translate>{{ inputData.modalTitle }}</div>
+		@if (!inputData.hideCloseBtn) {
 		<div class="btn-close"
-			 (click)="close()"
-			 *ngIf="!inputData.hideCloseBtn">
+			 (click)="close()">
 			<mat-icon>close</mat-icon>
 		</div>
+		}
 	</div>
 
 	<div class="modal__content">

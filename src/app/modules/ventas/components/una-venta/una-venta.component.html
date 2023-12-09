@@ -1,5 +1,6 @@
-<otpv-employee-login *ngIf="vs.ventaActual.mostrarEmpleados"
-					 (successEvent)="loginSuccess($event)"></otpv-employee-login>
+@if (vs.ventaActual.mostrarEmpleados) {
+<otpv-employee-login (successEvent)="loginSuccess($event)" />
+}
 
 <div class="ventas-header"
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
@@ -15,8 +16,8 @@
 
 <div class="lineas-ventas"
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	@for (linea of vs.ventaActual.lineas; track linea.id; let i = $index) {
 	<div class="linea-venta"
-		 *ngFor="let linea of vs.ventaActual.lineas; let i = index"
 		 [ngClass]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">
 			<input *ngIf="linea.idArticulo === null"
@@ -150,6 +151,7 @@
 			<span *ngIf="linea.stock !== null">{{linea.idArticulo !== 0 ? linea.stock : '-'}}</span>
 		</div>
 	</div>
+	}
 </div>
 
 <div class="cliente-estadisticas"

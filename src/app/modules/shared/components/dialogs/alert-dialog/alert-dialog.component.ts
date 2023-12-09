@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
-import { MaterialModule } from "src/app/modules/material/material.module";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   standalone: true,
   selector: "otpv-alert-dialog",
   templateUrl: "./alert-dialog.component.html",
-  imports: [MaterialModule],
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class AlertDialogComponent {
   public title: string;

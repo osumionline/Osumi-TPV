@@ -1,9 +1,10 @@
-import { CommonModule } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { EmpleadoLoginInterface } from "src/app/interfaces/empleado.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { DialogService } from "src/app/services/dialog.service";
 import { EmpleadosService } from "src/app/services/empleados.service";
 
@@ -12,7 +13,7 @@ import { EmpleadosService } from "src/app/services/empleados.service";
   selector: "otpv-employee-login-modal",
   templateUrl: "./employee-login-modal.component.html",
   styleUrls: ["./employee-login-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule],
 })
 export class EmployeeLoginModalComponent implements OnInit {
   id: number = null;
@@ -34,7 +35,7 @@ export class EmployeeLoginModalComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.customOverlayRef.data.id;
     this.nombre = this.customOverlayRef.data.nombre;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.loginPasswordValue.nativeElement.focus();
     }, 0);
   }
@@ -53,8 +54,8 @@ export class EmployeeLoginModalComponent implements OnInit {
           content: "¡No puedes dejar la contraseña en blanco!",
           ok: "Continuar",
         })
-        .subscribe((result) => {
-          setTimeout(() => {
+        .subscribe((): void => {
+          setTimeout((): void => {
             this.loginPasswordValue.nativeElement.focus();
           }, 0);
         });
@@ -64,7 +65,7 @@ export class EmployeeLoginModalComponent implements OnInit {
         id: this.id,
         pass: this.pass,
       };
-      this.es.login(empleado).subscribe((result) => {
+      this.es.login(empleado).subscribe((result: StatusResult): void => {
         this.loginLoading = false;
         if (result.status === "ok") {
           this.customOverlayRef.close(true);
@@ -75,8 +76,8 @@ export class EmployeeLoginModalComponent implements OnInit {
               content: "Contraseña incorrecta.",
               ok: "Continuar",
             })
-            .subscribe((result) => {
-              setTimeout(() => {
+            .subscribe((): void => {
+              setTimeout((): void => {
                 this.loginPasswordValue.nativeElement.focus();
               }, 0);
             });

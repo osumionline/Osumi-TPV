@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { AccesoDirectoResult } from "src/app/interfaces/articulo.interface";
 import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ArticulosService } from "src/app/services/articulos.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 
@@ -11,8 +11,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
   standalone: true,
   selector: "otpv-venta-accesos-directos-modal",
   templateUrl: "./venta-accesos-directos-modal.component.html",
-  styleUrls: ["./venta-accesos-directos-modal.component.scss"],
-  imports: [MaterialModule, MatSortModule],
+  imports: [MatSortModule, MatTableModule],
 })
 export class VentaAccesosDirectosModalComponent implements OnInit {
   accesosDirectosList: AccesoDirecto[] = [];
@@ -27,10 +26,12 @@ export class VentaAccesosDirectosModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-      this.accesosDirectosDataSource.data = this.accesosDirectosList;
-    });
+    this.ars
+      .getAccesosDirectosList()
+      .subscribe((result: AccesoDirectoResult): void => {
+        this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+        this.accesosDirectosDataSource.data = this.accesosDirectosList;
+      });
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {

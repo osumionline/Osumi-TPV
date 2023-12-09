@@ -11,8 +11,8 @@
                    autocomplete="off"
                    #elegirClienteBoxName>
         </mat-form-field>
-        <div class="elegir-clientes-result"
-             *ngIf="searched">
+        @if (searched) {
+        <div class="elegir-clientes-result">
             <table mat-table
                    [dataSource]="buscadorDataSource"
                    matSort
@@ -63,11 +63,13 @@
                     (click)="selectCliente(row)"
                     *matRowDef="let row; columns: buscadorDisplayedColumns;"></tr>
             </table>
-            <div class="elegir-clientes-no-result"
-                 *ngIf="searchResult.length===0">
+            @if (searchResult.length === 0) {
+            <div class="elegir-clientes-no-result">
                 No se han encontrado resultados.
             </div>
+            }
         </div>
+        }
     </mat-tab>
     <mat-tab label="Nuevo cliente">
         <div class="cliente-nuevo-row">
@@ -130,10 +132,11 @@
             <mat-form-field>
                 <mat-label>Provincia</mat-label>
                 <mat-select [(ngModel)]="nuevoCliente.provincia">
-                    <mat-option *ngFor="let provincia of config.provincias"
-                                [value]="provincia.id">
+                    @for (provincia of config.provincias; track provincia.id) {
+                    <mat-option [value]="provincia.id">
                         {{provincia.name}}
                     </mat-option>
+                    }
                 </mat-select>
             </mat-form-field>
         </div>
@@ -151,8 +154,8 @@
                 Mismos datos para la facturación
             </mat-checkbox>
         </div>
-        <div class="cliente-nuevo-row"
-             *ngIf="!nuevoCliente.factIgual">
+        @if (!nuevoCliente.factIgual) {
+        <div class="cliente-nuevo-row">
             <mat-form-field class="cliente-nuevo-half">
                 <mat-label>Nombre y apellidos (Facturación) (*)</mat-label>
                 <input matInput
@@ -166,8 +169,7 @@
                        [(ngModel)]="nuevoCliente.factDniCif">
             </mat-form-field>
         </div>
-        <div class="cliente-nuevo-row"
-             *ngIf="!nuevoCliente.factIgual">
+        <div class="cliente-nuevo-row">
             <mat-form-field class="cliente-nuevo-half">
                 <mat-label>Telefono (Facturación)</mat-label>
                 <input matInput
@@ -181,8 +183,7 @@
                        [(ngModel)]="nuevoCliente.factEmail">
             </mat-form-field>
         </div>
-        <div class="cliente-nuevo-row"
-             *ngIf="!nuevoCliente.factIgual">
+        <div class="cliente-nuevo-row">
             <mat-form-field class="cliente-nuevo-full">
                 <mat-label>Dirección (Facturación)</mat-label>
                 <input matInput
@@ -190,8 +191,7 @@
                        [(ngModel)]="nuevoCliente.factDireccion">
             </mat-form-field>
         </div>
-        <div class="cliente-nuevo-row"
-             *ngIf="!nuevoCliente.factIgual">
+        <div class="cliente-nuevo-row">
             <mat-form-field class="cliente-nuevo-third">
                 <mat-label>Código Postal (Facturación)</mat-label>
                 <input matInput
@@ -207,20 +207,24 @@
             <mat-form-field>
                 <mat-label>Provincia (Facturación)</mat-label>
                 <mat-select [(ngModel)]="nuevoCliente.factProvincia">
-                    <mat-option *ngFor="let provincia of config.provincias"
-                                [value]="provincia.id">
+                    @for (provincia of config.provincias; track provincia.id) {
+                    <mat-option [value]="provincia.id">
                         {{provincia.name}}
                     </mat-option>
+                    }
                 </mat-select>
             </mat-form-field>
         </div>
+        }
         <div class="cliente-nuevo-save">
             <button mat-raised-button
                     color="primary"
                     (click)="saveNuevoCliente()"
                     [disabled]="nuevoClienteSaving">
-                <img *ngIf="nuevoClienteSaving"
-                     src="/assets/loading.svg">
+                @if (nuevoClienteSaving) {
+                <img src="/assets/loading.svg"
+                     alt="">
+                }
                 Guardar y seleccionar
             </button>
         </div>

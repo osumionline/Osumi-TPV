@@ -2,13 +2,17 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
 import { DateValues } from "src/app/interfaces/interfaces";
 import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -19,7 +23,16 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-devolucion-modal",
   templateUrl: "./devolucion-modal.component.html",
   styleUrls: ["./devolucion-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, FixedNumberPipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FixedNumberPipe,
+    MatTableModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class DevolucionModalComponent implements OnInit {
   venta: VentaHistorico = new VentaHistorico();
@@ -57,11 +70,15 @@ export class DevolucionModalComponent implements OnInit {
         desde: null,
         hasta: null,
       };
-      this.vs.getHistorico(data).subscribe((result) => {
-        const list: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
-        this.venta = list[0];
-        this.devolucionDataSource.data = this.venta.lineas;
-      });
+      this.vs
+        .getHistorico(data)
+        .subscribe((result: HistoricoVentasResult): void => {
+          const list: VentaHistorico[] = this.cms.getHistoricoVentas(
+            result.list
+          );
+          this.venta = list[0];
+          this.devolucionDataSource.data = this.venta.lineas;
+        });
     } else {
       this.continueDevolucion(
         this.customOverlayRef.data.idVenta,
@@ -81,21 +98,25 @@ export class DevolucionModalComponent implements OnInit {
       desde: null,
       hasta: null,
     };
-    this.vs.getHistorico(data).subscribe((result) => {
-      this.selection.clear();
-      const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
-      this.venta = ventas[0];
-      for (let item of list) {
-        let ind: number = this.venta.lineas.findIndex(
-          (x: VentaLineaHistorico): boolean => {
-            return x.id === item.id;
-          }
+    this.vs
+      .getHistorico(data)
+      .subscribe((result: HistoricoVentasResult): void => {
+        this.selection.clear();
+        const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(
+          result.list
         );
-        this.venta.lineas[ind].devolver = item.unidades;
-        this.selection.select(this.venta.lineas[ind]);
-      }
-      this.devolucionDataSource.data = this.venta.lineas;
-    });
+        this.venta = ventas[0];
+        for (const item of list) {
+          const ind: number = this.venta.lineas.findIndex(
+            (x: VentaLineaHistorico): boolean => {
+              return x.id === item.id;
+            }
+          );
+          this.venta.lineas[ind].devolver = item.unidades;
+          this.selection.select(this.venta.lineas[ind]);
+        }
+        this.devolucionDataSource.data = this.venta.lineas;
+      });
   }
 
   isAllSelected(): boolean {
@@ -107,28 +128,27 @@ export class DevolucionModalComponent implements OnInit {
   masterToggle(): void {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.devolucionDataSource.data.forEach((row) =>
-          this.selection.select(row)
+      : this.devolucionDataSource.data.forEach(
+          (row: VentaLineaHistorico): boolean | void =>
+            this.selection.select(row)
         );
   }
 
   continuar(): void {
     const list: DevolucionSelectedInterface[] = [];
-    this.selection.selected.forEach((s) => {
+    this.selection.selected.forEach((s: VentaLineaHistorico): void => {
       list.push({
         id: s.id,
         unidades: s.devolver * -1,
       });
     });
     if (list.length === 0) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            "¡Atención! No has elegido ningún artículo para realizar su devolución.",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "¡Atención! No has elegido ningún artículo para realizar su devolución.",
+        ok: "Continuar",
+      });
     } else {
       this.selection.clear();
       this.customOverlayRef.close(list);

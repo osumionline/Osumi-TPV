@@ -8,11 +8,13 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { VentasService } from "src/app/services/ventas.service";
 
@@ -21,7 +23,14 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-buscador-modal",
   templateUrl: "./buscador-modal.component.html",
   styleUrls: ["./buscador-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, MatSortModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+  ],
 })
 export class BuscadorModalComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -51,7 +60,7 @@ export class BuscadorModalComponent
   ngOnInit(): void {
     this.searchName = this.customOverlayRef.data.key;
     this.buscadorResultadosRow = 0;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.searchBoxName.nativeElement.focus();
     }, 0);
     this.searchStart();
@@ -131,7 +140,7 @@ export class BuscadorModalComponent
 
   buscadorStart(): void {
     this.buscadorStop();
-    this.searchTimer = window.setTimeout(() => {
+    this.searchTimer = window.setTimeout((): void => {
       this.buscar();
     }, 300);
   }
@@ -143,12 +152,16 @@ export class BuscadorModalComponent
   buscar(): void {
     this.buscadorStop();
     this.searching = true;
-    this.vs.search(this.searchName).subscribe((result) => {
-      this.searching = false;
-      this.buscadorResultadosRow = 0;
-      this.buscadorResultadosList = this.cms.getArticulosBuscador(result.list);
-      this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
-    });
+    this.vs
+      .search(this.searchName)
+      .subscribe((result: ArticuloBuscadorResult): void => {
+        this.searching = false;
+        this.buscadorResultadosRow = 0;
+        this.buscadorResultadosList = this.cms.getArticulosBuscador(
+          result.list
+        );
+        this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
+      });
   }
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
