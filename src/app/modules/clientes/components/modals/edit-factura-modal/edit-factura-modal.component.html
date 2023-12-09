@@ -72,8 +72,9 @@
         </table>
     </div>
     <div class="facturas-right">
-        <div class="facturas-no-data"
-             *ngIf="ventaSelected.id === null">Elige una venta de la lista.</div>
+        @if (ventaSelected.id === null) {
+        <div class="facturas-no-data">Elige una venta de la lista.</div>
+        }
         <div class="facturas-venta-detail"
              [ngClass]="{'show':ventaSelected.id !== null}">
             <table mat-table
@@ -156,16 +157,24 @@
                     <td class="center"
                         mat-cell
                         *matCellDef="let element">
-                        <div *ngIf="element.importeDescuento">{{element.importeDescuento | fixedNumber}} €</div>
-                        <div *ngIf="!element.importeDescuento && element.descuento !== 0">{{element.descuento}} %</div>
-                        <div *ngIf="!element.importeDescuento && element.descuento === 0">-</div>
+                        @if (element.importeDescuento) {
+                        <div>{{element.importeDescuento | fixedNumber}} €</div>
+                        }
+                        @if (!element.importeDescuento && element.descuento !== 0) {
+                        <div>{{element.descuento}} %</div>
+                        }
+                        @if (!element.importeDescuento && element.descuento === 0) {
+                        <div>-</div>
+                        }
                     </td>
                     <td class="center"
                         mat-footer-cell
                         *matFooterCellDef>
-                        <div *ngIf="ventaSelected.totalDescuento !== 0">
+                        @if (ventaSelected.totalDescuento !== 0) {
+                        <div>
                             <strong>{{ventaSelected.totalDescuento | fixedNumber}} €</strong>
                         </div>
+                        }
                     </td>
                 </ng-container>
 
@@ -180,8 +189,9 @@
                         mat-cell
                         *matCellDef="let element">
                         {{element.importe | fixedNumber}} €
-                        <div *ngIf="element.total != element.importe"
-                             class="original-price">{{element.total | fixedNumber}} €</div>
+                        @if (element.total !== element.importe) {
+                        <div class="original-price">{{element.total | fixedNumber}} €</div>
+                        }
                     </td>
                     <td class="center"
                         mat-footer-cell
@@ -207,10 +217,10 @@
                 (click)="deleteFactura()">Eliminar</button>
     </div>
     <div class="facturas-others">
+        @if (!factura.impresa) {
         <button mat-raised-button
                 type="button"
                 color="primary"
-                *ngIf="!factura.impresa"
                 [disabled]="selection.selected.length === 0"
                 (click)="saveFactura()">
             <mat-icon>save</mat-icon>
@@ -225,6 +235,7 @@
             <mat-icon>find_in_page</mat-icon>
             Previsualizar
         </button>
+        }
         <button mat-raised-button
                 type="button"
                 [disabled]="selection.selected.length === 0 && !factura.impresa"

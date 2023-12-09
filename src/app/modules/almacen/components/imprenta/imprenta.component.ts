@@ -1,11 +1,16 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { CommonModule } from "@angular/common";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
 import { ImprentaTableComponent } from "src/app/modules/almacen/components/imprenta-table/imprenta-table.component";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { VentasService } from "src/app/services/ventas.service";
@@ -15,7 +20,17 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-imprenta",
   templateUrl: "./imprenta.component.html",
   styleUrls: ["./imprenta.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, ImprentaTableComponent],
+  imports: [
+    FormsModule,
+    ImprentaTableComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatListModule,
+    MatTooltipModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+  ],
 })
 export class ImprentaComponent {
   @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
@@ -48,7 +63,7 @@ export class ImprentaComponent {
     }, 300);
   }
 
-  searchStart(ev: KeyboardEvent = null): void {
+  searchStart(): void {
     if (this.search === "") {
       this.articulos = [];
     } else {
@@ -114,7 +129,7 @@ export class ImprentaComponent {
 
   addLineaNum(ind: number, amount: number): void {
     const cantidadTotal: number = this.getCantidadTotal();
-    const cantidadMax: number = this.getCantidadMax();
+    //const cantidadMax: number = this.getCantidadMax();
 
     if (amount === -1) {
       if (this.seleccionados[ind].num === 1) {
@@ -143,15 +158,12 @@ export class ImprentaComponent {
     const cantidadMax: number = this.getCantidadMax();
 
     if (num > this.getCantidadMax()) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            "El número máximo de etiquetas que puedes imprimir es " +
-            cantidadMax,
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content:
+          "El número máximo de etiquetas que puedes imprimir es " + cantidadMax,
+        ok: "Continuar",
+      });
       return false;
     }
     return true;

@@ -1,16 +1,16 @@
-<otpv-header selectedOption="compras"></otpv-header>
+<otpv-header selectedOption="compras" />
 
 <mat-card class="compras">
     <mat-card-content>
         <mat-tab-group (selectedTabChange)="tabChange($event)">
             <mat-tab label="PEDIDOS">
-                <otpv-compras-pedidos-list #compras></otpv-compras-pedidos-list>
+                <otpv-compras-pedidos-list #compras />
             </mat-tab>
             <mat-tab label="MARCAS">
-                <otpv-marcas #marcas></otpv-marcas>
+                <otpv-marcas #marcas />
             </mat-tab>
             <mat-tab label="PROVEEDORES">
-                <otpv-proveedores #proveedores></otpv-proveedores>
+                <otpv-proveedores #proveedores />
             </mat-tab>
         </mat-tab-group>
     </mat-card-content>

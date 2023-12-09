@@ -5,10 +5,11 @@
             <mat-select [(ngModel)]="buscador.idProveedor"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige proveedor</mat-option>
-                <mat-option *ngFor="let proveedor of ps.proveedores"
-                            [value]="proveedor.id">
+                @for (proveedor of ps.proveedores; track proveedor.id) {
+                <mat-option [value]="proveedor.id">
                     {{proveedor.nombre}}
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
         <mat-form-field subscriptSizing="dynamic">
@@ -16,10 +17,11 @@
             <mat-select [(ngModel)]="buscador.idMarca"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige marca</mat-option>
-                <mat-option *ngFor="let marca of ms.marcas"
-                            [value]="marca.id">
+                @for (marca of ms.marcas; track marca.id) {
+                <mat-option [value]="marca.id">
                     {{marca.nombre}}
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
         <mat-form-field class="nombre"
@@ -119,9 +121,10 @@
             <a class="link"
                (click)="goToArticulo($event, element)">{{element.nombre}}
             </a>
-            <mat-icon *ngIf="element.observaciones"
-                      [matTooltip]="element.observaciones"
+            @if (element.observaciones) {
+            <mat-icon [matTooltip]="element.observaciones"
                       class="icon">info_outline</mat-icon>
+            }
         </td>
     </ng-container>
 
@@ -146,8 +149,9 @@
                        (focus)="$event.target.select()"
                        matInput>
             </mat-form-field>
-            <mat-icon *ngIf="element.stockChanged"
-                      (click)="element.stock = element._stock">restart_alt</mat-icon>
+            @if (element.stockChanged) {
+            <mat-icon (click)="element.stock = element._stock">restart_alt</mat-icon>
+            }
         </td>
     </ng-container>
 
@@ -173,8 +177,9 @@
                        matInput>
             </mat-form-field>
             €
-            <mat-icon *ngIf="element.pvpChanged"
-                      (click)="element.pvp = element._pvp">restart_alt</mat-icon>
+            @if (element.pvpChanged) {
+            <mat-icon (click)="element.pvp = element._pvp">restart_alt</mat-icon>
+            }
         </td>
     </ng-container>
 
@@ -203,9 +208,11 @@
             class="center"
             [ngClass]="{'modified': element.codigoBarras !== null}"
             *matCellDef="let element">
-            <mat-icon *ngIf="element.hasCodigosBarras">check</mat-icon>
-            <mat-form-field *ngIf="!element.hasCodigosBarras"
-                            class="campo-numero-small x-small"
+            @if (element.hasCodigosBarras) {
+            <mat-icon>check</mat-icon>
+            }
+            @else {
+            <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
                 <input [(ngModel)]="element.codigoBarras"
                        type="text"
@@ -213,6 +220,7 @@
                        (focus)="$event.target.select()"
                        matInput>
             </mat-form-field>
+            }
         </td>
     </ng-container>
 
@@ -248,5 +256,4 @@
                [pageSize]="buscador.num"
                [pageSizeOptions]="[20, 50, 100, 200]"
                [pageIndex]="pageIndex"
-               (page)="changePage($event)">
-</mat-paginator>
+               (page)="changePage($event)" />

@@ -1,13 +1,13 @@
-<otpv-header selectedOption="almacen"></otpv-header>
+<otpv-header selectedOption="almacen" />
 
 <mat-card class="almacen">
     <mat-card-content>
         <mat-tab-group (selectedTabChange)="tabChange($event)">
             <mat-tab label="Inventario">
-                <otpv-almacen-inventario></otpv-almacen-inventario>
+                <otpv-almacen-inventario />
             </mat-tab>
             <mat-tab label="Imprenta">
-                <otpv-imprenta #imprenta></otpv-imprenta>
+                <otpv-imprenta #imprenta />
             </mat-tab>
         </mat-tab-group>
     </mat-card-content>

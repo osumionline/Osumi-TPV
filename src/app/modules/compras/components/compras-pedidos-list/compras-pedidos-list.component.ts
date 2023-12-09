@@ -1,8 +1,20 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
+import { MatSelectModule } from "@angular/material/select";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router, RouterModule } from "@angular/router";
 import { getDate } from "@osumi/tools";
 import {
@@ -11,7 +23,6 @@ import {
   PedidosResult,
 } from "src/app/interfaces/pedido.interface";
 import { Pedido } from "src/app/model/compras/pedido.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -26,10 +37,19 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     RouterModule,
     FixedNumberPipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatPaginatorModule,
   ],
 })
 export class ComprasPedidosListComponent {

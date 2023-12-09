@@ -13,12 +13,13 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list>
+                    @for (proveedor of ps.proveedores | providerListFilter:search; track proveedor.id) {
                     <button mat-list-item
-                            *ngFor="let proveedor of ps.proveedores | providerListFilter:search"
                             (click)="selectProveedor(proveedor)"
                             [ngClass]="{'selected-provider': selectedProveedor.id===proveedor.id}">
                         {{proveedor.nombre}}
                     </button>
+                    }
                 </mat-action-list>
                 <div class="new-provider">
                     <button mat-raised-button
@@ -121,11 +122,12 @@
                                 </div>
                                 <div class="actions">
                                     <div class="delete">
+                                        @if (form.value.id) {
                                         <button mat-raised-button
-                                                *ngIf="form.value.id"
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteProveedor()">Eliminar</button>
+                                        }
                                     </div>
                                     <div class="others">
                                         <button mat-raised-button
@@ -153,9 +155,11 @@
                                 </span>
                             </mat-form-field>
                             <div class="marcas-list">
-                                <div *ngFor="let marca of marcasList | providerBrandListFilter: searchMarcas">
+                                @for (marca of marcasList | providerBrandListFilter: searchMarcas; track marca.id) {
+                                <div>
                                     <mat-checkbox [(ngModel)]="marca.selected">{{marca.nombre}}</mat-checkbox>
                                 </div>
+                                }
                             </div>
                         </mat-tab>
                         <mat-tab label="COMERCIALES">
@@ -167,12 +171,14 @@
                                             <mat-select [(ngModel)]="selectedComercialId"
                                                         (ngModelChange)="selectComercial($event)"
                                                         [disabled]="selectedProveedor.comerciales.length===0">
-                                                <mat-option *ngFor="let comercial of selectedProveedor.comerciales"
-                                                            [value]="comercial.id">
+                                                @for (comercial of selectedProveedor.comerciales; track comercial.id) {
+                                                <mat-option [value]="comercial.id">
                                                     {{comercial.nombre}}
                                                 </mat-option>
-                                                <mat-option *ngIf="selectedProveedor.comerciales.length===0"
-                                                            [value]="-1">No hay ningún comercial todavía.</mat-option>
+                                                }
+                                                @empty {
+                                                <mat-option [value]="-1">No hay ningún comercial todavía.</mat-option>
+                                                }
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -253,9 +259,10 @@
                                 </form>
                             </div>
                         </mat-tab>
-                        <!--mat-tab label="ESTADÍSTICAS"
-                                 *ngIf="canSeeStatistics">
+                        @if (canSeeStatistics) {
+                        <!--mat-tab label="ESTADÍSTICAS">
                         </mat-tab-->
+                        }
                     </mat-tab-group>
                 </div>
             </main>

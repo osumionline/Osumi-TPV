@@ -7,11 +7,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatTabGroup } from "@angular/material/tabs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { Empleado } from "src/app/model/tpv/empleado.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-list-filter.pipe";
 import { Rol, RolGroup, rolList } from "src/app/modules/shared/rol.class";
@@ -27,11 +33,17 @@ import { GestionService } from "src/app/services/gestion.service";
   styleUrls: ["./gestion-empleados.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
     EmployeeListFilterPipe,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatTabsModule,
   ],
 })
 export default class GestionEmpleadosComponent implements OnInit {
@@ -92,12 +104,12 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.canSeeStatistics = this.gs.empleado.hasRol(
       rolList.empleados.roles["estadisticas"].id
     );
-    for (let group in this.list) {
-      for (let rol in this.list[group].roles) {
+    for (const group in this.list) {
+      for (const rol in this.list[group].roles) {
         this.selectedRolList[this.list[group].roles[rol].id] = false;
       }
     }
-    setTimeout(() => {
+    setTimeout((): void => {
       this.searchBox.nativeElement.focus();
     }, 0);
   }
@@ -152,10 +164,10 @@ export default class GestionEmpleadosComponent implements OnInit {
   }
 
   updateSelectedRolList(): void {
-    for (let i in this.selectedRolList) {
+    for (const i in this.selectedRolList) {
       this.selectedRolList[i] = false;
     }
-    for (let i of this.selectedEmpleado.roles) {
+    for (const i of this.selectedEmpleado.roles) {
       this.selectedRolList[i] = true;
     }
   }
@@ -169,16 +181,14 @@ export default class GestionEmpleadosComponent implements OnInit {
         this.form.value.confirmPassword === null ||
         this.form.value.password === "")
     ) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            'El empleado "' +
-            this.form.value.nombre +
-            '" originalmente no tenía contraseña pero ahora has indicado que si debe tener, de modo que no puedes dejar la contraseña en blanco.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Error",
+        content:
+          'El empleado "' +
+          this.form.value.nombre +
+          '" originalmente no tenía contraseña pero ahora has indicado que si debe tener, de modo que no puedes dejar la contraseña en blanco.',
+        ok: "Continuar",
+      });
       return;
     }
 
@@ -186,18 +196,16 @@ export default class GestionEmpleadosComponent implements OnInit {
       this.form.value.hasPassword &&
       this.form.value.password !== this.form.value.confirmPassword
     ) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "Las contraseñas introducidas no coinciden.",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Error",
+        content: "Las contraseñas introducidas no coinciden.",
+        ok: "Continuar",
+      });
       return;
     }
 
     const roles: number[] = [];
-    for (let i in this.selectedRolList) {
+    for (const i in this.selectedRolList) {
       if (this.selectedRolList[i] === true) {
         roles.push(parseInt(i));
       }
@@ -208,19 +216,25 @@ export default class GestionEmpleadosComponent implements OnInit {
     data.roles = roles;
 
     this.selectedEmpleado.fromInterface(data, false);
-    this.es.saveEmpleado(data).subscribe((result) => {
-      this.es.resetEmpleados();
-      this.resetForm();
-      this.dialog
-        .alert({
+    this.es.saveEmpleado(data).subscribe((result: StatusResult): void => {
+      if (result.status === "ok") {
+        this.es.resetEmpleados();
+        this.resetForm();
+        this.dialog.alert({
           title: "Datos guardados",
           content:
             'Los datos del empleado "' +
             this.selectedEmpleado.nombre +
             '" han sido correctamente guardados.',
           ok: "Continuar",
-        })
-        .subscribe((result) => {});
+        });
+      } else {
+        this.dialog.alert({
+          title: "Datos guardados",
+          content: "Ocurrió un error al guardar los datos del empleado.",
+          ok: "Continuar",
+        });
+      }
     });
   }
 
@@ -235,7 +249,7 @@ export default class GestionEmpleadosComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteEmpleado();
         }
@@ -243,20 +257,28 @@ export default class GestionEmpleadosComponent implements OnInit {
   }
 
   confirmDeleteEmpleado(): void {
-    this.es.deleteEmpleado(this.selectedEmpleado.id).subscribe((result) => {
-      this.es.resetEmpleados();
-      this.start = true;
-      this.dialog
-        .alert({
-          title: "Empleado borrado",
-          content:
-            'El empleado "' +
-            this.selectedEmpleado.nombre +
-            '" ha sido correctamente borrado.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-    });
+    this.es
+      .deleteEmpleado(this.selectedEmpleado.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.es.resetEmpleados();
+          this.start = true;
+          this.dialog.alert({
+            title: "Empleado borrado",
+            content:
+              'El empleado "' +
+              this.selectedEmpleado.nombre +
+              '" ha sido correctamente borrado.',
+            ok: "Continuar",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar el empleado.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   originalRolGroupOrder = (

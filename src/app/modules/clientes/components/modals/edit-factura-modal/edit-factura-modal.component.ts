@@ -1,13 +1,16 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { VentasClienteResult } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Factura } from "src/app/model/clientes/factura.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -18,7 +21,14 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-edit-factura-modal",
   templateUrl: "./edit-factura-modal.component.html",
   styleUrls: ["./edit-factura-modal.component.scss"],
-  imports: [CommonModule, MaterialModule, FixedNumberPipe],
+  imports: [
+    CommonModule,
+    FixedNumberPipe,
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class EditFacturaModalComponent implements OnInit {
   title: string = "Selecciona las ventas que quieras incluir en la factura:";
@@ -93,12 +103,12 @@ export class EditFacturaModalComponent implements OnInit {
       ];
       this.cs
         .getVentas(this.factura.idCliente, this.factura.id)
-        .subscribe((result) => {
+        .subscribe((result: VentasClienteResult): void => {
           this.ventasCliente = this.cms.getHistoricoVentas(result.list);
           this.ventasDataSource.data = this.ventasCliente;
           this.selection.clear();
-          for (let venta of this.factura.ventas) {
-            let ind: number = this.ventasCliente.findIndex(
+          for (const venta of this.factura.ventas) {
+            const ind: number = this.ventasCliente.findIndex(
               (x: VentaHistorico): boolean => {
                 return x.id === venta.id;
               }
@@ -110,7 +120,7 @@ export class EditFacturaModalComponent implements OnInit {
   }
 
   loadVentas(id: number): void {
-    this.cs.getVentas(id).subscribe((result) => {
+    this.cs.getVentas(id).subscribe((result: VentasClienteResult): void => {
       this.factura = new Factura();
       this.factura.idCliente = id;
       this.ventasCliente = this.cms.getHistoricoVentas(result.list);
@@ -164,7 +174,7 @@ export class EditFacturaModalComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteFactura();
         }
@@ -172,27 +182,37 @@ export class EditFacturaModalComponent implements OnInit {
   }
 
   confirmDeleteFactura(): void {
-    this.cs.deleteFactura(this.factura.id).subscribe((result: StatusResult) => {
-      this.dialog
-        .alert({
-          title: "Factura borrada",
-          content: "La factura ha sido correctamente borrada.",
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          this.customOverlayRef.close(0);
-        });
-    });
+    this.cs
+      .deleteFactura(this.factura.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Factura borrada",
+              content: "La factura ha sido correctamente borrada.",
+              ok: "Continuar",
+            })
+            .subscribe((): void => {
+              this.customOverlayRef.close(0);
+            });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ha ocurrido un error al borrar la factura.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   preview(): void {
     this.factura.ventas = [];
-    this.selection.selected.forEach((v: VentaHistorico) => {
+    this.selection.selected.forEach((v: VentaHistorico): void => {
       this.factura.ventas.push(v);
     });
     this.cs
       .saveFactura(this.factura.toSaveInterface())
-      .subscribe((result: IdSaveResult) => {
+      .subscribe((result: IdSaveResult): void => {
         if (result.status === "ok") {
           window.open("/clientes/factura/" + result.id + "/preview");
           this.customOverlayRef.close(result.id);
@@ -202,12 +222,12 @@ export class EditFacturaModalComponent implements OnInit {
 
   imprimir(): void {
     this.factura.ventas = [];
-    this.selection.selected.forEach((v: VentaHistorico) => {
+    this.selection.selected.forEach((v: VentaHistorico): void => {
       this.factura.ventas.push(v);
     });
     this.cs
       .saveFactura(this.factura.toSaveInterface(true))
-      .subscribe((result: IdSaveResult) => {
+      .subscribe((result: IdSaveResult): void => {
         if (result.status === "ok") {
           window.open("/clientes/factura/" + result.id);
           this.customOverlayRef.close(result.id);

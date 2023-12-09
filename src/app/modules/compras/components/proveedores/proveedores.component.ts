@@ -7,7 +7,19 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSelectModule } from "@angular/material/select";
+import {
+  MatTabChangeEvent,
+  MatTabGroup,
+  MatTabsModule,
+} from "@angular/material/tabs";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 import {
   ComercialInterface,
@@ -15,7 +27,6 @@ import {
 } from "src/app/interfaces/proveedor.interface";
 import { Comercial } from "src/app/model/proveedores/comercial.model";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ProviderBrandListFilterPipe } from "src/app/modules/shared/pipes/provider-brand-list-filter.pipe";
 import { ProviderListFilterPipe } from "src/app/modules/shared/pipes/provider-list-filter.pipe";
 import { DialogService } from "src/app/services/dialog.service";
@@ -29,11 +40,18 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   styleUrls: ["./proveedores.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     ProviderBrandListFilterPipe,
     ProviderListFilterPipe,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatSelectModule,
   ],
 })
 export class ProveedoresComponent implements OnInit {
@@ -76,6 +94,7 @@ export class ProveedoresComponent implements OnInit {
   originalComercialValue: ComercialInterface = null;
   @ViewChild("comercialNameBox", { static: true }) comercialNameBox: ElementRef;
   selectedComercial: Comercial = new Comercial();
+  canSeeStatistics: boolean = false;
 
   constructor(
     public ps: ProveedoresService,
@@ -84,7 +103,7 @@ export class ProveedoresComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    for (let marca of this.ms.marcas) {
+    for (const marca of this.ms.marcas) {
       this.marcasList.push({
         id: marca.id,
         nombre: marca.nombre,
@@ -94,7 +113,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   searchFocus(): void {
-    setTimeout(() => {
+    setTimeout((): void => {
       this.searchBox.nativeElement.focus();
     }, 100);
   }
@@ -106,7 +125,7 @@ export class ProveedoresComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
     this.updateMarcasList();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.nameBox.nativeElement.focus();
     }, 0);
   }
@@ -118,13 +137,13 @@ export class ProveedoresComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs.realignInkBar();
     this.updateMarcasList();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.nameBox.nativeElement.focus();
     }, 0);
   }
 
   updateMarcasList(): void {
-    for (let marca of this.marcasList) {
+    for (const marca of this.marcasList) {
       marca.selected = false;
       if (this.selectedProveedor.marcas.includes(marca.id)) {
         marca.selected = true;
@@ -149,7 +168,7 @@ export class ProveedoresComponent implements OnInit {
     ) {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         this.logo = reader.result as string;
         (<HTMLInputElement>document.getElementById("logo-file")).value = "";
       };
@@ -164,27 +183,25 @@ export class ProveedoresComponent implements OnInit {
     this.selectedProveedor.fromInterface(data, null, false);
 
     const proveedorMarcasList: number[] = [];
-    for (let marca of this.marcasList) {
+    for (const marca of this.marcasList) {
       if (marca.selected) {
         proveedorMarcasList.push(marca.id);
       }
     }
     this.selectedProveedor.marcas = proveedorMarcasList;
     data.marcas = this.selectedProveedor.marcas;
-    this.ps.saveProveedor(data).subscribe((result) => {
+    this.ps.saveProveedor(data).subscribe((result: IdSaveResult): void => {
       this.selectedProveedor.id = result.id;
       this.ps.resetProveedores();
       this.resetForm();
-      this.dialog
-        .alert({
-          title: "Datos guardados",
-          content:
-            'Los datos del proveedor "' +
-            this.selectedProveedor.nombre +
-            '" han sido correctamente guardados.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Datos guardados",
+        content:
+          'Los datos del proveedor "' +
+          this.selectedProveedor.nombre +
+          '" han sido correctamente guardados.',
+        ok: "Continuar",
+      });
     });
   }
 
@@ -199,7 +216,7 @@ export class ProveedoresComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteProveedor();
         }
@@ -207,25 +224,33 @@ export class ProveedoresComponent implements OnInit {
   }
 
   confirmDeleteProveedor(): void {
-    this.ps.deleteProveedor(this.selectedProveedor.id).subscribe((result) => {
-      this.ps.resetProveedores();
-      this.start = true;
-      this.dialog
-        .alert({
-          title: "Proveedor borrado",
-          content:
-            'El proveedor "' +
-            this.selectedProveedor.nombre +
-            '" ha sido correctamente borrado.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-    });
+    this.ps
+      .deleteProveedor(this.selectedProveedor.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.ps.resetProveedores();
+          this.start = true;
+          this.dialog.alert({
+            title: "Proveedor borrado",
+            content:
+              'El proveedor "' +
+              this.selectedProveedor.nombre +
+              '" ha sido correctamente borrado.',
+            ok: "Continuar",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar el proveedor.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   checkMarcasTab(tab: MatTabChangeEvent): void {
     if (tab.index === 1) {
-      setTimeout(() => {
+      setTimeout((): void => {
         this.searchMarcasBox.nativeElement.focus();
       }, 100);
     }
@@ -242,7 +267,7 @@ export class ProveedoresComponent implements OnInit {
     this.formComercial.patchValue(this.selectedComercial.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.showComercial = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.comercialNameBox.nativeElement.focus();
     }, 0);
   }
@@ -252,7 +277,7 @@ export class ProveedoresComponent implements OnInit {
     this.formComercial.patchValue(this.selectedComercial.toInterface(false));
     this.originalComercialValue = this.formComercial.getRawValue();
     this.showComercial = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       this.comercialNameBox.nativeElement.focus();
     }, 0);
   }
@@ -270,7 +295,7 @@ export class ProveedoresComponent implements OnInit {
     data.idProveedor = this.selectedProveedor.id;
     this.selectedComercial.idProveedor = this.selectedProveedor.id;
 
-    this.ps.saveComercial(data).subscribe((result) => {
+    this.ps.saveComercial(data).subscribe((result: IdSaveResult): void => {
       this.selectedComercial.id = result.id;
       this.resetComercialForm();
       this.dialog
@@ -282,7 +307,7 @@ export class ProveedoresComponent implements OnInit {
             '" han sido correctamente guardados.',
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           const comercialInd: number =
             this.selectedProveedor.comerciales.findIndex(
               (x: Comercial): boolean => x.id === this.selectedComercial.id
@@ -314,7 +339,7 @@ export class ProveedoresComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteComercial();
         }
@@ -322,24 +347,34 @@ export class ProveedoresComponent implements OnInit {
   }
 
   confirmDeleteComercial(): void {
-    this.ps.deleteComercial(this.selectedComercial.id).subscribe((result) => {
-      this.dialog
-        .alert({
-          title: "Comercial borrado",
-          content:
-            'El comercial "' +
-            this.selectedComercial.nombre +
-            '" ha sido correctamente borrado.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {
-          const comercialInd: number =
-            this.selectedProveedor.comerciales.findIndex(
-              (x: Comercial): boolean => x.id === this.selectedComercial.id
-            );
-          this.selectedProveedor.comerciales.splice(comercialInd, 1);
-          this.showComercial = false;
-        });
-    });
+    this.ps
+      .deleteComercial(this.selectedComercial.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Comercial borrado",
+              content:
+                'El comercial "' +
+                this.selectedComercial.nombre +
+                '" ha sido correctamente borrado.',
+              ok: "Continuar",
+            })
+            .subscribe((): void => {
+              const comercialInd: number =
+                this.selectedProveedor.comerciales.findIndex(
+                  (x: Comercial): boolean => x.id === this.selectedComercial.id
+                );
+              this.selectedProveedor.comerciales.splice(comercialInd, 1);
+              this.showComercial = false;
+            });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar el comercial.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 }

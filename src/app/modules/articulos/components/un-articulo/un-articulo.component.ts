@@ -17,10 +17,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatTabChangeEvent } from "@angular/material/tabs";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { getTwoNumberDecimal, urldecode } from "@osumi/tools";
 import { QRCodeModule } from "angularx-qrcode";
@@ -54,7 +65,6 @@ import { AccesosDirectosModalComponent } from "src/app/modules/articulos/compone
 import { ArticuloDarDeBajaModalComponent } from "src/app/modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
 import { MargenesModalComponent } from "src/app/modules/articulos/components/modals/margenes-modal/margenes-modal.component";
 import { NewMarcaModalComponent } from "src/app/modules/articulos/components/modals/new-marca-modal/new-marca-modal.component";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
@@ -78,12 +88,21 @@ import { VentasService } from "src/app/services/ventas.service";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,
     QRCodeModule,
     FixedNumberPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
 })
 export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -237,7 +256,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   loadAppData(): void {
     this.tipoIva = this.config.tipoIva;
     this.ivaOptions = this.config.ivaOptions;
-    for (let ivaOption of this.ivaOptions) {
+    for (const ivaOption of this.ivaOptions) {
       this.ivaList.push(ivaOption.iva);
       this.reList.push(ivaOption.re);
     }
@@ -343,7 +362,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 '".',
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               this.form.get("localizador").setValue(null);
               this.loading = false;
               setTimeout((): void => {
@@ -576,7 +595,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 "La fecha introducida no puede ser inferior a la actual.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               setTimeout((): void => {
                 this.fecCadValue.nativeElement.select();
               }, 200);
@@ -593,7 +612,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
             ok: "Continuar",
           })
-          .subscribe((result: boolean): void => {
+          .subscribe((): void => {
             setTimeout((): void => {
               this.fecCadValue.nativeElement.select();
             }, 200);
@@ -735,12 +754,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFotoChange(ev: Event): void {
-    let reader: FileReader = new FileReader();
+    const reader: FileReader = new FileReader();
     if (
       (<HTMLInputElement>ev.target).files &&
       (<HTMLInputElement>ev.target).files.length > 0
     ) {
-      let file = (<HTMLInputElement>ev.target).files[0];
+      const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         const foto: Foto = new Foto();
@@ -866,24 +885,20 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     this.articulo.margen = this.articulo.margen || 0;
 
     if (this.articulo.nombre === null || this.articulo.nombre === "") {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No puedes dejar en blanco el nombre del artículo!",
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No puedes dejar en blanco el nombre del artículo!",
+        ok: "Continuar",
+      });
       return;
     }
 
     if (!this.articulo.idMarca) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content: "¡No has elegido la marca del artículo!",
-          ok: "Continuar",
-        })
-        .subscribe((result: boolean): void => {});
+      this.dialog.alert({
+        title: "Error",
+        content: "¡No has elegido la marca del artículo!",
+        ok: "Continuar",
+      });
       this.selectedTab = 0;
       return;
     }
@@ -901,7 +916,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               content: "El artículo ha sido guardado correctamente.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               this.saving = false;
               if (cerrar) {
                 this.cerrarArticuloEvent.emit(this.ind);
@@ -945,7 +960,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 )}".`,
                 ok: "Continuar",
               })
-              .subscribe((result: boolean): void => {
+              .subscribe((): void => {
                 this.selectedTab = 0;
               });
           }
@@ -957,7 +972,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
                 content: `El código de barras "${data[0]}" ya está en uso por el artículo "${data[1]}/${data[2]}".`,
                 ok: "Continuar",
               })
-              .subscribe((result: boolean): void => {
+              .subscribe((): void => {
                 this.selectedTab = 1;
               });
           }

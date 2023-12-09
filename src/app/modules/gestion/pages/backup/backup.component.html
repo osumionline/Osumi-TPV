@@ -1,4 +1,4 @@
-<otpv-header selectedOption="gestion"></otpv-header>
+<otpv-header selectedOption="gestion" />
 
 <mat-card class="backup">
     <mat-card-content>
@@ -10,7 +10,8 @@
         </div>
         <p>Últimas copias de seguridad:</p>
         <mat-list>
-            <mat-list-item *ngFor="let backup of backups">
+            @for (backup of backups; track backup.id) {
+            <mat-list-item>
                 <div class="backup-line">
                     <div class="backup-info">
                         <strong>{{backup.account}}</strong>
@@ -27,6 +28,7 @@
                     </div>
                 </div>
             </mat-list-item>
+            }
         </mat-list>
     </mat-card-content>
 </mat-card>

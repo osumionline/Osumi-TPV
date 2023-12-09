@@ -7,10 +7,19 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatOption } from "@angular/material/core";
-import { MatSelect } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSelect, MatSelectModule } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import {
@@ -34,7 +43,6 @@ import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
 import { Pedido } from "src/app/model/compras/pedido.model";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
@@ -58,9 +66,19 @@ import { environment } from "src/environments/environment";
     CommonModule,
     FormsModule,
     MatSortModule,
-    MaterialModule,
     HeaderComponent,
     FixedNumberPipe,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatListModule,
   ],
 })
 export default class PedidoComponent implements OnInit, OnDestroy {
@@ -241,7 +259,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dontSave = false;
     this.ivaOptions = this.config.ivaOptions;
-    for (let ivaOption of this.ivaOptions) {
+    for (const ivaOption of this.ivaOptions) {
       this.ivaList.push(ivaOption.iva);
       this.reList.push(ivaOption.re);
     }
@@ -264,13 +282,13 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.pedido = new Pedido().fromInterface(result.pedido);
       this.cs.pedidoCargado = this.pedido.id;
 
-      for (let iva of this.ivaOptions) {
+      for (const iva of this.ivaOptions) {
         iva.tipoIVA = this.pedido.re ? "re" : "iva";
       }
       this.pedido.ivaOptions = this.ivaOptions;
 
       this.colOptionsSelected = [];
-      for (let pv of this.pedido.vista) {
+      for (const pv of this.pedido.vista) {
         if (pv.status) {
           this.colOptionsSelected.push(pv.idColumn);
         }
@@ -300,7 +318,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.fechaPedido !== null) {
       this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
     }
-    for (let pv of this.pedido.vista) {
+    for (const pv of this.pedido.vista) {
       if (pv.status) {
         this.colOptionsSelected.push(pv.idColumn);
       }
@@ -390,7 +408,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   changeOptions(): void {
     const list: string[] = [];
-    for (let opt of this.colOptions) {
+    for (const opt of this.colOptions) {
       if (opt.default || this.colOptionsSelected.includes(opt.id)) {
         list.push(opt.colname);
       }
@@ -405,7 +423,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     }
     let selectedNum: number = 0;
     let totalNum: number = 0;
-    for (let i in this.colOptions) {
+    for (const i in this.colOptions) {
       if (!this.colOptions[i].default) {
         totalNum++;
         if (this.colOptionsSelected.includes(this.colOptions[i].id)) {
@@ -423,7 +441,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.allSelected.selected) {
       this.allSelected.select();
       this.colOptionsSelected = [0];
-      for (let i in this.colOptions) {
+      for (const i in this.colOptions) {
         if (!this.colOptions[i].default) {
           this.colOptionsSelected.push(this.colOptions[i].id);
         }
@@ -461,7 +479,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   updateTipoIva(): void {
-    for (let linea of this.pedido.lineas) {
+    for (const linea of this.pedido.lineas) {
       const ind: number = this.ivaList.findIndex(
         (x: number): boolean => x == linea.iva
       );
@@ -581,7 +599,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
               content: "No se encuentra el localizador indicado.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               this.localizadorBox.nativeElement.focus();
             });
         }
@@ -757,7 +775,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.pedido.fechaPedido = getDate(this.fechaPedido);
     this.pedido.importe = this.pedido.total;
     this.pedido.vista = [];
-    for (let opt of this.colOptions) {
+    for (const opt of this.colOptions) {
       this.pedido.vista.push(
         new PedidoVista(
           opt.id,
@@ -777,7 +795,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: "No has indicado ningún proveedor.",
           ok: "Continuar",
         })
-        .subscribe((result: boolean): void => {
+        .subscribe((): void => {
           this.proveedoresValue.toggle();
         });
       return false;
@@ -793,7 +811,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             ".",
           ok: "Continuar",
         })
-        .subscribe((result: boolean): void => {
+        .subscribe((): void => {
           this.numAlbaranFacturaBox.nativeElement.focus();
         });
       return false;
@@ -806,7 +824,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: "No has añadido ningún artículo al pedido.",
           ok: "Continuar",
         })
-        .subscribe((result: boolean): void => {
+        .subscribe((): void => {
           this.localizadorBox.nativeElement.focus();
         });
       return false;
@@ -853,20 +871,18 @@ export default class PedidoComponent implements OnInit, OnDestroy {
               content: "El pedido ha sido correctamente guardado.",
               ok: "Continuar",
             })
-            .subscribe((result: boolean): void => {
+            .subscribe((): void => {
               this.dontSave = true;
               this.back();
             });
         } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content:
-                "Los siguientes códigos de barras ya están siendo usados: " +
-                urldecode(result.message),
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content:
+              "Los siguientes códigos de barras ya están siendo usados: " +
+              urldecode(result.message),
+            ok: "Continuar",
+          });
         }
       });
   }
@@ -894,17 +910,25 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           this.cs
             .deletePedido(this.pedido.id)
             .subscribe((result: StatusResult): void => {
-              this.dialog
-                .alert({
-                  title: "Pedido borrado",
-                  content:
-                    "El pedido y todos sus datos han sido correctamente eliminados.",
+              if (result.status === "ok") {
+                this.dialog
+                  .alert({
+                    title: "Pedido borrado",
+                    content:
+                      "El pedido y todos sus datos han sido correctamente eliminados.",
+                    ok: "Continuar",
+                  })
+                  .subscribe((): void => {
+                    this.dontSave = true;
+                    this.back();
+                  });
+              } else {
+                this.dialog.alert({
+                  title: "Error",
+                  content: "Ocurrió un error al borrar el pedido.",
                   ok: "Continuar",
-                })
-                .subscribe((result: boolean): void => {
-                  this.dontSave = true;
-                  this.back();
                 });
+              }
             });
         }
       });
@@ -919,7 +943,16 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       } else {
         this.cs
           .autoSavePedido(this.pedido.toInterface())
-          .subscribe((result: PedidoSaveResult): void => {});
+          .subscribe((result: PedidoSaveResult): void => {
+            if (result.status === "error") {
+              this.dialog.alert({
+                title: "Error",
+                content:
+                  "Ocurrió un error al guardar automáticamente el pedido.",
+                ok: "Continuar",
+              });
+            }
+          });
       }
     }
   }

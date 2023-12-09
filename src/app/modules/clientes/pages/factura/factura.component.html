@@ -60,54 +60,59 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let item of list">
-                <tr>
-                    <td class="col-concepto">
-                        <mat-icon [ngClass]="{'deployed': item.deployed}"
-                                  (click)="deploy(item)">chevron_right</mat-icon>
-                        {{item.concepto}} ({{item.fecha}})
-                    </td>
-                    <td class="col-precio-iva-unidad right">{{item.precioIVA | fixedNumber}} <span *ngIf="item.precioIVA !== null"> €</span></td>
-                    <td class="col-precio-sin-iva right">{{item.precioSinIVA | fixedNumber}} <span *ngIf="item.precioSinIVA !== null"> €</span></td>
-                    <td class="col-unidades center">{{item.unidades}}</td>
-                    <td class="col-subtotal right">{{item.subtotal | fixedNumber}} <span *ngIf="item.subtotal !== null"> €</span></td>
-                    <td class="col-iva-porcentaje right">{{item.iva}} <span *ngIf="item.iva !== null"> %</span></td>
-                    <td class="col-iva-importe right">{{item.ivaImporte | fixedNumber}} <span *ngIf="item.ivaImporte !== null"> €</span></td>
-                    <td class="col-descuento right">
-                        {{item.descuento !== 0 ? '-' : ''}}{{item.descuento | fixedNumber}} <span *ngIf="item.descuento !== null"> €</span>
-                    </td>
-                    <td class="col-total right">{{item.total | fixedNumber}} <span *ngIf="item.total !== null"> €</span></td>
-                </tr>
-                <ng-container *ngFor="let subitem of item.lineas">
-                    <tr *ngIf="item.deployed">
-                        <td class="sub-item col-concepto">{{subitem.concepto}}</td>
-                        <td class="sub-item col-precio-iva-unidad right">{{subitem.precioIVA | fixedNumber}} €</td>
-                        <td class="sub-item col-precio-sin-iva right">{{subitem.precioSinIVA | fixedNumber}} €</td>
-                        <td class="sub-item col-unidades center">{{subitem.unidades}}</td>
-                        <td class="sub-item col-subtotal right">{{subitem.subtotal | fixedNumber}} €</td>
-                        <td class="sub-item col-iva-porcentaje right">{{subitem.iva}} %</td>
-                        <td class="sub-item col-iva-importe right">{{subitem.ivaImporte | fixedNumber}} €</td>
-                        <td class="sub-item col-descuento right">{{subitem.descuento !== 0 ? '-' : ''}}{{subitem.descuento | fixedNumber}} €</td>
-                        <td class="sub-item col-total right">{{subitem.total | fixedNumber}} €</td>
-                    </tr>
-                </ng-container>
-            </ng-container>
+            @for (item of list; track item.concepto) {
+            <tr>
+                <td class="col-concepto">
+                    <mat-icon [ngClass]="{'deployed': item.deployed}"
+                              (click)="deploy(item)">chevron_right</mat-icon>
+                    {{item.concepto}} ({{item.fecha}})
+                </td>
+                <td class="col-precio-iva-unidad right">{{item.precioIVA | fixedNumber}} <span *ngIf="item.precioIVA !== null"> €</span></td>
+                <td class="col-precio-sin-iva right">{{item.precioSinIVA | fixedNumber}} <span *ngIf="item.precioSinIVA !== null"> €</span></td>
+                <td class="col-unidades center">{{item.unidades}}</td>
+                <td class="col-subtotal right">{{item.subtotal | fixedNumber}} <span *ngIf="item.subtotal !== null"> €</span></td>
+                <td class="col-iva-porcentaje right">{{item.iva}} <span *ngIf="item.iva !== null"> %</span></td>
+                <td class="col-iva-importe right">{{item.ivaImporte | fixedNumber}} <span *ngIf="item.ivaImporte !== null"> €</span></td>
+                <td class="col-descuento right">
+                    {{item.descuento !== 0 ? '-' : ''}}{{item.descuento | fixedNumber}} <span *ngIf="item.descuento !== null"> €</span>
+                </td>
+                <td class="col-total right">{{item.total | fixedNumber}} <span *ngIf="item.total !== null"> €</span></td>
+            </tr>
+            @for (subitem of item.lineas; track subitem.concepto) {
+            @if (item.deployed) {
+            <tr>
+                <td class="sub-item col-concepto">{{subitem.concepto}}</td>
+                <td class="sub-item col-precio-iva-unidad right">{{subitem.precioIVA | fixedNumber}} €</td>
+                <td class="sub-item col-precio-sin-iva right">{{subitem.precioSinIVA | fixedNumber}} €</td>
+                <td class="sub-item col-unidades center">{{subitem.unidades}}</td>
+                <td class="sub-item col-subtotal right">{{subitem.subtotal | fixedNumber}} €</td>
+                <td class="sub-item col-iva-porcentaje right">{{subitem.iva}} %</td>
+                <td class="sub-item col-iva-importe right">{{subitem.ivaImporte | fixedNumber}} €</td>
+                <td class="sub-item col-descuento right">{{subitem.descuento !== 0 ? '-' : ''}}{{subitem.descuento | fixedNumber}} €</td>
+                <td class="sub-item col-total right">{{subitem.total | fixedNumber}} €</td>
+            </tr>
+            }
+            }
+            }
         </tbody>
     </table>
 
     <div class="totales">
-        <div *ngIf="!preview"
-             class="pagado">PAGADO</div>
+        @if (!preview) {
+        <div class="pagado">PAGADO</div>
+        }
 
         <table>
             <tr>
                 <td class="label">SUBTOTAL</td>
                 <td class="importe">{{subtotal | fixedNumber}} €</td>
             </tr>
-            <tr *ngFor="let iva of ivas">
+            @for (iva of ivas; track iva.iva) {
+            <tr>
                 <td class="label">IVA {{iva.iva}}%</td>
                 <td class="importe">{{iva.importe | fixedNumber}} €</td>
             </tr>
+            }
             <tr>
                 <td class="label">DESCUENTO</td>
                 <td class="importe">{{descuento !==0 ? '-' : ''}}{{descuento | fixedNumber}} €</td>
@@ -119,11 +124,12 @@
         </table>
     </div>
 
-    <div *ngIf="preview"
-         class="print">
+    @if (preview) {
+    <div class="print">
         <span>PREVISUALIZACIÓN</span>
         <button mat-raised-button
                 color="primary"
                 (click)="imprimir()">Facturar</button>
     </div>
+    }
 </div>

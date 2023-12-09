@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { InformeMensualResult } from "src/app/interfaces/informes.interface";
 import { InformesService } from "src/app/services/informes.service";
 
 @Component({
@@ -21,12 +22,14 @@ export default class InformeDetalladoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       this.month = parseInt(params.month);
       this.year = parseInt(params.year);
-      this.is.getInformeDetallado(this.month, this.year).subscribe((result) => {
-        console.log(result);
-      });
+      this.is
+        .getInformeDetallado(this.month, this.year)
+        .subscribe((result: InformeMensualResult): void => {
+          console.log(result);
+        });
     });
   }
 }

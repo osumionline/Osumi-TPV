@@ -1,4 +1,4 @@
-<otpv-header selectedOption="compras"></otpv-header>
+<otpv-header selectedOption="compras" />
 
 <mat-card class="pedido-header">
     <div class="pedido-header-bar">
@@ -10,16 +10,18 @@
         </button>
         <span>{{titulo}}</span>
         <div class="actions">
+            @if (pedido.id !== null && !pedido.recepcionado) {
             <button mat-raised-button
                     color="warn"
-                    *ngIf="pedido.id !== null && !pedido.recepcionado"
                     (click)="deletePedido()">
                 <mat-icon>delete</mat-icon>
                 Eliminar
             </button>
-            <!--mat-checkbox *ngIf="!pedido.recepcionado && pedido.lineas.length > 0"
-                          [(ngModel)]="autoSave"
+            }
+            @if (!pedido.recepcionado && pedido.lineas.length > 0) {
+            <!--mat-checkbox [(ngModel)]="autoSave"
                           (ngModelChange)="changeAutoSave()">Autoguardado</mat-checkbox-->
+            }
             <button mat-raised-button
                     color="primary"
                     (click)="guardar()">
@@ -40,10 +42,11 @@
                         <mat-select [(ngModel)]="pedido.idProveedor"
                                     #proveedoresValue>
                             <mat-option [value]="-1">Elige proveedor</mat-option>
-                            <mat-option *ngFor="let proveedor of ps.proveedores"
-                                        [value]="proveedor.id">
+                            @for (proveedor of ps.proveedores; track proveedor.id) {
+                            <mat-option [value]="proveedor.id">
                                 {{proveedor.nombre}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                     <button mat-icon-button
@@ -57,10 +60,11 @@
                     <label>Forma de pago</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <mat-select [(ngModel)]="pedido.idMetodoPago">
-                            <mat-option *ngFor="let metodo of metodosPago; let i = index"
-                                        [value]="i">
+                            @for (metodo of metodosPago; track metodo; let i = $index) {
+                            <mat-option [value]="i">
                                 {{metodo}}
                             </mat-option>
+                            }
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -84,14 +88,21 @@
                     </mat-form-field>
                 </div>
                 <div class="form-field re-ue">
-                    <mat-checkbox *ngIf="config.tipoIva === 're' && !pedido.recepcionado"
-                                  [(ngModel)]="pedido.re"
+                    @if (config.tipoIva === 're' && !pedido.recepcionado) {
+                    <mat-checkbox [(ngModel)]="pedido.re"
                                   (ngModelChange)="updateTipoIva()">R.E.</mat-checkbox>
-                    <span *ngIf="config.tipoIva === 're' && pedido.recepcionado">
-                        <mat-icon *ngIf="pedido.re">check_box</mat-icon>
-                        <mat-icon *ngIf="!pedido.re">check_box_outline_blank</mat-icon>
+                    }
+                    @if (config.tipoIva === 're' && pedido.recepcionado) {
+                    <span>
+                        @if (pedido.re) {
+                        <mat-icon>check_box</mat-icon>
+                        }
+                        @else {
+                        <mat-icon>check_box_outline_blank</mat-icon>
+                        }
                         <label>R.E.</label>
                     </span>
+                    }
                     <mat-checkbox [(ngModel)]="pedido.ue">UE</mat-checkbox>
                 </div>
                 <div class="form-field form-field-165">
@@ -125,13 +136,14 @@
                             <mat-option #allSelected
                                         (click)="toggleAllSelection()"
                                         [value]="0">Todas</mat-option>
-                            <ng-container *ngFor="let option of colOptions">
-                                <mat-option *ngIf="!option.default"
-                                            [value]="option.id"
-                                            (click)="tosslePerOne()">
-                                    {{option.value}}
-                                </mat-option>
-                            </ng-container>
+                            @for (option of colOptions; track option.id) {
+                            @if (!option.default) {
+                            <mat-option [value]="option.id"
+                                        (click)="tosslePerOne()">
+                                {{option.value}}
+                            </mat-option>
+                            }
+                            }
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -185,9 +197,10 @@
                            (click)="goToArticulo(element.localizador, $event)">
                             {{element.nombreArticulo}}
                         </a>
-                        <mat-icon *ngIf="element.mostrarObsPedidos"
-                                  [matTooltip]="element.observaciones"
+                        @if (element.mostrarObsPedidos) {
+                        <mat-icon [matTooltip]="element.observaciones"
                                   class="icon">info_outline</mat-icon>
+                        }
                     </td>
                 </ng-container>
 
@@ -221,10 +234,12 @@
                     <td mat-cell
                         class="center"
                         *matCellDef="let element">
-                        <mat-icon *ngIf="element.hasCodBarras">check</mat-icon>
+                        @if (element.hasCodBarras) {
+                        <mat-icon>check</mat-icon>
+                        }
+                        @if (!pedido.recepcionado && !element.hasCodBarras) {
                         <mat-form-field class="campo-numero-small x-small"
-                                        subscriptSizing="dynamic"
-                                        *ngIf="!pedido.recepcionado && !element.hasCodBarras">
+                                        subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="Cod. Barras"
                                    id="tabla-codBarras-{{element.localizador}}"
@@ -232,7 +247,10 @@
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.codBarras">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.codBarras}}</span>
+                        }
+                        @if (pedido.recepcionado) {
+                        <span>{{element.codBarras}}</span>
+                        }
                     </td>
                 </ng-container>
 
@@ -246,9 +264,9 @@
                     <td mat-cell
                         class="right"
                         *matCellDef="let element">
+                        @if (!pedido.recepcionado) {
                         <mat-form-field class="campo-numero-small x-small"
-                                        subscriptSizing="dynamic"
-                                        *ngIf="!pedido.recepcionado">
+                                        subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="Unidades"
                                    type="number"
@@ -258,7 +276,10 @@
                                    (blur)="checkNull(element)"
                                    [(ngModel)]="element.unidades">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.unidades}}</span>
+                        }
+                        @else {
+                        <span>{{element.unidades}}</span>
+                        }
                     </td>
                 </ng-container>
 
@@ -296,9 +317,9 @@
                     <td mat-cell
                         class="right"
                         *matCellDef="let element">
+                        @if (!pedido.recepcionado) {
                         <mat-form-field class="campo-numero-small x-small"
-                                        subscriptSizing="dynamic"
-                                        *ngIf="!pedido.recepcionado">
+                                        subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="P. Alb."
                                    type="number"
@@ -309,7 +330,10 @@
                                    [(ngModel)]="element.palb"
                                    (ngModelChange)="updatePalb(element)">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.palb | fixedNumber}}</span>
+                        }
+                        @else {
+                        <span>{{element.palb | fixedNumber}}</span>
+                        }
                         €
                     </td>
                 </ng-container>
@@ -324,8 +348,8 @@
                     <td mat-cell
                         class="right"
                         *matCellDef="let element">
+                        @if (!pedido.recepcionado) {
                         <mat-form-field class="campo-numero-small x-small"
-                                        *ngIf="!pedido.recepcionado"
                                         subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="Descuento"
@@ -337,7 +361,10 @@
                                    [(ngModel)]="element.descuento"
                                    (ngModelChange)="updatePalb(element)">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.descuento}}</span>%
+                        }
+                        @else {
+                        <span>{{element.descuento}}</span>%
+                        }
                     </td>
                 </ng-container>
 
@@ -363,8 +390,8 @@
                     <td mat-cell
                         class="right"
                         *matCellDef="let element">
+                        @if (!pedido.recepcionado) {
                         <mat-form-field class="x-small"
-                                        *ngIf="!pedido.recepcionado"
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.iva"
                                         (ngModelChange)="updateIva($event, element)">
@@ -374,8 +401,9 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        }
+                        @if (!pedido.recepcionado && pedido.re) {
                         <mat-form-field class="x-small"
-                                        *ngIf="!pedido.recepcionado && pedido.re"
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.re"
                                         (ngModelChange)="updateRe($event, element)">
@@ -385,9 +413,12 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">
+                        }
+                        @if (pedido.recepcionado) {
+                        <span>
                             {{element.iva}} %{{pedido.re ? ' + ' + element.re + ' %' : ''}}
                         </span>
+                        }
                     </td>
                 </ng-container>
 
@@ -425,8 +456,8 @@
                     <td mat-cell
                         class="right"
                         *matCellDef="let element">
+                        @if (!pedido.recepcionado) {
                         <mat-form-field class="campo-numero-small x-small"
-                                        *ngIf="!pedido.recepcionado"
                                         subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="PVP"
@@ -438,7 +469,10 @@
                                    [(ngModel)]="element.pvp"
                                    (ngModelChange)="updateMargen(element)">
                         </mat-form-field>
-                        <span *ngIf="pedido.recepcionado">{{element.pvp | fixedNumber}}</span>
+                        }
+                        @else {
+                        <span>{{element.pvp | fixedNumber}}</span>
+                        }
                         €
                     </td>
                 </ng-container>
@@ -487,41 +521,55 @@
                            id="nuevo-localizador"
                            #localizadorBox>
                 </mat-form-field>
+                @if (!pedido.recepcionado) {
                 <button mat-icon-button
                         matTooltip="Añadir nuevo artículo"
                         type="button"
-                        *ngIf="!pedido.recepcionado"
                         (click)="goToArticulo(0)">
                     <mat-icon>add_circle_outline</mat-icon>
                 </button>
+                }
             </div>
         </div>
         <div class="pedido-footer">
             <div class="pedido-adjuntar">
-                <label *ngIf="!pedido.recepcionado">Adjuntar PDFs</label>
-                <label *ngIf="pedido.recepcionado">PDFs</label>
+                <label>
+                    @if (!pedido.recepcionado) {
+                    Adjuntar PDFs
+                    }
+                    @else {
+                    PDFs
+                    }
+                </label>
                 <div class="pdf-list">
-                    <mat-list *ngIf="pedido.pdfs.length > 0">
-                        <ng-container *ngFor="let item of pedido.pdfs; let i = index;">
-                            <mat-list-item *ngIf="!item.deleted">
-                                <div class="row">
-                                    <a *ngIf="item.id !== null && pedido.id !== null"
-                                       target="_blank"
-                                       [href]="pdfsUrl + pedido.id + '/' + item.id + '.pdf'"
-                                       [matTooltip]="item.nombre">{{item.nombre}}</a>
-                                    <span *ngIf="item.id === null || pedido.id === null"
-                                          [matTooltip]="item.nombre"
-                                          (click)="previewPdf(item)">{{item.nombre}}</span>
-                                    <button mat-icon-button
-                                            (click)="deletePDF(i, item)">
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
-                                </div>
-                            </mat-list-item>
-                        </ng-container>
+                    @if (pedido.pdfs.length > 0) {
+                    <mat-list>
+                        @for (item of pedido.pdfs; track item.id; let i = $index;) {
+                        @if (!item.deleted) {
+                        <mat-list-item>
+                            <div class="row">
+                                @if (item.id !== null && pedido.id !== null) {
+                                <a target="_blank"
+                                   [href]="pdfsUrl + pedido.id + '/' + item.id + '.pdf'"
+                                   [matTooltip]="item.nombre">{{item.nombre}}</a>
+                                }
+                                @if (item.id === null || pedido.id === null) {
+                                <span [matTooltip]="item.nombre"
+                                      (click)="previewPdf(item)">{{item.nombre}}</span>
+                                }
+                                <button mat-icon-button
+                                        (click)="deletePDF(i, item)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </mat-list-item>
+                        }
+                        }
                     </mat-list>
-                    <div *ngIf="pedido.recepcionado && pedido.pdfs.length === 0"
-                         class="no-files">No hay ningún PDF adjunto.</div>
+                    }
+                    @if (pedido.recepcionado && pedido.pdfs.length === 0) {
+                    <div class="no-files">No hay ningún PDF adjunto.</div>
+                    }
                     <div class="pdf-action">
                         <button mat-raised-button
                                 color="primary"
@@ -566,8 +614,8 @@
                         </div>
                         <div class="totales-row">
                             <span>Portes:</span>
+                            @if (!pedido.recepcionado) {
                             <mat-form-field class="campo-numero-small x-small"
-                                            *ngIf="!pedido.recepcionado"
                                             subscriptSizing="dynamic">
                                 <input matInput
                                        placeholder="Portes"
@@ -577,6 +625,7 @@
                                        (blur)="checkNull()"
                                        [(ngModel)]="pedido.portes">
                             </mat-form-field>
+                            }
                             {{ pedido.recepcionado ? pedido.portes : ''}}
                             €
                         </div>
@@ -590,27 +639,28 @@
                         </div>
                         <div class="totales-row totales-iva-row"
                              [ngClass]="{'no-iva': pedido.ue}">
-                            <ng-container *ngFor="let ivaOption of pedido.ivaList">
-                                <div class="iva-row"
-                                     *ngIf="ivaOption.iva !== undefined || ivaOption.re !== undefined">
-                                    <ng-container *ngIf="ivaOption.iva !== undefined">
-                                        <div class="iva-col">IVA {{ivaOption.ivaOption}}%</div>
-                                        <div class="iva-col"
-                                             [ngClass]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
-                                            {{ivaOption.iva | fixedNumber}} €
-                                        </div>
-                                    </ng-container>
-                                    <ng-container *ngIf="ivaOption.re !== undefined">
-                                        <div class="iva-col">R.E. {{ivaOption.reOption}}%</div>
-                                        <div class="iva-col iva-num">{{ivaOption.re | fixedNumber}} €</div>
-                                    </ng-container>
+                            @for (ivaOption of pedido.ivaList; track ivaOption.iva) {
+                            @if (ivaOption.iva !== undefined || ivaOption.re !== undefined) {
+                            <div class="iva-row">
+                                @if (ivaOption.iva !== undefined) {
+                                <div class="iva-col">IVA {{ivaOption.ivaOption}}%</div>
+                                <div class="iva-col"
+                                     [ngClass]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
+                                    {{ivaOption.iva | fixedNumber}} €
                                 </div>
-                            </ng-container>
+                                }
+                                @if (ivaOption.re !== undefined) {
+                                <div class="iva-col">R.E. {{ivaOption.reOption}}%</div>
+                                <div class="iva-col iva-num">{{ivaOption.re | fixedNumber}} €</div>
+                                }
+                            </div>
+                            }
+                            }
                         </div>
                         <div class="totales-row">
                             <span>Descuento:</span>
+                            @if (!pedido.recepcionado) {
                             <mat-form-field class="campo-numero-small x-small"
-                                            *ngIf="!pedido.recepcionado"
                                             subscriptSizing="dynamic">
                                 <input matInput
                                        placeholder="Descuento"
@@ -620,6 +670,7 @@
                                        (blur)="checkNull()"
                                        [(ngModel)]="pedido.descuento">
                             </mat-form-field>
+                            }
                             {{ pedido.recepcionado ? pedido.descuento : ''}}
                             %
                         </div>
@@ -627,18 +678,20 @@
                              [ngClass]="{'mark-iva': !pedido.ue}">
                             <span>Total {{pedido.nombreTipo}}:</span>{{pedido.total | fixedNumber}} €
                         </div>
-                        <div *ngIf="pedido.ue"
-                             class="totales-row mark mark-iva">
+                        @if (pedido.ue) {
+                        <div class="totales-row mark mark-iva">
                             <span>Total sin IVA:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
+                        }
                         <div class="totales-row center">
+                            @if (!pedido.recepcionado) {
                             <button mat-raised-button
                                     color="primary"
-                                    *ngIf="!pedido.recepcionado"
                                     (click)="recepcionar()">
                                 <mat-icon>beenhere</mat-icon>
                                 Recepcionar
                             </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -647,10 +700,11 @@
     </mat-card-content>
 </mat-card>
 
-<div class="pdf-preview"
-     *ngIf="selectedPdf">
+@if (selectedPdf) {
+<div class="pdf-preview">
     <a href="#"
        (click)="closePreview($event)">X</a>
     <embed type="application/pdf"
            [src]="selectedPdf">
 </div>
+}

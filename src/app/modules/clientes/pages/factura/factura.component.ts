@@ -1,11 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
 import { ActivatedRoute, Data, Params } from "@angular/router";
-import { FacturaResult } from "src/app/interfaces/cliente.interface";
+import {
+  FacturaIVAInterface,
+  FacturaResult,
+} from "src/app/interfaces/cliente.interface";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
 import { FacturaItem } from "src/app/model/clientes/factura-item.model";
 import { Factura } from "src/app/model/clientes/factura.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -18,7 +21,7 @@ import { environment } from "src/environments/environment";
   selector: "otpv-factura",
   templateUrl: "./factura.component.html",
   styleUrls: ["./factura.component.scss"],
-  imports: [CommonModule, MaterialModule, FixedNumberPipe],
+  imports: [CommonModule, FixedNumberPipe, MatButtonModule],
 })
 export default class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
@@ -28,7 +31,7 @@ export default class FacturaComponent implements OnInit {
   factura: Factura = new Factura();
   list: FacturaItem[] = [];
   subtotal: number = 0;
-  ivas: { iva: number; importe: number }[] = [];
+  ivas: FacturaIVAInterface[] = [];
   descuento: number = 0;
   total: number = 0;
 
@@ -68,14 +71,14 @@ export default class FacturaComponent implements OnInit {
   }
 
   loadData(): void {
-    for (let venta of this.factura.ventas) {
-      let temp: FacturaItem = new FacturaItem();
+    for (const venta of this.factura.ventas) {
+      const temp: FacturaItem = new FacturaItem();
       temp.concepto = "Ticket Nº " + venta.id;
       temp.fecha = venta.fecha;
       temp.total = venta.total;
 
-      for (let linea of venta.lineas) {
-        let ventaLinea: FacturaItem = new FacturaItem();
+      for (const linea of venta.lineas) {
+        const ventaLinea: FacturaItem = new FacturaItem();
         ventaLinea.concepto = linea.articulo;
         ventaLinea.precioIVA = linea.pvp;
         ventaLinea.precioSinIVA = linea.pvp / ((100 + linea.iva) / 100);
@@ -106,15 +109,19 @@ export default class FacturaComponent implements OnInit {
   }
 
   addIva(iva: number, importe: number): void {
-    let ind: number = this.ivas.findIndex((x): boolean => {
-      return x.iva === iva;
-    });
+    const ind: number = this.ivas.findIndex(
+      (x: FacturaIVAInterface): boolean => {
+        return x.iva === iva;
+      }
+    );
     if (ind === -1) {
       this.ivas.push({ iva, importe });
     } else {
       this.ivas[ind].importe += importe;
     }
-    this.ivas.sort((a, b) => a.iva - b.iva);
+    this.ivas.sort(
+      (a: FacturaIVAInterface, b: FacturaIVAInterface): number => a.iva - b.iva
+    );
   }
 
   deployAll(): void {
@@ -122,7 +129,7 @@ export default class FacturaComponent implements OnInit {
     if (!this.deployedAll) {
       mode = true;
     }
-    for (let item of this.list) {
+    for (const item of this.list) {
       item.deployed = mode;
     }
     this.deployedAll = mode;

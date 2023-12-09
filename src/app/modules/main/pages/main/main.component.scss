@@ -1,5 +1,5 @@
 .not-opened {
-	background-color: rgba(0,0,0,0.6);
+	background-color: rgba(0, 0, 0, 0.6);
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -32,7 +32,7 @@
 	top: 64px;
 	left: 0;
 
-	& > * {
+	&>* {
 		height: 100%;
 		width: 100%;
 		display: none;

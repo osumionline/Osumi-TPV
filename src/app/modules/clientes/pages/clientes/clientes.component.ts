@@ -7,17 +7,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
-import { MatTable, MatTableDataSource } from "@angular/material/table";
-import { MatTabGroup } from "@angular/material/tabs";
+import {
+  MatTable,
+  MatTableDataSource,
+  MatTableModule,
+} from "@angular/material/table";
+import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
-import { Month } from "src/app/interfaces/interfaces";
+import { ClienteSaveResult } from "src/app/interfaces/cliente.interface";
+import { Month, StatusResult } from "src/app/interfaces/interfaces";
 import { FacturaModal } from "src/app/interfaces/modals.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { Factura } from "src/app/model/clientes/factura.model";
 import { EditFacturaModalComponent } from "src/app/modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { ClientListFilterPipe } from "src/app/modules/shared/pipes/client-list-filter.pipe";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
@@ -34,13 +45,21 @@ import { OverlayService } from "src/app/services/overlay.service";
   styleUrls: ["./clientes.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,
     FixedNumberPipe,
     ClientListFilterPipe,
     HeaderComponent,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatTableModule,
   ],
 })
 export default class ClientesComponent implements OnInit {
@@ -190,7 +209,7 @@ export default class ClientesComponent implements OnInit {
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
     this.clienteTabs.realignInkBar();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.nameBox.nativeElement.focus();
     });
   }
@@ -204,19 +223,25 @@ export default class ClientesComponent implements OnInit {
     this.selectedClient.fromInterface(this.form.value, false);
     this.cs
       .saveCliente(this.selectedClient.toInterface())
-      .subscribe((result) => {
-        this.cs.resetClientes();
-        this.resetForm();
-        this.dialog
-          .alert({
+      .subscribe((result: ClienteSaveResult): void => {
+        if (result.status === "ok") {
+          this.cs.resetClientes();
+          this.resetForm();
+          this.dialog.alert({
             title: "Datos guardados",
             content:
               'Los datos del cliente "' +
               this.selectedClient.nombreApellidos +
               '" han sido correctamente guardados.',
             ok: "Continuar",
-          })
-          .subscribe((result) => {});
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al guardar los datos del cliente.",
+            ok: "Continuar",
+          });
+        }
       });
   }
 
@@ -239,20 +264,28 @@ export default class ClientesComponent implements OnInit {
   }
 
   confirmDeleteCliente(): void {
-    this.cs.deleteCliente(this.selectedClient.id).subscribe((result) => {
-      this.cs.resetClientes();
-      this.start = true;
-      this.dialog
-        .alert({
-          title: "Cliente borrado",
-          content:
-            'El cliente "' +
-            this.selectedClient.nombreApellidos +
-            '" ha sido correctamente borrado.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-    });
+    this.cs
+      .deleteCliente(this.selectedClient.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.cs.resetClientes();
+          this.start = true;
+          this.dialog.alert({
+            title: "Cliente borrado",
+            content:
+              'El cliente "' +
+              this.selectedClient.nombreApellidos +
+              '" ha sido correctamente borrado.',
+            ok: "Continuar",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar el cliente.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   imprimirLOPD(): void {
@@ -264,16 +297,14 @@ export default class ClientesComponent implements OnInit {
       this.selectedClient.dniCif === null ||
       this.selectedClient.dniCif === ""
     ) {
-      this.dialog
-        .alert({
-          title: "Error",
-          content:
-            'El cliente "' +
-            this.selectedClient.nombreApellidos +
-            '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Error",
+        content:
+          'El cliente "' +
+          this.selectedClient.nombreApellidos +
+          '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
+        ok: "Continuar",
+      });
     } else {
       if (
         this.selectedClient.direccion === null ||
@@ -294,7 +325,7 @@ export default class ClientesComponent implements OnInit {
             ok: "Continuar",
             cancel: "Cancelar",
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             if (result === true) {
               this.openNuevaFactura(this.selectedClient);
             }
@@ -317,7 +348,7 @@ export default class ClientesComponent implements OnInit {
       EditFacturaModalComponent,
       modalnewProveedorData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();
       }
@@ -336,7 +367,7 @@ export default class ClientesComponent implements OnInit {
       EditFacturaModalComponent,
       modalnewProveedorData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();
       }
@@ -359,7 +390,7 @@ export default class ClientesComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmEnviarFactura(factura.id);
         }
@@ -367,26 +398,22 @@ export default class ClientesComponent implements OnInit {
   }
 
   confirmEnviarFactura(id: number): void {
-    this.cs.sendFactura(id).subscribe((result) => {
+    this.cs.sendFactura(id).subscribe((result: StatusResult): void => {
       if (result.status === "ok") {
-        this.dialog
-          .alert({
-            title: "Factura enviada",
-            content: "La factura ha sido correctamente enviada.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
+        this.dialog.alert({
+          title: "Factura enviada",
+          content: "La factura ha sido correctamente enviada.",
+          ok: "Continuar",
+        });
       } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              'Ocurrió un error al intentar enviar la factura a la dirección "' +
-              this.selectedClient.email +
-              '".',
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
+        this.dialog.alert({
+          title: "Error",
+          content:
+            'Ocurrió un error al intentar enviar la factura a la dirección "' +
+            this.selectedClient.email +
+            '".',
+          ok: "Continuar",
+        });
       }
     });
   }

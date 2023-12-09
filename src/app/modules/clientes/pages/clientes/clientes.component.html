@@ -1,4 +1,4 @@
-<otpv-header selectedOption="clientes"></otpv-header>
+<otpv-header selectedOption="clientes" />
 
 <mat-card class="clientes">
     <mat-card-content>
@@ -15,12 +15,13 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list>
+                    @for (cliente of cs.clientes | clientListFilter:search; track cliente.id) {
                     <button mat-list-item
-                            *ngFor="let cliente of cs.clientes | clientListFilter:search"
                             (click)="selectCliente(cliente)"
-                            [ngClass]="{'selected-client': selectedClient.id===cliente.id}">
+                            [ngClass]="{'selected-client': selectedClient.id === cliente.id}">
                         {{cliente.nombreApellidos}}
                     </button>
+                    }
                 </mat-action-list>
                 <div class="new-client">
                     <button mat-raised-button
@@ -125,10 +126,11 @@
                                         <label>Provincia</label>
                                         <mat-form-field class="max-width">
                                             <mat-select formControlName="provincia">
-                                                <mat-option *ngFor="let provincia of config.provincias"
-                                                            [value]="provincia.id">
+                                                @for (provincia of config.provincias; track provincia.id) {
+                                                <mat-option [value]="provincia.id">
                                                     {{provincia.name}}
                                                 </mat-option>
+                                                }
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -152,7 +154,8 @@
                                         Mismos datos para la facturación.
                                     </mat-checkbox>
                                 </div>
-                                <div *ngIf="!form.value.factIgual">
+                                @if (!form.value.factIgual) {
+                                <div>
                                     <div class="form-field half-width">
                                         <label>Nombre y apellidos</label>
                                         <mat-form-field class="max-width">
@@ -170,7 +173,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div *ngIf="!form.value.factIgual">
+                                <div>
                                     <div class="form-field half-width">
                                         <label>Teléfono</label>
                                         <mat-form-field class="max-width">
@@ -188,7 +191,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div *ngIf="!form.value.factIgual">
+                                <div>
                                     <div class="form-field max-width">
                                         <label>Dirección</label>
                                         <mat-form-field class="max-width">
@@ -198,7 +201,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div *ngIf="!form.value.factIgual">
+                                <div>
                                     <div class="form-field third-width">
                                         <label>Código postal</label>
                                         <mat-form-field class="max-width">
@@ -219,17 +222,19 @@
                                         <label>Provincia</label>
                                         <mat-form-field class="max-width">
                                             <mat-select formControlName="factProvincia">
-                                                <mat-option *ngFor="let provincia of config.provincias"
-                                                            [value]="provincia.id">
+                                                @for (provincia of config.provincias; track provincia.id) {
+                                                <mat-option [value]="provincia.id">
                                                     {{provincia.name}}
                                                 </mat-option>
+                                                }
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
+                                }
                             </mat-tab>
-                            <mat-tab label="FACTURAS"
-                                     *ngIf="form.value.id">
+                            @if (form.value.id) {
+                            <mat-tab label="FACTURAS">
                                 <table [ngClass]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
                                        mat-table
                                        [dataSource]="facturasDataSource"
@@ -286,13 +291,14 @@
                                                     (click)="enviarFactura($event, element)">
                                                 <mat-icon>email</mat-icon>
                                             </button>
+                                            @if (element.impresa) {
                                             <button class="facturas-btn"
                                                     type="button"
-                                                    *ngIf="element.impresa"
                                                     mat-icon-button
                                                     (click)="imprimirFactura($event, element)">
                                                 <mat-icon>print</mat-icon>
                                             </button>
+                                            }
                                         </td>
                                     </ng-container>
 
@@ -303,10 +309,11 @@
                                         (click)="selectFactura(i)"
                                         *matRowDef="let row; columns: facturasDisplayedColumns; let i = index;"></tr>
                                 </table>
-                                <div *ngIf="selectedClient.facturas.length === 0"
-                                     class="no-facturas">
+                                @if (selectedClient.facturas.length === 0) {
+                                <div class="no-facturas">
                                     Este cliente todavía no tiene ninguna factura.
                                 </div>
+                                }
                                 <div class="new-factura">
                                     <button mat-raised-button
                                             type="button"
@@ -316,8 +323,7 @@
                                     </button>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="ESTADÍSTICAS"
-                                     *ngIf="form.value.id">
+                            <mat-tab label="ESTADÍSTICAS">
                                 <div class="stats-box">
                                     <label>Últimas ventas</label>
                                     <div class="stats-table">
@@ -330,8 +336,8 @@
                                             <div class="stats-table-col">Importe</div>
                                         </div>
                                         <div class="stats-table-data">
-                                            <div class="stats-table-row"
-                                                 *ngFor="let venta of selectedClient.ultimasVentas">
+                                            @for (venta of selectedClient.ultimasVentas; track venta.fecha) {
+                                            <div class="stats-table-row">
                                                 <div class="stats-table-col stats-table-col-center">{{venta.fecha}}</div>
                                                 <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
                                                 <div class="stats-table-col stats-table-col-3">{{venta.nombre}}</div>
@@ -339,10 +345,12 @@
                                                 <div class="stats-table-col stats-table-col-right">{{venta.pvp | fixedNumber}} €</div>
                                                 <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
                                             </div>
-                                            <div class="stats-table-row"
-                                                 *ngIf="!selectedClient.ultimasVentas.length">
+                                            }
+                                            @empty {
+                                            <div class="stats-table-row">
                                                 <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -355,16 +363,18 @@
                                             <div class="stats-table-col">Importe</div>
                                         </div>
                                         <div class="stats-table-data">
-                                            <div class="stats-table-row"
-                                                 *ngFor="let venta of selectedClient.topVentas">
+                                            @for (venta of selectedClient.topVentas; track venta.localizador) {
+                                            <div class="stats-table-row">
                                                 <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
                                                 <div class="stats-table-col stats-table-col-5">{{venta.nombre}}</div>
                                                 <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
                                             </div>
-                                            <div class="stats-table-row"
-                                                 *ngIf="!selectedClient.topVentas.length">
+                                            }
+                                            @empty {
+                                            <div class="stats-table-row">
                                                 <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -378,10 +388,11 @@
                                                 <mat-select [(ngModel)]="stats.month"
                                                             [ngModelOptions]="{standalone: true}">
                                                     <mat-option [value]="-1">Todos</mat-option>
-                                                    <mat-option *ngFor="let month of monthList"
-                                                                [value]="month.id">
+                                                    @for (month of monthList; track month.id) {
+                                                    <mat-option [value]="month.id">
                                                         {{month.name}}
                                                     </mat-option>
+                                                    }
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
@@ -391,31 +402,35 @@
                                                 <mat-select [(ngModel)]="stats.year"
                                                             [ngModelOptions]="{standalone: true}">
                                                     <mat-option [value]="-1">Todos</mat-option>
-                                                    <mat-option *ngFor="let year of yearList"
-                                                                [value]="year">
+                                                    @for (year of yearList; track year) {
+                                                    <mat-option [value]="year">
                                                         {{year}}
                                                     </mat-option>
+                                                    }
                                                 </mat-select>
                                             </mat-form-field>
                                         </div>
                                     </div>
                                 </div>
                             </mat-tab>
+                            }
                         </mat-tab-group>
                         <div class="actions">
                             <div class="delete">
+                                @if (form.value.id) {
                                 <button mat-raised-button
                                         color="warn"
-                                        *ngIf="form.value.id"
                                         type="button"
                                         (click)="deleteCliente()">Eliminar</button>
+                                }
                             </div>
                             <div class="others">
+                                @if (form.value.id) {
                                 <button mat-raised-button
                                         color="primary"
-                                        *ngIf="form.value.id"
                                         type="button"
                                         (click)="imprimirLOPD()">Imprimir LOPD</button>
+                                }
                                 <button mat-raised-button
                                         color="primary"
                                         [disabled]="!form.dirty"

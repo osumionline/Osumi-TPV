@@ -124,3 +124,8 @@ export interface ReservasResult {
   status: string;
   list: ReservaInterface[];
 }
+
+export interface FacturaIVAInterface {
+  iva: number;
+  importe: number;
+}

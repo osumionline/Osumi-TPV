@@ -42,10 +42,11 @@
                             <label>Marca (*)</label>
                             <mat-form-field>
                                 <mat-select formControlName="idMarca">
-                                    <mat-option *ngFor="let marca of ms.marcas"
-                                                [value]="marca.id">
+                                    @for (marca of ms.marcas; track marca.id) {
+                                    <mat-option [value]="marca.id">
                                         {{marca.nombre}}
                                     </mat-option>
+                                    }
                                 </mat-select>
                             </mat-form-field>
                             <button mat-icon-button
@@ -60,31 +61,35 @@
                             <label>IVA (*)</label>
                             <mat-form-field>
                                 <mat-select formControlName="iva">
-                                    <mat-option *ngFor="let iva of ivaList"
-                                                [value]="iva">
+                                    @for (iva of ivaList; track iva) {
+                                    <mat-option [value]="iva">
                                         {{iva}} %
                                     </mat-option>
+                                    }
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="form-field margin-right"
-                             *ngIf="tipoIva==='re'">
+                        @if (tipoIva === 're') {
+                        <div class="form-field margin-right">
                             <label>RE (*)</label>
                             <mat-form-field>
                                 <mat-select formControlName="re">
-                                    <mat-option *ngFor="let re of reList"
-                                                [value]="re">
+                                    @for (re of reList; track re) {
+                                    <mat-option [value]="re">
                                         {{re}} %
                                     </mat-option>
+                                    }
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="form-field"
-                             *ngIf="mostrarWeb">
+                        }
+                        @if (mostrarWeb) {
+                        <div class="form-field">
                             <label>Venta online</label>
                             <mat-slide-toggle color="primary"
                                               formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
                         </div>
+                        }
                     </div>
 
                     <div>
@@ -92,10 +97,11 @@
                             <label>Proveedor</label>
                             <mat-form-field>
                                 <mat-select formControlName="idProveedor">
-                                    <mat-option *ngFor="let prov of ps.proveedores"
-                                                [value]="prov.id">
+                                    @for (prov of ps.proveedores; track prov.id) {
+                                    <mat-option [value]="prov.id">
                                         {{prov.nombre}}
                                     </mat-option>
+                                    }
                                 </mat-select>
                             </mat-form-field>
                             <button mat-icon-button
@@ -109,11 +115,12 @@
 												<label>Categoría</label>
 												<mat-form-field>
 													<mat-select formControlName="idCategoria">
-														<mat-option *ngFor="let cat of categoriesPlain"
-																	[value]="cat.id">
+                                                        @for (cat of categoriesPlain; track cat.id) {
+														<mat-option [value]="cat.id">
 															<span style="display: block;"
 																  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
 														</mat-option>
+                                                        }
 													</mat-select>
 												</mat-form-field>
 											</div-->
@@ -327,14 +334,15 @@
                                 (click)="fixCodBarras()">Añadir</button>
                     </div>
 
-                    <div class="cod-barras-empty"
-                         *ngIf="articulo.codigosBarras.length==0">
+                    @if (articulo.codigosBarras.length === 0) {
+                    <div class="cod-barras-empty">
                         Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
                     </div>
+                    }
 
                     <div class="cod-barras-list">
+                        @for (codBarras of articulo.codigosBarras; track codBarras.id) {
                         <div class="cod-barras-item"
-                             *ngFor="let codBarras of articulo.codigosBarras"
                              [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
                             <qrcode [qrdata]="codBarras.codigoBarras.toString()"
                                     [allowEmptyString]="true"
@@ -344,23 +352,25 @@
                                     [colorLight]="'#ffffff00'"
                                     [margin]="4"
                                     [scale]="1"
-                                    [width]="150"></qrcode>
+                                    [width]="150" />
                             <div class="cod-barras-item-cod">
                                 <span>{{ codBarras.codigoBarras }}</span>
+                                @if (!codBarras.porDefecto) {
                                 <button class="cod-barras-item-remove"
                                         mat-icon-button
-                                        *ngIf="!codBarras.porDefecto"
                                         aria-label="Borrar código de barras"
                                         title="Borrar código de barras"
                                         (click)="deleteCodBarras(codBarras)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
+                                }
                             </div>
                         </div>
+                        }
                     </div>
                 </mat-tab>
-                <mat-tab label="ESTADÍSTICAS"
-                         *ngIf="articulo.id !== null">
+                @if (articulo.id !== null) {
+                <mat-tab label="ESTADÍSTICAS">
                     <div class="stats-box">
                         <label>Estadísticas ventas</label>
                         <div class="stats-data"></div>
@@ -381,10 +391,11 @@
                                     <mat-select [(ngModel)]="statsVentas.month"
                                                 [ngModelOptions]="{standalone: true}">
                                         <mat-option [value]="-1">Todos</mat-option>
-                                        <mat-option *ngFor="let month of monthList"
-                                                    [value]="month.id">
+                                        @for (month of monthList; track month.id) {
+                                        <mat-option [value]="month.id">
                                             {{month.name}}
                                         </mat-option>
+                                        }
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -394,17 +405,18 @@
                                     <mat-select [(ngModel)]="statsVentas.year"
                                                 [ngModelOptions]="{standalone: true}">
                                         <mat-option [value]="-1">Todos</mat-option>
-                                        <mat-option *ngFor="let year of statsYearList"
-                                                    [value]="year">
+                                        @for (year of statsYearList; track year) {
+                                        <mat-option [value]="year">
                                             {{year}}
                                         </mat-option>
+                                        }
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
                     </div>
-                    <div class="stats-box stats-box-margin-bottom"
-                         *ngIf="articulo.id !== null">
+                    @if (articulo.id !== null) {
+                    <div class="stats-box stats-box-margin-bottom">
                         <label>Estadísticas web</label>
                         <div class="stats-data"></div>
                         <div class="stats-controls">
@@ -424,10 +436,11 @@
                                     <mat-select [(ngModel)]="statsWeb.month"
                                                 [ngModelOptions]="{standalone: true}">
                                         <mat-option [value]="-1">Todos</mat-option>
-                                        <mat-option *ngFor="let month of monthList"
-                                                    [value]="month.id">
+                                        @for (month of monthList; track month.id) {
+                                        <mat-option [value]="month.id">
                                             {{month.name}}
                                         </mat-option>
+                                        }
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -437,21 +450,26 @@
                                     <mat-select [(ngModel)]="statsWeb.year"
                                                 [ngModelOptions]="{standalone: true}">
                                         <mat-option [value]="-1">Todos</mat-option>
-                                        <mat-option *ngFor="let year of statsYearList"
-                                                    [value]="year">
+                                        @for (year of statsYearList; track year) {
+                                        <mat-option [value]="year">
                                             {{year}}
                                         </mat-option>
+                                        }
                                     </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
                     </div>
+                    }
                 </mat-tab>
-                <mat-tab *ngIf="mostrarWeb && articulo.ventaOnline">
+                }
+                @if (mostrarWeb && articulo.ventaOnline) {
+                <mat-tab>
                     <ng-template mat-tab-label>
                         WEB
-                        <mat-icon *ngIf="articulo.mostrarEnWeb"
-                                  class="tab-icon">check_circle</mat-icon>
+                        @if (articulo.mostrarEnWeb) {
+                        <mat-icon class="tab-icon">check_circle</mat-icon>
+                        }
                     </ng-template>
                     <div>
                         <div class="form-field-left-short">
@@ -488,25 +506,26 @@
                            accept="image/png, image/gif, image/jpeg"
                            (change)="onFotoChange($event)">
                     <div class="fotos-list">
-                        <ng-container *ngFor="let foto of articulo.fotosList; let i=index">
-                            <div *ngIf="foto.status !== 'deleted'"
-                                 class="foto-item">
-                                <img [src]="foto.url"
-                                     [alt]="articulo.nombre">
-                                <div class="foto-icon foto-icon-delete"
-                                     (click)="deleteFoto(i)">
-                                    <mat-icon>delete_forever</mat-icon>
-                                </div>
-                                <div class="foto-icon foto-icon-previous"
-                                     (click)="moveFoto('left', i)">
-                                    <mat-icon>arrow_back_ios</mat-icon>
-                                </div>
-                                <div class="foto-icon foto-icon-next"
-                                     (click)="moveFoto('right', i)">
-                                    <mat-icon>arrow_forward_ios</mat-icon>
-                                </div>
+                        @for (foto of articulo.fotosList; track foto.id; let i = $index) {
+                        @if (foto.status !== 'deleted') {
+                        <div class="foto-item">
+                            <img [src]="foto.url"
+                                 [alt]="articulo.nombre">
+                            <div class="foto-icon foto-icon-delete"
+                                 (click)="deleteFoto(i)">
+                                <mat-icon>delete_forever</mat-icon>
                             </div>
-                        </ng-container>
+                            <div class="foto-icon foto-icon-previous"
+                                 (click)="moveFoto('left', i)">
+                                <mat-icon>arrow_back_ios</mat-icon>
+                            </div>
+                            <div class="foto-icon foto-icon-next"
+                                 (click)="moveFoto('right', i)">
+                                <mat-icon>arrow_forward_ios</mat-icon>
+                            </div>
+                        </div>
+                        }
+                        }
                     </div>
                     <div class="fotos-add">
                         <button mat-raised-button
@@ -514,8 +533,9 @@
                                 (click)="addFoto()">Añadir foto</button>
                     </div>
                 </mat-tab>
-                <mat-tab label="HISTÓRICO"
-                         *ngIf="articulo.id!=null">
+                }
+                @if (articulo.id !== null) {
+                <mat-tab label="HISTÓRICO">
                     <div class="historico-table">
                         <table mat-table
                                [dataSource]="historicoArticuloDataSource"
@@ -545,12 +565,26 @@
                                 </th>
                                 <td mat-cell
                                     *matCellDef="let element">
-                                    <span *ngIf="element.tipo === 1">Venta</span>
-                                    <span *ngIf="element.tipo === 2">Venta (web)</span>
-                                    <span *ngIf="element.tipo === 3">Pedido</span>
-                                    <span *ngIf="element.tipo === 4">Manual</span>
-                                    <span *ngIf="element.tipo === 5">Inventario</span>
-                                    <span *ngIf="element.tipo === 6">Inventario (múltiple)</span>
+                                    @switch (element.tipo) {
+                                    @case (1) {
+                                    <span>Venta</span>
+                                    }
+                                    @case (2) {
+                                    <span>Venta (web)</span>
+                                    }
+                                    @case (3) {
+                                    <span>Pedido</span>
+                                    }
+                                    @case (4) {
+                                    <span>Manual</span>
+                                    }
+                                    @case (5) {
+                                    <span>Inventario</span>
+                                    }
+                                    @case (6) {
+                                    <span>Inventario (múltiple)</span>
+                                    }
+                                    }
                                 </td>
                             </ng-container>
 
@@ -661,10 +695,10 @@
                                        [pageSize]="historicoArticuloBuscador.num"
                                        [pageSizeOptions]="[20, 50, 100, 200]"
                                        [pageIndex]="historicoArticuloBuscador.pagina"
-                                       (page)="changePageHistoricoArticulo($event)">
-                        </mat-paginator>
+                                       (page)="changePageHistoricoArticulo($event)" />
                     </div>
                 </mat-tab>
+                }
                 <mat-tab label="OBSERVACIONES">
                     <div>
                         <div class="form-field max-width">
@@ -689,8 +723,8 @@
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab label="BAJA"
-                         *ngIf="articulo.id!=null">
+                @if (articulo.id !== null) {
+                <mat-tab label="BAJA">
                     <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados históricos.</p>
                     <div class="dar-de-baja">
                         <button mat-raised-button
@@ -699,12 +733,14 @@
                                 (click)="darDeBaja()">Dar de baja</button>
                     </div>
                 </mat-tab>
+                }
             </mat-tab-group>
             <div class="articulo-save">
+                @if (articulo.id) {
                 <button mat-button
-                        *ngIf="articulo.id"
                         (click)="duplicar()"
                         type="button">Duplicar</button>
+                }
                 <button mat-button
                         (click)="cancelar()"
                         type="button">Cancelar</button>

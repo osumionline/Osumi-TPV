@@ -7,9 +7,17 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import { urldecode } from "@osumi/tools";
 import {
@@ -23,7 +31,6 @@ import {
   StatusResult,
 } from "src/app/interfaces/interfaces";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
@@ -41,10 +48,15 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatIconModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatPaginatorModule,
   ],
 })
 export class AlmacenInventarioComponent
@@ -148,7 +160,7 @@ export class AlmacenInventarioComponent
 
   saveAll(): void {
     const list: InventarioItemInterface[] = [];
-    for (let item of this.list) {
+    for (const item of this.list) {
       if (item.pvpChanged || item.stockChanged || item.codigoBarras !== null) {
         list.push(item.toInterface());
       }
@@ -158,8 +170,8 @@ export class AlmacenInventarioComponent
       .subscribe((result: StatusIdMessageErrorsResult): void => {
         const errorList: string[] = [];
 
-        for (let status of result.list) {
-          let ind: number = this.list.findIndex(
+        for (const status of result.list) {
+          const ind: number = this.list.findIndex(
             (x: InventarioItem): boolean => {
               return x.id === status.id;
             }
@@ -181,15 +193,13 @@ export class AlmacenInventarioComponent
           }
         }
         if (errorList.length > 0) {
-          this.dialog
-            .alert({
-              title: "Error",
-              content:
-                "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
-                errorList.join("<br>"),
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content:
+              "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
+              errorList.join("<br>"),
+            ok: "Continuar",
+          });
         }
       });
   }
@@ -206,13 +216,11 @@ export class AlmacenInventarioComponent
             item.codigoBarras = null;
           }
         } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: urldecode(result.message),
-              ok: "Continuar",
-            })
-            .subscribe((result: boolean): void => {});
+          this.dialog.alert({
+            title: "Error",
+            content: urldecode(result.message),
+            ok: "Continuar",
+          });
         }
       });
   }
@@ -231,11 +239,19 @@ export class AlmacenInventarioComponent
           this.as
             .deleteInventario(item.id)
             .subscribe((result: StatusResult): void => {
-              const ind: number = this.list.findIndex(
-                (x: InventarioItem): boolean => x.id === item.id
-              );
-              this.list.splice(ind, 1);
-              this.inventarioDataSource.data = this.list;
+              if (result.status === "ok") {
+                const ind: number = this.list.findIndex(
+                  (x: InventarioItem): boolean => x.id === item.id
+                );
+                this.list.splice(ind, 1);
+                this.inventarioDataSource.data = this.list;
+              } else {
+                this.dialog.alert({
+                  title: "Error",
+                  content: "Ocurrió un error al borrar el artículo.",
+                  ok: "Continuar",
+                });
+              }
             });
         }
       });
@@ -246,8 +262,8 @@ export class AlmacenInventarioComponent
       const data: Blob = new Blob([result], {
         type: "text/csv;charset=utf-8",
       });
-      let url: string = window.URL.createObjectURL(data);
-      let a: HTMLAnchorElement = document.createElement("a");
+      const url: string = window.URL.createObjectURL(data);
+      const a: HTMLAnchorElement = document.createElement("a");
       a.href = url;
       a.download = "inventario.csv";
       a.click();

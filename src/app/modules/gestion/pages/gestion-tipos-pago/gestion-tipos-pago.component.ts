@@ -8,14 +8,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatTabGroup } from "@angular/material/tabs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
+  TiposPagoResult,
 } from "src/app/interfaces/tipo-pago.interface";
 import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-list-filter.pipe";
 import { ApiService } from "src/app/services/api.service";
@@ -31,11 +39,18 @@ import { GestionService } from "src/app/services/gestion.service";
   styleUrls: ["./gestion-tipos-pago.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
     PayTypeListFilterPipe,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatListModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatCheckboxModule,
   ],
 })
 export default class GestionTiposPagoComponent implements OnInit {
@@ -70,7 +85,7 @@ export default class GestionTiposPagoComponent implements OnInit {
       this.router.navigate(["/gestion"]);
       return;
     }
-    setTimeout(() => {
+    setTimeout((): void => {
       this.searchBox.nativeElement.focus();
     }, 0);
   }
@@ -82,12 +97,23 @@ export default class GestionTiposPagoComponent implements OnInit {
       event.currentIndex
     );
     const orderList: TiposPagoOrderInterface[] = [];
-    for (let ind in this.config.tiposPago) {
-      let i: number = parseInt(ind);
+    for (const ind in this.config.tiposPago) {
+      const i: number = parseInt(ind);
       this.config.tiposPago[ind].orden = i;
       orderList.push({ id: this.config.tiposPago[ind].id, orden: i });
     }
-    this.as.saveTipoPagoOrden(orderList).subscribe((result) => {});
+    this.as
+      .saveTipoPagoOrden(orderList)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "error") {
+          this.dialog.alert({
+            title: "Error",
+            content:
+              "Ocurrió un error al guardar el orden de los tipos de pago.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   selectTipoPago(tipoPago: TipoPago): void {
@@ -125,7 +151,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     ) {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         this.logo = reader.result as string;
         (<HTMLInputElement>document.getElementById("logo-file")).value = "";
       };
@@ -138,21 +164,27 @@ export default class GestionTiposPagoComponent implements OnInit {
 
     this.selectedTipoPago.fromInterface(data, false);
 
-    this.as.saveTipoPago(data).subscribe((result) => {
-      this.as.loadTiposPago().subscribe((result) => {
-        this.config.tiposPago = this.cms.getTiposPago(result.list);
-      });
-      this.resetForm();
-      this.dialog
-        .alert({
+    this.as.saveTipoPago(data).subscribe((result: IdSaveResult): void => {
+      if (result.status === "ok") {
+        this.as.loadTiposPago().subscribe((result: TiposPagoResult): void => {
+          this.config.tiposPago = this.cms.getTiposPago(result.list);
+        });
+        this.resetForm();
+        this.dialog.alert({
           title: "Datos guardados",
           content:
             'Los datos del tipo de pago "' +
             this.selectedTipoPago.nombre +
             '" han sido correctamente guardados.',
           ok: "Continuar",
-        })
-        .subscribe((result) => {});
+        });
+      } else {
+        this.dialog.alert({
+          title: "Error",
+          content: "Ocurrió un error al guardar el tipo de pago.",
+          ok: "Continuar",
+        });
+      }
     });
   }
 
@@ -167,7 +199,7 @@ export default class GestionTiposPagoComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteTipoPago();
         }
@@ -175,21 +207,29 @@ export default class GestionTiposPagoComponent implements OnInit {
   }
 
   confirmDeleteTipoPago(): void {
-    this.as.deleteTipoPago(this.selectedTipoPago.id).subscribe((result) => {
-      this.as.loadTiposPago().subscribe((result) => {
-        this.config.tiposPago = this.cms.getTiposPago(result.list);
+    this.as
+      .deleteTipoPago(this.selectedTipoPago.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.as.loadTiposPago().subscribe((result: TiposPagoResult): void => {
+            this.config.tiposPago = this.cms.getTiposPago(result.list);
+          });
+          this.start = true;
+          this.dialog.alert({
+            title: "Tipo de pago borrado",
+            content:
+              'El tipo de pago "' +
+              this.selectedTipoPago.nombre +
+              '" ha sido correctamente borrado.',
+            ok: "Continuar",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar el tipo de pago.",
+            ok: "Continuar",
+          });
+        }
       });
-      this.start = true;
-      this.dialog
-        .alert({
-          title: "Tipo de pago borrado",
-          content:
-            'El tipo de pago "' +
-            this.selectedTipoPago.nombre +
-            '" ha sido correctamente borrado.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-    });
   }
 }

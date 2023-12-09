@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatTabChangeEvent } from "@angular/material/tabs";
+import { MatCardModule } from "@angular/material/card";
+import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { ComprasPedidosListComponent } from "src/app/modules/compras/components/compras-pedidos-list/compras-pedidos-list.component";
 import { MarcasComponent } from "src/app/modules/compras/components/marcas/marcas.component";
 import { ProveedoresComponent } from "src/app/modules/compras/components/proveedores/proveedores.component";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { ComprasService } from "src/app/services/compras.service";
 
@@ -14,11 +14,12 @@ import { ComprasService } from "src/app/services/compras.service";
   templateUrl: "./compras.component.html",
   styleUrls: ["./compras.component.scss"],
   imports: [
-    MaterialModule,
     ProveedoresComponent,
     MarcasComponent,
     ComprasPedidosListComponent,
     HeaderComponent,
+    MatCardModule,
+    MatTabsModule,
   ],
 })
 export default class ComprasComponent implements OnInit {

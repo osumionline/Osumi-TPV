@@ -1,10 +1,10 @@
-<otpv-header selectedOption="gestion"></otpv-header>
+<otpv-header selectedOption="gestion" />
 
-<otpv-employee-login *ngIf="empleado === null"
-                     (successEvent)="loginSuccess($event)"></otpv-employee-login>
-
-<div *ngIf="empleado !== null"
-     class="gestion-options">
+@if (empleado === null) {
+<otpv-employee-login (successEvent)="loginSuccess($event)" />
+}
+@else {
+<div class="gestion-options">
     <label class="label-hello">Hola {{empleado.nombre}}, elige una de las siguientes opciones:</label>
     <label class="label-close">
         <button mat-stroked-button
@@ -31,3 +31,4 @@
         Copias de seguridad
     </button>
 </div>
+}

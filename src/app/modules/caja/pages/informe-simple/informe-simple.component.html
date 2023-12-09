@@ -42,8 +42,12 @@
         <td class="right"
             mat-cell
             *matCellDef="let element">
-            <span *ngIf="element.minTicket === null && element.maxTicket === null">------</span>
-            <span *ngIf="element.minTicket !== null && element.maxTicket !== null">{{element.efectivo | fixedNumber}} €</span>
+            @if (element.minTicket === null && element.maxTicket === null) {
+            <span>------</span>
+            }
+            @if (element.minTicket !== null && element.maxTicket !== null) {
+            <span>{{element.efectivo | fixedNumber}} €</span>
+            }
         </td>
         <td class="right"
             mat-footer-cell
@@ -76,8 +80,12 @@
         <td class="right"
             mat-cell
             *matCellDef="let element">
-            <span *ngIf="element.minTicket === null && element.maxTicket === null">------</span>
-            <span *ngIf="element.minTicket !== null && element.maxTicket !== null">{{element.totalDia | fixedNumber}} €</span>
+            @if (element.minTicket === null && element.maxTicket === null) {
+            <span>------</span>
+            }
+            @if (element.minTicket !== null && element.maxTicket !== null) {
+            <span>{{element.totalDia | fixedNumber}} €</span>
+            }
         </td>
         <td class="right"
             mat-footer-cell

@@ -1,7 +1,8 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
 import { Router } from "@angular/router";
-import { MaterialModule } from "src/app/modules/material/material.module";
+import { StatusResult } from "src/app/interfaces/interfaces";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { ApiService } from "src/app/services/api.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -11,7 +12,7 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-main",
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.scss"],
-  imports: [CommonModule, MaterialModule, HeaderComponent],
+  imports: [HeaderComponent, MatCardModule, MatButtonModule],
 })
 export default class MainComponent implements OnInit {
   title: string = "";
@@ -39,10 +40,12 @@ export default class MainComponent implements OnInit {
   }
 
   openBox(): void {
-    this.as.openBox().subscribe((result) => {
-      this.isOpened = true;
-      this.config.isOpened = true;
-      this.router.navigate(["/ventas"]);
+    this.as.openBox().subscribe((result: StatusResult): void => {
+      if (result.status === "ok") {
+        this.isOpened = true;
+        this.config.isOpened = true;
+        this.router.navigate(["/ventas"]);
+      }
     });
   }
 }

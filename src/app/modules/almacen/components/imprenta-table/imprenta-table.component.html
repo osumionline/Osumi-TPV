@@ -1,11 +1,12 @@
-<div *ngIf="list"
-     class="table">
-    <div *ngFor="let row of list">
+@if (list) {
+<div class="table">
+    @for (row of list; track row) {
+    <div>
         <div class="row">
-            <div *ngFor="let item of row"
-                 class="col">
-                <div class="content"
-                     *ngIf="item && item.localizador">
+            @for (item of row; track item) {
+            <div class="col">
+                @if (item && item.localizador) {
+                <div class="content">
                     <div class="qr-code">
                         <qrcode [qrdata]="item.localizador.toString()"
                                 [allowEmptyString]="true"
@@ -15,16 +16,21 @@
                                 [colorLight]="'#ffffff00'"
                                 [margin]="0"
                                 [cssClass]="'qr-fill'"
-                                [scale]="1"></qrcode>
+                                [scale]="1" />
                     </div>
                     <div class="info">
                         <div class="info-nombre">{{ item.nombre }}</div>
                         <div class="info-marca">{{ item.marca }}</div>
-                        <div *ngIf="mostrarPVP"
-                             class="info-pvp">{{ item.pvp | fixedNumber }} €</div>
+                        @if (mostrarPVP) {
+                        <div class="info-pvp">{{ item.pvp | fixedNumber }} €</div>
+                        }
                     </div>
                 </div>
+                }
             </div>
+            }
         </div>
     </div>
+    }
 </div>
+}

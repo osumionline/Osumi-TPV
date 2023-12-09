@@ -1,4 +1,4 @@
-<otpv-header selectedOption="gestion"></otpv-header>
+<otpv-header selectedOption="gestion" />
 
 <mat-card class="tipos-pago">
     <mat-card-content>
@@ -16,9 +16,9 @@
                 </mat-form-field>
                 <mat-action-list cdkDropList
                                  (cdkDropListDropped)="onDrop($event)">
+                    @for (tipoPago of config.tiposPago | payTypeListFilter:search; track tipoPago.id) {
                     <button mat-list-item
                             cdkDragHandle
-                            *ngFor="let tipoPago of config.tiposPago | payTypeListFilter:search"
                             (click)="selectTipoPago(tipoPago)"
                             class="drag-item"
                             [ngClass]="{'selected-tipo-pago': selectedTipoPago.id===tipoPago.id}"
@@ -26,6 +26,7 @@
                         <mat-icon>drag_indicator</mat-icon>
                         {{tipoPago.nombre}}
                     </button>
+                    }
                 </mat-action-list>
                 <div class="new-tipo-pago">
                     <button mat-raised-button
@@ -77,11 +78,12 @@
                                 </div>
                                 <div class="actions">
                                     <div class="delete">
+                                        @if (form.value.id) {
                                         <button mat-raised-button
                                                 color="warn"
-                                                *ngIf="form.value.id"
                                                 type="button"
                                                 (click)="deleteTipoPago()">Eliminar</button>
+                                        }
                                     </div>
                                     <div class="others">
                                         <button mat-raised-button

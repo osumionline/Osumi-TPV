@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
-import { BuscadorAlmacenInterface } from "src/app/interfaces/almacen.interface";
+import {
+  BuscadorAlmacenInterface,
+  BuscadorAlmacenResult,
+} from "src/app/interfaces/almacen.interface";
 import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -13,7 +15,7 @@ import { ClassMapperService } from "src/app/services/class-mapper.service";
   selector: "otpv-inventario-print",
   templateUrl: "./inventario-print.component.html",
   styleUrls: ["./inventario-print.component.scss"],
-  imports: [MaterialModule, FixedNumberPipe],
+  imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InventarioPrintComponent implements OnInit {
   buscador: BuscadorAlmacenInterface = null;
@@ -42,9 +44,11 @@ export default class InventarioPrintComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       const data: string = params.data;
       try {
-        const objStr: string = atob(data);
+        const objStr: string = window.atob(data);
         this.buscador = JSON.parse(objStr);
-      } catch (error) {}
+      } catch (error) {
+        this.buscador = null;
+      }
       if (this.buscador === null) {
         alert("¡Ocurrió un error al obtener los datos!");
       } else {
@@ -55,13 +59,15 @@ export default class InventarioPrintComponent implements OnInit {
 
   load(): void {
     this.buscador.num = null;
-    this.as.getInventario(this.buscador).subscribe((result) => {
-      this.list = this.cms.getInventarioItems(result.list);
-      this.inventarioDataSource.data = this.list;
+    this.as
+      .getInventario(this.buscador)
+      .subscribe((result: BuscadorAlmacenResult): void => {
+        this.list = this.cms.getInventarioItems(result.list);
+        this.inventarioDataSource.data = this.list;
 
-      setTimeout(() => {
-        window.print();
+        setTimeout((): void => {
+          window.print();
+        });
       });
-    });
   }
 }

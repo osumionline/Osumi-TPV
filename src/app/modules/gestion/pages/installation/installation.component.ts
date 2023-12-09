@@ -1,15 +1,24 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatCheckboxChange } from "@angular/material/checkbox";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
 import {
   AppDataInterface,
   IvaOptionInterface,
   IvaReOptionInterface,
   MarginOptionInterface,
+  StatusResult,
 } from "src/app/interfaces/interfaces";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { ApiService } from "src/app/services/api.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -21,7 +30,18 @@ import { environment } from "src/environments/environment";
   selector: "otpv-installation",
   templateUrl: "./installation.component.html",
   styleUrls: ["./installation.component.scss"],
-  imports: [CommonModule, MaterialModule, FormsModule, RouterModule],
+  imports: [
+    FormsModule,
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatCheckboxModule,
+  ],
 })
 export default class InstallationComponent implements OnInit {
   back: boolean = false;
@@ -125,19 +145,19 @@ export default class InstallationComponent implements OnInit {
       this.showEmployee = false;
 
       this.selectedOption = this.config.tipoIva;
-      for (let ivaOption of this.config.ivaOptions) {
-        let ivaInd: number = this.ivaOptionsList.findIndex(
+      for (const ivaOption of this.config.ivaOptions) {
+        const ivaInd: number = this.ivaOptionsList.findIndex(
           (x: IvaOptionInterface): boolean => x.option === ivaOption.iva
         );
         this.ivaOptionsList[ivaInd].selected = true;
       }
-      for (let i in this.ivaOptionsList) {
+      for (const i in this.ivaOptionsList) {
         if (this.ivaOptionsList[i].selected) {
           this.optionsList.push(parseInt(i));
         }
       }
-      for (let marginOption of this.config.marginList) {
-        let marginInd: number = this.marginList.findIndex(
+      for (const marginOption of this.config.marginList) {
+        const marginInd: number = this.marginList.findIndex(
           (x: MarginOptionInterface): boolean => x.value === marginOption
         );
         this.marginList[marginInd].checked = true;
@@ -164,7 +184,7 @@ export default class InstallationComponent implements OnInit {
     ) {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         this.logo = reader.result as string;
         (<HTMLInputElement>document.getElementById("logo-file")).value = "";
       };
@@ -179,14 +199,16 @@ export default class InstallationComponent implements OnInit {
     if (ev.checked) {
       this.optionsList.push(i);
     } else {
-      const ind: number = this.optionsList.findIndex((x) => x === i);
+      const ind: number = this.optionsList.findIndex(
+        (x: number): boolean => x === i
+      );
       this.optionsList.splice(ind, 1);
     }
     this.optionsList.sort((a, b) => a - b);
   }
 
   selectAllIvas(): void {
-    for (let i in this.ivaOptionsList) {
+    for (const i in this.ivaOptionsList) {
       this.ivaOptionsList[i].selected = true;
       this.optionsList.push(parseInt(i));
     }
@@ -194,19 +216,19 @@ export default class InstallationComponent implements OnInit {
 
   selectNoneIvas(): void {
     this.optionsList = [];
-    for (let i in this.ivaOptionsList) {
+    for (const i in this.ivaOptionsList) {
       this.ivaOptionsList[i].selected = false;
     }
   }
 
   selectAllMargins(): void {
-    for (let i in this.marginList) {
+    for (const i in this.marginList) {
       this.marginList[i].checked = true;
     }
   }
 
   selectNoneMargins(): void {
-    for (let i in this.marginList) {
+    for (const i in this.marginList) {
       this.marginList[i].checked = false;
     }
   }
@@ -307,7 +329,7 @@ export default class InstallationComponent implements OnInit {
       this.paso = 2;
       return;
     }
-    for (let option of this.optionsList) {
+    for (const option of this.optionsList) {
       this.selectedIvaList.push(this.ivaOptionsList[option].option);
       if (this.selectedOption === "re") {
         this.selectedReList.push(this.reOptionsList[option]);
@@ -371,34 +393,36 @@ export default class InstallationComponent implements OnInit {
     };
 
     this.saving = true;
-    this.as.saveInstallation(data).subscribe((result) => {
-      if (result.status === "ok") {
-        this.dialog
-          .alert({
-            title: "Información",
-            content:
-              "Los datos han sido guardados, puedes continuar con la aplicación. ",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {
-            this.config.status = "new";
-            this.config.start().then(() => {
-              if (!this.gs.empleado) {
-                this.router.navigate(["/"]);
-              } else {
-                this.router.navigate(["/gestion"]);
-              }
+    this.as
+      .saveInstallation(data)
+      .subscribe((result: StatusResult): boolean => {
+        if (result.status === "ok") {
+          this.dialog
+            .alert({
+              title: "Información",
+              content:
+                "Los datos han sido guardados, puedes continuar con la aplicación. ",
+              ok: "Continuar",
+            })
+            .subscribe((): void => {
+              this.config.status = "new";
+              this.config.start().then((): void => {
+                if (!this.gs.empleado) {
+                  this.router.navigate(["/"]);
+                } else {
+                  this.router.navigate(["/gestion"]);
+                }
+              });
             });
+        } else {
+          this.saving = false;
+          this.dialog.alert({
+            title: "Error",
+            content: "¡Ocurrió un error al guardar los datos!",
+            ok: "Continuar",
           });
-      } else {
-        this.saving = false;
-        this.dialog.alert({
-          title: "Error",
-          content: "¡Ocurrió un error al guardar los datos!",
-          ok: "Continuar",
-        });
-        return false;
-      }
-    });
+          return false;
+        }
+      });
   }
 }

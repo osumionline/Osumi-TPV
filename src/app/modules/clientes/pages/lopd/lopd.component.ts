@@ -1,6 +1,6 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
+import { ClienteResult } from "src/app/interfaces/cliente.interface";
 import { Cliente } from "src/app/model/clientes/cliente.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ClientesService } from "src/app/services/clientes.service";
@@ -11,7 +11,6 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-lopd",
   templateUrl: "./lopd.component.html",
   styleUrls: ["./lopd.component.scss"],
-  imports: [CommonModule],
 })
 export default class LopdComponent implements OnInit {
   nombre: string = "";
@@ -31,8 +30,8 @@ export default class LopdComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.cs.getCliente(params.id).subscribe((result) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
+      this.cs.getCliente(params.id).subscribe((result: ClienteResult): void => {
         this.nombre = this.config.nombre;
         this.poblacion = this.config.poblacion;
 
@@ -43,7 +42,7 @@ export default class LopdComponent implements OnInit {
 
         this.cliente = this.cms.getCliente(result.cliente);
 
-        setTimeout(() => {
+        setTimeout((): void => {
           window.print();
         });
       });

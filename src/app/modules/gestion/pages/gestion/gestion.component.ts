@@ -1,8 +1,8 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import { Router } from "@angular/router";
 import { Empleado } from "src/app/model/tpv/empleado.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { rolList } from "src/app/modules/shared/rol.class";
@@ -15,10 +15,10 @@ import { GestionService } from "src/app/services/gestion.service";
   templateUrl: "./gestion.component.html",
   styleUrls: ["./gestion.component.scss"],
   imports: [
-    CommonModule,
-    MaterialModule,
     HeaderComponent,
     EmployeeLoginComponent,
+    MatButtonModule,
+    MatIconModule,
   ],
 })
 export default class GestionComponent implements OnInit {
@@ -53,14 +53,12 @@ export default class GestionComponent implements OnInit {
       this.gs.empleado = this.empleado;
       this.router.navigate(["/gestion/installation"]);
     } else {
-      this.dialog
-        .alert({
-          title: "Atención",
-          content:
-            'No tienes permisos para acceder a la opción "Ajustes iniciales"',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Atención",
+        content:
+          'No tienes permisos para acceder a la opción "Ajustes iniciales"',
+        ok: "Continuar",
+      });
     }
   }
 
@@ -77,13 +75,11 @@ export default class GestionComponent implements OnInit {
       this.gs.empleado = this.empleado;
       this.router.navigate(["/gestion/empleados"]);
     } else {
-      this.dialog
-        .alert({
-          title: "Atención",
-          content: 'No tienes permisos para acceder a la opción "Empleados"',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Atención",
+        content: 'No tienes permisos para acceder a la opción "Empleados"',
+        ok: "Continuar",
+      });
     }
   }
 
@@ -92,14 +88,11 @@ export default class GestionComponent implements OnInit {
       this.gs.empleado = this.empleado;
       this.router.navigate(["/gestion/tipos-pago"]);
     } else {
-      this.dialog
-        .alert({
-          title: "Atención",
-          content:
-            'No tienes permisos para acceder a la opción "Tipos de pago"',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
+      this.dialog.alert({
+        title: "Atención",
+        content: 'No tienes permisos para acceder a la opción "Tipos de pago"',
+        ok: "Continuar",
+      });
     }
   }
 

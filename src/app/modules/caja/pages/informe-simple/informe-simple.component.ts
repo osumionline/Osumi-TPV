@@ -1,12 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import { urldecode } from "@osumi/tools";
 import { InformeMensualResult } from "src/app/interfaces/informes.interface";
 import { Month } from "src/app/interfaces/interfaces";
 import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -17,7 +16,7 @@ import { InformesService } from "src/app/services/informes.service";
   selector: "otpv-informe-simple",
   templateUrl: "./informe-simple.component.html",
   styleUrls: ["./informe-simple.component.scss"],
-  imports: [CommonModule, MaterialModule, FixedNumberPipe],
+  imports: [CommonModule, FixedNumberPipe, MatTableModule],
 })
 export default class InformeSimpleComponent implements OnInit {
   loaded: boolean = false;
@@ -63,7 +62,7 @@ export default class InformeSimpleComponent implements OnInit {
         .subscribe((result: InformeMensualResult): void => {
           this.list = this.cms.getInformeMensualItems(result.list);
           this.checkOtros();
-          for (let otro of this.otrosList) {
+          for (const otro of this.otrosList) {
             this.informeDisplayedColumns.push(otro);
             this.otrosNames[otro] = urldecode(otro);
           }
@@ -71,7 +70,7 @@ export default class InformeSimpleComponent implements OnInit {
           this.informeDisplayedColumns.push("suma");
           this.informeDataSource.data = this.list;
           let hasResults: boolean = false;
-          for (let item of this.list) {
+          for (const item of this.list) {
             if (item.minTicket !== null && item.minTicket < this.minTicket) {
               this.minTicket = item.minTicket;
               hasResults = true;
@@ -99,8 +98,8 @@ export default class InformeSimpleComponent implements OnInit {
   }
 
   checkOtros(): void {
-    for (let item of this.list) {
-      for (let otro of item.otros) {
+    for (const item of this.list) {
+      for (const otro of item.otros) {
         if (!this.otrosList.includes(otro.nombre)) {
           this.otrosList.push(otro.nombre);
         }
@@ -111,7 +110,7 @@ export default class InformeSimpleComponent implements OnInit {
 
   getTotalOtros(key: string): number {
     let total: number = 0;
-    for (let item of this.list) {
+    for (const item of this.list) {
       if (item.getOtrosValue(key) !== null) {
         total += item.getOtrosValue(key);
       }

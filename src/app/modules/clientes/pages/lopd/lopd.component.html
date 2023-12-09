@@ -1,5 +1,5 @@
-<div *ngIf="cliente"
-     class="lopd">
+@if (cliente) {
+<div class="lopd">
     <div class="block">
         <strong>{{nombre}}</strong> es el <strong>Responsable del tratamiento</strong> de los datos personales del <strong>Interesado/a</strong> y le informa que estos datos serán tratados de conformidad con lo dispuesto en el Reglamento (UE) 2016/679 de 27 de abril (GDPR) y la Ley Orgánica 3/2018 de 5 de diciembre (LOPDGDD), por lo que se le facilita la siguiente información del tratamiento:
     </div>
@@ -55,3 +55,4 @@
         </div>
     </div>
 </div>
+}

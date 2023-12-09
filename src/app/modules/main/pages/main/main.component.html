@@ -1,13 +1,14 @@
-<otpv-header></otpv-header>
+<otpv-header />
 
-<div class="loading"
-	 *ngIf="loading">
+@if (loading) {
+<div class="loading">
 	<img src="assets/loading.svg"
 		 alt="Cargando...">
 </div>
+}
 
-<div class="not-opened"
-	 *ngIf="!loading && !isOpened">
+@if (!loading && !isOpened) {
+<div class="not-opened">
 	<mat-card>
 		<mat-card-content>
 			<h1>{{title}}</h1>
@@ -19,3 +20,4 @@
 		</mat-card-content>
 	</mat-card>
 </div>
+}

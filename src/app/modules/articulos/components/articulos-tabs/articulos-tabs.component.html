@@ -1,13 +1,14 @@
 <div class="tab-container">
     <div class="tab-list">
+        @for (tab of ars.list; track tab.id; let i = $index) {
         <div class="tab-item"
-             *ngFor="let tab of ars.list; let i = index"
-             [ngClass]="{'tab-selected': ars.selected==i}"
+             [ngClass]="{'tab-selected': ars.selected === i}"
              (click)="selectTab(i)">
             {{tab.tabName}}
             <mat-icon class="tab-icon"
                       (click)="closeTab(i)">close</mat-icon>
         </div>
+        }
         <div class="new-tab"
              (click)="newTab()"
              matTooltip="Nuevo artículo">

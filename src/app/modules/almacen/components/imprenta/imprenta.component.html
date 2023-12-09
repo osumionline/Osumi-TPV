@@ -5,18 +5,19 @@
             <input matInput
                    placeholder="Nombre del artículo"
                    [(ngModel)]="search"
-                   (keyup)="searchStart($event)"
+                   (keyup)="searchStart()"
                    #searchBox>
             <span matTextPrefix>
                 <mat-icon>search</mat-icon>
             </span>
         </mat-form-field>
         <mat-action-list>
+            @for (articulo of articulos; track articulo.localizador) {
             <button mat-list-item
-                    *ngFor="let articulo of articulos"
                     (click)="selectArticulo(articulo)">
                 {{articulo.nombre}}
             </button>
+            }
         </mat-action-list>
     </div>
     <div class="col-seleccionados">
@@ -32,9 +33,9 @@
         <div class="seleccionados-list"
              cdkDropList
              (cdkDropListDropped)="drop($event)">
+            @for (articulo of seleccionados; track articulo.localizador; let i = $index) {
             <div class="seleccionado-item"
-                 cdkDrag
-                 *ngFor="let articulo of seleccionados; let i = index">
+                 cdkDrag>
                 <div class="seleccionado-options">
                     <mat-icon class="seleccionado-drag"
                               cdkDragHandle>drag_indicator</mat-icon>
@@ -60,10 +61,11 @@
                     <span (click)="addLineaNum(i, 1)">+</span>
                 </div>
             </div>
+            }
         </div>
     </div>
     <div class="col-tabla">
-        <otpv-imprenta-table #tabla></otpv-imprenta-table>
+        <otpv-imprenta-table #tabla />
         <div class="col-tabla-options">
             <div class="col-options-config">
                 <div class="form-field margin-right">

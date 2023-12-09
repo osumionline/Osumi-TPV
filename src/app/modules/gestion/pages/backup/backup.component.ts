@@ -1,7 +1,9 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatListModule } from "@angular/material/list";
+import { BackupResult, StatusResult } from "src/app/interfaces/interfaces";
 import { Backup } from "src/app/model/tpv/backup.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
@@ -13,7 +15,7 @@ import { GestionService } from "src/app/services/gestion.service";
   selector: "otpv-backup",
   templateUrl: "./backup.component.html",
   styleUrls: ["./backup.component.scss"],
-  imports: [CommonModule, MaterialModule, HeaderComponent],
+  imports: [HeaderComponent, MatCardModule, MatButtonModule, MatListModule],
 })
 export default class BackupComponent implements OnInit {
   backups: Backup[] = [];
@@ -30,13 +32,15 @@ export default class BackupComponent implements OnInit {
   }
 
   loadBackups(): void {
-    this.gs.getBackups(this.config.backupApiKey).subscribe((result) => {
-      this.backups = this.cms.getBackups(result.list);
-    });
+    this.gs
+      .getBackups(this.config.backupApiKey)
+      .subscribe((result: BackupResult): void => {
+        this.backups = this.cms.getBackups(result.list);
+      });
   }
 
   newBackup(): void {
-    this.gs.newBackup().subscribe((result) => {
+    this.gs.newBackup().subscribe((result: StatusResult): void => {
       if (result.status === "ok") {
         this.dialog
           .alert({
@@ -45,18 +49,15 @@ export default class BackupComponent implements OnInit {
               "La nueva copia de seguridad ha sido correctamente creada.",
             ok: "Continuar",
           })
-          .subscribe((result) => {
+          .subscribe((): void => {
             this.loadBackups();
           });
       } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              "Ha ocurrido un error al crear la nueva copia de seguridad.",
-            ok: "Continuar",
-          })
-          .subscribe((result) => {});
+        this.dialog.alert({
+          title: "Error",
+          content: "Ha ocurrido un error al crear la nueva copia de seguridad.",
+          ok: "Continuar",
+        });
       }
     });
   }
@@ -70,7 +71,7 @@ export default class BackupComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteBackup(backup);
         }
@@ -80,7 +81,7 @@ export default class BackupComponent implements OnInit {
   confirmDeleteBackup(backup: Backup): void {
     this.gs
       .deleteBackup(this.config.backupApiKey, backup.id)
-      .subscribe((result) => {
+      .subscribe((result: StatusResult): void => {
         if (result.status === "ok") {
           this.dialog
             .alert({
@@ -88,17 +89,15 @@ export default class BackupComponent implements OnInit {
               content: "La copia de seguridad ha sido correctamente eliminada.",
               ok: "Continuar",
             })
-            .subscribe((result) => {
+            .subscribe((): void => {
               this.loadBackups();
             });
         } else {
-          this.dialog
-            .alert({
-              title: "Error",
-              content: "Ha ocurrido un error al borrar la copia de seguridad.",
-              ok: "Continuar",
-            })
-            .subscribe((result) => {});
+          this.dialog.alert({
+            title: "Error",
+            content: "Ha ocurrido un error al borrar la copia de seguridad.",
+            ok: "Continuar",
+          });
         }
       });
   }
@@ -112,7 +111,7 @@ export default class BackupComponent implements OnInit {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
         }
       });

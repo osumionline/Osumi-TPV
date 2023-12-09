@@ -14,12 +14,13 @@
                 </mat-form-field>
                 <div class="list">
                     <mat-action-list>
+                        @for (marca of ms.marcas | brandListFilter:search; track marca.id) {
                         <button mat-list-item
-                                *ngFor="let marca of ms.marcas | brandListFilter:search"
                                 (click)="selectMarca(marca)"
                                 [ngClass]="{'selected-client': selectedMarca.id===marca.id}">
                             {{marca.nombre}}
                         </button>
+                        }
                     </mat-action-list>
                 </div>
                 <div class="new-brand">
@@ -120,11 +121,12 @@
                                 </div>
                                 <div class="actions">
                                     <div class="delete">
+                                        @if (form.value.id) {
                                         <button mat-raised-button
-                                                *ngIf="form.value.id"
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteMarca()">Eliminar</button>
+                                        }
                                     </div>
                                     <div class="others">
                                         <button mat-raised-button
@@ -140,9 +142,10 @@
                                 </div>
                             </form>
                         </mat-tab>
-                        <!--mat-tab label="ESTADÍSTICAS"
-                                 *ngIf="canSeeStatistics">
+                        @if (canSeeStatistics) {
+                        <!--mat-tab label="ESTADÍSTICAS">
                         </mat-tab-->
+                        }
                     </mat-tab-group>
                 </div>
             </main>

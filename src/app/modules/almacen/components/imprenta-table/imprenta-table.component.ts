@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { QRCodeModule } from "angularx-qrcode";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
@@ -9,7 +8,7 @@ import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe"
   selector: "otpv-imprenta-table",
   templateUrl: "./imprenta-table.component.html",
   styleUrls: ["./imprenta-table.component.scss"],
-  imports: [CommonModule, QRCodeModule, FixedNumberPipe],
+  imports: [QRCodeModule, FixedNumberPipe],
 })
 export class ImprentaTableComponent implements OnInit {
   filas: number = 4;
@@ -35,7 +34,7 @@ export class ImprentaTableComponent implements OnInit {
     let c_ind: number = 0;
     this.list = [];
 
-    for (let s of seleccionados) {
+    for (const s of seleccionados) {
       for (let ind: number = 0; ind < s.num; ind++) {
         if (this.list[f_ind] === undefined) {
           this.list[f_ind] = [];

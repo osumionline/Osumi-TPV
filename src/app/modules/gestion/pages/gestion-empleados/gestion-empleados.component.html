@@ -1,4 +1,4 @@
-<otpv-header selectedOption="gestion"></otpv-header>
+<otpv-header selectedOption="gestion" />
 
 <mat-card class="empleados">
     <mat-card-content>
@@ -15,16 +15,17 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list>
+                    @for (empleado of es.empleados | employeeListFilter:search; track empleado.id) {
                     <button mat-list-item
-                            *ngFor="let empleado of es.empleados | employeeListFilter:search"
                             (click)="selectEmpleado(empleado)"
                             [ngClass]="{'selected-client': selectedEmpleado.id===empleado.id}"
                             [ngStyle]="{'background-color': empleado.color}">
                         {{empleado.nombre}}
                     </button>
+                    }
                 </mat-action-list>
-                <div class="new-employee"
-                     *ngIf="canNewEmployees">
+                @if (canNewEmployees) {
+                <div class="new-employee">
                     <button mat-raised-button
                             color="primary"
                             (click)="newEmpleado()">
@@ -32,6 +33,7 @@
                         Añadir empleado
                     </button>
                 </div>
+                }
             </aside>
             <main>
                 <div [ngClass]="{'show': start}"
@@ -93,23 +95,26 @@
                                     </div>
                                 </div>
                             </mat-tab>
-                            <mat-tab label="PERMISOS"
-                                     *ngIf="canChangeEmployeeRoles">
+                            @if (canChangeEmployeeRoles) {
+                            <mat-tab label="PERMISOS">
                                 <div class="rol-list">
-                                    <div class="rol-group"
-                                         *ngFor="let group of list | keyvalue: originalRolGroupOrder">
+                                    @for (group of list | keyvalue: originalRolGroupOrder; track group.key) {
+                                    <div class="rol-group">
                                         <label>{{group.value.name}}</label>
                                         <div class="rol-list-items">
-                                            <mat-checkbox *ngFor="let rol of group.value.roles | keyvalue: originalRolOrder"
-                                                          [title]="rol.value.description"
+                                            @for (rol of group.value.roles | keyvalue: originalRolOrder; track rol) {
+                                            <mat-checkbox [title]="rol.value.description"
                                                           [(ngModel)]="selectedRolList[rol.value.id]"
                                                           [ngModelOptions]="{standalone: true}">
                                                 {{rol.value.name}}
                                             </mat-checkbox>
+                                            }
                                         </div>
                                     </div>
+                                    }
                                 </div>
                             </mat-tab>
+                            }
                             <!--mat-tab label="ESTADÍSTICAS"
                                      *ngIf="canSeeStatistics">
                             </mat-tab-->
@@ -117,11 +122,12 @@
                         <div class="actions"
                              [ngClass]="{'show': selectedTab !== 2}">
                             <div class="delete">
+                                @if (form.value.id && canDeleteEmployees) {
                                 <button mat-raised-button
-                                        *ngIf="form.value.id && canDeleteEmployees"
                                         color="warn"
                                         type="button"
                                         (click)="deleteEmpleado()">Eliminar</button>
+                                }
                             </div>
                             <div class="others">
                                 <button mat-raised-button

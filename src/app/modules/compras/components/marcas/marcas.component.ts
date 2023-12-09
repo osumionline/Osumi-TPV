@@ -7,10 +7,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatTabGroup } from "@angular/material/tabs";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marcas/marca.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { BrandListFilterPipe } from "src/app/modules/shared/pipes/brand-list-filter.pipe";
 import { DialogService } from "src/app/services/dialog.service";
 import { MarcasService } from "src/app/services/marcas.service";
@@ -22,10 +28,16 @@ import { MarcasService } from "src/app/services/marcas.service";
   styleUrls: ["./marcas.component.scss"],
   imports: [
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     BrandListFilterPipe,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTabsModule,
   ],
 })
 export class MarcasComponent {
@@ -49,11 +61,12 @@ export class MarcasComponent {
     observaciones: new FormControl(null),
   });
   originalValue: MarcaInterface = null;
+  canSeeStatistics: boolean = false;
 
   constructor(public ms: MarcasService, private dialog: DialogService) {}
 
   searchFocus(): void {
-    setTimeout(() => {
+    setTimeout((): void => {
       this.searchBox.nativeElement.focus();
     }, 100);
   }
@@ -65,7 +78,7 @@ export class MarcasComponent {
     this.originalValue = this.form.getRawValue();
     this.logo = marca.foto || "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.nameBox.nativeElement.focus();
     }, 0);
   }
@@ -77,7 +90,7 @@ export class MarcasComponent {
     this.originalValue = this.form.getRawValue();
     this.logo = "/assets/default.jpg";
     this.marcaTabs.realignInkBar();
-    setTimeout(() => {
+    setTimeout((): void => {
       this.nameBox.nativeElement.focus();
     }, 0);
   }
@@ -99,7 +112,7 @@ export class MarcasComponent {
     ) {
       const file = (<HTMLInputElement>ev.target).files[0];
       reader.readAsDataURL(file);
-      reader.onload = () => {
+      reader.onload = (): void => {
         this.logo = reader.result as string;
         (<HTMLInputElement>document.getElementById("logo-file")).value = "";
       };
@@ -111,19 +124,25 @@ export class MarcasComponent {
     data.foto = this.logo;
 
     this.selectedMarca.fromInterface(data, false);
-    this.ms.saveMarca(data).subscribe((result) => {
-      this.ms.resetMarcas();
-      this.resetForm();
-      this.dialog
-        .alert({
+    this.ms.saveMarca(data).subscribe((result: IdSaveResult): void => {
+      if (result.status === "ok") {
+        this.ms.resetMarcas();
+        this.resetForm();
+        this.dialog.alert({
           title: "Datos guardados",
           content:
             'Los datos de la marca "' +
             this.selectedMarca.nombre +
             '" han sido correctamente guardados.',
           ok: "Continuar",
-        })
-        .subscribe((result) => {});
+        });
+      } else {
+        this.dialog.alert({
+          title: "Error",
+          content: "Ocurrió un error al guardar los datos de la marca.",
+          ok: "Continuar",
+        });
+      }
     });
   }
 
@@ -138,7 +157,7 @@ export class MarcasComponent {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.confirmDeleteMarca();
         }
@@ -146,19 +165,27 @@ export class MarcasComponent {
   }
 
   confirmDeleteMarca(): void {
-    this.ms.deleteMarca(this.selectedMarca.id).subscribe((result) => {
-      this.ms.resetMarcas();
-      this.start = true;
-      this.dialog
-        .alert({
-          title: "Marca borrada",
-          content:
-            'La marca "' +
-            this.selectedMarca.nombre +
-            '" ha sido correctamente borrada.',
-          ok: "Continuar",
-        })
-        .subscribe((result) => {});
-    });
+    this.ms
+      .deleteMarca(this.selectedMarca.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === "ok") {
+          this.ms.resetMarcas();
+          this.start = true;
+          this.dialog.alert({
+            title: "Marca borrada",
+            content:
+              'La marca "' +
+              this.selectedMarca.nombre +
+              '" ha sido correctamente borrada.',
+            ok: "Continuar",
+          });
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content: "Ocurrió un error al borrar la marca.",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 }
