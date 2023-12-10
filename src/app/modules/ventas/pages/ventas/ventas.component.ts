@@ -48,7 +48,7 @@ export default class VentasComponent implements OnInit {
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       if (params.id && parseInt(params.id) !== 0) {
         this.newVenta(-1 * parseInt(params.id));
         this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
@@ -85,7 +85,7 @@ export default class VentasComponent implements OnInit {
   }
 
   startFocus(id: number = null): void {
-    setTimeout(() => {
+    setTimeout((): void => {
       this.ventas.get(this.vs.selected).setFocus(id);
     }, 0);
   }
@@ -95,7 +95,7 @@ export default class VentasComponent implements OnInit {
       this.vs.selected = 0;
     }
     this.vs.list.splice(ind, 1);
-    for (let ind in this.vs.list) {
+    for (const ind in this.vs.list) {
       this.vs.list[ind].tabName = "VENTA " + (parseInt(ind) + 1);
     }
   }
@@ -127,8 +127,8 @@ export default class VentasComponent implements OnInit {
     this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
     this.vs.loadVentaCliente(reservas[0].cliente);
     this.vs.ventaActual.lineas = [];
-    for (let reserva of reservas) {
-      for (let linea of reserva.lineas) {
+    for (const reserva of reservas) {
+      for (const linea of reserva.lineas) {
         let ind: number = -1;
         if (linea.idArticulo !== null) {
           ind = this.vs.ventaActual.lineas.findIndex(
@@ -138,7 +138,9 @@ export default class VentasComponent implements OnInit {
           );
         }
         if (ind === -1) {
-          let lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
+          const lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(
+            linea
+          );
           lineaVenta.fromReserva = reserva.id;
           this.vs.ventaActual.lineas.push(lineaVenta);
         } else {
@@ -152,7 +154,7 @@ export default class VentasComponent implements OnInit {
     }
   }
 
-  endVenta(id: number = null): void {
+  endVenta(): void {
     if (this.vs.ventaActual.lineas.length === 1) {
       return;
     }
@@ -169,7 +171,7 @@ export default class VentasComponent implements OnInit {
       VentaFinalizarModalComponent,
       modalFinalizarVentaData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         if (data.data.status === "cliente") {
           this.tabs.selectClient("venta");
@@ -204,7 +206,7 @@ export default class VentasComponent implements OnInit {
     });
   }
 
-  openCaja(ev: number): void {
+  openCaja(): void {
     this.header.abrirCaja();
   }
 }

@@ -1,20 +1,28 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
-import { ArticuloInterface } from "src/app/interfaces/articulo.interface";
+import {
+  ArticuloInterface,
+  ArticuloResult,
+} from "src/app/interfaces/articulo.interface";
 import {
   BuscadorModal,
   DevolucionModal,
   Modal,
   VariosModal,
 } from "src/app/interfaces/modals.interface";
-import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
+import {
+  DevolucionSelectedInterface,
+  LineasTicketResult,
+} from "src/app/interfaces/venta.interface";
 import { Articulo } from "src/app/model/articulos/articulo.model";
 import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { MaterialModule } from "src/app/modules/material/material.module";
 import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
@@ -39,17 +47,19 @@ import { VentasService } from "src/app/services/ventas.service";
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule,
     FixedNumberPipe,
     EmployeeLoginComponent,
+    MatIconModule,
+    MatTooltipModule,
+    MatButtonModule,
   ],
 })
 export class UnaVentaComponent {
   @Input() ind: number = null;
   @Output() deleteVentaLineaEvent: EventEmitter<number> =
     new EventEmitter<number>();
-  @Output() endVentaEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() openCajaEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() endVentaEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() openCajaEvent: EventEmitter<void> = new EventEmitter<void>();
   searching: boolean = false;
   observacionesOpen: boolean = false;
   editarCantidad: boolean = false;
@@ -137,7 +147,7 @@ export class UnaVentaComponent {
         BuscadorModalComponent,
         modalBuscadorData
       );
-      dialog.afterClosed$.subscribe((data) => {
+      dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
           this.setFocus(data.data);
@@ -163,7 +173,7 @@ export class UnaVentaComponent {
       }
       this.ars
         .loadArticulo(this.vs.ventaActual.lineas[ind].localizador)
-        .subscribe((result) => {
+        .subscribe((result: ArticuloResult): void => {
           this.searching = false;
           if (result.status === "ok") {
             this.loadArticulo(result.articulo, ind);
@@ -174,7 +184,7 @@ export class UnaVentaComponent {
                 content: "¡El código introducido no se encuentra!",
                 ok: "Continuar",
               })
-              .subscribe((result) => {
+              .subscribe((): void => {
                 this.vs.ventaActual.lineas[ind].localizador = null;
                 this.setFocus();
               });
@@ -211,7 +221,7 @@ export class UnaVentaComponent {
               "Has seleccionado un artículo que está marcado como devolución.",
             ok: "Continuar",
           })
-          .subscribe((result: boolean): void => {
+          .subscribe((): void => {
             this.vs.ventaActual.lineas[ind].localizador = null;
             this.setFocus();
             return;
@@ -232,7 +242,7 @@ export class UnaVentaComponent {
           content: articulo.observaciones,
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
     }
@@ -262,7 +272,7 @@ export class UnaVentaComponent {
             "¡Atención! No puedes realizar una nueva devolución hasta haber terminado la actual.",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.searching = false;
           this.vs.ventaActual.lineas[ind].localizador = null;
           this.setFocus();
@@ -282,7 +292,7 @@ export class UnaVentaComponent {
         DevolucionModalComponent,
         modalDevolucionData
       );
-      dialog.afterClosed$.subscribe((data) => {
+      dialog.afterClosed$.subscribe((data): void => {
         this.afterDevolucion(data);
       });
     }
@@ -290,7 +300,7 @@ export class UnaVentaComponent {
 
   mostrarDevolucion(): void {
     const list: DevolucionSelectedInterface[] = [];
-    for (let linea of this.vs.ventaActual.lineas) {
+    for (const linea of this.vs.ventaActual.lineas) {
       if (linea.fromVenta === this.devolucionVenta) {
         list.push({
           id: linea.id,
@@ -308,7 +318,7 @@ export class UnaVentaComponent {
       DevolucionModalComponent,
       modalDevolucionData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       this.afterDevolucion(data);
     });
   }
@@ -323,9 +333,9 @@ export class UnaVentaComponent {
     if (data !== null && data.data.length > 0) {
       // Busco si hay alguna línea que haya que borrar
       const toBeDeleted: number[] = [];
-      for (let linea of checkList) {
+      for (const linea of checkList) {
         if (linea.localizador !== null) {
-          let ind: number = data.data.findIndex(
+          const ind: number = data.data.findIndex(
             (x: DevolucionSelectedInterface): boolean => {
               return x.id === linea.id;
             }
@@ -337,8 +347,8 @@ export class UnaVentaComponent {
         }
       }
 
-      for (let id of toBeDeleted) {
-        let deleteInd: number = this.vs.ventaActual.lineas.findIndex(
+      for (const id of toBeDeleted) {
+        const deleteInd: number = this.vs.ventaActual.lineas.findIndex(
           (x: VentaLinea): boolean => {
             return x.id === id;
           }
@@ -348,7 +358,7 @@ export class UnaVentaComponent {
 
       // Busco líneas nuevas
       const toBeAddded: number[] = [];
-      for (let item of data.data) {
+      for (const item of data.data) {
         const addInd: number = this.vs.ventaActual.lineas.findIndex(
           (x: VentaLinea): boolean => x.id === item.id
         );
@@ -358,7 +368,7 @@ export class UnaVentaComponent {
       }
 
       // Actualizo cantidades
-      for (let item of data.data) {
+      for (const item of data.data) {
         const updateInd: number = this.vs.ventaActual.lineas.findIndex(
           (x: VentaLinea): boolean => x.id === item.id
         );
@@ -369,42 +379,44 @@ export class UnaVentaComponent {
 
       this.devolucionList = data.data;
       if (toBeAddded.length > 0) {
-        this.vs.getLineasTicket(toBeAddded.join(",")).subscribe((result) => {
-          const lineas: VentaLineaHistorico[] =
-            this.cms.getHistoricoVentaLineas(result.list);
-          this.vs.ventaActual.lineas.splice(
-            this.vs.ventaActual.lineas.length - 1,
-            1
-          );
-          for (let linea of lineas) {
-            const articulo: Articulo = new Articulo();
-            articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
-            articulo.localizador =
-              linea.localizador !== null ? linea.localizador : 0;
-            articulo.nombre = linea.articulo;
-            articulo.pvp = linea.pvp;
-            articulo.marca = linea.marca;
-
-            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
-              articulo
+        this.vs
+          .getLineasTicket(toBeAddded.join(","))
+          .subscribe((result: LineasTicketResult): void => {
+            const lineas: VentaLineaHistorico[] =
+              this.cms.getHistoricoVentaLineas(result.list);
+            this.vs.ventaActual.lineas.splice(
+              this.vs.ventaActual.lineas.length - 1,
+              1
             );
-            ventaLinea.fromVenta = this.devolucionVenta;
-            const devolucionLinea: DevolucionSelectedInterface =
-              this.devolucionList.find(
-                (x: DevolucionSelectedInterface): boolean => {
-                  return x.id == linea.id;
-                }
-              );
-            ventaLinea.id = devolucionLinea.id;
-            ventaLinea.cantidad = devolucionLinea.unidades;
+            for (const linea of lineas) {
+              const articulo: Articulo = new Articulo();
+              articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
+              articulo.localizador =
+                linea.localizador !== null ? linea.localizador : 0;
+              articulo.nombre = linea.articulo;
+              articulo.pvp = linea.pvp;
+              articulo.marca = linea.marca;
 
-            this.vs.ventaActual.lineas.push(ventaLinea);
-          }
-          this.vs.addLineaVenta();
-          this.ind = this.vs.ventaActual.lineas.length;
-          this.setFocus();
-          this.vs.ventaActual.updateImporte();
-        });
+              const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
+                articulo
+              );
+              ventaLinea.fromVenta = this.devolucionVenta;
+              const devolucionLinea: DevolucionSelectedInterface =
+                this.devolucionList.find(
+                  (x: DevolucionSelectedInterface): boolean => {
+                    return x.id == linea.id;
+                  }
+                );
+              ventaLinea.id = devolucionLinea.id;
+              ventaLinea.cantidad = devolucionLinea.unidades;
+
+              this.vs.ventaActual.lineas.push(ventaLinea);
+            }
+            this.vs.addLineaVenta();
+            this.ind = this.vs.ventaActual.lineas.length;
+            this.setFocus();
+            this.vs.ventaActual.updateImporte();
+          });
       } else {
         this.ind = this.vs.ventaActual.lineas.length;
         this.setFocus();
@@ -425,7 +437,7 @@ export class UnaVentaComponent {
         ok: "Confirmar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.deleteVentaLineaEvent.emit(ind);
         }
@@ -461,7 +473,7 @@ export class UnaVentaComponent {
       VentaVariosModalComponent,
       modalVariosData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.vs.ventaActual.lineas[this.variosInd].descripcion =
           data.data.nombre;
@@ -482,7 +494,7 @@ export class UnaVentaComponent {
         content: observaciones,
         ok: "Continuar",
       })
-      .subscribe((result) => {
+      .subscribe((): void => {
         this.observacionesOpen = false;
         this.setFocus();
       });
@@ -540,7 +552,7 @@ export class UnaVentaComponent {
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su importe',
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
@@ -553,13 +565,13 @@ export class UnaVentaComponent {
             "Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
     }
     this.editarImporte = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       const importe: HTMLInputElement = document.getElementById(
         "linea-importe-" + this.ind + "_" + i
       ) as HTMLInputElement;
@@ -591,7 +603,7 @@ export class UnaVentaComponent {
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
@@ -604,7 +616,7 @@ export class UnaVentaComponent {
             "Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
@@ -617,13 +629,13 @@ export class UnaVentaComponent {
             "Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe",
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
     }
     this.editarDescuento = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       const descuento: HTMLInputElement = document.getElementById(
         "linea-descuento-" + this.ind + "_" + i
       ) as HTMLInputElement;
@@ -633,8 +645,8 @@ export class UnaVentaComponent {
 
   checkDescuento(ev: KeyboardEvent, close: boolean): void {
     if (ev.key == "Enter" || close) {
-      let id: string[] = (<Element>ev.target).id.split("_");
-      let ind: number = parseInt(id.pop());
+      const id: string[] = (<Element>ev.target).id.split("_");
+      const ind: number = parseInt(id.pop());
       // Comprobación para que no quede en blanco
       if (this.vs.ventaActual.lineas[ind].descuento === null) {
         this.vs.ventaActual.lineas[ind].descuento = 0;
@@ -662,7 +674,7 @@ export class UnaVentaComponent {
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
           ok: "Continuar",
         })
-        .subscribe((result) => {
+        .subscribe((): void => {
           this.setFocus();
         });
       return;
@@ -677,7 +689,7 @@ export class UnaVentaComponent {
       VentaDescuentoModalComponent,
       modalDescuentoData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const ind: number = this.vs.ventaActual.lineas.findIndex(
           (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected
@@ -702,7 +714,7 @@ export class UnaVentaComponent {
       VentaAccesosDirectosModalComponent,
       modalAccesosDirectosData
     );
-    dialog.afterClosed$.subscribe((data) => {
+    dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.setFocus(data.data);
       } else {
@@ -719,7 +731,7 @@ export class UnaVentaComponent {
         ok: "Continuar",
         cancel: "Cancelar",
       })
-      .subscribe((result) => {
+      .subscribe((result: boolean): void => {
         if (result === true) {
           this.devolucionVenta = null;
           this.vs.cliente = null;
@@ -731,7 +743,7 @@ export class UnaVentaComponent {
   }
 
   terminarVenta(): void {
-    this.endVentaEvent.emit(this.vs.ventaActual.id);
+    this.endVentaEvent.emit();
   }
 
   loadUltimaVenta(importe: number, cambio: number): void {
@@ -742,6 +754,6 @@ export class UnaVentaComponent {
   }
 
   openCaja(): void {
-    this.openCajaEvent.emit(0);
+    this.openCajaEvent.emit();
   }
 }

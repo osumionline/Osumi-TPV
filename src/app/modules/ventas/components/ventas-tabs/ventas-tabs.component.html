@@ -1,15 +1,17 @@
 <div class="tab-container">
 	<div class="tab-list">
+		@for (tab of vs.list; track tab.id; let i = $index) {
 		<div class="tab-item"
-			 *ngFor="let tab of vs.list; let i = index"
-			 [ngClass]="{'tab-selected': vs.selected==i}"
+			 [ngClass]="{'tab-selected': vs.selected === i}"
 			 (click)="selectTab(i)"
 			 [ngStyle]="{'background-color':tab.color, 'color':tab.textColor}">
 			{{tab.tabName}}
-			<mat-icon *ngIf="showClose"
-					  class="tab-icon"
+			@if (showClose) {
+			<mat-icon class="tab-icon"
 					  (click)="closeTab(i)">close</mat-icon>
+			}
 		</div>
+		}
 		<div class="new-tab"
 			 (click)="newTab()"
 			 matTooltip="Nueva venta">
@@ -20,19 +22,21 @@
 			 matTooltip="Abrir reservas">
 			<mat-icon>grading</mat-icon>
 		</div>
-		<div class="select-client"
-			 *ngIf="vs.list.length > 0 && !vs.cliente">
+		@if (vs.list.length > 0 && !vs.cliente) {
+		<div class="select-client">
 			<span (click)="selectClient()"
 				  matTooltip="Elegir cliente">
 				<mat-icon>person_add</mat-icon>
 			</span>
 		</div>
-		<div class="select-client"
-			 *ngIf="vs.cliente">
+		}
+		@if (vs.cliente) {
+		<div class="select-client">
 			<a [routerLink]="'/clientes/' + vs.cliente.id">{{vs.cliente.nombreApellidos}}</a>
 			<span matTooltip="Quitar cliente">
 				<mat-icon (click)="removeClient()">close</mat-icon>
 			</span>
 		</div>
+		}
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <otpv-header selectedOption="ventas"
-			 #header></otpv-header>
+			 #header />
 
 <otpv-ventas-tabs [showClose]="true"
 				  (closeTabEvent)="cerrarVenta($event)"
@@ -7,11 +7,12 @@
 				  (changeTabEvent)="startFocus()"
 				  (selectClientEvent)="selectClient($event)"
 				  (selectReservaEvent)="selectReserva($event)"
-				  #tabs></otpv-ventas-tabs>
-<otpv-una-venta *ngFor="let venta of vs.list; let i = index"
-				[ind]="i"
-				[ngClass]="{'hidden':i!=vs.selected}"
+				  #tabs />
+@for (venta of vs.list; track venta.id; let i = $index) {
+<otpv-una-venta [ind]="i"
+				[ngClass]="{'hidden':i !== vs.selected}"
 				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
-				(endVentaEvent)="endVenta($event)"
-				(openCajaEvent)="openCaja($event)"
-				#ventas></otpv-una-venta>
+				(endVentaEvent)="endVenta()"
+				(openCajaEvent)="openCaja()"
+				#ventas />
+}
