@@ -7,6 +7,7 @@
                     <input matInput
                            placeholder="Nombre"
                            [(ngModel)]="search"
+                           name="searchMarcas"
                            #searchBox>
                     <span matPrefix>
                         <mat-icon>search</mat-icon>
@@ -50,6 +51,7 @@
                                                 <input matInput
                                                        placeholder="Nombre"
                                                        formControlName="nombre"
+                                                       name="nombre"
                                                        #nameBox>
                                             </mat-form-field>
                                         </div>
@@ -58,7 +60,8 @@
                                             <mat-form-field class="max-width">
                                                 <input matInput
                                                        placeholder="Teléfono"
-                                                       formControlName="telefono">
+                                                       formControlName="telefono"
+                                                       name="telefono">
                                             </mat-form-field>
                                         </div>
                                         <div class="form-field max-width">
@@ -66,7 +69,8 @@
                                             <mat-form-field class="max-width">
                                                 <input matInput
                                                        placeholder="Email"
-                                                       formControlName="email">
+                                                       formControlName="email"
+                                                       name="email">
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -94,7 +98,8 @@
                                         <mat-form-field class="max-width">
                                             <input matInput
                                                    placeholder="Dirección"
-                                                   formControlName="direccion">
+                                                   formControlName="direccion"
+                                                   name="direccion">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -104,7 +109,8 @@
                                         <mat-form-field class="max-width">
                                             <input matInput
                                                    placeholder="Web"
-                                                   formControlName="web">
+                                                   formControlName="web"
+                                                   name="web">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -115,6 +121,7 @@
                                             <textarea matInput
                                                       placeholder="Observaciones"
                                                       formControlName="observaciones"
+                                                      name="observaciones"
                                                       rows="5"></textarea>
                                         </mat-form-field>
                                     </div>
