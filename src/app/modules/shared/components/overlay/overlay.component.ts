@@ -1,3 +1,4 @@
+import { NgComponentOutlet } from "@angular/common";
 import { Component, OnInit, Renderer2, Type } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
 import { Modal } from "src/app/interfaces/modals.interface";
@@ -8,7 +9,7 @@ import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
   selector: "otpv-overlay",
   templateUrl: "./overlay.component.html",
   styleUrls: ["./overlay.component.scss"],
-  imports: [MatIconModule],
+  imports: [MatIconModule, NgComponentOutlet],
 })
 export class OverlayComponent implements OnInit {
   content: Type<any> = this.customOverlayRef.content;

@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
+import { MatNativeDateModule } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
@@ -53,6 +54,7 @@ import { VentasService } from "src/app/services/ventas.service";
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatTableModule,
     MatTooltipModule,
     MatSelectModule,

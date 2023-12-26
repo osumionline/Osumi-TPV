@@ -10,7 +10,7 @@ import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatOption } from "@angular/material/core";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
@@ -76,6 +76,7 @@ import { environment } from "src/environments/environment";
     MatSelectModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatTableModule,
     MatTooltipModule,
     MatListModule,
