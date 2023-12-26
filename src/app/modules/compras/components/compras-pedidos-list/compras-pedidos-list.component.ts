@@ -1,6 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatNativeDateModule } from "@angular/material/core";
@@ -39,6 +44,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     FixedNumberPipe,
     MatCardModule,
@@ -79,6 +85,15 @@ export class ComprasPedidosListComponent {
   guardadosRangoDesde: Date = null;
   guardadosRangoHasta: Date = null;
 
+  formGuardados: FormGroup = new FormGroup({
+    fechaDesde: new FormControl<Date>(null),
+    fechaHasta: new FormControl<Date>(null),
+    idProveedor: new FormControl<number>(null),
+    albaran: new FormControl<string>(null),
+    importeDesde: new FormControl<number>(null),
+    importeHasta: new FormControl<number>(null),
+  });
+
   showRecepcionadosFilters: boolean = false;
   recepcionadosFilter: PedidosFilterInterface = {
     fechaDesde: null,
@@ -92,6 +107,15 @@ export class ComprasPedidosListComponent {
   };
   recepcionadosRangoDesde: Date = null;
   recepcionadosRangoHasta: Date = null;
+
+  formRecepcionados: FormGroup = new FormGroup({
+    fechaDesde: new FormControl<Date>(null),
+    fechaHasta: new FormControl<Date>(null),
+    idProveedor: new FormControl<number>(null),
+    albaran: new FormControl<string>(null),
+    importeDesde: new FormControl<number>(null),
+    importeHasta: new FormControl<number>(null),
+  });
 
   pedidosGuardadosDisplayedColumns: string[] = [
     "fechaPedido",
@@ -154,33 +178,30 @@ export class ComprasPedidosListComponent {
   }
 
   get guardadosFiltered(): boolean {
-    return (
-      this.guardadosRangoDesde !== null ||
-      this.guardadosRangoHasta !== null ||
-      this.guardadosFilter.fechaDesde !== null ||
-      this.guardadosFilter.fechaHasta !== null ||
-      this.guardadosFilter.idProveedor !== null ||
-      this.guardadosFilter.albaran !== null ||
-      this.guardadosFilter.importeDesde !== null ||
-      this.guardadosFilter.importeHasta !== null
-    );
+    return this.formGuardados.dirty;
   }
 
-  quitarFiltrosGuardados(): void {
-    this.guardadosRangoDesde = null;
-    this.guardadosRangoHasta = null;
-    this.guardadosFilter.fechaDesde = null;
-    this.guardadosFilter.fechaHasta = null;
-    this.guardadosFilter.idProveedor = null;
-    this.guardadosFilter.albaran = null;
-    this.guardadosFilter.importeDesde = null;
-    this.guardadosFilter.importeHasta = null;
+  quitarFiltrosGuardados(ev: MouseEvent): void {
+    ev && ev.preventDefault();
+    ev && ev.stopPropagation();
+    this.formGuardados.reset();
     this.guardadosFilter.pagina = 1;
   }
 
   filtrarGuardados(): void {
-    this.guardadosFilter.fechaDesde = getDate(this.guardadosRangoDesde);
-    this.guardadosFilter.fechaHasta = getDate(this.guardadosRangoHasta);
+    this.guardadosFilter.fechaDesde = getDate(
+      this.formGuardados.get("fechaDesde").value
+    );
+    this.guardadosFilter.fechaHasta = getDate(
+      this.formGuardados.get("fechaHasta").value
+    );
+    this.guardadosFilter.idProveedor =
+      this.formGuardados.get("idProveedor").value;
+    this.guardadosFilter.albaran = this.formGuardados.get("albaran").value;
+    this.guardadosFilter.importeDesde =
+      this.formGuardados.get("importeDesde").value;
+    this.guardadosFilter.importeHasta =
+      this.formGuardados.get("importeHasta").value;
     this.comprasService
       .getPedidosGuardados(this.guardadosFilter)
       .subscribe((result: PedidosResult): void => {
@@ -190,33 +211,31 @@ export class ComprasPedidosListComponent {
   }
 
   get recepcionadosFiltered(): boolean {
-    return (
-      this.recepcionadosRangoDesde !== null ||
-      this.recepcionadosRangoHasta !== null ||
-      this.recepcionadosFilter.fechaDesde !== null ||
-      this.recepcionadosFilter.fechaHasta !== null ||
-      this.recepcionadosFilter.idProveedor !== null ||
-      this.recepcionadosFilter.albaran !== null ||
-      this.recepcionadosFilter.importeDesde !== null ||
-      this.recepcionadosFilter.importeHasta !== null
-    );
+    return this.formRecepcionados.dirty;
   }
 
-  quitarFiltrosRecepcionados(): void {
-    this.recepcionadosRangoDesde = null;
-    this.recepcionadosRangoHasta = null;
-    this.recepcionadosFilter.fechaDesde = null;
-    this.recepcionadosFilter.fechaHasta = null;
-    this.recepcionadosFilter.idProveedor = null;
-    this.recepcionadosFilter.albaran = null;
-    this.recepcionadosFilter.importeDesde = null;
-    this.recepcionadosFilter.importeHasta = null;
+  quitarFiltrosRecepcionados(ev: MouseEvent): void {
+    ev && ev.preventDefault();
+    ev && ev.stopPropagation();
+    this.formRecepcionados.reset();
     this.recepcionadosFilter.pagina = 1;
   }
 
   filtrarRecepcionados(): void {
-    this.recepcionadosFilter.fechaDesde = getDate(this.recepcionadosRangoDesde);
-    this.recepcionadosFilter.fechaHasta = getDate(this.recepcionadosRangoHasta);
+    this.recepcionadosFilter.fechaDesde = getDate(
+      this.formRecepcionados.get("fechaDesde").value
+    );
+    this.recepcionadosFilter.fechaHasta = getDate(
+      this.formRecepcionados.get("fechaHasta").value
+    );
+    this.recepcionadosFilter.idProveedor =
+      this.formRecepcionados.get("idProveedor").value;
+    this.recepcionadosFilter.albaran =
+      this.formRecepcionados.get("albaran").value;
+    this.recepcionadosFilter.importeDesde =
+      this.formRecepcionados.get("importeDesde").value;
+    this.recepcionadosFilter.importeHasta =
+      this.formRecepcionados.get("importeHasta").value;
     this.comprasService
       .getPedidosRecepcionados(this.recepcionadosFilter)
       .subscribe((result: PedidosResult): void => {

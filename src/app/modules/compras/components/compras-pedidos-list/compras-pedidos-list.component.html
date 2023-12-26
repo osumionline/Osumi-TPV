@@ -12,95 +12,103 @@
                 </button>
                 <mat-card [ngClass]="{'show': showGuardadosFilters}">
                     <mat-card-content>
-                        <div class="filters">
-                            <div class="filter-options">
-                                <div class="row">
-                                    <div>
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Fecha desde</mat-label>
-                                            <input matInput
-                                                   [matDatepicker]="guardadosRangoDesdePicker"
-                                                   [(ngModel)]="guardadosRangoDesde">
-                                            <mat-datepicker-toggle matSuffix
-                                                                   [for]="guardadosRangoDesdePicker"></mat-datepicker-toggle>
-                                            <mat-datepicker #guardadosRangoDesdePicker></mat-datepicker>
+                        <form [formGroup]="formGuardados"
+                              (ngSubmit)="filtrarGuardados()">
+                            <div class="filters">
+                                <div class="filter-options">
+                                    <div class="row">
+                                        <div>
+                                            <mat-form-field subscriptSizing="dynamic">
+                                                <mat-label>Fecha desde</mat-label>
+                                                <input matInput
+                                                       [matDatepicker]="guardadosRangoDesdePicker"
+                                                       formControlName="fechaDesde"
+                                                       name="guardadosRangoDesde">
+                                                <mat-datepicker-toggle matSuffix
+                                                                       [for]="guardadosRangoDesdePicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #guardadosRangoDesdePicker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field subscriptSizing="dynamic">
+                                                <mat-label>Fecha hasta</mat-label>
+                                                <input matInput
+                                                       [matDatepicker]="guardadosRangoHastaPicker"
+                                                       formControlName="fechaHasta"
+                                                       name="guardadosRangoHasta">
+                                                <mat-datepicker-toggle matSuffix
+                                                                       [for]="guardadosRangoHastaPicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #guardadosRangoHastaPicker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <mat-form-field subscriptSizing="dynamic"
+                                                        class="max-width">
+                                            <mat-select formControlName="idProveedor"
+                                                        placeholder="Proveedor">
+                                                <mat-option [value]="null">Elige proveedor</mat-option>
+                                                @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
+                                                <mat-option [value]="proveedor.id">
+                                                    {{proveedor.nombre}}
+                                                </mat-option>
+                                                }
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <div>
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Fecha hasta</mat-label>
+                                    <div class="row">
+                                        <mat-form-field subscriptSizing="dynamic"
+                                                        class="max-width">
+                                            <mat-label>Albarán</mat-label>
                                             <input matInput
-                                                   [matDatepicker]="guardadosRangoHastaPicker"
-                                                   [(ngModel)]="guardadosRangoHasta">
-                                            <mat-datepicker-toggle matSuffix
-                                                                   [for]="guardadosRangoHastaPicker"></mat-datepicker-toggle>
-                                            <mat-datepicker #guardadosRangoHastaPicker></mat-datepicker>
+                                                   placeholder="Albarán"
+                                                   formControlName="albaran"
+                                                   name="guardadosAlbaran">
                                         </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div>
+                                            <mat-form-field>
+                                                <mat-label>Importe (desde)</mat-label>
+                                                <input matInput
+                                                       placeholder="Importe (desde)"
+                                                       type="number"
+                                                       formControlName="importeDesde"
+                                                       name="guardadosImporteDesde">
+                                            </mat-form-field>
+                                            €
+                                        </div>
+                                        <div>
+                                            <mat-form-field>
+                                                <mat-label>Importe (hasta)</mat-label>
+                                                <input matInput
+                                                       placeholder="Importe (hasta)"
+                                                       type="number"
+                                                       formControlName="importeHasta"
+                                                       name="guardadosImporteHasta">
+                                            </mat-form-field>
+                                            €
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <mat-form-field subscriptSizing="dynamic"
-                                                    class="max-width">
-                                        <mat-select [(ngModel)]="guardadosFilter.idProveedor"
-                                                    placeholder="Proveedor">
-                                            <mat-option [value]="null">Elige proveedor</mat-option>
-                                            @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
-                                            <mat-option [value]="proveedor.id">
-                                                {{proveedor.nombre}}
-                                            </mat-option>
-                                            }
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div class="row">
-                                    <mat-form-field subscriptSizing="dynamic"
-                                                    class="max-width">
-                                        <mat-label>Albarán</mat-label>
-                                        <input matInput
-                                               placeholder="Albarán"
-                                               [(ngModel)]="guardadosFilter.albaran">
-                                    </mat-form-field>
-                                </div>
-                                <div class="row">
-                                    <div>
-                                        <mat-form-field>
-                                            <mat-label>Importe (desde)</mat-label>
-                                            <input matInput
-                                                   placeholder="Importe (desde)"
-                                                   type="number"
-                                                   [(ngModel)]="guardadosFilter.importeDesde">
-                                        </mat-form-field>
-                                        €
-                                    </div>
-                                    <div>
-                                        <mat-form-field>
-                                            <mat-label>Importe (hasta)</mat-label>
-                                            <input matInput
-                                                   placeholder="Importe (hasta)"
-                                                   type="number"
-                                                   [(ngModel)]="guardadosFilter.importeHasta">
-                                        </mat-form-field>
-                                        €
-                                    </div>
+                                <div class="filter-actions">
+                                    <button mat-raised-button
+                                            color="primary"
+                                            type="submit">
+                                        <mat-icon>find_in_page</mat-icon>
+                                        Filtrar
+                                    </button>
+                                    @if (guardadosFiltered) {
+                                    <button mat-raised-button
+                                            color="primary"
+                                            (click)="quitarFiltrosGuardados($event)">
+                                        <mat-icon>filter_list_off</mat-icon>
+                                        Quitar filtros
+                                    </button>
+                                    }
                                 </div>
                             </div>
-                            <div class="filter-actions">
-                                <button mat-raised-button
-                                        color="primary"
-                                        (click)="filtrarGuardados()">
-                                    <mat-icon>find_in_page</mat-icon>
-                                    Filtrar
-                                </button>
-                                @if (guardadosFiltered) {
-                                <button mat-raised-button
-                                        color="primary"
-                                        (click)="quitarFiltrosGuardados()">
-                                    <mat-icon>filter_list_off</mat-icon>
-                                    Quitar filtros
-                                </button>
-                                }
-                            </div>
-                        </div>
+                        </form>
                     </mat-card-content>
                 </mat-card>
                 <button class="filters-button"
@@ -199,93 +207,101 @@
                 Pedidos recepcionados
                 <mat-card [ngClass]="{'show': showRecepcionadosFilters}">
                     <mat-card-content>
-                        <div class="filters">
-                            <div class="filter-options">
-                                <div class="row">
-                                    <div>
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Fecha desde</mat-label>
-                                            <input matInput
-                                                   [matDatepicker]="recepcionadosRangoDesdePicker"
-                                                   [(ngModel)]="recepcionadosRangoDesde">
-                                            <mat-datepicker-toggle matSuffix
-                                                                   [for]="recepcionadosRangoDesdePicker"></mat-datepicker-toggle>
-                                            <mat-datepicker #recepcionadosRangoDesdePicker></mat-datepicker>
+                        <form [formGroup]="formRecepcionados"
+                              (ngSubmit)="filtrarRecepcionados()">
+                            <div class="filters">
+                                <div class="filter-options">
+                                    <div class="row">
+                                        <div>
+                                            <mat-form-field subscriptSizing="dynamic">
+                                                <mat-label>Fecha desde</mat-label>
+                                                <input matInput
+                                                       [matDatepicker]="recepcionadosRangoDesdePicker"
+                                                       formControlName="fechaDesde"
+                                                       name="recepcionadosRangoDesde">
+                                                <mat-datepicker-toggle matSuffix
+                                                                       [for]="recepcionadosRangoDesdePicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #recepcionadosRangoDesdePicker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <mat-form-field subscriptSizing="dynamic">
+                                                <mat-label>Fecha hasta</mat-label>
+                                                <input matInput
+                                                       [matDatepicker]="recepcionadosRangoHastaPicker"
+                                                       formControlName="fechaHasta"
+                                                       name="recepcionadosRangoHasta">
+                                                <mat-datepicker-toggle matSuffix
+                                                                       [for]="recepcionadosRangoHastaPicker"></mat-datepicker-toggle>
+                                                <mat-datepicker #recepcionadosRangoHastaPicker></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <mat-form-field subscriptSizing="dynamic"
+                                                        class="max-width">
+                                            <mat-select formControlName="idProveedor"
+                                                        placeholder="Proveedor">
+                                                <mat-option [value]="null">Elige proveedor</mat-option>
+                                                @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
+                                                <mat-option [value]="proveedor.id">
+                                                    {{proveedor.nombre}}
+                                                </mat-option>
+                                                }
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <div>
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Fecha hasta</mat-label>
+                                    <div class="row">
+                                        <mat-form-field subscriptSizing="dynamic"
+                                                        class="max-width">
+                                            <mat-label>Albarán</mat-label>
                                             <input matInput
-                                                   [matDatepicker]="recepcionadosRangoHastaPicker"
-                                                   [(ngModel)]="recepcionadosRangoHasta">
-                                            <mat-datepicker-toggle matSuffix
-                                                                   [for]="recepcionadosRangoHastaPicker"></mat-datepicker-toggle>
-                                            <mat-datepicker #recepcionadosRangoHastaPicker></mat-datepicker>
+                                                   placeholder="Albarán"
+                                                   formControlName="albaran"
+                                                   name="recepcionadosAlbaran">
                                         </mat-form-field>
+                                    </div>
+                                    <div class="row">
+                                        <div>
+                                            <mat-form-field>
+                                                <mat-label>Importe (desde)</mat-label>
+                                                <input matInput
+                                                       placeholder="Importe (desde)"
+                                                       formControlName="importeDesde"
+                                                       name="recepcionadosImporteDesde">
+                                            </mat-form-field>
+                                            €
+                                        </div>
+                                        <div>
+                                            <mat-form-field>
+                                                <mat-label>Importe (hasta)</mat-label>
+                                                <input matInput
+                                                       placeholder="Importe (hasta)"
+                                                       formControlName="importeHasta"
+                                                       name="recepcionadosImporteHasta">
+                                            </mat-form-field>
+                                            €
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <mat-form-field subscriptSizing="dynamic"
-                                                    class="max-width">
-                                        <mat-select [(ngModel)]="recepcionadosFilter.idProveedor"
-                                                    placeholder="Proveedor">
-                                            <mat-option [value]="null">Elige proveedor</mat-option>
-                                            @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
-                                            <mat-option [value]="proveedor.id">
-                                                {{proveedor.nombre}}
-                                            </mat-option>
-                                            }
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div class="row">
-                                    <mat-form-field subscriptSizing="dynamic"
-                                                    class="max-width">
-                                        <mat-label>Albarán</mat-label>
-                                        <input matInput
-                                               placeholder="Albarán"
-                                               [(ngModel)]="recepcionadosFilter.albaran">
-                                    </mat-form-field>
-                                </div>
-                                <div class="row">
-                                    <div>
-                                        <mat-form-field>
-                                            <mat-label>Importe (desde)</mat-label>
-                                            <input matInput
-                                                   placeholder="Importe (desde)"
-                                                   [(ngModel)]="recepcionadosFilter.importeDesde">
-                                        </mat-form-field>
-                                        €
-                                    </div>
-                                    <div>
-                                        <mat-form-field>
-                                            <mat-label>Importe (hasta)</mat-label>
-                                            <input matInput
-                                                   placeholder="Importe (hasta)"
-                                                   [(ngModel)]="recepcionadosFilter.importeHasta">
-                                        </mat-form-field>
-                                        €
-                                    </div>
+                                <div class="filter-actions">
+                                    <button mat-raised-button
+                                            color="primary"
+                                            type="submit">
+                                        <mat-icon>find_in_page</mat-icon>
+                                        Filtrar
+                                    </button>
+                                    @if (recepcionadosFiltered) {
+                                    <button mat-raised-button
+                                            color="primary"
+                                            (click)="quitarFiltrosRecepcionados($event)">
+                                        <mat-icon>filter_list_off</mat-icon>
+                                        Quitar filtros
+                                    </button>
+                                    }
                                 </div>
                             </div>
-                            <div class="filter-actions">
-                                <button mat-raised-button
-                                        color="primary"
-                                        (click)="filtrarRecepcionados()">
-                                    <mat-icon>find_in_page</mat-icon>
-                                    Filtrar
-                                </button>
-                                @if (recepcionadosFiltered) {
-                                <button mat-raised-button
-                                        color="primary"
-                                        (click)="quitarFiltrosRecepcionados()">
-                                    <mat-icon>filter_list_off</mat-icon>
-                                    Quitar filtros
-                                </button>
-                                }
-                            </div>
-                        </div>
+                        </form>
                     </mat-card-content>
                 </mat-card>
                 <button class="filters-button"
