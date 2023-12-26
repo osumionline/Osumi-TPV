@@ -229,7 +229,6 @@
         <button mat-raised-button
                 type="button"
                 color="primary"
-                *ngIf="!factura.impresa"
                 [disabled]="selection.selected.length === 0"
                 (click)="preview()">
             <mat-icon>find_in_page</mat-icon>

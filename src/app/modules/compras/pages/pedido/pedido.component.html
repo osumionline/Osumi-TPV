@@ -395,10 +395,11 @@
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.iva"
                                         (ngModelChange)="updateIva($event, element)">
-                                <mat-option *ngFor="let iva of ivaList"
-                                            [value]="iva">
+                                @for (iva of ivaList; track iva) {
+                                <mat-option [value]="iva">
                                     {{iva}} %
                                 </mat-option>
+                                }
                             </mat-select>
                         </mat-form-field>
                         }
@@ -407,10 +408,11 @@
                                         subscriptSizing="dynamic">
                             <mat-select [(ngModel)]="element.re"
                                         (ngModelChange)="updateRe($event, element)">
-                                <mat-option *ngFor="let re of reList"
-                                            [value]="re">
+                                @for (re of reList; track re) {
+                                <mat-option [value]="re">
                                     {{re}} %
                                 </mat-option>
+                                }
                             </mat-select>
                         </mat-form-field>
                         }

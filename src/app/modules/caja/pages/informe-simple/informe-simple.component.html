@@ -55,8 +55,8 @@
     </ng-container>
 
     <!-- Otros tipos de pago -->
-    <ng-container *ngFor="let otro of otrosList"
-                  [matColumnDef]="otro">
+    @for (otro of otrosList; track otro) {
+    <ng-container [matColumnDef]="otro">
         <th class="right"
             mat-header-cell
             *matHeaderCellDef>
@@ -69,6 +69,7 @@
             mat-footer-cell
             *matFooterCellDef> <strong>{{ getTotalOtros(otro) | fixedNumber }} €</strong> </td>
     </ng-container>
+    }
 
     <!-- Total -->
     <ng-container matColumnDef="totalDia">

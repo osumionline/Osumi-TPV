@@ -21,8 +21,7 @@
 		 [ngClass]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">
 			@if (linea.idArticulo === null) {
-			<input *ngIf="linea.idArticulo === null"
-				   [id]="'loc-new-' + ind"
+			<input [id]="'loc-new-' + ind"
 				   class="linea-localizador"
 				   (keydown)="checkLocalizador($event, i)"
 				   autocomplete="off"

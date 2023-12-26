@@ -72,9 +72,10 @@
 				   id="logo-file"
 				   accept="image/png, image/gif, image/jpeg"
 				   (change)="onLogoChange($event)">
-			<img *ngIf="logo !== ''"
-				 [src]="logo"
+			@if (logo !== '') {
+			<img [src]="logo"
 				 alt="Logo">
+			}
 			<button mat-raised-button
 					color="primary"
 					(click)="addLogo()">Añadir logo</button>

@@ -9,6 +9,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import {
   MatTabChangeEvent,
@@ -33,6 +34,7 @@ import { ConfigService } from "src/app/services/config.service";
     CierreCajaComponent,
     MatTabsModule,
     MatFormFieldModule,
+    MatInputModule,
     MatSelectModule,
     MatButtonModule,
   ],

@@ -115,9 +115,10 @@
                                 </div>
                             </mat-tab>
                             }
-                            <!--mat-tab label="ESTADÍSTICAS"
-                                     *ngIf="canSeeStatistics">
+                            @if (canSeeStatistics) {
+                            <!--mat-tab label="ESTADÍSTICAS">
                             </mat-tab-->
+                            }
                         </mat-tab-group>
                         <div class="actions"
                              [ngClass]="{'show': selectedTab !== 2}">
