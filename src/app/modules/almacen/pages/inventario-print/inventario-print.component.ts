@@ -31,6 +31,7 @@ export default class InventarioPrintComponent implements OnInit {
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
+  totalInventario: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -64,6 +65,7 @@ export default class InventarioPrintComponent implements OnInit {
       .subscribe((result: BuscadorAlmacenResult): void => {
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
+        this.totalInventario = result.total;
 
         setTimeout((): void => {
           window.print();

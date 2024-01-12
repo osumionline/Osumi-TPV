@@ -27,4 +27,5 @@ export interface BuscadorAlmacenResult {
   status: string;
   list: InventarioItemInterface[];
   pags: number;
+  total: number;
 }

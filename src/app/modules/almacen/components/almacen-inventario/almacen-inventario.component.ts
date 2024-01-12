@@ -78,6 +78,7 @@ export class AlmacenInventarioComponent
   list: InventarioItem[] = [];
   pags: number = 0;
   pageIndex: number = 0;
+  totalInventario: number = 0;
 
   inventarioDisplayedColumns: string[] = [
     "localizador",
@@ -125,6 +126,7 @@ export class AlmacenInventarioComponent
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
         this.pags = result.pags;
+        this.totalInventario = result.total;
 
         this.as.buscador = this.buscador;
         this.as.list = this.list;

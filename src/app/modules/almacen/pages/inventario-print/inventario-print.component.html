@@ -87,3 +87,6 @@
     <tr mat-row
         *matRowDef="let row; columns: inventarioDisplayedColumns; let i = index;"></tr>
 </table>
+<div class="total-inventario">
+    Total inventario: <strong>{{totalInventario | fixedNumber}}</strong> €
+</div>

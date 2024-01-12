@@ -80,7 +80,7 @@ export class AlmacenService {
   }
 
   updateArticulo(articulo: Articulo): void {
-    for (let item of this.list) {
+    for (const item of this.list) {
       if (item.id === articulo.id) {
         item.marca = articulo.marca;
         item.referencia = articulo.referencia;
