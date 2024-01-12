@@ -1,8 +1,8 @@
 <div class="finalizar-venta">
     <div class="col-reserva"
-         [ngClass]="{'show': vs.fin.imprimir === 'reserva'}">RESERVA</div>
+         [ngClass]="{'show': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">RESERVA</div>
     <div class="col-left"
-         [ngClass]="{'hide': vs.fin.imprimir === 'reserva'}">
+         [ngClass]="{'hide': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">
         <div class="col-line">
             <div class="form-field no-padding">
                 <label [ngClass]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Efectivo</label>
@@ -169,6 +169,7 @@
                         <mat-option value="no">No imprimir</mat-option>
                         <mat-option value="regalo">Ticket regalo</mat-option>
                         <mat-option value="reserva">Reserva</mat-option>
+                        <mat-option value="reserva-sin-ticket">Reserva (sin ticket)</mat-option>
                         <mat-option value="factura">Imprimir factura</mat-option>
                         <mat-option value="email">Enviar email</mat-option>
                     </mat-select>

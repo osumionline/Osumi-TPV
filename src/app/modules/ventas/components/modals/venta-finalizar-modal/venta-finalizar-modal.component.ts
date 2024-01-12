@@ -225,7 +225,11 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
         });
     }
     // Se ha elegido reserva y no tiene cliente asignado
-    if (this.vs.fin.imprimir === "reserva" && this.vs.fin.idCliente === -1) {
+    if (
+      (this.vs.fin.imprimir === "reserva" ||
+        this.vs.fin.imprimir === "reserva-sin-ticket") &&
+      this.vs.fin.idCliente === -1
+    ) {
       this.dialog
         .confirm({
           title: "Reserva",
@@ -271,7 +275,10 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
     const efectivo: number = toNumber(this.vs.fin.efectivo);
     const total: number = toNumber(this.vs.fin.total);
 
-    if (this.vs.fin.imprimir === "reserva") {
+    if (
+      this.vs.fin.imprimir === "reserva" ||
+      this.vs.fin.imprimir === "reserva-sin-ticket"
+    ) {
       this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
         if (result.status === "ok") {
           this.customOverlayRef.close({
