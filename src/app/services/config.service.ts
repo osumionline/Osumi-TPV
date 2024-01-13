@@ -106,7 +106,7 @@ export class ConfigService {
               empleadosPromise,
               clientesPromise,
               provinciasPromise,
-            ]).then((values) => {
+            ]).then((): void => {
               if (this.empleadosService.empleados.length == 1) {
                 this.empleados = false;
                 this.idEmpleadoDef = this.empleadosService.empleados[0].id;
@@ -140,7 +140,7 @@ export class ConfigService {
     this.ticketInicial = data.ticketInicial;
     this.facturaInicial = data.facturaInicial;
     this.tipoIva = data.tipoIva;
-    for (let i in data.ivaList) {
+    for (const i in data.ivaList) {
       if (this.tipoIva === "iva") {
         this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i]));
       } else {
@@ -165,7 +165,7 @@ export class ConfigService {
       } else {
         this.apiService.getProvinceList().subscribe((data) => {
           let newList = [];
-          for (let ccaa of data.ccaa) {
+          for (const ccaa of data.ccaa) {
             newList = newList.concat(ccaa.provinces);
           }
           newList.sort(function (a, b) {

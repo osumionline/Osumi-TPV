@@ -1,5 +1,5 @@
 <mat-card class="proveedores">
-    <mat-card-content>
+    <mat-card-content class="full-height">
         <div class="flex-content">
             <aside>
                 <mat-form-field class="search"
@@ -13,7 +13,7 @@
                         <mat-icon>search</mat-icon>
                     </span>
                 </mat-form-field>
-                <mat-action-list>
+                <mat-action-list class="proveedores-list">
                     @for (proveedor of ps.proveedores | providerListFilter:search; track proveedor.id) {
                     <button mat-list-item
                             (click)="selectProveedor(proveedor)"

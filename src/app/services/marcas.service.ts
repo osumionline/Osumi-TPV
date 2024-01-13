@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Observable } from "rxjs";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import {
@@ -14,7 +14,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class MarcasService {
-  marcas: Marca[] = [];
+  marcas: WritableSignal<Marca[]> = signal<Marca[]>([]);
   loaded: boolean = false;
 
   constructor(private http: HttpClient, private cms: ClassMapperService) {}
@@ -40,7 +40,7 @@ export class MarcasService {
   }
 
   loadMarcas(marcas: Marca[]): void {
-    this.marcas = marcas;
+    this.marcas.set(marcas);
     this.loaded = true;
   }
 
@@ -50,7 +50,7 @@ export class MarcasService {
   }
 
   findById(id: number): Marca {
-    const ind: number = this.marcas.findIndex(
+    const ind: number = this.marcas().findIndex(
       (x: Marca): boolean => x.id === id
     );
     if (ind !== -1) {

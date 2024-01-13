@@ -334,7 +334,7 @@
                                     [disabled]="historicoVentasSelected.facturada"
                                     #clientesBox>
                             <mat-option [value]="null">Elige cliente</mat-option>
-                            @for (cliente of cs.clientes; track cliente.id) {
+                            @for (cliente of cs.clientes(); track cliente.id) {
                             <mat-option [value]="cliente.id">
                                 {{cliente.nombreApellidos}}
                             </mat-option>

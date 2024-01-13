@@ -105,7 +105,7 @@ export class ProveedoresComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    for (const marca of this.ms.marcas) {
+    for (const marca of this.ms.marcas()) {
       this.marcasList.push({
         id: marca.id,
         nombre: marca.nombre,

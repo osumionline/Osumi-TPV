@@ -1,5 +1,5 @@
 <mat-card class="marcas">
-    <mat-card-content>
+    <mat-card-content class="full-height">
         <div class="flex-content">
             <aside>
                 <mat-form-field class="search"
@@ -15,7 +15,7 @@
                 </mat-form-field>
                 <div class="list">
                     <mat-action-list>
-                        @for (marca of ms.marcas | brandListFilter:search; track marca.id) {
+                        @for (marca of ms.marcas() | brandListFilter:search; track marca.id) {
                         <button mat-list-item
                                 (click)="selectMarca(marca)"
                                 [ngClass]="{'selected-client': selectedMarca.id===marca.id}">

@@ -145,11 +145,11 @@ export default class ClientesComponent implements OnInit {
         if (params.new === "new") {
           this.newCliente();
         } else {
-          const ind: number = this.cs.clientes.findIndex(
-            (x: Cliente): boolean => {
+          const ind: number = this.cs
+            .clientes()
+            .findIndex((x: Cliente): boolean => {
               return x.id === parseInt(params.new);
-            }
-          );
+            });
           this.focusEmail = true;
           this.selectCliente(this.cs.clientes[ind]);
         }

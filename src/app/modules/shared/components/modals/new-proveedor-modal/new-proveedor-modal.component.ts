@@ -46,7 +46,7 @@ export class NewProveedorModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.marcas = this.cms.getMarcas(
-      this.ms.marcas.map((m: Marca): MarcaInterface => {
+      this.ms.marcas().map((m: Marca): MarcaInterface => {
         return m.toInterface();
       })
     );

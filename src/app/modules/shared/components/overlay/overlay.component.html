@@ -1,4 +1,4 @@
-<div [class]="'modal ' + inputData.css">
+<div [class]="'modal ' + (inputData.css ? inputData.css : '')">
 	<div [class]="'modal__header modal__header--' + inputData.modalColor">
 		<div class="titulo"
 			 translate>{{ inputData.modalTitle }}</div>

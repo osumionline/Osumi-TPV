@@ -185,10 +185,12 @@ export class HistoricoVentasComponent implements AfterViewInit {
       )
       .subscribe((result: StatusResult): void => {
         if (result.status == "ok") {
-          const cliente: Cliente = this.cs.clientes.find(
-            (x: Cliente): boolean =>
-              x.id === this.historicoVentasSelected.idCliente
-          );
+          const cliente: Cliente = this.cs
+            .clientes()
+            .find(
+              (x: Cliente): boolean =>
+                x.id === this.historicoVentasSelected.idCliente
+            );
           this.historicoVentasSelected.cliente = cliente.nombreApellidos;
         }
       });

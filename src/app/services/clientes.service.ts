@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   ClienteInterface,
@@ -22,7 +22,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ClientesService {
-  clientes: Cliente[] = [];
+  clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([]);
   loaded: boolean = false;
 
   constructor(private http: HttpClient, private cms: ClassMapperService) {}
@@ -48,7 +48,7 @@ export class ClientesService {
   }
 
   loadClientes(clientes: Cliente[]): void {
-    this.clientes = clientes;
+    this.clientes.set(clientes);
     this.loaded = true;
   }
 
@@ -58,7 +58,7 @@ export class ClientesService {
   }
 
   findById(id: number): Cliente {
-    const ind: number = this.clientes.findIndex(
+    const ind: number = this.clientes().findIndex(
       (x: Cliente): boolean => x.id === id
     );
     if (ind !== -1) {

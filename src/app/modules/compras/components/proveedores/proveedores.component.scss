@@ -3,11 +3,18 @@
     display: flex;
     flex-direction: row;
     padding: 0;
+    height: calc(100% - 96px);
+
+    .full-height {
+        height: 100%;
+    }
 
     aside {
         padding: 16px;
         border-right: 1px solid var(--separator-color);
         flex: 1;
+        height: 100%;
+        box-sizing: border-box;
 
         .search {
             .mat-form-field-wrapper {
@@ -15,8 +22,13 @@
             }
         }
 
-        .selected-provider {
-            background-color: #eee;
+        .proveedores-list {
+            height: calc(100% - 101px);
+            overflow-y: auto;
+
+            .selected-provider {
+                background-color: #eee;
+            }
         }
 
         .new-provider {

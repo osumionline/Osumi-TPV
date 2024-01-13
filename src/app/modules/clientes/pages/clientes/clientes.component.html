@@ -1,7 +1,7 @@
 <otpv-header selectedOption="clientes" />
 
 <mat-card class="clientes">
-    <mat-card-content>
+    <mat-card-content class="full-height">
         <div class="flex-content">
             <aside>
                 <mat-form-field class="search"
@@ -14,8 +14,8 @@
                         <mat-icon>search</mat-icon>
                     </span>
                 </mat-form-field>
-                <mat-action-list>
-                    @for (cliente of cs.clientes | clientListFilter:search; track cliente.id) {
+                <mat-action-list class="clientes-list">
+                    @for (cliente of cs.clientes() | clientListFilter:search; track cliente.id) {
                     <button mat-list-item
                             (click)="selectCliente(cliente)"
                             [ngClass]="{'selected-client': selectedClient.id === cliente.id}">
