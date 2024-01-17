@@ -15,7 +15,7 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list>
-                    @for (empleado of es.empleados | employeeListFilter:search; track empleado.id) {
+                    @for (empleado of es.empleados() | employeeListFilter:search; track empleado.id) {
                     <button mat-list-item
                             (click)="selectEmpleado(empleado)"
                             [ngClass]="{'selected-client': selectedEmpleado.id===empleado.id}"

@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Observable } from "rxjs";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import {
   ComercialInterface,
-  ProveedoresResult,
   ProveedorInterface,
+  ProveedoresResult,
 } from "src/app/interfaces/proveedor.interface";
 import { Proveedor } from "src/app/model/proveedores/proveedor.model";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
@@ -15,7 +15,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ProveedoresService {
-  proveedores: Proveedor[] = [];
+  proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([]);
   loaded: boolean = false;
 
   constructor(private http: HttpClient, private cms: ClassMapperService) {}
@@ -41,7 +41,7 @@ export class ProveedoresService {
   }
 
   loadProveedores(proveedores: Proveedor[]): void {
-    this.proveedores = proveedores;
+    this.proveedores.set(proveedores);
     this.loaded = true;
   }
 
@@ -51,7 +51,7 @@ export class ProveedoresService {
   }
 
   findById(id: number): Proveedor {
-    const ind: number = this.proveedores.findIndex(
+    const ind: number = this.proveedores().findIndex(
       (x: Proveedor): boolean => x.id === id
     );
     if (ind !== -1) {

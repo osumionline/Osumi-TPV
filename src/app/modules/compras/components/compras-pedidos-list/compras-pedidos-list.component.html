@@ -48,7 +48,7 @@
                                             <mat-select formControlName="idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
-                                                @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
+                                                @for (proveedor of proveedoresService.proveedores(); track proveedor.id) {
                                                 <mat-option [value]="proveedor.id">
                                                     {{proveedor.nombre}}
                                                 </mat-option>
@@ -243,7 +243,7 @@
                                             <mat-select formControlName="idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
-                                                @for (proveedor of proveedoresService.proveedores; track proveedor.id) {
+                                                @for (proveedor of proveedoresService.proveedores(); track proveedor.id) {
                                                 <mat-option [value]="proveedor.id">
                                                     {{proveedor.nombre}}
                                                 </mat-option>

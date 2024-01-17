@@ -42,7 +42,7 @@
                         <mat-select [(ngModel)]="pedido.idProveedor"
                                     #proveedoresValue>
                             <mat-option [value]="-1">Elige proveedor</mat-option>
-                            @for (proveedor of ps.proveedores; track proveedor.id) {
+                            @for (proveedor of ps.proveedores(); track proveedor.id) {
                             <mat-option [value]="proveedor.id">
                                 {{proveedor.nombre}}
                             </mat-option>

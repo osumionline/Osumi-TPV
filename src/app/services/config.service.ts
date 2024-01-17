@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Observable, of } from "rxjs";
 import {
@@ -66,7 +66,9 @@ export class ConfigService {
     { id: 12, name: "Diciembre", days: 31 },
   ];
 
-  provincias: ProvinceInterface[] = [];
+  provincias: WritableSignal<ProvinceInterface[]> = signal<ProvinceInterface[]>(
+    []
+  );
 
   constructor(
     private title: Title,
@@ -172,7 +174,7 @@ export class ConfigService {
             return a.name.localeCompare(b.name);
           });
 
-          this.provincias = newList;
+          this.provincias.set(newList);
           resolve("ok");
         });
       }

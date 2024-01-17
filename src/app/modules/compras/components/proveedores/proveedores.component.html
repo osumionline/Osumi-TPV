@@ -14,7 +14,7 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list class="proveedores-list">
-                    @for (proveedor of ps.proveedores | providerListFilter:search; track proveedor.id) {
+                    @for (proveedor of ps.proveedores() | providerListFilter:search; track proveedor.id) {
                     <button mat-list-item
                             (click)="selectProveedor(proveedor)"
                             [ngClass]="{'selected-provider': selectedProveedor.id===proveedor.id}">

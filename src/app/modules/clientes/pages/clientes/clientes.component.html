@@ -126,7 +126,7 @@
                                         <label>Provincia</label>
                                         <mat-form-field class="max-width">
                                             <mat-select formControlName="provincia">
-                                                @for (provincia of config.provincias; track provincia.id) {
+                                                @for (provincia of config.provincias(); track provincia.id) {
                                                 <mat-option [value]="provincia.id">
                                                     {{provincia.name}}
                                                 </mat-option>
@@ -222,7 +222,7 @@
                                         <label>Provincia</label>
                                         <mat-form-field class="max-width">
                                             <mat-select formControlName="factProvincia">
-                                                @for (provincia of config.provincias; track provincia.id) {
+                                                @for (provincia of config.provincias(); track provincia.id) {
                                                 <mat-option [value]="provincia.id">
                                                     {{provincia.name}}
                                                 </mat-option>

@@ -97,7 +97,7 @@
                             <label>Proveedor</label>
                             <mat-form-field>
                                 <mat-select formControlName="idProveedor">
-                                    @for (prov of ps.proveedores; track prov.id) {
+                                    @for (prov of ps.proveedores(); track prov.id) {
                                     <mat-option [value]="prov.id">
                                         {{prov.nombre}}
                                     </mat-option>

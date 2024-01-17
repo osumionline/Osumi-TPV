@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Observable } from "rxjs";
 import {
   EmpleadoLoginInterface,
@@ -15,7 +15,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class EmpleadosService {
-  empleados: Empleado[] = [];
+  empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([]);
   colors: any = {};
   textColors: any = {};
   loaded: boolean = false;
@@ -43,8 +43,8 @@ export class EmpleadosService {
   }
 
   loadEmpleados(empleados: Empleado[]): void {
-    this.empleados = empleados;
-    for (let e of empleados) {
+    this.empleados.set(empleados);
+    for (const e of empleados) {
       this.colors[e.id] = e.color;
       this.textColors[e.id] = e.textColor;
     }

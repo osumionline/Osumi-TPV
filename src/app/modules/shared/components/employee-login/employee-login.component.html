@@ -1,5 +1,5 @@
 <div class="empleados-list">
-    @for (empleado of es.empleados; track empleado.id) {
+    @for (empleado of es.empleados(); track empleado.id) {
     <div class="empleado"
          [ngStyle]="{'background-color':empleado.color, 'color': empleado.textColor}"
          (click)="abreLogin(empleado)">

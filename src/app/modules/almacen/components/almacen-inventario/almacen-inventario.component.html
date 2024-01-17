@@ -5,7 +5,7 @@
             <mat-select [(ngModel)]="buscador.idProveedor"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige proveedor</mat-option>
-                @for (proveedor of ps.proveedores; track proveedor.id) {
+                @for (proveedor of ps.proveedores(); track proveedor.id) {
                 <mat-option [value]="proveedor.id">
                     {{proveedor.nombre}}
                 </mat-option>
