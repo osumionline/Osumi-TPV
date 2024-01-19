@@ -4,6 +4,7 @@ import { formatNumber } from "@osumi/tools";
 import { Observable } from "rxjs";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
+import { EstadisticasClienteResult } from "src/app/interfaces/cliente.interface";
 import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
 import {
   FinVentaResult,
@@ -67,8 +68,8 @@ export class VentasService {
   }
 
   updateArticulo(articulo: Articulo): void {
-    for (let venta of this.list) {
-      for (let linea of venta.lineas) {
+    for (const venta of this.list) {
+      for (const linea of venta.lineas) {
         if (linea.idArticulo === articulo.id) {
           linea.descripcion = articulo.nombre;
           linea.stock = articulo.stock;
@@ -97,7 +98,7 @@ export class VentasService {
     this.fin.idCliente = cliente.id;
     this.fin.email = cliente.email;
     if (cliente.descuento !== 0) {
-      for (let linea of this.ventaActual.lineas) {
+      for (const linea of this.ventaActual.lineas) {
         if (linea.localizador !== null) {
           linea.descuentoManual = false;
           linea.descuento = cliente.descuento;
@@ -105,22 +106,25 @@ export class VentasService {
       }
       this.ventaActual.updateImporte();
     }
-    this.cs.getEstadisticasCliente(cliente.id).subscribe((result) => {
-      if (result.status === "ok") {
-        this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-          result.ultimasVentas
-        );
-        this.cliente.topVentas = this.cms.getTopVentaArticulos(
-          result.topVentas
-        );
-      } else {
-        this.dialog.alert({
-          title: "Error",
-          content: "¡Ocurrió un error al obtener las estadísticas del cliente!",
-          ok: "Continuar",
-        });
-      }
-    });
+    this.cs
+      .getEstadisticasCliente(cliente.id)
+      .subscribe((result: EstadisticasClienteResult): void => {
+        if (result.status === "ok") {
+          this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+            result.ultimasVentas
+          );
+          this.cliente.topVentas = this.cms.getTopVentaArticulos(
+            result.topVentas
+          );
+        } else {
+          this.dialog.alert({
+            title: "Error",
+            content:
+              "¡Ocurrió un error al obtener las estadísticas del cliente!",
+            ok: "Continuar",
+          });
+        }
+      });
   }
 
   loadFinVenta(): void {
