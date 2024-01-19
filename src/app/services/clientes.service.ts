@@ -62,7 +62,7 @@ export class ClientesService {
       (x: Cliente): boolean => x.id === id
     );
     if (ind !== -1) {
-      return this.clientes[ind];
+      return this.clientes()[ind];
     }
     return null;
   }

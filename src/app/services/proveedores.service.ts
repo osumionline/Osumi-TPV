@@ -55,7 +55,7 @@ export class ProveedoresService {
       (x: Proveedor): boolean => x.id === id
     );
     if (ind !== -1) {
-      return this.proveedores[ind];
+      return this.proveedores()[ind];
     }
     return null;
   }
