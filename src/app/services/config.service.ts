@@ -109,9 +109,9 @@ export class ConfigService {
               clientesPromise,
               provinciasPromise,
             ]).then((): void => {
-              if (this.empleadosService.empleados.length == 1) {
+              if (this.empleadosService.empleados().length == 1) {
                 this.empleados = false;
-                this.idEmpleadoDef = this.empleadosService.empleados[0].id;
+                this.idEmpleadoDef = this.empleadosService.empleados()[0].id;
                 this.colorEmpleadoDef =
                   this.empleadosService.colors[this.idEmpleadoDef];
                 this.colorTextEmpleadoDef =
