@@ -31,7 +31,8 @@ export default class InventarioPrintComponent implements OnInit {
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
-  totalInventario: number = 0;
+  totalPVP: number = 0;
+  totalPUC: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,7 +66,8 @@ export default class InventarioPrintComponent implements OnInit {
       .subscribe((result: BuscadorAlmacenResult): void => {
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
-        this.totalInventario = result.total;
+        this.totalPVP = result.totalPVP;
+        this.totalPUC = result.totalPUC;
 
         setTimeout((): void => {
           window.print();

@@ -78,7 +78,8 @@ export class AlmacenInventarioComponent
   list: InventarioItem[] = [];
   pags: number = 0;
   pageIndex: number = 0;
-  totalInventario: number = 0;
+  totalPVP: number = 0;
+  totalPUC: number = 0;
 
   inventarioDisplayedColumns: string[] = [
     "localizador",
@@ -126,7 +127,8 @@ export class AlmacenInventarioComponent
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
         this.pags = result.pags;
-        this.totalInventario = result.total;
+        this.totalPVP = result.totalPVP;
+        this.totalPUC = result.totalPUC;
 
         this.as.buscador = this.buscador;
         this.as.list = this.list;
