@@ -54,7 +54,7 @@ export class MarcasService {
       (x: Marca): boolean => x.id === id
     );
     if (ind !== -1) {
-      return this.marcas[ind];
+      return this.marcas()[ind];
     }
     return null;
   }
