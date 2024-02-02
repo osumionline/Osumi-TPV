@@ -151,7 +151,8 @@
 			@if ((linea.descuento !== null || editarDescuento) && linea.fromVenta === null) {
 			@if (!editarDescuento) {
 			<span class="editar-linea-descuento"
-				  (click)="editarLineaDescuento(i)">
+				  (click)="editarLineaDescuento(i)"
+				  [ngClass]="{'con-descuento':linea.descuento !== 0}">
 				{{linea.descuento | fixedNumber}}
 				@if (!linea.descuentoManual) {
 				%
