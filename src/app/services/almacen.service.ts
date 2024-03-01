@@ -23,6 +23,7 @@ export class AlmacenService {
     idProveedor: null,
     idMarca: null,
     nombre: null,
+    descuento: false,
     orderBy: null,
     orderSent: null,
     pagina: 1,

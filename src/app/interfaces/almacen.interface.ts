@@ -2,6 +2,7 @@ export interface BuscadorAlmacenInterface {
   idProveedor: number;
   idMarca: number;
   nombre: string;
+  descuento: boolean;
   orderBy: string;
   orderSent: string;
   pagina: number;

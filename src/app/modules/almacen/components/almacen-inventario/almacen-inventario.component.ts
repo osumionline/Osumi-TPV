@@ -17,6 +17,7 @@ import {
   PageEvent,
 } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
+import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -61,6 +62,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
     MatTableModule,
     MatTooltipModule,
     MatPaginatorModule,
+    MatSlideToggle,
   ],
 })
 export class AlmacenInventarioComponent
@@ -70,6 +72,7 @@ export class AlmacenInventarioComponent
     idProveedor: null,
     idMarca: null,
     nombre: null,
+    descuento: false,
     orderBy: null,
     orderSent: null,
     pagina: 1,
