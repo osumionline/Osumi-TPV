@@ -1,0 +1,48 @@
+<div class="new-cod-barras">
+    <input type="text"
+           class="new-cod-barras-item"
+           placeholder="Nuevo código de barras"
+           [(ngModel)]="newCodBarras"
+           (keydown)="preventCodBarras($event)"
+           (keyup)="fixCodBarras($event)"
+           #codigoBarrasBox>
+    <button mat-raised-button
+            color="primary"
+            type="button"
+            (click)="fixCodBarras()">Añadir</button>
+</div>
+
+@if (articulo().codigosBarras.length === 0) {
+<div class="cod-barras-empty">
+    Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
+</div>
+}
+
+<div class="cod-barras-list">
+    @for (codBarras of articulo().codigosBarras; track codBarras.id) {
+    <div class="cod-barras-item"
+         [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
+        <qrcode [qrdata]="codBarras.codigoBarras.toString()"
+                [allowEmptyString]="true"
+                [elementType]="'svg'"
+                [errorCorrectionLevel]="'M'"
+                [colorDark]="'#000000ff'"
+                [colorLight]="'#ffffff00'"
+                [margin]="4"
+                [scale]="1"
+                [width]="150" />
+        <div class="cod-barras-item-cod">
+            <span>{{ codBarras.codigoBarras }}</span>
+            @if (!codBarras.porDefecto) {
+            <button class="cod-barras-item-remove"
+                    mat-icon-button
+                    aria-label="Borrar código de barras"
+                    title="Borrar código de barras"
+                    (click)="deleteCodBarras(codBarras)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            }
+        </div>
+    </div>
+    }
+</div>

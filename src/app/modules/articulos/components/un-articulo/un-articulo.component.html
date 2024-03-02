@@ -1,762 +1,108 @@
 <mat-card class="card-margin">
     <mat-card-content>
-        <form [formGroup]="form"
-              (ngSubmit)="guardar()">
-            <div class="articulo-header">
-                <div class="form-field">
-                    <label>Localizador</label>
-                    <mat-form-field class="campo-numero"
-                                    subscriptSizing="dynamic">
-                        <input matInput
-                               placeholder="Localizador"
-                               formControlName="localizador"
-                               (keydown)="checkLocalizador($event)"
-                               #localizadorBox>
-                    </mat-form-field>
-                    <button mat-icon-button
-                            aria-label="Añadir acceso directo"
-                            title="Añadir acceso directo"
-                            type="button"
-                            (click)="abrirAccesosDirectos()">
-                        <mat-icon>launch</mat-icon>
-                    </button>
-                </div>
-                <div class="form-field articulos-space">
-                    <label>Nombre (*)</label>
-                    <mat-form-field class="nombre-label form-title"
-                                    subscriptSizing="dynamic">
-                        <input matInput
-                               placeholder="Nombre"
-                               formControlName="nombre">
-                    </mat-form-field>
-                </div>
-            </div>
-            <mat-tab-group animationDuration="0ms"
-                           [selectedIndex]="selectedTab"
-                           (selectedIndexChange)="selectedTab = $event"
-                           (selectedTabChange)="checkArticulosTab($event)"
-                           dynamicHeight>
-                <mat-tab label="GENERAL">
-                    <div>
-                        <div class="form-field margin-right">
-                            <label>Marca (*)</label>
-                            <mat-form-field>
-                                <mat-select formControlName="idMarca">
-                                    @for (marca of ms.marcas(); track marca.id) {
-                                    <mat-option [value]="marca.id">
-                                        {{marca.nombre}}
-                                    </mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                            <button mat-icon-button
-                                    aria-label="Añadir nueva marca"
-                                    title="Añadir nueva marca"
-                                    type="button"
-                                    (click)="newMarca()">
-                                <mat-icon>add_circle_outline</mat-icon>
-                            </button>
-                        </div>
-                        <div class="form-field margin-right">
-                            <label>IVA (*)</label>
-                            <mat-form-field>
-                                <mat-select formControlName="iva">
-                                    @for (iva of ivaList; track iva) {
-                                    <mat-option [value]="iva">
-                                        {{iva}} %
-                                    </mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        @if (tipoIva === 're') {
-                        <div class="form-field margin-right">
-                            <label>RE (*)</label>
-                            <mat-form-field>
-                                <mat-select formControlName="re">
-                                    @for (re of reList; track re) {
-                                    <mat-option [value]="re">
-                                        {{re}} %
-                                    </mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        }
-                        @if (mostrarWeb) {
-                        <div class="form-field">
-                            <label>Venta online</label>
-                            <mat-slide-toggle color="primary"
-                                              formControlName="ventaOnline">{{ articulo.ventaOnline ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
-                        </div>
-                        }
-                    </div>
-
-                    <div>
-                        <div class="form-field margin-right">
-                            <label>Proveedor</label>
-                            <mat-form-field>
-                                <mat-select formControlName="idProveedor">
-                                    @for (prov of ps.proveedores(); track prov.id) {
-                                    <mat-option [value]="prov.id">
-                                        {{prov.nombre}}
-                                    </mat-option>
-                                    }
-                                </mat-select>
-                            </mat-form-field>
-                            <button mat-icon-button
-                                    title="Añadir nuevo proveedor"
-                                    type="button"
-                                    (click)="openProveedor()">
-                                <mat-icon>add_circle_outline</mat-icon>
-                            </button>
-                        </div>
-                        <!--div class="form-field">
-												<label>Categoría</label>
-												<mat-form-field>
-													<mat-select formControlName="idCategoria">
-                                                        @for (cat of categoriesPlain; track cat.id) {
-														<mat-option [value]="cat.id">
-															<span style="display: block;"
-																  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
-														</mat-option>
-                                                        }
-													</mat-select>
-												</mat-form-field>
-											</div-->
-                        <div class="form-field margin-right">
-                            <label>Referencia</label>
-                            <mat-form-field>
-                                <input matInput
-                                       placeholder="Referencia"
-                                       formControlName="referencia">
-                            </mat-form-field>
-                        </div>
-                        <div class="form-field"
-                             [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
-                            <label>Fecha de caducidad</label>
-                            <mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
-                                            (click)="editFecCad()">
-                                <input matInput
-                                       placeholder="Fecha de caducidad"
-                                       [(ngModel)]="fecCad"
-                                       [ngModelOptions]="{standalone: true}">
-                            </mat-form-field>
-                            <mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
-                                <input matInput
-                                       placeholder="Fecha de caducidad"
-                                       formControlName="fechaCaducidad"
-                                       (keyup)="checkFecCad($event)"
-                                       (blur)="checkFecCad($event, true)"
-                                       #fecCadValue>
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <div class="articulo-numbers-row">
-                        <div class="articulo-numbers">
-                            <div class="articulo-col">
-                                <div class="form-field-left">
-                                    <label>Precio albarán</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               placeholder="Precio albarán"
-                                               class="align-right"
-                                               (blur)="setTwoNumberDecimal($event)"
-                                               (focus)="$event.target.select()"
-                                               (keyup)="updatePalb()"
-                                               formControlName="palb">
-                                    </mat-form-field>
-                                    <span>€</span>
-                                </div>
-                                <div class="form-field-left">
-                                    <label>PUC</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               placeholder="Precio Unitario de Compra"
-                                               class="align-right"
-                                               (blur)="setTwoNumberDecimal($event)"
-                                               (focus)="$event.target.select()"
-                                               (keyup)="updatePuc()"
-                                               formControlName="puc">
-                                    </mat-form-field>
-                                    <span>€</span>
-                                </div>
-                                <div class="form-field-left margen">
-                                    <label>Margen</label>
-                                    <span (click)="abrirMargenes()">
-                                        {{articulo.margen | fixedNumber}} %
-                                    </span>
-                                </div>
-                                <div class="form-field-left">
-                                    <label>PVP</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               placeholder="Precio de Venta al Público"
-                                               class="align-right"
-                                               (blur)="setTwoNumberDecimal($event)"
-                                               (focus)="$event.target.select()"
-                                               (keyup)="updatePvp()"
-                                               formControlName="pvp">
-                                    </mat-form-field>
-                                    <span>€</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="articulo-numbers">
-                            <div class="articulo-col">
-                                <!-- div class="form-field-left fixed-height">
-                                    &nbsp; Este campo se volverá a habilitar cuando se ponga el stock mínimo y máximo
-                                </div -->
-                                <div class="form-field-left">
-                                    <label>Stock</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               step="1"
-                                               placeholder="Stock"
-                                               formControlName="stock"
-                                               (focus)="$event.target.select()"
-                                               class="align-right">
-                                    </mat-form-field>
-                                </div>
-                                <div class="form-field-left fixed-height">
-                                    <label>Descuento</label>
-                                    <mat-slide-toggle color="primary"
-                                                      [(ngModel)]="articulo.descuento"
-                                                      [ngModelOptions]="{standalone: true}">{{ articulo.descuento ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
-                                </div>
-                                <div class="form-field-left margen"
-                                     [ngClass]="{'hide': !articulo.descuento}">
-                                    <label>Margen (dto)</label>
-                                    <span (click)="abrirMargenesDescuento()">
-                                        {{articulo.margenDescuento | fixedNumber}} %
-                                    </span>
-                                </div>
-                                <div class="form-field-left"
-                                     [ngClass]="{'hide': !articulo.descuento}">
-                                    <label>PVP (dto)</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               placeholder="Precio de Venta al Público"
-                                               class="align-right"
-                                               (blur)="setTwoNumberDecimal($event)"
-                                               (focus)="$event.target.select()"
-                                               (keyup)="updatePvpDescuento()"
-                                               formControlName="pvpDescuento">
-                                    </mat-form-field>
-                                    <span>€</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="articulo-numbers">
-                            <div class="articulo-col articulo-col-reverse">
-                                <div class="form-field-left"
-                                     [ngClass]="{'hide': !articulo.descuento}">
-                                    <label>Descuento</label>
-                                    <mat-form-field class="campo-numero">
-                                        <input matInput
-                                               type="number"
-                                               min="0"
-                                               max="100"
-                                               step="1"
-                                               placeholder="% (dto)"
-                                               class="align-right"
-                                               (blur)="setTwoNumberDecimal($event)"
-                                               (focus)="$event.target.select()"
-                                               (keyup)="updatePorcentajeDescuento()"
-                                               formControlName="porcentajeDescuento">
-                                    </mat-form-field>
-                                    <span>%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="articulo-numbers">
-                            <div class="articulo-col">
-                                <!-- El campo stock irá aquí al volver a poner el stock mínimo y máximo -->
-                                <!--div class="form-field-left">
-								<label>Stock mínimo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Stock mínimo"
-										   formControlName="stockMin"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
-                                <!--div class="form-field-left">
-								<label>Stock máximo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Stock máximo"
-										   formControlName="stockMax"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
-                                <!--div class="form-field-left">
-								<label>Lote óptimo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Lote óptimo"
-										   formControlName="loteOptimo"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
-                            </div>
-                        </div>
-                    </div>
-                </mat-tab>
-                <mat-tab label="CÓDIGOS DE BARRAS">
-                    <div class="new-cod-barras">
-                        <input type="text"
-                               class="new-cod-barras-item"
-                               placeholder="Nuevo código de barras"
-                               [(ngModel)]="newCodBarras"
-                               [ngModelOptions]="{standalone: true}"
-                               (keydown)="preventCodBarras($event)"
-                               (keyup)="fixCodBarras($event)"
-                               #codigoBarrasBox>
-                        <button mat-raised-button
-                                color="primary"
-                                type="button"
-                                (click)="fixCodBarras()">Añadir</button>
-                    </div>
-
-                    @if (articulo.codigosBarras.length === 0) {
-                    <div class="cod-barras-empty">
-                        Al guardar un nuevo producto se le asignará un código de barras por defecto basado en el localizador del artículo.
-                    </div>
-                    }
-
-                    <div class="cod-barras-list">
-                        @for (codBarras of articulo.codigosBarras; track codBarras.id) {
-                        <div class="cod-barras-item"
-                             [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
-                            <qrcode [qrdata]="codBarras.codigoBarras.toString()"
-                                    [allowEmptyString]="true"
-                                    [elementType]="'svg'"
-                                    [errorCorrectionLevel]="'M'"
-                                    [colorDark]="'#000000ff'"
-                                    [colorLight]="'#ffffff00'"
-                                    [margin]="4"
-                                    [scale]="1"
-                                    [width]="150" />
-                            <div class="cod-barras-item-cod">
-                                <span>{{ codBarras.codigoBarras }}</span>
-                                @if (!codBarras.porDefecto) {
-                                <button class="cod-barras-item-remove"
-                                        mat-icon-button
-                                        aria-label="Borrar código de barras"
-                                        title="Borrar código de barras"
-                                        (click)="deleteCodBarras(codBarras)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                                }
-                            </div>
-                        </div>
-                        }
-                    </div>
-                </mat-tab>
-                @if (articulo.id !== null) {
-                <mat-tab label="ESTADÍSTICAS">
-                    <div class="stats-box">
-                        <label>Estadísticas ventas</label>
-                        <div class="stats-data"></div>
-                        <div class="stats-controls">
-                            <div class="form-field">
-                                <label>Estadísticas ventas (tipo)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsVentas.type"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option value="units">Unidades</mat-option>
-                                        <mat-option value="amount">Importe</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="form-field">
-                                <label>Estadísticas ventas (mes)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsVentas.month"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option [value]="-1">Todos</mat-option>
-                                        @for (month of monthList; track month.id) {
-                                        <mat-option [value]="month.id">
-                                            {{month.name}}
-                                        </mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="form-field">
-                                <label>Estadísticas ventas (año)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsVentas.year"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option [value]="-1">Todos</mat-option>
-                                        @for (year of statsYearList; track year) {
-                                        <mat-option [value]="year">
-                                            {{year}}
-                                        </mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    @if (articulo.id !== null) {
-                    <div class="stats-box stats-box-margin-bottom">
-                        <label>Estadísticas web</label>
-                        <div class="stats-data"></div>
-                        <div class="stats-controls">
-                            <div class="form-field">
-                                <label>Estadísticas web (tipo)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsWeb.type"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option value="units">Unidades</mat-option>
-                                        <mat-option value="amount">Importe</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="form-field">
-                                <label>Estadísticas web (mes)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsWeb.month"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option [value]="-1">Todos</mat-option>
-                                        @for (month of monthList; track month.id) {
-                                        <mat-option [value]="month.id">
-                                            {{month.name}}
-                                        </mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="form-field">
-                                <label>Estadísticas web (año)</label>
-                                <mat-form-field>
-                                    <mat-select [(ngModel)]="statsWeb.year"
-                                                [ngModelOptions]="{standalone: true}">
-                                        <mat-option [value]="-1">Todos</mat-option>
-                                        @for (year of statsYearList; track year) {
-                                        <mat-option [value]="year">
-                                            {{year}}
-                                        </mat-option>
-                                        }
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    }
-                </mat-tab>
-                }
-                @if (mostrarWeb && articulo.ventaOnline) {
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        WEB
-                        @if (articulo.mostrarEnWeb) {
-                        <mat-icon class="tab-icon">check_circle</mat-icon>
-                        }
-                    </ng-template>
-                    <div>
-                        <div class="form-field-left-short">
-                            <label>Mostrar en web</label>
-                            <mat-slide-toggle color="primary"
-                                              formControlName="mostrarEnWeb">{{ articulo.mostrarEnWeb ? 'Activado' : 'Desactivado' }}</mat-slide-toggle>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-field max-width">
-                            <label>Descripción corta</label>
-                            <mat-form-field class="max-width">
-                                <textarea matInput
-                                          placeholder="Descripción corta"
-                                          formControlName="descCorta"
-                                          rows="5"></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-field max-width">
-                            <label>Descripción larga</label>
-                            <mat-form-field class="max-width">
-                                <textarea matInput
-                                          placeholder="Descripción larga"
-                                          formControlName="descripcion"
-                                          rows="25"></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <input type="file"
-                           name="foto-file"
-                           id="foto-file"
-                           accept="image/png, image/gif, image/jpeg"
-                           (change)="onFotoChange($event)">
-                    <div class="fotos-list">
-                        @for (foto of articulo.fotosList; track foto.id; let i = $index) {
-                        @if (foto.status !== 'deleted') {
-                        <div class="foto-item">
-                            <img [src]="foto.url"
-                                 [alt]="articulo.nombre">
-                            <div class="foto-icon foto-icon-delete"
-                                 (click)="deleteFoto(i)">
-                                <mat-icon>delete_forever</mat-icon>
-                            </div>
-                            <div class="foto-icon foto-icon-previous"
-                                 (click)="moveFoto('left', i)">
-                                <mat-icon>arrow_back_ios</mat-icon>
-                            </div>
-                            <div class="foto-icon foto-icon-next"
-                                 (click)="moveFoto('right', i)">
-                                <mat-icon>arrow_forward_ios</mat-icon>
-                            </div>
-                        </div>
-                        }
-                        }
-                    </div>
-                    <div class="fotos-add">
-                        <button mat-raised-button
-                                color="primary"
-                                (click)="addFoto()">Añadir foto</button>
-                    </div>
-                </mat-tab>
-                }
-                @if (articulo.id !== null) {
-                <mat-tab label="HISTÓRICO">
-                    <div class="historico-table">
-                        <table mat-table
-                               [dataSource]="historicoArticuloDataSource"
-                               matSort
-                               (matSortChange)="cambiarOrdenHistoricoArticulo($event)"
-                               class="mat-elevation-z2">
-
-                            <!-- Fecha -->
-                            <ng-container matColumnDef="createdAt">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por fecha">
-                                    Fecha
-                                </th>
-                                <td mat-cell
-                                    *matCellDef="let element"> {{element.createdAt}} </td>
-                            </ng-container>
-
-                            <!-- Tipo -->
-                            <ng-container matColumnDef="tipo">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por tipo">
-                                    Tipo
-                                </th>
-                                <td mat-cell
-                                    *matCellDef="let element">
-                                    @switch (element.tipo) {
-                                    @case (1) {
-                                    <span>Venta</span>
-                                    }
-                                    @case (2) {
-                                    <span>Venta (web)</span>
-                                    }
-                                    @case (3) {
-                                    <span>Pedido</span>
-                                    }
-                                    @case (4) {
-                                    <span>Manual</span>
-                                    }
-                                    @case (5) {
-                                    <span>Inventario</span>
-                                    }
-                                    @case (6) {
-                                    <span>Inventario (múltiple)</span>
-                                    }
-                                    }
-                                </td>
-                            </ng-container>
-
-                            <!-- Stock previo -->
-                            <ng-container matColumnDef="stockPrevio">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="center"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por stock previo">
-                                    Stock previo
-                                </th>
-                                <td mat-cell
-                                    class="center"
-                                    *matCellDef="let element"> {{element.stockPrevio}} </td>
-                            </ng-container>
-
-                            <!-- Diferencia -->
-                            <ng-container matColumnDef="diferencia">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="center"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por diferencia">
-                                    Diferencia
-                                </th>
-                                <td mat-cell
-                                    class="center"
-                                    *matCellDef="let element"> {{element.diferencia}} </td>
-                            </ng-container>
-
-                            <!-- Stock final -->
-                            <ng-container matColumnDef="stockFinal">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="center"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por stock final">
-                                    Stock final
-                                </th>
-                                <td mat-cell
-                                    class="center"
-                                    *matCellDef="let element"> {{element.stockFinal}} </td>
-                            </ng-container>
-
-                            <!-- PUC -->
-                            <ng-container matColumnDef="puc">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="right"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por PUC">
-                                    PUC
-                                </th>
-                                <td mat-cell
-                                    class="right"
-                                    *matCellDef="let element"> {{element.puc | fixedNumber}} € </td>
-                            </ng-container>
-
-                            <!-- PVP -->
-                            <ng-container matColumnDef="pvp">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="right"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por PVP">
-                                    PVP
-                                </th>
-                                <td mat-cell
-                                    class="right"
-                                    *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
-                            </ng-container>
-
-                            <!-- Venta -->
-                            <ng-container matColumnDef="idVenta">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="center"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por venta">
-                                    Venta
-                                </th>
-                                <td mat-cell
-                                    class="center"
-                                    *matCellDef="let element"> {{element.idVenta}} </td>
-                            </ng-container>
-
-                            <!-- Pedido -->
-                            <ng-container matColumnDef="idPedido">
-                                <th mat-header-cell
-                                    *matHeaderCellDef
-                                    class="center"
-                                    mat-sort-header
-                                    sortActionDescription="Ordenar por pedido">
-                                    Pedido
-                                </th>
-                                <td mat-cell
-                                    class="center"
-                                    *matCellDef="let element"> {{element.idPedido}} </td>
-                            </ng-container>
-
-                            <tr mat-header-row
-                                *matHeaderRowDef="historicoArticuloDisplayedColumns"></tr>
-                            <tr mat-row
-                                *matRowDef="let row; columns: historicoArticuloDisplayedColumns; let i = index;"></tr>
-                        </table>
-                        <mat-paginator [length]="historicoArticuloPags"
-                                       [pageSize]="historicoArticuloBuscador.num"
-                                       [pageSizeOptions]="[20, 50, 100, 200]"
-                                       [pageIndex]="historicoArticuloBuscador.pagina"
-                                       (page)="changePageHistoricoArticulo($event)" />
-                    </div>
-                </mat-tab>
-                }
-                <mat-tab label="OBSERVACIONES">
-                    <div>
-                        <div class="form-field max-width">
-                            <label>Observaciones</label>
-                            <mat-form-field class="max-width">
-                                <textarea matInput
-                                          placeholder="Observaciones"
-                                          formControlName="observaciones"
-                                          rows="5"></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-field-left-short">
-                            <label>Mostrar en:</label>
-                            <mat-slide-toggle class="show-check"
-                                              color="primary"
-                                              formControlName="mostrarObsPedidos">Pedidos</mat-slide-toggle>
-                            <mat-slide-toggle class="show-check"
-                                              color="primary"
-                                              formControlName="mostrarObsVentas">Ventas</mat-slide-toggle>
-                        </div>
-                    </div>
-                </mat-tab>
-                @if (articulo.id !== null) {
-                <mat-tab label="BAJA">
-                    <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados históricos.</p>
-                    <div class="dar-de-baja">
-                        <button mat-raised-button
-                                color="warn"
-                                type="button"
-                                (click)="darDeBaja()">Dar de baja</button>
-                    </div>
-                </mat-tab>
-                }
-            </mat-tab-group>
-            <div class="articulo-save">
-                @if (articulo.id) {
-                <button mat-button
-                        (click)="duplicar()"
-                        type="button">Duplicar</button>
-                }
-                <button mat-button
-                        (click)="cancelar()"
-                        type="button">Cancelar</button>
-                <button mat-raised-button
-                        color="primary"
-                        [disabled]="saving">
-                    Guardar
-                </button>
-                <button mat-raised-button
-                        color="primary"
-                        [disabled]="saving"
+        <div class="articulo-header">
+            <div class="form-field">
+                <label>Localizador</label>
+                <mat-form-field class="campo-numero"
+                                subscriptSizing="dynamic">
+                    <input matInput
+                           placeholder="Localizador"
+                           [(ngModel)]="articulo.localizador"
+                           (keydown)="checkLocalizador($event)"
+                           #localizadorBox>
+                </mat-form-field>
+                <button mat-icon-button
+                        aria-label="Añadir acceso directo"
+                        title="Añadir acceso directo"
                         type="button"
-                        (click)="guardarYCerrar()">
-                    Guardar y cerrar
+                        (click)="abrirAccesosDirectos()">
+                    <mat-icon>launch</mat-icon>
                 </button>
             </div>
-        </form>
+            <div class="form-field articulos-space">
+                <label>Nombre (*)</label>
+                <mat-form-field class="nombre-label form-title"
+                                subscriptSizing="dynamic">
+                    <input matInput
+                           placeholder="Nombre"
+                           [(ngModel)]="articulo.nombre">
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-tab-group animationDuration="0ms"
+                       [selectedIndex]="selectedTab"
+                       (selectedIndexChange)="selectedTab = $event"
+                       (selectedTabChange)="checkArticulosTab($event)"
+                       dynamicHeight>
+            <mat-tab label="GENERAL">
+                <otpv-un-articulo-general [(articulo)]="articulo"
+                                          #general />
+            </mat-tab>
+            <mat-tab label="CÓDIGOS DE BARRAS">
+                <otpv-un-articulo-cod-barras [(articulo)]="articulo"
+                                             #codBarras />
+            </mat-tab>
+            @if (articulo.id !== null) {
+            <mat-tab label="ESTADÍSTICAS">
+                <otpv-un-articulo-estadisticas [(articulo)]="articulo"
+                                               #estadisticas />
+            </mat-tab>
+            }
+            @if (mostrarWeb() && articulo.ventaOnline) {
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    WEB
+                    @if (articulo.mostrarEnWeb) {
+                    <mat-icon class="tab-icon">check_circle</mat-icon>
+                    }
+                </ng-template>
+                <otpv-un-articulo-web [(articulo)]="articulo" />
+            </mat-tab>
+            }
+            @if (articulo.id !== null) {
+            <mat-tab label="HISTÓRICO">
+                <otpv-un-articulo-historico [(articulo)]="articulo"
+                                            #historico />
+            </mat-tab>
+            }
+            <mat-tab label="OBSERVACIONES">
+                <otpv-un-articulo-observaciones [(articulo)]="articulo" />
+            </mat-tab>
+            @if (articulo.id !== null) {
+            <mat-tab label="BAJA">
+                <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados históricos.</p>
+                <div class="dar-de-baja">
+                    <button mat-raised-button
+                            color="warn"
+                            type="button"
+                            (click)="darDeBaja()">Dar de baja</button>
+                </div>
+            </mat-tab>
+            }
+        </mat-tab-group>
+        <div class="articulo-save">
+            @if (articulo.id) {
+            <button mat-button
+                    (click)="duplicar()"
+                    type="button">Duplicar</button>
+            }
+            <button mat-button
+                    (click)="cancelar()"
+                    type="button">Cancelar</button>
+            <button mat-raised-button
+                    color="primary"
+                    [disabled]="saving()"
+                    type="button"
+                    (click)="guardar()">
+                Guardar
+            </button>
+            <button mat-raised-button
+                    color="primary"
+                    [disabled]="saving()"
+                    type="button"
+                    (click)="guardarYCerrar()">
+                Guardar y cerrar
+            </button>
+        </div>
     </mat-card-content>
 </mat-card>

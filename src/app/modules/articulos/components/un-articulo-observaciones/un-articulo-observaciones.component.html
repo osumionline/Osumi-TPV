@@ -1,0 +1,26 @@
+<div>
+    <div class="form-field max-width">
+        <label>Observaciones</label>
+        <mat-form-field class="max-width">
+            <textarea matInput
+                      placeholder="Observaciones"
+                      [(ngModel)]="articulo().observaciones"
+                      rows="5"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div>
+    <div class="form-field-left-short">
+        <label>Mostrar en:</label>
+        <mat-slide-toggle class="show-check"
+                          color="primary"
+                          [(ngModel)]="articulo().mostrarObsPedidos">
+            Pedidos
+        </mat-slide-toggle>
+        <mat-slide-toggle class="show-check"
+                          color="primary"
+                          [(ngModel)]="articulo().mostrarObsVentas">
+            Ventas
+        </mat-slide-toggle>
+    </div>
+</div>

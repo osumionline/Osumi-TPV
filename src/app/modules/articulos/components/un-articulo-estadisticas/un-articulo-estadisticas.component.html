@@ -1,0 +1,84 @@
+<div class="stats-box">
+    <label>Estadísticas ventas</label>
+    <div class="stats-data"></div>
+    <div class="stats-controls">
+        <div class="form-field">
+            <label>Estadísticas ventas (tipo)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsVentas.type">
+                    <mat-option value="units">Unidades</mat-option>
+                    <mat-option value="amount">Importe</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <label>Estadísticas ventas (mes)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsVentas.month">
+                    <mat-option [value]="-1">Todos</mat-option>
+                    @for (month of monthList; track month.id) {
+                    <mat-option [value]="month.id">
+                        {{month.name}}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <label>Estadísticas ventas (año)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsVentas.year">
+                    <mat-option [value]="-1">Todos</mat-option>
+                    @for (year of statsYearList; track year) {
+                    <mat-option [value]="year">
+                        {{year}}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+@if (articulo().id !== null) {
+<div class="stats-box stats-box-margin-bottom">
+    <label>Estadísticas web</label>
+    <div class="stats-data"></div>
+    <div class="stats-controls">
+        <div class="form-field">
+            <label>Estadísticas web (tipo)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsWeb.type">
+                    <mat-option value="units">Unidades</mat-option>
+                    <mat-option value="amount">Importe</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <label>Estadísticas web (mes)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsWeb.month">
+                    <mat-option [value]="-1">Todos</mat-option>
+                    @for (month of monthList; track month.id) {
+                    <mat-option [value]="month.id">
+                        {{month.name}}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <label>Estadísticas web (año)</label>
+            <mat-form-field>
+                <mat-select [(ngModel)]="statsWeb.year">
+                    <mat-option [value]="-1">Todos</mat-option>
+                    @for (year of statsYearList; track year) {
+                    <mat-option [value]="year">
+                        {{year}}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+}

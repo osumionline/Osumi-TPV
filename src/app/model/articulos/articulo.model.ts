@@ -117,7 +117,7 @@ export class Articulo {
   }
 
   get hasCodigoBarras(): boolean {
-    for (let cod of this.codigosBarras) {
+    for (const cod of this.codigosBarras) {
       if (cod.porDefecto === false) {
         return true;
       }

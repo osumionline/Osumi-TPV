@@ -1,22 +1,21 @@
-import { CommonModule } from "@angular/common";
+import { NgClass, NgStyle } from "@angular/common";
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  InputSignal,
   OnDestroy,
   OnInit,
   Output,
+  Signal,
   ViewChild,
+  WritableSignal,
+  input,
+  signal,
+  viewChild,
 } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -25,53 +24,35 @@ import { MatInputModule } from "@angular/material/input";
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
-  PageEvent,
 } from "@angular/material/paginator";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
 import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { getTwoNumberDecimal, urldecode } from "@osumi/tools";
+import { urldecode } from "@osumi/tools";
 import { QRCodeModule } from "angularx-qrcode";
 import {
   ArticuloResult,
   ArticuloSaveResult,
-  CategoriasResult,
-  ChartDataInterface,
-  ChartResultInterface,
-  ChartSelectInterface,
-  HistoricoArticuloBuscadorInterface,
-  HistoricoArticuloResult,
 } from "src/app/interfaces/articulo.interface";
-import { Month } from "src/app/interfaces/interfaces";
 import {
   AccesosDirectosModal,
   BuscadorModal,
   DarDeBajaModal,
-  MargenesModal,
-  Modal,
 } from "src/app/interfaces/modals.interface";
 import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Categoria } from "src/app/model/articulos/categoria.model";
-import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
-import { Foto } from "src/app/model/articulos/foto.model";
-import { HistoricoArticulo } from "src/app/model/articulos/historico-articulo.model";
 import { Marca } from "src/app/model/marcas/marca.model";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { IVAOption } from "src/app/model/tpv/iva-option.model";
 import { AccesosDirectosModalComponent } from "src/app/modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component";
 import { ArticuloDarDeBajaModalComponent } from "src/app/modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
-import { MargenesModalComponent } from "src/app/modules/articulos/components/modals/margenes-modal/margenes-modal.component";
-import { NewMarcaModalComponent } from "src/app/modules/articulos/components/modals/new-marca-modal/new-marca-modal.component";
+import { UnArticuloCodBarrasComponent } from "src/app/modules/articulos/components/un-articulo-cod-barras/un-articulo-cod-barras.component";
+import { UnArticuloGeneralComponent } from "src/app/modules/articulos/components/un-articulo-general/un-articulo-general.component";
 import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
-import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
 import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
 import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 import { AlmacenService } from "src/app/services/almacen.service";
 import { ArticulosService } from "src/app/services/articulos.service";
-import { CategoriasService } from "src/app/services/categorias.service";
 import { ClassMapperService } from "src/app/services/class-mapper.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -79,6 +60,10 @@ import { MarcasService } from "src/app/services/marcas.service";
 import { OverlayService } from "src/app/services/overlay.service";
 import { ProveedoresService } from "src/app/services/proveedores.service";
 import { VentasService } from "src/app/services/ventas.service";
+import { UnArticuloEstadisticasComponent } from "../un-articulo-estadisticas/un-articulo-estadisticas.component";
+import { UnArticuloHistoricoComponent } from "../un-articulo-historico/un-articulo-historico.component";
+import { UnArticuloObservacionesComponent } from "../un-articulo-observaciones/un-articulo-observaciones.component";
+import { UnArticuloWebComponent } from "../un-articulo-web/un-articulo-web.component";
 
 @Component({
   standalone: true,
@@ -87,7 +72,8 @@ import { VentasService } from "src/app/services/ventas.service";
   styleUrls: ["./un-articulo.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    CommonModule,
+    NgClass,
+    NgStyle,
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,
@@ -103,9 +89,15 @@ import { VentasService } from "src/app/services/ventas.service";
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    UnArticuloGeneralComponent,
+    UnArticuloCodBarrasComponent,
+    UnArticuloEstadisticasComponent,
+    UnArticuloWebComponent,
+    UnArticuloHistoricoComponent,
+    UnArticuloObservacionesComponent,
   ],
 })
-export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UnArticuloComponent implements OnInit, OnDestroy {
   _articulo: Articulo = null;
   @Input() set articulo(a: Articulo) {
     this._articulo = a === null ? new Articulo() : a;
@@ -114,111 +106,27 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   get articulo(): Articulo {
     return this._articulo;
   }
-  @Input() ind: number = -1;
+  ind: InputSignal<number> = input.required<number>();
   @Output() duplicarArticuloEvent: EventEmitter<Articulo> =
     new EventEmitter<Articulo>();
   @Output() cerrarArticuloEvent: EventEmitter<number> =
     new EventEmitter<number>();
 
-  marca: Marca = new Marca();
-  proveedor: Proveedor = new Proveedor();
-
   loading: boolean = false;
   selectedTab: number = -1;
-  @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
-  mostrarWeb: boolean = false;
-  marcas: Marca[] = [];
-  tipoIva: string = "iva";
-  ivaOptions: IVAOption[] = [];
-  ivaList: number[] = [];
-  reList: number[] = [];
-  categoriesPlain: Categoria[] = [];
-  mostrarCaducidad: boolean = false;
-  fecCad: string = null;
-  fecCadEdit: boolean = false;
-  @ViewChild("fecCadValue", { static: true }) fecCadValue: ElementRef;
-  monthList: Month[] = [];
-  yearList: number[] = [];
-  newCodBarras: string = null;
-  @ViewChild("codigoBarrasBox", { static: true }) codigoBarrasBox: ElementRef;
-  mostrarBuscador: boolean = false;
+  localizadorBox: Signal<ElementRef> =
+    viewChild.required<ElementRef>("localizadorBox");
+  mostrarWeb: WritableSignal<boolean> = signal<boolean>(false);
 
-  marginList: number[] = [];
+  @ViewChild("general", { static: false }) general!: UnArticuloGeneralComponent;
+  @ViewChild("codBarras", { static: false })
+  codBarras!: UnArticuloCodBarrasComponent;
+  @ViewChild("estadisticas", { static: false })
+  estadisticas!: UnArticuloEstadisticasComponent;
+  @ViewChild("historico", { static: false })
+  historico!: UnArticuloHistoricoComponent;
 
-  statsVentas: ChartSelectInterface = {
-    data: "ventas",
-    type: "units",
-    month: -1,
-    year: -1,
-  };
-  statsVentasData: ChartDataInterface[] = [];
-  statsWeb: ChartSelectInterface = {
-    data: "web",
-    type: "units",
-    month: -1,
-    year: -1,
-  };
-  statsYearList: number[] = [];
-  statsWebData: ChartDataInterface[] = [];
-
-  historicoArticuloBuscador: HistoricoArticuloBuscadorInterface = {
-    id: null,
-    orderBy: "createdAt",
-    orderSent: "desc",
-    pagina: 1,
-    num: 20,
-  };
-  historicoArticulo: HistoricoArticulo[] = [];
-  historicoArticuloPags: number = 0;
-
-  historicoArticuloDisplayedColumns: string[] = [
-    "createdAt",
-    "tipo",
-    "stockPrevio",
-    "diferencia",
-    "stockFinal",
-    "puc",
-    "pvp",
-    "idVenta",
-    "idPedido",
-  ];
-  historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =
-    new MatTableDataSource<HistoricoArticulo>();
-  @ViewChild(MatSort) sort: MatSort;
-
-  saving: boolean = false;
-
-  form: FormGroup = new FormGroup({
-    id: new FormControl(null),
-    localizador: new FormControl(null),
-    nombre: new FormControl(null, Validators.required),
-    idMarca: new FormControl(null, Validators.required),
-    iva: new FormControl(null, Validators.required),
-    re: new FormControl(null),
-    ventaOnline: new FormControl(false),
-    palb: new FormControl(null),
-    puc: new FormControl(null),
-    margen: new FormControl(null),
-    margenDescuento: new FormControl(null),
-    pvp: new FormControl(null),
-    pvpDescuento: new FormControl(null),
-    porcentajeDescuento: new FormControl(null),
-    stock: new FormControl(null),
-    stockMin: new FormControl(null),
-    stockMax: new FormControl(null),
-    loteOptimo: new FormControl(null),
-    idProveedor: new FormControl(null),
-    idCategoria: new FormControl(null),
-    referencia: new FormControl(null),
-    fechaCaducidad: new FormControl(null),
-    mostrarEnWeb: new FormControl(false),
-    descCorta: new FormControl(null),
-    descripcion: new FormControl(null),
-    observaciones: new FormControl(null),
-    mostrarObsPedidos: new FormControl(false),
-    mostrarObsVentas: new FormControl(false),
-  });
-
+  saving: WritableSignal<boolean> = signal<boolean>(false);
   showBuscador: boolean = false;
 
   constructor(
@@ -228,7 +136,6 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     private cms: ClassMapperService,
     public ms: MarcasService,
     public ps: ProveedoresService,
-    private css: CategoriasService,
     private ars: ArticulosService,
     private vs: VentasService,
     private als: AlmacenService,
@@ -236,36 +143,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const d = new Date();
-    for (let y: number = d.getFullYear(); y < d.getFullYear() + 5; y++) {
-      this.yearList.push(y);
-    }
     this.loadAppData();
   }
 
-  ngAfterViewInit(): void {
-    this.form.get("iva").valueChanges.subscribe((x: number): void => {
-      this.updateIva(x.toString());
-    });
-    this.form.get("re").valueChanges.subscribe((x: number): void => {
-      this.updateRe(x.toString());
-    });
-    this.historicoArticuloDataSource.sort = this.sort;
-  }
-
   loadAppData(): void {
-    this.tipoIva = this.config.tipoIva;
-    this.ivaOptions = this.config.ivaOptions;
-    for (const ivaOption of this.ivaOptions) {
-      this.ivaList.push(ivaOption.iva);
-      this.reList.push(ivaOption.re);
-    }
-    this.mostrarWeb = this.config.ventaOnline;
-    this.mostrarCaducidad = this.config.fechaCad;
-    this.monthList = this.config.monthList;
-    this.marginList = this.config.marginList;
+    this.mostrarWeb.set(this.config.ventaOnline);
 
-    this.loadCategorias();
     switch (this.articulo.status) {
       case "new":
         {
@@ -274,7 +157,6 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
       case "load":
         {
-          this.form.get("localizador").setValue(this.articulo.localizador);
           this.loadArticulo();
         }
         break;
@@ -283,19 +165,6 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loadArticuloObj();
         }
         break;
-    }
-  }
-
-  loadCategorias(): void {
-    if (!this.css.loaded) {
-      this.css.getCategorias().subscribe((result: CategoriasResult): void => {
-        const list: Categoria[] = this.cms.getCategorias([result.list]);
-        this.css.loadCategorias(list);
-
-        this.categoriesPlain = this.css.categoriasPlain;
-      });
-    } else {
-      this.categoriesPlain = this.css.categoriasPlain;
     }
   }
 
@@ -326,10 +195,10 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
-          this.form.get("localizador").setValue(data.data);
+          this.articulo.localizador = data.data;
           this.loadArticulo();
         } else {
-          this.localizadorBox.nativeElement.focus();
+          this.localizadorBox().nativeElement.focus();
         }
       });
 
@@ -346,55 +215,56 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   loadArticulo(): void {
     this.loading = true;
     this.ars
-      .loadArticulo(this.form.get("localizador").value)
+      .loadArticulo(this.articulo.localizador)
       .subscribe((result: ArticuloResult): void => {
         if (result.status === "ok") {
           const tabName: string = this.articulo.tabName;
-          this.articulo = this.cms.getArticulo(result.articulo);
-          this.articulo.tabName = tabName;
+          this._articulo = this.cms.getArticulo(result.articulo);
+          this._articulo.tabName = tabName;
+
+          setTimeout((): void => {
+            this.loadExtraInfo();
+          }, 0);
         } else {
           this.dialog
             .alert({
               title: "Error",
               content:
                 'No existe ningún artículo con el localizador "' +
-                this.form.get("localizador").value +
+                this.articulo.localizador +
                 '".',
               ok: "Continuar",
             })
             .subscribe((): void => {
-              this.form.get("localizador").setValue(null);
+              this.articulo.localizador = null;
               this.loading = false;
               setTimeout((): void => {
-                this.localizadorBox.nativeElement.select();
+                this.localizadorBox().nativeElement.select();
               }, 200);
             });
         }
       });
   }
 
-  loadArticuloObj(): void {
+  loadExtraInfo(): void {
     if (this.articulo.fechaCaducidad) {
-      this.loadFecCad();
+      this.general.loadFecCad();
     }
 
     if (this.articulo.id) {
-      this.loadStatsVentas();
-      this.loadStatsWeb();
-      this.historicoArticuloBuscador.id = this.articulo.id;
-      this.loadHistorico();
+      this.estadisticas.loadStatsVentas();
+      this.estadisticas.loadStatsWeb();
+      this.historico.loadHistorico();
     }
-
-    this.form.patchValue(this.articulo.toInterface(false));
-    this.form.get("localizador").markAsPristine();
-    this.form.get("palb").markAsPristine();
-    this.form.get("puc").markAsPristine();
-    this.form.get("pvp").markAsPristine();
 
     if (this.articulo.idMarca !== null) {
       const marca: Marca = this.ms.findById(this.articulo.idMarca);
       this.articulo.marca = marca.nombre;
     }
+  }
+
+  loadArticuloObj(): void {
+    this.loadExtraInfo();
 
     this.selectedTab = 0;
     this.loading = false;
@@ -412,11 +282,11 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        this.form.get("localizador").setValue(data.data);
+        this.articulo.localizador = data.data;
         this.loadArticulo();
       }
       setTimeout((): void => {
-        this.localizadorBox.nativeElement.focus();
+        this.localizadorBox().nativeElement.focus();
       }, 0);
     });
   }
@@ -424,389 +294,19 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   checkArticulosTab(ev: MatTabChangeEvent): void {
     if (ev.index === 2) {
       setTimeout((): void => {
-        this.codigoBarrasBox.nativeElement.focus();
+        this.codBarras.focus();
       }, 0);
     }
-  }
-
-  loadFecCad(): void {
-    const fecCad: string[] = this.articulo.fechaCaducidad.split("/");
-    const mes: Month = this.config.monthList.find(
-      (x: Month): boolean => x.id === parseInt(fecCad[0])
-    );
-
-    this.fecCad = mes.name + " 20" + fecCad[1];
-    this.fecCadEdit = false;
-  }
-
-  loadStatsVentas(): void {
-    this.ars
-      .getStatistics(this.statsVentas)
-      .subscribe((result: ChartResultInterface): void => {
-        this.statsVentasData = result.data;
-      });
-  }
-
-  loadStatsWeb(): void {
-    this.ars
-      .getStatistics(this.statsWeb)
-      .subscribe((result: ChartResultInterface): void => {
-        this.statsWebData = result.data;
-      });
-  }
-
-  loadHistorico(): void {
-    this.ars
-      .getHistoricoArticulo(this.historicoArticuloBuscador)
-      .subscribe((result: HistoricoArticuloResult): void => {
-        this.historicoArticuloPags = result.pags;
-        this.historicoArticulo = this.cms.getHistoricoArticulos(result.list);
-        this.historicoArticuloDataSource.data = this.historicoArticulo;
-        console.log(this.historicoArticulo);
-      });
-  }
-
-  cambiarOrdenHistoricoArticulo(sort: Sort): void {
-    if (sort.direction === "") {
-      this.historicoArticuloBuscador.orderBy = null;
-      this.historicoArticuloBuscador.orderSent = null;
-    } else {
-      this.historicoArticuloBuscador.orderBy = sort.active;
-      this.historicoArticuloBuscador.orderSent = sort.direction;
-    }
-    this.loadHistorico();
-  }
-
-  changePageHistoricoArticulo(ev: PageEvent): void {
-    this.historicoArticuloBuscador.pagina = ev.pageIndex + 1;
-    this.historicoArticuloBuscador.num = ev.pageSize;
-    this.loadHistorico();
   }
 
   newArticulo(): void {
     const tabName: string = this.articulo.tabName;
     this.articulo = new Articulo();
     this.articulo.tabName = tabName;
-    this.form.patchValue(this.articulo.toInterface(false));
     this.selectedTab = 0;
     setTimeout((): void => {
-      this.localizadorBox.nativeElement.focus();
+      this.localizadorBox().nativeElement.focus();
     }, 0);
-  }
-
-  newMarca(): void {
-    const modalnewMarcaData: Modal = {
-      modalTitle: "Nueva marca",
-      modalColor: "blue",
-    };
-    const dialog = this.overlayService.open(
-      NewMarcaModalComponent,
-      modalnewMarcaData
-    );
-    dialog.afterClosed$.subscribe((data): void => {
-      if (data !== null) {
-        this.articulo.idMarca = data.data;
-        this.form.get("idMarca").setValue(data.data);
-      }
-    });
-  }
-
-  openProveedor(): void {
-    const modalnewProveedorData: Modal = {
-      modalTitle: "Nuevo proveedor",
-      modalColor: "blue",
-    };
-    const dialog = this.overlayService.open(
-      NewProveedorModalComponent,
-      modalnewProveedorData
-    );
-    dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.articulo.idProveedor = data.data;
-        this.form.get("idProveedor").setValue(data.data);
-      }
-    });
-  }
-
-  updateIva(ev: string): void {
-    const ind: number = this.ivaList.findIndex(
-      (x: number): boolean => x == parseInt(ev)
-    );
-    this.form.get("re").setValue(this.reList[ind], { emitEvent: false });
-
-    const ivare: number =
-      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
-      (this.form.get("re").value !== null ? this.form.get("re").value : 0);
-    const puc: number = this.form.get("palb").value * (1 + ivare / 100);
-    this.updatePuc(puc);
-  }
-
-  updateRe(ev: string): void {
-    const ind: number = this.reList.findIndex(
-      (x: number): boolean => x == parseFloat(ev)
-    );
-    this.form.get("iva").setValue(this.ivaList[ind], { emitEvent: false });
-
-    const ivare: number =
-      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
-      (this.form.get("re").value !== null ? this.form.get("re").value : 0);
-    const puc: number = this.form.get("palb").value * (1 + ivare / 100);
-    this.updatePuc(puc);
-  }
-
-  editFecCad(): void {
-    this.fecCadEdit = true;
-    setTimeout((): void => {
-      if (this.articulo.fechaCaducidad) {
-        this.fecCadValue.nativeElement.select();
-      } else {
-        this.fecCadValue.nativeElement.focus();
-      }
-    }, 200);
-  }
-
-  validateFecCad(): boolean {
-    const fecCadFormat = /[0-9][0-9]\/[0-9][0-9]/;
-    return this.articulo.fechaCaducidad.match(fecCadFormat) !== null;
-  }
-
-  checkFecCad(ev: KeyboardEvent, blur: boolean = false): void {
-    if (ev.key == "Enter" || blur) {
-      if (this.validateFecCad()) {
-        const d = new Date();
-        const checkFecCadStr: string[] =
-          this.articulo.fechaCaducidad.split("/");
-        const month = this.config.monthList.find(
-          (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
-        );
-        const checkD = new Date(
-          2000 + parseInt(checkFecCadStr[1]),
-          parseInt(checkFecCadStr[0]) - 1,
-          month.days,
-          23,
-          59,
-          59
-        );
-        if (d.getTime() > checkD.getTime()) {
-          this.dialog
-            .alert({
-              title: "Error",
-              content:
-                "La fecha introducida no puede ser inferior a la actual.",
-              ok: "Continuar",
-            })
-            .subscribe((): void => {
-              setTimeout((): void => {
-                this.fecCadValue.nativeElement.select();
-              }, 200);
-            });
-          return;
-        } else {
-          this.loadFecCad();
-        }
-      } else {
-        this.dialog
-          .alert({
-            title: "Error",
-            content:
-              'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
-            ok: "Continuar",
-          })
-          .subscribe((): void => {
-            setTimeout((): void => {
-              this.fecCadValue.nativeElement.select();
-            }, 200);
-          });
-        return;
-      }
-    }
-  }
-
-  setTwoNumberDecimal(ev: Event): void {
-    const target = ev.target as HTMLInputElement;
-    target.value =
-      target.value != ""
-        ? parseFloat(target.value.replace(",", ".")).toFixed(2)
-        : "0.00";
-  }
-
-  updatePalb(): void {
-    this.form.get("palb").markAsDirty();
-
-    const ivare: number =
-      (this.form.get("iva").value !== null ? this.form.get("iva").value : 0) +
-      (this.form.get("re").value != -1 ? this.form.get("re").value : 0);
-    const puc: number = getTwoNumberDecimal(
-      this.form.get("palb").value * (1 + ivare / 100)
-    );
-    this.updatePuc(puc);
-  }
-
-  updatePuc(puc: number = null): void {
-    if (puc !== null) {
-      this.form.get("puc").setValue(puc);
-    }
-    this.form.get("puc").markAsDirty();
-
-    this.updateMargen();
-  }
-
-  updateMargen(): void {
-    if (
-      this.form.get("puc").value !== null &&
-      this.form.get("puc").value !== 0 &&
-      this.form.get("pvp").value !== null &&
-      this.form.get("pvp").value !== 0
-    ) {
-      this.articulo.margen =
-        ((this.form.get("pvp").value - this.form.get("puc").value) /
-          this.form.get("pvp").value) *
-        100;
-    } else {
-      this.articulo.margen = 0;
-    }
-    this.form.get("margen").setValue(this.articulo.margen);
-  }
-
-  updateMargenDescuento(): void {
-    if (
-      this.form.get("puc").value !== null &&
-      this.form.get("puc").value !== 0 &&
-      this.form.get("pvpDescuento").value !== null &&
-      this.form.get("pvpDescuento").value !== 0
-    ) {
-      this.articulo.margenDescuento =
-        ((this.form.get("pvpDescuento").value - this.form.get("puc").value) /
-          this.form.get("pvpDescuento").value) *
-        100;
-    } else {
-      this.articulo.margenDescuento = 0;
-    }
-    this.form.get("margenDescuento").setValue(this.articulo.margenDescuento);
-  }
-
-  updatePvp(): void {
-    this.form.get("pvp").markAsDirty();
-
-    this.updateMargen();
-  }
-
-  updatePvpDescuento(): void {
-    this.form.get("pvpDescuento").markAsDirty();
-
-    this.updateMargenDescuento();
-  }
-
-  updatePorcentajeDescuento(): void {
-    if (
-      this.form.get("puc").value !== null &&
-      this.form.get("puc").value !== 0 &&
-      this.form.get("pvpDescuento").value !== null &&
-      this.form.get("pvpDescuento").value !== 0
-    ) {
-      this.articulo.pvpDescuento =
-        this.form.get("pvp").value *
-        ((100 - this.form.get("porcentajeDescuento").value) / 100);
-    } else {
-      this.articulo.pvpDescuento = 0;
-    }
-    this.form.get("pvpDescuento").setValue(this.articulo.pvpDescuento);
-
-    this.updateMargenDescuento();
-  }
-
-  preventCodBarras(ev: KeyboardEvent): void {
-    if (ev) {
-      if (ev.key === "Enter") {
-        ev.preventDefault();
-      }
-    }
-  }
-
-  fixCodBarras(ev: KeyboardEvent = null): void {
-    if (ev) {
-      if (ev.key === "Enter") {
-        this.addNewCodBarras();
-      }
-    } else {
-      this.addNewCodBarras();
-    }
-  }
-
-  addNewCodBarras(): void {
-    if (this.newCodBarras) {
-      const cb: CodigoBarras = new CodigoBarras(null, this.newCodBarras, false);
-
-      this.articulo.codigosBarras.push(cb);
-      this.newCodBarras = null;
-    }
-  }
-
-  deleteCodBarras(codBarras: CodigoBarras): void {
-    const ind: number = this.articulo.codigosBarras.findIndex(
-      (x: CodigoBarras): boolean => x.codigoBarras == codBarras.codigoBarras
-    );
-    this.articulo.codigosBarras.splice(ind, 1);
-  }
-
-  addFoto(): void {
-    document.getElementById("foto-file").click();
-  }
-
-  onFotoChange(ev: Event): void {
-    const reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>ev.target).files &&
-      (<HTMLInputElement>ev.target).files.length > 0
-    ) {
-      const file = (<HTMLInputElement>ev.target).files[0];
-      reader.readAsDataURL(file);
-      reader.onload = (): void => {
-        const foto: Foto = new Foto();
-        foto.load(reader.result as string);
-        this.articulo.fotosList.push(foto);
-        (<HTMLInputElement>document.getElementById("foto-file")).value = "";
-      };
-    }
-  }
-
-  deleteFoto(i: number): void {
-    this.dialog
-      .confirm({
-        title: "Confirmar",
-        content: "¿Estás seguro de querer borrar esta foto?",
-        ok: "Continuar",
-        cancel: "Cancelar",
-      })
-      .subscribe((result: boolean): void => {
-        if (result === true) {
-          if (this.articulo.fotosList[i].status === "ok") {
-            this.articulo.fotosList[i].status = "deleted";
-          }
-          if (this.articulo.fotosList[i].status === "new") {
-            this.articulo.fotosList.splice(i, 1);
-          }
-        }
-      });
-  }
-
-  moveFoto(sent: string, i: number): void {
-    let aux: Foto = null;
-    if (sent === "left") {
-      if (i === 0) {
-        return;
-      }
-      aux = this.articulo.fotosList[i];
-      this.articulo.fotosList[i] = this.articulo.fotosList[i - 1];
-      this.articulo.fotosList[i - 1] = aux;
-    } else {
-      if (i === this.articulo.fotosList.length - 1) {
-        return;
-      }
-      aux = this.articulo.fotosList[i];
-      this.articulo.fotosList[i] = this.articulo.fotosList[i + 1];
-      this.articulo.fotosList[i + 1] = aux;
-    }
   }
 
   darDeBaja(): void {
@@ -857,12 +357,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   cancelar(): void {
-    this.form.reset();
+    /*this.form.reset();
     this.form.patchValue(this.articulo.toInterface(false));
     this.form.get("localizador").markAsPristine();
     this.form.get("palb").markAsPristine();
     this.form.get("puc").markAsPristine();
-    this.form.get("pvp").markAsPristine();
+    this.form.get("pvp").markAsPristine();*/
 
     if (this.ars.returnInfo !== null) {
       this.goToReturn();
@@ -874,7 +374,6 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   guardar(cerrar: boolean = false): void {
-    this.articulo.fromInterface(this.form.value, false);
     this.articulo.stock = this.articulo.stock || 0;
     this.articulo.stockMin = this.articulo.stockMin || 0;
     this.articulo.stockMax = this.articulo.stockMax || 0;
@@ -903,13 +402,12 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.saving = true;
+    this.saving.set(true);
     this.ars
       .saveArticulo(this.articulo.toInterface())
       .subscribe((result: ArticuloSaveResult): void => {
         if (result.status === "ok") {
           this.articulo.localizador = result.localizador;
-          this.form.get("localizador").setValue(result.localizador);
           this.dialog
             .alert({
               title: "Información",
@@ -917,9 +415,9 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               ok: "Continuar",
             })
             .subscribe((): void => {
-              this.saving = false;
+              this.saving.set(false);
               if (cerrar) {
-                this.cerrarArticuloEvent.emit(this.ind);
+                this.cerrarArticuloEvent.emit(this.ind());
               }
               if (this.ars.returnInfo === null) {
                 this.articulo.nombreStatus = "ok";
@@ -929,7 +427,7 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
               }
             });
         } else {
-          this.saving = false;
+          this.saving.set(false);
           if (result.status === "nombre-used") {
             this.dialog
               .confirm({
@@ -980,52 +478,6 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  abrirMargenes(): void {
-    const modalMargenesData: MargenesModal = {
-      modalTitle: "Márgenes",
-      modalColor: "blue",
-      puc: this.form.get("puc").value,
-      list: this.marginList,
-    };
-    const dialog = this.overlayService.open(
-      MargenesModalComponent,
-      modalMargenesData
-    );
-    dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.articulo.margen = data.data;
-        this.articulo.pvp = getTwoNumberDecimal(
-          (this.form.get("puc").value * 100) / (100 - data.data)
-        );
-        this.form.get("pvp").setValue(this.articulo.pvp);
-        this.form.get("pvp").markAsDirty();
-      }
-    });
-  }
-
-  abrirMargenesDescuento(): void {
-    const modalMargenesData: MargenesModal = {
-      modalTitle: "Márgenes",
-      modalColor: "blue",
-      puc: this.form.get("puc").value,
-      list: this.marginList,
-    };
-    const dialog = this.overlayService.open(
-      MargenesModalComponent,
-      modalMargenesData
-    );
-    dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.articulo.margenDescuento = data.data;
-        this.articulo.pvpDescuento = getTwoNumberDecimal(
-          (this.form.get("puc").value * 100) / (100 - data.data)
-        );
-        this.form.get("pvpDescuento").setValue(this.articulo.pvpDescuento);
-        this.form.get("pvpDescuento").markAsDirty();
-      }
-    });
-  }
-
   duplicar(): void {
     this.dialog
       .confirm({
@@ -1042,8 +494,8 @@ export class UnArticuloComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.ars.list[this.ind] !== undefined) {
-      this.ars.list[this.ind] = this.articulo;
+    if (this.ars.list[this.ind()] !== undefined) {
+      this.ars.list[this.ind()] = this.articulo;
     }
   }
 }

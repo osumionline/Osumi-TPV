@@ -1,0 +1,283 @@
+<div>
+    <div class="form-field margin-right">
+        <label>Marca (*)</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="articulo().idMarca">
+                @for (marca of ms.marcas(); track marca.id) {
+                <mat-option [value]="marca.id">
+                    {{marca.nombre}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <button mat-icon-button
+                aria-label="Añadir nueva marca"
+                title="Añadir nueva marca"
+                type="button"
+                (click)="newMarca()">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+    </div>
+    <div class="form-field margin-right">
+        <label>IVA (*)</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="articulo().iva">
+                @for (iva of ivaList; track iva) {
+                <mat-option [value]="iva">
+                    {{iva}} %
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+    @if (tipoIva === 're') {
+    <div class="form-field margin-right">
+        <label>RE (*)</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="articulo().re">
+                @for (re of reList; track re) {
+                <mat-option [value]="re">
+                    {{re}} %
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+    }
+    @if (mostrarWeb) {
+    <div class="form-field">
+        <label>Venta online</label>
+        <mat-slide-toggle color="primary"
+                          [(ngModel)]="articulo().ventaOnline">
+            {{ articulo().ventaOnline ? 'Activado' : 'Desactivado' }}
+        </mat-slide-toggle>
+    </div>
+    }
+</div>
+
+<div>
+    <div class="form-field margin-right">
+        <label>Proveedor</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="articulo().idProveedor">
+                @for (prov of ps.proveedores(); track prov.id) {
+                <mat-option [value]="prov.id">
+                    {{prov.nombre}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <button mat-icon-button
+                title="Añadir nuevo proveedor"
+                type="button"
+                (click)="openProveedor()">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+    </div>
+    <!--div class="form-field">
+												<label>Categoría</label>
+												<mat-form-field>
+													<mat-select [(ngModel)]="articulo().idCategoria">
+                                                        @for (cat of categoriesPlain; track cat.id) {
+														<mat-option [value]="cat.id">
+															<span style="display: block;"
+																  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
+														</mat-option>
+                                                        }
+													</mat-select>
+												</mat-form-field>
+											</div-->
+    <div class="form-field margin-right">
+        <label>Referencia</label>
+        <mat-form-field>
+            <input matInput
+                   placeholder="Referencia"
+                   [(ngModel)]="articulo().referencia">
+        </mat-form-field>
+    </div>
+    <div class="form-field"
+         [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
+        <label>Fecha de caducidad</label>
+        <mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
+                        (click)="editFecCad()">
+            <input matInput
+                   placeholder="Fecha de caducidad"
+                   [(ngModel)]="fecCad"
+                   [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
+            <input matInput
+                   placeholder="Fecha de caducidad"
+                   [(ngModel)]="articulo().fechaCaducidad"
+                   (keyup)="checkFecCad($event)"
+                   (blur)="checkFecCad($event, true)"
+                   #fecCadValue>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="articulo-numbers-row">
+    <div class="articulo-numbers">
+        <div class="articulo-col">
+            <div class="form-field-left">
+                <label>Precio albarán</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           placeholder="Precio albarán"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePalb()"
+                           [(ngModel)]="articulo().palb">
+                </mat-form-field>
+                <span>€</span>
+            </div>
+            <div class="form-field-left">
+                <label>PUC</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           placeholder="Precio Unitario de Compra"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePuc()"
+                           [(ngModel)]="articulo().puc">
+                </mat-form-field>
+                <span>€</span>
+            </div>
+            <div class="form-field-left margen">
+                <label>Margen</label>
+                <span (click)="abrirMargenes()">
+                    {{articulo().margen | fixedNumber}} %
+                </span>
+            </div>
+            <div class="form-field-left">
+                <label>PVP</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           placeholder="Precio de Venta al Público"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updateMargen()"
+                           [(ngModel)]="articulo().pvp">
+                </mat-form-field>
+                <span>€</span>
+            </div>
+        </div>
+    </div>
+    <div class="articulo-numbers">
+        <div class="articulo-col">
+            <!-- div class="form-field-left fixed-height">
+                                    &nbsp; Este campo se volverá a habilitar cuando se ponga el stock mínimo y máximo
+                                </div -->
+            <div class="form-field-left">
+                <label>Stock</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           step="1"
+                           placeholder="Stock"
+                           [(ngModel)]="articulo().stock"
+                           (focus)="$event.target.select()"
+                           class="align-right">
+                </mat-form-field>
+            </div>
+            <div class="form-field-left fixed-height">
+                <label>Descuento</label>
+                <mat-slide-toggle color="primary"
+                                  [(ngModel)]="articulo().descuento">
+                    {{ articulo().descuento ? 'Activado' : 'Desactivado' }}
+                </mat-slide-toggle>
+            </div>
+            <div class="form-field-left margen"
+                 [ngClass]="{'hide': !articulo().descuento}">
+                <label>Margen (dto)</label>
+                <span (click)="abrirMargenesDescuento()">
+                    {{articulo().margenDescuento | fixedNumber}} %
+                </span>
+            </div>
+            <div class="form-field-left"
+                 [ngClass]="{'hide': !articulo().descuento}">
+                <label>PVP (dto)</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           placeholder="Precio de Venta al Público"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePVPDescuento()"
+                           [(ngModel)]="articulo().pvpDescuento">
+                </mat-form-field>
+                <span>€</span>
+            </div>
+        </div>
+    </div>
+    <div class="articulo-numbers">
+        <div class="articulo-col articulo-col-reverse">
+            <div class="form-field-left"
+                 [ngClass]="{'hide': !articulo().descuento}">
+                <label>Descuento</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           min="0"
+                           max="100"
+                           step="1"
+                           placeholder="% (dto)"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePorcentajeDescuento()"
+                           [(ngModel)]="articulo().porcentajeDescuento">
+                </mat-form-field>
+                <span>%</span>
+            </div>
+        </div>
+    </div>
+    <div class="articulo-numbers">
+        <div class="articulo-col">
+            <!-- El campo stock irá aquí al volver a poner el stock mínimo y máximo -->
+            <!--div class="form-field-left">
+								<label>Stock mínimo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Stock mínimo"
+                                           [(ngModel)]="articulo().stockMin"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div-->
+            <!--div class="form-field-left">
+								<label>Stock máximo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Stock máximo"
+                                           [(ngModel)]="articulo().stockMax"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div-->
+            <!--div class="form-field-left">
+								<label>Lote óptimo</label>
+								<mat-form-field class="campo-numero">
+									<input matInput
+										   type="number"
+										   step="1"
+										   placeholder="Lote óptimo"
+                                           [(ngModel)]="articulo().loteOptimo"
+										   (focus)="$event.target.select()"
+										   class="align-right">
+								</mat-form-field>
+							</div-->
+        </div>
+    </div>
+</div>

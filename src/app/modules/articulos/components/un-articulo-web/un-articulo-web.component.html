@@ -1,0 +1,63 @@
+<div>
+    <div class="form-field-left-short">
+        <label>Mostrar en web</label>
+        <mat-slide-toggle color="primary"
+                          [(ngModel)]="articulo().mostrarEnWeb">
+            {{ articulo().mostrarEnWeb ? 'Activado' : 'Desactivado' }}
+        </mat-slide-toggle>
+    </div>
+</div>
+<div>
+    <div class="form-field max-width">
+        <label>Descripción corta</label>
+        <mat-form-field class="max-width">
+            <textarea matInput
+                      placeholder="Descripción corta"
+                      [(ngModel)]="articulo().descCorta"
+                      rows="5"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div>
+    <div class="form-field max-width">
+        <label>Descripción larga</label>
+        <mat-form-field class="max-width">
+            <textarea matInput
+                      placeholder="Descripción larga"
+                      [(ngModel)]="articulo().descripcion"
+                      rows="25"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<input type="file"
+       name="foto-file"
+       id="foto-file"
+       accept="image/png, image/gif, image/jpeg"
+       (change)="onFotoChange($event)">
+<div class="fotos-list">
+    @for (foto of articulo().fotosList; track foto.id; let i = $index) {
+    @if (foto.status !== 'deleted') {
+    <div class="foto-item">
+        <img [src]="foto.url"
+             [alt]="articulo().nombre">
+        <div class="foto-icon foto-icon-delete"
+             (click)="deleteFoto(i)">
+            <mat-icon>delete_forever</mat-icon>
+        </div>
+        <div class="foto-icon foto-icon-previous"
+             (click)="moveFoto('left', i)">
+            <mat-icon>arrow_back_ios</mat-icon>
+        </div>
+        <div class="foto-icon foto-icon-next"
+             (click)="moveFoto('right', i)">
+            <mat-icon>arrow_forward_ios</mat-icon>
+        </div>
+    </div>
+    }
+    }
+</div>
+<div class="fotos-add">
+    <button mat-raised-button
+            color="primary"
+            (click)="addFoto()">Añadir foto</button>
+</div>

@@ -1,0 +1,161 @@
+<div class="historico-table">
+    <table mat-table
+           [dataSource]="historicoArticuloDataSource"
+           matSort
+           (matSortChange)="cambiarOrdenHistoricoArticulo($event)"
+           class="mat-elevation-z2">
+
+        <!-- Fecha -->
+        <ng-container matColumnDef="createdAt">
+            <th mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Ordenar por fecha">
+                Fecha
+            </th>
+            <td mat-cell
+                *matCellDef="let element"> {{element.createdAt}} </td>
+        </ng-container>
+
+        <!-- Tipo -->
+        <ng-container matColumnDef="tipo">
+            <th mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Ordenar por tipo">
+                Tipo
+            </th>
+            <td mat-cell
+                *matCellDef="let element">
+                @switch (element.tipo) {
+                @case (1) {
+                <span>Venta</span>
+                }
+                @case (2) {
+                <span>Venta (web)</span>
+                }
+                @case (3) {
+                <span>Pedido</span>
+                }
+                @case (4) {
+                <span>Manual</span>
+                }
+                @case (5) {
+                <span>Inventario</span>
+                }
+                @case (6) {
+                <span>Inventario (múltiple)</span>
+                }
+                }
+            </td>
+        </ng-container>
+
+        <!-- Stock previo -->
+        <ng-container matColumnDef="stockPrevio">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="center"
+                mat-sort-header
+                sortActionDescription="Ordenar por stock previo">
+                Stock previo
+            </th>
+            <td mat-cell
+                class="center"
+                *matCellDef="let element"> {{element.stockPrevio}} </td>
+        </ng-container>
+
+        <!-- Diferencia -->
+        <ng-container matColumnDef="diferencia">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="center"
+                mat-sort-header
+                sortActionDescription="Ordenar por diferencia">
+                Diferencia
+            </th>
+            <td mat-cell
+                class="center"
+                *matCellDef="let element"> {{element.diferencia}} </td>
+        </ng-container>
+
+        <!-- Stock final -->
+        <ng-container matColumnDef="stockFinal">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="center"
+                mat-sort-header
+                sortActionDescription="Ordenar por stock final">
+                Stock final
+            </th>
+            <td mat-cell
+                class="center"
+                *matCellDef="let element"> {{element.stockFinal}} </td>
+        </ng-container>
+
+        <!-- PUC -->
+        <ng-container matColumnDef="puc">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="right"
+                mat-sort-header
+                sortActionDescription="Ordenar por PUC">
+                PUC
+            </th>
+            <td mat-cell
+                class="right"
+                *matCellDef="let element"> {{element.puc | fixedNumber}} € </td>
+        </ng-container>
+
+        <!-- PVP -->
+        <ng-container matColumnDef="pvp">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="right"
+                mat-sort-header
+                sortActionDescription="Ordenar por PVP">
+                PVP
+            </th>
+            <td mat-cell
+                class="right"
+                *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
+        </ng-container>
+
+        <!-- Venta -->
+        <ng-container matColumnDef="idVenta">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="center"
+                mat-sort-header
+                sortActionDescription="Ordenar por venta">
+                Venta
+            </th>
+            <td mat-cell
+                class="center"
+                *matCellDef="let element"> {{element.idVenta}} </td>
+        </ng-container>
+
+        <!-- Pedido -->
+        <ng-container matColumnDef="idPedido">
+            <th mat-header-cell
+                *matHeaderCellDef
+                class="center"
+                mat-sort-header
+                sortActionDescription="Ordenar por pedido">
+                Pedido
+            </th>
+            <td mat-cell
+                class="center"
+                *matCellDef="let element"> {{element.idPedido}} </td>
+        </ng-container>
+
+        <tr mat-header-row
+            *matHeaderRowDef="historicoArticuloDisplayedColumns"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: historicoArticuloDisplayedColumns; let i = index;"></tr>
+    </table>
+    <mat-paginator [length]="historicoArticuloPags"
+                   [pageSize]="historicoArticuloBuscador.num"
+                   [pageSizeOptions]="[20, 50, 100, 200]"
+                   [pageIndex]="historicoArticuloBuscador.pagina"
+                   (page)="changePageHistoricoArticulo($event)" />
+</div>
