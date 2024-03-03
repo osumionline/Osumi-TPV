@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   Component,
   HostListener,
@@ -26,12 +26,7 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-ventas",
   templateUrl: "./ventas.component.html",
   styleUrls: ["./ventas.component.scss"],
-  imports: [
-    CommonModule,
-    VentasTabsComponent,
-    UnaVentaComponent,
-    HeaderComponent,
-  ],
+  imports: [NgClass, VentasTabsComponent, UnaVentaComponent, HeaderComponent],
 })
 export default class VentasComponent implements OnInit {
   @ViewChild("tabs", { static: true }) tabs: VentasTabsComponent;

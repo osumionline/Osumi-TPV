@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -7,21 +7,21 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatSelectModule } from "@angular/material/select";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
 import {
   MatTable,
   MatTableDataSource,
   MatTableModule,
 } from "@angular/material/table";
-import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
 import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
 import { ClienteSaveResult } from "src/app/interfaces/cliente.interface";
@@ -45,23 +45,28 @@ import { OverlayService } from "src/app/services/overlay.service";
   templateUrl: "./clientes.component.html",
   styleUrls: ["./clientes.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,
     FixedNumberPipe,
     ClientListFilterPipe,
     HeaderComponent,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatTabsModule,
-    MatSelectModule,
+    MatCard,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatActionList,
+    MatListItem,
+    MatTabGroup,
+    MatTab,
+    MatSelect,
+    MatOption,
     MatTableModule,
-    MatCheckboxModule,
+    MatCheckbox,
   ],
 })
 export default class ClientesComponent implements OnInit {

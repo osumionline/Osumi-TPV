@@ -1,12 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marcas/marca.model";
@@ -22,13 +19,7 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   selector: "otpv-new-proveedor-modal",
   templateUrl: "./new-proveedor-modal.component.html",
   styleUrls: ["./new-proveedor-modal.component.scss"],
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-  ],
+  imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],
 })
 export class NewProveedorModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;

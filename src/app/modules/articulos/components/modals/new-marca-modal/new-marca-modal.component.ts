@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 import { IdSaveResult } from "src/app/interfaces/interfaces";
 import { Marca } from "src/app/model/marcas/marca.model";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
@@ -14,13 +14,7 @@ import { MarcasService } from "src/app/services/marcas.service";
   standalone: true,
   selector: "otpv-new-marca-modal",
   templateUrl: "./new-marca-modal.component.html",
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-  ],
+  imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],
 })
 export class NewMarcaModalComponent implements OnInit {
   @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;

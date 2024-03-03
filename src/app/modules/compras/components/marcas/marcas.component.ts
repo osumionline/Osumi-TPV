@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -7,13 +7,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { MarcaInterface } from "src/app/interfaces/marca.interface";
 import { Marca } from "src/app/model/marcas/marca.model";
@@ -27,17 +27,20 @@ import { MarcasService } from "src/app/services/marcas.service";
   templateUrl: "./marcas.component.html",
   styleUrls: ["./marcas.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
     BrandListFilterPipe,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTabsModule,
+    MatCard,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatActionList,
+    MatListItem,
+    MatIcon,
+    MatButton,
+    MatTabGroup,
+    MatTab,
   ],
 })
 export class MarcasComponent {

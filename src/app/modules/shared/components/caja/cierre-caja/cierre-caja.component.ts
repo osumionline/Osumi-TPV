@@ -1,12 +1,17 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatTabsModule } from "@angular/material/tabs";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from "@angular/material/card";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { getCurrentDate } from "@osumi/tools";
 import { CierreCajaResult } from "src/app/interfaces/caja.interface";
@@ -26,13 +31,19 @@ import { DialogService } from "src/app/services/dialog.service";
   imports: [
     FormsModule,
     FixedNumberPipe,
-    CommonModule,
-    MatCardModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
+    NgClass,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatTabGroup,
+    MatTab,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+    MatIconButton,
+    MatIcon,
   ],
 })
 export class CierreCajaComponent {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
+import { MatButton } from "@angular/material/button";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { ArticulosService } from "src/app/services/articulos.service";
@@ -10,7 +10,7 @@ import { DialogService } from "src/app/services/dialog.service";
   selector: "otpv-articulo-dar-de-baja-modal",
   templateUrl: "./articulo-dar-de-baja-modal.component.html",
   styleUrls: ["./articulo-dar-de-baja-modal.component.scss"],
-  imports: [MatButtonModule],
+  imports: [MatButton],
 })
 export class ArticuloDarDeBajaModalComponent implements OnInit {
   id: number;

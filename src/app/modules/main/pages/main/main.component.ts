@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
 import { Router } from "@angular/router";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
@@ -12,7 +12,7 @@ import { ConfigService } from "src/app/services/config.service";
   selector: "otpv-main",
   templateUrl: "./main.component.html",
   styleUrls: ["./main.component.scss"],
-  imports: [HeaderComponent, MatCardModule, MatButtonModule],
+  imports: [HeaderComponent, MatCard, MatCardContent, MatButton],
 })
 export default class MainComponent implements OnInit {
   title: string = "";

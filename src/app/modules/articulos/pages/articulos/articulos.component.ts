@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Articulo } from "src/app/model/articulos/articulo.model";
@@ -13,10 +13,10 @@ import { UnArticuloComponent } from "../../components/un-articulo/un-articulo.co
   templateUrl: "./articulos.component.html",
   styleUrls: ["./articulos.component.scss"],
   imports: [
-    CommonModule,
-    UnArticuloComponent,
+    NgClass,
     HeaderComponent,
     ArticulosTabsComponent,
+    UnArticuloComponent,
   ],
 })
 export default class ArticulosComponent implements OnInit {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 import { Router } from "@angular/router";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
@@ -14,12 +14,7 @@ import { GestionService } from "src/app/services/gestion.service";
   selector: "otpv-gestion",
   templateUrl: "./gestion.component.html",
   styleUrls: ["./gestion.component.scss"],
-  imports: [
-    HeaderComponent,
-    EmployeeLoginComponent,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [HeaderComponent, EmployeeLoginComponent, MatButton, MatIcon],
 })
 export default class GestionComponent implements OnInit {
   empleado: Empleado = null;

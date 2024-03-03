@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MatCardModule } from "@angular/material/card";
+import { MatCard, MatCardContent } from "@angular/material/card";
 import { CajaContentComponent } from "src/app/modules/shared/components/caja/caja-content/caja-content.component";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
 
@@ -8,6 +8,6 @@ import { HeaderComponent } from "src/app/modules/shared/components/header/header
   selector: "otpv-caja",
   templateUrl: "./caja.component.html",
   styleUrls: ["./caja.component.scss"],
-  imports: [HeaderComponent, CajaContentComponent, MatCardModule],
+  imports: [HeaderComponent, CajaContentComponent, MatCard, MatCardContent],
 })
 export default class CajaComponent {}

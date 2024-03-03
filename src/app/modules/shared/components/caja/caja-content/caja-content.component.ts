@@ -7,15 +7,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import {
-  MatTabChangeEvent,
-  MatTabGroup,
-  MatTabsModule,
-} from "@angular/material/tabs";
+import { MatButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatOption, MatSelect } from "@angular/material/select";
+import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Month } from "src/app/interfaces/interfaces";
 import { CierreCajaComponent } from "src/app/modules/shared/components/caja/cierre-caja/cierre-caja.component";
 import { HistoricoVentasComponent } from "src/app/modules/shared/components/caja/historico-ventas/historico-ventas.component";
@@ -32,11 +28,13 @@ import { ConfigService } from "src/app/services/config.service";
     HistoricoVentasComponent,
     SalidasCajaComponent,
     CierreCajaComponent,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
+    MatTabGroup,
+    MatTab,
+    MatFormField,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatButton,
   ],
 })
 export class CajaContentComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -7,19 +7,19 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatCheckbox } from "@angular/material/checkbox";
 import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatSelect, MatSelectModule } from "@angular/material/select";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatList, MatListItem } from "@angular/material/list";
+import { MatSelect } from "@angular/material/select";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltip } from "@angular/material/tooltip";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import {
@@ -63,23 +63,27 @@ import { environment } from "src/environments/environment";
   templateUrl: "./pedido.component.html",
   styleUrls: ["./pedido.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
     HeaderComponent,
     FixedNumberPipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCheckboxModule,
+    MatCard,
+    MatCardContent,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatFormField,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatCheckbox,
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
-    MatTooltipModule,
-    MatListModule,
+    MatTooltip,
+    MatList,
+    MatListItem,
   ],
 })
 export default class PedidoComponent implements OnInit, OnDestroy {

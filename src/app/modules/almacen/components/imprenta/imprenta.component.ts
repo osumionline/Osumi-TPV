@@ -1,13 +1,13 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatSlideToggle } from "@angular/material/slide-toggle";
+import { MatTooltip } from "@angular/material/tooltip";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
 import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
 import { ImprentaTableComponent } from "src/app/modules/almacen/components/imprenta-table/imprenta-table.component";
@@ -23,13 +23,14 @@ import { VentasService } from "src/app/services/ventas.service";
   imports: [
     FormsModule,
     ImprentaTableComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatListModule,
-    MatTooltipModule,
-    MatSlideToggleModule,
-    MatButtonModule,
+    MatFormField,
+    MatInput,
+    MatIcon,
+    MatActionList,
+    MatListItem,
+    MatTooltip,
+    MatSlideToggle,
+    MatButton,
   ],
 })
 export class ImprentaComponent {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatListModule } from "@angular/material/list";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatList, MatListItem } from "@angular/material/list";
 import { BackupResult, StatusResult } from "src/app/interfaces/interfaces";
 import { Backup } from "src/app/model/tpv/backup.model";
 import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
@@ -15,7 +15,14 @@ import { GestionService } from "src/app/services/gestion.service";
   selector: "otpv-backup",
   templateUrl: "./backup.component.html",
   styleUrls: ["./backup.component.scss"],
-  imports: [HeaderComponent, MatCardModule, MatButtonModule, MatListModule],
+  imports: [
+    HeaderComponent,
+    MatCard,
+    MatCardContent,
+    MatButton,
+    MatList,
+    MatListItem,
+  ],
 })
 export default class BackupComponent implements OnInit {
   backups: Backup[] = [];

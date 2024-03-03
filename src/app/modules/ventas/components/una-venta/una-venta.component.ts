@@ -1,9 +1,9 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import {
   ArticuloInterface,
@@ -45,13 +45,13 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./una-venta.component.html",
   styleUrls: ["./una-venta.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     FixedNumberPipe,
     EmployeeLoginComponent,
-    MatIconModule,
-    MatTooltipModule,
-    MatButtonModule,
+    MatIcon,
+    MatTooltip,
+    MatButton,
   ],
 })
 export class UnaVentaComponent {

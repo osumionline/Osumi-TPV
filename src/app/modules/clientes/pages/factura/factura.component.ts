@@ -1,6 +1,6 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
+import { MatButton } from "@angular/material/button";
 import { ActivatedRoute, Data, Params } from "@angular/router";
 import {
   FacturaIVAInterface,
@@ -21,7 +21,7 @@ import { environment } from "src/environments/environment";
   selector: "otpv-factura",
   templateUrl: "./factura.component.html",
   styleUrls: ["./factura.component.scss"],
-  imports: [CommonModule, FixedNumberPipe, MatButtonModule],
+  imports: [NgClass, FixedNumberPipe, MatButton],
 })
 export default class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");

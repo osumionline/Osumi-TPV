@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   Component,
   ElementRef,
@@ -13,15 +13,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatSelectModule } from "@angular/material/select";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatSelect } from "@angular/material/select";
 import { addDays, getDate } from "@osumi/tools";
 import {
   SalidaCajaInterface,
@@ -40,19 +40,24 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./salidas-caja.component.html",
   styleUrls: ["./salidas-caja.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
     FixedNumberPipe,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatInput,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCardModule,
-    MatListModule,
+    MatCard,
+    MatCardContent,
+    MatActionList,
+    MatListItem,
   ],
 })
 export class SalidasCajaComponent {

@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -8,14 +8,11 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
@@ -35,16 +32,18 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./venta-finalizar-modal.component.html",
   styleUrls: ["./venta-finalizar-modal.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatCheckbox,
     MatTableModule,
-    MatSelectModule,
-    MatButtonModule,
+    MatSelect,
+    MatOption,
+    MatButton,
   ],
 })
 export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {

@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
+import { MatButton } from "@angular/material/button";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 import { EmpleadoLoginInterface } from "src/app/interfaces/empleado.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
@@ -14,7 +14,7 @@ import { EmpleadosService } from "src/app/services/empleados.service";
   selector: "otpv-employee-login-modal",
   templateUrl: "./employee-login-modal.component.html",
   styleUrls: ["./employee-login-modal.component.scss"],
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, MatFormField, MatInput, MatLabel, MatButton],
 })
 export class EmployeeLoginModalComponent implements OnInit {
   id: number = null;

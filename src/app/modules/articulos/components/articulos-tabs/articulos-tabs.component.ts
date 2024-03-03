@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component } from "@angular/core";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
 import { ArticulosService } from "src/app/services/articulos.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { ArticulosService } from "src/app/services/articulos.service";
   selector: "otpv-articulos-tabs",
   templateUrl: "./articulos-tabs.component.html",
   styleUrls: ["./articulos-tabs.component.scss"],
-  imports: [CommonModule, MatIconModule, MatTooltipModule],
+  imports: [NgClass, MatIcon, MatTooltip],
 })
 export class ArticulosTabsComponent {
   constructor(public ars: ArticulosService) {}

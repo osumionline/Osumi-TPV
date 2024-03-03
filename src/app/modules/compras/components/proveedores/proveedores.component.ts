@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -7,19 +7,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatSelectModule } from "@angular/material/select";
-import {
-  MatTabChangeEvent,
-  MatTabGroup,
-  MatTabsModule,
-} from "@angular/material/tabs";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatOption, MatSelect } from "@angular/material/select";
+import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
 import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
 import {
@@ -40,20 +36,24 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   templateUrl: "./proveedores.component.html",
   styleUrls: ["./proveedores.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
     ProviderBrandListFilterPipe,
     ProviderListFilterPipe,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTabsModule,
-    MatSelectModule,
-    MatCheckboxModule,
+    MatCard,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatActionList,
+    MatListItem,
+    MatButton,
+    MatIcon,
+    MatTabGroup,
+    MatTab,
+    MatSelect,
+    MatOption,
+    MatCheckbox,
   ],
 })
 export class ProveedoresComponent implements OnInit {

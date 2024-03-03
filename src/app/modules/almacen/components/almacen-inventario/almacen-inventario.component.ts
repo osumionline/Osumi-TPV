@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -7,20 +7,19 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
+import { MatFormField, MatInput, MatLabel } from "@angular/material/input";
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
 } from "@angular/material/paginator";
-import { MatSelectModule } from "@angular/material/select";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import { urldecode } from "@osumi/tools";
 import {
@@ -50,17 +49,20 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   styleUrls: ["./almacen-inventario.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatIconModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatButton,
+    MatIconButton,
+    MatSelect,
+    MatOption,
+    MatIcon,
     MatTableModule,
-    MatTooltipModule,
+    MatTooltip,
     MatPaginatorModule,
     MatSlideToggle,
   ],

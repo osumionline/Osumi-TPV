@@ -1,9 +1,9 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox } from "@angular/material/checkbox";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ReservasResult } from "src/app/interfaces/cliente.interface";
@@ -22,13 +22,13 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./reservas-modal.component.html",
   styleUrls: ["./reservas-modal.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
     MatTableModule,
-    MatCheckboxModule,
-    MatButtonModule,
+    MatCheckbox,
+    MatButton,
   ],
 })
 export class ReservasModalComponent implements OnInit, AfterViewInit {

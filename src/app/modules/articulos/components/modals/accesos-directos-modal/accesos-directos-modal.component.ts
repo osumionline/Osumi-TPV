@@ -1,10 +1,10 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { StatusResult } from "src/app/interfaces/interfaces";
@@ -20,14 +20,15 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./accesos-directos-modal.component.html",
   styleUrls: ["./accesos-directos-modal.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
     MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatFormField,
+    MatInput,
   ],
 })
 export class AccesosDirectosModalComponent implements OnInit {

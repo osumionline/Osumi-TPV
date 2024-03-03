@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -16,7 +16,7 @@ import { InformesService } from "src/app/services/informes.service";
   selector: "otpv-informe-simple",
   templateUrl: "./informe-simple.component.html",
   styleUrls: ["./informe-simple.component.scss"],
-  imports: [CommonModule, FixedNumberPipe, MatTableModule],
+  imports: [NgClass, FixedNumberPipe, MatTableModule],
 })
 export default class InformeSimpleComponent implements OnInit {
   loaded: boolean = false;

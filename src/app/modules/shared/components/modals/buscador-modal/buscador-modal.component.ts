@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
@@ -24,11 +24,11 @@ import { VentasService } from "src/app/services/ventas.service";
   templateUrl: "./buscador-modal.component.html",
   styleUrls: ["./buscador-modal.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatFormField,
+    MatInput,
     MatTableModule,
   ],
 })

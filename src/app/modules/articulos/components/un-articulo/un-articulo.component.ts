@@ -15,21 +15,21 @@ import {
   signal,
   viewChild,
 } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from "@angular/material/paginator";
-import { MatSelectModule } from "@angular/material/select";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatSelect } from "@angular/material/select";
+import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
-import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
+import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { urldecode } from "@osumi/tools";
 import { QRCodeModule } from "angularx-qrcode";
@@ -75,18 +75,20 @@ import { UnArticuloWebComponent } from "../un-articulo-web/un-articulo-web.compo
     NgClass,
     NgStyle,
     FormsModule,
-    ReactiveFormsModule,
     MatSortModule,
     QRCodeModule,
     FixedNumberPipe,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTabsModule,
-    MatSelectModule,
-    MatSlideToggleModule,
+    MatFormField,
+    MatInput,
+    MatCard,
+    MatCardContent,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatTabGroup,
+    MatTab,
+    MatSelect,
+    MatSlideToggle,
     MatTableModule,
     MatPaginatorModule,
     UnArticuloGeneralComponent,

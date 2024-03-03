@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component } from "@angular/core";
 import {
   FormControl,
@@ -6,21 +6,26 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import {
+  MatCard,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from "@angular/material/card";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
 } from "@angular/material/paginator";
-import { MatSelectModule } from "@angular/material/select";
+import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltip } from "@angular/material/tooltip";
 import { Router, RouterModule } from "@angular/router";
 import { getDate } from "@osumi/tools";
 import {
@@ -42,21 +47,27 @@ import { ProveedoresService } from "src/app/services/proveedores.service";
   styleUrls: ["./compras-pedidos-list.component.scss"],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    CommonModule,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     FixedNumberPipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatButton,
+    MatIconButton,
+    MatIcon,
+    MatFormField,
+    MatInput,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,
+    MatSelect,
+    MatLabel,
+    MatOption,
     MatTableModule,
-    MatTooltipModule,
+    MatTooltip,
     MatPaginatorModule,
   ],
 })

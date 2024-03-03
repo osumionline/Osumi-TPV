@@ -1,4 +1,4 @@
-import { CommonModule, KeyValue } from "@angular/common";
+import { KeyValue, KeyValuePipe, NgClass, NgStyle } from "@angular/common";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormControl,
@@ -7,14 +7,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatListModule } from "@angular/material/list";
-import { MatTabGroup, MatTabsModule } from "@angular/material/tabs";
+import { MatButton } from "@angular/material/button";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatActionList, MatListItem } from "@angular/material/list";
+import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
 import { StatusResult } from "src/app/interfaces/interfaces";
@@ -33,19 +33,24 @@ import { GestionService } from "src/app/services/gestion.service";
   templateUrl: "./gestion-empleados.component.html",
   styleUrls: ["./gestion-empleados.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
+    NgStyle,
+    KeyValuePipe,
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
     EmployeeListFilterPipe,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatTabsModule,
-    MatCheckboxModule,
+    MatCard,
+    MatCardContent,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatIcon,
+    MatActionList,
+    MatListItem,
+    MatTabGroup,
+    MatTab,
+    MatCheckbox,
   ],
 })
 export default class GestionEmpleadosComponent implements OnInit {

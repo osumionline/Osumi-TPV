@@ -1,16 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
+import { MatButton } from "@angular/material/button";
 import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+} from "@angular/material/card";
+import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
-import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatToolbar } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
 import {
   AppDataInterface,
@@ -33,14 +34,17 @@ import { environment } from "src/environments/environment";
   imports: [
     FormsModule,
     RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatToolbar,
+    MatButton,
+    MatIcon,
+    MatCard,
+    MatCardContent,
+    MatCardActions,
+    MatFormField,
+    MatLabel,
+    MatInput,
     MatRadioModule,
-    MatCheckboxModule,
+    MatCheckbox,
   ],
 })
 export default class InstallationComponent implements OnInit {

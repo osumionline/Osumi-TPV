@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgStyle } from "@angular/common";
 import { Component, EventEmitter, Output } from "@angular/core";
 import { EmpleadoLoginModal } from "src/app/interfaces/modals.interface";
 import { Empleado } from "src/app/model/tpv/empleado.model";
@@ -11,7 +11,7 @@ import { OverlayService } from "src/app/services/overlay.service";
   selector: "otpv-employee-login",
   templateUrl: "./employee-login.component.html",
   styleUrls: ["./employee-login.component.scss"],
-  imports: [CommonModule],
+  imports: [NgStyle],
 })
 export class EmployeeLoginComponent {
   selectedEmpleado: Empleado = new Empleado();

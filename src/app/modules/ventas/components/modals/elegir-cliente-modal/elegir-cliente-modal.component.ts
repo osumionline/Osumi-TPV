@@ -6,18 +6,13 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatFormField, MatInput, MatLabel } from "@angular/material/input";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import {
-  MatTabChangeEvent,
-  MatTabGroup,
-  MatTabsModule,
-} from "@angular/material/tabs";
+import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
 import {
   ClienteSaveResult,
@@ -38,13 +33,16 @@ import { DialogService } from "src/app/services/dialog.service";
   imports: [
     FormsModule,
     MatSortModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatTabGroup,
+    MatTab,
+    MatFormField,
+    MatLabel,
+    MatInput,
     MatTableModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatButtonModule,
+    MatSelect,
+    MatOption,
+    MatCheckbox,
+    MatButton,
   ],
 })
 export class ElegirClienteModalComponent implements OnInit, AfterViewInit {

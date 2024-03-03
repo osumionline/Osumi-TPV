@@ -1,9 +1,9 @@
 import { SelectionModel } from "@angular/cdk/collections";
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatIconModule } from "@angular/material/icon";
+import { MatButton } from "@angular/material/button";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatIcon } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { VentasClienteResult } from "src/app/interfaces/cliente.interface";
 import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
@@ -22,12 +22,12 @@ import { DialogService } from "src/app/services/dialog.service";
   templateUrl: "./edit-factura-modal.component.html",
   styleUrls: ["./edit-factura-modal.component.scss"],
   imports: [
-    CommonModule,
+    NgClass,
     FixedNumberPipe,
     MatTableModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatIconModule,
+    MatCheckbox,
+    MatButton,
+    MatIcon,
   ],
 })
 export class EditFacturaModalComponent implements OnInit {

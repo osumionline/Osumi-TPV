@@ -5,11 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
+import { MatButton } from "@angular/material/button";
+import { MatFormField } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatOption, MatSelect } from "@angular/material/select";
 import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
 import { IVAOption } from "src/app/model/tpv/iva-option.model";
 import { ConfigService } from "src/app/services/config.service";
@@ -20,11 +20,12 @@ import { ConfigService } from "src/app/services/config.service";
   templateUrl: "./venta-varios-modal.component.html",
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
+    MatFormField,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIcon,
   ],
 })
 export class VentaVariosModalComponent implements OnInit {

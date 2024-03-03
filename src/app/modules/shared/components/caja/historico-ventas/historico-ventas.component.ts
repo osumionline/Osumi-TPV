@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { NgClass } from "@angular/common";
 import {
   AfterViewInit,
   Component,
@@ -7,16 +7,16 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelect, MatSelectModule } from "@angular/material/select";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatIcon } from "@angular/material/icon";
+import { MatInput } from "@angular/material/input";
+import { MatSelect } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import { addDays, getDate, urlencode } from "@osumi/tools";
 import {
@@ -49,17 +49,19 @@ import { VentasService } from "src/app/services/ventas.service";
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
+    NgClass,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIconButton,
+    MatIcon,
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
-    MatTooltipModule,
-    MatSelectModule,
+    MatTooltip,
   ],
 })
 export class HistoricoVentasComponent implements AfterViewInit {

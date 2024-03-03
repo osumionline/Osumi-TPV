@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
+import { NgClass, NgStyle } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatIcon } from "@angular/material/icon";
+import { MatTooltip } from "@angular/material/tooltip";
 import { RouterModule } from "@angular/router";
 import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
 import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
@@ -18,7 +18,7 @@ import { VentasService } from "src/app/services/ventas.service";
   selector: "otpv-ventas-tabs",
   templateUrl: "./ventas-tabs.component.html",
   styleUrls: ["./ventas-tabs.component.scss"],
-  imports: [CommonModule, RouterModule, MatIconModule, MatTooltipModule],
+  imports: [NgClass, NgStyle, RouterModule, MatIcon, MatTooltip],
 })
 export class VentasTabsComponent {
   @Input() showClose: boolean = false;
