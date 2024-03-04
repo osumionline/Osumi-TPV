@@ -345,7 +345,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   checkReturnInfo(): void {
     if (this.ars.returnInfo !== null && this.ars.returnInfo.extra !== null) {
       this.nuevoLocalizador = this.ars.returnInfo.extra;
-      this.ars.returnInfo = null;
       const loc: HTMLInputElement = document.getElementById(
         "nuevo-localizador"
       ) as HTMLInputElement;
@@ -579,6 +578,15 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
               articulo
             );
+            if (
+              this.ars.returnInfo !== null &&
+              this.ars.returnInfo.extra !== null &&
+              this.ars.returnInfo.extra === articulo.localizador
+            ) {
+              this.ars.returnInfo = null;
+              lineaPedido.unidades = articulo.stock;
+              lineaPedido.nombreArticulo = articulo.nombre;
+            }
             lineaPedido.iva = articulo.iva;
             lineaPedido.re = this.pedido.re ? articulo.re : 0;
             const marca: Marca = this.ms.findById(lineaPedido.idMarca);
