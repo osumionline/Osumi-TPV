@@ -1,6 +1,6 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { NgClass } from "@angular/common";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit, OutputEmitterRef, output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import { MatCheckbox } from "@angular/material/checkbox";
@@ -48,8 +48,8 @@ export class DevolucionModalComponent implements OnInit {
   ];
   selection: SelectionModel<VentaLineaHistorico> =
     new SelectionModel<VentaLineaHistorico>(true, []);
-  @Output() continueEvent: EventEmitter<DevolucionSelectedInterface[]> =
-    new EventEmitter<DevolucionSelectedInterface[]>();
+  continueEvent: OutputEmitterRef<DevolucionSelectedInterface[]> =
+    output<DevolucionSelectedInterface[]>();
 
   constructor(
     private vs: VentasService,

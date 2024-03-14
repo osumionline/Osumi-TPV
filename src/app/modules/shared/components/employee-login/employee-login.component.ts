@@ -1,5 +1,5 @@
 import { NgStyle } from "@angular/common";
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, OutputEmitterRef, output } from "@angular/core";
 import { EmpleadoLoginModal } from "src/app/interfaces/modals.interface";
 import { Empleado } from "src/app/model/tpv/empleado.model";
 import { EmployeeLoginModalComponent } from "src/app/modules/shared/components/modals/employee-login-modal/employee-login-modal.component";
@@ -15,7 +15,7 @@ import { OverlayService } from "src/app/services/overlay.service";
 })
 export class EmployeeLoginComponent {
   selectedEmpleado: Empleado = new Empleado();
-  @Output() successEvent: EventEmitter<Empleado> = new EventEmitter<Empleado>();
+  successEvent: OutputEmitterRef<Empleado> = output<Empleado>();
 
   constructor(
     public es: EmpleadosService,

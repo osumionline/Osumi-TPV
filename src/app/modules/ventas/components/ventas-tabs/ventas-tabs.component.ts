@@ -1,5 +1,5 @@
 import { NgClass, NgStyle } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input, OutputEmitterRef, output } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
 import { RouterModule } from "@angular/router";
@@ -22,14 +22,12 @@ import { VentasService } from "src/app/services/ventas.service";
 })
 export class VentasTabsComponent {
   @Input() showClose: boolean = false;
-  @Output() closeTabEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() newTabEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() changeTabEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() selectClientEvent: EventEmitter<SelectClienteInterface> =
-    new EventEmitter<SelectClienteInterface>();
-  @Output() selectReservaEvent: EventEmitter<Reserva[]> = new EventEmitter<
-    Reserva[]
-  >();
+  closeTabEvent: OutputEmitterRef<number> = output<number>();
+  newTabEvent: OutputEmitterRef<number> = output<number>();
+  changeTabEvent: OutputEmitterRef<number> = output<number>();
+  selectClientEvent: OutputEmitterRef<SelectClienteInterface> =
+    output<SelectClienteInterface>();
+  selectReservaEvent: OutputEmitterRef<Reserva[]> = output<Reserva[]>();
 
   selectClienteFrom: string = null;
 

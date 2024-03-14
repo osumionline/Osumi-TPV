@@ -1,5 +1,5 @@
 import { NgClass } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input, OutputEmitterRef, output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
@@ -56,10 +56,9 @@ import { VentasService } from "src/app/services/ventas.service";
 })
 export class UnaVentaComponent {
   @Input() ind: number = null;
-  @Output() deleteVentaLineaEvent: EventEmitter<number> =
-    new EventEmitter<number>();
-  @Output() endVentaEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() openCajaEvent: EventEmitter<void> = new EventEmitter<void>();
+  deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
+  endVentaEvent: OutputEmitterRef<void> = output<void>();
+  openCajaEvent: OutputEmitterRef<void> = output<void>();
   searching: boolean = false;
   observacionesOpen: boolean = false;
   editarCantidad: boolean = false;

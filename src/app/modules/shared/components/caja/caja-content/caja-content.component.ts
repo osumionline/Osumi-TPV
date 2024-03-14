@@ -1,10 +1,10 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
+  OutputEmitterRef,
   ViewChild,
+  output,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
@@ -38,8 +38,7 @@ import { ConfigService } from "src/app/services/config.service";
   ],
 })
 export class CajaContentComponent implements OnInit {
-  @Output() cerrarVentanaEvent: EventEmitter<number> =
-    new EventEmitter<number>();
+  cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
   @Input() from: string = "modal";
   cajaSelectedTab: number = 0;
   @ViewChild("cajaTabs", { static: false })

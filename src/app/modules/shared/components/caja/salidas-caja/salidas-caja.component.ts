@@ -2,9 +2,9 @@ import { NgClass } from "@angular/common";
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
+  OutputEmitterRef,
   ViewChild,
+  output,
 } from "@angular/core";
 import {
   FormControl,
@@ -61,8 +61,7 @@ import { DialogService } from "src/app/services/dialog.service";
   ],
 })
 export class SalidasCajaComponent {
-  @Output() salidaCajaEvent: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
+  salidaCajaEvent: OutputEmitterRef<boolean> = output<boolean>();
   salidasModo: "fecha" | "rango" = "fecha";
   fecha: Date = new Date();
   rangoDesde: Date = new Date();

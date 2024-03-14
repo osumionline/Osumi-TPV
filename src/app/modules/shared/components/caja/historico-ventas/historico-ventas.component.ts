@@ -2,9 +2,9 @@ import { NgClass } from "@angular/common";
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
-  Output,
+  OutputEmitterRef,
   ViewChild,
+  output,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
@@ -65,8 +65,7 @@ import { VentasService } from "src/app/services/ventas.service";
   ],
 })
 export class HistoricoVentasComponent implements AfterViewInit {
-  @Output() cerrarVentanaEvent: EventEmitter<number> =
-    new EventEmitter<number>();
+  cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
   historicoModo: string = "fecha";
   fecha: Date = new Date();
   rangoDesde: Date = new Date();

@@ -2,16 +2,16 @@ import { NgClass, NgStyle } from "@angular/common";
 import {
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   InputSignal,
   OnDestroy,
   OnInit,
-  Output,
+  OutputEmitterRef,
   Signal,
   ViewChild,
   WritableSignal,
   input,
+  output,
   signal,
   viewChild,
 } from "@angular/core";
@@ -109,10 +109,8 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
     return this._articulo;
   }
   ind: InputSignal<number> = input.required<number>();
-  @Output() duplicarArticuloEvent: EventEmitter<Articulo> =
-    new EventEmitter<Articulo>();
-  @Output() cerrarArticuloEvent: EventEmitter<number> =
-    new EventEmitter<number>();
+  duplicarArticuloEvent: OutputEmitterRef<Articulo> = output<Articulo>();
+  cerrarArticuloEvent: OutputEmitterRef<number> = output<number>();
 
   loading: boolean = false;
   selectedTab: number = -1;
