@@ -2,10 +2,12 @@
 
 <otpv-articulos-tabs #tabs />
 
+@if (loaded) {
 @for (articulo of ars.list; track articulo.id; let i = $index) {
 <otpv-un-articulo [ind]="i"
                   [ngClass]="{'hidden':i !== ars.selected}"
                   (duplicarArticuloEvent)="duplicar($event)"
                   (cerrarArticuloEvent)="cerrar($event)"
                   [articulo]="articulo" />
+}
 }

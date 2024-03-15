@@ -21,6 +21,7 @@ import { UnArticuloComponent } from "../../components/un-articulo/un-articulo.co
 })
 export default class ArticulosComponent implements OnInit {
   @ViewChild("tabs", { static: true }) tabs: ArticulosTabsComponent;
+  loaded: boolean = false;
 
   constructor(
     public ars: ArticulosService,
@@ -50,6 +51,7 @@ export default class ArticulosComponent implements OnInit {
       if (this.ars.list.length === 0) {
         this.ars.newArticulo();
       }
+      this.loaded = true;
     });
   }
 
