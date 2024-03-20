@@ -142,7 +142,9 @@ export class UnArticuloGeneralComponent {
     const ivare: number =
       (this.articulo().iva !== null ? this.articulo().iva : 0) +
       (this.articulo().re !== null ? this.articulo().re : 0);
-    const puc: number = this.articulo().palb * (1 + ivare / 100);
+    const puc: number = getTwoNumberDecimal(
+      this.articulo().palb * (1 + ivare / 100)
+    );
     this.updatePuc(puc);
   }
 
@@ -158,7 +160,9 @@ export class UnArticuloGeneralComponent {
     const ivare: number =
       (this.articulo().iva !== null ? this.articulo().iva : 0) +
       (this.articulo().re !== null ? this.articulo().re : 0);
-    const puc: number = this.articulo().palb * (1 + ivare / 100);
+    const puc: number = getTwoNumberDecimal(
+      this.articulo().palb * (1 + ivare / 100)
+    );
     this.updatePuc(puc);
   }
 
