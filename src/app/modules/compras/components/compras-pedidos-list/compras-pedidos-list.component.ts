@@ -15,7 +15,7 @@ import {
 } from "@angular/material/card";
 import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import {
@@ -59,7 +59,7 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatButton,
     MatIconButton,
     MatIcon,
-    MatFormField,
+    MatFormFieldModule,
     MatInput,
     MatDatepickerModule,
     MatNativeDateModule,

@@ -8,9 +8,13 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatNativeDateModule, MatOption } from "@angular/material/core";
+import {
+  MatNativeDateModule,
+  MatOption,
+  provideNativeDateAdapter,
+} from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatSelect } from "@angular/material/select";
@@ -45,12 +49,13 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   selector: "otpv-historico-ventas",
   templateUrl: "./historico-ventas.component.html",
   styleUrls: ["./historico-ventas.component.scss"],
+  providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
     NgClass,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatInput,
     MatSelect,

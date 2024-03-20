@@ -17,7 +17,7 @@ import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatNativeDateModule, MatOption } from "@angular/material/core";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
@@ -44,7 +44,7 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     FormsModule,
     ReactiveFormsModule,
     FixedNumberPipe,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatSelect,
     MatOption,
