@@ -17,20 +17,20 @@ import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
   TiposPagoResult,
-} from "src/app/interfaces/tipo-pago.interface";
-import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { PayTypeListFilterPipe } from "src/app/modules/shared/pipes/pay-type-list-filter.pipe";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { GestionService } from "src/app/services/gestion.service";
+} from "@interfaces/tipo-pago.interface";
+import { TipoPago } from "@model/tpv/tipo-pago.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { GestionService } from "@services/gestion.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
+import { PayTypeListFilterPipe } from "@shared/pipes/pay-type-list-filter.pipe";
 
 @Component({
   standalone: true,

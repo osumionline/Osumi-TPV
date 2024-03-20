@@ -8,36 +8,36 @@ import { Router } from "@angular/router";
 import {
   ArticuloInterface,
   ArticuloResult,
-} from "src/app/interfaces/articulo.interface";
+} from "@interfaces/articulo.interface";
 import {
   BuscadorModal,
   DevolucionModal,
   Modal,
   VariosModal,
-} from "src/app/interfaces/modals.interface";
+} from "@interfaces/modals.interface";
 import {
   DevolucionSelectedInterface,
   LineasTicketResult,
-} from "src/app/interfaces/venta.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { EmployeeLoginComponent } from "src/app/modules/shared/components/employee-login/employee-login.component";
-import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { rolList } from "src/app/modules/shared/rol.class";
-import { DevolucionModalComponent } from "src/app/modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
-import { VentaAccesosDirectosModalComponent } from "src/app/modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
-import { VentaDescuentoModalComponent } from "src/app/modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
-import { VentaVariosModalComponent } from "src/app/modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { EmpleadosService } from "src/app/services/empleados.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { OverlayService } from "src/app/services/overlay.service";
-import { VentasService } from "src/app/services/ventas.service";
+} from "@interfaces/venta.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { Empleado } from "@model/tpv/empleado.model";
+import { VentaLinea } from "@model/ventas/venta-linea.model";
+import { DevolucionModalComponent } from "@modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
+import { VentaAccesosDirectosModalComponent } from "@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
+import { VentaDescuentoModalComponent } from "@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
+import { VentaVariosModalComponent } from "@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { EmpleadosService } from "@services/empleados.service";
+import { MarcasService } from "@services/marcas.service";
+import { OverlayService } from "@services/overlay.service";
+import { VentasService } from "@services/ventas.service";
+import { EmployeeLoginComponent } from "@shared/components/employee-login/employee-login.component";
+import { BuscadorModalComponent } from "@shared/components/modals/buscador-modal/buscador-modal.component";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { rolList } from "@shared/rol.class";
 
 @Component({
   standalone: true,

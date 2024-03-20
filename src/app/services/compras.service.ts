@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { StatusResult } from "src/app/interfaces/interfaces";
+import { environment } from "@env/environment";
+import { StatusResult } from "@interfaces/interfaces";
 import {
   PedidoInterface,
   PedidoResult,
@@ -9,10 +9,10 @@ import {
   PedidoSaveResult,
   PedidosFilterInterface,
   PedidosResult,
-} from "src/app/interfaces/pedido.interface";
-import { Pedido } from "src/app/model/compras/pedido.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/pedido.interface";
+import { Pedido } from "@model/compras/pedido.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

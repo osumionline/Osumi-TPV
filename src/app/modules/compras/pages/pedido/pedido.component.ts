@@ -22,40 +22,40 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { environment } from "@env/environment";
+import { ArticuloResult } from "@interfaces/articulo.interface";
+import { StatusResult } from "@interfaces/interfaces";
+import { BuscadorModal, Modal } from "@interfaces/modals.interface";
+import {
+  PedidoResult,
+  PedidoSaveResult,
+  PedidosColOption,
+} from "@interfaces/pedido.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { PedidoLinea } from "@model/compras/pedido-linea.model";
+import { PedidoPDF } from "@model/compras/pedido-pdf.model";
+import { PedidoVista } from "@model/compras/pedido-vista.model";
+import { Pedido } from "@model/compras/pedido.model";
+import { Marca } from "@model/marcas/marca.model";
+import { IVAOption } from "@model/tpv/iva-option.model";
 import {
   getDate,
   getDateFromString,
   getTwoNumberDecimal,
   urldecode,
 } from "@osumi/tools";
-import { ArticuloResult } from "src/app/interfaces/articulo.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { BuscadorModal, Modal } from "src/app/interfaces/modals.interface";
-import {
-  PedidoResult,
-  PedidoSaveResult,
-  PedidosColOption,
-} from "src/app/interfaces/pedido.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
-import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
-import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
-import { Pedido } from "src/app/model/compras/pedido.model";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
-import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ComprasService } from "src/app/services/compras.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { OverlayService } from "src/app/services/overlay.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
-import { environment } from "src/environments/environment";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ComprasService } from "@services/compras.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { OverlayService } from "@services/overlay.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
+import { BuscadorModalComponent } from "@shared/components/modals/buscador-modal/buscador-modal.component";
+import { NewProveedorModalComponent } from "@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

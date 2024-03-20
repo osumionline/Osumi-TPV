@@ -1,5 +1,5 @@
+import { TipoPagoInterface } from "@interfaces/tipo-pago.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
 
 export class TipoPago {
   constructor(

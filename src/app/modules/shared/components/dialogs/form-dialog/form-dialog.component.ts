@@ -10,7 +10,7 @@ import {
 } from "@angular/material/dialog";
 import { MatFormField, MatHint, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { DialogField } from "src/app/interfaces/interfaces";
+import { DialogField } from "@interfaces/interfaces";
 
 @Component({
   standalone: true,

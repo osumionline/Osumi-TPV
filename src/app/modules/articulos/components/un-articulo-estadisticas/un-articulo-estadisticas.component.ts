@@ -6,11 +6,11 @@ import {
   ChartDataInterface,
   ChartResultInterface,
   ChartSelectInterface,
-} from "src/app/interfaces/articulo.interface";
-import { Month } from "src/app/interfaces/interfaces";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ConfigService } from "src/app/services/config.service";
+} from "@interfaces/articulo.interface";
+import { Month } from "@interfaces/interfaces";
+import { Articulo } from "@model/articulos/articulo.model";
+import { ArticulosService } from "@services/articulos.service";
+import { ConfigService } from "@services/config.service";
 
 @Component({
   selector: "otpv-un-articulo-estadisticas",

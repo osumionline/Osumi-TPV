@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "@env/environment";
+import { InformeMensualResult } from "@interfaces/informes.interface";
 import { Observable } from "rxjs";
-import { InformeMensualResult } from "src/app/interfaces/informes.interface";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",

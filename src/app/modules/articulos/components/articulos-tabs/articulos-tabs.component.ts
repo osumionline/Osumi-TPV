@@ -2,7 +2,7 @@ import { NgClass } from "@angular/common";
 import { Component } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
-import { ArticulosService } from "src/app/services/articulos.service";
+import { ArticulosService } from "@services/articulos.service";
 
 @Component({
   standalone: true,

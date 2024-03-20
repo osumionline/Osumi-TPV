@@ -1,4 +1,4 @@
-import { HistoricoArticuloInterface } from "src/app/interfaces/articulo.interface";
+import { HistoricoArticuloInterface } from "@interfaces/articulo.interface";
 
 export class HistoricoArticulo {
   constructor(

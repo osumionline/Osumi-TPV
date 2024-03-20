@@ -1,9 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { ImprentaComponent } from "src/app/modules/almacen/components/imprenta/imprenta.component";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { AlmacenInventarioComponent } from "../../components/almacen-inventario/almacen-inventario.component";
+import { AlmacenInventarioComponent } from "@modules/almacen/components/almacen-inventario/almacen-inventario.component";
+import { ImprentaComponent } from "@modules/almacen/components/imprenta/imprenta.component";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

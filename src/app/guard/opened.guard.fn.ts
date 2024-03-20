@@ -1,8 +1,8 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
+import { ConfigService } from "@services/config.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { ConfigService } from "src/app/services/config.service";
 
 export const isOpenedGuardFn: CanActivateFn = (): Observable<boolean> => {
   const router = inject(Router);
@@ -14,7 +14,7 @@ export const isOpenedGuardFn: CanActivateFn = (): Observable<boolean> => {
   return inject(ConfigService)
     .isBoxOpened()
     .pipe(
-      map((isBoxOpened: boolean) => {
+      map((isBoxOpened: boolean): boolean => {
         if (!isBoxOpened) {
           router.navigate(["/"]);
         }

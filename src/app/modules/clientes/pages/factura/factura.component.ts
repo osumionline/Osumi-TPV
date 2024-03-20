@@ -2,19 +2,19 @@ import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { ActivatedRoute, Data, Params } from "@angular/router";
+import { environment } from "@env/environment";
 import {
   FacturaIVAInterface,
   FacturaResult,
-} from "src/app/interfaces/cliente.interface";
-import { IdSaveResult } from "src/app/interfaces/interfaces";
-import { FacturaItem } from "src/app/model/clientes/factura-item.model";
-import { Factura } from "src/app/model/clientes/factura.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/cliente.interface";
+import { IdSaveResult } from "@interfaces/interfaces";
+import { FacturaItem } from "@model/clientes/factura-item.model";
+import { Factura } from "@model/clientes/factura.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

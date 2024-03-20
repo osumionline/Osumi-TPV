@@ -1,9 +1,9 @@
 import {
   ReservaInterface,
   ReservaLineaInterface,
-} from "src/app/interfaces/cliente.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
+} from "@interfaces/cliente.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { ReservaLinea } from "@model/ventas/reserva-linea.model";
 
 export class Reserva {
   _totalUnidades: number = null;
@@ -24,7 +24,7 @@ export class Reserva {
     }
     let unidades: number = 0;
 
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       unidades += linea.unidades;
     }
 
@@ -39,7 +39,7 @@ export class Reserva {
     }
     let descuento: number = 0;
 
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       if (linea.importeDescuento) {
         descuento += linea.importeDescuento;
       } else {

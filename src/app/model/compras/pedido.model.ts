@@ -1,15 +1,15 @@
-import { urldecode, urlencode } from "@osumi/tools";
 import {
   PedidoInterface,
   PedidoLineaInterface,
   PedidoPDFInterface,
   PedidoVistaInterface,
   TotalsIVAOption,
-} from "src/app/interfaces/pedido.interface";
-import { PedidoLinea } from "src/app/model/compras/pedido-linea.model";
-import { PedidoPDF } from "src/app/model/compras/pedido-pdf.model";
-import { PedidoVista } from "src/app/model/compras/pedido-vista.model";
-import { IVAOption } from "src/app/model/tpv/iva-option.model";
+} from "@interfaces/pedido.interface";
+import { PedidoLinea } from "@model/compras/pedido-linea.model";
+import { PedidoPDF } from "@model/compras/pedido-pdf.model";
+import { PedidoVista } from "@model/compras/pedido-vista.model";
+import { IVAOption } from "@model/tpv/iva-option.model";
+import { urldecode, urlencode } from "@osumi/tools";
 
 export class Pedido {
   ivaOptions: IVAOption[] = [];
@@ -44,7 +44,7 @@ export class Pedido {
 
   set descuento(x: number) {
     this._descuento = x;
-    for (let i in this.lineas) {
+    for (const i in this.lineas) {
       this.lineas[i].descuentoPedido = x;
     }
   }
@@ -74,7 +74,7 @@ export class Pedido {
 
   get totalArticulos(): number {
     let num: number = 0;
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       num += linea.unidades;
     }
     return num;
@@ -82,7 +82,7 @@ export class Pedido {
 
   get totalBeneficios(): number {
     let num: number = 0;
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       num += linea.beneficio;
     }
     return num;
@@ -90,7 +90,7 @@ export class Pedido {
 
   get totalPVP(): number {
     let num: number = 0;
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       num += linea.unidades * linea.pvp;
     }
     return num;
@@ -98,7 +98,7 @@ export class Pedido {
 
   get subtotal(): number {
     let num: number = 0;
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       num += linea.subtotal;
     }
     return num + this.portes;
@@ -106,7 +106,7 @@ export class Pedido {
 
   get total(): number {
     let totalIVA: number = 0;
-    for (let lineaIVA of this.ivaList) {
+    for (const lineaIVA of this.ivaList) {
       if (lineaIVA.iva !== undefined) {
         totalIVA += lineaIVA.iva;
       }
@@ -120,14 +120,14 @@ export class Pedido {
   get ivaList(): TotalsIVAOption[] {
     const list = {};
 
-    for (let linea of this.lineas) {
-      if (!list.hasOwnProperty("iva_" + linea.iva)) {
+    for (const linea of this.lineas) {
+      if (!Object.prototype.hasOwnProperty.call(list, "iva_" + linea.iva)) {
         list["iva_" + linea.iva] = 0;
       }
       list["iva_" + linea.iva] +=
         linea.subtotal * (1 + linea.iva / 100) - linea.subtotal;
       if (this.re) {
-        if (!list.hasOwnProperty("re_" + linea.re)) {
+        if (!Object.prototype.hasOwnProperty.call(list, "re_" + linea.re)) {
           list["re_" + linea.re] = 0;
         }
         list["re_" + linea.re] +=
@@ -136,12 +136,12 @@ export class Pedido {
     }
 
     if (this.portes !== null && this.portes > 0) {
-      if (!list.hasOwnProperty("iva_21")) {
+      if (!Object.prototype.hasOwnProperty.call(list, "iva_21")) {
         list["iva_21"] = 0;
       }
       list["iva_21"] += this.portes * 0.21;
       if (this.re) {
-        if (!list.hasOwnProperty("re_5.2")) {
+        if (!Object.prototype.hasOwnProperty.call(list, "re_5.2")) {
           list["re_5.2"] = 0;
         }
         list["re_5.2"] += this.portes * 0.052;
@@ -149,7 +149,7 @@ export class Pedido {
     }
 
     const ret: TotalsIVAOption[] = [];
-    for (let ivaOption of this.ivaOptions) {
+    for (const ivaOption of this.ivaOptions) {
       ret.push({
         tipoIva: ivaOption.tipoIVA,
         ivaOption: ivaOption.iva,
@@ -166,7 +166,7 @@ export class Pedido {
     let pvp: number = 0;
     let puc: number = 0;
 
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       pvp += linea.pvp * linea.unidades;
       puc += linea.puc * linea.unidades;
     }

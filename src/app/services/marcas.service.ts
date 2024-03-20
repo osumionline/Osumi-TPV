@@ -1,14 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, WritableSignal, signal } from "@angular/core";
+import { environment } from "@env/environment";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { MarcaInterface, MarcasResult } from "@interfaces/marca.interface";
+import { Marca } from "@model/marcas/marca.model";
+import { ClassMapperService } from "@services/class-mapper.service";
 import { Observable } from "rxjs";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import {
-  MarcaInterface,
-  MarcasResult,
-} from "src/app/interfaces/marca.interface";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",

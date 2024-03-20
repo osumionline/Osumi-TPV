@@ -2,14 +2,14 @@ import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
+import { InformeMensualResult } from "@interfaces/informes.interface";
+import { Month } from "@interfaces/interfaces";
+import { InformeMensualItem } from "@model/caja/informe-mensual-item.model";
 import { urldecode } from "@osumi/tools";
-import { InformeMensualResult } from "src/app/interfaces/informes.interface";
-import { Month } from "src/app/interfaces/interfaces";
-import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
-import { InformesService } from "src/app/services/informes.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ConfigService } from "@services/config.service";
+import { InformesService } from "@services/informes.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

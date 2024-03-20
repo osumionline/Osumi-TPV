@@ -1,10 +1,10 @@
-import { urldecode, urlencode } from "@osumi/tools";
-import { VentaHistoricoInterface } from "src/app/interfaces/caja.interface";
+import { VentaHistoricoInterface } from "@interfaces/caja.interface";
 import {
   FacturaInterface,
   FacturaSaveInterface,
-} from "src/app/interfaces/cliente.interface";
-import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
+} from "@interfaces/cliente.interface";
+import { VentaHistorico } from "@model/caja/venta-historico.model";
+import { urldecode, urlencode } from "@osumi/tools";
 
 export class Factura {
   constructor(

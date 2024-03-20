@@ -6,15 +6,15 @@ import { MatButton } from "@angular/material/button";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ReservasResult } from "src/app/interfaces/cliente.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ReservaLinea } from "src/app/model/ventas/reserva-linea.model";
-import { Reserva } from "src/app/model/ventas/reserva.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { ReservasResult } from "@interfaces/cliente.interface";
+import { StatusResult } from "@interfaces/interfaces";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ReservaLinea } from "@model/ventas/reserva-linea.model";
+import { Reserva } from "@model/ventas/reserva.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { DialogService } from "@services/dialog.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

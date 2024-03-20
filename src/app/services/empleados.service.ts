@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, WritableSignal, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { environment } from "@env/environment";
 import {
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
   EmpleadosResult,
-} from "src/app/interfaces/empleado.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/empleado.interface";
+import { StatusResult } from "@interfaces/interfaces";
+import { Empleado } from "@model/tpv/empleado.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

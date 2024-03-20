@@ -1,5 +1,5 @@
+import { ComercialInterface } from "@interfaces/proveedor.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { ComercialInterface } from "src/app/interfaces/proveedor.interface";
 
 export class Comercial {
   constructor(

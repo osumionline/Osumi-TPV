@@ -1,8 +1,8 @@
+import { ClienteInterface } from "@interfaces/cliente.interface";
+import { ArticuloTopVenta } from "@model/articulos/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "@model/articulos/articulo-ultima-venta.model";
+import { Factura } from "@model/clientes/factura.model";
 import { urldecode, urlencode } from "@osumi/tools";
-import { ClienteInterface } from "src/app/interfaces/cliente.interface";
-import { ArticuloTopVenta } from "src/app/model/articulos/articulo-top-venta.model";
-import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-venta.model";
-import { Factura } from "src/app/model/clientes/factura.model";
 
 export class Cliente {
   ultimasVentas: ArticuloUltimaVenta[] = [];

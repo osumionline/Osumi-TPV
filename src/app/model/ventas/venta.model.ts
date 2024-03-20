@@ -1,11 +1,11 @@
 import {
   VentaInterface,
   VentaLineaInterface,
-} from "src/app/interfaces/venta.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { rolList } from "src/app/modules/shared/rol.class";
+} from "@interfaces/venta.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { Empleado } from "@model/tpv/empleado.model";
+import { VentaLinea } from "@model/ventas/venta-linea.model";
+import { rolList } from "@shared/rol.class";
 
 export class Venta {
   tabName: string = "";
@@ -32,7 +32,7 @@ export class Venta {
 
   updateImporte(): void {
     let cant: number = 0;
-    for (let i in this.lineas) {
+    for (const i in this.lineas) {
       this.lineas[i].updateImporte();
       cant += this.lineas[i].total;
     }
@@ -68,7 +68,7 @@ export class Venta {
 
   toInterface(): VentaInterface {
     const lineasVentas: VentaLineaInterface[] = [];
-    for (let lv of this.lineas) {
+    for (const lv of this.lineas) {
       lineasVentas.push(lv.toInterface());
     }
     return {

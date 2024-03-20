@@ -10,9 +10,9 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
+import { Articulo } from "@model/articulos/articulo.model";
+import { CodigoBarras } from "@model/articulos/codigo-barras.model";
 import { QRCodeModule } from "angularx-qrcode";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
 
 @Component({
   selector: "otpv-un-articulo-cod-barras",

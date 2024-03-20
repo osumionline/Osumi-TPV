@@ -16,15 +16,15 @@ import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { Router } from "@angular/router";
+import { DialogOptions } from "@interfaces/interfaces";
+import { FinVentaResult } from "@interfaces/venta.interface";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { VentaLinea } from "@model/ventas/venta-linea.model";
 import { formatNumber, toNumber } from "@osumi/tools";
-import { DialogOptions } from "src/app/interfaces/interfaces";
-import { FinVentaResult } from "src/app/interfaces/venta.interface";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { VentasService } from "src/app/services/ventas.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { VentasService } from "@services/ventas.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

@@ -31,39 +31,39 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { urldecode } from "@osumi/tools";
-import { QRCodeModule } from "angularx-qrcode";
 import {
   ArticuloResult,
   ArticuloSaveResult,
-} from "src/app/interfaces/articulo.interface";
+} from "@interfaces/articulo.interface";
 import {
   AccesosDirectosModal,
   BuscadorModal,
   DarDeBajaModal,
-} from "src/app/interfaces/modals.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { AccesosDirectosModalComponent } from "src/app/modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component";
-import { ArticuloDarDeBajaModalComponent } from "src/app/modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
-import { UnArticuloCodBarrasComponent } from "src/app/modules/articulos/components/un-articulo-cod-barras/un-articulo-cod-barras.component";
-import { UnArticuloGeneralComponent } from "src/app/modules/articulos/components/un-articulo-general/un-articulo-general.component";
-import { BuscadorModalComponent } from "src/app/modules/shared/components/modals/buscador-modal/buscador-modal.component";
-import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { AlmacenService } from "src/app/services/almacen.service";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { OverlayService } from "src/app/services/overlay.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
-import { VentasService } from "src/app/services/ventas.service";
-import { UnArticuloEstadisticasComponent } from "../un-articulo-estadisticas/un-articulo-estadisticas.component";
-import { UnArticuloHistoricoComponent } from "../un-articulo-historico/un-articulo-historico.component";
-import { UnArticuloObservacionesComponent } from "../un-articulo-observaciones/un-articulo-observaciones.component";
-import { UnArticuloWebComponent } from "../un-articulo-web/un-articulo-web.component";
+} from "@interfaces/modals.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Marca } from "@model/marcas/marca.model";
+import { AccesosDirectosModalComponent } from "@modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component";
+import { ArticuloDarDeBajaModalComponent } from "@modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component";
+import { UnArticuloCodBarrasComponent } from "@modules/articulos/components/un-articulo-cod-barras/un-articulo-cod-barras.component";
+import { UnArticuloEstadisticasComponent } from "@modules/articulos/components/un-articulo-estadisticas/un-articulo-estadisticas.component";
+import { UnArticuloGeneralComponent } from "@modules/articulos/components/un-articulo-general/un-articulo-general.component";
+import { UnArticuloHistoricoComponent } from "@modules/articulos/components/un-articulo-historico/un-articulo-historico.component";
+import { UnArticuloObservacionesComponent } from "@modules/articulos/components/un-articulo-observaciones/un-articulo-observaciones.component";
+import { UnArticuloWebComponent } from "@modules/articulos/components/un-articulo-web/un-articulo-web.component";
+import { urldecode } from "@osumi/tools";
+import { AlmacenService } from "@services/almacen.service";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { OverlayService } from "@services/overlay.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { VentasService } from "@services/ventas.service";
+import { BuscadorModalComponent } from "@shared/components/modals/buscador-modal/buscador-modal.component";
+import { CustomPaginatorIntl } from "@shared/custom-paginator-intl.class";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { QRCodeModule } from "angularx-qrcode";
 
 @Component({
   standalone: true,

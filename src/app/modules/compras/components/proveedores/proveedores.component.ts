@@ -16,19 +16,19 @@ import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { SelectMarcaInterface } from "@interfaces/marca.interface";
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "src/app/interfaces/proveedor.interface";
-import { Comercial } from "src/app/model/proveedores/comercial.model";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { ProviderBrandListFilterPipe } from "src/app/modules/shared/pipes/provider-brand-list-filter.pipe";
-import { ProviderListFilterPipe } from "src/app/modules/shared/pipes/provider-list-filter.pipe";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
+} from "@interfaces/proveedor.interface";
+import { Comercial } from "@model/proveedores/comercial.model";
+import { Proveedor } from "@model/proveedores/proveedor.model";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { ProviderBrandListFilterPipe } from "@shared/pipes/provider-brand-list-filter.pipe";
+import { ProviderListFilterPipe } from "@shared/pipes/provider-list-filter.pipe";
 
 @Component({
   standalone: true,

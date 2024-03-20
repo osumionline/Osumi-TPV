@@ -1,6 +1,6 @@
+import { PedidoLineaInterface } from "@interfaces/pedido.interface";
+import { Articulo } from "@model/articulos/articulo.model";
 import { getTwoNumberDecimal, urldecode, urlencode } from "@osumi/tools";
-import { PedidoLineaInterface } from "src/app/interfaces/pedido.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
 
 export class PedidoLinea {
   showCodigoBarras: boolean = false;

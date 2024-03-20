@@ -1,5 +1,5 @@
+import { ArticuloTopVentaInterface } from "@interfaces/venta.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { ArticuloTopVentaInterface } from "src/app/interfaces/venta.interface";
 
 export class ArticuloTopVenta {
   constructor(

@@ -1,5 +1,5 @@
+import { EtiquetaInterface } from "@interfaces/articulo.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { EtiquetaInterface } from "src/app/interfaces/articulo.interface";
 
 export class Etiqueta {
   constructor(

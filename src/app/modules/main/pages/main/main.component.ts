@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { Router } from "@angular/router";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { ApiService } from "src/app/services/api.service";
-import { ConfigService } from "src/app/services/config.service";
+import { StatusResult } from "@interfaces/interfaces";
+import { ApiService } from "@services/api.service";
+import { ConfigService } from "@services/config.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

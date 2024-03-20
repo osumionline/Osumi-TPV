@@ -1,5 +1,5 @@
+import { BackupInterface } from "@interfaces/interfaces";
 import { urldecode, urlencode } from "@osumi/tools";
-import { BackupInterface } from "src/app/interfaces/interfaces";
 
 export class Backup {
   constructor(

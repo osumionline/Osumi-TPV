@@ -13,18 +13,18 @@ import { MatInput } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatToolbar } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
+import { environment } from "@env/environment";
 import {
   AppDataInterface,
   IvaOptionInterface,
   IvaReOptionInterface,
   MarginOptionInterface,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { ApiService } from "src/app/services/api.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { GestionService } from "src/app/services/gestion.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/interfaces";
+import { ApiService } from "@services/api.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { GestionService } from "@services/gestion.service";
 
 @Component({
   standalone: true,

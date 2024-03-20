@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { InformeMensualResult } from "src/app/interfaces/informes.interface";
-import { InformesService } from "src/app/services/informes.service";
+import { InformeMensualResult } from "@interfaces/informes.interface";
+import { InformesService } from "@services/informes.service";
 
 @Component({
   standalone: true,

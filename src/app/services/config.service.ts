@@ -1,19 +1,19 @@
 import { Injectable, WritableSignal, signal } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import { Observable, of } from "rxjs";
 import {
   AppDataResult,
   Month,
   ProvinceInterface,
-} from "src/app/interfaces/interfaces";
-import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { EmpleadosService } from "src/app/services/empleados.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
+} from "@interfaces/interfaces";
+import { IVAOption } from "@model/tpv/iva-option.model";
+import { TipoPago } from "@model/tpv/tipo-pago.model";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { EmpleadosService } from "@services/empleados.service";
+import { MarcasService } from "@services/marcas.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { Observable, of } from "rxjs";
 
 @Injectable({
   providedIn: "root",

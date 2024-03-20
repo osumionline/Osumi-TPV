@@ -1,4 +1,4 @@
-import { CodigoBarrasInterface } from "src/app/interfaces/articulo.interface";
+import { CodigoBarrasInterface } from "@interfaces/articulo.interface";
 
 export class CodigoBarras {
   constructor(

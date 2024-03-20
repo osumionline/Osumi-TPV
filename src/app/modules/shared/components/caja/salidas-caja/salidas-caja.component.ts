@@ -22,17 +22,17 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatSelect } from "@angular/material/select";
-import { addDays, getDate } from "@osumi/tools";
 import {
   SalidaCajaInterface,
   SalidaCajaResult,
-} from "src/app/interfaces/caja.interface";
-import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
-import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
+} from "@interfaces/caja.interface";
+import { DateValues, StatusResult } from "@interfaces/interfaces";
+import { SalidaCaja } from "@model/caja/salida-caja.model";
+import { addDays, getDate } from "@osumi/tools";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

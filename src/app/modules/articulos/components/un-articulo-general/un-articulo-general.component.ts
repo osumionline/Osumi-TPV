@@ -14,21 +14,21 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
+import { Month } from "@interfaces/interfaces";
+import { MargenesModal, Modal } from "@interfaces/modals.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { IVAOption } from "@model/tpv/iva-option.model";
+import { MargenesModalComponent } from "@modules/articulos/components/modals/margenes-modal/margenes-modal.component";
+import { NewMarcaModalComponent } from "@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component";
 import { getTwoNumberDecimal } from "@osumi/tools";
-import { Month } from "src/app/interfaces/interfaces";
-import { MargenesModal, Modal } from "src/app/interfaces/modals.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { IVAOption } from "src/app/model/tpv/iva-option.model";
-import { NewProveedorModalComponent } from "src/app/modules/shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { Utils } from "src/app/modules/shared/utils.class";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { OverlayService } from "src/app/services/overlay.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
-import { MargenesModalComponent } from "../modals/margenes-modal/margenes-modal.component";
-import { NewMarcaModalComponent } from "../modals/new-marca-modal/new-marca-modal.component";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { OverlayService } from "@services/overlay.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { NewProveedorModalComponent } from "@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { Utils } from "@shared/utils.class";
 
 @Component({
   selector: "otpv-un-articulo-general",

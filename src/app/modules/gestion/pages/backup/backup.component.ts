@@ -2,13 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatList, MatListItem } from "@angular/material/list";
-import { BackupResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Backup } from "src/app/model/tpv/backup.model";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { GestionService } from "src/app/services/gestion.service";
+import { BackupResult, StatusResult } from "@interfaces/interfaces";
+import { Backup } from "@model/tpv/backup.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { GestionService } from "@services/gestion.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

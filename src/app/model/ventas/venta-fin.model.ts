@@ -1,9 +1,9 @@
-import { toNumber, urldecode, urlencode } from "@osumi/tools";
 import {
   VentaFinInterface,
   VentaLineaInterface,
-} from "src/app/interfaces/venta.interface";
-import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
+} from "@interfaces/venta.interface";
+import { VentaLinea } from "@model/ventas/venta-linea.model";
+import { toNumber, urldecode, urlencode } from "@osumi/tools";
 
 export class VentaFin {
   pagoMixto: boolean = false;

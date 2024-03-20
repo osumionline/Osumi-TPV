@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, WritableSignal, signal } from "@angular/core";
-import { Observable } from "rxjs";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
+import { environment } from "@env/environment";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
 import {
   ComercialInterface,
   ProveedorInterface,
   ProveedoresResult,
-} from "src/app/interfaces/proveedor.interface";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/proveedor.interface";
+import { Proveedor } from "@model/proveedores/proveedor.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

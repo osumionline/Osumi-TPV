@@ -17,13 +17,13 @@ import { Router } from "@angular/router";
 import {
   ClienteSaveResult,
   ClientesResult,
-} from "src/app/interfaces/cliente.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
+} from "@interfaces/cliente.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
 
 @Component({
   standalone: true,

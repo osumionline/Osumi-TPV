@@ -1,5 +1,5 @@
-import { FotoInterface } from "src/app/interfaces/articulo.interface";
-import { environment } from "src/environments/environment";
+import { environment } from "@env/environment";
+import { FotoInterface } from "@interfaces/articulo.interface";
 
 export class Foto {
   status: string = "new";

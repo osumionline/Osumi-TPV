@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { InventarioItemInterface } from "src/app/interfaces/almacen.interface";
+import { InventarioItemInterface } from "@interfaces/almacen.interface";
 import {
   AccesoDirectoInterface,
   ArticuloBuscadorInterface,
@@ -7,58 +7,58 @@ import {
   CategoriaInterface,
   CodigoBarrasInterface,
   HistoricoArticuloInterface,
-} from "src/app/interfaces/articulo.interface";
+} from "@interfaces/articulo.interface";
 import {
   CierreCajaInterface,
   SalidaCajaInterface,
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
-} from "src/app/interfaces/caja.interface";
+} from "@interfaces/caja.interface";
 import {
   ClienteInterface,
   FacturaInterface,
   ReservaInterface,
-} from "src/app/interfaces/cliente.interface";
-import { EmpleadoInterface } from "src/app/interfaces/empleado.interface";
-import { InformeMensualItemInterface } from "src/app/interfaces/informes.interface";
-import { BackupInterface } from "src/app/interfaces/interfaces";
-import { MarcaInterface } from "src/app/interfaces/marca.interface";
-import { PedidoInterface } from "src/app/interfaces/pedido.interface";
+} from "@interfaces/cliente.interface";
+import { EmpleadoInterface } from "@interfaces/empleado.interface";
+import { InformeMensualItemInterface } from "@interfaces/informes.interface";
+import { BackupInterface } from "@interfaces/interfaces";
+import { MarcaInterface } from "@interfaces/marca.interface";
+import { PedidoInterface } from "@interfaces/pedido.interface";
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "src/app/interfaces/proveedor.interface";
-import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
+} from "@interfaces/proveedor.interface";
+import { TipoPagoInterface } from "@interfaces/tipo-pago.interface";
 import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
   VentaFinInterface,
-} from "src/app/interfaces/venta.interface";
-import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
-import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
-import { ArticuloTopVenta } from "src/app/model/articulos/articulo-top-venta.model";
-import { ArticuloUltimaVenta } from "src/app/model/articulos/articulo-ultima-venta.model";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Categoria } from "src/app/model/articulos/categoria.model";
-import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
-import { HistoricoArticulo } from "src/app/model/articulos/historico-articulo.model";
-import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
-import { InformeMensualItem } from "src/app/model/caja/informe-mensual-item.model";
-import { SalidaCaja } from "src/app/model/caja/salida-caja.model";
-import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { Factura } from "src/app/model/clientes/factura.model";
-import { Pedido } from "src/app/model/compras/pedido.model";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { Comercial } from "src/app/model/proveedores/comercial.model";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { Backup } from "src/app/model/tpv/backup.model";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { Reserva } from "src/app/model/ventas/reserva.model";
-import { VentaFin } from "src/app/model/ventas/venta-fin.model";
+} from "@interfaces/venta.interface";
+import { InventarioItem } from "@model/almacen/inventario-item.model";
+import { AccesoDirecto } from "@model/articulos/acceso-directo.model";
+import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
+import { ArticuloTopVenta } from "@model/articulos/articulo-top-venta.model";
+import { ArticuloUltimaVenta } from "@model/articulos/articulo-ultima-venta.model";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Categoria } from "@model/articulos/categoria.model";
+import { CodigoBarras } from "@model/articulos/codigo-barras.model";
+import { HistoricoArticulo } from "@model/articulos/historico-articulo.model";
+import { CierreCaja } from "@model/caja/cierre-caja.model";
+import { InformeMensualItem } from "@model/caja/informe-mensual-item.model";
+import { SalidaCaja } from "@model/caja/salida-caja.model";
+import { VentaHistorico } from "@model/caja/venta-historico.model";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { Cliente } from "@model/clientes/cliente.model";
+import { Factura } from "@model/clientes/factura.model";
+import { Pedido } from "@model/compras/pedido.model";
+import { Marca } from "@model/marcas/marca.model";
+import { Comercial } from "@model/proveedores/comercial.model";
+import { Proveedor } from "@model/proveedores/proveedor.model";
+import { Backup } from "@model/tpv/backup.model";
+import { Empleado } from "@model/tpv/empleado.model";
+import { TipoPago } from "@model/tpv/tipo-pago.model";
+import { Reserva } from "@model/ventas/reserva.model";
+import { VentaFin } from "@model/ventas/venta-fin.model";
 
 @Injectable({
   providedIn: "root",
@@ -99,7 +99,7 @@ export class ClassMapperService {
 
   getCategoria(c: CategoriaInterface): Categoria {
     const hijos: Categoria[] = [];
-    for (let h of c.hijos) {
+    for (const h of c.hijos) {
       hijos.push(this.getCategoria(h));
     }
     return new Categoria().fromInterface(c, hijos);

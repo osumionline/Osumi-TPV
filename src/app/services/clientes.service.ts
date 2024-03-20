@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, WritableSignal, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { environment } from "@env/environment";
 import {
   ClienteInterface,
   ClienteResult,
@@ -12,11 +12,11 @@ import {
   FacturasResult,
   ReservasResult,
   VentasClienteResult,
-} from "src/app/interfaces/cliente.interface";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/cliente.interface";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { Cliente } from "@model/clientes/cliente.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

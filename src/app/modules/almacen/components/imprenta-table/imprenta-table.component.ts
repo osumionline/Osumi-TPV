@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 import { QRCodeModule } from "angularx-qrcode";
-import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

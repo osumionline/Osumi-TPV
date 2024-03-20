@@ -23,21 +23,21 @@ import {
 } from "@angular/material/table";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { ActivatedRoute, Params } from "@angular/router";
-import { ChartSelectInterface } from "src/app/interfaces/articulo.interface";
-import { ClienteSaveResult } from "src/app/interfaces/cliente.interface";
-import { Month, StatusResult } from "src/app/interfaces/interfaces";
-import { FacturaModal } from "src/app/interfaces/modals.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { Factura } from "src/app/model/clientes/factura.model";
-import { EditFacturaModalComponent } from "src/app/modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { ClientListFilterPipe } from "src/app/modules/shared/pipes/client-list-filter.pipe";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { OverlayService } from "src/app/services/overlay.service";
+import { ChartSelectInterface } from "@interfaces/articulo.interface";
+import { ClienteSaveResult } from "@interfaces/cliente.interface";
+import { Month, StatusResult } from "@interfaces/interfaces";
+import { FacturaModal } from "@interfaces/modals.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { Factura } from "@model/clientes/factura.model";
+import { EditFacturaModalComponent } from "@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { OverlayService } from "@services/overlay.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
+import { ClientListFilterPipe } from "@shared/pipes/client-list-filter.pipe";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

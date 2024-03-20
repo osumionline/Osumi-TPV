@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { ClienteResult } from "src/app/interfaces/cliente.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { ConfigService } from "src/app/services/config.service";
+import { ClienteResult } from "@interfaces/cliente.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { ConfigService } from "@services/config.service";
 
 @Component({
   standalone: true,

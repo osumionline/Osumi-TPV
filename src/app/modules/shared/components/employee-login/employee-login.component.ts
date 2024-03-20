@@ -1,10 +1,10 @@
 import { NgStyle } from "@angular/common";
 import { Component, OutputEmitterRef, output } from "@angular/core";
-import { EmpleadoLoginModal } from "src/app/interfaces/modals.interface";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { EmployeeLoginModalComponent } from "src/app/modules/shared/components/modals/employee-login-modal/employee-login-modal.component";
-import { EmpleadosService } from "src/app/services/empleados.service";
-import { OverlayService } from "src/app/services/overlay.service";
+import { EmpleadoLoginModal } from "@interfaces/modals.interface";
+import { Empleado } from "@model/tpv/empleado.model";
+import { EmpleadosService } from "@services/empleados.service";
+import { OverlayService } from "@services/overlay.service";
+import { EmployeeLoginModalComponent } from "@shared/components/modals/employee-login-modal/employee-login-modal.component";
 
 @Component({
   standalone: true,

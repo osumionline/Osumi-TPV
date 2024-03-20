@@ -4,15 +4,15 @@ import { MatButton } from "@angular/material/button";
 import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
 import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { IdSaveResult } from "src/app/interfaces/interfaces";
-import { MarcaInterface } from "src/app/interfaces/marca.interface";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
+import { IdSaveResult } from "@interfaces/interfaces";
+import { MarcaInterface } from "@interfaces/marca.interface";
+import { Marca } from "@model/marcas/marca.model";
+import { Proveedor } from "@model/proveedores/proveedor.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { ProveedoresService } from "@services/proveedores.service";
 
 @Component({
   standalone: true,

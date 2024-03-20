@@ -12,11 +12,11 @@ import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatOption, MatSelect } from "@angular/material/select";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { Month } from "src/app/interfaces/interfaces";
-import { CierreCajaComponent } from "src/app/modules/shared/components/caja/cierre-caja/cierre-caja.component";
-import { HistoricoVentasComponent } from "src/app/modules/shared/components/caja/historico-ventas/historico-ventas.component";
-import { SalidasCajaComponent } from "src/app/modules/shared/components/caja/salidas-caja/salidas-caja.component";
-import { ConfigService } from "src/app/services/config.service";
+import { Month } from "@interfaces/interfaces";
+import { CierreCajaComponent } from "@shared/components/caja/cierre-caja/cierre-caja.component";
+import { HistoricoVentasComponent } from "@shared/components/caja/historico-ventas/historico-ventas.component";
+import { SalidasCajaComponent } from "@shared/components/caja/salidas-caja/salidas-caja.component";
+import { ConfigService } from "@services/config.service";
 
 @Component({
   standalone: true,

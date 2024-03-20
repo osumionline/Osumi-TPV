@@ -1,9 +1,9 @@
-import { urldecode, urlencode } from "@osumi/tools";
 import {
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
-} from "src/app/interfaces/caja.interface";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
+} from "@interfaces/caja.interface";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { urldecode, urlencode } from "@osumi/tools";
 
 export class VentaHistorico {
   _totalUnidades: number = null;
@@ -34,7 +34,7 @@ export class VentaHistorico {
     }
     let unidades: number = 0;
 
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       unidades += linea.unidades;
     }
 
@@ -49,7 +49,7 @@ export class VentaHistorico {
     }
     let descuento: number = 0;
 
-    for (let linea of this.lineas) {
+    for (const linea of this.lineas) {
       if (linea.importeDescuento) {
         descuento += linea.importeDescuento;
       } else {

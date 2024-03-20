@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
-import { Articulo } from "src/app/model/articulos/articulo.model";
+import { Articulo } from "@model/articulos/articulo.model";
 
 @Component({
   selector: "otpv-un-articulo-observaciones",

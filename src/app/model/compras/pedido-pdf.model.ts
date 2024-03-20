@@ -1,5 +1,5 @@
+import { PedidoPDFInterface } from "@interfaces/pedido.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { PedidoPDFInterface } from "src/app/interfaces/pedido.interface";
 
 export class PedidoPDF {
   constructor(

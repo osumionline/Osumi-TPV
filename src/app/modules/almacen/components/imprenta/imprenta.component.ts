@@ -8,12 +8,12 @@ import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
 import { MatTooltip } from "@angular/material/tooltip";
-import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
-import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
-import { ImprentaTableComponent } from "src/app/modules/almacen/components/imprenta-table/imprenta-table.component";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { VentasService } from "src/app/services/ventas.service";
+import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
+import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
+import { ImprentaTableComponent } from "@modules/almacen/components/imprenta-table/imprenta-table.component";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { VentasService } from "@services/ventas.service";
 
 @Component({
   standalone: true,

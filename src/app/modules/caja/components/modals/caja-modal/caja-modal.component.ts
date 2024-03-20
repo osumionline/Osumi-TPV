@@ -1,6 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { CajaContentComponent } from "src/app/modules/shared/components/caja/caja-content/caja-content.component";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { CajaContentComponent } from "@shared/components/caja/caja-content/caja-content.component";
 
 @Component({
   standalone: true,

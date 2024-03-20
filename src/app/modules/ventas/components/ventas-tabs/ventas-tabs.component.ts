@@ -3,15 +3,15 @@ import { Component, Input, OutputEmitterRef, output } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
 import { RouterModule } from "@angular/router";
-import { SelectClienteInterface } from "src/app/interfaces/cliente.interface";
-import { ElegirClienteModal, Modal } from "src/app/interfaces/modals.interface";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { Reserva } from "src/app/model/ventas/reserva.model";
-import { ElegirClienteModalComponent } from "src/app/modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
-import { ReservasModalComponent } from "src/app/modules/ventas/components/modals/reservas-modal/reservas-modal.component";
-import { DialogService } from "src/app/services/dialog.service";
-import { OverlayService } from "src/app/services/overlay.service";
-import { VentasService } from "src/app/services/ventas.service";
+import { SelectClienteInterface } from "@interfaces/cliente.interface";
+import { ElegirClienteModal, Modal } from "@interfaces/modals.interface";
+import { Cliente } from "@model/clientes/cliente.model";
+import { Reserva } from "@model/ventas/reserva.model";
+import { ElegirClienteModalComponent } from "@modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component";
+import { ReservasModalComponent } from "@modules/ventas/components/modals/reservas-modal/reservas-modal.component";
+import { DialogService } from "@services/dialog.service";
+import { OverlayService } from "@services/overlay.service";
+import { VentasService } from "@services/ventas.service";
 
 @Component({
   standalone: true,

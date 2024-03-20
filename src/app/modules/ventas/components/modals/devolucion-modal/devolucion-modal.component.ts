@@ -7,16 +7,16 @@ import { MatCheckbox } from "@angular/material/checkbox";
 import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
-import { DateValues } from "src/app/interfaces/interfaces";
-import { DevolucionSelectedInterface } from "src/app/interfaces/venta.interface";
-import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { VentasService } from "src/app/services/ventas.service";
+import { HistoricoVentasResult } from "@interfaces/caja.interface";
+import { DateValues } from "@interfaces/interfaces";
+import { DevolucionSelectedInterface } from "@interfaces/venta.interface";
+import { VentaHistorico } from "@model/caja/venta-historico.model";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { VentasService } from "@services/ventas.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

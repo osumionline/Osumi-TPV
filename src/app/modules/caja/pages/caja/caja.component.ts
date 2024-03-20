@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { MatCard, MatCardContent } from "@angular/material/card";
-import { CajaContentComponent } from "src/app/modules/shared/components/caja/caja-content/caja-content.component";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
+import { CajaContentComponent } from "@shared/components/caja/caja-content/caja-content.component";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

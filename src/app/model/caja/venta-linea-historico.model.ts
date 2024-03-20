@@ -1,5 +1,5 @@
+import { VentaLineaHistoricoInterface } from "@interfaces/caja.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface";
 
 export class VentaLineaHistorico {
   devolver: number;

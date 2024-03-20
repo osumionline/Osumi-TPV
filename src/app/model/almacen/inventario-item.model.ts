@@ -1,5 +1,5 @@
+import { InventarioItemInterface } from "@interfaces/almacen.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { InventarioItemInterface } from "src/app/interfaces/almacen.interface";
 
 export class InventarioItem {
   _stock: number = null;

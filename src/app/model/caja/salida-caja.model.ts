@@ -1,5 +1,5 @@
+import { SalidaCajaInterface } from "@interfaces/caja.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { SalidaCajaInterface } from "src/app/interfaces/caja.interface";
 
 export class SalidaCaja {
   constructor(

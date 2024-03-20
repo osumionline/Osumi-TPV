@@ -1,15 +1,15 @@
-import { urldecode, urlencode } from "@osumi/tools";
 import {
   ArticuloInterface,
   CodigoBarrasInterface,
   EtiquetaInterface,
   EtiquetaWebInterface,
   FotoInterface,
-} from "src/app/interfaces/articulo.interface";
-import { CodigoBarras } from "src/app/model/articulos/codigo-barras.model";
-import { EtiquetaWeb } from "src/app/model/articulos/etiqueta-web.model";
-import { Etiqueta } from "src/app/model/articulos/etiqueta.model";
-import { Foto } from "src/app/model/articulos/foto.model";
+} from "@interfaces/articulo.interface";
+import { CodigoBarras } from "@model/articulos/codigo-barras.model";
+import { EtiquetaWeb } from "@model/articulos/etiqueta-web.model";
+import { Etiqueta } from "@model/articulos/etiqueta.model";
+import { Foto } from "@model/articulos/foto.model";
+import { urldecode, urlencode } from "@osumi/tools";
 
 export class Articulo {
   tabName: string = "";

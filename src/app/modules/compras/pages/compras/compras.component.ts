@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { ComprasPedidosListComponent } from "src/app/modules/compras/components/compras-pedidos-list/compras-pedidos-list.component";
-import { MarcasComponent } from "src/app/modules/compras/components/marcas/marcas.component";
-import { ProveedoresComponent } from "src/app/modules/compras/components/proveedores/proveedores.component";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { ComprasService } from "src/app/services/compras.service";
+import { ComprasPedidosListComponent } from "@modules/compras/components/compras-pedidos-list/compras-pedidos-list.component";
+import { MarcasComponent } from "@modules/compras/components/marcas/marcas.component";
+import { ProveedoresComponent } from "@modules/compras/components/proveedores/proveedores.component";
+import { ComprasService } from "@services/compras.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

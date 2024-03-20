@@ -1,25 +1,25 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { formatNumber } from "@osumi/tools";
-import { Observable } from "rxjs";
-import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
-import { HistoricoVentasResult } from "src/app/interfaces/caja.interface";
-import { EstadisticasClienteResult } from "src/app/interfaces/cliente.interface";
-import { DateValues, StatusResult } from "src/app/interfaces/interfaces";
+import { environment } from "@env/environment";
+import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
+import { HistoricoVentasResult } from "@interfaces/caja.interface";
+import { EstadisticasClienteResult } from "@interfaces/cliente.interface";
+import { DateValues, StatusResult } from "@interfaces/interfaces";
 import {
   FinVentaResult,
   LineasTicketResult,
-} from "src/app/interfaces/venta.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { VentaFin } from "src/app/model/ventas/venta-fin.model";
-import { VentaLinea } from "src/app/model/ventas/venta-linea.model";
-import { Venta } from "src/app/model/ventas/venta.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { environment } from "src/environments/environment";
+} from "@interfaces/venta.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Cliente } from "@model/clientes/cliente.model";
+import { Empleado } from "@model/tpv/empleado.model";
+import { VentaFin } from "@model/ventas/venta-fin.model";
+import { VentaLinea } from "@model/ventas/venta-linea.model";
+import { Venta } from "@model/ventas/venta.model";
+import { formatNumber } from "@osumi/tools";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { DialogService } from "@services/dialog.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

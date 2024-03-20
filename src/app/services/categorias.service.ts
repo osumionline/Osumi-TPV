@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "@env/environment";
+import { CategoriasResult } from "@interfaces/articulo.interface";
+import { Categoria } from "@model/articulos/categoria.model";
 import { Observable } from "rxjs";
-import { CategoriasResult } from "src/app/interfaces/articulo.interface";
-import { Categoria } from "src/app/model/articulos/categoria.model";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +22,7 @@ export class CategoriasService {
   }
 
   loadCategoriasPlain(catList: Categoria[] = []): void {
-    for (let cat of catList) {
+    for (const cat of catList) {
       this.categoriasPlain.push(
         new Categoria(cat.id, cat.nombre, cat.profundidad)
       );

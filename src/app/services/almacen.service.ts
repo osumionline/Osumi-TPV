@@ -1,19 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { environment } from "@env/environment";
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
   InventarioItemInterface,
-} from "src/app/interfaces/almacen.interface";
+} from "@interfaces/almacen.interface";
 import {
   StatusIdMessageErrorsResult,
   StatusIdMessageResult,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { environment } from "src/environments/environment";
-import { Articulo } from "../model/articulos/articulo.model";
+} from "@interfaces/interfaces";
+import { InventarioItem } from "@model/almacen/inventario-item.model";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

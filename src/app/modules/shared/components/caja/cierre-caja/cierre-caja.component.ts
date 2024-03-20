@@ -13,15 +13,15 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
+import { CierreCajaResult } from "@interfaces/caja.interface";
+import { StatusResult } from "@interfaces/interfaces";
+import { CierreCaja } from "@model/caja/cierre-caja.model";
 import { getCurrentDate } from "@osumi/tools";
-import { CierreCajaResult } from "src/app/interfaces/caja.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { CierreCaja } from "src/app/model/caja/cierre-caja.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ApiService } from "src/app/services/api.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { ApiService } from "@services/api.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

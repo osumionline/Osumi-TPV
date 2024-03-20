@@ -1,8 +1,8 @@
 import { NgComponentOutlet } from "@angular/common";
 import { Component, OnInit, Renderer2, Type } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
-import { Modal } from "src/app/interfaces/modals.interface";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
+import { Modal } from "@interfaces/modals.interface";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
 
 @Component({
   standalone: true,

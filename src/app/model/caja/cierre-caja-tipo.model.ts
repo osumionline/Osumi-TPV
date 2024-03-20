@@ -1,5 +1,5 @@
+import { CierreCajaTipoInterface } from "@interfaces/caja.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { CierreCajaTipoInterface } from "src/app/interfaces/caja.interface";
 
 export class CierreCajaTipo {
   real: number = null;

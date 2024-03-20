@@ -1,5 +1,5 @@
+import { ArticuloBuscadorInterface } from "@interfaces/articulo.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { ArticuloBuscadorInterface } from "src/app/interfaces/articulo.interface";
 
 export class ArticuloBuscador {
   num: number = 0;

@@ -21,26 +21,26 @@ import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
-import { urldecode } from "@osumi/tools";
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
   InventarioItemInterface,
-} from "src/app/interfaces/almacen.interface";
+} from "@interfaces/almacen.interface";
 import {
   StatusIdMessageErrorsResult,
   StatusIdMessageResult,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { AlmacenService } from "src/app/services/almacen.service";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
+} from "@interfaces/interfaces";
+import { InventarioItem } from "@model/almacen/inventario-item.model";
+import { urldecode } from "@osumi/tools";
+import { AlmacenService } from "@services/almacen.service";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { CustomPaginatorIntl } from "@shared/custom-paginator-intl.class";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

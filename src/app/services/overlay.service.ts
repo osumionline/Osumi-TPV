@@ -1,9 +1,9 @@
 import { Overlay, OverlayConfig } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { Injectable, Injector, Type } from "@angular/core";
-import { Modal } from "src/app/interfaces/modals.interface";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { OverlayComponent } from "src/app/modules/shared/components/overlay/overlay.component";
+import { Modal } from "@interfaces/modals.interface";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { OverlayComponent } from "@shared/components/overlay/overlay.component";
 
 @Injectable({
   providedIn: "root",

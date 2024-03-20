@@ -11,12 +11,12 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import {
   HistoricoArticuloBuscadorInterface,
   HistoricoArticuloResult,
-} from "src/app/interfaces/articulo.interface";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { HistoricoArticulo } from "src/app/model/articulos/historico-articulo.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
+} from "@interfaces/articulo.interface";
+import { Articulo } from "@model/articulos/articulo.model";
+import { HistoricoArticulo } from "@model/articulos/historico-articulo.model";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   selector: "otpv-un-articulo-historico",

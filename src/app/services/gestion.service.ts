@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "@env/environment";
+import { BackupResult, StatusResult } from "@interfaces/interfaces";
+import { Empleado } from "@model/tpv/empleado.model";
 import { Observable } from "rxjs";
-import { BackupResult, StatusResult } from "src/app/interfaces/interfaces";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",

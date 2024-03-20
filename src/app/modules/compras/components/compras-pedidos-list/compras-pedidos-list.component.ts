@@ -27,18 +27,18 @@ import { MatSelect } from "@angular/material/select";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
 import { Router, RouterModule } from "@angular/router";
-import { getDate } from "@osumi/tools";
 import {
   PedidosAllResult,
   PedidosFilterInterface,
   PedidosResult,
-} from "src/app/interfaces/pedido.interface";
-import { Pedido } from "src/app/model/compras/pedido.model";
-import { CustomPaginatorIntl } from "src/app/modules/shared/custom-paginator-intl.class";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ComprasService } from "src/app/services/compras.service";
-import { ProveedoresService } from "src/app/services/proveedores.service";
+} from "@interfaces/pedido.interface";
+import { Pedido } from "@model/compras/pedido.model";
+import { getDate } from "@osumi/tools";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ComprasService } from "@services/compras.service";
+import { ProveedoresService } from "@services/proveedores.service";
+import { CustomPaginatorIntl } from "@shared/custom-paginator-intl.class";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

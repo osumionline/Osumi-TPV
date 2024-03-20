@@ -18,27 +18,27 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatTooltip } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
-import { addDays, getDate, urlencode } from "@osumi/tools";
 import {
   HistoricoVentasResult,
   VentaHistoricoOtrosInterface,
-} from "src/app/interfaces/caja.interface";
+} from "@interfaces/caja.interface";
 import {
   DateValues,
   DialogOptions,
   IdSaveResult,
   StatusResult,
-} from "src/app/interfaces/interfaces";
-import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Cliente } from "src/app/model/clientes/cliente.model";
-import { TipoPago } from "src/app/model/tpv/tipo-pago.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { VentasService } from "src/app/services/ventas.service";
+} from "@interfaces/interfaces";
+import { VentaHistorico } from "@model/caja/venta-historico.model";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { Cliente } from "@model/clientes/cliente.model";
+import { TipoPago } from "@model/tpv/tipo-pago.model";
+import { addDays, getDate, urlencode } from "@osumi/tools";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { VentasService } from "@services/ventas.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

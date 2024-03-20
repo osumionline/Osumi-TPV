@@ -12,11 +12,11 @@ import { MatFormField } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ArticuloBuscadorResult } from "src/app/interfaces/articulo.interface";
-import { ArticuloBuscador } from "src/app/model/articulos/articulo-buscador.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { VentasService } from "src/app/services/ventas.service";
+import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
+import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { VentasService } from "@services/ventas.service";
 
 @Component({
   standalone: true,

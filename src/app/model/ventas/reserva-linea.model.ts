@@ -1,5 +1,5 @@
+import { ReservaLineaInterface } from "@interfaces/cliente.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { ReservaLineaInterface } from "src/app/interfaces/cliente.interface";
 
 export class ReservaLinea {
   constructor(

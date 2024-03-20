@@ -1,10 +1,10 @@
-import { hexToRgbFloat, urldecode, urlencode } from "@osumi/tools";
 import {
   EmpleadoInterface,
   EmpleadoLoginInterface,
-} from "src/app/interfaces/empleado.interface";
-import { ColorValues } from "src/app/interfaces/interfaces";
-import { rolList } from "src/app/modules/shared/rol.class";
+} from "@interfaces/empleado.interface";
+import { ColorValues } from "@interfaces/interfaces";
+import { hexToRgbFloat, urldecode, urlencode } from "@osumi/tools";
+import { rolList } from "@shared/rol.class";
 
 export class Empleado {
   pass: string = null;

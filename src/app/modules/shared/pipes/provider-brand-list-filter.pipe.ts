@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { SelectMarcaInterface } from "src/app/interfaces/marca.interface";
+import { SelectMarcaInterface } from "@interfaces/marca.interface";
 
 @Pipe({
   standalone: true,

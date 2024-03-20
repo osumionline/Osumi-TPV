@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { environment } from "@env/environment";
 import {
   AccesoDirectoResult,
   ArticuloInterface,
@@ -10,13 +10,10 @@ import {
   ChartSelectInterface,
   HistoricoArticuloBuscadorInterface,
   HistoricoArticuloResult,
-} from "src/app/interfaces/articulo.interface";
-import {
-  ReturnInfoInterface,
-  StatusResult,
-} from "src/app/interfaces/interfaces";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { environment } from "src/environments/environment";
+} from "@interfaces/articulo.interface";
+import { ReturnInfoInterface, StatusResult } from "@interfaces/interfaces";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

@@ -14,12 +14,12 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { MarcaInterface } from "src/app/interfaces/marca.interface";
-import { Marca } from "src/app/model/marcas/marca.model";
-import { BrandListFilterPipe } from "src/app/modules/shared/pipes/brand-list-filter.pipe";
-import { DialogService } from "src/app/services/dialog.service";
-import { MarcasService } from "src/app/services/marcas.service";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { MarcaInterface } from "@interfaces/marca.interface";
+import { Marca } from "@model/marcas/marca.model";
+import { DialogService } from "@services/dialog.service";
+import { MarcasService } from "@services/marcas.service";
+import { BrandListFilterPipe } from "@shared/pipes/brand-list-filter.pipe";
 
 @Component({
   standalone: true,

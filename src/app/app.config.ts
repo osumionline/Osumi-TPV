@@ -15,9 +15,9 @@ import {
   MatFormFieldDefaultOptions,
 } from "@angular/material/form-field";
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { routes } from "src/app/app.routes";
-import { provideCore } from "src/app/modules/core";
-import { ConfigService } from "src/app/services/config.service";
+import { routes } from "@app/app.routes";
+import { provideCore } from "@modules/core";
+import { ConfigService } from "@services/config.service";
 
 registerLocaleData(es);
 

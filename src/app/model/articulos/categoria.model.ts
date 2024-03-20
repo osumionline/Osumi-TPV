@@ -1,5 +1,5 @@
+import { CategoriaInterface } from "@interfaces/articulo.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { CategoriaInterface } from "src/app/interfaces/articulo.interface";
 
 export class Categoria {
   constructor(
@@ -20,7 +20,7 @@ export class Categoria {
 
   toInterface(): CategoriaInterface {
     const hijos: CategoriaInterface[] = [];
-    for (let h of this.hijos) {
+    for (const h of this.hijos) {
       hijos.push(h.toInterface());
     }
     return {

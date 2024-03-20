@@ -1,5 +1,5 @@
+import { MarcaInterface } from "@interfaces/marca.interface";
 import { urldecode, urlencode } from "@osumi/tools";
-import { MarcaInterface } from "src/app/interfaces/marca.interface";
 
 export class Marca {
   crearProveedor: boolean = false;

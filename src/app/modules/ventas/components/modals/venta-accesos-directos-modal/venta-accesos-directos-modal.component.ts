@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { AccesoDirectoResult } from "src/app/interfaces/articulo.interface";
-import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
+import { AccesoDirectoResult } from "@interfaces/articulo.interface";
+import { AccesoDirecto } from "@model/articulos/acceso-directo.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
 
 @Component({
   standalone: true,

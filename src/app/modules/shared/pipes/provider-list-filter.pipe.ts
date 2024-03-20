@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { Proveedor } from "src/app/model/proveedores/proveedor.model";
+import { Proveedor } from "@model/proveedores/proveedor.model";
 
 @Pipe({
   standalone: true,

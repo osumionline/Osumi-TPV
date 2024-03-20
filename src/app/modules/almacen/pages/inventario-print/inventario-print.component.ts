@@ -4,11 +4,11 @@ import { ActivatedRoute, Params } from "@angular/router";
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
-} from "src/app/interfaces/almacen.interface";
-import { InventarioItem } from "src/app/model/almacen/inventario-item.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { AlmacenService } from "src/app/services/almacen.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
+} from "@interfaces/almacen.interface";
+import { InventarioItem } from "@model/almacen/inventario-item.model";
+import { AlmacenService } from "@services/almacen.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,

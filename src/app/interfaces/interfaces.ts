@@ -1,4 +1,4 @@
-import { TipoPagoInterface } from "src/app/interfaces/tipo-pago.interface";
+import { TipoPagoInterface } from "@interfaces/tipo-pago.interface";
 
 export interface DialogField {
   title: string;

@@ -1,4 +1,4 @@
-import { VentaLineaHistoricoInterface } from "src/app/interfaces/caja.interface";
+import { VentaLineaHistoricoInterface } from "@interfaces/caja.interface";
 
 export interface VentaLineaInterface {
   id: number;

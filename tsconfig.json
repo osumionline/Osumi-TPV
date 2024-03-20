@@ -11,15 +11,19 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2020", "dom"],
     "allowSyntheticDefaultImports": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@shared/*": ["src/app/modules/shared/*"],
+      "@env/*": ["src/environments/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@services/*": ["src/app/services/*"],
+      "@interfaces/*": ["src/app/interfaces/*"],
+      "@model/*": ["src/app/model/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

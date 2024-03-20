@@ -1,9 +1,9 @@
-import { urldecode, urlencode } from "@osumi/tools";
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "src/app/interfaces/proveedor.interface";
-import { Comercial } from "src/app/model/proveedores/comercial.model";
+} from "@interfaces/proveedor.interface";
+import { Comercial } from "@model/proveedores/comercial.model";
+import { urldecode, urlencode } from "@osumi/tools";
 
 export class Proveedor {
   constructor(

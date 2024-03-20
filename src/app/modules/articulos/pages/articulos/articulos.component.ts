@@ -1,11 +1,11 @@
 import { NgClass } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { ArticulosTabsComponent } from "src/app/modules/articulos/components/articulos-tabs/articulos-tabs.component";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { UnArticuloComponent } from "../../components/un-articulo/un-articulo.component";
+import { Articulo } from "@model/articulos/articulo.model";
+import { ArticulosTabsComponent } from "@modules/articulos/components/articulos-tabs/articulos-tabs.component";
+import { UnArticuloComponent } from "@modules/articulos/components/un-articulo/un-articulo.component";
+import { ArticulosService } from "@services/articulos.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
 
 @Component({
   standalone: true,

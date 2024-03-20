@@ -1,8 +1,8 @@
-import { formatNumber, urldecode, urlencode } from "@osumi/tools";
 import {
   InformeMensualItemInterface,
   InformeMensualItemOtrosInterface,
-} from "src/app/interfaces/informes.interface";
+} from "@interfaces/informes.interface";
+import { formatNumber, urldecode, urlencode } from "@osumi/tools";
 
 export class InformeMensualItem {
   constructor(

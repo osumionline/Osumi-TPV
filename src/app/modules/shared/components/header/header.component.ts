@@ -3,10 +3,10 @@ import { Component, HostListener, Input, OnInit } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatToolbar } from "@angular/material/toolbar";
 import { Router, RouterModule } from "@angular/router";
-import { CajaModal } from "src/app/interfaces/modals.interface";
-import { CajaModalComponent } from "src/app/modules/caja/components/modals/caja-modal/caja-modal.component";
-import { ConfigService } from "src/app/services/config.service";
-import { OverlayService } from "src/app/services/overlay.service";
+import { CajaModal } from "@interfaces/modals.interface";
+import { CajaModalComponent } from "@modules/caja/components/modals/caja-modal/caja-modal.component";
+import { ConfigService } from "@services/config.service";
+import { OverlayService } from "@services/overlay.service";
 
 @Component({
   standalone: true,

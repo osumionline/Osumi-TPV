@@ -5,9 +5,9 @@ import { MatFormField } from "@angular/material/form-field";
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatSlideToggle } from "@angular/material/slide-toggle";
-import { Articulo } from "src/app/model/articulos/articulo.model";
-import { Foto } from "src/app/model/articulos/foto.model";
-import { DialogService } from "src/app/services/dialog.service";
+import { Articulo } from "@model/articulos/articulo.model";
+import { Foto } from "@model/articulos/foto.model";
+import { DialogService } from "@services/dialog.service";
 
 @Component({
   selector: "otpv-un-articulo-web",

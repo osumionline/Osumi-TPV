@@ -5,16 +5,16 @@ import { MatButton } from "@angular/material/button";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatIcon } from "@angular/material/icon";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { VentasClienteResult } from "src/app/interfaces/cliente.interface";
-import { IdSaveResult, StatusResult } from "src/app/interfaces/interfaces";
-import { VentaHistorico } from "src/app/model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "src/app/model/caja/venta-linea-historico.model";
-import { Factura } from "src/app/model/clientes/factura.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { FixedNumberPipe } from "src/app/modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { ClientesService } from "src/app/services/clientes.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { VentasClienteResult } from "@interfaces/cliente.interface";
+import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { VentaHistorico } from "@model/caja/venta-historico.model";
+import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
+import { Factura } from "@model/clientes/factura.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { FixedNumberPipe } from "@modules/shared/pipes/fixed-number.pipe";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { ClientesService } from "@services/clientes.service";
+import { DialogService } from "@services/dialog.service";
 
 @Component({
   standalone: true,

@@ -16,16 +16,16 @@ import { MatInput } from "@angular/material/input";
 import { MatActionList, MatListItem } from "@angular/material/list";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { Router } from "@angular/router";
-import { EmpleadoSaveInterface } from "src/app/interfaces/empleado.interface";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { Empleado } from "src/app/model/tpv/empleado.model";
-import { HeaderComponent } from "src/app/modules/shared/components/header/header.component";
-import { EmployeeListFilterPipe } from "src/app/modules/shared/pipes/employee-list-filter.pipe";
-import { Rol, RolGroup, rolList } from "src/app/modules/shared/rol.class";
-import { ConfigService } from "src/app/services/config.service";
-import { DialogService } from "src/app/services/dialog.service";
-import { EmpleadosService } from "src/app/services/empleados.service";
-import { GestionService } from "src/app/services/gestion.service";
+import { EmpleadoSaveInterface } from "@interfaces/empleado.interface";
+import { StatusResult } from "@interfaces/interfaces";
+import { Empleado } from "@model/tpv/empleado.model";
+import { ConfigService } from "@services/config.service";
+import { DialogService } from "@services/dialog.service";
+import { EmpleadosService } from "@services/empleados.service";
+import { GestionService } from "@services/gestion.service";
+import { HeaderComponent } from "@shared/components/header/header.component";
+import { EmployeeListFilterPipe } from "@shared/pipes/employee-list-filter.pipe";
+import { Rol, RolGroup, rolList } from "@shared/rol.class";
 
 @Component({
   standalone: true,

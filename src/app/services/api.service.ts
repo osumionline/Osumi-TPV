@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { environment } from "@env/environment";
 import {
   CierreCajaInterface,
   CierreCajaResult,
   SalidaCajaInterface,
   SalidaCajaResult,
-} from "src/app/interfaces/caja.interface";
+} from "@interfaces/caja.interface";
 import {
   AllProvincesInterface,
   AppDataInterface,
@@ -14,13 +14,13 @@ import {
   IdSaveResult,
   StartDataInterface,
   StatusResult,
-} from "src/app/interfaces/interfaces";
+} from "@interfaces/interfaces";
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
   TiposPagoResult,
-} from "src/app/interfaces/tipo-pago.interface";
-import { environment } from "src/environments/environment";
+} from "@interfaces/tipo-pago.interface";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

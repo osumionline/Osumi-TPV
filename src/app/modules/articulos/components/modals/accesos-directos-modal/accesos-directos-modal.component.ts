@@ -7,12 +7,12 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { StatusResult } from "src/app/interfaces/interfaces";
-import { AccesoDirecto } from "src/app/model/articulos/acceso-directo.model";
-import { CustomOverlayRef } from "src/app/model/tpv/custom-overlay-ref.model";
-import { ArticulosService } from "src/app/services/articulos.service";
-import { ClassMapperService } from "src/app/services/class-mapper.service";
-import { DialogService } from "src/app/services/dialog.service";
+import { StatusResult } from "@interfaces/interfaces";
+import { AccesoDirecto } from "@model/articulos/acceso-directo.model";
+import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
+import { ArticulosService } from "@services/articulos.service";
+import { ClassMapperService } from "@services/class-mapper.service";
+import { DialogService } from "@services/dialog.service";
 
 @Component({
   standalone: true,
