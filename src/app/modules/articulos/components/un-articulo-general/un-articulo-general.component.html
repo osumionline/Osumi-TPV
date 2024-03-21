@@ -191,7 +191,8 @@
             <div class="form-field-left fixed-height">
                 <label>Descuento</label>
                 <mat-slide-toggle color="primary"
-                                  [(ngModel)]="articulo().descuento">
+                                  [(ngModel)]="articulo().descuento"
+                                  (ngModelChange)="changeDescuento()">
                     {{ articulo().descuento ? 'Activado' : 'Desactivado' }}
                 </mat-slide-toggle>
             </div>

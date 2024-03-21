@@ -148,7 +148,6 @@ export class EditFacturaModalComponent implements OnInit {
 
   selectVenta(ind: number): void {
     this.ventaSelected = this.ventasCliente[ind];
-    console.log(this.ventaSelected);
     this.ventaSelectedDataSource.data = this.ventaSelected.lineas;
   }
 

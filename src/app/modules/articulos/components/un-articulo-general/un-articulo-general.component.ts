@@ -278,6 +278,17 @@ export class UnArticuloGeneralComponent {
     }
   }
 
+  changeDescuento(): void {
+    if (!this.articulo().descuento) {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.margenDescuento = null;
+        value.pvpDescuento = null;
+        value.porcentajeDescuento = null;
+        return value;
+      });
+    }
+  }
+
   updatePVPDescuento(): void {
     this.updateMargenDescuento();
     this.updatePorcentajeDescuento(false);
@@ -295,7 +306,6 @@ export class UnArticuloGeneralComponent {
           ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
         const descuento: number = value.pvp - value.pvpDescuento;
         value.porcentajeDescuento = (descuento / value.pvp) * 100;
-        console.log("actualizo porcentaje descuento");
         return value;
       });
     } else {

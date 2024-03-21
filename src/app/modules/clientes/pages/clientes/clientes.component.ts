@@ -136,12 +136,10 @@ export default class ClientesComponent implements OnInit {
       this.yearList.push(y);
     }
     this.broadcastChannel.onmessage = (message) => {
-      console.log(message);
       if (
         message.data.type === "imprimir" &&
         message.data.id === this.selectedClient.id
       ) {
-        console.log("recargo facturas");
         this.loadFacturasCliente();
       }
     };
@@ -194,7 +192,6 @@ export default class ClientesComponent implements OnInit {
   }
 
   loadFacturasCliente(): void {
-    console.log("loadFacturasCliente");
     this.selectedClient.facturas = [];
     this.facturasDataSource.data = this.selectedClient.facturas;
     this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
@@ -203,8 +200,6 @@ export default class ClientesComponent implements OnInit {
         const facturas: Factura[] = [...this.selectedClient.facturas];
         this.facturasDataSource.data = facturas;
         this.facturasDataSource.connect().next(facturas);
-        console.log(this.facturasDataSource.data);
-        console.log(this.facturasTable);
         this.facturasTable.renderRows();
       }
     });

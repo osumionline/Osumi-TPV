@@ -60,7 +60,5 @@ export class ImprentaTableComponent implements OnInit {
         }
       }
     }
-
-    console.log(this.list);
   }
 }

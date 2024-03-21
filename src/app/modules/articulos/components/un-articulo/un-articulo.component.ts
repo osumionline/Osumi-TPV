@@ -103,8 +103,6 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
   _articulo: Articulo = null;
   @Input() set articulo(a: Articulo) {
     this._articulo = a === null ? new Articulo() : a;
-    console.log("set articulo");
-    console.log(a);
     this.loadArticuloObj();
   }
   get articulo(): Articulo {
@@ -223,7 +221,6 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
           const tabName: string = this.articulo.tabName;
           this._articulo = this.cms.getArticulo(result.articulo);
           this._articulo.tabName = tabName;
-          console.log("loadArticulo result");
 
           setTimeout((): void => {
             this.loadExtraInfo();
@@ -250,13 +247,11 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
   }
 
   loadExtraInfo(): void {
-    console.log("loadExtraInfo");
     if (this.articulo.fechaCaducidad) {
       this.general.loadFecCad();
     }
 
-    if (this.articulo.id !== null) {
-      console.log(this.estadisticas);
+    if (this.articulo.id !== null && this.estadisticas && this.historico) {
       this.estadisticas.loadStatsVentas();
       this.estadisticas.loadStatsWeb();
       this.historico.loadHistorico();
@@ -269,7 +264,6 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
   }
 
   loadArticuloObj(): void {
-    console.log("loadArticuloObj");
     this.loadExtraInfo();
 
     this.selectedTab = 0;

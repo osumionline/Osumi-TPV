@@ -202,7 +202,6 @@ export class UnaVentaComponent {
 
     if (indArticulo === -1) {
       this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
-      console.log(this.vs.ventaActual.lineas[ind]);
       this.vs.addLineaVenta();
     } else {
       if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
