@@ -1,6 +1,7 @@
 import { NgClass } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatButton } from "@angular/material/button";
+import { MatIcon } from "@angular/material/icon";
 import { ActivatedRoute, Data, Params } from "@angular/router";
 import { environment } from "@env/environment";
 import {
@@ -21,7 +22,7 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   selector: "otpv-factura",
   templateUrl: "./factura.component.html",
   styleUrls: ["./factura.component.scss"],
-  imports: [NgClass, FixedNumberPipe, MatButton],
+  imports: [NgClass, FixedNumberPipe, MatButton, MatIcon],
 })
 export default class FacturaComponent implements OnInit {
   broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
