@@ -347,6 +347,11 @@ export class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
           ok: "Continuar",
         });
       }
+      if (result.status.startsWith("ok-factura-")) {
+        const parts: string[] = result.status.split("-");
+        const id: number = parseInt(parts.pop());
+        window.open("/clientes/factura/" + id);
+      }
       this.customOverlayRef.close({
         status: "fin",
         importe: result.importe,
