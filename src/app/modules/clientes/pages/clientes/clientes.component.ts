@@ -154,7 +154,7 @@ export default class ClientesComponent implements OnInit {
               return x.id === parseInt(params.new);
             });
           this.focusEmail = true;
-          this.selectCliente(this.cs.clientes[ind]);
+          this.selectCliente(this.cs.clientes()[ind]);
         }
       } else {
         this.searchBox.nativeElement.focus();
