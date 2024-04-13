@@ -260,7 +260,7 @@
                [pageIndex]="pageIndex"
                (page)="changePage($event)" />
 <div class="total-inventario">
-    Total PUC: <strong>{{totalPUC | fixedNumber}}</strong> €
+    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
     &nbsp;&nbsp;&nbsp;
-    Total PVP: <strong>{{totalPVP | fixedNumber}}</strong> €
+    Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
 </div>

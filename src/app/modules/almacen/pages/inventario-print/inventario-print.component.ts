@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import {
@@ -18,6 +18,10 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InventarioPrintComponent implements OnInit {
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private as: AlmacenService = inject(AlmacenService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   buscador: BuscadorAlmacenInterface = null;
   list: InventarioItem[] = [];
   inventarioDisplayedColumns: string[] = [
@@ -34,11 +38,7 @@ export default class InventarioPrintComponent implements OnInit {
   totalPVP: number = 0;
   totalPUC: number = 0;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private as: AlmacenService,
-    private cms: ClassMapperService
-  ) {
+  constructor() {
     document.body.classList.add("white-bg");
   }
 

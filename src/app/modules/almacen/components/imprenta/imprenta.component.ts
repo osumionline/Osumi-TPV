@@ -1,5 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Signal,
+  inject,
+  viewChild,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton } from "@angular/material/button";
 import { MatFormField } from "@angular/material/form-field";
@@ -34,26 +40,24 @@ import { VentasService } from "@services/ventas.service";
   ],
 })
 export class ImprentaComponent {
-  @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
+  private vs: VentasService = inject(VentasService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+
+  searchBox: Signal<ElementRef> = viewChild("searchBox");
   search: string = "";
   searchTimer: number = null;
   searching: boolean = false;
   articulos: ArticuloBuscador[] = [];
-  @ViewChild("tabla", { static: true }) tabla: ImprentaTableComponent;
+  tabla: Signal<ImprentaTableComponent> = viewChild("tabla");
   seleccionados: ArticuloBuscador[] = [];
   filas: number = 4;
   columnas: number = 5;
   mostrarPVP: boolean = true;
 
-  constructor(
-    private vs: VentasService,
-    private cms: ClassMapperService,
-    private dialog: DialogService
-  ) {}
-
   searchFocus(): void {
-    setTimeout((): void => {
-      this.searchBox.nativeElement.focus();
+    window.setTimeout((): void => {
+      this.searchBox().nativeElement.focus();
     }, 100);
   }
 
@@ -75,7 +79,7 @@ export class ImprentaComponent {
   }
 
   buscadorStop(): void {
-    clearTimeout(this.searchTimer);
+    window.clearTimeout(this.searchTimer);
   }
 
   buscar(): void {
@@ -147,7 +151,7 @@ export class ImprentaComponent {
   }
 
   updateTable(): void {
-    this.tabla.calcularLista(
+    this.tabla().calcularLista(
       this.filas,
       this.columnas,
       this.seleccionados,

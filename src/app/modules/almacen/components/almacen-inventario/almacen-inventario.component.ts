@@ -4,7 +4,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+  viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
@@ -70,6 +74,14 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 export class AlmacenInventarioComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private ars: ArticulosService = inject(ArticulosService);
+  public ms: MarcasService = inject(MarcasService);
+  public ps: ProveedoresService = inject(ProveedoresService);
+  private as: AlmacenService = inject(AlmacenService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private router: Router = inject(Router);
+
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,
     idMarca: null,
@@ -80,11 +92,11 @@ export class AlmacenInventarioComponent
     pagina: 1,
     num: 50,
   };
-  list: InventarioItem[] = [];
-  pags: number = 0;
-  pageIndex: number = 0;
-  totalPVP: number = 0;
-  totalPUC: number = 0;
+  list: WritableSignal<InventarioItem[]> = signal<InventarioItem[]>([]);
+  pags: WritableSignal<number> = signal<number>(0);
+  pageIndex: WritableSignal<number> = signal<number>(0);
+  totalPVP: WritableSignal<number> = signal<number>(0);
+  totalPUC: WritableSignal<number> = signal<number>(0);
 
   inventarioDisplayedColumns: string[] = [
     "localizador",
@@ -100,26 +112,16 @@ export class AlmacenInventarioComponent
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
-  @ViewChild(MatSort) sort: MatSort;
-
-  constructor(
-    private ars: ArticulosService,
-    public ms: MarcasService,
-    public ps: ProveedoresService,
-    private as: AlmacenService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private router: Router
-  ) {}
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
     if (!this.as.firstLoad) {
       this.buscador = this.as.buscador;
-      this.list = this.as.list;
-      this.inventarioDataSource.data = this.list;
-      this.pageIndex = this.as.pageIndex;
-      this.pags = this.as.pags;
+      this.list.set(this.as.list);
+      this.inventarioDataSource.data = this.list();
+      this.pageIndex.set(this.as.pageIndex);
+      this.pags.set(this.as.pags);
     } else {
       this.buscar();
     }
@@ -129,26 +131,26 @@ export class AlmacenInventarioComponent
     this.as
       .getInventario(this.buscador)
       .subscribe((result: BuscadorAlmacenResult): void => {
-        this.list = this.cms.getInventarioItems(result.list);
-        this.inventarioDataSource.data = this.list;
-        this.pags = result.pags;
-        this.totalPVP = result.totalPVP;
-        this.totalPUC = result.totalPUC;
+        this.list.set(this.cms.getInventarioItems(result.list));
+        this.inventarioDataSource.data = this.list();
+        this.pags.set(result.pags);
+        this.totalPVP.set(result.totalPVP);
+        this.totalPUC.set(result.totalPUC);
 
         this.as.buscador = this.buscador;
-        this.as.list = this.list;
-        this.as.pags = this.pags;
-        this.as.pageIndex = this.pageIndex;
+        this.as.list = this.list();
+        this.as.pags = this.pags();
+        this.as.pageIndex = this.pageIndex();
         this.as.firstLoad = false;
       });
   }
 
   ngAfterViewInit(): void {
-    this.inventarioDataSource.sort = this.sort;
+    this.inventarioDataSource.sort = this.sort();
   }
 
   resetBuscar(): void {
-    this.pageIndex = 0;
+    this.pageIndex.set(0);
     this.buscador.pagina = 1;
     this.buscar();
   }
@@ -165,7 +167,7 @@ export class AlmacenInventarioComponent
   }
 
   changePage(ev: PageEvent): void {
-    this.pageIndex = ev.pageIndex;
+    this.pageIndex.set(ev.pageIndex);
     this.buscador.pagina = ev.pageIndex + 1;
     this.buscador.num = ev.pageSize;
     this.buscar();
@@ -173,7 +175,7 @@ export class AlmacenInventarioComponent
 
   saveAll(): void {
     const list: InventarioItemInterface[] = [];
-    for (const item of this.list) {
+    for (const item of this.list()) {
       if (item.pvpChanged || item.stockChanged || item.codigoBarras !== null) {
         list.push(item.toInterface());
       }
@@ -184,22 +186,25 @@ export class AlmacenInventarioComponent
         const errorList: string[] = [];
 
         for (const status of result.list) {
-          const ind: number = this.list.findIndex(
+          const ind: number = this.list().findIndex(
             (x: InventarioItem): boolean => {
               return x.id === status.id;
             }
           );
           if (status.status === "ok") {
-            this.list[ind]._pvp = this.list[ind].pvp;
-            this.list[ind]._stock = this.list[ind].stock;
-            if (this.list[ind].codigoBarras !== null) {
-              this.list[ind].hasCodigosBarras = true;
-              this.list[ind].codigoBarras = null;
-            }
+            this.list.update((value: InventarioItem[]): InventarioItem[] => {
+              value[ind]._pvp = value[ind].pvp;
+              value[ind]._stock = value[ind].stock;
+              if (value[ind].codigoBarras !== null) {
+                value[ind].hasCodigosBarras = true;
+                value[ind].codigoBarras = null;
+              }
+              return value;
+            });
           } else {
             errorList.push(
               "<strong>" +
-                this.list[ind].nombre +
+                this.list()[ind].nombre +
                 "</strong>: " +
                 urldecode(status.message)
             );
@@ -253,11 +258,16 @@ export class AlmacenInventarioComponent
             .deleteInventario(item.id)
             .subscribe((result: StatusResult): void => {
               if (result.status === "ok") {
-                const ind: number = this.list.findIndex(
+                const ind: number = this.list().findIndex(
                   (x: InventarioItem): boolean => x.id === item.id
                 );
-                this.list.splice(ind, 1);
-                this.inventarioDataSource.data = this.list;
+                this.list.update(
+                  (value: InventarioItem[]): InventarioItem[] => {
+                    value.splice(ind, 1);
+                    return value;
+                  }
+                );
+                this.inventarioDataSource.data = this.list();
               } else {
                 this.dialog.alert({
                   title: "Error",
@@ -285,7 +295,7 @@ export class AlmacenInventarioComponent
   }
 
   printInventario(): void {
-    const data: string = btoa(JSON.stringify(this.buscador));
+    const data: string = window.btoa(JSON.stringify(this.buscador));
     window.open("/almacen/inventario-print/" + data);
   }
 
@@ -301,9 +311,9 @@ export class AlmacenInventarioComponent
 
   ngOnDestroy(): void {
     this.as.buscador = this.buscador;
-    this.as.list = this.list;
-    this.as.pags = this.pags;
-    this.as.pageIndex = this.pageIndex;
+    this.as.list = this.list();
+    this.as.pags = this.pags();
+    this.as.pageIndex = this.pageIndex();
     this.as.firstLoad = false;
   }
 }

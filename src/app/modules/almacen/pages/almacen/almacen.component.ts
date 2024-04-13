@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, Signal, viewChild } from "@angular/core";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
 import { AlmacenInventarioComponent } from "@modules/almacen/components/almacen-inventario/almacen-inventario.component";
@@ -21,11 +21,11 @@ import { HeaderComponent } from "@shared/components/header/header.component";
   ],
 })
 export default class AlmacenComponent {
-  @ViewChild("imprenta", { static: true }) imprenta: ImprentaComponent;
+  imprenta: Signal<ImprentaComponent> = viewChild("imprenta");
 
   tabChange(ev: MatTabChangeEvent): void {
     if (ev.index === 1) {
-      this.imprenta.searchFocus();
+      this.imprenta().searchFocus();
     }
   }
 }
