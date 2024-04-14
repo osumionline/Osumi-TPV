@@ -88,7 +88,7 @@
         *matRowDef="let row; columns: inventarioDisplayedColumns; let i = index;"></tr>
 </table>
 <div class="total-inventario">
-    Total PUC: <strong>{{totalPUC | fixedNumber}}</strong> €
+    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
     &nbsp;&nbsp;&nbsp;
-    Total PVP: <strong>{{totalPVP | fixedNumber}}</strong> €
+    Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
 </div>

@@ -2,7 +2,7 @@
     <div class="col-filtros">
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Proveedor</mat-label>
-            <mat-select [(ngModel)]="buscador.idProveedor"
+            <mat-select [(ngModel)]="buscador().idProveedor"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige proveedor</mat-option>
                 @for (proveedor of ps.proveedores(); track proveedor.id) {
@@ -14,7 +14,7 @@
         </mat-form-field>
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Marca</mat-label>
-            <mat-select [(ngModel)]="buscador.idMarca"
+            <mat-select [(ngModel)]="buscador().idMarca"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige marca</mat-option>
                 @for (marca of ms.marcas(); track marca.id) {
@@ -27,11 +27,11 @@
         <mat-form-field class="nombre"
                         subscriptSizing="dynamic">
             <mat-label>Nombre, etiquetas...</mat-label>
-            <input [(ngModel)]="buscador.nombre"
+            <input [(ngModel)]="buscador().nombre"
                    (keyup)="resetBuscar()"
                    matInput>
         </mat-form-field>
-        <mat-slide-toggle [(ngModel)]="buscador.descuento"
+        <mat-slide-toggle [(ngModel)]="buscador().descuento"
                           (change)="resetBuscar()">Con descuento</mat-slide-toggle>
     </div>
     <div class="col-actions">
@@ -255,7 +255,7 @@
         *matRowDef="let row; columns: inventarioDisplayedColumns; let i = index;"></tr>
 </table>
 <mat-paginator [length]="pags"
-               [pageSize]="buscador.num"
+               [pageSize]="buscador().num"
                [pageSizeOptions]="[20, 50, 100, 200]"
                [pageIndex]="pageIndex"
                (page)="changePage($event)" />

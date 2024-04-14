@@ -12,7 +12,7 @@
             </span>
         </mat-form-field>
         <mat-action-list>
-            @for (articulo of articulos; track articulo.localizador) {
+            @for (articulo of articulos(); track articulo.localizador) {
             <button mat-list-item
                     (click)="selectArticulo(articulo)">
                 {{articulo.nombre}}
@@ -33,7 +33,7 @@
         <div class="seleccionados-list"
              cdkDropList
              (cdkDropListDropped)="drop($event)">
-            @for (articulo of seleccionados; track articulo.localizador; let i = $index) {
+            @for (articulo of seleccionados(); track articulo.localizador; let i = $index) {
             <div class="seleccionado-item"
                  cdkDrag>
                 <div class="seleccionado-options">

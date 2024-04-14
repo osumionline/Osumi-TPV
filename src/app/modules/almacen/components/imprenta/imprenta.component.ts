@@ -1,9 +1,16 @@
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+} from "@angular/cdk/drag-drop";
 import {
   Component,
   ElementRef,
   Signal,
+  WritableSignal,
   inject,
+  signal,
   viewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -37,6 +44,8 @@ import { VentasService } from "@services/ventas.service";
     MatTooltip,
     MatSlideToggle,
     MatButton,
+    CdkDropList,
+    CdkDrag,
   ],
 })
 export class ImprentaComponent {
@@ -45,15 +54,19 @@ export class ImprentaComponent {
   private dialog: DialogService = inject(DialogService);
 
   searchBox: Signal<ElementRef> = viewChild("searchBox");
-  search: string = "";
+  search: WritableSignal<string> = signal<string>("");
   searchTimer: number = null;
   searching: boolean = false;
-  articulos: ArticuloBuscador[] = [];
+  articulos: WritableSignal<ArticuloBuscador[]> = signal<ArticuloBuscador[]>(
+    []
+  );
   tabla: Signal<ImprentaTableComponent> = viewChild("tabla");
-  seleccionados: ArticuloBuscador[] = [];
-  filas: number = 4;
-  columnas: number = 5;
-  mostrarPVP: boolean = true;
+  seleccionados: WritableSignal<ArticuloBuscador[]> = signal<
+    ArticuloBuscador[]
+  >([]);
+  filas: WritableSignal<number> = signal<number>(4);
+  columnas: WritableSignal<number> = signal<number>(5);
+  mostrarPVP: WritableSignal<boolean> = signal<boolean>(true);
 
   searchFocus(): void {
     window.setTimeout((): void => {
@@ -69,8 +82,8 @@ export class ImprentaComponent {
   }
 
   searchStart(): void {
-    if (this.search === "") {
-      this.articulos = [];
+    if (this.search() === "") {
+      this.articulos.set([]);
     } else {
       if (!this.searching) {
         this.buscadorStart();
@@ -86,24 +99,34 @@ export class ImprentaComponent {
     this.buscadorStop();
     this.searching = true;
     this.vs
-      .search(this.search)
+      .search(this.search())
       .subscribe((result: ArticuloBuscadorResult): void => {
         this.searching = false;
-        this.articulos = this.cms.getArticulosBuscador(result.list);
+        this.articulos.set(this.cms.getArticulosBuscador(result.list));
       });
   }
 
   selectArticulo(articulo: ArticuloBuscador): void {
-    const ind: number = this.seleccionados.findIndex(
+    const ind: number = this.seleccionados().findIndex(
       (x: ArticuloBuscador): boolean => {
         return x.localizador === articulo.localizador;
       }
     );
     if (ind === -1) {
       articulo.num = 1;
-      this.seleccionados.push(articulo);
+      this.seleccionados.update(
+        (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+          value.push(articulo);
+          return value;
+        }
+      );
     } else {
-      this.seleccionados[ind].num++;
+      this.seleccionados.update(
+        (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+          value[ind].num++;
+          return value;
+        }
+      );
     }
     this.updateTable();
   }
@@ -111,10 +134,15 @@ export class ImprentaComponent {
   addHueco(): void {
     const maxInd: number = this.seleccionados.length - 1;
     if (
-      this.seleccionados[maxInd] !== undefined &&
-      this.seleccionados[maxInd].localizador === null
+      this.seleccionados()[maxInd] !== undefined &&
+      this.seleccionados()[maxInd].localizador === null
     ) {
-      this.seleccionados[maxInd].num++;
+      this.seleccionados.update(
+        (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+          value[maxInd].num++;
+          return value;
+        }
+      );
     } else {
       const hueco: ArticuloBuscador = new ArticuloBuscador();
       hueco.nombre = "Hueco";
@@ -122,13 +150,23 @@ export class ImprentaComponent {
       hueco.localizador = null;
       hueco.num = 1;
       hueco.pvp = null;
-      this.seleccionados.push(hueco);
+      this.seleccionados.update(
+        (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+          value.push(hueco);
+          return value;
+        }
+      );
     }
     this.updateTable();
   }
 
   deleteLinea(ind: number): void {
-    this.seleccionados.splice(ind, 1);
+    this.seleccionados.update(
+      (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+        value.splice(ind, 1);
+        return value;
+      }
+    );
     this.updateTable();
   }
 
@@ -137,14 +175,19 @@ export class ImprentaComponent {
     //const cantidadMax: number = this.getCantidadMax();
 
     if (amount === -1) {
-      if (this.seleccionados[ind].num === 1) {
+      if (this.seleccionados()[ind].num === 1) {
         return;
       }
-      this.seleccionados[ind].num--;
+      this.seleccionados()[ind].num--;
       this.updateTable();
     } else {
       if (this.checkCantidad(cantidadTotal + 1)) {
-        this.seleccionados[ind].num++;
+        this.seleccionados.update(
+          (value: ArticuloBuscador[]): ArticuloBuscador[] => {
+            value[ind].num++;
+            return value;
+          }
+        );
         this.updateTable();
       }
     }
@@ -152,10 +195,10 @@ export class ImprentaComponent {
 
   updateTable(): void {
     this.tabla().calcularLista(
-      this.filas,
-      this.columnas,
-      this.seleccionados,
-      this.mostrarPVP
+      this.filas(),
+      this.columnas(),
+      this.seleccionados(),
+      this.mostrarPVP()
     );
   }
 
@@ -175,19 +218,19 @@ export class ImprentaComponent {
   }
 
   getCantidadTotal(): number {
-    return this.seleccionados.reduce(
+    return this.seleccionados().reduce(
       (total: number, item: ArticuloBuscador): number => total + item.num,
       0
     );
   }
 
   getCantidadMax(): number {
-    return this.filas * this.columnas;
+    return this.filas() * this.columnas();
   }
 
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
-      this.seleccionados,
+      this.seleccionados(),
       event.previousIndex,
       event.currentIndex
     );

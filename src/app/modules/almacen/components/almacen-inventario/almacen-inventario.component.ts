@@ -82,7 +82,7 @@ export class AlmacenInventarioComponent
   private dialog: DialogService = inject(DialogService);
   private router: Router = inject(Router);
 
-  buscador: BuscadorAlmacenInterface = {
+  buscador: WritableSignal<BuscadorAlmacenInterface> = signal({
     idProveedor: null,
     idMarca: null,
     nombre: null,
@@ -91,7 +91,7 @@ export class AlmacenInventarioComponent
     orderSent: null,
     pagina: 1,
     num: 50,
-  };
+  });
   list: WritableSignal<InventarioItem[]> = signal<InventarioItem[]>([]);
   pags: WritableSignal<number> = signal<number>(0);
   pageIndex: WritableSignal<number> = signal<number>(0);
@@ -117,7 +117,7 @@ export class AlmacenInventarioComponent
   ngOnInit(): void {
     this.ars.returnInfo = null;
     if (!this.as.firstLoad) {
-      this.buscador = this.as.buscador;
+      this.buscador.set(this.as.buscador);
       this.list.set(this.as.list);
       this.inventarioDataSource.data = this.list();
       this.pageIndex.set(this.as.pageIndex);
@@ -129,7 +129,7 @@ export class AlmacenInventarioComponent
 
   buscar(): void {
     this.as
-      .getInventario(this.buscador)
+      .getInventario(this.buscador())
       .subscribe((result: BuscadorAlmacenResult): void => {
         this.list.set(this.cms.getInventarioItems(result.list));
         this.inventarioDataSource.data = this.list();
@@ -137,7 +137,7 @@ export class AlmacenInventarioComponent
         this.totalPVP.set(result.totalPVP);
         this.totalPUC.set(result.totalPUC);
 
-        this.as.buscador = this.buscador;
+        this.as.buscador = this.buscador();
         this.as.list = this.list();
         this.as.pags = this.pags();
         this.as.pageIndex = this.pageIndex();
@@ -151,25 +151,45 @@ export class AlmacenInventarioComponent
 
   resetBuscar(): void {
     this.pageIndex.set(0);
-    this.buscador.pagina = 1;
+    this.buscador.update(
+      (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+        value.pagina = 1;
+        return value;
+      }
+    );
     this.buscar();
   }
 
   cambiarOrden(sort: Sort): void {
     if (sort.direction === "") {
-      this.buscador.orderBy = null;
-      this.buscador.orderSent = null;
+      this.buscador.update(
+        (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+          value.orderBy = null;
+          value.orderSent = null;
+          return value;
+        }
+      );
     } else {
-      this.buscador.orderBy = sort.active;
-      this.buscador.orderSent = sort.direction;
+      this.buscador.update(
+        (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+          value.orderBy = sort.active;
+          value.orderSent = sort.direction;
+          return value;
+        }
+      );
     }
     this.buscar();
   }
 
   changePage(ev: PageEvent): void {
     this.pageIndex.set(ev.pageIndex);
-    this.buscador.pagina = ev.pageIndex + 1;
-    this.buscador.num = ev.pageSize;
+    this.buscador.update(
+      (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+        value.pagina = ev.pageIndex + 1;
+        value.num = ev.pageSize;
+        return value;
+      }
+    );
     this.buscar();
   }
 
@@ -281,7 +301,7 @@ export class AlmacenInventarioComponent
   }
 
   exportInventario(): void {
-    this.as.exportInventario(this.buscador).subscribe((result): void => {
+    this.as.exportInventario(this.buscador()).subscribe((result): void => {
       const data: Blob = new Blob([result], {
         type: "text/csv;charset=utf-8",
       });
@@ -310,7 +330,7 @@ export class AlmacenInventarioComponent
   }
 
   ngOnDestroy(): void {
-    this.as.buscador = this.buscador;
+    this.as.buscador = this.buscador();
     this.as.list = this.list();
     this.as.pags = this.pags();
     this.as.pageIndex = this.pageIndex();

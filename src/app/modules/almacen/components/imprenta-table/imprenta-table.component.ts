@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, WritableSignal, signal } from "@angular/core";
 import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
 import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 import { QRCodeModule } from "angularx-qrcode";
@@ -13,8 +13,8 @@ import { QRCodeModule } from "angularx-qrcode";
 export class ImprentaTableComponent implements OnInit {
   filas: number = 4;
   columnas: number = 5;
-  list: ArticuloBuscador[][] = [];
-  mostrarPVP: boolean = true;
+  list: WritableSignal<ArticuloBuscador[][]> = signal<ArticuloBuscador[][]>([]);
+  mostrarPVP: WritableSignal<boolean> = signal<boolean>(true);
 
   ngOnInit(): void {
     this.calcularLista();
@@ -28,18 +28,18 @@ export class ImprentaTableComponent implements OnInit {
   ): void {
     this.filas = filas;
     this.columnas = columnas;
-    this.mostrarPVP = mostrarPVP;
+    this.mostrarPVP.set(mostrarPVP);
 
     let f_ind: number = 0;
     let c_ind: number = 0;
-    this.list = [];
+    const list: ArticuloBuscador[][] = [];
 
     for (const s of seleccionados) {
       for (let ind: number = 0; ind < s.num; ind++) {
-        if (this.list[f_ind] === undefined) {
-          this.list[f_ind] = [];
+        if (list[f_ind] === undefined) {
+          list[f_ind] = [];
         }
-        this.list[f_ind][c_ind] = new ArticuloBuscador().fromInterface(
+        list[f_ind][c_ind] = new ArticuloBuscador().fromInterface(
           s.toInterface()
         );
         c_ind++;
@@ -51,14 +51,15 @@ export class ImprentaTableComponent implements OnInit {
     }
 
     for (let f: number = 0; f < filas; f++) {
-      if (this.list[f] === undefined) {
-        this.list[f] = [];
+      if (list[f] === undefined) {
+        list[f] = [];
       }
       for (let c: number = 0; c < columnas; c++) {
-        if (this.list[f][c] === undefined) {
-          this.list[f][c] = null;
+        if (list[f][c] === undefined) {
+          list[f][c] = null;
         }
       }
     }
+    this.list.set(list);
   }
 }

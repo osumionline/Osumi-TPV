@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { ActivatedRoute, Params } from "@angular/router";
 import {
@@ -22,7 +28,7 @@ export default class InventarioPrintComponent implements OnInit {
   private as: AlmacenService = inject(AlmacenService);
   private cms: ClassMapperService = inject(ClassMapperService);
 
-  buscador: BuscadorAlmacenInterface = null;
+  buscador: BuscadorAlmacenInterface | null = null;
   list: InventarioItem[] = [];
   inventarioDisplayedColumns: string[] = [
     "localizador",
@@ -35,15 +41,15 @@ export default class InventarioPrintComponent implements OnInit {
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
-  totalPVP: number = 0;
-  totalPUC: number = 0;
+  totalPVP: WritableSignal<number> = signal<number>(0);
+  totalPUC: WritableSignal<number> = signal<number>(0);
 
   constructor() {
     document.body.classList.add("white-bg");
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params): void => {
       const data: string = params.data;
       try {
         const objStr: string = window.atob(data);
@@ -66,10 +72,10 @@ export default class InventarioPrintComponent implements OnInit {
       .subscribe((result: BuscadorAlmacenResult): void => {
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
-        this.totalPVP = result.totalPVP;
-        this.totalPUC = result.totalPUC;
+        this.totalPVP.set(result.totalPVP);
+        this.totalPUC.set(result.totalPUC);
 
-        setTimeout((): void => {
+        window.setTimeout((): void => {
           window.print();
         });
       });
