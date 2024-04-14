@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { StatusResult } from "@interfaces/interfaces";
 import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
@@ -13,18 +19,16 @@ import { DialogService } from "@services/dialog.service";
   imports: [MatButton],
 })
 export class ArticuloDarDeBajaModalComponent implements OnInit {
+  private dialog: DialogService = inject(DialogService);
+  private ars: ArticulosService = inject(ArticulosService);
+  private customOverlayRef: CustomOverlayRef<
+    null,
+    { id: number; nombre: string }
+  > = inject(CustomOverlayRef<null, { id: number; nombre: string }>);
+
   id: number;
   nombre: string = null;
-  darDeBajaLoading: boolean = false;
-
-  constructor(
-    private dialog: DialogService,
-    private ars: ArticulosService,
-    private customOverlayRef: CustomOverlayRef<
-      null,
-      { id: number; nombre: string }
-    >
-  ) {}
+  darDeBajaLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
     this.id = this.customOverlayRef.data.id;
@@ -32,7 +36,7 @@ export class ArticuloDarDeBajaModalComponent implements OnInit {
   }
 
   darDeBajaOk(): void {
-    this.darDeBajaLoading = true;
+    this.darDeBajaLoading.set(true);
     this.ars
       .deleteArticulo(this.id)
       .subscribe((response: StatusResult): void => {
@@ -55,7 +59,7 @@ export class ArticuloDarDeBajaModalComponent implements OnInit {
               ok: "Continuar",
             })
             .subscribe((): void => {
-              this.darDeBajaLoading = false;
+              this.darDeBajaLoading.set(false);
             });
         }
       });

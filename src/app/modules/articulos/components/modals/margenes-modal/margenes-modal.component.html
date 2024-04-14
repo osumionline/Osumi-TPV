@@ -1,8 +1,8 @@
 <div class="margin-list">
-    @for (margin of marginList; track margin) {
+    @for (margin of marginList(); track margin) {
     <div class="margin-option">
         <label>{{margin}} %</label>
-        <span (click)="selectMargen(margin)">{{(puc * 100) / (100 - margin) | fixedNumber}} €</span>
+        <span (click)="selectMargen(margin)">{{(puc() * 100) / (100 - margin) | fixedNumber}} €</span>
     </div>
     }
 </div>

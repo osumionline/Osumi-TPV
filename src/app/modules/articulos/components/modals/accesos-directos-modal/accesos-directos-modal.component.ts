@@ -1,5 +1,15 @@
 import { NgClass } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+  viewChild,
+} from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatFormField } from "@angular/material/form-field";
@@ -7,6 +17,7 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { AccesoDirectoResult } from "@app/interfaces/articulo.interface";
 import { StatusResult } from "@interfaces/interfaces";
 import { AccesoDirecto } from "@model/articulos/acceso-directo.model";
 import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
@@ -31,39 +42,43 @@ import { DialogService } from "@services/dialog.service";
     MatInput,
   ],
 })
-export class AccesosDirectosModalComponent implements OnInit {
-  idArticulo: number = null;
+export class AccesosDirectosModalComponent implements OnInit, AfterViewInit {
+  private dialog: DialogService = inject(DialogService);
+  private ars: ArticulosService = inject(ArticulosService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> =
+    inject(CustomOverlayRef<null, { idArticulo: number }>);
+
+  idArticulo: WritableSignal<number | null> = signal<number | null>(null);
   accesosDirectosList: AccesoDirecto[] = [];
-  accesoDirecto: number = null;
+  accesoDirecto: WritableSignal<number | null> = signal<number | null>(null);
   accesosDirectosDisplayedColumns: string[] = ["accesoDirecto", "nombre", "id"];
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
-  @ViewChild("acccesoDirectoBox", { static: true })
-  acccesoDirectoBox: ElementRef;
-
-  constructor(
-    private dialog: DialogService,
-    private ars: ArticulosService,
-    private cms: ClassMapperService,
-    private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }>
-  ) {}
+  acccesoDirectoBox: Signal<ElementRef> = viewChild("acccesoDirectoBox");
 
   ngOnInit(): void {
-    this.idArticulo = this.customOverlayRef.data.idArticulo;
+    this.idArticulo.set(this.customOverlayRef.data.idArticulo);
     this.load();
   }
 
+  ngAfterViewInit(): void {
+    this.accesosDirectosDataSource.sort = this.sort();
+  }
+
   load(): void {
-    this.ars.getAccesosDirectosList().subscribe((result) => {
-      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-      this.accesosDirectosDataSource.data = this.accesosDirectosList;
-      this.accesoDirecto = null;
-      setTimeout(() => {
-        this.acccesoDirectoBox.nativeElement.focus();
-      }, 0);
-    });
+    this.ars
+      .getAccesosDirectosList()
+      .subscribe((result: AccesoDirectoResult): void => {
+        this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+        this.accesosDirectosDataSource.data = this.accesosDirectosList;
+        this.accesoDirecto = null;
+        window.setTimeout((): void => {
+          this.acccesoDirectoBox().nativeElement.focus();
+        }, 0);
+      });
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
@@ -104,7 +119,7 @@ export class AccesosDirectosModalComponent implements OnInit {
 
   asignarAccesoDirecto(): void {
     const ind: number = this.accesosDirectosList.findIndex(
-      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto
+      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto()
     );
     if (ind != -1) {
       this.dialog
@@ -115,15 +130,15 @@ export class AccesosDirectosModalComponent implements OnInit {
           ok: "Continuar",
         })
         .subscribe((): void => {
-          setTimeout((): void => {
-            this.acccesoDirectoBox.nativeElement.focus();
+          window.setTimeout((): void => {
+            this.acccesoDirectoBox().nativeElement.focus();
           }, 0);
         });
       return;
     }
 
     this.ars
-      .asignarAccesoDirecto(this.idArticulo, this.accesoDirecto)
+      .asignarAccesoDirecto(this.idArticulo(), this.accesoDirecto())
       .subscribe((result: StatusResult): void => {
         if (result.status === "ok") {
           this.dialog

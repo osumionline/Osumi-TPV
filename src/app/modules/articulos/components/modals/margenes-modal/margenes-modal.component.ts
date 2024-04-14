@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  WritableSignal,
+  inject,
+  signal,
+} from "@angular/core";
 import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
 import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
@@ -10,19 +16,17 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   imports: [FixedNumberPipe],
 })
 export class MargenesModalComponent implements OnInit {
-  puc: number = 0;
-  marginList: number[] = [];
+  private customOverlayRef: CustomOverlayRef<
+    null,
+    { puc: number; list: number[] }
+  > = inject(CustomOverlayRef<null, { puc: number; list: number[] }>);
 
-  constructor(
-    private customOverlayRef: CustomOverlayRef<
-      null,
-      { puc: number; list: number[] }
-    >
-  ) {}
+  puc: WritableSignal<number> = signal<number>(0);
+  marginList: WritableSignal<number[]> = signal<number[]>([]);
 
   ngOnInit(): void {
-    this.puc = this.customOverlayRef.data.puc;
-    this.marginList = this.customOverlayRef.data.list;
+    this.puc.set(this.customOverlayRef.data.puc);
+    this.marginList.set(this.customOverlayRef.data.list);
   }
 
   selectMargen(margin: number): void {

@@ -1,5 +1,5 @@
 import { NgClass } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { MatTooltip } from "@angular/material/tooltip";
 import { ArticulosService } from "@services/articulos.service";
@@ -12,7 +12,7 @@ import { ArticulosService } from "@services/articulos.service";
   imports: [NgClass, MatIcon, MatTooltip],
 })
 export class ArticulosTabsComponent {
-  constructor(public ars: ArticulosService) {}
+  ars: ArticulosService = inject(ArticulosService);
 
   selectTab(ind: number): void {
     this.ars.selected = ind;
