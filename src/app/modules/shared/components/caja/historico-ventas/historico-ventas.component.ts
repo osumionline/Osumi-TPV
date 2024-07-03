@@ -7,7 +7,11 @@ import {
   output,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
+import {
+  MatButton,
+  MatFabButton,
+  MatIconButton,
+} from "@angular/material/button";
 import {
   MatNativeDateModule,
   MatOption,
@@ -61,6 +65,7 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatSelect,
     MatOption,
     MatButton,
+    MatFabButton,
     MatIconButton,
     MatIcon,
     MatDatepickerModule,
