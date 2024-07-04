@@ -524,12 +524,21 @@ export class UnaVentaComponent {
   }
 
   setRegalo(i: number): void {
+    console.log(this.vs.ventaActual.lineas[i]);
     if (!this.vs.ventaActual.lineas[i].regalo) {
       this.vs.ventaActual.lineas[i].regalo = true;
+      this.vs.ventaActual.lineas[i].descuentoManualAnterior =
+        this.vs.ventaActual.lineas[i].descuentoManual;
+      this.vs.ventaActual.lineas[i].descuentoManual = false;
+      this.vs.ventaActual.lineas[i].descuentoAnterior =
+        this.vs.ventaActual.lineas[i].descuento;
       this.vs.ventaActual.lineas[i].descuento = 100;
     } else {
       this.vs.ventaActual.lineas[i].regalo = false;
-      this.vs.ventaActual.lineas[i].descuento = 0;
+      this.vs.ventaActual.lineas[i].descuentoManual =
+        this.vs.ventaActual.lineas[i].descuentoManualAnterior;
+      this.vs.ventaActual.lineas[i].descuento =
+        this.vs.ventaActual.lineas[i].descuentoAnterior;
     }
     this.vs.ventaActual.updateImporte();
   }

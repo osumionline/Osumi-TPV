@@ -6,6 +6,8 @@ export class VentaLinea {
   importeManual: boolean = false;
   descuentoManual: boolean = false;
   animarCantidad: boolean = false;
+  descuentoManualAnterior: boolean = false;
+  descuentoAnterior: number = null;
 
   constructor(
     public id: number = null,

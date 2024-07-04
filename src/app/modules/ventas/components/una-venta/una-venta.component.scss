@@ -127,6 +127,7 @@
         padding: 0 5px;
         font-size: inherit;
         text-align: right;
+        box-sizing: border-box;
       }
 
       .editar-linea-descuento {
@@ -155,7 +156,7 @@
           position: absolute;
           right: 0;
           top: 0;
-          width: 50%;
+          width: 40%;
           height: 100%;
           display: flex;
           justify-content: center;
@@ -173,6 +174,7 @@
         padding: 0 5px;
         font-size: inherit;
         text-align: right;
+        box-sizing: border-box;
       }
     }
   }
