@@ -141,7 +141,7 @@ export class VentasService {
       this.cliente ? this.cliente.id : -1,
       formatNumber(this.ventaActual.importe),
       lineas,
-      "no",
+      "si",
       this.cliente ? this.cliente.email : null
     );
   }

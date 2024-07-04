@@ -17,7 +17,7 @@ export class VentaFin {
     public idCliente: number = null,
     public total: string = "0",
     public lineas: VentaLinea[] = [],
-    public imprimir: string = "no",
+    public imprimir: string = "si",
     public email: string = null
   ) {}
 
