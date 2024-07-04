@@ -17,6 +17,7 @@ import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
 import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
 import { ClassMapperService } from "@services/class-mapper.service";
 import { VentasService } from "@services/ventas.service";
+import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ import { VentasService } from "@services/ventas.service";
     MatFormField,
     MatInput,
     MatTableModule,
+    FixedNumberPipe,
   ],
 })
 export class BuscadorModalComponent

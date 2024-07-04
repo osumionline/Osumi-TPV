@@ -52,7 +52,7 @@
                 </th>
                 <td class="center"
                     mat-cell
-                    *matCellDef="let element"> {{element.pvp}} </td>
+                    *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
             </ng-container>
 
             <!-- Stock -->
