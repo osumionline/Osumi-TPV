@@ -315,7 +315,7 @@ export class AlmacenInventarioComponent
   }
 
   printInventario(): void {
-    const data: string = window.btoa(JSON.stringify(this.buscador));
+    const data: string = window.btoa(JSON.stringify(this.buscador()));
     window.open("/almacen/inventario-print/" + data);
   }
 
