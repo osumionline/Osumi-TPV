@@ -750,7 +750,23 @@ export class UnaVentaComponent {
   }
 
   terminarVenta(): void {
-    this.endVentaEvent.emit();
+    let status: string = "ok";
+    if (this.vs.ventaActual.lineas.length > 0) {
+      for (const linea of this.vs.ventaActual.lineas) {
+        if (linea.cantidad === null || linea.cantidad === 0) {
+          status = "error";
+          this.dialog.alert({
+            title: "Error",
+            content: `¡Atención! La línea ${linea.descripcion} no tiene cantidad asignada.`,
+            ok: "Continuar",
+          });
+          break;
+        }
+      }
+    }
+    if (status === "ok") {
+      this.endVentaEvent.emit();
+    }
   }
 
   loadUltimaVenta(importe: number, cambio: number): void {

@@ -50,7 +50,7 @@ import { UnArticuloGeneralComponent } from "@modules/articulos/components/un-art
 import { UnArticuloHistoricoComponent } from "@modules/articulos/components/un-articulo-historico/un-articulo-historico.component";
 import { UnArticuloObservacionesComponent } from "@modules/articulos/components/un-articulo-observaciones/un-articulo-observaciones.component";
 import { UnArticuloWebComponent } from "@modules/articulos/components/un-articulo-web/un-articulo-web.component";
-import { urldecode } from "@osumi/tools";
+import { getTwoNumberDecimal, urldecode } from "@osumi/tools";
 import { AlmacenService } from "@services/almacen.service";
 import { ArticulosService } from "@services/articulos.service";
 import { ClassMapperService } from "@services/class-mapper.service";
@@ -220,6 +220,13 @@ export class UnArticuloComponent implements OnInit, OnDestroy {
         if (result.status === "ok") {
           const tabName: string = this.articulo.tabName;
           this._articulo = this.cms.getArticulo(result.articulo);
+          if (this._articulo.pvpDescuento !== null) {
+            const importeDescuento: number =
+              this._articulo.pvp - this._articulo.pvpDescuento;
+            this._articulo.porcentajeDescuento = getTwoNumberDecimal(
+              (importeDescuento / this._articulo.pvp) * -100
+            );
+          }
           this._articulo.tabName = tabName;
 
           setTimeout((): void => {

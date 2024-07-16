@@ -291,7 +291,7 @@ export class UnArticuloGeneralComponent {
 
   updatePVPDescuento(): void {
     this.updateMargenDescuento();
-    this.updatePorcentajeDescuento(false);
+    this.updatePorcentajeDescuento();
   }
 
   updateMargenDescuento(): void {
@@ -306,37 +306,40 @@ export class UnArticuloGeneralComponent {
           ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
         const descuento: number = value.pvp - value.pvpDescuento;
         value.porcentajeDescuento = (descuento / value.pvp) * 100;
-        return value;
-      });
-    } else {
-      this.articulo.update((value: Articulo): Articulo => {
-        value.margenDescuento = 0;
-        return value;
-      });
-    }
-  }
-
-  updatePorcentajeDescuento(replicate: boolean = true): void {
-    if (
-      this.articulo().puc !== null &&
-      this.articulo().puc !== 0 &&
-      this.articulo().pvpDescuento !== null &&
-      this.articulo().pvpDescuento !== 0
-    ) {
-      this.articulo.update((value: Articulo): Articulo => {
         value.pvpDescuento =
           value.pvp * ((100 - value.porcentajeDescuento) / 100);
         return value;
       });
     } else {
       this.articulo.update((value: Articulo): Articulo => {
-        value.pvpDescuento = 0;
+        value.margenDescuento = null;
+        value.porcentajeDescuento = null;
+        value.pvpDescuento = null;
         return value;
       });
     }
+  }
 
-    if (replicate) {
-      this.updateMargenDescuento();
+  updatePorcentajeDescuento(): void {
+    if (this.articulo().puc !== null && this.articulo().puc !== 0) {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.pvpDescuento =
+          value.pvp * ((100 - value.porcentajeDescuento) / 100);
+        value.margenDescuento =
+          ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
+        const descuento: number = value.pvp - value.pvpDescuento;
+        value.porcentajeDescuento = getTwoNumberDecimal(
+          (descuento / value.pvp) * 100
+        );
+        return value;
+      });
+    } else {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.margenDescuento = null;
+        value.porcentajeDescuento = null;
+        value.pvpDescuento = null;
+        return value;
+      });
     }
   }
 
@@ -382,6 +385,11 @@ export class UnArticuloGeneralComponent {
           value.pvpDescuento = getTwoNumberDecimal(
             (value.puc * 100) / (100 - data.data)
           );
+          const importeDescuento: number = value.pvp - value.pvpDescuento;
+          value.porcentajeDescuento = getTwoNumberDecimal(
+            (importeDescuento / value.pvp) * -100
+          );
+
           return value;
         });
       }
