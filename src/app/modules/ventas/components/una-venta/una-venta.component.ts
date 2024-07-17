@@ -753,7 +753,10 @@ export class UnaVentaComponent {
     let status: string = "ok";
     if (this.vs.ventaActual.lineas.length > 0) {
       for (const linea of this.vs.ventaActual.lineas) {
-        if (linea.cantidad === null || linea.cantidad === 0) {
+        if (
+          linea.descripcion !== null &&
+          (linea.cantidad === null || linea.cantidad === 0)
+        ) {
           status = "error";
           this.dialog.alert({
             title: "Error",
