@@ -1,7 +1,7 @@
-import { BackupInterface } from "@interfaces/interfaces";
-import { urldecode, urlencode } from "@osumi/tools";
+import { BackupInterface } from '@interfaces/interfaces';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Backup {
+export default class Backup {
   constructor(
     public id: number = null,
     public idAccount: number = null,

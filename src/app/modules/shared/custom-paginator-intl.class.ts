@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
-import { MatPaginatorIntl } from "@angular/material/paginator";
-import { Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 @Injectable()
-export class CustomPaginatorIntl implements MatPaginatorIntl {
+export default class CustomPaginatorIntl implements MatPaginatorIntl {
   changes: Subject<void> = new Subject<void>();
 
-  firstPageLabel: string = "Primera página";
-  itemsPerPageLabel: string = "Resultados por página:";
-  lastPageLabel: string = "Última página";
+  firstPageLabel: string = 'Primera página';
+  itemsPerPageLabel: string = 'Resultados por página:';
+  lastPageLabel: string = 'Última página';
 
-  nextPageLabel: string = "Siguiente página";
-  previousPageLabel: string = "Página anterior";
+  nextPageLabel: string = 'Siguiente página';
+  previousPageLabel: string = 'Página anterior';
 
   getRangeLabel(page: number, pageSize: number, length: number): string {
     if (length === 0) {

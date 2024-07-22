@@ -1,24 +1,24 @@
-export class IVAOption {
+export default class IVAOption {
   id: string = null;
   _value: number = -1;
 
   constructor(
-    public tipoIVA: string = "iva",
+    public tipoIVA: string = 'iva',
     public iva: number = -1,
     public re: number = -1
   ) {
     if (iva !== -1 || re !== -1) {
-      this.id = iva + "_" + re;
+      this.id = iva + '_' + re;
     }
     this.updateValues(iva, re);
   }
 
   get name(): string {
-    return this.iva + "%";
+    return this.iva + '%';
   }
 
   get value(): number {
-    if (this.tipoIVA === "iva") {
+    if (this.tipoIVA === 'iva') {
       return this.iva;
     } else {
       return this.iva + this.re;

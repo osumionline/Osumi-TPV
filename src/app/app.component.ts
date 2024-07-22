@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: "otpv-root",
+  selector: 'otpv-root',
   standalone: true,
   template: `<router-outlet />`,
   imports: [RouterModule],
 })
-export class AppComponent {}
+export default class AppComponent {}

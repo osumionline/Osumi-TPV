@@ -1,49 +1,55 @@
-import { NgClass } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { NgClass } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatFormField } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatActionList, MatListItem } from "@angular/material/list";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { MatSortModule } from "@angular/material/sort";
+} from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import {
   MatTable,
   MatTableDataSource,
   MatTableModule,
-} from "@angular/material/table";
-import { MatTab, MatTabGroup } from "@angular/material/tabs";
-import { ActivatedRoute, Params } from "@angular/router";
-import { ChartSelectInterface } from "@interfaces/articulo.interface";
-import { ClienteSaveResult } from "@interfaces/cliente.interface";
-import { Month, StatusResult } from "@interfaces/interfaces";
-import { FacturaModal } from "@interfaces/modals.interface";
-import { Cliente } from "@model/clientes/cliente.model";
-import { Factura } from "@model/clientes/factura.model";
-import { EditFacturaModalComponent } from "@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { OverlayService } from "@services/overlay.service";
-import { HeaderComponent } from "@shared/components/header/header.component";
-import { ClientListFilterPipe } from "@shared/pipes/client-list-filter.pipe";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@angular/material/table';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ChartSelectInterface } from '@interfaces/articulo.interface';
+import { ClienteSaveResult } from '@interfaces/cliente.interface';
+import { Month, StatusResult } from '@interfaces/interfaces';
+import { FacturaModal } from '@interfaces/modals.interface';
+import Cliente from '@model/clientes/cliente.model';
+import Factura from '@model/clientes/factura.model';
+import EditFacturaModalComponent from '@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import OverlayService from '@services/overlay.service';
+import HeaderComponent from '@shared/components/header/header.component';
+import ClientListFilterPipe from '@shared/pipes/client-list-filter.pipe';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-clientes",
-  templateUrl: "./clientes.component.html",
-  styleUrls: ["./clientes.component.scss"],
+  selector: 'otpv-clientes',
+  templateUrl: './clientes.component.html',
+  styleUrls: ['./clientes.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -70,16 +76,23 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   ],
 })
 export default class ClientesComponent implements OnInit {
-  broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
-  search: string = "";
-  @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  public cs: ClientesService = inject(ClientesService);
+  public config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private overlayService: OverlayService = inject(OverlayService);
+
+  broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
+  search: string = '';
+  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   start: boolean = true;
-  @ViewChild("clienteTabs", { static: true })
+  @ViewChild('clienteTabs', { static: true })
   clienteTabs: MatTabGroup;
   selectedIndex: number = 0;
   selectedClient: Cliente = new Cliente();
-  @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
-  @ViewChild("emailBox", { static: true }) emailBox: ElementRef;
+  @ViewChild('nameBox', { static: true }) nameBox: ElementRef;
+  @ViewChild('emailBox', { static: true }) emailBox: ElementRef;
   focusEmail: boolean = false;
 
   form: FormGroup = new FormGroup({
@@ -105,29 +118,20 @@ export default class ClientesComponent implements OnInit {
     descuento: new FormControl(0),
   });
 
-  facturasDisplayedColumns: string[] = ["id", "fecha", "importe", "opciones"];
+  facturasDisplayedColumns: string[] = ['id', 'fecha', 'importe', 'opciones'];
   facturasDataSource: MatTableDataSource<Factura> =
     new MatTableDataSource<Factura>();
-  @ViewChild("facturasTable", { static: false })
+  @ViewChild('facturasTable', { static: false })
   facturasTable!: MatTable<Factura>;
 
   stats: ChartSelectInterface = {
-    data: "consumo",
-    type: "units",
+    data: 'consumo',
+    type: 'units',
     month: -1,
     year: -1,
   };
   monthList: Month[] = [];
   yearList: number[] = [];
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    public cs: ClientesService,
-    public config: ConfigService,
-    private dialog: DialogService,
-    private cms: ClassMapperService,
-    private overlayService: OverlayService
-  ) {}
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -137,7 +141,7 @@ export default class ClientesComponent implements OnInit {
     }
     this.broadcastChannel.onmessage = (message) => {
       if (
-        message.data.type === "imprimir" &&
+        message.data.type === 'imprimir' &&
         message.data.id === this.selectedClient.id
       ) {
         this.loadFacturasCliente();
@@ -145,7 +149,7 @@ export default class ClientesComponent implements OnInit {
     };
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.new) {
-        if (params.new === "new") {
+        if (params.new === 'new') {
           this.newCliente();
         } else {
           const ind: number = this.cs
@@ -171,7 +175,7 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .getEstadisticasCliente(this.selectedClient.id)
       .subscribe((result) => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.selectedClient.ultimasVentas = this.cms.getUltimaVentaArticulos(
             result.ultimasVentas
           );
@@ -195,7 +199,7 @@ export default class ClientesComponent implements OnInit {
     this.selectedClient.facturas = [];
     this.facturasDataSource.data = this.selectedClient.facturas;
     this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
-      if (result.status === "ok") {
+      if (result.status === 'ok') {
         this.selectedClient.facturas = this.cms.getFacturas(result.list);
         const facturas: Factura[] = [...this.selectedClient.facturas];
         this.facturasDataSource.data = facturas;
@@ -226,22 +230,22 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .saveCliente(this.selectedClient.toInterface())
       .subscribe((result: ClienteSaveResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.cs.resetClientes();
           this.resetForm();
           this.dialog.alert({
-            title: "Datos guardados",
+            title: 'Datos guardados',
             content:
               'Los datos del cliente "' +
               this.selectedClient.nombreApellidos +
               '" han sido correctamente guardados.',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al guardar los datos del cliente.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al guardar los datos del cliente.',
+            ok: 'Continuar',
           });
         }
       });
@@ -250,13 +254,13 @@ export default class ClientesComponent implements OnInit {
   deleteCliente(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el cliente "' +
           this.selectedClient.nombreApellidos +
           '"? Las ventas realizadas al cliente no se borrarán, se borrarán los datos del cliente y que dichas ventas fueron realizadas por él',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result) => {
         if (result === true) {
@@ -269,63 +273,63 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .deleteCliente(this.selectedClient.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.cs.resetClientes();
           this.start = true;
           this.dialog.alert({
-            title: "Cliente borrado",
+            title: 'Cliente borrado',
             content:
               'El cliente "' +
               this.selectedClient.nombreApellidos +
               '" ha sido correctamente borrado.',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al borrar el cliente.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al borrar el cliente.',
+            ok: 'Continuar',
           });
         }
       });
   }
 
   imprimirLOPD(): void {
-    window.open("/clientes/lopd/" + this.selectedClient.id);
+    window.open('/clientes/lopd/' + this.selectedClient.id);
   }
 
   nuevaFactura(): void {
     if (
       this.selectedClient.dniCif === null ||
-      this.selectedClient.dniCif === ""
+      this.selectedClient.dniCif === ''
     ) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
           'El cliente "' +
           this.selectedClient.nombreApellidos +
           '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
     } else {
       if (
         this.selectedClient.direccion === null ||
-        this.selectedClient.direccion === "" ||
+        this.selectedClient.direccion === '' ||
         this.selectedClient.codigoPostal === null ||
-        this.selectedClient.codigoPostal === "" ||
+        this.selectedClient.codigoPostal === '' ||
         this.selectedClient.poblacion === null ||
-        this.selectedClient.poblacion === "" ||
+        this.selectedClient.poblacion === '' ||
         this.selectedClient.provincia === null
       ) {
         this.dialog
           .confirm({
-            title: "Confirmar",
+            title: 'Confirmar',
             content:
               'El cliente "' +
               this.selectedClient.nombreApellidos +
               '" no tiene una dirección completa introducida. ¿Quieres continuar?',
-            ok: "Continuar",
-            cancel: "Cancelar",
+            ok: 'Continuar',
+            cancel: 'Cancelar',
           })
           .subscribe((result: boolean): void => {
             if (result === true) {
@@ -340,9 +344,9 @@ export default class ClientesComponent implements OnInit {
 
   openNuevaFactura(cliente: Cliente): void {
     const modalnewProveedorData: FacturaModal = {
-      modalTitle: "Nueva factura",
-      modalColor: "blue",
-      css: "modal-wide",
+      modalTitle: 'Nueva factura',
+      modalColor: 'blue',
+      css: 'modal-wide',
       id: cliente.id,
       factura: null,
     };
@@ -359,9 +363,9 @@ export default class ClientesComponent implements OnInit {
 
   selectFactura(ind: number): void {
     const modalnewProveedorData: FacturaModal = {
-      modalTitle: "Factura " + this.facturasDataSource.data[ind].id,
-      modalColor: "blue",
-      css: "modal-wide",
+      modalTitle: 'Factura ' + this.facturasDataSource.data[ind].id,
+      modalColor: 'blue',
+      css: 'modal-wide',
       id: null,
       factura: this.facturasDataSource.data[ind],
     };
@@ -380,17 +384,17 @@ export default class ClientesComponent implements OnInit {
     ev && ev.stopPropagation();
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer enviar la factura "' +
           factura.id +
           '" al cliente "' +
           this.selectedClient.nombreApellidos +
-          " (" +
+          ' (' +
           this.selectedClient.email +
           ')"?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -401,20 +405,20 @@ export default class ClientesComponent implements OnInit {
 
   confirmEnviarFactura(id: number): void {
     this.cs.sendFactura(id).subscribe((result: StatusResult): void => {
-      if (result.status === "ok") {
+      if (result.status === 'ok') {
         this.dialog.alert({
-          title: "Factura enviada",
-          content: "La factura ha sido correctamente enviada.",
-          ok: "Continuar",
+          title: 'Factura enviada',
+          content: 'La factura ha sido correctamente enviada.',
+          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
-          title: "Error",
+          title: 'Error',
           content:
             'Ocurrió un error al intentar enviar la factura a la dirección "' +
             this.selectedClient.email +
             '".',
-          ok: "Continuar",
+          ok: 'Continuar',
         });
       }
     });
@@ -422,6 +426,6 @@ export default class ClientesComponent implements OnInit {
 
   imprimirFactura(ev: MouseEvent, factura: Factura): void {
     ev && ev.stopPropagation();
-    window.open("/clientes/factura/" + factura.id);
+    window.open('/clientes/factura/' + factura.id);
   }
 }

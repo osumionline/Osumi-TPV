@@ -1,17 +1,19 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const ARTICULOS_ROUTES: Route[] = [
+const ARTICULOS_ROUTES: Route[] = [
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/articulos/pages/articulos/articulos.component"),
+      import('@modules/articulos/pages/articulos/articulos.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: ":localizador",
+    path: ':localizador',
     loadComponent: () =>
-      import("@modules/articulos/pages/articulos/articulos.component"),
+      import('@modules/articulos/pages/articulos/articulos.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default ARTICULOS_ROUTES;

@@ -1,36 +1,38 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const CLIENTES_ROUTES: Route[] = [
+const CLIENTES_ROUTES: Route[] = [
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/clientes/pages/clientes/clientes.component"),
+      import('@modules/clientes/pages/clientes/clientes.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: ":new",
+    path: ':new',
     loadComponent: () =>
-      import("@modules/clientes/pages/clientes/clientes.component"),
+      import('@modules/clientes/pages/clientes/clientes.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "lopd/:id",
-    loadComponent: () => import("@modules/clientes/pages/lopd/lopd.component"),
+    path: 'lopd/:id',
+    loadComponent: () => import('@modules/clientes/pages/lopd/lopd.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "factura/:id",
+    path: 'factura/:id',
     loadComponent: () =>
-      import("@modules/clientes/pages/factura/factura.component"),
-    data: { type: "print" },
+      import('@modules/clientes/pages/factura/factura.component'),
+    data: { type: 'print' },
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "factura/:id/preview",
+    path: 'factura/:id/preview',
     loadComponent: () =>
-      import("@modules/clientes/pages/factura/factura.component"),
-    data: { type: "preview" },
+      import('@modules/clientes/pages/factura/factura.component'),
+    data: { type: 'preview' },
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default CLIENTES_ROUTES;

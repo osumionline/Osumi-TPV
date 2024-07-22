@@ -1,9 +1,9 @@
-import { VentaHistoricoInterface } from "@interfaces/caja.interface";
+import { VentaHistoricoInterface } from '@interfaces/caja.interface';
 import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
-} from "@interfaces/venta.interface";
-import { Cliente } from "@model/clientes/cliente.model";
+} from '@interfaces/venta.interface';
+import Cliente from '@model/clientes/cliente.model';
 
 export interface ClienteInterface {
   id: number;

@@ -4,14 +4,14 @@ import {
   PedidoPDFInterface,
   PedidoVistaInterface,
   TotalsIVAOption,
-} from "@interfaces/pedido.interface";
-import { PedidoLinea } from "@model/compras/pedido-linea.model";
-import { PedidoPDF } from "@model/compras/pedido-pdf.model";
-import { PedidoVista } from "@model/compras/pedido-vista.model";
-import { IVAOption } from "@model/tpv/iva-option.model";
-import { urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/pedido.interface';
+import PedidoLinea from '@model/compras/pedido-linea.model';
+import PedidoPDF from '@model/compras/pedido-pdf.model';
+import PedidoVista from '@model/compras/pedido-vista.model';
+import IVAOption from '@model/tpv/iva-option.model';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Pedido {
+export default class Pedido {
   ivaOptions: IVAOption[] = [];
   _descuento: number = 0;
 
@@ -23,7 +23,7 @@ export class Pedido {
     public metodoPago: string = null,
     public re: boolean = false,
     public ue: boolean = false,
-    public tipo: string = "albaran",
+    public tipo: string = 'albaran',
     public num: string = null,
     public fechaPago: string = null,
     public fechaPedido: string = null,
@@ -54,19 +54,19 @@ export class Pedido {
       return null;
     }
     switch (this.tipo) {
-      case "albaran":
+      case 'albaran':
         {
-          return "Albarán";
+          return 'Albarán';
         }
         break;
-      case "factura":
+      case 'factura':
         {
-          return "Factura";
+          return 'Factura';
         }
         break;
-      case "abono":
+      case 'abono':
         {
-          return "Abono";
+          return 'Abono';
         }
         break;
     }
@@ -121,30 +121,30 @@ export class Pedido {
     const list = {};
 
     for (const linea of this.lineas) {
-      if (!Object.prototype.hasOwnProperty.call(list, "iva_" + linea.iva)) {
-        list["iva_" + linea.iva] = 0;
+      if (!Object.prototype.hasOwnProperty.call(list, 'iva_' + linea.iva)) {
+        list['iva_' + linea.iva] = 0;
       }
-      list["iva_" + linea.iva] +=
+      list['iva_' + linea.iva] +=
         linea.subtotal * (1 + linea.iva / 100) - linea.subtotal;
       if (this.re) {
-        if (!Object.prototype.hasOwnProperty.call(list, "re_" + linea.re)) {
-          list["re_" + linea.re] = 0;
+        if (!Object.prototype.hasOwnProperty.call(list, 're_' + linea.re)) {
+          list['re_' + linea.re] = 0;
         }
-        list["re_" + linea.re] +=
+        list['re_' + linea.re] +=
           linea.subtotal * (1 + linea.re / 100) - linea.subtotal;
       }
     }
 
     if (this.portes !== null && this.portes > 0) {
-      if (!Object.prototype.hasOwnProperty.call(list, "iva_21")) {
-        list["iva_21"] = 0;
+      if (!Object.prototype.hasOwnProperty.call(list, 'iva_21')) {
+        list['iva_21'] = 0;
       }
-      list["iva_21"] += this.portes * 0.21;
+      list['iva_21'] += this.portes * 0.21;
       if (this.re) {
-        if (!Object.prototype.hasOwnProperty.call(list, "re_5.2")) {
-          list["re_5.2"] = 0;
+        if (!Object.prototype.hasOwnProperty.call(list, 're_5.2')) {
+          list['re_5.2'] = 0;
         }
-        list["re_5.2"] += this.portes * 0.052;
+        list['re_5.2'] += this.portes * 0.052;
       }
     }
 
@@ -153,9 +153,9 @@ export class Pedido {
       ret.push({
         tipoIva: ivaOption.tipoIVA,
         ivaOption: ivaOption.iva,
-        iva: list["iva_" + ivaOption.iva],
+        iva: list['iva_' + ivaOption.iva],
         reOption: ivaOption.re,
-        re: list["re_" + ivaOption.re],
+        re: list['re_' + ivaOption.re],
       });
     }
 
@@ -182,7 +182,7 @@ export class Pedido {
       return null;
     }
     if (this.observaciones.length > 50) {
-      return this.observaciones.substring(0, 50) + "...";
+      return this.observaciones.substring(0, 50) + '...';
     }
     return this.observaciones;
   }

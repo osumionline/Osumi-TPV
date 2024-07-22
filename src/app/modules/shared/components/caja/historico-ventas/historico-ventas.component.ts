@@ -1,58 +1,59 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   OutputEmitterRef,
   ViewChild,
+  inject,
   output,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   MatButton,
   MatFabButton,
   MatIconButton,
-} from "@angular/material/button";
+} from '@angular/material/button';
 import {
   MatNativeDateModule,
   MatOption,
   provideNativeDateAdapter,
-} from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatSelect } from "@angular/material/select";
-import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltip } from "@angular/material/tooltip";
-import { Router } from "@angular/router";
+} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import {
   HistoricoVentasResult,
   VentaHistoricoOtrosInterface,
-} from "@interfaces/caja.interface";
+} from '@interfaces/caja.interface';
 import {
   DateValues,
   DialogOptions,
   IdSaveResult,
   StatusResult,
-} from "@interfaces/interfaces";
-import { VentaHistorico } from "@model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { Cliente } from "@model/clientes/cliente.model";
-import { TipoPago } from "@model/tpv/tipo-pago.model";
-import { addDays, getDate, urlencode } from "@osumi/tools";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { VentasService } from "@services/ventas.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/interfaces';
+import VentaHistorico from '@model/caja/venta-historico.model';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Cliente from '@model/clientes/cliente.model';
+import TipoPago from '@model/tpv/tipo-pago.model';
+import { addDays, getDate, urlencode } from '@osumi/tools';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import VentasService from '@services/ventas.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-historico-ventas",
-  templateUrl: "./historico-ventas.component.html",
-  styleUrls: ["./historico-ventas.component.scss"],
+  selector: 'otpv-historico-ventas',
+  templateUrl: './historico-ventas.component.html',
+  styleUrls: ['./historico-ventas.component.scss'],
   providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
@@ -74,18 +75,25 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatTooltip,
   ],
 })
-export class HistoricoVentasComponent implements AfterViewInit {
+export default class HistoricoVentasComponent implements AfterViewInit {
+  private vs: VentasService = inject(VentasService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  public cs: ClientesService = inject(ClientesService);
+  public config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+  private router: Router = inject(Router);
+
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
-  historicoModo: string = "fecha";
+  historicoModo: string = 'fecha';
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
   rangoHasta: Date = new Date();
 
   historicoVentasList: VentaHistorico[] = [];
   historicoVentasDisplayedColumns: string[] = [
-    "fecha",
-    "total",
-    "nombreTipoPago",
+    'fecha',
+    'total',
+    'nombreTipoPago',
   ];
   historicoVentasDataSource: MatTableDataSource<VentaHistorico> =
     new MatTableDataSource<VentaHistorico>();
@@ -99,27 +107,18 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   historicoVentasSelected: VentaHistorico = new VentaHistorico();
   historicoVentasSelectedDisplayedColumns: string[] = [
-    "localizador",
-    "marca",
-    "articulo",
-    "unidades",
-    "pvp",
-    "descuento",
-    "importe",
+    'localizador',
+    'marca',
+    'articulo',
+    'unidades',
+    'pvp',
+    'descuento',
+    'importe',
   ];
   historicoVentasSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
 
-  @ViewChild("clientesBox", { static: true }) clientesBox: MatSelect;
-
-  constructor(
-    private vs: VentasService,
-    private cms: ClassMapperService,
-    public cs: ClientesService,
-    public config: ConfigService,
-    private dialog: DialogService,
-    private router: Router
-  ) {}
+  @ViewChild('clientesBox', { static: true }) clientesBox: MatSelect;
 
   ngAfterViewInit(): void {
     this.historicoVentasDataSource.sort = this.sort;
@@ -139,7 +138,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
   changeFecha(): void {
     this.historicoVentasSelected = new VentaHistorico();
     const data: DateValues = {
-      modo: "fecha",
+      modo: 'fecha',
       id: null,
       fecha: getDate(this.fecha),
       desde: null,
@@ -151,14 +150,14 @@ export class HistoricoVentasComponent implements AfterViewInit {
   buscarPorRango(): void {
     if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
       return;
     }
     const data: DateValues = {
-      modo: "rango",
+      modo: 'rango',
       fecha: null,
       id: null,
       desde: getDate(this.rangoDesde),
@@ -195,7 +194,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         this.historicoVentasSelected.idCliente
       )
       .subscribe((result: StatusResult): void => {
-        if (result.status == "ok") {
+        if (result.status == 'ok') {
           const cliente: Cliente = this.cs
             .clientes()
             .find(
@@ -214,7 +213,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
         this.historicoVentasSelected.idTipoPago
       )
       .subscribe((result: StatusResult): void => {
-        if (result.status == "ok") {
+        if (result.status == 'ok') {
           if (this.historicoVentasSelected.idTipoPago !== null) {
             const tp: TipoPago = this.config.tiposPago.find(
               (x: TipoPago): boolean =>
@@ -222,7 +221,7 @@ export class HistoricoVentasComponent implements AfterViewInit {
             );
             this.historicoVentasSelected.nombreTipoPago = tp.nombre;
           } else {
-            this.historicoVentasSelected.nombreTipoPago = "Efectivo";
+            this.historicoVentasSelected.nombreTipoPago = 'Efectivo';
           }
         }
       });
@@ -232,11 +231,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.vs
       .printTicket(this.historicoVentasSelected.id, tipo)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "error") {
+        if (result.status === 'error') {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al imprimir el ticket.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al imprimir el ticket.',
+            ok: 'Continuar',
           });
         }
       });
@@ -246,16 +245,16 @@ export class HistoricoVentasComponent implements AfterViewInit {
     if (this.historicoVentasSelected.idCliente === null) {
       this.dialog
         .confirm({
-          title: "Cliente",
+          title: 'Cliente',
           content:
-            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o crear uno nuevo?",
-          ok: "Crear nuevo",
-          cancel: "Elegir cliente",
+            'Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o crear uno nuevo?',
+          ok: 'Crear nuevo',
+          cancel: 'Elegir cliente',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
             this.cerrarVentanaEvent.emit(0);
-            this.router.navigate(["/clientes/new"]);
+            this.router.navigate(['/clientes/new']);
           } else {
             setTimeout((): void => {
               this.clientesBox.toggle();
@@ -272,34 +271,34 @@ export class HistoricoVentasComponent implements AfterViewInit {
       this.historicoVentasSelected.idCliente
     );
 
-    if (selectedClient.dniCif === null || selectedClient.dniCif === "") {
+    if (selectedClient.dniCif === null || selectedClient.dniCif === '') {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
           'El cliente "' +
           selectedClient.nombreApellidos +
           '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
     } else {
       if (
         selectedClient.direccion === null ||
-        selectedClient.direccion === "" ||
+        selectedClient.direccion === '' ||
         selectedClient.codigoPostal === null ||
-        selectedClient.codigoPostal === "" ||
+        selectedClient.codigoPostal === '' ||
         selectedClient.poblacion === null ||
-        selectedClient.poblacion === "" ||
+        selectedClient.poblacion === '' ||
         selectedClient.provincia === null
       ) {
         this.dialog
           .confirm({
-            title: "Confirmar",
+            title: 'Confirmar',
             content:
               'El cliente "' +
               selectedClient.nombreApellidos +
               '" no tiene dirección introducida. ¿Quieres continuar?',
-            ok: "Continuar",
-            cancel: "Cancelar",
+            ok: 'Continuar',
+            cancel: 'Cancelar',
           })
           .subscribe((result: boolean): void => {
             if (result === true) {
@@ -316,11 +315,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.cs
       .saveFacturaFromVenta(this.historicoVentasSelected.id)
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === "ok" || result.status === "error-factura") {
-          window.open("/clientes/factura/" + result.id + "/preview");
+        if (result.status === 'ok' || result.status === 'error-factura') {
+          window.open('/clientes/factura/' + result.id + '/preview');
         }
-        if (result.status === "error-facturada") {
-          window.open("/clientes/factura/" + result.id);
+        if (result.status === 'error-facturada') {
+          window.open('/clientes/factura/' + result.id);
         }
       });
   }
@@ -329,11 +328,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
     if (this.historicoVentasSelected.idCliente === null) {
       this.dialog
         .confirm({
-          title: "Cliente",
+          title: 'Cliente',
           content:
-            "Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o introducir uno manualmente?",
-          ok: "Elegir cliente",
-          cancel: "Introducir email",
+            'Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno o introducir uno manualmente?',
+          ok: 'Elegir cliente',
+          cancel: 'Introducir email',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -348,18 +347,18 @@ export class HistoricoVentasComponent implements AfterViewInit {
       const cliente: Cliente = this.cs.findById(
         this.historicoVentasSelected.idCliente
       );
-      if (cliente.email === null || cliente.email === "") {
+      if (cliente.email === null || cliente.email === '') {
         this.dialog
           .confirm({
-            title: "Enviar email",
+            title: 'Enviar email',
             content:
-              "El cliente seleccionado no tiene una dirección de email asignada, ¿quieres ir a su ficha o introducir uno manualmente?",
-            ok: "Ir a su ficha",
-            cancel: "Introducir email",
+              'El cliente seleccionado no tiene una dirección de email asignada, ¿quieres ir a su ficha o introducir uno manualmente?',
+            ok: 'Ir a su ficha',
+            cancel: 'Introducir email',
           })
           .subscribe((result: boolean): void => {
             if (result === true) {
-              this.router.navigate(["/clientes/" + cliente.id]);
+              this.router.navigate(['/clientes/' + cliente.id]);
             } else {
               this.pedirEmail();
             }
@@ -373,11 +372,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
   pedirEmail(): void {
     this.dialog
       .form({
-        title: "Introducir email",
-        content: "Introduce el email del cliente",
-        ok: "Continuar",
-        cancel: "Cancelar",
-        fields: [{ title: "Email", type: "email", value: null }],
+        title: 'Introducir email',
+        content: 'Introduce el email del cliente',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
+        fields: [{ title: 'Email', type: 'email', value: null }],
       })
       .subscribe((result: DialogOptions): void => {
         if (result !== undefined) {
@@ -389,11 +388,11 @@ export class HistoricoVentasComponent implements AfterViewInit {
   sendTicket(id: number, email: string): void {
     this.dialog
       .confirm({
-        title: "Enviar email",
+        title: 'Enviar email',
         content:
           'Se enviará el ticket al email "' + email + '", ¿quieres continuar?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -406,23 +405,23 @@ export class HistoricoVentasComponent implements AfterViewInit {
     this.vs
       .sendTicket(id, urlencode(email))
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog.alert({
-            title: "Enviado",
+            title: 'Enviado',
             content:
               'El ticket de la venta ha sido correctamente enviado a la dirección "' +
               email +
               '"',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content:
               'El ticket de la venta no ha podido ser enviado a la dirección "' +
               email +
               '", ¿tal vez la dirección no es correcta?',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         }
       });
@@ -430,6 +429,6 @@ export class HistoricoVentasComponent implements AfterViewInit {
 
   devolucion(): void {
     this.cerrarVentanaEvent.emit(0);
-    this.router.navigate(["/ventas/" + this.historicoVentasSelected.id]);
+    this.router.navigate(['/ventas/' + this.historicoVentasSelected.id]);
   }
 }

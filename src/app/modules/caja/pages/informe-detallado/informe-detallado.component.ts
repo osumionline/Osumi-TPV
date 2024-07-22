@@ -1,24 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { InformeMensualResult } from "@interfaces/informes.interface";
-import { InformesService } from "@services/informes.service";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { InformeMensualResult } from '@interfaces/informes.interface';
+import InformesService from '@services/informes.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-informe-detallado",
-  templateUrl: "./informe-detallado.component.html",
-  styleUrls: ["./informe-detallado.component.scss"],
+  selector: 'otpv-informe-detallado',
+  templateUrl: './informe-detallado.component.html',
+  styleUrls: ['./informe-detallado.component.scss'],
 })
 export default class InformeDetalladoComponent implements OnInit {
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private is: InformesService = inject(InformesService);
+
   loaded: boolean = false;
   year: number = null;
   month: number = null;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private is: InformesService
-  ) {
-    document.body.classList.add("white-bg");
+  constructor() {
+    document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {

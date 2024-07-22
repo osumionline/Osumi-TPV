@@ -1,16 +1,16 @@
-import { Component, OnInit, WritableSignal, signal } from "@angular/core";
-import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
-import { QRCodeModule } from "angularx-qrcode";
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
+import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   standalone: true,
-  selector: "otpv-imprenta-table",
-  templateUrl: "./imprenta-table.component.html",
-  styleUrls: ["./imprenta-table.component.scss"],
+  selector: 'otpv-imprenta-table',
+  templateUrl: './imprenta-table.component.html',
+  styleUrls: ['./imprenta-table.component.scss'],
   imports: [QRCodeModule, FixedNumberPipe],
 })
-export class ImprentaTableComponent implements OnInit {
+export default class ImprentaTableComponent implements OnInit {
   filas: number = 4;
   columnas: number = 5;
   list: WritableSignal<ArticuloBuscador[][]> = signal<ArticuloBuscador[][]>([]);

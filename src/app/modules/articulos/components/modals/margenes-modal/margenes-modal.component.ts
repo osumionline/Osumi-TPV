@@ -4,18 +4,18 @@ import {
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@angular/core';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-margenes-modal",
-  templateUrl: "./margenes-modal.component.html",
-  styleUrls: ["./margenes-modal.component.scss"],
+  selector: 'otpv-margenes-modal',
+  templateUrl: './margenes-modal.component.html',
+  styleUrls: ['./margenes-modal.component.scss'],
   imports: [FixedNumberPipe],
 })
-export class MargenesModalComponent implements OnInit {
+export default class MargenesModalComponent implements OnInit {
   private customOverlayRef: CustomOverlayRef<
     null,
     { puc: number; list: number[] }

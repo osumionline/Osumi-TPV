@@ -1,5 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -22,13 +28,13 @@ import {
   ComercialInterface,
   ProveedorInterface,
 } from '@interfaces/proveedor.interface';
-import { Comercial } from '@model/proveedores/comercial.model';
-import { Proveedor } from '@model/proveedores/proveedor.model';
-import { DialogService } from '@services/dialog.service';
-import { MarcasService } from '@services/marcas.service';
-import { ProveedoresService } from '@services/proveedores.service';
-import { ProviderBrandListFilterPipe } from '@shared/pipes/provider-brand-list-filter.pipe';
-import { ProviderListFilterPipe } from '@shared/pipes/provider-list-filter.pipe';
+import Comercial from '@model/proveedores/comercial.model';
+import Proveedor from '@model/proveedores/proveedor.model';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import ProveedoresService from '@services/proveedores.service';
+import ProviderBrandListFilterPipe from '@shared/pipes/provider-brand-list-filter.pipe';
+import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
 
 @Component({
   standalone: true,
@@ -56,7 +62,11 @@ import { ProviderListFilterPipe } from '@shared/pipes/provider-list-filter.pipe'
     MatCheckbox,
   ],
 })
-export class ProveedoresComponent implements OnInit {
+export default class ProveedoresComponent implements OnInit {
+  public ps: ProveedoresService = inject(ProveedoresService);
+  private ms: MarcasService = inject(MarcasService);
+  private dialog: DialogService = inject(DialogService);
+
   search: string = '';
   @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   start: boolean = true;
@@ -97,12 +107,6 @@ export class ProveedoresComponent implements OnInit {
   @ViewChild('comercialNameBox', { static: true }) comercialNameBox: ElementRef;
   selectedComercial: Comercial = new Comercial();
   canSeeStatistics: boolean = false;
-
-  constructor(
-    public ps: ProveedoresService,
-    private ms: MarcasService,
-    private dialog: DialogService
-  ) {}
 
   ngOnInit(): void {
     for (const marca of this.ms.marcas()) {

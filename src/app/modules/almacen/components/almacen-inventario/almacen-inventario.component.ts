@@ -1,4 +1,4 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,48 +9,48 @@ import {
   inject,
   signal,
   viewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { MatFormField, MatInput, MatLabel } from "@angular/material/input";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
-} from "@angular/material/paginator";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { MatSlideToggle } from "@angular/material/slide-toggle";
-import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltip } from "@angular/material/tooltip";
-import { Router } from "@angular/router";
+} from '@angular/material/paginator';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
   InventarioItemInterface,
-} from "@interfaces/almacen.interface";
+} from '@interfaces/almacen.interface';
 import {
   StatusIdMessageErrorsResult,
   StatusIdMessageResult,
   StatusResult,
-} from "@interfaces/interfaces";
-import { InventarioItem } from "@model/almacen/inventario-item.model";
-import { urldecode } from "@osumi/tools";
-import { AlmacenService } from "@services/almacen.service";
-import { ArticulosService } from "@services/articulos.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { MarcasService } from "@services/marcas.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { CustomPaginatorIntl } from "@shared/custom-paginator-intl.class";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/interfaces';
+import InventarioItem from '@model/almacen/inventario-item.model';
+import { urldecode } from '@osumi/tools';
+import AlmacenService from '@services/almacen.service';
+import ArticulosService from '@services/articulos.service';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import ProveedoresService from '@services/proveedores.service';
+import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-almacen-inventario",
-  templateUrl: "./almacen-inventario.component.html",
-  styleUrls: ["./almacen-inventario.component.scss"],
+  selector: 'otpv-almacen-inventario',
+  templateUrl: './almacen-inventario.component.html',
+  styleUrls: ['./almacen-inventario.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     NgClass,
@@ -71,7 +71,7 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatSlideToggle,
   ],
 })
-export class AlmacenInventarioComponent
+export default class AlmacenInventarioComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   private ars: ArticulosService = inject(ArticulosService);
@@ -99,16 +99,16 @@ export class AlmacenInventarioComponent
   totalPUC: WritableSignal<number> = signal<number>(0);
 
   inventarioDisplayedColumns: string[] = [
-    "localizador",
-    "proveedor",
-    "marca",
-    "referencia",
-    "nombre",
-    "stock",
-    "pvp",
-    "margen",
-    "codbarras",
-    "opciones",
+    'localizador',
+    'proveedor',
+    'marca',
+    'referencia',
+    'nombre',
+    'stock',
+    'pvp',
+    'margen',
+    'codbarras',
+    'opciones',
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
@@ -161,7 +161,7 @@ export class AlmacenInventarioComponent
   }
 
   cambiarOrden(sort: Sort): void {
-    if (sort.direction === "") {
+    if (sort.direction === '') {
       this.buscador.update(
         (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
           value.orderBy = null;
@@ -211,7 +211,7 @@ export class AlmacenInventarioComponent
               return x.id === status.id;
             }
           );
-          if (status.status === "ok") {
+          if (status.status === 'ok') {
             this.list.update((value: InventarioItem[]): InventarioItem[] => {
               value[ind]._pvp = value[ind].pvp;
               value[ind]._stock = value[ind].stock;
@@ -223,20 +223,20 @@ export class AlmacenInventarioComponent
             });
           } else {
             errorList.push(
-              "<strong>" +
+              '<strong>' +
                 this.list()[ind].nombre +
-                "</strong>: " +
+                '</strong>: ' +
                 urldecode(status.message)
             );
           }
         }
         if (errorList.length > 0) {
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content:
-              "Al realizar el guardado, han ocurrido los siguientes errores:<br><br>" +
-              errorList.join("<br>"),
-            ok: "Continuar",
+              'Al realizar el guardado, han ocurrido los siguientes errores:<br><br>' +
+              errorList.join('<br>'),
+            ok: 'Continuar',
           });
         }
       });
@@ -246,7 +246,7 @@ export class AlmacenInventarioComponent
     this.as
       .saveInventario(item.toInterface())
       .subscribe((result: StatusIdMessageResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           item._pvp = item.pvp;
           item._stock = item.stock;
           if (item.codigoBarras !== null) {
@@ -255,9 +255,9 @@ export class AlmacenInventarioComponent
           }
         } else {
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content: urldecode(result.message),
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         }
       });
@@ -266,18 +266,18 @@ export class AlmacenInventarioComponent
   deleteInventario(item: InventarioItem): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estas seguro de querer borrar el artículo "' + item.nombre + '"?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.as
             .deleteInventario(item.id)
             .subscribe((result: StatusResult): void => {
-              if (result.status === "ok") {
+              if (result.status === 'ok') {
                 const ind: number = this.list().findIndex(
                   (x: InventarioItem): boolean => x.id === item.id
                 );
@@ -290,9 +290,9 @@ export class AlmacenInventarioComponent
                 this.inventarioDataSource.data = this.list();
               } else {
                 this.dialog.alert({
-                  title: "Error",
-                  content: "Ocurrió un error al borrar el artículo.",
-                  ok: "Continuar",
+                  title: 'Error',
+                  content: 'Ocurrió un error al borrar el artículo.',
+                  ok: 'Continuar',
                 });
               }
             });
@@ -303,12 +303,12 @@ export class AlmacenInventarioComponent
   exportInventario(): void {
     this.as.exportInventario(this.buscador()).subscribe((result): void => {
       const data: Blob = new Blob([result], {
-        type: "text/csv;charset=utf-8",
+        type: 'text/csv;charset=utf-8',
       });
       const url: string = window.URL.createObjectURL(data);
-      const a: HTMLAnchorElement = document.createElement("a");
+      const a: HTMLAnchorElement = document.createElement('a');
       a.href = url;
-      a.download = "inventario.csv";
+      a.download = 'inventario.csv';
       a.click();
       a.remove();
     });
@@ -316,17 +316,17 @@ export class AlmacenInventarioComponent
 
   printInventario(): void {
     const data: string = window.btoa(JSON.stringify(this.buscador()));
-    window.open("/almacen/inventario-print/" + data);
+    window.open('/almacen/inventario-print/' + data);
   }
 
   goToArticulo(ev: MouseEvent, item: InventarioItem): void {
     ev && ev.preventDefault();
     this.ars.returnInfo = {
-      where: "almacen",
+      where: 'almacen',
       id: null,
       extra: null,
     };
-    this.router.navigate(["/articulos", item.localizador]);
+    this.router.navigate(['/articulos', item.localizador]);
   }
 
   ngOnDestroy(): void {

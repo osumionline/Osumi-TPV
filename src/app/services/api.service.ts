@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
   CierreCajaInterface,
@@ -25,8 +25,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
-  constructor(private http: HttpClient) {}
+export default class ApiService {
+  private http: HttpClient = inject(HttpClient);
 
   checkStart(): Observable<StartDataInterface> {
     return this.http.post<StartDataInterface>(

@@ -1,99 +1,97 @@
-import { Injectable, WritableSignal, signal } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import {
   AppDataResult,
   Month,
   ProvinceInterface,
-} from "@interfaces/interfaces";
-import { IVAOption } from "@model/tpv/iva-option.model";
-import { TipoPago } from "@model/tpv/tipo-pago.model";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { EmpleadosService } from "@services/empleados.service";
-import { MarcasService } from "@services/marcas.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { Observable, of } from "rxjs";
+} from '@interfaces/interfaces';
+import IVAOption from '@model/tpv/iva-option.model';
+import TipoPago from '@model/tpv/tipo-pago.model';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import EmpleadosService from '@services/empleados.service';
+import MarcasService from '@services/marcas.service';
+import ProveedoresService from '@services/proveedores.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class ConfigService {
-  status: string = "new";
+export default class ConfigService {
+  private title: Title = inject(Title);
+  private apiService: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private marcasService: MarcasService = inject(MarcasService);
+  private proveedoresService: ProveedoresService = inject(ProveedoresService);
+  private empleadosService: EmpleadosService = inject(EmpleadosService);
+  private clientesService: ClientesService = inject(ClientesService);
 
-  nombre: string = "";
-  nombreComercial: string = "";
-  cif: string = "";
-  telefono: string = "";
-  direccion: string = "";
-  poblacion: string = "";
-  email: string = "";
-  twitter: string = "";
-  facebook: string = "";
-  instagram: string = "";
-  web: string = "";
+  status: string = 'new';
+
+  nombre: string = '';
+  nombreComercial: string = '';
+  cif: string = '';
+  telefono: string = '';
+  direccion: string = '';
+  poblacion: string = '';
+  email: string = '';
+  twitter: string = '';
+  facebook: string = '';
+  instagram: string = '';
+  web: string = '';
   cajaInicial: number = 0;
   ticketInicial: number = 1;
   facturaInicial: number = 1;
-  tipoIva: string = "";
+  tipoIva: string = '';
   ivaOptions: IVAOption[] = [];
   marginList: number[] = [];
   ventaOnline: boolean = false;
-  urlApi: string = "";
-  secretApi: string = "";
-  backupApiKey: string = "";
+  urlApi: string = '';
+  secretApi: string = '';
+  backupApiKey: string = '';
   fechaCad: boolean = false;
   empleados: boolean = false;
 
   tiposPago: TipoPago[] = [];
   isOpened: boolean = false;
   idEmpleadoDef: number = null;
-  colorEmpleadoDef: string = "#fff";
-  colorTextEmpleadoDef: string = "#000";
+  colorEmpleadoDef: string = '#fff';
+  colorTextEmpleadoDef: string = '#000';
 
   monthList: Month[] = [
-    { id: 1, name: "Enero", days: 31 },
-    { id: 2, name: "Febrero", days: 28 },
-    { id: 3, name: "Marzo", days: 31 },
-    { id: 4, name: "Abril", days: 30 },
-    { id: 5, name: "Mayo", days: 31 },
-    { id: 6, name: "Junio", days: 30 },
-    { id: 7, name: "Julio", days: 31 },
-    { id: 8, name: "Agosto", days: 31 },
-    { id: 9, name: "Septiembre", days: 30 },
-    { id: 10, name: "Octubre", days: 31 },
-    { id: 11, name: "Noviembre", days: 30 },
-    { id: 12, name: "Diciembre", days: 31 },
+    { id: 1, name: 'Enero', days: 31 },
+    { id: 2, name: 'Febrero', days: 28 },
+    { id: 3, name: 'Marzo', days: 31 },
+    { id: 4, name: 'Abril', days: 30 },
+    { id: 5, name: 'Mayo', days: 31 },
+    { id: 6, name: 'Junio', days: 30 },
+    { id: 7, name: 'Julio', days: 31 },
+    { id: 8, name: 'Agosto', days: 31 },
+    { id: 9, name: 'Septiembre', days: 30 },
+    { id: 10, name: 'Octubre', days: 31 },
+    { id: 11, name: 'Noviembre', days: 30 },
+    { id: 12, name: 'Diciembre', days: 31 },
   ];
 
   provincias: WritableSignal<ProvinceInterface[]> = signal<ProvinceInterface[]>(
     []
   );
 
-  constructor(
-    private title: Title,
-    private apiService: ApiService,
-    private cms: ClassMapperService,
-    private marcasService: MarcasService,
-    private proveedoresService: ProveedoresService,
-    private empleadosService: EmpleadosService,
-    private clientesService: ClientesService
-  ) {}
-
   start(): Promise<string> {
     return new Promise((resolve) => {
-      if (this.status === "loaded") {
+      if (this.status === 'loaded') {
         resolve(this.status);
       } else {
         this.apiService.checkStart().subscribe((result) => {
           if (result.appData === null) {
-            this.status = "install";
+            this.status = 'install';
             resolve(this.status);
           } else {
             this.load(result.appData);
             this.tiposPago = this.cms.getTiposPago(result.tiposPago);
             this.isOpened = result.opened;
-            this.status = "loaded";
+            this.status = 'loaded';
             const marcasPromise: Promise<string> = this.marcasService.load();
             const proveedoresPromise: Promise<string> =
               this.proveedoresService.load();
@@ -143,7 +141,7 @@ export class ConfigService {
     this.facturaInicial = data.facturaInicial;
     this.tipoIva = data.tipoIva;
     for (const i in data.ivaList) {
-      if (this.tipoIva === "iva") {
+      if (this.tipoIva === 'iva') {
         this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i]));
       } else {
         this.ivaOptions.push(
@@ -163,7 +161,7 @@ export class ConfigService {
   loadProvinces(): Promise<string> {
     return new Promise((resolve) => {
       if (this.provincias.length > 0) {
-        resolve("ok");
+        resolve('ok');
       } else {
         this.apiService.getProvinceList().subscribe((data) => {
           let newList = [];
@@ -175,7 +173,7 @@ export class ConfigService {
           });
 
           this.provincias.set(newList);
-          resolve("ok");
+          resolve('ok');
         });
       }
     });

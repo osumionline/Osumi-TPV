@@ -1,36 +1,36 @@
-import { Component, OnInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
+import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardActions,
   MatCardContent,
-} from "@angular/material/card";
-import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatToolbar } from "@angular/material/toolbar";
-import { Router, RouterModule } from "@angular/router";
-import { environment } from "@env/environment";
+} from '@angular/material/card';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatToolbar } from '@angular/material/toolbar';
+import { Router, RouterModule } from '@angular/router';
+import { environment } from '@env/environment';
 import {
   AppDataInterface,
   IvaOptionInterface,
   IvaReOptionInterface,
   MarginOptionInterface,
   StatusResult,
-} from "@interfaces/interfaces";
-import { ApiService } from "@services/api.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { GestionService } from "@services/gestion.service";
+} from '@interfaces/interfaces';
+import ApiService from '@services/api.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import GestionService from '@services/gestion.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-installation",
-  templateUrl: "./installation.component.html",
-  styleUrls: ["./installation.component.scss"],
+  selector: 'otpv-installation',
+  templateUrl: './installation.component.html',
+  styleUrls: ['./installation.component.scss'],
   imports: [
     FormsModule,
     RouterModule,
@@ -48,33 +48,39 @@ import { GestionService } from "@services/gestion.service";
   ],
 })
 export default class InstallationComponent implements OnInit {
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private gs: GestionService = inject(GestionService);
+  private router: Router = inject(Router);
+  private config: ConfigService = inject(ConfigService);
+
   back: boolean = false;
 
   paso: number = 1;
-  nombre: string = "";
-  nombreComercial: string = "";
-  cif: string = "";
-  telefono: string = "";
-  direccion: string = "";
-  poblacion: string = "";
-  email: string = "";
+  nombre: string = '';
+  nombreComercial: string = '';
+  cif: string = '';
+  telefono: string = '';
+  direccion: string = '';
+  poblacion: string = '';
+  email: string = '';
   showEmployee: boolean = true;
-  nombreEmpleado: string = "";
-  pass: string = "";
-  confPass: string = "";
-  logo: string = "";
-  color: string = "#3f51b5";
-  twitter: string = "";
-  facebook: string = "";
-  instagram: string = "";
-  web: string = "";
+  nombreEmpleado: string = '';
+  pass: string = '';
+  confPass: string = '';
+  logo: string = '';
+  color: string = '#3f51b5';
+  twitter: string = '';
+  facebook: string = '';
+  instagram: string = '';
+  web: string = '';
   cajaInicial: number = 0;
   ticketInicial: number = 1;
   facturaInicial: number = 1;
 
   ivareOptions: IvaReOptionInterface[] = [
-    { id: "iva", name: "IVA" },
-    { id: "re", name: "IVA + Recargo de equivalencia" },
+    { id: 'iva', name: 'IVA' },
+    { id: 're', name: 'IVA + Recargo de equivalencia' },
   ];
   ivaOptionsList: IvaOptionInterface[] = [
     { option: 4, selected: false },
@@ -87,7 +93,7 @@ export default class InstallationComponent implements OnInit {
   selectedIvaList: number[] = [];
   selectedReList: number[] = [];
 
-  selectedOption: string = "iva";
+  selectedOption: string = 'iva';
   selectedOptionInList: number = null;
 
   marginList: MarginOptionInterface[] = [
@@ -111,22 +117,14 @@ export default class InstallationComponent implements OnInit {
     { value: 95, checked: false },
   ];
 
-  hasOnline: string = "0";
-  urlApi: string = "";
-  secretApi: string = "";
-  backupApiKey: string = "";
-  hasExpiryDate: string = "0";
-  hasEmpleados: string = "0";
+  hasOnline: string = '0';
+  urlApi: string = '';
+  secretApi: string = '';
+  backupApiKey: string = '';
+  hasExpiryDate: string = '0';
+  hasEmpleados: string = '0';
 
   saving: boolean = false;
-
-  constructor(
-    private dialog: DialogService,
-    private as: ApiService,
-    private gs: GestionService,
-    private router: Router,
-    private config: ConfigService
-  ) {}
 
   ngOnInit(): void {
     if (this.gs.empleado) {
@@ -145,7 +143,7 @@ export default class InstallationComponent implements OnInit {
       this.cajaInicial = this.config.cajaInicial;
       this.ticketInicial = this.config.ticketInicial;
       this.facturaInicial = this.config.facturaInicial;
-      this.logo = environment.baseUrl + "/logo.jpg";
+      this.logo = environment.baseUrl + '/logo.jpg';
       this.showEmployee = false;
 
       this.selectedOption = this.config.tipoIva;
@@ -167,17 +165,17 @@ export default class InstallationComponent implements OnInit {
         this.marginList[marginInd].checked = true;
       }
 
-      this.hasOnline = this.config.ventaOnline ? "1" : "0";
+      this.hasOnline = this.config.ventaOnline ? '1' : '0';
       this.urlApi = this.config.urlApi;
       this.secretApi = this.config.secretApi;
       this.backupApiKey = this.config.backupApiKey;
-      this.hasExpiryDate = this.config.fechaCad ? "1" : "0";
-      this.hasEmpleados = this.config.empleados ? "1" : "0";
+      this.hasExpiryDate = this.config.fechaCad ? '1' : '0';
+      this.hasEmpleados = this.config.empleados ? '1' : '0';
     }
   }
 
   addLogo(): void {
-    document.getElementById("logo-file").click();
+    document.getElementById('logo-file').click();
   }
 
   onLogoChange(ev: Event): void {
@@ -190,7 +188,7 @@ export default class InstallationComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.logo = reader.result as string;
-        (<HTMLInputElement>document.getElementById("logo-file")).value = "";
+        (<HTMLInputElement>document.getElementById('logo-file')).value = '';
       };
     }
   }
@@ -238,86 +236,86 @@ export default class InstallationComponent implements OnInit {
   }
 
   saveConfiguration(): void {
-    if (this.nombre === "") {
+    if (this.nombre === '') {
       this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar el nombre del negocio en blanco!",
-        ok: "Continuar",
+        title: 'Error',
+        content: '¡No puedes dejar el nombre del negocio en blanco!',
+        ok: 'Continuar',
       });
       this.paso = 1;
       return;
     }
-    if (this.nombreComercial === "") {
+    if (this.nombreComercial === '') {
       this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar el nombre comercial en blanco!",
-        ok: "Continuar",
+        title: 'Error',
+        content: '¡No puedes dejar el nombre comercial en blanco!',
+        ok: 'Continuar',
       });
       this.paso = 1;
       return;
     }
-    if (this.cif === "") {
+    if (this.cif === '') {
       this.dialog.alert({
-        title: "Error",
-        content: "¡No puedes dejar el CIF del negocio en blanco!",
-        ok: "Continuar",
+        title: 'Error',
+        content: '¡No puedes dejar el CIF del negocio en blanco!',
+        ok: 'Continuar',
       });
       this.paso = 1;
       return;
     }
-    if (this.logo === "") {
+    if (this.logo === '') {
       this.dialog.alert({
-        title: "Error",
-        content: "¡No has añadido ningún logo!",
-        ok: "Continuar",
+        title: 'Error',
+        content: '¡No has añadido ningún logo!',
+        ok: 'Continuar',
       });
       this.paso = 1;
       return;
     }
     if (!this.gs.empleado) {
-      if (this.nombreEmpleado === "") {
+      if (this.nombreEmpleado === '') {
         this.dialog.alert({
-          title: "Error",
+          title: 'Error',
           content:
-            "¡No puedes dejar el nombre del empleado por defecto en blanco!",
-          ok: "Continuar",
+            '¡No puedes dejar el nombre del empleado por defecto en blanco!',
+          ok: 'Continuar',
         });
         this.paso = 1;
         return;
       }
-      if (this.pass === "") {
+      if (this.pass === '') {
         this.dialog.alert({
-          title: "Error",
-          content: "¡No puedes dejar la contraseña en blanco!",
-          ok: "Continuar",
+          title: 'Error',
+          content: '¡No puedes dejar la contraseña en blanco!',
+          ok: 'Continuar',
         });
         this.paso = 1;
         return;
       }
-      if (this.confPass === "") {
+      if (this.confPass === '') {
         this.dialog.alert({
-          title: "Error",
+          title: 'Error',
           content:
-            "¡No puedes dejar la confirmación de la contraseña en blanco!",
-          ok: "Continuar",
+            '¡No puedes dejar la confirmación de la contraseña en blanco!',
+          ok: 'Continuar',
         });
         this.paso = 1;
         return;
       }
       if (this.pass !== this.confPass) {
         this.dialog.alert({
-          title: "Error",
-          content: "¡Las contraseñas introducidas no coinciden!",
-          ok: "Continuar",
+          title: 'Error',
+          content: '¡Las contraseñas introducidas no coinciden!',
+          ok: 'Continuar',
         });
         this.paso = 1;
         return;
       }
-      if (this.color === "") {
+      if (this.color === '') {
         this.dialog.alert({
-          title: "Error",
-          content: "¡No puedes dejar el color en blanco!",
-          ok: "Continuar",
+          title: 'Error',
+          content: '¡No puedes dejar el color en blanco!',
+          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -325,17 +323,17 @@ export default class InstallationComponent implements OnInit {
     }
     if (this.optionsList.length == 0) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
-          "¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!",
-        ok: "Continuar",
+          '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!',
+        ok: 'Continuar',
       });
       this.paso = 2;
       return;
     }
     for (const option of this.optionsList) {
       this.selectedIvaList.push(this.ivaOptionsList[option].option);
-      if (this.selectedOption === "re") {
+      if (this.selectedOption === 're') {
         this.selectedReList.push(this.reOptionsList[option]);
       }
     }
@@ -345,21 +343,21 @@ export default class InstallationComponent implements OnInit {
       .map((v: MarginOptionInterface): number => v.value);
     if (selectedMargins.length == 0) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
-          "¡No has elegido ningún valor en la lista de margenes de beneficio!",
-        ok: "Continuar",
+          '¡No has elegido ningún valor en la lista de margenes de beneficio!',
+        ok: 'Continuar',
       });
       this.paso = 2;
       return;
     }
 
-    if (this.hasOnline === "1" && this.urlApi === "") {
+    if (this.hasOnline === '1' && this.urlApi === '') {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
-          "Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.",
-        ok: "Continuar",
+          'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.',
+        ok: 'Continuar',
       });
       this.paso = 3;
       return;
@@ -388,42 +386,42 @@ export default class InstallationComponent implements OnInit {
       ivaList: this.selectedIvaList,
       reList: this.selectedReList,
       marginList: selectedMargins,
-      ventaOnline: this.hasOnline == "1",
+      ventaOnline: this.hasOnline == '1',
       urlApi: this.urlApi,
       secretApi: this.secretApi,
       backupApiKey: this.backupApiKey,
-      fechaCad: this.hasExpiryDate == "1",
-      empleados: this.hasEmpleados == "1",
+      fechaCad: this.hasExpiryDate == '1',
+      empleados: this.hasEmpleados == '1',
     };
 
     this.saving = true;
     this.as
       .saveInstallation(data)
       .subscribe((result: StatusResult): boolean => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog
             .alert({
-              title: "Información",
+              title: 'Información',
               content:
-                "Los datos han sido guardados, puedes continuar con la aplicación. ",
-              ok: "Continuar",
+                'Los datos han sido guardados, puedes continuar con la aplicación. ',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
-              this.config.status = "new";
+              this.config.status = 'new';
               this.config.start().then((): void => {
                 if (!this.gs.empleado) {
-                  this.router.navigate(["/"]);
+                  this.router.navigate(['/']);
                 } else {
-                  this.router.navigate(["/gestion"]);
+                  this.router.navigate(['/gestion']);
                 }
               });
             });
         } else {
           this.saving = false;
           this.dialog.alert({
-            title: "Error",
-            content: "¡Ocurrió un error al guardar los datos!",
-            ok: "Continuar",
+            title: 'Error',
+            content: '¡Ocurrió un error al guardar los datos!',
+            ok: 'Continuar',
           });
           return false;
         }

@@ -1,33 +1,34 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, WritableSignal, signal } from "@angular/core";
-import { environment } from "@env/environment";
-import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { environment } from '@env/environment';
+import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import {
   ComercialInterface,
   ProveedorInterface,
   ProveedoresResult,
-} from "@interfaces/proveedor.interface";
-import { Proveedor } from "@model/proveedores/proveedor.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { Observable } from "rxjs";
+} from '@interfaces/proveedor.interface';
+import Proveedor from '@model/proveedores/proveedor.model';
+import ClassMapperService from '@services/class-mapper.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class ProveedoresService {
+export default class ProveedoresService {
+  private http: HttpClient = inject(HttpClient);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([]);
   loaded: boolean = false;
-
-  constructor(private http: HttpClient, private cms: ClassMapperService) {}
 
   load(): Promise<string> {
     return new Promise((resolve) => {
       if (this.loaded) {
-        resolve("ok");
+        resolve('ok');
       } else {
         this.getProveedores().subscribe((result: ProveedoresResult): void => {
           this.loadProveedores(this.cms.getProveedores(result.list));
-          resolve("ok");
+          resolve('ok');
         });
       }
     });
@@ -35,7 +36,7 @@ export class ProveedoresService {
 
   getProveedores(): Observable<ProveedoresResult> {
     return this.http.post<ProveedoresResult>(
-      environment.apiUrl + "-proveedores/get-proveedores",
+      environment.apiUrl + '-proveedores/get-proveedores',
       {}
     );
   }
@@ -62,28 +63,28 @@ export class ProveedoresService {
 
   saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
     return this.http.post<IdSaveResult>(
-      environment.apiUrl + "-proveedores/save-proveedor",
+      environment.apiUrl + '-proveedores/save-proveedor',
       proveedor
     );
   }
 
   deleteProveedor(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-proveedores/delete-proveedor",
+      environment.apiUrl + '-proveedores/delete-proveedor',
       { id }
     );
   }
 
   saveComercial(comercial: ComercialInterface): Observable<IdSaveResult> {
     return this.http.post<IdSaveResult>(
-      environment.apiUrl + "-proveedores/save-comercial",
+      environment.apiUrl + '-proveedores/save-comercial',
       comercial
     );
   }
 
   deleteComercial(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-proveedores/delete-comercial",
+      environment.apiUrl + '-proveedores/delete-comercial',
       { id }
     );
   }

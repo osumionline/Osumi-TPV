@@ -1,33 +1,33 @@
-import { NgClass } from "@angular/common";
-import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
+import { NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardContent,
   MatCardHeader,
   MatCardTitle,
-} from "@angular/material/card";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatTab, MatTabGroup } from "@angular/material/tabs";
-import { Router } from "@angular/router";
-import { CierreCajaResult } from "@interfaces/caja.interface";
-import { StatusResult } from "@interfaces/interfaces";
-import { CierreCaja } from "@model/caja/cierre-caja.model";
-import { getCurrentDate } from "@osumi/tools";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@angular/material/card';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { Router } from '@angular/router';
+import { CierreCajaResult } from '@interfaces/caja.interface';
+import { StatusResult } from '@interfaces/interfaces';
+import CierreCaja from '@model/caja/cierre-caja.model';
+import { getCurrentDate } from '@osumi/tools';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-cierre-caja",
-  templateUrl: "./cierre-caja.component.html",
-  styleUrls: ["./cierre-caja.component.scss"],
+  selector: 'otpv-cierre-caja',
+  templateUrl: './cierre-caja.component.html',
+  styleUrls: ['./cierre-caja.component.scss'],
   imports: [
     FormsModule,
     FixedNumberPipe,
@@ -46,17 +46,15 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatIcon,
   ],
 })
-export class CierreCajaComponent {
+export default class CierreCajaComponent {
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  public config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+  private router: Router = inject(Router);
+
   cierreCaja: CierreCaja = new CierreCaja();
   showCoins: boolean = false;
-
-  constructor(
-    private as: ApiService,
-    private cms: ClassMapperService,
-    public config: ConfigService,
-    private dialog: DialogService,
-    private router: Router
-  ) {}
 
   load(): void {
     const date: string = getCurrentDate();
@@ -91,9 +89,9 @@ export class CierreCajaComponent {
   cerrarCaja(): void {
     if (this.cierreCaja.real === null) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content: 'El campo "Importe real" es obligatorio.',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
       return;
     }
@@ -101,11 +99,11 @@ export class CierreCajaComponent {
     if (this.cierreCaja.diferencia < 0) {
       this.dialog
         .confirm({
-          title: "Confirmar",
+          title: 'Confirmar',
           content:
-            "Atención, la diferencia de caja es negativa. ¿Estás seguro de querer continuar?",
-          ok: "Continuar",
-          cancel: "Cancelar",
+            'Atención, la diferencia de caja es negativa. ¿Estás seguro de querer continuar?',
+          ok: 'Continuar',
+          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -121,14 +119,14 @@ export class CierreCajaComponent {
     this.as
       .saveCierreCaja(this.cierreCaja.toInterface())
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.config.isOpened = false;
-          this.router.navigate(["/"]);
+          this.router.navigate(['/']);
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al realizar el cierre de caja.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al realizar el cierre de caja.',
+            ok: 'Continuar',
           });
         }
       });

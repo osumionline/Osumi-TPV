@@ -1,7 +1,7 @@
-import { CierreCajaTipoInterface } from "@interfaces/caja.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { CierreCajaTipoInterface } from '@interfaces/caja.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class CierreCajaTipo {
+export default class CierreCajaTipo {
   real: number = null;
   show: boolean = false;
 

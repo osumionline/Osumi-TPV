@@ -1,24 +1,26 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
   InventarioItemInterface,
-} from "@interfaces/almacen.interface";
+} from '@interfaces/almacen.interface';
 import {
   StatusIdMessageErrorsResult,
   StatusIdMessageResult,
   StatusResult,
-} from "@interfaces/interfaces";
-import { InventarioItem } from "@model/almacen/inventario-item.model";
-import { Articulo } from "@model/articulos/articulo.model";
-import { Observable } from "rxjs";
+} from '@interfaces/interfaces';
+import InventarioItem from '@model/almacen/inventario-item.model';
+import Articulo from '@model/articulos/articulo.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class AlmacenService {
+export default class AlmacenService {
+  private http: HttpClient = inject(HttpClient);
+
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,
     idMarca: null,
@@ -34,13 +36,11 @@ export class AlmacenService {
   pageIndex: number = 0;
   firstLoad: boolean = true;
 
-  constructor(private http: HttpClient) {}
-
   getInventario(
     data: BuscadorAlmacenInterface
   ): Observable<BuscadorAlmacenResult> {
     return this.http.post<BuscadorAlmacenResult>(
-      environment.apiUrl + "-almacen/get-inventario",
+      environment.apiUrl + '-almacen/get-inventario',
       data
     );
   }
@@ -49,7 +49,7 @@ export class AlmacenService {
     item: InventarioItemInterface
   ): Observable<StatusIdMessageResult> {
     return this.http.post<StatusIdMessageResult>(
-      environment.apiUrl + "-almacen/save-inventario",
+      environment.apiUrl + '-almacen/save-inventario',
       item
     );
   }
@@ -58,24 +58,24 @@ export class AlmacenService {
     list: InventarioItemInterface[]
   ): Observable<StatusIdMessageErrorsResult> {
     return this.http.post<StatusIdMessageErrorsResult>(
-      environment.apiUrl + "-almacen/save-all-inventario",
+      environment.apiUrl + '-almacen/save-all-inventario',
       { list }
     );
   }
 
   deleteInventario(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-almacen/delete-inventario",
+      environment.apiUrl + '-almacen/delete-inventario',
       { id }
     );
   }
 
   exportInventario(data: BuscadorAlmacenInterface): Observable<any> {
     return this.http.post(
-      environment.apiUrl + "-almacen/export-inventario",
+      environment.apiUrl + '-almacen/export-inventario',
       data,
       {
-        responseType: "text",
+        responseType: 'text',
       }
     );
   }

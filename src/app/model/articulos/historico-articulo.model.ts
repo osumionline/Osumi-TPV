@@ -1,6 +1,6 @@
-import { HistoricoArticuloInterface } from "@interfaces/articulo.interface";
+import { HistoricoArticuloInterface } from '@interfaces/articulo.interface';
 
-export class HistoricoArticulo {
+export default class HistoricoArticulo {
   constructor(
     public id: number = null,
     public tipo: number = null,

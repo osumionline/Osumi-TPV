@@ -1,4 +1,4 @@
-export class FacturaItem {
+export default class FacturaItem {
   deployed: boolean = false;
 
   constructor(

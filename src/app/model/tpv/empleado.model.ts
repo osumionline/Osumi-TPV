@@ -1,12 +1,12 @@
 import {
   EmpleadoInterface,
   EmpleadoLoginInterface,
-} from "@interfaces/empleado.interface";
-import { ColorValues } from "@interfaces/interfaces";
-import { hexToRgbFloat, urldecode, urlencode } from "@osumi/tools";
-import { rolList } from "@shared/rol.class";
+} from '@interfaces/empleado.interface';
+import { ColorValues } from '@interfaces/interfaces';
+import { hexToRgbFloat, urldecode, urlencode } from '@osumi/tools';
+import { rolList } from '@shared/rol.class';
 
-export class Empleado {
+export default class Empleado {
   pass: string = null;
   _textColor: string = null;
 
@@ -23,12 +23,12 @@ export class Empleado {
       return this._textColor;
     }
     if (!this.color) {
-      this._textColor = "#000";
+      this._textColor = '#000';
       return this._textColor;
     }
     const color: ColorValues = hexToRgbFloat(this.color);
     if (!color) {
-      this._textColor = "#000";
+      this._textColor = '#000';
       return this._textColor;
     }
     const o: number = Math.round(
@@ -39,9 +39,9 @@ export class Empleado {
     );
 
     if (o > 125) {
-      this._textColor = "#000";
+      this._textColor = '#000';
     } else {
-      this._textColor = "#fff";
+      this._textColor = '#fff';
     }
     return this._textColor;
   }
@@ -58,9 +58,9 @@ export class Empleado {
 
   fromDefault(id: number, color: string): Empleado {
     this.id = id;
-    this.nombre = "";
+    this.nombre = '';
     this.color = color;
-    this.roles = [rolList.ventas.roles["modificarImportes"].id];
+    this.roles = [rolList.ventas.roles['modificarImportes'].id];
 
     return this;
   }

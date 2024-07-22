@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Marca } from "@model/marcas/marca.model";
+import { Pipe, PipeTransform } from '@angular/core';
+import Marca from '@model/marcas/marca.model';
 
 @Pipe({
   standalone: true,
-  name: "brandListFilter",
+  name: 'brandListFilter',
 })
-export class BrandListFilterPipe implements PipeTransform {
+export default class BrandListFilterPipe implements PipeTransform {
   transform(list: Marca[], filter: string): Marca[] {
-    if (filter === "") {
+    if (filter === '') {
       return list;
     }
     return list.filter((m: Marca): boolean => {

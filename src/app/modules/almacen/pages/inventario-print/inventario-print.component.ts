@@ -4,23 +4,23 @@ import {
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ActivatedRoute, Params } from "@angular/router";
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Params } from '@angular/router';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
-} from "@interfaces/almacen.interface";
-import { InventarioItem } from "@model/almacen/inventario-item.model";
-import { AlmacenService } from "@services/almacen.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/almacen.interface';
+import InventarioItem from '@model/almacen/inventario-item.model';
+import AlmacenService from '@services/almacen.service';
+import ClassMapperService from '@services/class-mapper.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-inventario-print",
-  templateUrl: "./inventario-print.component.html",
-  styleUrls: ["./inventario-print.component.scss"],
+  selector: 'otpv-inventario-print',
+  templateUrl: './inventario-print.component.html',
+  styleUrls: ['./inventario-print.component.scss'],
   imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InventarioPrintComponent implements OnInit {
@@ -31,13 +31,13 @@ export default class InventarioPrintComponent implements OnInit {
   buscador: BuscadorAlmacenInterface | null = null;
   list: InventarioItem[] = [];
   inventarioDisplayedColumns: string[] = [
-    "localizador",
-    "marca",
-    "referencia",
-    "nombre",
-    "stock",
-    "pvp",
-    "margen",
+    'localizador',
+    'marca',
+    'referencia',
+    'nombre',
+    'stock',
+    'pvp',
+    'margen',
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
@@ -45,7 +45,7 @@ export default class InventarioPrintComponent implements OnInit {
   totalPUC: WritableSignal<number> = signal<number>(0);
 
   constructor() {
-    document.body.classList.add("white-bg");
+    document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export default class InventarioPrintComponent implements OnInit {
         this.buscador = null;
       }
       if (this.buscador === null) {
-        alert("¡Ocurrió un error al obtener los datos!");
+        alert('¡Ocurrió un error al obtener los datos!');
       } else {
         this.load();
       }

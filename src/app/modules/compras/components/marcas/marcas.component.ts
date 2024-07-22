@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -16,10 +16,10 @@ import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
-import { Marca } from '@model/marcas/marca.model';
-import { DialogService } from '@services/dialog.service';
-import { MarcasService } from '@services/marcas.service';
-import { BrandListFilterPipe } from '@shared/pipes/brand-list-filter.pipe';
+import Marca from '@model/marcas/marca.model';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
 
 @Component({
   standalone: true,
@@ -43,7 +43,10 @@ import { BrandListFilterPipe } from '@shared/pipes/brand-list-filter.pipe';
     MatTab,
   ],
 })
-export class MarcasComponent {
+export default class MarcasComponent {
+  public ms: MarcasService = inject(MarcasService);
+  private dialog: DialogService = inject(DialogService);
+
   search: string = '';
   @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   start: boolean = true;
@@ -65,8 +68,6 @@ export class MarcasComponent {
   });
   originalValue: MarcaInterface = null;
   canSeeStatistics: boolean = false;
-
-  constructor(public ms: MarcasService, private dialog: DialogService) {}
 
   searchFocus(): void {
     setTimeout((): void => {

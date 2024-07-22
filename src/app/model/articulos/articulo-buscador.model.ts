@@ -1,7 +1,7 @@
-import { ArticuloBuscadorInterface } from "@interfaces/articulo.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { ArticuloBuscadorInterface } from '@interfaces/articulo.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class ArticuloBuscador {
+export default class ArticuloBuscador {
   num: number = 0;
 
   constructor(

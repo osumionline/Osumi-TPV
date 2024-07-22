@@ -1,10 +1,10 @@
-import { CategoriaInterface } from "@interfaces/articulo.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { CategoriaInterface } from '@interfaces/articulo.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Categoria {
+export default class Categoria {
   constructor(
     public id: number = -1,
-    public nombre: string = "",
+    public nombre: string = '',
     public profundidad: number = -1,
     public hijos: Categoria[] = []
   ) {}

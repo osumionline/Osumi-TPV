@@ -1,24 +1,24 @@
-import { environment } from "@env/environment";
-import { FotoInterface } from "@interfaces/articulo.interface";
+import { environment } from '@env/environment';
+import { FotoInterface } from '@interfaces/articulo.interface';
 
-export class Foto {
-  status: string = "new";
+export default class Foto {
+  status: string = 'new';
   data: string = null;
 
   constructor(public id: number = null) {
     if (id !== null) {
-      this.status = "ok";
+      this.status = 'ok';
     }
   }
 
   load(str: string): void {
-    this.status = "new";
+    this.status = 'new';
     this.data = str;
   }
 
   get url(): string {
-    if (this.status === "ok") {
-      return environment.fotosUrl + this.id + ".webp";
+    if (this.status === 'ok') {
+      return environment.fotosUrl + this.id + '.webp';
     } else {
       return this.data;
     }

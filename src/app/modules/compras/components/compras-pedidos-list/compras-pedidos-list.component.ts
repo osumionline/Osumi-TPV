@@ -1,50 +1,50 @@
-import { NgClass } from "@angular/common";
-import { Component } from "@angular/core";
+import { NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-} from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
+} from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardContent,
   MatCardHeader,
   MatCardTitle,
-} from "@angular/material/card";
-import { MatNativeDateModule, MatOption } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
+} from '@angular/material/card';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
   PageEvent,
-} from "@angular/material/paginator";
-import { MatSelect } from "@angular/material/select";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltip } from "@angular/material/tooltip";
-import { Router, RouterModule } from "@angular/router";
+} from '@angular/material/paginator';
+import { MatSelect } from '@angular/material/select';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router, RouterModule } from '@angular/router';
 import {
   PedidosAllResult,
   PedidosFilterInterface,
   PedidosResult,
-} from "@interfaces/pedido.interface";
-import { Pedido } from "@model/compras/pedido.model";
-import { getDate } from "@osumi/tools";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ComprasService } from "@services/compras.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { CustomPaginatorIntl } from "@shared/custom-paginator-intl.class";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/pedido.interface';
+import Pedido from '@model/compras/pedido.model';
+import { getDate } from '@osumi/tools';
+import ClassMapperService from '@services/class-mapper.service';
+import ComprasService from '@services/compras.service';
+import ProveedoresService from '@services/proveedores.service';
+import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-compras-pedidos-list",
-  templateUrl: "./compras-pedidos-list.component.html",
-  styleUrls: ["./compras-pedidos-list.component.scss"],
+  selector: 'otpv-compras-pedidos-list',
+  templateUrl: './compras-pedidos-list.component.html',
+  styleUrls: ['./compras-pedidos-list.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
     NgClass,
@@ -71,7 +71,12 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatPaginatorModule,
   ],
 })
-export class ComprasPedidosListComponent {
+export default class ComprasPedidosListComponent {
+  public comprasService: ComprasService = inject(ComprasService);
+  public proveedoresService: ProveedoresService = inject(ProveedoresService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private router: Router = inject(Router);
+
   numPorPag: number = 10;
   pedidosGuardados: Pedido[] = [];
   pageGuardadosIndex: number = 0;
@@ -129,32 +134,25 @@ export class ComprasPedidosListComponent {
   });
 
   pedidosGuardadosDisplayedColumns: string[] = [
-    "fechaPedido",
-    "proveedor",
-    "num",
-    "importe",
+    'fechaPedido',
+    'proveedor',
+    'num',
+    'importe',
   ];
   pedidosRecepcionadosDisplayedColumns: string[] = [
-    "fechaRecepcionado",
-    "fechaPedido",
-    "fechaPago",
-    "proveedor",
-    "num",
-    "importe",
-    "iconos",
+    'fechaRecepcionado',
+    'fechaPedido',
+    'fechaPago',
+    'proveedor',
+    'num',
+    'importe',
+    'iconos',
   ];
 
   pedidosGuardadosDataSource: MatTableDataSource<Pedido> =
     new MatTableDataSource<Pedido>();
   pedidosRecepcionadosDataSource: MatTableDataSource<Pedido> =
     new MatTableDataSource<Pedido>();
-
-  constructor(
-    public comprasService: ComprasService,
-    public proveedoresService: ProveedoresService,
-    private cms: ClassMapperService,
-    private router: Router
-  ) {}
 
   load(): void {
     const filters: PedidosFilterInterface = {
@@ -201,18 +199,18 @@ export class ComprasPedidosListComponent {
 
   filtrarGuardados(): void {
     this.guardadosFilter.fechaDesde = getDate(
-      this.formGuardados.get("fechaDesde").value
+      this.formGuardados.get('fechaDesde').value
     );
     this.guardadosFilter.fechaHasta = getDate(
-      this.formGuardados.get("fechaHasta").value
+      this.formGuardados.get('fechaHasta').value
     );
     this.guardadosFilter.idProveedor =
-      this.formGuardados.get("idProveedor").value;
-    this.guardadosFilter.albaran = this.formGuardados.get("albaran").value;
+      this.formGuardados.get('idProveedor').value;
+    this.guardadosFilter.albaran = this.formGuardados.get('albaran').value;
     this.guardadosFilter.importeDesde =
-      this.formGuardados.get("importeDesde").value;
+      this.formGuardados.get('importeDesde').value;
     this.guardadosFilter.importeHasta =
-      this.formGuardados.get("importeHasta").value;
+      this.formGuardados.get('importeHasta').value;
     this.comprasService
       .getPedidosGuardados(this.guardadosFilter)
       .subscribe((result: PedidosResult): void => {
@@ -234,19 +232,19 @@ export class ComprasPedidosListComponent {
 
   filtrarRecepcionados(): void {
     this.recepcionadosFilter.fechaDesde = getDate(
-      this.formRecepcionados.get("fechaDesde").value
+      this.formRecepcionados.get('fechaDesde').value
     );
     this.recepcionadosFilter.fechaHasta = getDate(
-      this.formRecepcionados.get("fechaHasta").value
+      this.formRecepcionados.get('fechaHasta').value
     );
     this.recepcionadosFilter.idProveedor =
-      this.formRecepcionados.get("idProveedor").value;
+      this.formRecepcionados.get('idProveedor').value;
     this.recepcionadosFilter.albaran =
-      this.formRecepcionados.get("albaran").value;
+      this.formRecepcionados.get('albaran').value;
     this.recepcionadosFilter.importeDesde =
-      this.formRecepcionados.get("importeDesde").value;
+      this.formRecepcionados.get('importeDesde').value;
     this.recepcionadosFilter.importeHasta =
-      this.formRecepcionados.get("importeHasta").value;
+      this.formRecepcionados.get('importeHasta').value;
     this.comprasService
       .getPedidosRecepcionados(this.recepcionadosFilter)
       .subscribe((result: PedidosResult): void => {
@@ -258,7 +256,7 @@ export class ComprasPedidosListComponent {
   }
 
   goToPedido(pedido: Pedido): void {
-    this.router.navigate(["/compras/pedido", pedido.id]);
+    this.router.navigate(['/compras/pedido', pedido.id]);
   }
 
   changePageGuardados(ev: PageEvent): void {

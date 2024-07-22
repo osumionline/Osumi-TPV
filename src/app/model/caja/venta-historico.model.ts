@@ -1,11 +1,11 @@
 import {
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
-} from "@interfaces/caja.interface";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/caja.interface';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class VentaHistorico {
+export default class VentaHistorico {
   _totalUnidades: number = null;
   _totalDescuento: number = null;
 

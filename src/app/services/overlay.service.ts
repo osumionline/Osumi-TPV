@@ -1,15 +1,16 @@
-import { Overlay, OverlayConfig } from "@angular/cdk/overlay";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { Injectable, Injector, Type } from "@angular/core";
-import { Modal } from "@interfaces/modals.interface";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { OverlayComponent } from "@shared/components/overlay/overlay.component";
+import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { inject, Injectable, Injector, Type } from '@angular/core';
+import { Modal } from '@interfaces/modals.interface';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import OverlayComponent from '@shared/components/overlay/overlay.component';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class OverlayService {
-  constructor(private overlay: Overlay, private injector: Injector) {}
+export default class OverlayService {
+  private overlay: Overlay = inject(Overlay);
+  private injector: Injector = inject(Injector);
 
   open<R = any>(
     content: Type<any>,
@@ -17,15 +18,15 @@ export class OverlayService {
     panelCssClasses: string[] = [],
     closeOnBackdropCLick: boolean = true
   ): CustomOverlayRef<R> {
-    const _panelCssClasses: string[] = ["modal-panel", "is-active"].concat(
+    const _panelCssClasses: string[] = ['modal-panel', 'is-active'].concat(
       panelCssClasses
     );
     const config = new OverlayConfig({
       hasBackdrop: true,
       panelClass: _panelCssClasses,
-      backdropClass: "modal-background",
-      width: "100%",
-      height: "100%",
+      backdropClass: 'modal-background',
+      width: '100%',
+      height: '100%',
     });
 
     const overlayRef = this.overlay.create(config);

@@ -1,20 +1,20 @@
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "@interfaces/proveedor.interface";
-import { Comercial } from "@model/proveedores/comercial.model";
-import { urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/proveedor.interface';
+import Comercial from '@model/proveedores/comercial.model';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Proveedor {
+export default class Proveedor {
   constructor(
     public id: number = null,
-    public nombre: string = "",
+    public nombre: string = '',
     public foto: string = null,
-    public direccion: string = "",
-    public telefono: string = "",
-    public email: string = "",
-    public web: string = "",
-    public observaciones: string = "",
+    public direccion: string = '',
+    public telefono: string = '',
+    public email: string = '',
+    public web: string = '',
+    public observaciones: string = '',
     public marcas: number[] = [],
     public comerciales: Comercial[] = []
   ) {}

@@ -3,29 +3,33 @@ import {
   Component,
   ModelSignal,
   ViewChild,
+  inject,
   model,
-} from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatSort, Sort } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+} from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
   HistoricoArticuloBuscadorInterface,
   HistoricoArticuloResult,
-} from "@interfaces/articulo.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { HistoricoArticulo } from "@model/articulos/historico-articulo.model";
-import { ArticulosService } from "@services/articulos.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/articulo.interface';
+import Articulo from '@model/articulos/articulo.model';
+import HistoricoArticulo from '@model/articulos/historico-articulo.model';
+import ArticulosService from '@services/articulos.service';
+import ClassMapperService from '@services/class-mapper.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  selector: "otpv-un-articulo-historico",
+  selector: 'otpv-un-articulo-historico',
   standalone: true,
   imports: [MatTableModule, MatSort, MatPaginator, FixedNumberPipe],
-  templateUrl: "./un-articulo-historico.component.html",
-  styleUrl: "../un-articulo/un-articulo.component.scss",
+  templateUrl: './un-articulo-historico.component.html',
+  styleUrl: '../un-articulo/un-articulo.component.scss',
 })
-export class UnArticuloHistoricoComponent implements AfterViewInit {
+export default class UnArticuloHistoricoComponent implements AfterViewInit {
+  private ars: ArticulosService = inject(ArticulosService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =
     new MatTableDataSource<HistoricoArticulo>();
@@ -33,26 +37,24 @@ export class UnArticuloHistoricoComponent implements AfterViewInit {
 
   historicoArticuloBuscador: HistoricoArticuloBuscadorInterface = {
     id: null,
-    orderBy: "createdAt",
-    orderSent: "desc",
+    orderBy: 'createdAt',
+    orderSent: 'desc',
     pagina: 1,
     num: 20,
   };
   historicoArticulo: HistoricoArticulo[] = [];
   historicoArticuloPags: number = 0;
   historicoArticuloDisplayedColumns: string[] = [
-    "createdAt",
-    "tipo",
-    "stockPrevio",
-    "diferencia",
-    "stockFinal",
-    "puc",
-    "pvp",
-    "idVenta",
-    "idPedido",
+    'createdAt',
+    'tipo',
+    'stockPrevio',
+    'diferencia',
+    'stockFinal',
+    'puc',
+    'pvp',
+    'idVenta',
+    'idPedido',
   ];
-
-  constructor(private ars: ArticulosService, private cms: ClassMapperService) {}
 
   ngAfterViewInit(): void {
     this.historicoArticuloDataSource.sort = this.sort;
@@ -70,7 +72,7 @@ export class UnArticuloHistoricoComponent implements AfterViewInit {
   }
 
   cambiarOrdenHistoricoArticulo(sort: Sort): void {
-    if (sort.direction === "") {
+    if (sort.direction === '') {
       this.historicoArticuloBuscador.orderBy = null;
       this.historicoArticuloBuscador.orderSent = null;
     } else {

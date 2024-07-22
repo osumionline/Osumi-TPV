@@ -1,7 +1,7 @@
-import { PedidoPDFInterface } from "@interfaces/pedido.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { PedidoPDFInterface } from '@interfaces/pedido.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class PedidoPDF {
+export default class PedidoPDF {
   constructor(
     public id: number = null,
     public data: string = null,

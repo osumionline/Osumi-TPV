@@ -1,7 +1,7 @@
-import { ComercialInterface } from "@interfaces/proveedor.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { ComercialInterface } from '@interfaces/proveedor.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Comercial {
+export default class Comercial {
   constructor(
     public id: number = null,
     public idProveedor: number = null,

@@ -1,7 +1,7 @@
-import { ArticuloUltimaVentaInterface } from "@interfaces/venta.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { ArticuloUltimaVentaInterface } from '@interfaces/venta.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class ArticuloUltimaVenta {
+export default class ArticuloUltimaVenta {
   constructor(
     public fecha: string = null,
     public localizador: number = null,

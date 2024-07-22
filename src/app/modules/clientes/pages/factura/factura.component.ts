@@ -1,33 +1,39 @@
-import { NgClass } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { ActivatedRoute, Data, Params } from "@angular/router";
-import { environment } from "@env/environment";
+import { NgClass } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ActivatedRoute, Data, Params } from '@angular/router';
+import { environment } from '@env/environment';
 import {
   FacturaIVAInterface,
   FacturaResult,
-} from "@interfaces/cliente.interface";
-import { IdSaveResult } from "@interfaces/interfaces";
-import { FacturaItem } from "@model/clientes/factura-item.model";
-import { Factura } from "@model/clientes/factura.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/cliente.interface';
+import { IdSaveResult } from '@interfaces/interfaces';
+import FacturaItem from '@model/clientes/factura-item.model';
+import Factura from '@model/clientes/factura.model';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-factura",
-  templateUrl: "./factura.component.html",
-  styleUrls: ["./factura.component.scss"],
+  selector: 'otpv-factura',
+  templateUrl: './factura.component.html',
+  styleUrls: ['./factura.component.scss'],
   imports: [NgClass, FixedNumberPipe, MatButton, MatIcon],
 })
 export default class FacturaComponent implements OnInit {
-  broadcastChannel: BroadcastChannel = new BroadcastChannel("cliente-facturas");
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  public config: ConfigService = inject(ConfigService);
+  private cs: ClientesService = inject(ClientesService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+
+  broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
   preview: boolean = false;
-  logoUrl: string = environment.baseUrl + "logo.jpg";
+  logoUrl: string = environment.baseUrl + 'logo.jpg';
   deployedAll: boolean = false;
   factura: Factura = new Factura();
   list: FacturaItem[] = [];
@@ -36,19 +42,13 @@ export default class FacturaComponent implements OnInit {
   descuento: number = 0;
   total: number = 0;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    public config: ConfigService,
-    private cs: ClientesService,
-    private cms: ClassMapperService,
-    private dialog: DialogService
-  ) {
-    document.body.classList.add("white-bg");
+  constructor() {
+    document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data): void => {
-      this.preview = data.type === "preview";
+      this.preview = data.type === 'preview';
       this.start();
     });
   }
@@ -74,7 +74,7 @@ export default class FacturaComponent implements OnInit {
   loadData(): void {
     for (const venta of this.factura.ventas) {
       const temp: FacturaItem = new FacturaItem();
-      temp.concepto = "Ticket Nº " + venta.id;
+      temp.concepto = 'Ticket Nº ' + venta.id;
       temp.fecha = venta.fecha;
       temp.total = venta.total;
 
@@ -143,11 +143,11 @@ export default class FacturaComponent implements OnInit {
   imprimir(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
-          "¿Estás seguro de querer imprimir esta factura? Una vez facturada no podrás volver a editarla.",
-        ok: "Continuar",
-        cancel: "Cancelar",
+          '¿Estás seguro de querer imprimir esta factura? Una vez facturada no podrás volver a editarla.',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -160,10 +160,10 @@ export default class FacturaComponent implements OnInit {
     this.cs
       .saveFactura(this.factura.toSaveInterface(true))
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.preview = false;
           this.broadcastChannel.postMessage({
-            type: "imprimir",
+            type: 'imprimir',
             id: this.factura.idCliente,
           });
           this.loadFactura(this.factura.id);

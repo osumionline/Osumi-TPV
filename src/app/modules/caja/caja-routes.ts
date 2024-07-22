@@ -1,24 +1,26 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const CAJA_ROUTES: Route[] = [
+const CAJA_ROUTES: Route[] = [
   {
-    path: "",
-    loadComponent: () => import("@modules/caja/pages/caja/caja.component"),
+    path: '',
+    loadComponent: () => import('@modules/caja/pages/caja/caja.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "informes/detallado/:year/:month",
+    path: 'informes/detallado/:year/:month',
     loadComponent: () =>
       import(
-        "@modules/caja/pages/informe-detallado/informe-detallado.component"
+        '@modules/caja/pages/informe-detallado/informe-detallado.component'
       ),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "informes/simple/:year/:month",
+    path: 'informes/simple/:year/:month',
     loadComponent: () =>
-      import("@modules/caja/pages/informe-simple/informe-simple.component"),
+      import('@modules/caja/pages/informe-simple/informe-simple.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default CAJA_ROUTES;

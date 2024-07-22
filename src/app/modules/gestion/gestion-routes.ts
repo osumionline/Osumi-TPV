@@ -1,38 +1,40 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const GESTION_ROUTES: Route[] = [
+const GESTION_ROUTES: Route[] = [
   {
-    path: "installation",
+    path: 'installation',
     loadComponent: () =>
-      import("@modules/gestion/pages/installation/installation.component"),
+      import('@modules/gestion/pages/installation/installation.component'),
   },
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/gestion/pages/gestion/gestion.component"),
+      import('@modules/gestion/pages/gestion/gestion.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "empleados",
+    path: 'empleados',
     loadComponent: () =>
       import(
-        "@modules/gestion/pages/gestion-empleados/gestion-empleados.component"
+        '@modules/gestion/pages/gestion-empleados/gestion-empleados.component'
       ),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "tipos-pago",
+    path: 'tipos-pago',
     loadComponent: () =>
       import(
-        "@modules/gestion/pages/gestion-tipos-pago/gestion-tipos-pago.component"
+        '@modules/gestion/pages/gestion-tipos-pago/gestion-tipos-pago.component'
       ),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "backup",
+    path: 'backup',
     loadComponent: () =>
-      import("@modules/gestion/pages/backup/backup.component"),
+      import('@modules/gestion/pages/backup/backup.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default GESTION_ROUTES;

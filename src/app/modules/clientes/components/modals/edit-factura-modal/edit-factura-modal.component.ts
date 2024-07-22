@@ -1,26 +1,26 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { NgClass } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { MatButton } from "@angular/material/button";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatIcon } from "@angular/material/icon";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { VentasClienteResult } from "@interfaces/cliente.interface";
-import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
-import { VentaHistorico } from "@model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { Factura } from "@model/clientes/factura.model";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { FixedNumberPipe } from "@modules/shared/pipes/fixed-number.pipe";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { DialogService } from "@services/dialog.service";
+import { SelectionModel } from '@angular/cdk/collections';
+import { NgClass } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { VentasClienteResult } from '@interfaces/cliente.interface';
+import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
+import VentaHistorico from '@model/caja/venta-historico.model';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Factura from '@model/clientes/factura.model';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-edit-factura-modal",
-  templateUrl: "./edit-factura-modal.component.html",
-  styleUrls: ["./edit-factura-modal.component.scss"],
+  selector: 'otpv-edit-factura-modal',
+  templateUrl: './edit-factura-modal.component.html',
+  styleUrls: ['./edit-factura-modal.component.scss'],
   imports: [
     NgClass,
     FixedNumberPipe,
@@ -30,15 +30,23 @@ import { DialogService } from "@services/dialog.service";
     MatIcon,
   ],
 })
-export class EditFacturaModalComponent implements OnInit {
-  title: string = "Selecciona las ventas que quieras incluir en la factura:";
+export default class EditFacturaModalComponent implements OnInit {
+  private cs: ClientesService = inject(ClientesService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private customOverlayRef: CustomOverlayRef<
+    null,
+    { id: number; factura: Factura }
+  > = inject(CustomOverlayRef);
+
+  title: string = 'Selecciona las ventas que quieras incluir en la factura:';
   factura: Factura = new Factura();
 
   ventasDisplayedColumns: string[] = [
-    "select",
-    "fecha",
-    "importe",
-    "nombreTipoPago",
+    'select',
+    'fecha',
+    'importe',
+    'nombreTipoPago',
   ];
   ventasCliente: VentaHistorico[] = [];
   ventasDataSource: MatTableDataSource<VentaHistorico> =
@@ -49,35 +57,25 @@ export class EditFacturaModalComponent implements OnInit {
 
   ventaSelected: VentaHistorico = new VentaHistorico();
   ventaSelectedDisplayedColumns: string[] = [
-    "localizador",
-    "marca",
-    "articulo",
-    "unidades",
-    "pvp",
-    "descuento",
-    "importe",
+    'localizador',
+    'marca',
+    'articulo',
+    'unidades',
+    'pvp',
+    'descuento',
+    'importe',
   ];
   ventaSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
-
-  constructor(
-    private cs: ClientesService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private customOverlayRef: CustomOverlayRef<
-      null,
-      { id: number; factura: Factura }
-    >
-  ) {}
 
   ngOnInit(): void {
     this.ventaSelected = new VentaHistorico();
     if (this.customOverlayRef.data.id !== null) {
       this.ventasDisplayedColumns = [
-        "select",
-        "fecha",
-        "importe",
-        "nombreTipoPago",
+        'select',
+        'fecha',
+        'importe',
+        'nombreTipoPago',
       ];
       this.loadVentas(this.customOverlayRef.data.id);
     }
@@ -88,18 +86,18 @@ export class EditFacturaModalComponent implements OnInit {
 
   abreFactura(factura: Factura): void {
     this.factura = factura;
-    this.title = "Ventas incluidas en la factura " + this.factura.id + ":";
+    this.title = 'Ventas incluidas en la factura ' + this.factura.id + ':';
     this.ventaSelected = new VentaHistorico();
     if (this.factura.impresa) {
-      this.ventasDisplayedColumns = ["fecha", "importe", "nombreTipoPago"];
+      this.ventasDisplayedColumns = ['fecha', 'importe', 'nombreTipoPago'];
       this.ventasCliente = this.factura.ventas;
       this.ventasDataSource.data = this.ventasCliente;
     } else {
       this.ventasDisplayedColumns = [
-        "select",
-        "fecha",
-        "importe",
-        "nombreTipoPago",
+        'select',
+        'fecha',
+        'importe',
+        'nombreTipoPago',
       ];
       this.cs
         .getVentas(this.factura.idCliente, this.factura.id)
@@ -132,7 +130,7 @@ export class EditFacturaModalComponent implements OnInit {
     const numSelected: number = this.selection.selected.length;
     const numRows: number = this.ventasDataSource.data.filter(
       (v: VentaHistorico): boolean => {
-        return v.statusFactura === "no";
+        return v.statusFactura === 'no';
       }
     ).length;
     return numSelected === numRows;
@@ -142,7 +140,7 @@ export class EditFacturaModalComponent implements OnInit {
     this.isAllSelected()
       ? this.selection.clear()
       : this.ventasDataSource.data.forEach((v: VentaHistorico): void => {
-          v.statusFactura === "no" && this.selection.select(v);
+          v.statusFactura === 'no' && this.selection.select(v);
         });
   }
 
@@ -159,7 +157,7 @@ export class EditFacturaModalComponent implements OnInit {
     this.cs
       .saveFactura(this.factura.toSaveInterface())
       .subscribe((result: IdSaveResult) => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.customOverlayRef.close(result.id);
         }
       });
@@ -168,10 +166,10 @@ export class EditFacturaModalComponent implements OnInit {
   deleteFactura(): void {
     this.dialog
       .confirm({
-        title: "Borrar factura",
-        content: "¿Estás seguro de querer borrar esta factura?",
-        ok: "Continuar",
-        cancel: "Cancelar",
+        title: 'Borrar factura',
+        content: '¿Estás seguro de querer borrar esta factura?',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -184,21 +182,21 @@ export class EditFacturaModalComponent implements OnInit {
     this.cs
       .deleteFactura(this.factura.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog
             .alert({
-              title: "Factura borrada",
-              content: "La factura ha sido correctamente borrada.",
-              ok: "Continuar",
+              title: 'Factura borrada',
+              content: 'La factura ha sido correctamente borrada.',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.customOverlayRef.close(0);
             });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ha ocurrido un error al borrar la factura.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ha ocurrido un error al borrar la factura.',
+            ok: 'Continuar',
           });
         }
       });
@@ -212,8 +210,8 @@ export class EditFacturaModalComponent implements OnInit {
     this.cs
       .saveFactura(this.factura.toSaveInterface())
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === "ok") {
-          window.open("/clientes/factura/" + result.id + "/preview");
+        if (result.status === 'ok') {
+          window.open('/clientes/factura/' + result.id + '/preview');
           this.customOverlayRef.close(result.id);
         }
       });
@@ -227,8 +225,8 @@ export class EditFacturaModalComponent implements OnInit {
     this.cs
       .saveFactura(this.factura.toSaveInterface(true))
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === "ok") {
-          window.open("/clientes/factura/" + result.id);
+        if (result.status === 'ok') {
+          window.open('/clientes/factura/' + result.id);
           this.customOverlayRef.close(result.id);
         }
       });

@@ -1,6 +1,6 @@
-import { PedidoVistaInterface } from "@interfaces/pedido.interface";
+import { PedidoVistaInterface } from '@interfaces/pedido.interface';
 
-export class PedidoVista {
+export default class PedidoVista {
   constructor(public idColumn: number = null, public status: boolean = false) {}
 
   fromInterface(pv: PedidoVistaInterface): PedidoVista {

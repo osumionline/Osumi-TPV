@@ -1,57 +1,51 @@
-import { Route, Routes } from "@angular/router";
+import { Route, Routes } from '@angular/router';
 
-export const routes: Routes = [
+const routes: Routes = [
   {
-    path: "",
+    path: '',
     loadChildren: () =>
-      import("@modules/main/main-routes").then((m): Route[] => m.MAIN_ROUTES),
+      import('@modules/main/main-routes').then((m): Route[] => m.default),
   },
   {
-    path: "ventas",
+    path: 'ventas',
     loadChildren: () =>
-      import("@modules/ventas/ventas-routes").then(
-        (m): Route[] => m.VENTAS_ROUTES
+      import('@modules/ventas/ventas-routes').then((m): Route[] => m.default),
+  },
+  {
+    path: 'articulos',
+    loadChildren: () =>
+      import('@modules/articulos/articulos-routes').then(
+        (m): Route[] => m.default
       ),
   },
   {
-    path: "articulos",
+    path: 'compras',
     loadChildren: () =>
-      import("@modules/articulos/articulos-routes").then(
-        (m): Route[] => m.ARTICULOS_ROUTES
+      import('@modules/compras/compras-routes').then((m): Route[] => m.default),
+  },
+  {
+    path: 'clientes',
+    loadChildren: () =>
+      import('@modules/clientes/clientes-routes').then(
+        (m): Route[] => m.default
       ),
   },
   {
-    path: "compras",
+    path: 'almacen',
     loadChildren: () =>
-      import("@modules/compras/compras-routes").then(
-        (m): Route[] => m.COMPRAS_ROUTES
-      ),
+      import('@modules/almacen/almacen-routes').then((m): Route[] => m.default),
   },
   {
-    path: "clientes",
+    path: 'caja',
     loadChildren: () =>
-      import("@modules/clientes/clientes-routes").then(
-        (m): Route[] => m.CLIENTES_ROUTES
-      ),
+      import('@modules/caja/caja-routes').then((m): Route[] => m.default),
   },
   {
-    path: "almacen",
+    path: 'gestion',
     loadChildren: () =>
-      import("@modules/almacen/almacen-routes").then(
-        (m): Route[] => m.ALMACEN_ROUTES
-      ),
+      import('@modules/gestion/gestion-routes').then((m): Route[] => m.default),
   },
-  {
-    path: "caja",
-    loadChildren: () =>
-      import("@modules/caja/caja-routes").then((m): Route[] => m.CAJA_ROUTES),
-  },
-  {
-    path: "gestion",
-    loadChildren: () =>
-      import("@modules/gestion/gestion-routes").then(
-        (m): Route[] => m.GESTION_ROUTES
-      ),
-  },
-  { path: "**", redirectTo: "/", pathMatch: "full" },
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
+
+export default routes;

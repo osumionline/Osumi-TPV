@@ -1,49 +1,55 @@
-import { NgClass } from "@angular/common";
-import { Component, Input, OutputEmitterRef, output } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { MatTooltip } from "@angular/material/tooltip";
-import { Router } from "@angular/router";
+import { NgClass } from '@angular/common';
+import {
+  Component,
+  Input,
+  OutputEmitterRef,
+  inject,
+  output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import {
   ArticuloInterface,
   ArticuloResult,
-} from "@interfaces/articulo.interface";
+} from '@interfaces/articulo.interface';
 import {
   BuscadorModal,
   DevolucionModal,
   Modal,
   VariosModal,
-} from "@interfaces/modals.interface";
+} from '@interfaces/modals.interface';
 import {
   DevolucionSelectedInterface,
   LineasTicketResult,
-} from "@interfaces/venta.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { Empleado } from "@model/tpv/empleado.model";
-import { VentaLinea } from "@model/ventas/venta-linea.model";
-import { DevolucionModalComponent } from "@modules/ventas/components/modals/devolucion-modal/devolucion-modal.component";
-import { VentaAccesosDirectosModalComponent } from "@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component";
-import { VentaDescuentoModalComponent } from "@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component";
-import { VentaVariosModalComponent } from "@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component";
-import { ArticulosService } from "@services/articulos.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { EmpleadosService } from "@services/empleados.service";
-import { MarcasService } from "@services/marcas.service";
-import { OverlayService } from "@services/overlay.service";
-import { VentasService } from "@services/ventas.service";
-import { EmployeeLoginComponent } from "@shared/components/employee-login/employee-login.component";
-import { BuscadorModalComponent } from "@shared/components/modals/buscador-modal/buscador-modal.component";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
-import { rolList } from "@shared/rol.class";
+} from '@interfaces/venta.interface';
+import Articulo from '@model/articulos/articulo.model';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Empleado from '@model/tpv/empleado.model';
+import VentaLinea from '@model/ventas/venta-linea.model';
+import DevolucionModalComponent from '@modules/ventas/components/modals/devolucion-modal/devolucion-modal.component';
+import VentaAccesosDirectosModalComponent from '@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component';
+import VentaDescuentoModalComponent from '@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component';
+import VentaVariosModalComponent from '@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component';
+import ArticulosService from '@services/articulos.service';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import EmpleadosService from '@services/empleados.service';
+import MarcasService from '@services/marcas.service';
+import OverlayService from '@services/overlay.service';
+import VentasService from '@services/ventas.service';
+import EmployeeLoginComponent from '@shared/components/employee-login/employee-login.component';
+import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
+import { rolList } from '@shared/rol.class';
 
 @Component({
   standalone: true,
-  selector: "otpv-una-venta",
-  templateUrl: "./una-venta.component.html",
-  styleUrls: ["./una-venta.component.scss"],
+  selector: 'otpv-una-venta',
+  templateUrl: './una-venta.component.html',
+  styleUrls: ['./una-venta.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -54,7 +60,16 @@ import { rolList } from "@shared/rol.class";
     MatButton,
   ],
 })
-export class UnaVentaComponent {
+export default class UnaVentaComponent {
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private ms: MarcasService = inject(MarcasService);
+  public vs: VentasService = inject(VentasService);
+  private ars: ArticulosService = inject(ArticulosService);
+  public es: EmpleadosService = inject(EmpleadosService);
+  private router: Router = inject(Router);
+  private overlayService: OverlayService = inject(OverlayService);
+
   @Input() ind: number = null;
   deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
   endVentaEvent: OutputEmitterRef<void> = output<void>();
@@ -78,17 +93,6 @@ export class UnaVentaComponent {
 
   showBuscador: boolean = false;
 
-  constructor(
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private ms: MarcasService,
-    public vs: VentasService,
-    private ars: ArticulosService,
-    public es: EmpleadosService,
-    private router: Router,
-    private overlayService: OverlayService
-  ) {}
-
   loginSuccess(ev: Empleado): void {
     this.vs.ventaActual.setEmpleado(ev);
     this.vs.addLineaVenta();
@@ -102,7 +106,7 @@ export class UnaVentaComponent {
       this.vs.ventaActual.loadValue = null;
       setTimeout(() => {
         const loc: HTMLInputElement = document.getElementById(
-          "loc-new-" + this.ind
+          'loc-new-' + this.ind
         ) as HTMLInputElement;
         // Si viene valor lo introduzco
         if (value !== null) {
@@ -115,9 +119,9 @@ export class UnaVentaComponent {
         loc.focus();
         // Si viene valor pulso intro
         if (value !== null) {
-          const ev: KeyboardEvent = new KeyboardEvent("keydown", {
-            code: "Enter",
-            key: "Enter",
+          const ev: KeyboardEvent = new KeyboardEvent('keydown', {
+            code: 'Enter',
+            key: 'Enter',
             keyCode: 13,
             which: 13,
           });
@@ -137,9 +141,9 @@ export class UnaVentaComponent {
 
       this.showBuscador = true;
       const modalBuscadorData: BuscadorModal = {
-        modalTitle: "Buscador",
-        modalColor: "blue",
-        css: "modal-wide",
+        modalTitle: 'Buscador',
+        modalColor: 'blue',
+        css: 'modal-wide',
         key: ev.key,
       };
       const dialog = this.overlayService.open(
@@ -157,7 +161,7 @@ export class UnaVentaComponent {
 
       return;
     }
-    if (ev.key === "Enter" && !this.observacionesOpen) {
+    if (ev.key === 'Enter' && !this.observacionesOpen) {
       this.searching = true;
       // Si es 0, hay que introducir el artículo Varios
       if (this.vs.ventaActual.lineas[ind].localizador == 0) {
@@ -174,14 +178,14 @@ export class UnaVentaComponent {
         .loadArticulo(this.vs.ventaActual.lineas[ind].localizador)
         .subscribe((result: ArticuloResult): void => {
           this.searching = false;
-          if (result.status === "ok") {
+          if (result.status === 'ok') {
             this.loadArticulo(result.articulo, ind);
           } else {
             this.dialog
               .alert({
-                title: "Error",
-                content: "¡El código introducido no se encuentra!",
-                ok: "Continuar",
+                title: 'Error',
+                content: '¡El código introducido no se encuentra!',
+                ok: 'Continuar',
               })
               .subscribe((): void => {
                 this.vs.ventaActual.lineas[ind].localizador = null;
@@ -214,10 +218,10 @@ export class UnaVentaComponent {
       } else {
         this.dialog
           .alert({
-            title: "Error",
+            title: 'Error',
             content:
-              "Has seleccionado un artículo que está marcado como devolución.",
-            ok: "Continuar",
+              'Has seleccionado un artículo que está marcado como devolución.',
+            ok: 'Continuar',
           })
           .subscribe((): void => {
             this.vs.ventaActual.lineas[ind].localizador = null;
@@ -236,9 +240,9 @@ export class UnaVentaComponent {
     if (articulo.mostrarObsVentas && articulo.observaciones) {
       this.dialog
         .alert({
-          title: "Observaciones",
+          title: 'Observaciones',
           content: articulo.observaciones,
-          ok: "Continuar",
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -250,9 +254,9 @@ export class UnaVentaComponent {
     const articulo: Articulo = new Articulo();
     articulo.id = 0;
     articulo.localizador = 0;
-    articulo.nombre = "Varios";
+    articulo.nombre = 'Varios';
     articulo.pvp = 0;
-    articulo.marca = "Varios";
+    articulo.marca = 'Varios';
 
     this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
 
@@ -265,10 +269,10 @@ export class UnaVentaComponent {
     if (this.devolucionVenta !== null) {
       this.dialog
         .alert({
-          title: "Error",
+          title: 'Error',
           content:
-            "¡Atención! No puedes realizar una nueva devolución hasta haber terminado la actual.",
-          ok: "Continuar",
+            '¡Atención! No puedes realizar una nueva devolución hasta haber terminado la actual.',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.searching = false;
@@ -281,8 +285,8 @@ export class UnaVentaComponent {
       this.vs.ventaActual.lineas[ind].localizador = null;
 
       const modalDevolucionData: DevolucionModal = {
-        modalTitle: "Devolución",
-        modalColor: "blue",
+        modalTitle: 'Devolución',
+        modalColor: 'blue',
         idVenta: this.devolucionVenta,
         list: null,
       };
@@ -307,8 +311,8 @@ export class UnaVentaComponent {
       }
     }
     const modalDevolucionData: DevolucionModal = {
-      modalTitle: "Devolución",
-      modalColor: "blue",
+      modalTitle: 'Devolución',
+      modalColor: 'blue',
       idVenta: this.devolucionVenta,
       list: list,
     };
@@ -378,7 +382,7 @@ export class UnaVentaComponent {
       this.devolucionList = data.data;
       if (toBeAddded.length > 0) {
         this.vs
-          .getLineasTicket(toBeAddded.join(","))
+          .getLineasTicket(toBeAddded.join(','))
           .subscribe((result: LineasTicketResult): void => {
             const lineas: VentaLineaHistorico[] =
               this.cms.getHistoricoVentaLineas(result.list);
@@ -430,10 +434,10 @@ export class UnaVentaComponent {
   borraLinea(ind: number): void {
     this.dialog
       .confirm({
-        title: "¡Atención!",
-        content: "¿Está seguro de querer borrar esta línea?",
-        ok: "Confirmar",
-        cancel: "Cancelar",
+        title: '¡Atención!',
+        content: '¿Está seguro de querer borrar esta línea?',
+        ok: 'Confirmar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -445,11 +449,11 @@ export class UnaVentaComponent {
   goToArticulo(linea: VentaLinea, ind: number): void {
     if (linea.idArticulo !== 0) {
       this.ars.returnInfo = {
-        where: "ventas",
+        where: 'ventas',
         id: null,
         extra: null,
       };
-      this.router.navigate(["/articulos", linea.localizador]);
+      this.router.navigate(['/articulos', linea.localizador]);
     } else {
       this.abreVarios(ind);
     }
@@ -459,8 +463,8 @@ export class UnaVentaComponent {
     this.variosInd = ind;
 
     const modalVariosData: VariosModal = {
-      modalTitle: "Introducir Varios",
-      modalColor: "blue",
+      modalTitle: 'Introducir Varios',
+      modalColor: 'blue',
       nombre: this.vs.ventaActual.lineas[ind].descripcion,
       pvp: this.vs.ventaActual.lineas[ind].pvp,
       iva: !this.vs.ventaActual.lineas[ind].iva
@@ -488,9 +492,9 @@ export class UnaVentaComponent {
     this.observacionesOpen = true;
     this.dialog
       .alert({
-        title: "Observaciones",
+        title: 'Observaciones',
         content: observaciones,
-        ok: "Continuar",
+        ok: 'Continuar',
       })
       .subscribe((): void => {
         this.observacionesOpen = false;
@@ -509,14 +513,14 @@ export class UnaVentaComponent {
     this.editarCantidad = true;
     setTimeout(() => {
       const cantidad: HTMLInputElement = document.getElementById(
-        "linea-cantidad-" + this.ind + "_" + i
+        'linea-cantidad-' + this.ind + '_' + i
       ) as HTMLInputElement;
       cantidad.select();
     }, 0);
   }
 
   checkCantidad(ev: KeyboardEvent, ind: number, close: boolean): void {
-    if (ev.key == "Enter" || close) {
+    if (ev.key == 'Enter' || close) {
       this.editarCantidad = false;
       this.vs.ventaActual.updateImporte();
       this.setFocus();
@@ -546,7 +550,7 @@ export class UnaVentaComponent {
   editarLineaImporte(i: number): void {
     if (
       !this.vs.ventaActual.empleado.hasRol(
-        rolList.ventas.roles["modificarImportes"].id
+        rolList.ventas.roles['modificarImportes'].id
       )
     ) {
       return;
@@ -554,10 +558,10 @@ export class UnaVentaComponent {
     if (this.vs.ventaActual.lineas[i].regalo) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su importe',
-          ok: "Continuar",
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -567,10 +571,10 @@ export class UnaVentaComponent {
     if (this.vs.ventaActual.lineas[i].descuentoManual) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
-            "Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe",
-          ok: "Continuar",
+            'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -580,14 +584,14 @@ export class UnaVentaComponent {
     this.editarImporte = true;
     setTimeout((): void => {
       const importe: HTMLInputElement = document.getElementById(
-        "linea-importe-" + this.ind + "_" + i
+        'linea-importe-' + this.ind + '_' + i
       ) as HTMLInputElement;
       importe.select();
     }, 0);
   }
 
   checkImporte(ev: KeyboardEvent, ind: number, close: boolean): void {
-    if (ev.key == "Enter" || close) {
+    if (ev.key == 'Enter' || close) {
       this.editarImporte = false;
       this.vs.ventaActual.lineas[ind].importeManual = true;
       this.vs.ventaActual.updateImporte();
@@ -605,10 +609,10 @@ export class UnaVentaComponent {
     if (this.vs.ventaActual.lineas[i].regalo) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
-          ok: "Continuar",
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -618,10 +622,10 @@ export class UnaVentaComponent {
     if (this.vs.ventaActual.lineas[i].importeManual) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
-            "Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento",
-          ok: "Continuar",
+            'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -631,10 +635,10 @@ export class UnaVentaComponent {
     if (this.vs.ventaActual.lineas[i].descuentoManual) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
-            "Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe",
-          ok: "Continuar",
+            'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -644,15 +648,15 @@ export class UnaVentaComponent {
     this.editarDescuento = true;
     setTimeout((): void => {
       const descuento: HTMLInputElement = document.getElementById(
-        "linea-descuento-" + this.ind + "_" + i
+        'linea-descuento-' + this.ind + '_' + i
       ) as HTMLInputElement;
       descuento.select();
     }, 0);
   }
 
   checkDescuento(ev: KeyboardEvent, close: boolean): void {
-    if (ev.key == "Enter" || close) {
-      const id: string[] = (<Element>ev.target).id.split("_");
+    if (ev.key == 'Enter' || close) {
+      const id: string[] = (<Element>ev.target).id.split('_');
       const ind: number = parseInt(id.pop());
       // Comprobación para que no quede en blanco
       if (this.vs.ventaActual.lineas[ind].descuento === null) {
@@ -676,10 +680,10 @@ export class UnaVentaComponent {
     if (linea.regalo) {
       this.dialog
         .alert({
-          title: "Atención",
+          title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
-          ok: "Continuar",
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -689,8 +693,8 @@ export class UnaVentaComponent {
     this.descuentoSelected = linea.idArticulo;
 
     const modalDescuentoData: Modal = {
-      modalTitle: "Introducir descuento",
-      modalColor: "blue",
+      modalTitle: 'Introducir descuento',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       VentaDescuentoModalComponent,
@@ -714,8 +718,8 @@ export class UnaVentaComponent {
 
   abreAccesosDirectos(): void {
     const modalAccesosDirectosData: Modal = {
-      modalTitle: "Accesos Directos",
-      modalColor: "blue",
+      modalTitle: 'Accesos Directos',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       VentaAccesosDirectosModalComponent,
@@ -733,10 +737,10 @@ export class UnaVentaComponent {
   cancelarVenta(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
-        content: "¿Estás seguro de querer cancelar esta venta?",
-        ok: "Continuar",
-        cancel: "Cancelar",
+        title: 'Confirmar',
+        content: '¿Estás seguro de querer cancelar esta venta?',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -750,24 +754,24 @@ export class UnaVentaComponent {
   }
 
   terminarVenta(): void {
-    let status: string = "ok";
+    let status: string = 'ok';
     if (this.vs.ventaActual.lineas.length > 0) {
       for (const linea of this.vs.ventaActual.lineas) {
         if (
           linea.descripcion !== null &&
           (linea.cantidad === null || linea.cantidad === 0)
         ) {
-          status = "error";
+          status = 'error';
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content: `¡Atención! La línea ${linea.descripcion} no tiene cantidad asignada.`,
-            ok: "Continuar",
+            ok: 'Continuar',
           });
           break;
         }
       }
     }
-    if (status === "ok") {
+    if (status === 'ok') {
       this.endVentaEvent.emit();
     }
   }

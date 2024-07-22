@@ -1,7 +1,7 @@
-import { EtiquetaWebInterface } from "@interfaces/articulo.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { EtiquetaWebInterface } from '@interfaces/articulo.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class EtiquetaWeb {
+export default class EtiquetaWeb {
   constructor(
     public id: number = null,
     public texto: string = null,

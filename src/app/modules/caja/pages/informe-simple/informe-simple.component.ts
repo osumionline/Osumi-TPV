@@ -1,24 +1,29 @@
-import { NgClass } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ActivatedRoute, Params } from "@angular/router";
-import { InformeMensualResult } from "@interfaces/informes.interface";
-import { Month } from "@interfaces/interfaces";
-import { InformeMensualItem } from "@model/caja/informe-mensual-item.model";
-import { urldecode } from "@osumi/tools";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ConfigService } from "@services/config.service";
-import { InformesService } from "@services/informes.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { NgClass } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Params } from '@angular/router';
+import { InformeMensualResult } from '@interfaces/informes.interface';
+import { Month } from '@interfaces/interfaces';
+import InformeMensualItem from '@model/caja/informe-mensual-item.model';
+import { urldecode } from '@osumi/tools';
+import ClassMapperService from '@services/class-mapper.service';
+import ConfigService from '@services/config.service';
+import InformesService from '@services/informes.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-informe-simple",
-  templateUrl: "./informe-simple.component.html",
-  styleUrls: ["./informe-simple.component.scss"],
+  selector: 'otpv-informe-simple',
+  templateUrl: './informe-simple.component.html',
+  styleUrls: ['./informe-simple.component.scss'],
   imports: [NgClass, FixedNumberPipe, MatTableModule],
 })
 export default class InformeSimpleComponent implements OnInit {
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private is: InformesService = inject(InformesService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private config: ConfigService = inject(ConfigService);
+
   loaded: boolean = false;
   year: number = null;
   monthName: string = null;
@@ -32,18 +37,13 @@ export default class InformeSimpleComponent implements OnInit {
   totalTotal: number = 0;
   totalSuma: number = 0;
 
-  informeDisplayedColumns: string[] = ["fecha", "tickets", "efectivo"];
+  informeDisplayedColumns: string[] = ['fecha', 'tickets', 'efectivo'];
   informeDataSource: MatTableDataSource<InformeMensualItem> =
     new MatTableDataSource<InformeMensualItem>();
   otrosNames = {};
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private is: InformesService,
-    private cms: ClassMapperService,
-    private config: ConfigService
-  ) {
-    document.body.classList.add("white-bg");
+  constructor() {
+    document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
@@ -66,8 +66,8 @@ export default class InformeSimpleComponent implements OnInit {
             this.informeDisplayedColumns.push(otro);
             this.otrosNames[otro] = urldecode(otro);
           }
-          this.informeDisplayedColumns.push("totalDia");
-          this.informeDisplayedColumns.push("suma");
+          this.informeDisplayedColumns.push('totalDia');
+          this.informeDisplayedColumns.push('suma');
           this.informeDataSource.data = this.list;
           let hasResults: boolean = false;
           for (const item of this.list) {

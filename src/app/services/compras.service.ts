@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
-import { StatusResult } from "@interfaces/interfaces";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '@env/environment';
+import { StatusResult } from '@interfaces/interfaces';
 import {
   PedidoInterface,
   PedidoResult,
@@ -9,23 +9,24 @@ import {
   PedidoSaveResult,
   PedidosFilterInterface,
   PedidosResult,
-} from "@interfaces/pedido.interface";
-import { Pedido } from "@model/compras/pedido.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { Observable } from "rxjs";
+} from '@interfaces/pedido.interface';
+import Pedido from '@model/compras/pedido.model';
+import ClassMapperService from '@services/class-mapper.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class ComprasService {
+export default class ComprasService {
+  private http: HttpClient = inject(HttpClient);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   pedidoTemporal: Pedido = null;
   pedidoCargado: number = null;
 
-  constructor(private http: HttpClient, private cms: ClassMapperService) {}
-
   getAllPedidos(filters: PedidosFilterInterface): Observable<PedidosAllResult> {
     return this.http.post<PedidosAllResult>(
-      environment.apiUrl + "-compras/get-pedidos",
+      environment.apiUrl + '-compras/get-pedidos',
       filters
     );
   }
@@ -34,7 +35,7 @@ export class ComprasService {
     filters: PedidosFilterInterface
   ): Observable<PedidosResult> {
     return this.http.post<PedidosResult>(
-      environment.apiUrl + "-compras/get-pedidos-guardados",
+      environment.apiUrl + '-compras/get-pedidos-guardados',
       filters
     );
   }
@@ -43,28 +44,28 @@ export class ComprasService {
     filters: PedidosFilterInterface
   ): Observable<PedidosResult> {
     return this.http.post<PedidosResult>(
-      environment.apiUrl + "-compras/get-pedidos-recepcionados",
+      environment.apiUrl + '-compras/get-pedidos-recepcionados',
       filters
     );
   }
 
   getPedido(id: number): Observable<PedidoResult> {
     return this.http.post<PedidoResult>(
-      environment.apiUrl + "-compras/get-pedido",
+      environment.apiUrl + '-compras/get-pedido',
       { id }
     );
   }
 
   savePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
     return this.http.post<PedidoSaveResult>(
-      environment.apiUrl + "-compras/save-pedido",
+      environment.apiUrl + '-compras/save-pedido',
       pedido
     );
   }
 
   autoSavePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
     return this.http.post<PedidoSaveResult>(
-      environment.apiUrl + "-compras/auto-save-pedido",
+      environment.apiUrl + '-compras/auto-save-pedido',
       pedido
     );
   }
@@ -79,7 +80,7 @@ export class ComprasService {
 
   deletePedido(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-compras/delete-pedido",
+      environment.apiUrl + '-compras/delete-pedido',
       { id }
     );
   }

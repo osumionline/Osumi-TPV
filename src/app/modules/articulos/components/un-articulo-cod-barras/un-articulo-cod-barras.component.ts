@@ -1,4 +1,4 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,16 +6,16 @@ import {
   Signal,
   model,
   viewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatIcon } from "@angular/material/icon";
-import { Articulo } from "@model/articulos/articulo.model";
-import { CodigoBarras } from "@model/articulos/codigo-barras.model";
-import { QRCodeModule } from "angularx-qrcode";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import Articulo from '@model/articulos/articulo.model';
+import CodigoBarras from '@model/articulos/codigo-barras.model';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
-  selector: "otpv-un-articulo-cod-barras",
+  selector: 'otpv-un-articulo-cod-barras',
   standalone: true,
   imports: [
     NgClass,
@@ -25,23 +25,23 @@ import { QRCodeModule } from "angularx-qrcode";
     MatIcon,
     FormsModule,
   ],
-  templateUrl: "./un-articulo-cod-barras.component.html",
+  templateUrl: './un-articulo-cod-barras.component.html',
   styleUrls: [
-    "./un-articulo-cod-barras.component.scss",
-    "../un-articulo/un-articulo.component.scss",
+    './un-articulo-cod-barras.component.scss',
+    '../un-articulo/un-articulo.component.scss',
   ],
 })
-export class UnArticuloCodBarrasComponent {
+export default class UnArticuloCodBarrasComponent {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   newCodBarras: string = null;
   codigoBarrasBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>("codigoBarrasBox");
+    viewChild.required<ElementRef>('codigoBarrasBox');
 
   focus(): void {}
 
   preventCodBarras(ev: KeyboardEvent): void {
     if (ev) {
-      if (ev.key === "Enter") {
+      if (ev.key === 'Enter') {
         ev.preventDefault();
       }
     }
@@ -49,7 +49,7 @@ export class UnArticuloCodBarrasComponent {
 
   fixCodBarras(ev: KeyboardEvent = null): void {
     if (ev) {
-      if (ev.key === "Enter") {
+      if (ev.key === 'Enter') {
         this.addNewCodBarras();
       }
     } else {

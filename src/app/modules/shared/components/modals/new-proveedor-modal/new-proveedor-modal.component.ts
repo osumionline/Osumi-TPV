@@ -1,39 +1,44 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatCheckbox, MatCheckboxChange } from "@angular/material/checkbox";
-import { MatFormField } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { IdSaveResult } from "@interfaces/interfaces";
-import { MarcaInterface } from "@interfaces/marca.interface";
-import { Marca } from "@model/marcas/marca.model";
-import { Proveedor } from "@model/proveedores/proveedor.model";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { MarcasService } from "@services/marcas.service";
-import { ProveedoresService } from "@services/proveedores.service";
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { IdSaveResult } from '@interfaces/interfaces';
+import { MarcaInterface } from '@interfaces/marca.interface';
+import Marca from '@model/marcas/marca.model';
+import Proveedor from '@model/proveedores/proveedor.model';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import ProveedoresService from '@services/proveedores.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-new-proveedor-modal",
-  templateUrl: "./new-proveedor-modal.component.html",
-  styleUrls: ["./new-proveedor-modal.component.scss"],
+  selector: 'otpv-new-proveedor-modal',
+  templateUrl: './new-proveedor-modal.component.html',
+  styleUrls: ['./new-proveedor-modal.component.scss'],
   imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],
 })
-export class NewProveedorModalComponent implements OnInit {
-  @ViewChild("nombreBox", { static: true }) nombreBox: ElementRef;
+export default class NewProveedorModalComponent implements OnInit {
+  private ms: MarcasService = inject(MarcasService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private ps: ProveedoresService = inject(ProveedoresService);
+  private customOverlayRef: CustomOverlayRef<null, {}> =
+    inject(CustomOverlayRef);
+
+  @ViewChild('nombreBox', { static: true }) nombreBox: ElementRef;
   proveedor: Proveedor = new Proveedor();
   marcasSelected: Marca[] = [];
   marcas: Marca[] = [];
-
-  constructor(
-    private ms: MarcasService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private ps: ProveedoresService,
-    private customOverlayRef: CustomOverlayRef<null, {}>
-  ) {}
 
   ngOnInit(): void {
     this.marcas = this.cms.getMarcas(
@@ -84,9 +89,9 @@ export class NewProveedorModalComponent implements OnInit {
     if (!this.proveedor.nombre) {
       this.dialog
         .alert({
-          title: "Error",
-          content: "¡No puedes dejar el nombre del proveedor en blanco!",
-          ok: "Continuar",
+          title: 'Error',
+          content: '¡No puedes dejar el nombre del proveedor en blanco!',
+          ok: 'Continuar',
         })
         .subscribe(() => {
           setTimeout((): void => {
@@ -99,11 +104,11 @@ export class NewProveedorModalComponent implements OnInit {
     if (this.marcasSelected.length == 0) {
       this.dialog
         .confirm({
-          title: "Confirmar",
+          title: 'Confirmar',
           content:
-            "No has elegido ninguna marca para el proveedor, ¿quieres continuar?",
-          ok: "Continuar",
-          cancel: "Cancelar",
+            'No has elegido ninguna marca para el proveedor, ¿quieres continuar?',
+          ok: 'Continuar',
+          cancel: 'Cancelar',
         })
         .subscribe((result) => {
           if (result === true) {
@@ -120,7 +125,7 @@ export class NewProveedorModalComponent implements OnInit {
     if (check) {
       let marcasCheck: boolean = true;
       for (const m of this.marcasSelected) {
-        if (m.proveedor !== null && m.proveedor !== "") {
+        if (m.proveedor !== null && m.proveedor !== '') {
           marcasCheck = false;
           break;
         }
@@ -129,11 +134,11 @@ export class NewProveedorModalComponent implements OnInit {
       if (!marcasCheck) {
         this.dialog
           .confirm({
-            title: "Confirmar",
+            title: 'Confirmar',
             content:
-              "Has elegido alguna marca que ya tenía asignado un proveedor, ¿quieres continuar? En caso de continuar será reemplazado y los artículos de dicha marca también cambiarán a este nuevo proveedor.",
-            ok: "Continuar",
-            cancel: "Cancelar",
+              'Has elegido alguna marca que ya tenía asignado un proveedor, ¿quieres continuar? En caso de continuar será reemplazado y los artículos de dicha marca también cambiarán a este nuevo proveedor.',
+            ok: 'Continuar',
+            cancel: 'Cancelar',
           })
           .subscribe((result) => {
             if (result === true) {
@@ -154,23 +159,23 @@ export class NewProveedorModalComponent implements OnInit {
     this.ps
       .saveProveedor(this.proveedor.toInterface())
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.ps.resetProveedores();
           this.customOverlayRef.close(result.id);
         }
-        if (result.status === "error-nombre") {
+        if (result.status === 'error-nombre') {
           this.dialog.alert({
-            title: "Error",
-            content: "Ya existe un proveedor con el nombre indicado.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ya existe un proveedor con el nombre indicado.',
+            ok: 'Continuar',
           });
           return;
         }
-        if (result.status === "error") {
+        if (result.status === 'error') {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al guardar el nuevo proveedor.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al guardar el nuevo proveedor.',
+            ok: 'Continuar',
           });
           return;
         }

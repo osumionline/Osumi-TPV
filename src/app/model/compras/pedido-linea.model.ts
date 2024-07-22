@@ -1,8 +1,8 @@
-import { PedidoLineaInterface } from "@interfaces/pedido.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { getTwoNumberDecimal, urldecode, urlencode } from "@osumi/tools";
+import { PedidoLineaInterface } from '@interfaces/pedido.interface';
+import Articulo from '@model/articulos/articulo.model';
+import { getTwoNumberDecimal, urldecode, urlencode } from '@osumi/tools';
 
-export class PedidoLinea {
+export default class PedidoLinea {
   showCodigoBarras: boolean = false;
   descuentoPedido: number = 0;
   mostrarObsPedidos: boolean = false;

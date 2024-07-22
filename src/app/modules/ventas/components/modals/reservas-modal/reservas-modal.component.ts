@@ -1,26 +1,32 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { NgClass } from "@angular/common";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ReservasResult } from "@interfaces/cliente.interface";
-import { StatusResult } from "@interfaces/interfaces";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { ReservaLinea } from "@model/ventas/reserva-linea.model";
-import { Reserva } from "@model/ventas/reserva.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { DialogService } from "@services/dialog.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { SelectionModel } from '@angular/cdk/collections';
+import { NgClass } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ReservasResult } from '@interfaces/cliente.interface';
+import { StatusResult } from '@interfaces/interfaces';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import ReservaLinea from '@model/ventas/reserva-linea.model';
+import Reserva from '@model/ventas/reserva.model';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import DialogService from '@services/dialog.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-reservas-modal",
-  templateUrl: "./reservas-modal.component.html",
-  styleUrls: ["./reservas-modal.component.scss"],
+  selector: 'otpv-reservas-modal',
+  templateUrl: './reservas-modal.component.html',
+  styleUrls: ['./reservas-modal.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -31,39 +37,38 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatButton,
   ],
 })
-export class ReservasModalComponent implements OnInit, AfterViewInit {
+export default class ReservasModalComponent implements OnInit, AfterViewInit {
+  private cs: ClientesService = inject(ClientesService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private customOverlayRef: CustomOverlayRef<null, {}> =
+    inject(CustomOverlayRef);
+
   list: Reserva[] = [];
   reservaSelected: Reserva = null;
 
   reservasDisplayedColumns: string[] = [
-    "select",
-    "fecha",
-    "cliente",
-    "importe",
+    'select',
+    'fecha',
+    'cliente',
+    'importe',
   ];
   reservasDataSource: MatTableDataSource<Reserva> =
     new MatTableDataSource<Reserva>();
   reservaSelectedDisplayedColumns: string[] = [
-    "localizador",
-    "marca",
-    "articulo",
-    "unidades",
-    "pvp",
-    "descuento",
-    "importe",
+    'localizador',
+    'marca',
+    'articulo',
+    'unidades',
+    'pvp',
+    'descuento',
+    'importe',
   ];
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
   @ViewChild(MatSort) sort: MatSort;
 
   selection: SelectionModel<Reserva> = new SelectionModel<Reserva>(true, []);
-
-  constructor(
-    private cs: ClientesService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private customOverlayRef: CustomOverlayRef<null, {}>
-  ) {}
 
   ngOnInit(): void {
     this.loadReservas();
@@ -102,10 +107,10 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
   deleteReserva(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
-        content: "¿Estás seguro de querer borrar esta reserva?",
-        ok: "Continuar",
-        cancel: "Cancelar",
+        title: 'Confirmar',
+        content: '¿Estás seguro de querer borrar esta reserva?',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -118,7 +123,7 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
     this.cs
       .deleteReserva(this.reservaSelected.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.reservaSelected = null;
           this.loadReservas();
         }
@@ -137,9 +142,9 @@ export class ReservasModalComponent implements OnInit, AfterViewInit {
       }
       if (idCliente !== reserva.idCliente) {
         this.dialog.alert({
-          title: "Error",
-          content: "Las reservas elegidas pertenecen a distintos clientes.",
-          ok: "Continuar",
+          title: 'Error',
+          content: 'Las reservas elegidas pertenecen a distintos clientes.',
+          ok: 'Continuar',
         });
         return;
       }

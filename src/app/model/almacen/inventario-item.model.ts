@@ -1,7 +1,7 @@
-import { InventarioItemInterface } from "@interfaces/almacen.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { InventarioItemInterface } from '@interfaces/almacen.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class InventarioItem {
+export default class InventarioItem {
   _stock: number = null;
   _pvp: number = null;
   codigoBarras: string = null;

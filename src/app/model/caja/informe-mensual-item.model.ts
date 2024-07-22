@@ -1,10 +1,10 @@
 import {
   InformeMensualItemInterface,
   InformeMensualItemOtrosInterface,
-} from "@interfaces/informes.interface";
-import { formatNumber, urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/informes.interface';
+import { formatNumber, urldecode, urlencode } from '@osumi/tools';
 
-export class InformeMensualItem {
+export default class InformeMensualItem {
   constructor(
     public num: number = null,
     public weekDay: string = null,
@@ -17,19 +17,19 @@ export class InformeMensualItem {
   ) {}
 
   get fecha(): string {
-    return this.num + " " + this.weekDay;
+    return this.num + ' ' + this.weekDay;
   }
 
   get tickets(): string {
     if (this.minTicket === null && this.maxTicket === null) {
-      return "------";
+      return '------';
     }
-    return this.minTicket + " - " + this.maxTicket;
+    return this.minTicket + ' - ' + this.maxTicket;
   }
 
   getOtros(key: string): string {
     if (this.minTicket === null && this.maxTicket === null) {
-      return "------";
+      return '------';
     }
     const ind: number = this.otros.findIndex(
       (x: InformeMensualItemOtrosInterface): boolean => {
@@ -37,9 +37,9 @@ export class InformeMensualItem {
       }
     );
     if (ind === -1) {
-      return formatNumber(0) + " €";
+      return formatNumber(0) + ' €';
     }
-    return formatNumber(this.otros[ind].valor) + " €";
+    return formatNumber(this.otros[ind].valor) + ' €';
   }
 
   getOtrosValue(key: string): number {

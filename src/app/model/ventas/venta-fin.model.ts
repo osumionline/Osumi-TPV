@@ -1,23 +1,23 @@
 import {
   VentaFinInterface,
   VentaLineaInterface,
-} from "@interfaces/venta.interface";
-import { VentaLinea } from "@model/ventas/venta-linea.model";
-import { toNumber, urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/venta.interface';
+import VentaLinea from '@model/ventas/venta-linea.model';
+import { toNumber, urldecode, urlencode } from '@osumi/tools';
 
-export class VentaFin {
+export default class VentaFin {
   pagoMixto: boolean = false;
 
   constructor(
-    public efectivo: string = "0",
-    public cambio: string = "0",
-    public tarjeta: string = "0",
+    public efectivo: string = '0',
+    public cambio: string = '0',
+    public tarjeta: string = '0',
     public idEmpleado: number = null,
     public idTipoPago: number = null,
     public idCliente: number = null,
-    public total: string = "0",
+    public total: string = '0',
     public lineas: VentaLinea[] = [],
-    public imprimir: string = "si",
+    public imprimir: string = 'si',
     public email: string = null
   ) {}
 

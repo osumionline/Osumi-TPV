@@ -1,29 +1,30 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatFormField } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
-import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { VentasService } from "@services/ventas.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
+import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import ClassMapperService from '@services/class-mapper.service';
+import VentasService from '@services/ventas.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-buscador-modal",
-  templateUrl: "./buscador-modal.component.html",
-  styleUrls: ["./buscador-modal.component.scss"],
+  selector: 'otpv-buscador-modal',
+  templateUrl: './buscador-modal.component.html',
+  styleUrls: ['./buscador-modal.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -34,30 +35,29 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     FixedNumberPipe,
   ],
 })
-export class BuscadorModalComponent
+export default class BuscadorModalComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  @ViewChild("searchBoxName", { static: true }) searchBoxName: ElementRef;
-  searchName: string = "";
+  private vs: VentasService = inject(VentasService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private customOverlayRef: CustomOverlayRef<null, { key: string }> =
+    inject(CustomOverlayRef);
+
+  @ViewChild('searchBoxName', { static: true }) searchBoxName: ElementRef;
+  searchName: string = '';
   searchTimer: number = null;
   searching: boolean = false;
   buscadorResultadosList: ArticuloBuscador[] = [];
   buscadorResultadosRow: number = 0;
   buscadorResultadosDisplayedColumns: string[] = [
-    "nombre",
-    "marca",
-    "pvp",
-    "stock",
+    'nombre',
+    'marca',
+    'pvp',
+    'stock',
   ];
   buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
     new MatTableDataSource<ArticuloBuscador>();
   @ViewChild(MatSort) sort: MatSort;
-
-  constructor(
-    private vs: VentasService,
-    private cms: ClassMapperService,
-    private customOverlayRef: CustomOverlayRef<null, { key: string }>
-  ) {}
 
   ngOnInit(): void {
     this.searchName = this.customOverlayRef.data.key;
@@ -83,7 +83,7 @@ export class BuscadorModalComponent
 
   focusRow(): void {
     const element: HTMLElement = document.getElementById(
-      "buscador-row-" +
+      'buscador-row-' +
         this.buscadorResultadosList[this.buscadorResultadosRow].localizador
     );
     if (!this.checkVisible(element)) {
@@ -94,17 +94,17 @@ export class BuscadorModalComponent
   checkSearchKeys(ev: KeyboardEvent = null): void {
     if (
       ev !== null &&
-      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
+      (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')
     ) {
       ev.preventDefault();
-      if (ev.key === "ArrowUp") {
+      if (ev.key === 'ArrowUp') {
         if (this.buscadorResultadosRow === 0) {
           return;
         }
         this.buscadorResultadosRow--;
         this.focusRow();
       }
-      if (ev.key === "ArrowDown") {
+      if (ev.key === 'ArrowDown') {
         if (
           this.buscadorResultadosRow ===
           this.buscadorResultadosList.length - 1
@@ -114,7 +114,7 @@ export class BuscadorModalComponent
         this.buscadorResultadosRow++;
         this.focusRow();
       }
-      if (ev.key === "Enter") {
+      if (ev.key === 'Enter') {
         this.selectBuscadorResultadosRow(
           this.buscadorResultadosList[this.buscadorResultadosRow]
         );
@@ -125,11 +125,11 @@ export class BuscadorModalComponent
   searchStart(ev: KeyboardEvent = null): void {
     if (
       ev !== null &&
-      (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")
+      (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')
     ) {
       ev.preventDefault();
     } else {
-      if (this.searchName === "") {
+      if (this.searchName === '') {
         this.buscadorResultadosList = [];
         this.buscadorResultadosRow = 0;
       } else {

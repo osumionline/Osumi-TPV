@@ -1,7 +1,7 @@
-import { TipoPagoInterface } from "@interfaces/tipo-pago.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { TipoPagoInterface } from '@interfaces/tipo-pago.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class TipoPago {
+export default class TipoPago {
   constructor(
     public id: number = null,
     public nombre: string = null,

@@ -1,6 +1,6 @@
-import { CodigoBarrasInterface } from "@interfaces/articulo.interface";
+import { CodigoBarrasInterface } from '@interfaces/articulo.interface';
 
-export class CodigoBarras {
+export default class CodigoBarras {
   constructor(
     public id: number = null,
     public codigoBarras: string = null,

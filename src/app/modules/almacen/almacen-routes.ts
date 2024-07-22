@@ -1,19 +1,21 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const ALMACEN_ROUTES: Route[] = [
+const ALMACEN_ROUTES: Route[] = [
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/almacen/pages/almacen/almacen.component"),
+      import('@modules/almacen/pages/almacen/almacen.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "inventario-print/:data",
+    path: 'inventario-print/:data',
     loadComponent: () =>
       import(
-        "@modules/almacen/pages/inventario-print/inventario-print.component"
+        '@modules/almacen/pages/inventario-print/inventario-print.component'
       ),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default ALMACEN_ROUTES;

@@ -1,23 +1,25 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const COMPRAS_ROUTES: Route[] = [
+const COMPRAS_ROUTES: Route[] = [
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/compras/pages/compras/compras.component"),
+      import('@modules/compras/pages/compras/compras.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "pedido",
+    path: 'pedido',
     loadComponent: () =>
-      import("@modules/compras/pages/pedido/pedido.component"),
+      import('@modules/compras/pages/pedido/pedido.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: "pedido/:id",
+    path: 'pedido/:id',
     loadComponent: () =>
-      import("@modules/compras/pages/pedido/pedido.component"),
+      import('@modules/compras/pages/pedido/pedido.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default COMPRAS_ROUTES;

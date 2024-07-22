@@ -1,11 +1,11 @@
 import {
   CierreCajaInterface,
   CierreCajaTipoInterface,
-} from "@interfaces/caja.interface";
-import { CierreCajaTipo } from "@model/caja/cierre-caja-tipo.model";
-import { getCurrentDate, urldecode } from "@osumi/tools";
+} from '@interfaces/caja.interface';
+import CierreCajaTipo from '@model/caja/cierre-caja-tipo.model';
+import { getCurrentDate, urldecode } from '@osumi/tools';
 
-export class CierreCaja {
+export default class CierreCaja {
   saldoSiguienteCaja: number = null;
 
   constructor(

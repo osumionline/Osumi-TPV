@@ -1,37 +1,38 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
   ModelSignal,
   Signal,
+  inject,
   model,
   viewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatIconButton } from "@angular/material/button";
-import { MatFormField } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { MatSlideToggle } from "@angular/material/slide-toggle";
-import { Month } from "@interfaces/interfaces";
-import { MargenesModal, Modal } from "@interfaces/modals.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { IVAOption } from "@model/tpv/iva-option.model";
-import { MargenesModalComponent } from "@modules/articulos/components/modals/margenes-modal/margenes-modal.component";
-import { NewMarcaModalComponent } from "@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component";
-import { getTwoNumberDecimal } from "@osumi/tools";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { MarcasService } from "@services/marcas.service";
-import { OverlayService } from "@services/overlay.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { NewProveedorModalComponent } from "@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
-import { Utils } from "@shared/utils.class";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { Month } from '@interfaces/interfaces';
+import { MargenesModal, Modal } from '@interfaces/modals.interface';
+import Articulo from '@model/articulos/articulo.model';
+import IVAOption from '@model/tpv/iva-option.model';
+import MargenesModalComponent from '@modules/articulos/components/modals/margenes-modal/margenes-modal.component';
+import NewMarcaModalComponent from '@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component';
+import { getTwoNumberDecimal } from '@osumi/tools';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import OverlayService from '@services/overlay.service';
+import ProveedoresService from '@services/proveedores.service';
+import NewProveedorModalComponent from '@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
+import Utils from '@shared/utils.class';
 
 @Component({
-  selector: "otpv-un-articulo-general",
+  selector: 'otpv-un-articulo-general',
   standalone: true,
   imports: [
     MatFormField,
@@ -45,47 +46,39 @@ import { Utils } from "@shared/utils.class";
     FormsModule,
     FixedNumberPipe,
   ],
-  templateUrl: "./un-articulo-general.component.html",
+  templateUrl: './un-articulo-general.component.html',
   styleUrls: [
-    "./un-articulo-general.component.scss",
-    "../un-articulo/un-articulo.component.scss",
+    './un-articulo-general.component.scss',
+    '../un-articulo/un-articulo.component.scss',
   ],
 })
-export class UnArticuloGeneralComponent {
+export default class UnArticuloGeneralComponent {
+  public ms: MarcasService = inject(MarcasService);
+  public ps: ProveedoresService = inject(ProveedoresService);
+  private overlayService: OverlayService = inject(OverlayService);
+  private config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
-  tipoIva: string = "iva";
-  ivaOptions: IVAOption[] = [];
-  ivaList: number[] = [];
-  reList: number[] = [];
-  marginList: number[] = [];
-  mostrarWeb: boolean = false;
-  mostrarCaducidad: boolean = false;
+  tipoIva: string = this.config.tipoIva;
+  ivaOptions: IVAOption[] = this.config.ivaOptions;
+  ivaList: number[] = this.ivaOptions.map((x: IVAOption): number => {
+    return x.iva;
+  });
+  reList: number[] = this.ivaOptions.map((x: IVAOption): number => {
+    return x.re;
+  });
+  marginList: number[] = this.config.marginList;
+  mostrarWeb: boolean = this.config.ventaOnline;
+  mostrarCaducidad: boolean = this.config.fechaCad;
   fecCad: string = null;
   fecCadEdit: boolean = false;
-  fecCadValue: Signal<ElementRef> = viewChild<ElementRef>("fecCadValue");
-
-  constructor(
-    public ms: MarcasService,
-    public ps: ProveedoresService,
-    private overlayService: OverlayService,
-    private config: ConfigService,
-    private dialog: DialogService
-  ) {
-    this.tipoIva = this.config.tipoIva;
-    this.ivaOptions = this.config.ivaOptions;
-    for (const ivaOption of this.ivaOptions) {
-      this.ivaList.push(ivaOption.iva);
-      this.reList.push(ivaOption.re);
-    }
-    this.mostrarWeb = this.config.ventaOnline;
-    this.mostrarCaducidad = this.config.fechaCad;
-    this.marginList = this.config.marginList;
-  }
+  fecCadValue: Signal<ElementRef> = viewChild<ElementRef>('fecCadValue');
 
   newMarca(): void {
     const modalnewMarcaData: Modal = {
-      modalTitle: "Nueva marca",
-      modalColor: "blue",
+      modalTitle: 'Nueva marca',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       NewMarcaModalComponent,
@@ -103,8 +96,8 @@ export class UnArticuloGeneralComponent {
 
   openProveedor(): void {
     const modalnewProveedorData: Modal = {
-      modalTitle: "Nuevo proveedor",
-      modalColor: "blue",
+      modalTitle: 'Nuevo proveedor',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       NewProveedorModalComponent,
@@ -121,12 +114,12 @@ export class UnArticuloGeneralComponent {
   }
 
   loadFecCad(): void {
-    const fecCad: string[] = this.articulo().fechaCaducidad.split("/");
+    const fecCad: string[] = this.articulo().fechaCaducidad.split('/');
     const mes: Month = this.config.monthList.find(
       (x: Month): boolean => x.id === parseInt(fecCad[0])
     );
 
-    this.fecCad = mes.name + " 20" + fecCad[1];
+    this.fecCad = mes.name + ' 20' + fecCad[1];
     this.fecCadEdit = false;
   }
 
@@ -183,11 +176,11 @@ export class UnArticuloGeneralComponent {
   }
 
   checkFecCad(ev: KeyboardEvent, blur: boolean = false): void {
-    if (ev.key == "Enter" || blur) {
+    if (ev.key == 'Enter' || blur) {
       if (this.validateFecCad()) {
         const d = new Date();
         const checkFecCadStr: string[] =
-          this.articulo().fechaCaducidad.split("/");
+          this.articulo().fechaCaducidad.split('/');
         const month = this.config.monthList.find(
           (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
         );
@@ -202,10 +195,10 @@ export class UnArticuloGeneralComponent {
         if (d.getTime() > checkD.getTime()) {
           this.dialog
             .alert({
-              title: "Error",
+              title: 'Error',
               content:
-                "La fecha introducida no puede ser inferior a la actual.",
-              ok: "Continuar",
+                'La fecha introducida no puede ser inferior a la actual.',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               setTimeout((): void => {
@@ -219,10 +212,10 @@ export class UnArticuloGeneralComponent {
       } else {
         this.dialog
           .alert({
-            title: "Error",
+            title: 'Error',
             content:
               'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
-            ok: "Continuar",
+            ok: 'Continuar',
           })
           .subscribe((): void => {
             setTimeout((): void => {
@@ -345,8 +338,8 @@ export class UnArticuloGeneralComponent {
 
   abrirMargenes(): void {
     const modalMargenesData: MargenesModal = {
-      modalTitle: "Márgenes",
-      modalColor: "blue",
+      modalTitle: 'Márgenes',
+      modalColor: 'blue',
       puc: this.articulo().puc,
       list: this.marginList,
     };
@@ -369,8 +362,8 @@ export class UnArticuloGeneralComponent {
 
   abrirMargenesDescuento(): void {
     const modalMargenesData: MargenesModal = {
-      modalTitle: "Márgenes",
-      modalColor: "blue",
+      modalTitle: 'Márgenes',
+      modalColor: 'blue',
       puc: this.articulo().puc,
       list: this.marginList,
     };

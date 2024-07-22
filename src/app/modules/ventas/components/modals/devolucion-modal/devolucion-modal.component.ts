@@ -1,28 +1,34 @@
-import { SelectionModel } from "@angular/cdk/collections";
-import { NgClass } from "@angular/common";
-import { Component, OnInit, OutputEmitterRef, output } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatFormField } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { HistoricoVentasResult } from "@interfaces/caja.interface";
-import { DateValues } from "@interfaces/interfaces";
-import { DevolucionSelectedInterface } from "@interfaces/venta.interface";
-import { VentaHistorico } from "@model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { VentasService } from "@services/ventas.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+import { SelectionModel } from '@angular/cdk/collections';
+import { NgClass } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  OutputEmitterRef,
+  inject,
+  output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { HistoricoVentasResult } from '@interfaces/caja.interface';
+import { DateValues } from '@interfaces/interfaces';
+import { DevolucionSelectedInterface } from '@interfaces/venta.interface';
+import VentaHistorico from '@model/caja/venta-historico.model';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import VentasService from '@services/ventas.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-devolucion-modal",
-  templateUrl: "./devolucion-modal.component.html",
-  styleUrls: ["./devolucion-modal.component.scss"],
+  selector: 'otpv-devolucion-modal',
+  templateUrl: './devolucion-modal.component.html',
+  styleUrls: ['./devolucion-modal.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -34,37 +40,35 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatButton,
   ],
 })
-export class DevolucionModalComponent implements OnInit {
+export default class DevolucionModalComponent implements OnInit {
+  private vs: VentasService = inject(VentasService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private customOverlayRef: CustomOverlayRef<
+    null,
+    { idVenta: number; list: DevolucionSelectedInterface[] }
+  > = inject(CustomOverlayRef);
+
   venta: VentaHistorico = new VentaHistorico();
   devolucionDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
   devolucionDisplayedColumns: string[] = [
-    "select",
-    "articulo",
-    "unidades",
-    "pvp",
-    "descuento",
-    "importe",
+    'select',
+    'articulo',
+    'unidades',
+    'pvp',
+    'descuento',
+    'importe',
   ];
   selection: SelectionModel<VentaLineaHistorico> =
     new SelectionModel<VentaLineaHistorico>(true, []);
   continueEvent: OutputEmitterRef<DevolucionSelectedInterface[]> =
     output<DevolucionSelectedInterface[]>();
 
-  constructor(
-    private vs: VentasService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private customOverlayRef: CustomOverlayRef<
-      null,
-      { idVenta: number; list: DevolucionSelectedInterface[] }
-    >
-  ) {}
-
   ngOnInit(): void {
     if (this.customOverlayRef.data.list === null) {
       const data: DateValues = {
-        modo: "id",
+        modo: 'id',
         fecha: null,
         id: this.customOverlayRef.data.idVenta,
         desde: null,
@@ -92,7 +96,7 @@ export class DevolucionModalComponent implements OnInit {
     list: DevolucionSelectedInterface[]
   ): void {
     const data: DateValues = {
-      modo: "id",
+      modo: 'id',
       fecha: null,
       id: idVenta,
       desde: null,
@@ -144,10 +148,10 @@ export class DevolucionModalComponent implements OnInit {
     });
     if (list.length === 0) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
-          "¡Atención! No has elegido ningún artículo para realizar su devolución.",
-        ok: "Continuar",
+          '¡Atención! No has elegido ningún artículo para realizar su devolución.',
+        ok: 'Continuar',
       });
     } else {
       this.selection.clear();

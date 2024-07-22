@@ -1,8 +1,8 @@
-import { VentaLineaInterface } from "@interfaces/venta.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { ReservaLinea } from "@model/ventas/reserva-linea.model";
+import { VentaLineaInterface } from '@interfaces/venta.interface';
+import Articulo from '@model/articulos/articulo.model';
+import ReservaLinea from '@model/ventas/reserva-linea.model';
 
-export class VentaLinea {
+export default class VentaLinea {
   importeManual: boolean = false;
   descuentoManual: boolean = false;
   animarCantidad: boolean = false;

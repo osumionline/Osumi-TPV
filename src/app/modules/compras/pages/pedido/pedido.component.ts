@@ -1,67 +1,68 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatNativeDateModule, MatOption } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatList, MatListItem } from "@angular/material/list";
-import { MatSelect } from "@angular/material/select";
-import { MatSortModule } from "@angular/material/sort";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatTooltip } from "@angular/material/tooltip";
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { environment } from "@env/environment";
-import { ArticuloResult } from "@interfaces/articulo.interface";
-import { StatusResult } from "@interfaces/interfaces";
-import { BuscadorModal, Modal } from "@interfaces/modals.interface";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatSelect } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltip } from '@angular/material/tooltip';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { environment } from '@env/environment';
+import { ArticuloResult } from '@interfaces/articulo.interface';
+import { StatusResult } from '@interfaces/interfaces';
+import { BuscadorModal, Modal } from '@interfaces/modals.interface';
 import {
   PedidoResult,
   PedidoSaveResult,
   PedidosColOption,
-} from "@interfaces/pedido.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { PedidoLinea } from "@model/compras/pedido-linea.model";
-import { PedidoPDF } from "@model/compras/pedido-pdf.model";
-import { PedidoVista } from "@model/compras/pedido-vista.model";
-import { Pedido } from "@model/compras/pedido.model";
-import { Marca } from "@model/marcas/marca.model";
-import { IVAOption } from "@model/tpv/iva-option.model";
+} from '@interfaces/pedido.interface';
+import Articulo from '@model/articulos/articulo.model';
+import PedidoLinea from '@model/compras/pedido-linea.model';
+import PedidoPDF from '@model/compras/pedido-pdf.model';
+import PedidoVista from '@model/compras/pedido-vista.model';
+import Pedido from '@model/compras/pedido.model';
+import Marca from '@model/marcas/marca.model';
+import IVAOption from '@model/tpv/iva-option.model';
 import {
   getDate,
   getDateFromString,
   getTwoNumberDecimal,
   urldecode,
-} from "@osumi/tools";
-import { ArticulosService } from "@services/articulos.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ComprasService } from "@services/compras.service";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { MarcasService } from "@services/marcas.service";
-import { OverlayService } from "@services/overlay.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { HeaderComponent } from "@shared/components/header/header.component";
-import { BuscadorModalComponent } from "@shared/components/modals/buscador-modal/buscador-modal.component";
-import { NewProveedorModalComponent } from "@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@osumi/tools';
+import ArticulosService from '@services/articulos.service';
+import ClassMapperService from '@services/class-mapper.service';
+import ComprasService from '@services/compras.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import MarcasService from '@services/marcas.service';
+import OverlayService from '@services/overlay.service';
+import ProveedoresService from '@services/proveedores.service';
+import HeaderComponent from '@shared/components/header/header.component';
+import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
+import NewProveedorModalComponent from '@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-pedido",
-  templateUrl: "./pedido.component.html",
-  styleUrls: ["./pedido.component.scss"],
+  selector: 'otpv-pedido',
+  templateUrl: './pedido.component.html',
+  styleUrls: ['./pedido.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -87,15 +88,27 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
   ],
 })
 export default class PedidoComponent implements OnInit, OnDestroy {
-  titulo: string = "Nuevo pedido";
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  public config: ConfigService = inject(ConfigService);
+  public ps: ProveedoresService = inject(ProveedoresService);
+  private ars: ArticulosService = inject(ArticulosService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private dialog: DialogService = inject(DialogService);
+  private ms: MarcasService = inject(MarcasService);
+  private cs: ComprasService = inject(ComprasService);
+  private router: Router = inject(Router);
+  private overlayService: OverlayService = inject(OverlayService);
+  private sanitizer: DomSanitizer = inject(DomSanitizer);
+
+  titulo: string = 'Nuevo pedido';
   pedido: Pedido = new Pedido();
 
   dontSave: boolean = false;
 
-  @ViewChild("proveedoresValue", { static: true }) proveedoresValue: MatSelect;
+  @ViewChild('proveedoresValue', { static: true }) proveedoresValue: MatSelect;
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
-  @ViewChild("numAlbaranFacturaBox", { static: true })
+  @ViewChild('numAlbaranFacturaBox', { static: true })
   numAlbaranFacturaBox: ElementRef;
 
   ivaOptions: IVAOption[] = [];
@@ -103,126 +116,126 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   reList: number[] = [];
 
   metodosPago: string[] = [
-    "Domiciliación bancaria",
-    "Tarjeta",
-    "Paypal",
-    "Al contado",
-    "Transferencia bancaria",
+    'Domiciliación bancaria',
+    'Tarjeta',
+    'Paypal',
+    'Al contado',
+    'Transferencia bancaria',
   ];
 
-  @ViewChild("allSelected") private allSelected: MatOption;
+  @ViewChild('allSelected') private allSelected: MatOption;
   colOptions: PedidosColOption[] = [
     {
       id: 1,
-      value: "Ordenar",
-      colname: "ordenar",
+      value: 'Ordenar',
+      colname: 'ordenar',
       selected: true,
       default: false,
     },
     {
       id: 2,
-      value: "Localizador",
-      colname: "localizador",
+      value: 'Localizador',
+      colname: 'localizador',
       selected: true,
       default: true,
     },
     {
       id: 3,
-      value: "Descripción",
-      colname: "nombreArticulo",
+      value: 'Descripción',
+      colname: 'nombreArticulo',
       selected: true,
       default: true,
     },
     {
       id: 4,
-      value: "Referencia",
-      colname: "referencia",
+      value: 'Referencia',
+      colname: 'referencia',
       selected: false,
       default: false,
     },
-    { id: 5, value: "Marca", colname: "marca", selected: true, default: false },
+    { id: 5, value: 'Marca', colname: 'marca', selected: true, default: false },
     {
       id: 6,
-      value: "Cod. Barras",
-      colname: "codBarras",
+      value: 'Cod. Barras',
+      colname: 'codBarras',
       selected: false,
       default: false,
     },
     {
       id: 7,
-      value: "Unidades",
-      colname: "unidades",
+      value: 'Unidades',
+      colname: 'unidades',
       selected: true,
       default: true,
     },
     {
       id: 8,
-      value: "Stock actual",
-      colname: "stock",
+      value: 'Stock actual',
+      colname: 'stock',
       selected: false,
       default: false,
     },
     {
       id: 9,
-      value: "Stock final",
-      colname: "stockFinal",
+      value: 'Stock final',
+      colname: 'stockFinal',
       selected: false,
       default: false,
     },
     {
       id: 10,
-      value: "Precio albarán",
-      colname: "palb",
+      value: 'Precio albarán',
+      colname: 'palb',
       selected: true,
       default: true,
     },
     {
       id: 11,
-      value: "Descuento",
-      colname: "descuento",
+      value: 'Descuento',
+      colname: 'descuento',
       selected: false,
       default: false,
     },
     {
       id: 12,
-      value: "Subtotal",
-      colname: "subtotal",
+      value: 'Subtotal',
+      colname: 'subtotal',
       selected: true,
       default: true,
     },
-    { id: 13, value: "IVA", colname: "iva", selected: false, default: false },
+    { id: 13, value: 'IVA', colname: 'iva', selected: false, default: false },
     {
       id: 14,
-      value: "PUC",
-      colname: "puc",
+      value: 'PUC',
+      colname: 'puc',
       selected: true,
       default: true,
     },
     {
       id: 15,
-      value: "Total",
-      colname: "total",
+      value: 'Total',
+      colname: 'total',
       selected: true,
       default: true,
     },
     {
       id: 16,
-      value: "PVP",
-      colname: "pvp",
+      value: 'PVP',
+      colname: 'pvp',
       selected: true,
       default: true,
     },
     {
       id: 17,
-      value: "Margen",
-      colname: "margen",
+      value: 'Margen',
+      colname: 'margen',
       selected: true,
       default: true,
     },
     {
       id: 18,
-      value: "Borrar",
-      colname: "borrar",
+      value: 'Borrar',
+      colname: 'borrar',
       selected: true,
       default: true,
     },
@@ -234,7 +247,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     new MatTableDataSource<PedidoLinea>();
 
   nuevoLocalizador: number = null;
-  @ViewChild("localizadorBox", { static: true }) localizadorBox: ElementRef;
+  @ViewChild('localizadorBox', { static: true }) localizadorBox: ElementRef;
 
   pdfsUrl: string = environment.pdfsUrl;
 
@@ -246,20 +259,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   selectedPdf: SafeUrl = null;
 
   showBuscador: boolean = false;
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    public config: ConfigService,
-    public ps: ProveedoresService,
-    private ars: ArticulosService,
-    private cms: ClassMapperService,
-    private dialog: DialogService,
-    private ms: MarcasService,
-    private cs: ComprasService,
-    private router: Router,
-    private overlayService: OverlayService,
-    private sanitizer: DomSanitizer
-  ) {}
 
   ngOnInit(): void {
     this.dontSave = false;
@@ -288,7 +287,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.cs.pedidoCargado = this.pedido.id;
 
       for (const iva of this.ivaOptions) {
-        iva.tipoIVA = this.pedido.re ? "re" : "iva";
+        iva.tipoIVA = this.pedido.re ? 're' : 'iva';
       }
       this.pedido.ivaOptions = this.ivaOptions;
 
@@ -307,7 +306,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
       this.changeOptions();
 
-      this.titulo = "Pedido " + this.pedido.id;
+      this.titulo = 'Pedido ' + this.pedido.id;
       this.fechaPago = getDateFromString(this.pedido.fechaPago);
       this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
       this.pedidoDataSource.data = this.pedido.lineas;
@@ -336,7 +335,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   newPedido(): void {
     this.pedido.ivaOptions = this.ivaOptions;
     this.checkReturnInfo();
-    if (this.config.tipoIva === "re") {
+    if (this.config.tipoIva === 're') {
       this.pedido.re = true;
     }
     this.localizadorBox.nativeElement.focus();
@@ -346,11 +345,11 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.ars.returnInfo !== null && this.ars.returnInfo.extra !== null) {
       this.nuevoLocalizador = this.ars.returnInfo.extra;
       const loc: HTMLInputElement = document.getElementById(
-        "nuevo-localizador"
+        'nuevo-localizador'
       ) as HTMLInputElement;
-      const ev: KeyboardEvent = new KeyboardEvent("keydown", {
-        code: "Enter",
-        key: "Enter",
+      const ev: KeyboardEvent = new KeyboardEvent('keydown', {
+        code: 'Enter',
+        key: 'Enter',
         keyCode: 13,
         which: 13,
       });
@@ -362,24 +361,24 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.id === null) {
       this.dialog
         .confirm({
-          title: "Confirmar",
+          title: 'Confirmar',
           content:
-            "¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.",
-          ok: "Continuar",
-          cancel: "Cancelar",
+            '¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.',
+          ok: 'Continuar',
+          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
             this.dontSave = true;
             this.cs.pedidoCargado = null;
             this.cs.pedidoTemporal = null;
-            this.router.navigate(["/compras"]);
+            this.router.navigate(['/compras']);
           }
         });
     } else {
       this.cs.pedidoCargado = null;
       this.cs.pedidoTemporal = null;
-      this.router.navigate(["/compras"]);
+      this.router.navigate(['/compras']);
     }
   }
 
@@ -396,8 +395,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   openProveedor(): void {
     const modalnewProveedorData: Modal = {
-      modalTitle: "Nuevo proveedor",
-      modalColor: "blue",
+      modalTitle: 'Nuevo proveedor',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       NewProveedorModalComponent,
@@ -464,13 +463,13 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
     );
     let nextInd: number = null;
-    if (sent === "up") {
+    if (sent === 'up') {
       if (ind === 0) {
         return;
       }
       nextInd = ind - 1;
     }
-    if (sent === "down") {
+    if (sent === 'down') {
       if (ind === this.pedido.lineas.length - 1) {
         return;
       }
@@ -532,9 +531,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
       this.showBuscador = true;
       const modalBuscadorData: BuscadorModal = {
-        modalTitle: "Buscador",
-        modalColor: "blue",
-        css: "modal-wide",
+        modalTitle: 'Buscador',
+        modalColor: 'blue',
+        css: 'modal-wide',
         key: ev.key,
       };
       const dialog = this.overlayService.open(
@@ -553,7 +552,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
       return;
     }
-    if (ev.key == "Enter") {
+    if (ev.key == 'Enter') {
       ev.preventDefault();
       ev.stopPropagation();
 
@@ -565,7 +564,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.ars
       .loadArticulo(this.nuevoLocalizador)
       .subscribe((result: ArticuloResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
           const ind: number = this.pedido.lineas.findIndex(
@@ -608,9 +607,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         } else {
           this.dialog
             .alert({
-              title: "Error",
-              content: "No se encuentra el localizador indicado.",
-              ok: "Continuar",
+              title: 'Error',
+              content: 'No se encuentra el localizador indicado.',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.localizadorBox.nativeElement.focus();
@@ -620,9 +619,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   checkArrows(ev: KeyboardEvent): void {
-    if (ev.key === "ArrowUp" || ev.key === "ArrowDown") {
+    if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
       ev.preventDefault();
-      const target: string[] = (<HTMLInputElement>ev.target).id.split("-");
+      const target: string[] = (<HTMLInputElement>ev.target).id.split('-');
       const localizador: number = parseInt(target[2]);
       const ind: number = this.pedido.lineas.findIndex(
         (x: PedidoLinea): boolean => {
@@ -632,8 +631,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       let previousInd: number = ind - 1;
       let nextInd: number = ind + 1;
       let newLocalizador: number = null;
-      if (ev.key === "ArrowUp" && previousInd !== -1) {
-        if (target[1] === "codBarras") {
+      if (ev.key === 'ArrowUp' && previousInd !== -1) {
+        if (target[1] === 'codBarras') {
           while (newLocalizador === null && previousInd > 0) {
             if (this.pedido.lineas[previousInd].showCodigoBarras) {
               newLocalizador = this.pedido.lineas[previousInd].localizador;
@@ -645,8 +644,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           newLocalizador = this.pedido.lineas[previousInd].localizador;
         }
       }
-      if (ev.key === "ArrowDown" && nextInd < this.pedido.lineas.length) {
-        if (target[1] === "codBarras") {
+      if (ev.key === 'ArrowDown' && nextInd < this.pedido.lineas.length) {
+        if (target[1] === 'codBarras') {
           while (
             newLocalizador === null &&
             nextInd < this.pedido.lineas.length
@@ -663,7 +662,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
       if (newLocalizador !== null) {
         document
-          .getElementById(target[0] + "-" + target[1] + "-" + newLocalizador)
+          .getElementById(target[0] + '-' + target[1] + '-' + newLocalizador)
           .focus();
       }
     }
@@ -701,13 +700,13 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (ind !== -1) {
       this.dialog
         .confirm({
-          title: "Confirmar",
+          title: 'Confirmar',
           content:
             '¿Estás seguro de querer borrar la línea con localizador "' +
             localizador +
             '"?',
-          ok: "Continuar",
-          cancel: "Cancelar",
+          ok: 'Continuar',
+          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -722,15 +721,15 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
     ev && ev.preventDefault();
     this.ars.returnInfo = {
-      where: localizador === 0 ? "pedido" : "pedido-edit",
+      where: localizador === 0 ? 'pedido' : 'pedido-edit',
       id: this.pedido.id === null ? 0 : this.pedido.id,
       extra: null,
     };
-    this.router.navigate(["/articulos", localizador]);
+    this.router.navigate(['/articulos', localizador]);
   }
 
   addPDF(): void {
-    document.getElementById("pdf-file").click();
+    document.getElementById('pdf-file').click();
   }
 
   onPDFChange(ev: Event): void {
@@ -748,7 +747,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           file.name
         );
         this.pedido.pdfs.push(pdf);
-        (<HTMLInputElement>document.getElementById("pdf-file")).value = "";
+        (<HTMLInputElement>document.getElementById('pdf-file')).value = '';
       };
     }
   }
@@ -765,11 +764,11 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   deletePDF(ind: number, pdf: PedidoPDF): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el archivo "' + pdf.nombre + '"?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -804,9 +803,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.idProveedor === -1) {
       this.dialog
         .alert({
-          title: "Error",
-          content: "No has indicado ningún proveedor.",
-          ok: "Continuar",
+          title: 'Error',
+          content: 'No has indicado ningún proveedor.',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.proveedoresValue.toggle();
@@ -817,12 +816,12 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.tipo === null) {
       this.dialog
         .alert({
-          title: "Error",
+          title: 'Error',
           content:
-            "No has indicado número de " +
-            (this.pedido.tipo === "albaran" ? "albarán" : this.pedido.tipo) +
-            ".",
-          ok: "Continuar",
+            'No has indicado número de ' +
+            (this.pedido.tipo === 'albaran' ? 'albarán' : this.pedido.tipo) +
+            '.',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.numAlbaranFacturaBox.nativeElement.focus();
@@ -833,9 +832,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.pedido.lineas.length === 0) {
       this.dialog
         .alert({
-          title: "Error",
-          content: "No has añadido ningún artículo al pedido.",
-          ok: "Continuar",
+          title: 'Error',
+          content: 'No has añadido ningún artículo al pedido.',
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.localizadorBox.nativeElement.focus();
@@ -855,11 +854,11 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   recepcionar(): void {
     this.dialog
       .confirm({
-        title: "Recepcionar",
+        title: 'Recepcionar',
         content:
-          "¿Estás seguro de querer recepcionar este pedido? Una vez lo hagas los datos se guardarán de manera definitiva, se modificaran stocks, precios...",
-        ok: "Recepcionar",
-        cancel: "Cancelar",
+          '¿Estás seguro de querer recepcionar este pedido? Una vez lo hagas los datos se guardarán de manera definitiva, se modificaran stocks, precios...',
+        ok: 'Recepcionar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -875,14 +874,14 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.cs
       .savePedido(this.pedido.toInterface())
       .subscribe((result: PedidoSaveResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.pedido.id = result.id;
-          this.titulo = "Pedido " + this.pedido.id;
+          this.titulo = 'Pedido ' + this.pedido.id;
           this.dialog
             .alert({
-              title: "OK",
-              content: "El pedido ha sido correctamente guardado.",
-              ok: "Continuar",
+              title: 'OK',
+              content: 'El pedido ha sido correctamente guardado.',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.dontSave = true;
@@ -890,11 +889,11 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             });
         } else {
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content:
-              "Los siguientes códigos de barras ya están siendo usados: " +
+              'Los siguientes códigos de barras ya están siendo usados: ' +
               urldecode(result.message),
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         }
       });
@@ -906,30 +905,30 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       .autoSavePedido(this.pedido.toInterface())
       .subscribe((result: PedidoSaveResult): void => {
         this.pedido.id = result.id;
-        this.titulo = "Pedido " + this.pedido.id;
+        this.titulo = 'Pedido ' + this.pedido.id;
       });
   }
 
   deletePedido(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
-        content: "¿Estás seguro de querer eliminar este pedido?",
-        ok: "Continuar",
-        cancel: "Cancelar",
+        title: 'Confirmar',
+        content: '¿Estás seguro de querer eliminar este pedido?',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.cs
             .deletePedido(this.pedido.id)
             .subscribe((result: StatusResult): void => {
-              if (result.status === "ok") {
+              if (result.status === 'ok') {
                 this.dialog
                   .alert({
-                    title: "Pedido borrado",
+                    title: 'Pedido borrado',
                     content:
-                      "El pedido y todos sus datos han sido correctamente eliminados.",
-                    ok: "Continuar",
+                      'El pedido y todos sus datos han sido correctamente eliminados.',
+                    ok: 'Continuar',
                   })
                   .subscribe((): void => {
                     this.dontSave = true;
@@ -937,9 +936,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
                   });
               } else {
                 this.dialog.alert({
-                  title: "Error",
-                  content: "Ocurrió un error al borrar el pedido.",
-                  ok: "Continuar",
+                  title: 'Error',
+                  content: 'Ocurrió un error al borrar el pedido.',
+                  ok: 'Continuar',
                 });
               }
             });
@@ -957,12 +956,12 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         this.cs
           .autoSavePedido(this.pedido.toInterface())
           .subscribe((result: PedidoSaveResult): void => {
-            if (result.status === "error") {
+            if (result.status === 'error') {
               this.dialog.alert({
-                title: "Error",
+                title: 'Error',
                 content:
-                  "Ocurrió un error al guardar automáticamente el pedido.",
-                ok: "Continuar",
+                  'Ocurrió un error al guardar automáticamente el pedido.',
+                ok: 'Continuar',
               });
             }
           });

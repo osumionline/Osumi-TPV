@@ -1,32 +1,32 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { ClienteResult } from "@interfaces/cliente.interface";
-import { Cliente } from "@model/clientes/cliente.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { ConfigService } from "@services/config.service";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ClienteResult } from '@interfaces/cliente.interface';
+import Cliente from '@model/clientes/cliente.model';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import ConfigService from '@services/config.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-lopd",
-  templateUrl: "./lopd.component.html",
-  styleUrls: ["./lopd.component.scss"],
+  selector: 'otpv-lopd',
+  templateUrl: './lopd.component.html',
+  styleUrls: ['./lopd.component.scss'],
 })
 export default class LopdComponent implements OnInit {
-  nombre: string = "";
-  poblacion: string = "";
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private config: ConfigService = inject(ConfigService);
+  private cs: ClientesService = inject(ClientesService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
+  nombre: string = '';
+  poblacion: string = '';
   day: number = null;
   month: string = null;
   year: number = null;
   cliente: Cliente = null;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private config: ConfigService,
-    private cs: ClientesService,
-    private cms: ClassMapperService
-  ) {
-    document.body.classList.add("white-bg");
+  constructor() {
+    document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {

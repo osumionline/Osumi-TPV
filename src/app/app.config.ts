@@ -1,41 +1,41 @@
-import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from "@angular/core";
+import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from '@angular/core';
 import {
   InMemoryScrollingFeature,
   InMemoryScrollingOptions,
   provideRouter,
   withInMemoryScrolling,
-} from "@angular/router";
+} from '@angular/router';
 
-import { registerLocaleData } from "@angular/common";
-import { provideHttpClient } from "@angular/common/http";
-import es from "@angular/common/locales/es";
-import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { registerLocaleData } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import es from '@angular/common/locales/es';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
-} from "@angular/material/form-field";
-import { provideAnimations } from "@angular/platform-browser/animations";
-import { routes } from "@app/app.routes";
-import { provideCore } from "@modules/core";
-import { ConfigService } from "@services/config.service";
+} from '@angular/material/form-field';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import routes from '@app/app.routes';
+import provideCore from '@modules/core';
+import ConfigService from '@services/config.service';
 
 registerLocaleData(es);
 
 const scrollConfig: InMemoryScrollingOptions = {
-  scrollPositionRestoration: "top",
-  anchorScrolling: "enabled",
+  scrollPositionRestoration: 'top',
+  anchorScrolling: 'enabled',
 };
 const inMemoryScrollingFeature: InMemoryScrollingFeature =
   withInMemoryScrolling(scrollConfig);
 const appearance: MatFormFieldDefaultOptions = {
-  appearance: "outline",
+  appearance: 'outline',
 };
 
-export function servicesOnRun(config: ConfigService) {
+function servicesOnRun(config: ConfigService) {
   return (): Promise<string> => config.start();
 }
 
-export const appConfig: ApplicationConfig = {
+const appConfig: ApplicationConfig = {
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -43,11 +43,11 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: MAT_DATE_LOCALE,
-      useValue: "es",
+      useValue: 'es',
     },
     {
       provide: LOCALE_ID,
-      useValue: "es-ES",
+      useValue: 'es-ES',
     },
     {
       provide: APP_INITIALIZER,
@@ -61,3 +61,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
   ],
 };
+
+export default appConfig;

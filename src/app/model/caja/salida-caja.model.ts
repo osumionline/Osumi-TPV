@@ -1,7 +1,7 @@
-import { SalidaCajaInterface } from "@interfaces/caja.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { SalidaCajaInterface } from '@interfaces/caja.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class SalidaCaja {
+export default class SalidaCaja {
   constructor(
     public id: number = null,
     public concepto: string = null,

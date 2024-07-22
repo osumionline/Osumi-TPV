@@ -1,12 +1,12 @@
-import { VentaHistoricoInterface } from "@interfaces/caja.interface";
+import { VentaHistoricoInterface } from '@interfaces/caja.interface';
 import {
   FacturaInterface,
   FacturaSaveInterface,
-} from "@interfaces/cliente.interface";
-import { VentaHistorico } from "@model/caja/venta-historico.model";
-import { urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/cliente.interface';
+import VentaHistorico from '@model/caja/venta-historico.model';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Factura {
+export default class Factura {
   constructor(
     public id: number = null,
     public idCliente: number = null,
@@ -27,17 +27,17 @@ export class Factura {
 
   get soloFecha(): string {
     if (this.fecha === null) {
-      return "";
+      return '';
     }
-    const partes: string[] = this.fecha.split(" ");
+    const partes: string[] = this.fecha.split(' ');
     return partes[0];
   }
 
   get year(): string {
     if (this.fecha === null) {
-      return "";
+      return '';
     }
-    const partes: string[] = this.soloFecha.split("/");
+    const partes: string[] = this.soloFecha.split('/');
     return partes[2];
   }
 

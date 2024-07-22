@@ -1,37 +1,43 @@
-import { KeyValue, KeyValuePipe, NgClass, NgStyle } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { KeyValue, KeyValuePipe, NgClass, NgStyle } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatFormField } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatActionList, MatListItem } from "@angular/material/list";
-import { MatTab, MatTabGroup } from "@angular/material/tabs";
-import { Router } from "@angular/router";
-import { EmpleadoSaveInterface } from "@interfaces/empleado.interface";
-import { StatusResult } from "@interfaces/interfaces";
-import { Empleado } from "@model/tpv/empleado.model";
-import { ConfigService } from "@services/config.service";
-import { DialogService } from "@services/dialog.service";
-import { EmpleadosService } from "@services/empleados.service";
-import { GestionService } from "@services/gestion.service";
-import { HeaderComponent } from "@shared/components/header/header.component";
-import { EmployeeListFilterPipe } from "@shared/pipes/employee-list-filter.pipe";
-import { Rol, RolGroup, rolList } from "@shared/rol.class";
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { Router } from '@angular/router';
+import { EmpleadoSaveInterface } from '@interfaces/empleado.interface';
+import { StatusResult } from '@interfaces/interfaces';
+import Empleado from '@model/tpv/empleado.model';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import EmpleadosService from '@services/empleados.service';
+import GestionService from '@services/gestion.service';
+import HeaderComponent from '@shared/components/header/header.component';
+import EmployeeListFilterPipe from '@shared/pipes/employee-list-filter.pipe';
+import { Rol, RolGroup, rolList } from '@shared/rol.class';
 
 @Component({
   standalone: true,
-  selector: "otpv-gestion-empleados",
-  templateUrl: "./gestion-empleados.component.html",
-  styleUrls: ["./gestion-empleados.component.scss"],
+  selector: 'otpv-gestion-empleados',
+  templateUrl: './gestion-empleados.component.html',
+  styleUrls: ['./gestion-empleados.component.scss'],
   imports: [
     NgClass,
     NgStyle,
@@ -54,8 +60,14 @@ import { Rol, RolGroup, rolList } from "@shared/rol.class";
   ],
 })
 export default class GestionEmpleadosComponent implements OnInit {
-  search: string = "";
-  @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
+  public es: EmpleadosService = inject(EmpleadosService);
+  public config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+  private gs: GestionService = inject(GestionService);
+  private router: Router = inject(Router);
+
+  search: string = '';
+  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   selectedTab: number = 0;
   start: boolean = true;
   canNewEmployees: boolean = false;
@@ -64,7 +76,7 @@ export default class GestionEmpleadosComponent implements OnInit {
   canChangeEmployeeRoles: boolean = false;
   canSeeStatistics: boolean = false;
   canSaveChanges: boolean = false;
-  @ViewChild("empleadoTabs", { static: false })
+  @ViewChild('empleadoTabs', { static: false })
   empleadoTabs: MatTabGroup;
   selectedEmpleado: Empleado = new Empleado();
 
@@ -83,33 +95,25 @@ export default class GestionEmpleadosComponent implements OnInit {
   } = rolList;
   selectedRolList: boolean[] = [];
 
-  constructor(
-    public es: EmpleadosService,
-    public config: ConfigService,
-    private dialog: DialogService,
-    private gs: GestionService,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
     if (!this.gs.empleado) {
-      this.router.navigate(["/gestion"]);
+      this.router.navigate(['/gestion']);
       return;
     }
     this.canNewEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles["crear"].id
+      rolList.empleados.roles['crear'].id
     );
     this.canDeleteEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles["borrar"].id
+      rolList.empleados.roles['borrar'].id
     );
     this.canModifyEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles["modificar"].id
+      rolList.empleados.roles['modificar'].id
     );
     this.canChangeEmployeeRoles = this.gs.empleado.hasRol(
-      rolList.empleados.roles["roles"].id
+      rolList.empleados.roles['roles'].id
     );
     this.canSeeStatistics = this.gs.empleado.hasRol(
-      rolList.empleados.roles["estadisticas"].id
+      rolList.empleados.roles['estadisticas'].id
     );
     for (const group in this.list) {
       for (const rol in this.list[group].roles) {
@@ -128,7 +132,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
-    this.updateEnabledDisabled("edit");
+    this.updateEnabledDisabled('edit');
   }
 
   newEmpleado(): void {
@@ -138,25 +142,25 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.empleadoTabs.realignInkBar();
-    this.updateEnabledDisabled("new");
+    this.updateEnabledDisabled('new');
   }
 
   updateEnabledDisabled(operation: string): void {
-    this.form.get("nombre")?.enable();
-    this.form.get("hasPassword")?.enable();
-    this.form.get("password")?.enable();
-    this.form.get("confirmPassword")?.enable();
-    this.form.get("color")?.enable();
+    this.form.get('nombre')?.enable();
+    this.form.get('hasPassword')?.enable();
+    this.form.get('password')?.enable();
+    this.form.get('confirmPassword')?.enable();
+    this.form.get('color')?.enable();
     this.canSaveChanges = true;
     if (
-      (operation === "new" && !this.canNewEmployees) ||
-      (operation === "edit" && !this.canModifyEmployees)
+      (operation === 'new' && !this.canNewEmployees) ||
+      (operation === 'edit' && !this.canModifyEmployees)
     ) {
-      this.form.get("nombre")?.disable();
-      this.form.get("hasPassword")?.disable();
-      this.form.get("password")?.disable();
-      this.form.get("confirmPassword")?.disable();
-      this.form.get("color")?.disable();
+      this.form.get('nombre')?.disable();
+      this.form.get('hasPassword')?.disable();
+      this.form.get('password')?.disable();
+      this.form.get('confirmPassword')?.disable();
+      this.form.get('color')?.disable();
       this.canSaveChanges = false;
     }
     if (this.canChangeEmployeeRoles) {
@@ -184,17 +188,17 @@ export default class GestionEmpleadosComponent implements OnInit {
       this.form.value.hasPassword &&
       !this.originalValue.hasPassword &&
       (this.form.value.password === null ||
-        this.form.value.password === "" ||
+        this.form.value.password === '' ||
         this.form.value.confirmPassword === null ||
-        this.form.value.password === "")
+        this.form.value.password === '')
     ) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
           'El empleado "' +
           this.form.value.nombre +
           '" originalmente no tenía contraseña pero ahora has indicado que si debe tener, de modo que no puedes dejar la contraseña en blanco.',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
       return;
     }
@@ -204,9 +208,9 @@ export default class GestionEmpleadosComponent implements OnInit {
       this.form.value.password !== this.form.value.confirmPassword
     ) {
       this.dialog.alert({
-        title: "Error",
-        content: "Las contraseñas introducidas no coinciden.",
-        ok: "Continuar",
+        title: 'Error',
+        content: 'Las contraseñas introducidas no coinciden.',
+        ok: 'Continuar',
       });
       return;
     }
@@ -224,22 +228,22 @@ export default class GestionEmpleadosComponent implements OnInit {
 
     this.selectedEmpleado.fromInterface(data, false);
     this.es.saveEmpleado(data).subscribe((result: StatusResult): void => {
-      if (result.status === "ok") {
+      if (result.status === 'ok') {
         this.es.resetEmpleados();
         this.resetForm();
         this.dialog.alert({
-          title: "Datos guardados",
+          title: 'Datos guardados',
           content:
             'Los datos del empleado "' +
             this.selectedEmpleado.nombre +
             '" han sido correctamente guardados.',
-          ok: "Continuar",
+          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
-          title: "Datos guardados",
-          content: "Ocurrió un error al guardar los datos del empleado.",
-          ok: "Continuar",
+          title: 'Datos guardados',
+          content: 'Ocurrió un error al guardar los datos del empleado.',
+          ok: 'Continuar',
         });
       }
     });
@@ -248,13 +252,13 @@ export default class GestionEmpleadosComponent implements OnInit {
   deleteEmpleado(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el empleado "' +
           this.selectedEmpleado.nombre +
           '"? Las ventas asociadas al empleado no se borrarán, pero dejarán de estar vinculadas a un empleado concreto.',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -267,22 +271,22 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.es
       .deleteEmpleado(this.selectedEmpleado.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.es.resetEmpleados();
           this.start = true;
           this.dialog.alert({
-            title: "Empleado borrado",
+            title: 'Empleado borrado',
             content:
               'El empleado "' +
               this.selectedEmpleado.nombre +
               '" ha sido correctamente borrado.',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al borrar el empleado.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al borrar el empleado.',
+            ok: 'Continuar',
           });
         }
       });

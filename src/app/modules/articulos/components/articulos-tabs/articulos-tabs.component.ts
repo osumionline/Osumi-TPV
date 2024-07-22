@@ -1,17 +1,17 @@
-import { NgClass } from "@angular/common";
-import { Component, inject } from "@angular/core";
-import { MatIcon } from "@angular/material/icon";
-import { MatTooltip } from "@angular/material/tooltip";
-import { ArticulosService } from "@services/articulos.service";
+import { NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import ArticulosService from '@services/articulos.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-articulos-tabs",
-  templateUrl: "./articulos-tabs.component.html",
-  styleUrls: ["./articulos-tabs.component.scss"],
+  selector: 'otpv-articulos-tabs',
+  templateUrl: './articulos-tabs.component.html',
+  styleUrls: ['./articulos-tabs.component.scss'],
   imports: [NgClass, MatIcon, MatTooltip],
 })
-export class ArticulosTabsComponent {
+export default class ArticulosTabsComponent {
   ars: ArticulosService = inject(ArticulosService);
 
   selectTab(ind: number): void {
@@ -27,7 +27,7 @@ export class ArticulosTabsComponent {
       this.ars.selected = -1;
     }
     for (const ind in this.ars.list) {
-      this.ars.list[ind].tabName = "ARTÍCULO " + (parseInt(ind) + 1);
+      this.ars.list[ind].tabName = 'ARTÍCULO ' + (parseInt(ind) + 1);
     }
   }
 

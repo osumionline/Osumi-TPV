@@ -1,45 +1,44 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   Component,
   HostListener,
+  inject,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
-} from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
-import { SelectClienteInterface } from "@interfaces/cliente.interface";
-import { Modal } from "@interfaces/modals.interface";
-import { Reserva } from "@model/ventas/reserva.model";
-import { VentaLinea } from "@model/ventas/venta-linea.model";
-import { VentaFinalizarModalComponent } from "@modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component";
-import { UnaVentaComponent } from "@modules/ventas/components/una-venta/una-venta.component";
-import { VentasTabsComponent } from "@modules/ventas/components/ventas-tabs/ventas-tabs.component";
-import { ArticulosService } from "@services/articulos.service";
-import { ConfigService } from "@services/config.service";
-import { OverlayService } from "@services/overlay.service";
-import { VentasService } from "@services/ventas.service";
-import { HeaderComponent } from "@shared/components/header/header.component";
+} from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { SelectClienteInterface } from '@interfaces/cliente.interface';
+import { Modal } from '@interfaces/modals.interface';
+import Reserva from '@model/ventas/reserva.model';
+import VentaLinea from '@model/ventas/venta-linea.model';
+import VentaFinalizarModalComponent from '@modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component';
+import UnaVentaComponent from '@modules/ventas/components/una-venta/una-venta.component';
+import VentasTabsComponent from '@modules/ventas/components/ventas-tabs/ventas-tabs.component';
+import ArticulosService from '@services/articulos.service';
+import ConfigService from '@services/config.service';
+import OverlayService from '@services/overlay.service';
+import VentasService from '@services/ventas.service';
+import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
   standalone: true,
-  selector: "otpv-ventas",
-  templateUrl: "./ventas.component.html",
-  styleUrls: ["./ventas.component.scss"],
+  selector: 'otpv-ventas',
+  templateUrl: './ventas.component.html',
+  styleUrls: ['./ventas.component.scss'],
   imports: [NgClass, VentasTabsComponent, UnaVentaComponent, HeaderComponent],
 })
 export default class VentasComponent implements OnInit {
-  @ViewChild("tabs", { static: true }) tabs: VentasTabsComponent;
-  @ViewChildren("ventas") ventas: QueryList<UnaVentaComponent>;
-  @ViewChild("header", { static: true }) header: HeaderComponent;
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private ars: ArticulosService = inject(ArticulosService);
+  public config: ConfigService = inject(ConfigService);
+  public vs: VentasService = inject(VentasService);
+  private overlayService: OverlayService = inject(OverlayService);
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private ars: ArticulosService,
-    public config: ConfigService,
-    public vs: VentasService,
-    private overlayService: OverlayService
-  ) {}
+  @ViewChild('tabs', { static: true }) tabs: VentasTabsComponent;
+  @ViewChildren('ventas') ventas: QueryList<UnaVentaComponent>;
+  @ViewChild('header', { static: true }) header: HeaderComponent;
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
@@ -58,9 +57,9 @@ export default class VentasComponent implements OnInit {
     });
   }
 
-  @HostListener("window:keydown", ["$event"])
+  @HostListener('window:keydown', ['$event'])
   onKeyDown(ev: KeyboardEvent): void {
-    if (ev.key === "+") {
+    if (ev.key === '+') {
       ev.preventDefault();
       this.endVenta();
     }
@@ -91,7 +90,7 @@ export default class VentasComponent implements OnInit {
     }
     this.vs.list.splice(ind, 1);
     for (const ind in this.vs.list) {
-      this.vs.list[ind].tabName = "VENTA " + (parseInt(ind) + 1);
+      this.vs.list[ind].tabName = 'VENTA ' + (parseInt(ind) + 1);
     }
   }
 
@@ -159,8 +158,8 @@ export default class VentasComponent implements OnInit {
 
   abreFinalizarVenta(): void {
     const modalFinalizarVentaData: Modal = {
-      modalTitle: "Finalizar venta",
-      modalColor: "blue",
+      modalTitle: 'Finalizar venta',
+      modalColor: 'blue',
     };
     const dialog = this.overlayService.open(
       VentaFinalizarModalComponent,
@@ -168,25 +167,25 @@ export default class VentasComponent implements OnInit {
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        if (data.data.status === "cliente") {
-          this.tabs.selectClient("venta");
+        if (data.data.status === 'cliente') {
+          this.tabs.selectClient('venta');
         }
-        if (data.data.status === "factura") {
-          this.tabs.selectClient("factura");
+        if (data.data.status === 'factura') {
+          this.tabs.selectClient('factura');
         }
-        if (data.data.status === "reserva") {
-          this.tabs.selectClient("reserva");
+        if (data.data.status === 'reserva') {
+          this.tabs.selectClient('reserva');
         }
-        if (data.data.status === "cancelar") {
+        if (data.data.status === 'cancelar') {
           this.ventas.get(this.vs.selected).setFocus();
         }
-        if (data.data.status === "fin-reserva") {
+        if (data.data.status === 'fin-reserva') {
           this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
           this.ventas.get(this.vs.selected).setFocus();
         }
-        if (data.data.status === "fin") {
+        if (data.data.status === 'fin') {
           this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();

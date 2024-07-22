@@ -1,7 +1,7 @@
-import { AccesoDirectoInterface } from "@interfaces/articulo.interface";
-import { urldecode, urlencode } from "@osumi/tools";
+import { AccesoDirectoInterface } from '@interfaces/articulo.interface';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class AccesoDirecto {
+export default class AccesoDirecto {
   constructor(
     public id: number = null,
     public accesoDirecto: number = null,

@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Cliente } from "@model/clientes/cliente.model";
+import { Pipe, PipeTransform } from '@angular/core';
+import Cliente from '@model/clientes/cliente.model';
 
 @Pipe({
   standalone: true,
-  name: "clientListFilter",
+  name: 'clientListFilter',
 })
-export class ClientListFilterPipe implements PipeTransform {
+export default class ClientListFilterPipe implements PipeTransform {
   transform(list: Cliente[], filter: string): Cliente[] {
-    if (filter === "") {
+    if (filter === '') {
       return list;
     }
     return list.filter((c: Cliente): boolean => {

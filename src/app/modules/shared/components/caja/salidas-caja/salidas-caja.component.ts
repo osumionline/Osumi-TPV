@@ -1,44 +1,45 @@
-import { NgClass } from "@angular/common";
+import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
   OutputEmitterRef,
   ViewChild,
+  inject,
   output,
-} from "@angular/core";
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButton, MatIconButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatNativeDateModule, MatOption } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule, MatLabel } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatActionList, MatListItem } from "@angular/material/list";
-import { MatSelect } from "@angular/material/select";
+} from '@angular/forms';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { MatSelect } from '@angular/material/select';
 import {
   SalidaCajaInterface,
   SalidaCajaResult,
-} from "@interfaces/caja.interface";
-import { DateValues, StatusResult } from "@interfaces/interfaces";
-import { SalidaCaja } from "@model/caja/salida-caja.model";
-import { addDays, getDate } from "@osumi/tools";
-import { ApiService } from "@services/api.service";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
+} from '@interfaces/caja.interface';
+import { DateValues, StatusResult } from '@interfaces/interfaces';
+import SalidaCaja from '@model/caja/salida-caja.model';
+import { addDays, getDate } from '@osumi/tools';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-salidas-caja",
-  templateUrl: "./salidas-caja.component.html",
-  styleUrls: ["./salidas-caja.component.scss"],
+  selector: 'otpv-salidas-caja',
+  templateUrl: './salidas-caja.component.html',
+  styleUrls: ['./salidas-caja.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -60,9 +61,13 @@ import { FixedNumberPipe } from "@shared/pipes/fixed-number.pipe";
     MatListItem,
   ],
 })
-export class SalidasCajaComponent {
+export default class SalidasCajaComponent {
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   salidaCajaEvent: OutputEmitterRef<boolean> = output<boolean>();
-  salidasModo: "fecha" | "rango" = "fecha";
+  salidasModo: 'fecha' | 'rango' = 'fecha';
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
   rangoHasta: Date = new Date();
@@ -72,7 +77,7 @@ export class SalidasCajaComponent {
 
   start: boolean = true;
 
-  @ViewChild("conceptoBox", { static: true }) conceptoBox: ElementRef;
+  @ViewChild('conceptoBox', { static: true }) conceptoBox: ElementRef;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -81,12 +86,6 @@ export class SalidasCajaComponent {
     importe: new FormControl(null, Validators.required),
   });
   originalValue: SalidaCajaInterface = null;
-
-  constructor(
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService
-  ) {}
 
   previousFecha(): void {
     this.fecha = addDays(this.fecha, -1);
@@ -101,7 +100,7 @@ export class SalidasCajaComponent {
   changeFecha(): void {
     this.salidaCajaSelected = new SalidaCaja();
     const data: DateValues = {
-      modo: "fecha",
+      modo: 'fecha',
       id: null,
       fecha: getDate(this.fecha),
       desde: null,
@@ -113,14 +112,14 @@ export class SalidasCajaComponent {
   buscarPorRango(): void {
     if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
       return;
     }
     const data: DateValues = {
-      modo: "rango",
+      modo: 'rango',
       fecha: null,
       id: null,
       desde: getDate(this.rangoDesde),
@@ -159,11 +158,11 @@ export class SalidasCajaComponent {
   }
 
   resetBusqueda(): void {
-    if (this.salidasModo === "fecha") {
+    if (this.salidasModo === 'fecha') {
       this.fecha = new Date();
       this.changeFecha();
     }
-    if (this.salidasModo === "rango") {
+    if (this.salidasModo === 'rango') {
       this.rangoDesde = new Date();
       this.rangoHasta = new Date();
       this.buscarPorRango();
@@ -179,15 +178,15 @@ export class SalidasCajaComponent {
     this.as
       .saveSalidaCaja(this.salidaCajaSelected.toInterface())
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog
             .alert({
-              title: "Datos guardados",
+              title: 'Datos guardados',
               content:
                 'Salida de caja con concepto "' +
                 this.salidaCajaSelected.concepto +
                 '" correctamente guardada.',
-              ok: "Continuar",
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.resetBusqueda();
@@ -195,9 +194,9 @@ export class SalidasCajaComponent {
             });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al guardar la salida de caja.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al guardar la salida de caja.',
+            ok: 'Continuar',
           });
         }
       });
@@ -206,13 +205,13 @@ export class SalidasCajaComponent {
   deleteSalidaCaja(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar la salida de caja con concepto "' +
           this.salidaCajaSelected.concepto +
           '"?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -225,24 +224,24 @@ export class SalidasCajaComponent {
     this.as
       .deleteSalidaCaja(this.salidaCajaSelected.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog
             .alert({
-              title: "Salida de caja borrada",
+              title: 'Salida de caja borrada',
               content:
                 'La salida de caja con concepto "' +
                 this.salidaCajaSelected.concepto +
                 '" ha sido correctamente borrada.',
-              ok: "Continuar",
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.resetBusqueda();
             });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Error al borrar la salida de caja.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Error al borrar la salida de caja.',
+            ok: 'Continuar',
           });
         }
       });

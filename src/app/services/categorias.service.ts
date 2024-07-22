@@ -1,19 +1,19 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
-import { CategoriasResult } from "@interfaces/articulo.interface";
-import { Categoria } from "@model/articulos/categoria.model";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '@env/environment';
+import { CategoriasResult } from '@interfaces/articulo.interface';
+import Categoria from '@model/articulos/categoria.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class CategoriasService {
+export default class CategoriasService {
+  private http: HttpClient = inject(HttpClient);
+
   categorias: Categoria[] = [];
   categoriasPlain: Categoria[] = [];
   loaded: boolean = false;
-
-  constructor(private http: HttpClient) {}
 
   loadCategorias(list: Categoria[]): void {
     this.categorias = list;
@@ -32,7 +32,7 @@ export class CategoriasService {
 
   getCategorias(): Observable<CategoriasResult> {
     return this.http.post<CategoriasResult>(
-      environment.apiUrl + "-categorias/get-categorias",
+      environment.apiUrl + '-categorias/get-categorias',
       {}
     );
   }

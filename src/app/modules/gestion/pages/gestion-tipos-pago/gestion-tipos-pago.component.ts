@@ -1,6 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -23,14 +29,14 @@ import {
   TiposPagoOrderInterface,
   TiposPagoResult,
 } from '@interfaces/tipo-pago.interface';
-import { TipoPago } from '@model/tpv/tipo-pago.model';
-import { ApiService } from '@services/api.service';
-import { ClassMapperService } from '@services/class-mapper.service';
-import { ConfigService } from '@services/config.service';
-import { DialogService } from '@services/dialog.service';
-import { GestionService } from '@services/gestion.service';
-import { HeaderComponent } from '@shared/components/header/header.component';
-import { PayTypeListFilterPipe } from '@shared/pipes/pay-type-list-filter.pipe';
+import TipoPago from '@model/tpv/tipo-pago.model';
+import ApiService from '@services/api.service';
+import ClassMapperService from '@services/class-mapper.service';
+import ConfigService from '@services/config.service';
+import DialogService from '@services/dialog.service';
+import GestionService from '@services/gestion.service';
+import HeaderComponent from '@shared/components/header/header.component';
+import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
 
 @Component({
   standalone: true,
@@ -57,6 +63,13 @@ import { PayTypeListFilterPipe } from '@shared/pipes/pay-type-list-filter.pipe';
   ],
 })
 export default class GestionTiposPagoComponent implements OnInit {
+  public config: ConfigService = inject(ConfigService);
+  private dialog: DialogService = inject(DialogService);
+  private as: ApiService = inject(ApiService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+  private gs: GestionService = inject(GestionService);
+  private router: Router = inject(Router);
+
   search: string = '';
   @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   start: boolean = true;
@@ -73,15 +86,6 @@ export default class GestionTiposPagoComponent implements OnInit {
   originalValue: TipoPagoInterface = null;
 
   logo: string = '/img/default.jpg';
-
-  constructor(
-    public config: ConfigService,
-    private dialog: DialogService,
-    private as: ApiService,
-    private cms: ClassMapperService,
-    private gs: GestionService,
-    private router: Router
-  ) {}
 
   ngOnInit(): void {
     if (!this.gs.empleado) {

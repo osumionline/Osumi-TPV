@@ -1,8 +1,8 @@
-import { DevolucionSelectedInterface } from "@interfaces/venta.interface";
-import { Factura } from "@model/clientes/factura.model";
+import { DevolucionSelectedInterface } from '@interfaces/venta.interface';
+import Factura from '@model/clientes/factura.model';
 
 export interface Modal {
-  modalColor: "blue" | "yellow" | "red";
+  modalColor: 'blue' | 'yellow' | 'red';
   modalTitle: string;
   css?: string;
   hideCloseBtn?: boolean;

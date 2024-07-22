@@ -1,35 +1,36 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, WritableSignal, signal } from "@angular/core";
-import { environment } from "@env/environment";
+import { HttpClient } from '@angular/common/http';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { environment } from '@env/environment';
 import {
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
   EmpleadosResult,
-} from "@interfaces/empleado.interface";
-import { StatusResult } from "@interfaces/interfaces";
-import { Empleado } from "@model/tpv/empleado.model";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { Observable } from "rxjs";
+} from '@interfaces/empleado.interface';
+import { StatusResult } from '@interfaces/interfaces';
+import Empleado from '@model/tpv/empleado.model';
+import ClassMapperService from '@services/class-mapper.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class EmpleadosService {
+export default class EmpleadosService {
+  private http: HttpClient = inject(HttpClient);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([]);
   colors: any = {};
   textColors: any = {};
   loaded: boolean = false;
 
-  constructor(private http: HttpClient, private cms: ClassMapperService) {}
-
   load(): Promise<string> {
     return new Promise((resolve) => {
       if (this.loaded) {
-        resolve("ok");
+        resolve('ok');
       } else {
         this.getEmpleados().subscribe((result: EmpleadosResult): void => {
           this.loadEmpleados(this.cms.getEmpleados(result.list));
-          resolve("ok");
+          resolve('ok');
         });
       }
     });
@@ -37,7 +38,7 @@ export class EmpleadosService {
 
   getEmpleados(): Observable<EmpleadosResult> {
     return this.http.post<EmpleadosResult>(
-      environment.apiUrl + "-empleados/get-empleados",
+      environment.apiUrl + '-empleados/get-empleados',
       {}
     );
   }
@@ -58,21 +59,21 @@ export class EmpleadosService {
 
   saveEmpleado(empleado: EmpleadoSaveInterface): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-empleados/save-empleado",
+      environment.apiUrl + '-empleados/save-empleado',
       empleado
     );
   }
 
   login(empleado: EmpleadoLoginInterface): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-empleados/login",
+      environment.apiUrl + '-empleados/login',
       empleado
     );
   }
 
   deleteEmpleado(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-empleados/delete-empleado",
+      environment.apiUrl + '-empleados/delete-empleado',
       { id }
     );
   }

@@ -4,21 +4,21 @@ import {
   WritableSignal,
   inject,
   signal,
-} from "@angular/core";
-import { MatButton } from "@angular/material/button";
-import { StatusResult } from "@interfaces/interfaces";
-import { CustomOverlayRef } from "@model/tpv/custom-overlay-ref.model";
-import { ArticulosService } from "@services/articulos.service";
-import { DialogService } from "@services/dialog.service";
+} from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { StatusResult } from '@interfaces/interfaces';
+import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import ArticulosService from '@services/articulos.service';
+import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-articulo-dar-de-baja-modal",
-  templateUrl: "./articulo-dar-de-baja-modal.component.html",
-  styleUrls: ["./articulo-dar-de-baja-modal.component.scss"],
+  selector: 'otpv-articulo-dar-de-baja-modal',
+  templateUrl: './articulo-dar-de-baja-modal.component.html',
+  styleUrls: ['./articulo-dar-de-baja-modal.component.scss'],
   imports: [MatButton],
 })
-export class ArticuloDarDeBajaModalComponent implements OnInit {
+export default class ArticuloDarDeBajaModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private ars: ArticulosService = inject(ArticulosService);
   private customOverlayRef: CustomOverlayRef<
@@ -40,13 +40,13 @@ export class ArticuloDarDeBajaModalComponent implements OnInit {
     this.ars
       .deleteArticulo(this.id)
       .subscribe((response: StatusResult): void => {
-        if (response.status == "ok") {
+        if (response.status == 'ok') {
           this.dialog
             .alert({
-              title: "Éxito",
+              title: 'Éxito',
               content:
                 'El artículo "' + this.nombre + '" ha sido dado de baja.',
-              ok: "Continuar",
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.customOverlayRef.close(true);
@@ -54,9 +54,9 @@ export class ArticuloDarDeBajaModalComponent implements OnInit {
         } else {
           this.dialog
             .alert({
-              title: "Error",
-              content: "¡Ocurrió un error al dar de baja el artículo!",
-              ok: "Continuar",
+              title: 'Error',
+              content: '¡Ocurrió un error al dar de baja el artículo!',
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.darDeBajaLoading.set(false);

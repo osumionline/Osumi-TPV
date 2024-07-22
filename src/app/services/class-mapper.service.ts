@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { InventarioItemInterface } from "@interfaces/almacen.interface";
+import { Injectable } from '@angular/core';
+import { InventarioItemInterface } from '@interfaces/almacen.interface';
 import {
   AccesoDirectoInterface,
   ArticuloBuscadorInterface,
@@ -7,65 +7,63 @@ import {
   CategoriaInterface,
   CodigoBarrasInterface,
   HistoricoArticuloInterface,
-} from "@interfaces/articulo.interface";
+} from '@interfaces/articulo.interface';
 import {
   CierreCajaInterface,
   SalidaCajaInterface,
   VentaHistoricoInterface,
   VentaLineaHistoricoInterface,
-} from "@interfaces/caja.interface";
+} from '@interfaces/caja.interface';
 import {
   ClienteInterface,
   FacturaInterface,
   ReservaInterface,
-} from "@interfaces/cliente.interface";
-import { EmpleadoInterface } from "@interfaces/empleado.interface";
-import { InformeMensualItemInterface } from "@interfaces/informes.interface";
-import { BackupInterface } from "@interfaces/interfaces";
-import { MarcaInterface } from "@interfaces/marca.interface";
-import { PedidoInterface } from "@interfaces/pedido.interface";
+} from '@interfaces/cliente.interface';
+import { EmpleadoInterface } from '@interfaces/empleado.interface';
+import { InformeMensualItemInterface } from '@interfaces/informes.interface';
+import { BackupInterface } from '@interfaces/interfaces';
+import { MarcaInterface } from '@interfaces/marca.interface';
+import { PedidoInterface } from '@interfaces/pedido.interface';
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "@interfaces/proveedor.interface";
-import { TipoPagoInterface } from "@interfaces/tipo-pago.interface";
+} from '@interfaces/proveedor.interface';
+import { TipoPagoInterface } from '@interfaces/tipo-pago.interface';
 import {
   ArticuloTopVentaInterface,
   ArticuloUltimaVentaInterface,
   VentaFinInterface,
-} from "@interfaces/venta.interface";
-import { InventarioItem } from "@model/almacen/inventario-item.model";
-import { AccesoDirecto } from "@model/articulos/acceso-directo.model";
-import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
-import { ArticuloTopVenta } from "@model/articulos/articulo-top-venta.model";
-import { ArticuloUltimaVenta } from "@model/articulos/articulo-ultima-venta.model";
-import { Articulo } from "@model/articulos/articulo.model";
-import { Categoria } from "@model/articulos/categoria.model";
-import { CodigoBarras } from "@model/articulos/codigo-barras.model";
-import { HistoricoArticulo } from "@model/articulos/historico-articulo.model";
-import { CierreCaja } from "@model/caja/cierre-caja.model";
-import { InformeMensualItem } from "@model/caja/informe-mensual-item.model";
-import { SalidaCaja } from "@model/caja/salida-caja.model";
-import { VentaHistorico } from "@model/caja/venta-historico.model";
-import { VentaLineaHistorico } from "@model/caja/venta-linea-historico.model";
-import { Cliente } from "@model/clientes/cliente.model";
-import { Factura } from "@model/clientes/factura.model";
-import { Pedido } from "@model/compras/pedido.model";
-import { Marca } from "@model/marcas/marca.model";
-import { Comercial } from "@model/proveedores/comercial.model";
-import { Proveedor } from "@model/proveedores/proveedor.model";
-import { Backup } from "@model/tpv/backup.model";
-import { Empleado } from "@model/tpv/empleado.model";
-import { TipoPago } from "@model/tpv/tipo-pago.model";
-import { Reserva } from "@model/ventas/reserva.model";
-import { VentaFin } from "@model/ventas/venta-fin.model";
+} from '@interfaces/venta.interface';
+import InventarioItem from '@model/almacen/inventario-item.model';
+import AccesoDirecto from '@model/articulos/acceso-directo.model';
+import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
+import ArticuloTopVenta from '@model/articulos/articulo-top-venta.model';
+import ArticuloUltimaVenta from '@model/articulos/articulo-ultima-venta.model';
+import Articulo from '@model/articulos/articulo.model';
+import Categoria from '@model/articulos/categoria.model';
+import CodigoBarras from '@model/articulos/codigo-barras.model';
+import HistoricoArticulo from '@model/articulos/historico-articulo.model';
+import CierreCaja from '@model/caja/cierre-caja.model';
+import InformeMensualItem from '@model/caja/informe-mensual-item.model';
+import SalidaCaja from '@model/caja/salida-caja.model';
+import VentaHistorico from '@model/caja/venta-historico.model';
+import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Cliente from '@model/clientes/cliente.model';
+import Factura from '@model/clientes/factura.model';
+import Pedido from '@model/compras/pedido.model';
+import Marca from '@model/marcas/marca.model';
+import Comercial from '@model/proveedores/comercial.model';
+import Proveedor from '@model/proveedores/proveedor.model';
+import Backup from '@model/tpv/backup.model';
+import Empleado from '@model/tpv/empleado.model';
+import TipoPago from '@model/tpv/tipo-pago.model';
+import Reserva from '@model/ventas/reserva.model';
+import VentaFin from '@model/ventas/venta-fin.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class ClassMapperService {
-  constructor() {}
-
+export default class ClassMapperService {
   getMarca(m: MarcaInterface): Marca {
     return new Marca().fromInterface(m);
   }

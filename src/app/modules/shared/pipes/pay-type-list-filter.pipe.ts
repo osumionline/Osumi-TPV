@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { TipoPago } from "@model/tpv/tipo-pago.model";
+import { Pipe, PipeTransform } from '@angular/core';
+import TipoPago from '@model/tpv/tipo-pago.model';
 
 @Pipe({
   standalone: true,
-  name: "payTypeListFilter",
+  name: 'payTypeListFilter',
 })
-export class PayTypeListFilterPipe implements PipeTransform {
+export default class PayTypeListFilterPipe implements PipeTransform {
   transform(list: TipoPago[], filter: string): TipoPago[] {
-    if (filter === "") {
+    if (filter === '') {
       return list;
     }
     return list.filter((tp: TipoPago): boolean => {

@@ -4,20 +4,20 @@ import {
   EtiquetaInterface,
   EtiquetaWebInterface,
   FotoInterface,
-} from "@interfaces/articulo.interface";
-import { CodigoBarras } from "@model/articulos/codigo-barras.model";
-import { EtiquetaWeb } from "@model/articulos/etiqueta-web.model";
-import { Etiqueta } from "@model/articulos/etiqueta.model";
-import { Foto } from "@model/articulos/foto.model";
-import { urldecode, urlencode } from "@osumi/tools";
+} from '@interfaces/articulo.interface';
+import CodigoBarras from '@model/articulos/codigo-barras.model';
+import EtiquetaWeb from '@model/articulos/etiqueta-web.model';
+import Etiqueta from '@model/articulos/etiqueta.model';
+import Foto from '@model/articulos/foto.model';
+import { urldecode, urlencode } from '@osumi/tools';
 
-export class Articulo {
-  tabName: string = "";
-  status: "new" | "load" | "loaded" = "new";
-  marca: string = "";
-  proveedor: string = "";
+export default class Articulo {
+  tabName: string = '';
+  status: 'new' | 'load' | 'loaded' = 'new';
+  marca: string = '';
+  proveedor: string = '';
   fotosList: Foto[] = [];
-  nombreStatus: "ok" | "checked" = "ok";
+  nombreStatus: 'ok' | 'checked' = 'ok';
   descuento: boolean = false;
   porcentajeDescuento: number = null;
 
@@ -28,7 +28,7 @@ export class Articulo {
     public idCategoria: number = null,
     public idMarca: number = null,
     public idProveedor: number = null,
-    public referencia: string = "",
+    public referencia: string = '',
     public palb: number = 0,
     public puc: number = 0,
     public pvp: number = 0,
@@ -44,9 +44,9 @@ export class Articulo {
     public ventaOnline: boolean = false,
     public fechaCaducidad: string = null,
     public mostrarEnWeb: boolean = false,
-    public descCorta: string = "",
-    public descripcion: string = "",
-    public observaciones: string = "",
+    public descCorta: string = '',
+    public descripcion: string = '',
+    public observaciones: string = '',
     public mostrarObsPedidos: boolean = false,
     public mostrarObsVentas: boolean = false,
     public accesoDirecto: number = null,
@@ -110,7 +110,7 @@ export class Articulo {
         }
       );
     }
-    this.status = "loaded";
+    this.status = 'loaded';
     this.descuento = this.pvpDescuento !== null;
 
     return this;

@@ -1,17 +1,19 @@
-import { Route } from "@angular/router";
-import { isOpenedGuardFn } from "@app/guard/opened.guard.fn";
+import { Route } from '@angular/router';
+import isOpenedGuardFn from '@app/guard/opened.guard.fn';
 
-export const VENTAS_ROUTES: Route[] = [
+const VENTAS_ROUTES: Route[] = [
   {
-    path: "",
+    path: '',
     loadComponent: () =>
-      import("@modules/ventas/pages/ventas/ventas.component"),
+      import('@modules/ventas/pages/ventas/ventas.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: ":id",
+    path: ':id',
     loadComponent: () =>
-      import("@modules/ventas/pages/ventas/ventas.component"),
+      import('@modules/ventas/pages/ventas/ventas.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];
+
+export default VENTAS_ROUTES;

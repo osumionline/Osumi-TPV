@@ -3,7 +3,7 @@ import {
   CdkDragDrop,
   CdkDropList,
   moveItemInArray,
-} from "@angular/cdk/drag-drop";
+} from '@angular/cdk/drag-drop';
 import {
   Component,
   ElementRef,
@@ -12,27 +12,27 @@ import {
   inject,
   signal,
   viewChild,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatFormField } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatActionList, MatListItem } from "@angular/material/list";
-import { MatSlideToggle } from "@angular/material/slide-toggle";
-import { MatTooltip } from "@angular/material/tooltip";
-import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
-import { ArticuloBuscador } from "@model/articulos/articulo-buscador.model";
-import { ImprentaTableComponent } from "@modules/almacen/components/imprenta-table/imprenta-table.component";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { DialogService } from "@services/dialog.service";
-import { VentasService } from "@services/ventas.service";
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
+import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
+import ImprentaTableComponent from '@modules/almacen/components/imprenta-table/imprenta-table.component';
+import ClassMapperService from '@services/class-mapper.service';
+import DialogService from '@services/dialog.service';
+import VentasService from '@services/ventas.service';
 
 @Component({
   standalone: true,
-  selector: "otpv-imprenta",
-  templateUrl: "./imprenta.component.html",
-  styleUrls: ["./imprenta.component.scss"],
+  selector: 'otpv-imprenta',
+  templateUrl: './imprenta.component.html',
+  styleUrls: ['./imprenta.component.scss'],
   imports: [
     FormsModule,
     ImprentaTableComponent,
@@ -48,19 +48,19 @@ import { VentasService } from "@services/ventas.service";
     CdkDrag,
   ],
 })
-export class ImprentaComponent {
+export default class ImprentaComponent {
   private vs: VentasService = inject(VentasService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private dialog: DialogService = inject(DialogService);
 
-  searchBox: Signal<ElementRef> = viewChild("searchBox");
-  search: WritableSignal<string> = signal<string>("");
+  searchBox: Signal<ElementRef> = viewChild('searchBox');
+  search: WritableSignal<string> = signal<string>('');
   searchTimer: number = null;
   searching: boolean = false;
   articulos: WritableSignal<ArticuloBuscador[]> = signal<ArticuloBuscador[]>(
     []
   );
-  tabla: Signal<ImprentaTableComponent> = viewChild("tabla");
+  tabla: Signal<ImprentaTableComponent> = viewChild('tabla');
   seleccionados: WritableSignal<ArticuloBuscador[]> = signal<
     ArticuloBuscador[]
   >([]);
@@ -82,7 +82,7 @@ export class ImprentaComponent {
   }
 
   searchStart(): void {
-    if (this.search() === "") {
+    if (this.search() === '') {
       this.articulos.set([]);
     } else {
       if (!this.searching) {
@@ -145,8 +145,8 @@ export class ImprentaComponent {
       );
     } else {
       const hueco: ArticuloBuscador = new ArticuloBuscador();
-      hueco.nombre = "Hueco";
-      hueco.marca = "Hueco en blanco";
+      hueco.nombre = 'Hueco';
+      hueco.marca = 'Hueco en blanco';
       hueco.localizador = null;
       hueco.num = 1;
       hueco.pvp = null;
@@ -207,10 +207,10 @@ export class ImprentaComponent {
 
     if (num > this.getCantidadMax()) {
       this.dialog.alert({
-        title: "Error",
+        title: 'Error',
         content:
-          "El número máximo de etiquetas que puedes imprimir es " + cantidadMax,
-        ok: "Continuar",
+          'El número máximo de etiquetas que puedes imprimir es ' + cantidadMax,
+        ok: 'Continuar',
       });
       return false;
     }

@@ -1,18 +1,18 @@
 import {
   VentaInterface,
   VentaLineaInterface,
-} from "@interfaces/venta.interface";
-import { Cliente } from "@model/clientes/cliente.model";
-import { Empleado } from "@model/tpv/empleado.model";
-import { VentaLinea } from "@model/ventas/venta-linea.model";
-import { rolList } from "@shared/rol.class";
+} from '@interfaces/venta.interface';
+import Cliente from '@model/clientes/cliente.model';
+import Empleado from '@model/tpv/empleado.model';
+import VentaLinea from '@model/ventas/venta-linea.model';
+import { rolList } from '@shared/rol.class';
 
-export class Venta {
-  tabName: string = "";
+export default class Venta {
+  tabName: string = '';
   cliente: Cliente = null;
   mostrarEmpleados: boolean = false;
-  color: string = "#c0c8f7";
-  textColor: string = "#fff";
+  color: string = '#c0c8f7';
+  textColor: string = '#fff';
   empleado: Empleado = null;
   modificarImportes: boolean = false;
 
@@ -47,7 +47,7 @@ export class Venta {
     this.empleado = e;
     this.idEmpleado = e.id;
     this.modificarImportes = e.hasRol(
-      rolList.ventas.roles["modificarImportes"].id
+      rolList.ventas.roles['modificarImportes'].id
     );
     this.color = e.color;
     this.textColor = e.textColor;

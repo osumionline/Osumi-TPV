@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Empleado } from "@model/tpv/empleado.model";
+import { Pipe, PipeTransform } from '@angular/core';
+import Empleado from '@model/tpv/empleado.model';
 
 @Pipe({
   standalone: true,
-  name: "employeeListFilter",
+  name: 'employeeListFilter',
 })
-export class EmployeeListFilterPipe implements PipeTransform {
+export default class EmployeeListFilterPipe implements PipeTransform {
   transform(list: Empleado[], filter: string): Empleado[] {
-    if (filter === "") {
+    if (filter === '') {
       return list;
     }
     return list.filter((e: Empleado): boolean => {

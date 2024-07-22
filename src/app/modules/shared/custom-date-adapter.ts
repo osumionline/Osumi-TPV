@@ -1,6 +1,6 @@
-import { NativeDateAdapter } from "@angular/material/core";
+import { NativeDateAdapter } from '@angular/material/core';
 
-export class CustomDateAdapter extends NativeDateAdapter {
+export default class CustomDateAdapter extends NativeDateAdapter {
   override getFirstDayOfWeek(): number {
     return 1;
   }

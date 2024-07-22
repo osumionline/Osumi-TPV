@@ -1,11 +1,11 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { SelectMarcaInterface } from "@interfaces/marca.interface";
+import { Pipe, PipeTransform } from '@angular/core';
+import { SelectMarcaInterface } from '@interfaces/marca.interface';
 
 @Pipe({
   standalone: true,
-  name: "providerBrandListFilter",
+  name: 'providerBrandListFilter',
 })
-export class ProviderBrandListFilterPipe implements PipeTransform {
+export default class ProviderBrandListFilterPipe implements PipeTransform {
   checkSort(a: SelectMarcaInterface, b: SelectMarcaInterface): number {
     return Number(b.selected) - Number(a.selected);
   }
@@ -18,7 +18,7 @@ export class ProviderBrandListFilterPipe implements PipeTransform {
     list: SelectMarcaInterface[],
     filter: string
   ): SelectMarcaInterface[] {
-    if (filter === "") {
+    if (filter === '') {
       return list.sort(this.nameSort).sort(this.checkSort);
     }
     return list

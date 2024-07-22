@@ -1,40 +1,38 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "@env/environment";
-import { ArticuloBuscadorResult } from "@interfaces/articulo.interface";
-import { HistoricoVentasResult } from "@interfaces/caja.interface";
-import { EstadisticasClienteResult } from "@interfaces/cliente.interface";
-import { DateValues, StatusResult } from "@interfaces/interfaces";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '@env/environment';
+import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
+import { HistoricoVentasResult } from '@interfaces/caja.interface';
+import { EstadisticasClienteResult } from '@interfaces/cliente.interface';
+import { DateValues, StatusResult } from '@interfaces/interfaces';
 import {
   FinVentaResult,
   LineasTicketResult,
-} from "@interfaces/venta.interface";
-import { Articulo } from "@model/articulos/articulo.model";
-import { Cliente } from "@model/clientes/cliente.model";
-import { Empleado } from "@model/tpv/empleado.model";
-import { VentaFin } from "@model/ventas/venta-fin.model";
-import { VentaLinea } from "@model/ventas/venta-linea.model";
-import { Venta } from "@model/ventas/venta.model";
-import { formatNumber } from "@osumi/tools";
-import { ClassMapperService } from "@services/class-mapper.service";
-import { ClientesService } from "@services/clientes.service";
-import { DialogService } from "@services/dialog.service";
-import { Observable } from "rxjs";
+} from '@interfaces/venta.interface';
+import Articulo from '@model/articulos/articulo.model';
+import Cliente from '@model/clientes/cliente.model';
+import Empleado from '@model/tpv/empleado.model';
+import VentaFin from '@model/ventas/venta-fin.model';
+import VentaLinea from '@model/ventas/venta-linea.model';
+import Venta from '@model/ventas/venta.model';
+import { formatNumber } from '@osumi/tools';
+import ClassMapperService from '@services/class-mapper.service';
+import ClientesService from '@services/clientes.service';
+import DialogService from '@services/dialog.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
-export class VentasService {
+export default class VentasService {
+  private http: HttpClient = inject(HttpClient);
+  private cs: ClientesService = inject(ClientesService);
+  private dialog: DialogService = inject(DialogService);
+  private cms: ClassMapperService = inject(ClassMapperService);
+
   selected: number = -1;
   list: Venta[] = [];
   fin: VentaFin = new VentaFin();
-
-  constructor(
-    private http: HttpClient,
-    private cs: ClientesService,
-    private dialog: DialogService,
-    private cms: ClassMapperService
-  ) {}
 
   newVenta(
     empleados: boolean,
@@ -45,7 +43,7 @@ export class VentasService {
   ): void {
     this.selected = this.list.length;
     const venta = new Venta();
-    venta.tabName = "VENTA " + (this.list.length + 1);
+    venta.tabName = 'VENTA ' + (this.list.length + 1);
     venta.color = colorEmpleadoDef;
     venta.textColor = colorTextEmpleadoDef;
     venta.mostrarEmpleados = empleados;
@@ -109,7 +107,7 @@ export class VentasService {
     this.cs
       .getEstadisticasCliente(cliente.id)
       .subscribe((result: EstadisticasClienteResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
             result.ultimasVentas
           );
@@ -118,10 +116,10 @@ export class VentasService {
           );
         } else {
           this.dialog.alert({
-            title: "Error",
+            title: 'Error',
             content:
-              "¡Ocurrió un error al obtener las estadísticas del cliente!",
-            ok: "Continuar",
+              '¡Ocurrió un error al obtener las estadísticas del cliente!',
+            ok: 'Continuar',
           });
         }
       });
@@ -134,35 +132,35 @@ export class VentasService {
 
     this.fin = new VentaFin(
       formatNumber(this.ventaActual.importe),
-      "0",
+      '0',
       null,
       this.ventaActual.idEmpleado,
       null,
       this.cliente ? this.cliente.id : -1,
       formatNumber(this.ventaActual.importe),
       lineas,
-      "si",
+      'si',
       this.cliente ? this.cliente.email : null
     );
   }
 
   guardarVenta(): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
-      environment.apiUrl + "-ventas/save-venta",
+      environment.apiUrl + '-ventas/save-venta',
       this.fin.toInterface()
     );
   }
 
   guardarReserva(): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
-      environment.apiUrl + "-clientes/save-reserva",
+      environment.apiUrl + '-clientes/save-reserva',
       this.fin.toInterface()
     );
   }
 
   search(q: string): Observable<ArticuloBuscadorResult> {
     return this.http.post<ArticuloBuscadorResult>(
-      environment.apiUrl + "-ventas/search",
+      environment.apiUrl + '-ventas/search',
       {
         q,
       }
@@ -171,35 +169,35 @@ export class VentasService {
 
   getLineasTicket(lineas: string): Observable<LineasTicketResult> {
     return this.http.post<LineasTicketResult>(
-      environment.apiUrl + "-ventas/get-lineas-ticket",
+      environment.apiUrl + '-ventas/get-lineas-ticket',
       { lineas }
     );
   }
 
   getHistorico(data: DateValues): Observable<HistoricoVentasResult> {
     return this.http.post<HistoricoVentasResult>(
-      environment.apiUrl + "-ventas/get-historico",
+      environment.apiUrl + '-ventas/get-historico',
       data
     );
   }
 
   asignarTipoPago(id: number, idTipoPago: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-ventas/asignar-tipo-pago",
+      environment.apiUrl + '-ventas/asignar-tipo-pago',
       { id, idTipoPago }
     );
   }
 
   printTicket(id: number, tipo: string): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-ventas/print-ticket",
+      environment.apiUrl + '-ventas/print-ticket',
       { id, tipo }
     );
   }
 
   sendTicket(id: number, email: string): Observable<StatusResult> {
     return this.http.post<StatusResult>(
-      environment.apiUrl + "-ventas/send-ticket",
+      environment.apiUrl + '-ventas/send-ticket',
       { id, email }
     );
   }

@@ -1,11 +1,11 @@
 import {
   ReservaInterface,
   ReservaLineaInterface,
-} from "@interfaces/cliente.interface";
-import { Cliente } from "@model/clientes/cliente.model";
-import { ReservaLinea } from "@model/ventas/reserva-linea.model";
+} from '@interfaces/cliente.interface';
+import Cliente from '@model/clientes/cliente.model';
+import ReservaLinea from '@model/ventas/reserva-linea.model';
 
-export class Reserva {
+export default class Reserva {
   _totalUnidades: number = null;
   _totalDescuento: number = null;
 
