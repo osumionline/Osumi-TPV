@@ -4,7 +4,7 @@
     <mat-card-content>
         <div class="title">
             <span>Copias de seguridad</span>
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     (click)="newBackup()">Crear nueva copia</button>
         </div>
@@ -19,10 +19,10 @@
                         {{backup.date}}
                     </div>
                     <div class="backup-actions">
-                        <button mat-raised-button
+                        <button mat-flat-button
                                 color="warn"
                                 (click)="deleteBackup(backup)">Eliminar</button>
-                        <button mat-raised-button
+                        <button mat-flat-button
                                 color="primary"
                                 (click)="loadBackup(backup)">Cargar</button>
                     </div>

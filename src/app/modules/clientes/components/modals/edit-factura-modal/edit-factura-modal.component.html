@@ -211,14 +211,14 @@
 <div class="facturas-actions">
     <div class="facturas-delete"
          [ngClass]="{'show': factura.id !== null && !factura.impresa}">
-        <button mat-raised-button
+        <button mat-flat-button
                 type="button"
                 color="warn"
                 (click)="deleteFactura()">Eliminar</button>
     </div>
     <div class="facturas-others">
         @if (!factura.impresa) {
-        <button mat-raised-button
+        <button mat-flat-button
                 type="button"
                 color="primary"
                 [disabled]="selection.selected.length === 0"
@@ -226,7 +226,7 @@
             <mat-icon>save</mat-icon>
             Guardar
         </button>
-        <button mat-raised-button
+        <button mat-flat-button
                 type="button"
                 color="primary"
                 [disabled]="selection.selected.length === 0"
@@ -235,7 +235,7 @@
             Previsualizar
         </button>
         }
-        <button mat-raised-button
+        <button mat-flat-button
                 type="button"
                 [disabled]="selection.selected.length === 0 && !factura.impresa"
                 color="primary"

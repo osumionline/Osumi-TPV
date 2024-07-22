@@ -51,7 +51,7 @@
                                    [for]="rangoHastaPicker" />
             <mat-datepicker #rangoHastaPicker />
         </mat-form-field>
-        <button mat-raised-button
+        <button mat-flat-button
                 color="primary"
                 (click)="buscarPorRango()">
             <mat-icon>search</mat-icon>
@@ -79,7 +79,7 @@
                     }
                 </mat-action-list>
                 <div class="new-salida-caja">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="primary"
                             (click)="newSalidaCaja()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -131,7 +131,7 @@
                         <div class="actions">
                             <div class="delete">
                                 @if (form.value.id && salidaCajaSelected.editable) {
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="warn"
                                         [disabled]="!form.value.id"
                                         type="button"
@@ -139,12 +139,12 @@
                                 }
                             </div>
                             <div class="others">
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="primary"
                                         [disabled]="!form.dirty || !salidaCajaSelected.editable"
                                         type="button"
                                         (click)="resetForm()">Cancelar</button>
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         type="submit"
                                         color="primary"
                                         [disabled]="!form.valid || !salidaCajaSelected.editable">Guardar</button>

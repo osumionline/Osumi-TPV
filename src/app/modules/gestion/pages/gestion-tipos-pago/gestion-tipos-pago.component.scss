@@ -27,7 +27,7 @@
         }
 
         .selected-tipo-pago {
-            background-color: #eee;
+            background-color: var(--color-very-light-grey);
         }
 
         .new-tipo-pago {
@@ -41,7 +41,7 @@
                 text-align: left;
 
                 .sub-line {
-                    color: #888;
+                    color: var(--color-dark-grey);
                     margin-top: 4px;
                 }
             }
@@ -88,7 +88,7 @@
                 .logo {
                     width: 200px;
                     height: 100px;
-                    border: 1px solid #ddd;
+                    border: 1px solid var(--color-medium-light-grey);
                     border-radius: 6px;
                     margin-right: 16px;
                     text-align: center;

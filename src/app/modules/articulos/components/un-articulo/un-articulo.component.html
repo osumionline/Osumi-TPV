@@ -72,7 +72,7 @@
             <mat-tab label="BAJA">
                 <p>¿Estás seguro de querer dar de baja este artículo? El artículo dejará de estar disponible para ser usado en todo el TPV pero no afectará a los listados históricos.</p>
                 <div class="dar-de-baja">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="warn"
                             type="button"
                             (click)="darDeBaja()">Dar de baja</button>
@@ -89,14 +89,14 @@
             <button mat-button
                     (click)="cancelar()"
                     type="button">Cancelar</button>
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     [disabled]="saving()"
                     type="button"
                     (click)="guardar()">
                 Guardar
             </button>
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     [disabled]="saving()"
                     type="button"

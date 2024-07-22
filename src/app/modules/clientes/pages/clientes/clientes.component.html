@@ -24,7 +24,7 @@
                     }
                 </mat-action-list>
                 <div class="new-client">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="primary"
                             (click)="newCliente()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -316,7 +316,7 @@
                                 </div>
                                 }
                                 <div class="new-factura">
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             type="button"
                                             color="primary"
                                             (click)="nuevaFactura()">
@@ -419,7 +419,7 @@
                         <div class="actions">
                             <div class="delete">
                                 @if (form.value.id) {
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="warn"
                                         type="button"
                                         (click)="deleteCliente()">Eliminar</button>
@@ -427,17 +427,17 @@
                             </div>
                             <div class="others">
                                 @if (form.value.id) {
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="primary"
                                         type="button"
                                         (click)="imprimirLOPD()">Imprimir LOPD</button>
                                 }
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="primary"
                                         [disabled]="!form.dirty"
                                         type="button"
                                         (click)="resetForm()">Cancelar</button>
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         type="submit"
                                         color="primary"
                                         [disabled]="!form.valid">Guardar</button>

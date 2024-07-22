@@ -23,7 +23,7 @@
                     }
                 </mat-action-list>
                 <div class="new-provider">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="primary"
                             (click)="newProveedor()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -86,7 +86,7 @@
                                                 <img [src]="logo"
                                                      [alt]="selectedProveedor.nombre">
                                             </div>
-                                            <button mat-raised-button
+                                            <button mat-flat-button
                                                     color="primary"
                                                     type="button"
                                                     (click)="addLogo()">Cambiar logo</button>
@@ -129,19 +129,19 @@
                                 <div class="actions">
                                     <div class="delete">
                                         @if (form.value.id) {
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteProveedor()">Eliminar</button>
                                         }
                                     </div>
                                     <div class="others">
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 color="primary"
                                                 [disabled]="!form.dirty"
                                                 type="button"
                                                 (click)="resetForm()">Cancelar</button>
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 type="submit"
                                                 color="primary"
                                                 [disabled]="!form.valid">Guardar</button>
@@ -191,7 +191,7 @@
                                     </div>
                                 </div>
                                 <div class="comerciales-new">
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             color="primary"
                                             (click)="newComercial()">
                                         <mat-icon>add_circle_outline</mat-icon>
@@ -248,19 +248,19 @@
                                     </div>
                                     <div class="actions">
                                         <div class="delete">
-                                            <button mat-raised-button
+                                            <button mat-flat-button
                                                     color="warn"
                                                     [disabled]="!formComercial.value.id"
                                                     type="button"
                                                     (click)="deleteComercial()">Borrar</button>
                                         </div>
                                         <div class="others">
-                                            <button mat-raised-button
+                                            <button mat-flat-button
                                                     color="primary"
                                                     [disabled]="!formComercial.dirty"
                                                     type="button"
                                                     (click)="resetComercialForm()">Cancelar</button>
-                                            <button mat-raised-button
+                                            <button mat-flat-button
                                                     type="submit"
                                                     color="primary"
                                                     [disabled]="!formComercial.valid">Guardar</button>

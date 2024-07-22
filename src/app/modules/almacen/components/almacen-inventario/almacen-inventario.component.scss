@@ -29,7 +29,7 @@
 }
 
 .modified {
-    background-color: #7ad782;
+    background-color: var(--color-light-green);
     position: relative;
 
     mat-icon {
@@ -40,7 +40,7 @@
 }
 
 .link {
-    color: #000;
+    color: var(--color-black);
     text-decoration: none;
     cursor: pointer;
 

@@ -2,7 +2,7 @@
 
 @if (loading) {
 <div class="loading">
-	<img src="assets/loading.svg"
+	<img src="/img/loading.svg"
 		 alt="Cargando...">
 </div>
 }
@@ -13,7 +13,7 @@
 		<mat-card-content>
 			<h1>{{title}}</h1>
 			<div class="not-opened-button">
-				<button mat-raised-button
+				<button mat-flat-button
 						color="primary"
 						(click)="openBox()">Abrir caja</button>
 			</div>

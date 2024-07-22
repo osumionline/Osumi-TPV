@@ -32,10 +32,10 @@
 
 		&--yellow {
 			background-color: var(--color-yellow);
-			color: #000;
+			color: var(--color-black);
 
 			&>.btn-close {
-				color: #000;
+				color: var(--color-black);
 			}
 		}
 
@@ -47,7 +47,7 @@
 	&__content {
 		padding: 20px;
 		border-bottom-left-radius: 6px;
-		background-color: #fff;
+		background-color: var(--color-white);
 		border-bottom-right-radius: 6px;
 		height: calc(100% - 48px);
 		overflow-y: auto;

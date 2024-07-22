@@ -1,5 +1,10 @@
 .toolbar {
 	justify-content: space-between;
+	background-color: var(--main-color);
+
+	&>span {
+		color: var(--color-white);
+	}
 
 	.toolbar-options {
 		display: flex;
@@ -7,9 +12,9 @@
 	}
 
 	.toolbar-btn {
-		background-color: #3f51b5;
+		background-color: var(--main-color);
 		border: 2px solid transparent;
-		color: #fff;
+		color: var(--color-white);
 		border-radius: 6px;
 		padding: 6px 12px;
 		display: flex;
@@ -19,7 +24,7 @@
 		margin-right: 8px;
 
 		&:hover {
-			border: 2px solid #fff;
+			border: 2px solid var(--color-white);
 		}
 
 		span {
@@ -30,8 +35,8 @@
 	}
 
 	.toolbar-btn-selected {
-		background-color: #fff;
-		border: 2px solid #000;
-		color: #000;
+		background-color: var(--color-white);
+		border: 2px solid var(--color-black);
+		color: var(--color-black);
 	}
 }

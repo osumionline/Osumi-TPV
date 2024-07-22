@@ -1,40 +1,40 @@
-import { NgClass } from "@angular/common";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { NgClass } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from "@angular/forms";
-import { MatButton } from "@angular/material/button";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { MatCheckbox } from "@angular/material/checkbox";
-import { MatFormField } from "@angular/material/form-field";
-import { MatIcon } from "@angular/material/icon";
-import { MatInput } from "@angular/material/input";
-import { MatActionList, MatListItem } from "@angular/material/list";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { MatTab, MatTabChangeEvent, MatTabGroup } from "@angular/material/tabs";
-import { IdSaveResult, StatusResult } from "@interfaces/interfaces";
-import { SelectMarcaInterface } from "@interfaces/marca.interface";
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatActionList, MatListItem } from '@angular/material/list';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
+import { SelectMarcaInterface } from '@interfaces/marca.interface';
 import {
   ComercialInterface,
   ProveedorInterface,
-} from "@interfaces/proveedor.interface";
-import { Comercial } from "@model/proveedores/comercial.model";
-import { Proveedor } from "@model/proveedores/proveedor.model";
-import { DialogService } from "@services/dialog.service";
-import { MarcasService } from "@services/marcas.service";
-import { ProveedoresService } from "@services/proveedores.service";
-import { ProviderBrandListFilterPipe } from "@shared/pipes/provider-brand-list-filter.pipe";
-import { ProviderListFilterPipe } from "@shared/pipes/provider-list-filter.pipe";
+} from '@interfaces/proveedor.interface';
+import { Comercial } from '@model/proveedores/comercial.model';
+import { Proveedor } from '@model/proveedores/proveedor.model';
+import { DialogService } from '@services/dialog.service';
+import { MarcasService } from '@services/marcas.service';
+import { ProveedoresService } from '@services/proveedores.service';
+import { ProviderBrandListFilterPipe } from '@shared/pipes/provider-brand-list-filter.pipe';
+import { ProviderListFilterPipe } from '@shared/pipes/provider-list-filter.pipe';
 
 @Component({
   standalone: true,
-  selector: "otpv-proveedores",
-  templateUrl: "./proveedores.component.html",
-  styleUrls: ["./proveedores.component.scss"],
+  selector: 'otpv-proveedores',
+  templateUrl: './proveedores.component.html',
+  styleUrls: ['./proveedores.component.scss'],
   imports: [
     NgClass,
     FormsModule,
@@ -57,19 +57,19 @@ import { ProviderListFilterPipe } from "@shared/pipes/provider-list-filter.pipe"
   ],
 })
 export class ProveedoresComponent implements OnInit {
-  search: string = "";
-  @ViewChild("searchBox", { static: true }) searchBox: ElementRef;
+  search: string = '';
+  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
   start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
-  @ViewChild("proveedorTabs", { static: false })
+  @ViewChild('proveedorTabs', { static: false })
   proveedorTabs: MatTabGroup;
   selectedTab: number = 0;
 
-  searchMarcas: string = "";
-  @ViewChild("searchMarcasBox", { static: true }) searchMarcasBox: ElementRef;
+  searchMarcas: string = '';
+  @ViewChild('searchMarcasBox', { static: true }) searchMarcasBox: ElementRef;
   marcasList: SelectMarcaInterface[] = [];
 
-  @ViewChild("nameBox", { static: true }) nameBox: ElementRef;
+  @ViewChild('nameBox', { static: true }) nameBox: ElementRef;
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -82,7 +82,7 @@ export class ProveedoresComponent implements OnInit {
   });
   originalValue: ProveedorInterface = null;
 
-  logo: string = "/assets/default.jpg";
+  logo: string = '/img/default.jpg';
 
   selectedComercialId: number = -1;
   showComercial: boolean = false;
@@ -94,7 +94,7 @@ export class ProveedoresComponent implements OnInit {
     observaciones: new FormControl(null),
   });
   originalComercialValue: ComercialInterface = null;
-  @ViewChild("comercialNameBox", { static: true }) comercialNameBox: ElementRef;
+  @ViewChild('comercialNameBox', { static: true }) comercialNameBox: ElementRef;
   selectedComercial: Comercial = new Comercial();
   canSeeStatistics: boolean = false;
 
@@ -159,7 +159,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   addLogo(): void {
-    document.getElementById("logo-file").click();
+    document.getElementById('logo-file').click();
   }
 
   onLogoChange(ev: Event): void {
@@ -172,7 +172,7 @@ export class ProveedoresComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.logo = reader.result as string;
-        (<HTMLInputElement>document.getElementById("logo-file")).value = "";
+        (<HTMLInputElement>document.getElementById('logo-file')).value = '';
       };
     }
   }
@@ -197,12 +197,12 @@ export class ProveedoresComponent implements OnInit {
       this.ps.resetProveedores();
       this.resetForm();
       this.dialog.alert({
-        title: "Datos guardados",
+        title: 'Datos guardados',
         content:
           'Los datos del proveedor "' +
           this.selectedProveedor.nombre +
           '" han sido correctamente guardados.',
-        ok: "Continuar",
+        ok: 'Continuar',
       });
     });
   }
@@ -210,13 +210,13 @@ export class ProveedoresComponent implements OnInit {
   deleteProveedor(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el proveedor "' +
           this.selectedProveedor.nombre +
           '"? Las marcas asociadas al proveedor no se borrarán, pero si se borrarán sus comerciales asociados.',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -229,22 +229,22 @@ export class ProveedoresComponent implements OnInit {
     this.ps
       .deleteProveedor(this.selectedProveedor.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.ps.resetProveedores();
           this.start = true;
           this.dialog.alert({
-            title: "Proveedor borrado",
+            title: 'Proveedor borrado',
             content:
               'El proveedor "' +
               this.selectedProveedor.nombre +
               '" ha sido correctamente borrado.',
-            ok: "Continuar",
+            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al borrar el proveedor.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al borrar el proveedor.',
+            ok: 'Continuar',
           });
         }
       });
@@ -302,12 +302,12 @@ export class ProveedoresComponent implements OnInit {
       this.resetComercialForm();
       this.dialog
         .alert({
-          title: "Datos guardados",
+          title: 'Datos guardados',
           content:
             'Los datos del comercial "' +
             this.selectedComercial.nombre +
             '" han sido correctamente guardados.',
-          ok: "Continuar",
+          ok: 'Continuar',
         })
         .subscribe((): void => {
           const comercialInd: number =
@@ -333,13 +333,13 @@ export class ProveedoresComponent implements OnInit {
   deleteComercial(): void {
     this.dialog
       .confirm({
-        title: "Confirmar",
+        title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el comercial "' +
           this.selectedComercial.nombre +
           '"?',
-        ok: "Continuar",
-        cancel: "Cancelar",
+        ok: 'Continuar',
+        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -352,15 +352,15 @@ export class ProveedoresComponent implements OnInit {
     this.ps
       .deleteComercial(this.selectedComercial.id)
       .subscribe((result: StatusResult): void => {
-        if (result.status === "ok") {
+        if (result.status === 'ok') {
           this.dialog
             .alert({
-              title: "Comercial borrado",
+              title: 'Comercial borrado',
               content:
                 'El comercial "' +
                 this.selectedComercial.nombre +
                 '" ha sido correctamente borrado.',
-              ok: "Continuar",
+              ok: 'Continuar',
             })
             .subscribe((): void => {
               const comercialInd: number =
@@ -372,9 +372,9 @@ export class ProveedoresComponent implements OnInit {
             });
         } else {
           this.dialog.alert({
-            title: "Error",
-            content: "Ocurrió un error al borrar el comercial.",
-            ok: "Continuar",
+            title: 'Error',
+            content: 'Ocurrió un error al borrar el comercial.',
+            ok: 'Continuar',
           });
         }
       });

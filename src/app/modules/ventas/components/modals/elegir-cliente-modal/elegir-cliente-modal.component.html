@@ -217,12 +217,12 @@
         </div>
         }
         <div class="cliente-nuevo-save">
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     (click)="saveNuevoCliente()"
                     [disabled]="nuevoClienteSaving">
                 @if (nuevoClienteSaving) {
-                <img src="/assets/loading.svg"
+                <img src="/img/loading.svg"
                      alt="">
                 }
                 Guardar y seleccionar

@@ -4,7 +4,7 @@
             <span class="pedidos-list-header">
                 Pedidos guardados
                 <button class="pedido-new"
-                        mat-raised-button
+                        mat-flat-button
                         color="primary"
                         routerLink="/compras/pedido">
                     <mat-icon>add_circle_outline</mat-icon>
@@ -92,14 +92,14 @@
                                     </div>
                                 </div>
                                 <div class="filter-actions">
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             color="primary"
                                             type="submit">
                                         <mat-icon>find_in_page</mat-icon>
                                         Filtrar
                                     </button>
                                     @if (guardadosFiltered) {
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             color="primary"
                                             (click)="quitarFiltrosGuardados($event)">
                                         <mat-icon>filter_list_off</mat-icon>
@@ -285,14 +285,14 @@
                                     </div>
                                 </div>
                                 <div class="filter-actions">
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             color="primary"
                                             type="submit">
                                         <mat-icon>find_in_page</mat-icon>
                                         Filtrar
                                     </button>
                                     @if (recepcionadosFiltered) {
-                                    <button mat-raised-button
+                                    <button mat-flat-button
                                             color="primary"
                                             (click)="quitarFiltrosRecepcionados($event)">
                                         <mat-icon>filter_list_off</mat-icon>
@@ -397,7 +397,7 @@
                     *matCellDef="let element">
                     @if (element.ue) {
                     <img class="icon table-icon"
-                         src="/assets/icons/europe-flag.svg"
+                         src="/icons/europe-flag.svg"
                          alt="Unión Europea">
                     }
                     @if (element.pdfs.length > 0) {

@@ -1,7 +1,7 @@
-@use "assets/styles/modals.scss";
-@use "assets/styles/ventas.scss";
-@use "assets/styles/forms.scss";
-@use "assets/styles/tables.scss";
+@use "public/styles/modals.scss";
+@use "public/styles/ventas.scss";
+@use "public/styles/forms.scss";
+@use "public/styles/tables.scss";
 
 :root {
   --bg-color: #eee;
@@ -21,9 +21,17 @@
   --table-row-warn: rgb(255, 193, 7);
   --table-row-disabled: #eee;
   --separator-color: #ccc;
+  --disabled-color: #888;
   --form-modified: #00f;
   --color-yellow: #ffd82c;
   --color-red: #ff3333;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-very-light-grey: #eee;
+  --color-medium-light-grey: #ddd;
+  --color-light-grey: #ccc;
+  --color-dark-grey: #888;
+  --color-light-green: #7ad782;
 }
 
 * {
@@ -46,7 +54,7 @@ body {
 }
 
 .white-bg {
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 input::-webkit-outer-spin-button,

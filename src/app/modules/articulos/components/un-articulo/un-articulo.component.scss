@@ -27,7 +27,7 @@
     .fotos-list {
         box-sizing: border-box;
         width: 100%;
-        outline: 1px solid #e0e0e0;
+        outline: 1px solid var(--color-medium-light-grey);
         height: 150px;
         padding: 8px;
         overflow-x: auto;
@@ -36,7 +36,7 @@
         margin-bottom: 16px;
 
         &:hover {
-            outline: 2px solid #000;
+            outline: 2px solid var(--color-black);
         }
 
         .foto-item {
@@ -66,7 +66,7 @@
                 &.foto-icon-delete {
                     top: 8px;
                     right: 8px;
-                    color: #f00;
+                    color: var(--color-red);
                 }
 
                 &.foto-icon-previous {
@@ -132,7 +132,7 @@
 }
 
 .prov-marcas-list {
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-medium-light-grey);
     border-radius: 6px;
     margin-top: 4px;
     max-height: 470px;
@@ -140,7 +140,7 @@
 
     .prov-marcas-item {
         padding: 16px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--color-medium-light-grey);
 
         &:last-child {
             border-bottom: 0;

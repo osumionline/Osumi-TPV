@@ -25,7 +25,7 @@
                     </mat-action-list>
                 </div>
                 <div class="new-brand">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="primary"
                             (click)="newMarca()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -85,7 +85,7 @@
                                                 <img [src]="logo"
                                                      [alt]="selectedMarca.nombre">
                                             </div>
-                                            <button mat-raised-button
+                                            <button mat-flat-button
                                                     color="primary"
                                                     type="button"
                                                     (click)="addLogo()">Cambiar logo</button>
@@ -129,19 +129,19 @@
                                 <div class="actions">
                                     <div class="delete">
                                         @if (form.value.id) {
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 color="warn"
                                                 type="button"
                                                 (click)="deleteMarca()">Eliminar</button>
                                         }
                                     </div>
                                     <div class="others">
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 color="primary"
                                                 [disabled]="!form.dirty"
                                                 type="button"
                                                 (click)="resetForm()">Cancelar</button>
-                                        <button mat-raised-button
+                                        <button mat-flat-button
                                                 type="submit"
                                                 color="primary"
                                                 [disabled]="!form.valid">Guardar</button>

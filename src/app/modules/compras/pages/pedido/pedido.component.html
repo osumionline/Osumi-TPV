@@ -11,7 +11,7 @@
         <span>{{titulo}}</span>
         <div class="actions">
             @if (pedido.id !== null && !pedido.recepcionado) {
-            <button mat-raised-button
+            <button mat-flat-button
                     color="warn"
                     (click)="deletePedido()">
                 <mat-icon>delete</mat-icon>
@@ -22,7 +22,7 @@
             <!--mat-checkbox [(ngModel)]="autoSave"
                           (ngModelChange)="changeAutoSave()">Autoguardado</mat-checkbox-->
             }
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     (click)="guardar()">
                 <mat-icon>save</mat-icon>
@@ -573,7 +573,7 @@
                     <div class="no-files">No hay ningún PDF adjunto.</div>
                     }
                     <div class="pdf-action">
-                        <button mat-raised-button
+                        <button mat-flat-button
                                 color="primary"
                                 (click)="addPDF()">
                             <mat-icon>attach_file</mat-icon>
@@ -687,7 +687,7 @@
                         }
                         <div class="totales-row center">
                             @if (!pedido.recepcionado) {
-                            <button mat-raised-button
+                            <button mat-flat-button
                                     color="primary"
                                     (click)="recepcionar()">
                                 <mat-icon>beenhere</mat-icon>

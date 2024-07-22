@@ -1,5 +1,5 @@
 .table {
-    border: 1px solid #888;
+    border: 1px solid var(--color-dark-grey);
     display: flex;
     flex-direction: column;
 
@@ -36,7 +36,7 @@
                     }
 
                     .info-marca {
-                        color: #888;
+                        color: var(--color-dark-grey);
                     }
 
                     .info-pvp {}

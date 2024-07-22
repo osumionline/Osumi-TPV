@@ -10,12 +10,12 @@
                (keyup)="checkLoginPassword($event)"
                #loginPasswordValue>
     </mat-form-field>
-    <button mat-raised-button
+    <button mat-flat-button
             color="primary"
             (click)="login()"
             [disabled]="loginLoading">
         @if (loginLoading) {
-        <img src="/assets/loading.svg"
+        <img src="/img/loading.svg"
              alt="">
         }
         Continuar

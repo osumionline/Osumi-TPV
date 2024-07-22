@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
 	<span class="toolbar-title">Osumi TPV - Instalación - Paso {{paso}}/3</span>
 	@if (back) {
-	<button mat-raised-button
+	<button mat-flat-button
 			color="primary"
 			routerLink="/gestion">
 		<mat-icon>chevron_left</mat-icon>
@@ -76,7 +76,7 @@
 			<img [src]="logo"
 				 alt="Logo">
 			}
-			<button mat-raised-button
+			<button mat-flat-button
 					color="primary"
 					(click)="addLogo()">Añadir logo</button>
 		</div>
@@ -119,7 +119,7 @@
 				<input matInput
 					   placeholder="Twitter"
 					   [(ngModel)]="twitter">
-				<img src="/assets/icons/twitter.svg"
+				<img src="/icons/twitter.svg"
 					 alt="Twitter">
 			</mat-form-field>
 			<mat-form-field class="four">
@@ -127,7 +127,7 @@
 				<input matInput
 					   placeholder="Facebook"
 					   [(ngModel)]="facebook">
-				<img src="/assets/icons/facebook.svg"
+				<img src="/icons/facebook.svg"
 					 alt="Facebook">
 			</mat-form-field>
 			<mat-form-field class="four">
@@ -135,7 +135,7 @@
 				<input matInput
 					   placeholder="Instagram"
 					   [(ngModel)]="instagram">
-				<img src="/assets/icons/instagram.svg"
+				<img src="/icons/instagram.svg"
 					 alt="Instagram">
 			</mat-form-field>
 			<mat-form-field class="four">
@@ -143,7 +143,7 @@
 				<input matInput
 					   placeholder="Web"
 					   [(ngModel)]="web">
-				<img src="/assets/icons/web.svg"
+				<img src="/icons/web.svg"
 					 alt="Web">
 			</mat-form-field>
 		</div>
@@ -179,12 +179,12 @@
 		</div>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button
+		<button mat-flat-button
 				color="primary"
 				(click)="irAPaso(2)"
 				[disabled]="saving">
 			@if (saving) {
-			<img src="/assets/loading.svg"
+			<img src="/img/loading.svg"
 				 alt="">
 			}
 			Continuar
@@ -221,11 +221,11 @@
 		</ul>
 
 		<p>
-			<button mat-raised-button
+			<button mat-flat-button
 					class="option-margin"
 					color="primary"
 					(click)="selectAllIvas()">Marcar todos</button>
-			<button mat-raised-button
+			<button mat-flat-button
 					class="option-margin"
 					color="primary"
 					(click)="selectNoneIvas()">Desmarcar todos</button>
@@ -242,34 +242,34 @@
 		</ul>
 
 		<p>
-			<button mat-raised-button
+			<button mat-flat-button
 					class="option-margin"
 					color="primary"
 					(click)="selectAllMargins()">Marcar todos</button>
-			<button mat-raised-button
+			<button mat-flat-button
 					class="option-margin"
 					color="primary"
 					(click)="selectNoneMargins()">Desmarcar todos</button>
 		</p>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button
+		<button mat-flat-button
 				color="primary"
 				(click)="irAPaso(1)"
 				[disabled]="saving">
 			@if (saving) {
-			<img src="/assets/loading.svg"
+			<img src="/img/loading.svg"
 				 alt="">
 			}
 			<mat-icon>chevron_left</mat-icon>
 			Atrás
 		</button>
-		<button mat-raised-button
+		<button mat-flat-button
 				color="primary"
 				(click)="irAPaso(3)"
 				[disabled]="saving">
 			@if (saving) {
-			<img src="/assets/loading.svg"
+			<img src="/img/loading.svg"
 				 alt="">
 			}
 			Continuar
@@ -339,23 +339,23 @@
 		</div>
 	</mat-card-content>
 	<mat-card-actions class="end-actions">
-		<button mat-raised-button
+		<button mat-flat-button
 				color="primary"
 				(click)="irAPaso(2)"
 				[disabled]="saving">
 			@if (saving) {
-			<img src="/assets/loading.svg"
+			<img src="/img/loading.svg"
 				 alt="">
 			}
 			<mat-icon>chevron_left</mat-icon>
 			Atrás
 		</button>
-		<button mat-raised-button
+		<button mat-flat-button
 				color="primary"
 				(click)="saveConfiguration()"
 				[disabled]="saving">
 			@if (saving) {
-			<img src="/assets/loading.svg"
+			<img src="/img/loading.svg"
 				 alt="">
 			}
 			Guardar configuración

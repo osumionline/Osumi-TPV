@@ -16,7 +16,7 @@
     }
 
     .selected-employee {
-      background-color: #eee;
+      background-color: var(--color-very-light-grey);
     }
 
     .new-employee {
@@ -30,7 +30,7 @@
         text-align: left;
 
         .sub-line {
-          color: #888;
+          color: var(--color-dark-grey);
           margin-top: 4px;
         }
       }

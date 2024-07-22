@@ -26,7 +26,7 @@
                 </mat-action-list>
                 @if (canNewEmployees) {
                 <div class="new-employee">
-                    <button mat-raised-button
+                    <button mat-flat-button
                             color="primary"
                             (click)="newEmpleado()">
                         <mat-icon>add_circle_outline</mat-icon>
@@ -124,19 +124,19 @@
                              [ngClass]="{'show': selectedTab !== 2}">
                             <div class="delete">
                                 @if (form.value.id && canDeleteEmployees) {
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="warn"
                                         type="button"
                                         (click)="deleteEmpleado()">Eliminar</button>
                                 }
                             </div>
                             <div class="others">
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         color="primary"
                                         [disabled]="!form.dirty"
                                         type="button"
                                         (click)="resetForm()">Cancelar</button>
-                                <button mat-raised-button
+                                <button mat-flat-button
                                         type="submit"
                                         color="primary"
                                         [disabled]="!form.valid || !canSaveChanges">Guardar</button>

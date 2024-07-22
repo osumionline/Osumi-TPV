@@ -48,7 +48,7 @@ table {
             margin: 0 8px;
 
             &.icon-button-disabled {
-                color: #ccc;
+                color: var(--color-light-grey);
                 cursor: default;
             }
         }
@@ -95,7 +95,7 @@ table {
             cursor: pointer;
 
             &>td {
-                color: #fff;
+                color: var(--color-white);
             }
         }
     }

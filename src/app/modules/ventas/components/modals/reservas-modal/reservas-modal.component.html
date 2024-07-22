@@ -76,7 +76,7 @@
                     *matRowDef="let row; columns: reservasDisplayedColumns; let i = index;"></tr>
             </table>
             <div class="reservas-load-selected">
-                <button mat-raised-button
+                <button mat-flat-button
                         color="primary"
                         type="button"
                         [disabled]="selection.selected.length === 0"
@@ -246,11 +246,11 @@
             </div>
             }
             <div class="reserva-detail-options">
-                <button mat-raised-button
+                <button mat-flat-button
                         color="warn"
                         type="button"
                         (click)="deleteReserva()">Eliminar</button>
-                <button mat-raised-button
+                <button mat-flat-button
                         color="primary"
                         type="button"
                         (click)="cargarVenta()">Cargar venta</button>
