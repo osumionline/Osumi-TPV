@@ -131,6 +131,10 @@ mat-card-content {
   }
 }
 
+.full-width {
+  width: 100%;
+}
+
 @media print {
   .mat-mdc-table .mdc-data-table__row {
     height: 30px;
