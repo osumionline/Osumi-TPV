@@ -16,7 +16,7 @@
 
 <div class="lineas-ventas"
 	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
-	@for (linea of vs.ventaActual.lineas; track linea.id; let i = $index) {
+	@for (linea of vs.ventaActual.lineas; track $index; let i = $index) {
 	<div class="linea-venta"
 		 [ngClass]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">

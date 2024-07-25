@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '@env/environment';
 import {
   AccesoDirectoResult,
@@ -21,23 +21,50 @@ import { Observable } from 'rxjs';
 export default class ArticulosService {
   private http: HttpClient = inject(HttpClient);
 
-  selected: number = -1;
-  list: Articulo[] = [];
+  selected: WritableSignal<number> = signal<number>(-1);
+  list: WritableSignal<Articulo[]> = signal<Articulo[]>([]);
   returnInfo: ReturnInfoInterface = null;
 
   get articuloActual(): Articulo {
-    return this.list[this.selected];
+    return this.list()[this.selected()];
   }
 
-  newArticulo(localizador: number = null): void {
-    this.selected = this.list.length;
+  createNewArticulo(localizador: number = null): Articulo {
     const articulo: Articulo = new Articulo();
-    articulo.tabName = 'ARTÍCULO ' + (this.list.length + 1);
+    articulo.tabName = 'ARTÍCULO';
     articulo.localizador = localizador;
     if (localizador !== null) {
       articulo.status = 'load';
     }
-    this.list.push(articulo);
+    return articulo;
+  }
+
+  addArticuloToList(articulo: Articulo): void {
+    this.list.update((value: Articulo[]): Articulo[] => {
+      value.push(articulo);
+      return value;
+    });
+  }
+
+  newArticulo(localizador: number = null): void {
+    const articulo: Articulo = this.createNewArticulo(localizador);
+    this.addArticuloToList(articulo);
+    this.selected.set(this.list().length - 1);
+  }
+
+  closeArticulo(ind: number): void {
+    this.list.update((value: Articulo[]): Articulo[] => {
+      value.splice(ind, 1);
+      return value;
+    });
+  }
+
+  updateArticulos(articulos: Articulo[]): void {
+    this.list.set(articulos);
+  }
+
+  updateSelected(ind: number): void {
+    this.selected.set(ind);
   }
 
   getStatistics(data: ChartSelectInterface): Observable<ChartResultInterface> {

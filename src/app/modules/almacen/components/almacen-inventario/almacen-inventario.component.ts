@@ -326,7 +326,8 @@ export default class AlmacenInventarioComponent
       id: null,
       extra: null,
     };
-    this.router.navigate(['/articulos', item.localizador]);
+    this.ars.newArticulo(item.localizador);
+    this.router.navigate(['/articulos']);
   }
 
   ngOnDestroy(): void {

@@ -1,8 +1,14 @@
 import { NgClass } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import ArticulosService from '@services/articulos.service';
+import Articulo from '@model/articulos/articulo.model';
 
 @Component({
   standalone: true,
@@ -12,26 +18,21 @@ import ArticulosService from '@services/articulos.service';
   imports: [NgClass, MatIcon, MatTooltip],
 })
 export default class ArticulosTabsComponent {
-  ars: ArticulosService = inject(ArticulosService);
+  articulos: InputSignal<Articulo[]> = input.required<Articulo[]>();
+  selected: InputSignal<number> = input.required<number>();
+  changeSelectedTabEvent: OutputEmitterRef<number> = output<number>();
+  createNewTabEvent: OutputEmitterRef<void> = output<void>();
+  closeTabEvent: OutputEmitterRef<number> = output<number>();
 
   selectTab(ind: number): void {
-    this.ars.selected = ind;
+    this.changeSelectedTabEvent.emit(ind);
   }
 
   closeTab(ind: number): void {
-    this.ars.list.splice(ind, 1);
-    const newInd: number = ind - 1;
-    if (this.ars.list.length > 0) {
-      this.ars.selected = newInd >= 0 ? newInd : 0;
-    } else {
-      this.ars.selected = -1;
-    }
-    for (const ind in this.ars.list) {
-      this.ars.list[ind].tabName = 'ARTÍCULO ' + (parseInt(ind) + 1);
-    }
+    this.closeTabEvent.emit(ind);
   }
 
   newTab(): void {
-    this.ars.newArticulo();
+    this.createNewTabEvent.emit();
   }
 }

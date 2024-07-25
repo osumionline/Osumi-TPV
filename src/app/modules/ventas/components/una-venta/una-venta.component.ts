@@ -453,7 +453,8 @@ export default class UnaVentaComponent {
         id: null,
         extra: null,
       };
-      this.router.navigate(['/articulos', linea.localizador]);
+      this.ars.newArticulo(linea.localizador);
+      this.router.navigate(['/articulos']);
     } else {
       this.abreVarios(ind);
     }

@@ -2,16 +2,10 @@ import { NgClass, NgStyle } from '@angular/common';
 import {
   Component,
   ElementRef,
-  Input,
-  InputSignal,
-  OnDestroy,
-  OnInit,
   OutputEmitterRef,
   Signal,
-  ViewChild,
   WritableSignal,
   inject,
-  input,
   output,
   signal,
   viewChild,
@@ -100,7 +94,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     UnArticuloObservacionesComponent,
   ],
 })
-export default class UnArticuloComponent implements OnInit, OnDestroy {
+export default class UnArticuloComponent {
   private router: Router = inject(Router);
   private dialog: DialogService = inject(DialogService);
   private config: ConfigService = inject(ConfigService);
@@ -112,46 +106,39 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
   private als: AlmacenService = inject(AlmacenService);
   private overlayService: OverlayService = inject(OverlayService);
 
-  _articulo: Articulo = null;
-  @Input() set articulo(a: Articulo) {
-    this._articulo = a === null ? new Articulo() : a;
-    this.loadArticuloObj();
-  }
-  get articulo(): Articulo {
-    return this._articulo;
-  }
-  ind: InputSignal<number> = input.required<number>();
+  articulo: Articulo = new Articulo();
+  ind: number = -1;
   duplicarArticuloEvent: OutputEmitterRef<Articulo> = output<Articulo>();
   cerrarArticuloEvent: OutputEmitterRef<number> = output<number>();
+  updateArticuloEvent: OutputEmitterRef<void> = output<void>();
 
-  loading: boolean = false;
+  loading: boolean = true;
   selectedTab: number = -1;
   localizadorBox: Signal<ElementRef> =
     viewChild.required<ElementRef>('localizadorBox');
   mostrarWeb: WritableSignal<boolean> = signal<boolean>(false);
 
-  @ViewChild('general', { static: false }) general!: UnArticuloGeneralComponent;
-  @ViewChild('codBarras', { static: false })
-  codBarras!: UnArticuloCodBarrasComponent;
-  @ViewChild('estadisticas', { static: false })
-  estadisticas!: UnArticuloEstadisticasComponent;
-  @ViewChild('historico', { static: false })
-  historico!: UnArticuloHistoricoComponent;
+  general: Signal<UnArticuloGeneralComponent> =
+    viewChild.required<UnArticuloGeneralComponent>('general');
+  codBarras: Signal<UnArticuloCodBarrasComponent> =
+    viewChild.required<UnArticuloCodBarrasComponent>('codBarras');
+  estadisticas: Signal<UnArticuloEstadisticasComponent> =
+    viewChild<UnArticuloEstadisticasComponent>('estadisticas');
+  historico: Signal<UnArticuloHistoricoComponent> =
+    viewChild.required<UnArticuloHistoricoComponent>('historico');
 
   saving: WritableSignal<boolean> = signal<boolean>(false);
   showBuscador: boolean = false;
 
-  ngOnInit(): void {
-    this.loadAppData();
-  }
-
-  loadAppData(): void {
+  load(articulo: Articulo, ind: number): void {
+    this.articulo = articulo;
+    this.ind = ind;
     this.mostrarWeb.set(this.config.ventaOnline);
 
     switch (this.articulo.status) {
       case 'new':
         {
-          this.newArticulo();
+          this.focus();
         }
         break;
       case 'load':
@@ -159,12 +146,12 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
           this.loadArticulo();
         }
         break;
-      case 'loaded':
-        {
-          this.loadArticuloObj();
-        }
-        break;
     }
+    this.loading = false;
+  }
+
+  getArticulo(): Articulo {
+    return this.articulo;
   }
 
   showDetails(loc: number): void {
@@ -197,7 +184,7 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
           this.articulo.localizador = data.data;
           this.loadArticulo();
         } else {
-          this.localizadorBox().nativeElement.focus();
+          this.focus();
         }
       });
 
@@ -212,21 +199,20 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
   }
 
   loadArticulo(): void {
-    this.loading = true;
     this.ars
       .loadArticulo(this.articulo.localizador)
       .subscribe((result: ArticuloResult): void => {
         if (result.status === 'ok') {
-          const tabName: string = this.articulo.tabName;
-          this._articulo = this.cms.getArticulo(result.articulo);
-          if (this._articulo.pvpDescuento !== null) {
+          this.articulo = this.cms.getArticulo(result.articulo);
+          if (this.articulo.pvpDescuento !== null) {
             const importeDescuento: number =
-              this._articulo.pvp - this._articulo.pvpDescuento;
-            this._articulo.porcentajeDescuento = getTwoNumberDecimal(
-              (importeDescuento / this._articulo.pvp) * -100
+              this.articulo.pvp - this.articulo.pvpDescuento;
+            this.articulo.porcentajeDescuento = getTwoNumberDecimal(
+              (importeDescuento / this.articulo.pvp) * -100
             );
           }
-          this._articulo.tabName = tabName;
+          this.articulo.tabName = this.articulo.nombre;
+          this.updateArticuloEvent.emit();
 
           setTimeout((): void => {
             this.loadExtraInfo();
@@ -243,7 +229,6 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
             })
             .subscribe((): void => {
               this.articulo.localizador = null;
-              this.loading = false;
               setTimeout((): void => {
                 this.localizadorBox().nativeElement.select();
               }, 200);
@@ -254,26 +239,20 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
 
   loadExtraInfo(): void {
     if (this.articulo.fechaCaducidad) {
-      this.general.loadFecCad();
+      this.general().loadFecCad();
     }
 
-    if (this.articulo.id !== null && this.estadisticas && this.historico) {
-      this.estadisticas.loadStatsVentas();
-      this.estadisticas.loadStatsWeb();
-      this.historico.loadHistorico();
+    if (this.articulo.id !== null && this.estadisticas() && this.historico()) {
+      this.estadisticas().loadStatsVentas();
+      this.estadisticas().loadStatsWeb();
+      this.historico().loadHistorico();
     }
 
     if (this.articulo.idMarca !== null) {
       const marca: Marca = this.ms.findById(this.articulo.idMarca);
       this.articulo.marca = marca.nombre;
     }
-  }
-
-  loadArticuloObj(): void {
-    this.loadExtraInfo();
-
-    this.selectedTab = 0;
-    this.loading = false;
+    this.articulo.status = 'loaded';
   }
 
   abrirAccesosDirectos(): void {
@@ -291,24 +270,19 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
         this.articulo.localizador = data.data;
         this.loadArticulo();
       }
-      setTimeout((): void => {
-        this.localizadorBox().nativeElement.focus();
-      }, 0);
+      this.focus();
     });
   }
 
   checkArticulosTab(ev: MatTabChangeEvent): void {
     if (ev.index === 2) {
       setTimeout((): void => {
-        this.codBarras.focus();
+        this.codBarras().focus();
       }, 0);
     }
   }
 
-  newArticulo(): void {
-    const tabName: string = this.articulo.tabName;
-    this.articulo = new Articulo();
-    this.articulo.tabName = tabName;
+  focus(): void {
     this.selectedTab = 0;
     setTimeout((): void => {
       this.localizadorBox().nativeElement.focus();
@@ -328,7 +302,7 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data === true) {
-        this.newArticulo();
+        this.focus();
       }
     });
   }
@@ -423,7 +397,9 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
             .subscribe((): void => {
               this.saving.set(false);
               if (cerrar) {
-                this.cerrarArticuloEvent.emit(this.ind());
+                this.cerrarArticuloEvent.emit(this.ind);
+              } else {
+                this.updateArticuloEvent.emit();
               }
               if (this.ars.returnInfo === null) {
                 this.articulo.nombreStatus = 'ok';
@@ -497,11 +473,5 @@ export default class UnArticuloComponent implements OnInit, OnDestroy {
           this.duplicarArticuloEvent.emit(this.articulo);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.ars.list[this.ind()] !== undefined) {
-      this.ars.list[this.ind()] = this.articulo;
-    }
   }
 }

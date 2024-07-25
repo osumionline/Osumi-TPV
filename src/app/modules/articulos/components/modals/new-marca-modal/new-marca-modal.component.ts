@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -28,20 +29,24 @@ export default class NewMarcaModalComponent implements OnInit {
   private customOverlayRef: CustomOverlayRef<null, {}> =
     inject(CustomOverlayRef);
 
-  @ViewChild('nombreBox', { static: true }) nombreBox: ElementRef;
+  nombreBox: Signal<ElementRef> = viewChild('nombreBox');
   marca: Marca = new Marca();
 
   ngOnInit(): void {
-    this.nombreBox.nativeElement.focus();
+    this.nombreBox().nativeElement.focus();
   }
 
   guardarMarca(): void {
     if (!this.marca.nombre) {
-      this.dialog.alert({
-        title: 'Error',
-        content: '¡No puedes dejar el nombre de la marca en blanco!',
-        ok: 'Continuar',
-      });
+      this.dialog
+        .alert({
+          title: 'Error',
+          content: '¡No puedes dejar el nombre de la marca en blanco!',
+          ok: 'Continuar',
+        })
+        .subscribe((): void => {
+          this.nombreBox().nativeElement.focus();
+        });
       return;
     }
 
@@ -60,7 +65,7 @@ export default class NewMarcaModalComponent implements OnInit {
               ok: 'Continuar',
             })
             .subscribe((): void => {
-              this.nombreBox.nativeElement.focus();
+              this.nombreBox().nativeElement.focus();
             });
           return;
         }

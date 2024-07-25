@@ -1,13 +1,12 @@
 <otpv-header selectedOption="articulos" />
 
-<otpv-articulos-tabs #tabs />
+<otpv-articulos-tabs [articulos]="articulos()"
+                     [selected]="selected()"
+                     (changeSelectedTabEvent)="changeSelectedTab($event)"
+                     (createNewTabEvent)="createNewTab()"
+                     (closeTabEvent)="closeTab($event)" />
 
-@if (loaded) {
-@for (articulo of ars.list; track articulo.id; let i = $index) {
-<otpv-un-articulo [ind]="i"
-                  [ngClass]="{'hidden':i !== ars.selected}"
-                  (duplicarArticuloEvent)="duplicar($event)"
-                  (cerrarArticuloEvent)="cerrar($event)"
-                  [articulo]="articulo" />
-}
-}
+<otpv-un-articulo (duplicarArticuloEvent)="duplicate($event)"
+                  (cerrarArticuloEvent)="closeTab($event)"
+                  (updateArticuloEvent)="updateArticulo()"
+                  #articulo />

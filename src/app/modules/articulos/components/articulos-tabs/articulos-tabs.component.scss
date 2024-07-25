@@ -24,6 +24,13 @@
             position: relative;
             min-width: 130px;
 
+            span {
+                display: block;
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
             .tab-icon {
                 display: block;
                 opacity: 0;

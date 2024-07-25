@@ -725,7 +725,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       id: this.pedido.id === null ? 0 : this.pedido.id,
       extra: null,
     };
-    this.router.navigate(['/articulos', localizador]);
+    this.ars.newArticulo(localizador);
+    this.router.navigate(['/articulos']);
   }
 
   addPDF(): void {
