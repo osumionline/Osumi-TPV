@@ -23,7 +23,7 @@
     "@angular/router": "^18.1.2",
     "@osumi/tools": "^1.1.1",
     "@swimlane/ngx-charts": "^20.5.0",
-    "angularx-qrcode": "^17.0.0",
+    "angularx-qrcode": "^18.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
@@ -48,10 +48,5 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.3"
-  },
-  "overrides": {
-    "angularx-qrcode": {
-      "@angular/core": "$@angular/core"
-    }
   }
 }
