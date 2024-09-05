@@ -16,6 +16,7 @@ import { DialogField } from '@interfaces/interfaces';
   standalone: true,
   selector: 'otpv-form-dialog',
   templateUrl: './form-dialog.component.html',
+  styleUrls: ['./form-dialog.component.scss'],
   imports: [
     FormsModule,
     MatDialogTitle,
