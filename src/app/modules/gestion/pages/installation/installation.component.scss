@@ -2,6 +2,15 @@
 	background-color: var(--color-very-light-grey);
 }
 
+.toolbar {
+	justify-content: space-between;
+	background-color: var(--main-color);
+
+	&>span {
+		color: var(--color-white);
+	}
+}
+
 .title {
 	margin: 16px;
 }
