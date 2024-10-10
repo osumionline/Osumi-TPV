@@ -50,7 +50,7 @@ export default class Empleado {
     this.id = e.id;
     this.nombre = decode ? urldecode(e.nombre) : e.nombre;
     this.hasPassword = e.hasPassword;
-    this.color = e.color;
+    this.color = '#' + e.color;
     this.roles = e.roles;
 
     return this;
