@@ -53,7 +53,7 @@ export default class AccesosDirectosModalComponent
 
   idArticulo: WritableSignal<number | null> = signal<number | null>(null);
   accesosDirectosList: AccesoDirecto[] = [];
-  accesoDirecto: WritableSignal<number | null> = signal<number | null>(null);
+  accesoDirecto: number | null = null;
   accesosDirectosDisplayedColumns: string[] = ['accesoDirecto', 'nombre', 'id'];
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
@@ -121,7 +121,7 @@ export default class AccesosDirectosModalComponent
 
   asignarAccesoDirecto(): void {
     const ind: number = this.accesosDirectosList.findIndex(
-      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto()
+      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto
     );
     if (ind != -1) {
       this.dialog
@@ -140,7 +140,7 @@ export default class AccesosDirectosModalComponent
     }
 
     this.ars
-      .asignarAccesoDirecto(this.idArticulo(), this.accesoDirecto())
+      .asignarAccesoDirecto(this.idArticulo(), this.accesoDirecto)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.dialog

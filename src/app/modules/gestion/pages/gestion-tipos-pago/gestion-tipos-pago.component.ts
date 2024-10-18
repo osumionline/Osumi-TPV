@@ -1,4 +1,8 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  DragDropModule,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import {
   Component,
@@ -60,6 +64,7 @@ import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
     MatTabGroup,
     MatTab,
     MatCheckbox,
+    DragDropModule,
   ],
 })
 export default class GestionTiposPagoComponent implements OnInit {
@@ -166,6 +171,19 @@ export default class GestionTiposPagoComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (
+      this.selectedTipoPago.id === null &&
+      (this.logo === null ||
+        this.logo === '' ||
+        this.logo === '/img/default.jpg')
+    ) {
+      this.dialog.alert({
+        title: 'Error',
+        content: 'No has elegido un logo.',
+        ok: 'Continuar',
+      });
+      return;
+    }
     const data: TipoPagoInterface = JSON.parse(JSON.stringify(this.form.value));
     data.foto = this.logo;
 

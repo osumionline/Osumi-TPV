@@ -337,7 +337,7 @@
                                             <div class="stats-table-col">Importe</div>
                                         </div>
                                         <div class="stats-table-data">
-                                            @for (venta of selectedClient.ultimasVentas; track venta.fecha) {
+                                            @for (venta of selectedClient.ultimasVentas; track venta) {
                                             <div class="stats-table-row">
                                                 <div class="stats-table-col stats-table-col-center">{{venta.fecha}}</div>
                                                 <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
