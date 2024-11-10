@@ -218,7 +218,7 @@
 				<div class="estadisticas-item-importe">PVP</div>
 				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
-			@for (item of vs.ventaActual.cliente.ultimasVentas; track item.localizador) {
+			@for (item of vs.ventaActual.cliente.ultimasVentas; track item) {
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-fecha">{{item.fecha}}</div>
 				<div class="estadisticas-item-localizador">{{item.localizador}}</div>

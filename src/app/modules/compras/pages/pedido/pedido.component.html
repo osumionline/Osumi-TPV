@@ -641,7 +641,7 @@
                         </div>
                         <div class="totales-row totales-iva-row"
                              [ngClass]="{'no-iva': pedido.ue}">
-                            @for (ivaOption of pedido.ivaList; track ivaOption.iva) {
+                            @for (ivaOption of pedido.ivaList; track ivaOption) {
                             @if (ivaOption.iva !== undefined || ivaOption.re !== undefined) {
                             <div class="iva-row">
                                 @if (ivaOption.iva !== undefined) {

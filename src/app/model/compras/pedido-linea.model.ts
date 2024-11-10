@@ -24,7 +24,6 @@ export default class PedidoLinea {
     public iva: number = null,
     public re: number = null,
     public descuento: number = null,
-    public idCategoria: number = null,
     public codBarras: string = null,
     public hasCodBarras: boolean = false,
     public referencia: string = null
@@ -63,7 +62,6 @@ export default class PedidoLinea {
     this.iva = pl.iva;
     this.re = pl.re;
     this.descuento = pl.descuento;
-    this.idCategoria = pl.idCategoria;
     this.codBarras = pl.codBarras;
     this.hasCodBarras = pl.hasCodBarras;
     this.referencia = urldecode(pl.referencia);
@@ -87,7 +85,6 @@ export default class PedidoLinea {
     this.iva = a.iva;
     this.re = a.re;
     this.descuento = 0;
-    this.idCategoria = a.idCategoria;
     this.codBarras = null;
     this.referencia = a.referencia;
     this.hasCodBarras = a.hasCodigoBarras;
@@ -114,7 +111,6 @@ export default class PedidoLinea {
       iva: this.iva,
       re: this.re,
       descuento: this.descuento,
-      idCategoria: this.idCategoria,
       codBarras: this.codBarras,
       hasCodBarras: this.hasCodBarras,
       referencia: urlencode(this.referencia),
