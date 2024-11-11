@@ -314,22 +314,7 @@ export default class ProveedoresComponent implements OnInit {
           ok: 'Continuar',
         })
         .subscribe((): void => {
-          const comercialInd: number =
-            this.selectedProveedor.comerciales.findIndex(
-              (x: Comercial): boolean => x.id === this.selectedComercial.id
-            );
-          if (comercialInd == -1) {
-            this.selectedProveedor.comerciales.push(
-              new Comercial().fromInterface(
-                this.selectedComercial.toInterface()
-              )
-            );
-          } else {
-            this.selectedProveedor.comerciales[comercialInd] =
-              new Comercial().fromInterface(
-                this.selectedComercial.toInterface()
-              );
-          }
+          this.ps.resetProveedores();
         });
     });
   }
@@ -367,11 +352,7 @@ export default class ProveedoresComponent implements OnInit {
               ok: 'Continuar',
             })
             .subscribe((): void => {
-              const comercialInd: number =
-                this.selectedProveedor.comerciales.findIndex(
-                  (x: Comercial): boolean => x.id === this.selectedComercial.id
-                );
-              this.selectedProveedor.comerciales.splice(comercialInd, 1);
+              this.ps.resetProveedores();
               this.showComercial = false;
             });
         } else {

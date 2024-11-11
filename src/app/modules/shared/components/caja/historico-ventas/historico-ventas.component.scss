@@ -121,11 +121,14 @@
                 .historico-details-options-right {
                     flex: 1;
                     display: flex;
+                    flex-wrap: wrap;
                     padding: 8px;
+                    gap: 10px;
                     justify-content: space-between;
 
                     button {
                         margin: 8px 0;
+                        width: calc(33.33% - 10px);
                     }
                 }
             }

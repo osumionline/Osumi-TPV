@@ -27,6 +27,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { environment } from '@env/environment';
 import {
   HistoricoVentasResult,
   VentaHistoricoOtrosInterface,
@@ -239,6 +240,14 @@ export default class HistoricoVentasComponent implements AfterViewInit {
           });
         }
       });
+  }
+
+  getTicketImage(): void {
+    window.open(
+      environment.baseUrl +
+        'api-ventas/get-ticket-image/' +
+        this.historicoVentasSelected.id
+    );
   }
 
   generarFactura(): void {

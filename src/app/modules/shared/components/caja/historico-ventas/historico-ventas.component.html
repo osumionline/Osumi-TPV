@@ -357,6 +357,12 @@
                     </button>
                     <button mat-fab
                             color="primary"
+                            (click)="getTicketImage()"
+                            matTooltip="Obtener imagen ticket">
+                        <mat-icon>collections</mat-icon>
+                    </button>
+                    <button mat-fab
+                            color="primary"
                             (click)="generarFactura()"
                             matTooltip="Generar factura">
                         <mat-icon>library_books</mat-icon>
