@@ -1,0 +1,193 @@
+<div class="filtros">
+    <div class="col-filtros">
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Año</mat-label>
+            <mat-select [(ngModel)]="buscador().year"
+                        (ngModelChange)="resetBuscar()">
+                @for (year of yearList; track year) {
+                <mat-option [value]="year">
+                    {{year}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Mes</mat-label>
+            <mat-select [(ngModel)]="buscador().month"
+                        (ngModelChange)="resetBuscar()">
+                @for (month of monthList; track month.id) {
+                <mat-option [value]="month.id">
+                    {{month.name}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+            <mat-label>Marca</mat-label>
+            <mat-select [(ngModel)]="buscador().idMarca"
+                        (ngModelChange)="resetBuscar()">
+                <mat-option [value]="null">Elige marca</mat-option>
+                @for (marca of ms.marcas(); track marca.id) {
+                <mat-option [value]="marca.id">
+                    {{marca.nombre}}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="nombre"
+                        subscriptSizing="dynamic">
+            <mat-label>Nombre artículo</mat-label>
+            <input [(ngModel)]="buscador().nombre"
+                   (keyup)="resetBuscar()"
+                   matInput>
+        </mat-form-field>
+    </div>
+    <div class="col-actions">
+        <button mat-flat-button
+                color="primary"
+                (click)="addCaducidad()">
+            <mat-icon>add</mat-icon>
+            Añadir caducidad
+        </button>
+        <button mat-flat-button
+                color="primary"
+                (click)="createReport()">
+            <mat-icon>border_all</mat-icon>
+            Crear informe
+        </button>
+    </div>
+</div>
+
+<table mat-table
+       [dataSource]="caducidadesDataSource"
+       matSort
+       (matSortChange)="cambiarOrden($event)"
+       class="mat-elevation-z2 ">
+
+    <!-- Localizador -->
+    <ng-container matColumnDef="localizador">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por localizador">
+            Localizador
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.articulo.localizador}} </td>
+    </ng-container>
+
+    <!-- Marca -->
+    <ng-container matColumnDef="marca">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por marca">
+            Marca
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.articulo.marca}} </td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por nombre">
+            Nombre
+        </th>
+        <td mat-cell
+            *matCellDef="let element">
+            <a class="link"
+               (click)="goToArticulo($event, element)">{{element.articulo.nombre}}
+            </a>
+            @if (element.articulo.observaciones) {
+            <mat-icon [matTooltip]="element.articulo.observaciones"
+                      class="icon">info_outline</mat-icon>
+            }
+        </td>
+    </ng-container>
+
+    <!-- Unidades -->
+    <ng-container matColumnDef="unidades">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por unidades">
+            Stock
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{element.unidades}}
+        </td>
+    </ng-container>
+
+    <!-- PVP -->
+    <ng-container matColumnDef="pvp">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por PVP">
+            PVP
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{ element.unidades * element.articulo.pvp | fixedNumber}} €
+        </td>
+    </ng-container>
+
+    <!-- PUC -->
+    <ng-container matColumnDef="puc">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por PUC">
+            PVP
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{ element.unidades * element.articulo.puc | fixedNumber}} €
+        </td>
+    </ng-container>
+
+    <!-- Opciones -->
+    <ng-container matColumnDef="opciones">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef>
+            Opciones
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            <button color="warn"
+                    mat-icon-button
+                    (click)="deleteCaducidad(element)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="caducidadesDisplayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: caducidadesDisplayedColumns; let i = index;"></tr>
+</table>
+<mat-paginator [length]="pags"
+               [pageSize]="buscador().num"
+               [pageSizeOptions]="[20, 50, 100, 200]"
+               [pageIndex]="pageIndex"
+               (page)="changePage($event)" />
+<div class="total-inventario">
+    Total Unidades: <strong>{{totalUnidades()}}</strong>
+    &nbsp;&nbsp;&nbsp;
+    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
+    &nbsp;&nbsp;&nbsp;
+    Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
+</div>

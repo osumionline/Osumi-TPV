@@ -8,6 +8,7 @@ import {
   CodigoBarrasInterface,
   HistoricoArticuloInterface,
 } from '@interfaces/articulo.interface';
+import { CaducidadInterface } from '@interfaces/caducidad.interface';
 import {
   CierreCajaInterface,
   SalidaCajaInterface,
@@ -34,6 +35,7 @@ import {
   ArticuloUltimaVentaInterface,
   VentaFinInterface,
 } from '@interfaces/venta.interface';
+import Caducidad from '@model/almacen/caducidad.model';
 import InventarioItem from '@model/almacen/inventario-item.model';
 import AccesoDirecto from '@model/articulos/acceso-directo.model';
 import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
@@ -302,6 +304,16 @@ export default class ClassMapperService {
   ): HistoricoArticulo[] {
     return has.map((ha: HistoricoArticuloInterface): HistoricoArticulo => {
       return this.getHistoricoArticulo(ha);
+    });
+  }
+
+  getCaducidad(c: CaducidadInterface): Caducidad {
+    return new Caducidad().fromInterface(c);
+  }
+
+  getCaducidades(cs: CaducidadInterface[]): Caducidad[] {
+    return cs.map((c: CaducidadInterface): Caducidad => {
+      return this.getCaducidad(c);
     });
   }
 }
