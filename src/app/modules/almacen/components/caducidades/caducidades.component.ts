@@ -9,7 +9,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -20,11 +20,13 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Modal } from '@app/interfaces/modals.interface';
+import DialogService from '@app/services/dialog.service';
 import {
+  AddCaducidadInterface,
   BuscadorCaducidadesInterface,
   BuscadorCaducidadResult,
 } from '@interfaces/caducidad.interface';
-import { Month } from '@interfaces/interfaces';
+import { Month, StatusResult } from '@interfaces/interfaces';
 import Caducidad from '@model/almacen/caducidad.model';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import ArticulosService from '@services/articulos.service';
@@ -46,6 +48,7 @@ import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.c
     MatInput,
     MatIcon,
     MatButton,
+    MatIconButton,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -63,6 +66,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   private ars: ArticulosService = inject(ArticulosService);
   private router: Router = inject(Router);
   private overlayService: OverlayService = inject(OverlayService);
+  private dialog: DialogService = inject(DialogService);
 
   buscador: WritableSignal<BuscadorCaducidadesInterface> = signal({
     year: null,
@@ -153,8 +157,23 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       modalCaducidadData
     );
     dialog.afterClosed$.subscribe((data): void => {
+      console.log(data);
       if (data !== null) {
-        this.buscar();
+        const cad: AddCaducidadInterface = {
+          idArticulo: data.data.articulo.id,
+          unidades: data.data.unidades,
+        };
+        this.cs.addCaducidad(cad).subscribe((result: StatusResult): void => {
+          if (result.status === 'ok') {
+            this.buscar();
+          } else {
+            this.dialog.alert({
+              title: 'Error',
+              content: 'Ocurrió un error al guardar la caducidad',
+              ok: 'Continuar',
+            });
+          }
+        });
       }
     });
   }

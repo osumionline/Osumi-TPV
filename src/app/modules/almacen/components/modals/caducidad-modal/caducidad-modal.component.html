@@ -1,1 +1,27 @@
-<p>caducidad-modal works!</p>
+<div class="buscador">
+    <mat-form-field subscriptSizing="dynamic"
+                    class="buscador-box">
+        <mat-label>Buscador</mat-label>
+        <input matInput
+               [(ngModel)]="articulo.localizador"
+               (keydown)="checkLocalizador($event)"
+               #localizadorBox>
+    </mat-form-field>
+</div>
+<div class="seleccionado">
+    <span>{{articuloName}}</span>
+    <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Unidades</mat-label>
+        <input matInput
+               type="number"
+               min="0"
+               step="1"
+               [(ngModel)]="unidades">
+    </mat-form-field>
+    <button mat-flat-button
+            [disabled]="!articuloSelected() || !unidades"
+            (click)="addCaducidad()">
+        <mat-icon>add</mat-icon>
+        Añadir caducidad
+    </button>
+</div>

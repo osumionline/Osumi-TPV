@@ -1,0 +1,14 @@
+.buscador {
+    margin-bottom: 16px;
+
+    .buscador-box {
+        width: 100%;
+    }
+}
+
+.seleccionado {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+    align-items: center;
+}
