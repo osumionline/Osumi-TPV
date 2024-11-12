@@ -15,7 +15,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
@@ -51,6 +51,7 @@ import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.c
     MatIconButton,
     FormsModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatTooltip,
     FixedNumberPipe,
