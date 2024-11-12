@@ -28,3 +28,8 @@ export interface BuscadorCaducidadResult {
   totalPVP: number;
   totalPUC: number;
 }
+
+export interface AddCaducidadInterface {
+  idArticulo: number;
+  unidades: number;
+}

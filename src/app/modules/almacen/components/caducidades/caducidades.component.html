@@ -115,7 +115,7 @@
             *matHeaderCellDef
             mat-sort-header
             sortActionDescription="Ordenar por unidades">
-            Stock
+            Unidades
         </th>
         <td class="center"
             mat-cell
@@ -147,7 +147,7 @@
             *matHeaderCellDef
             mat-sort-header
             sortActionDescription="Ordenar por PUC">
-            PVP
+            PUC
         </th>
         <td class="center"
             mat-cell
@@ -187,7 +187,7 @@
 <div class="total-inventario">
     Total Unidades: <strong>{{totalUnidades()}}</strong>
     &nbsp;&nbsp;&nbsp;
-    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
-    &nbsp;&nbsp;&nbsp;
     Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
+    &nbsp;&nbsp;&nbsp;
+    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
 </div>

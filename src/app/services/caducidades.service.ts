@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
+  AddCaducidadInterface,
   BuscadorCaducidadesInterface,
   BuscadorCaducidadResult,
 } from '@interfaces/caducidad.interface';
+import { StatusResult } from '@interfaces/interfaces';
 import Caducidad from '@model/almacen/caducidad.model';
 import { Observable } from 'rxjs';
 
@@ -34,6 +36,13 @@ export default class CaducidadesService {
   ): Observable<BuscadorCaducidadResult> {
     return this.http.post<BuscadorCaducidadResult>(
       environment.apiUrl + '-almacen/get-caducidades',
+      data
+    );
+  }
+
+  addCaducidad(data: AddCaducidadInterface): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + '-almacen/add-caducidad',
       data
     );
   }
