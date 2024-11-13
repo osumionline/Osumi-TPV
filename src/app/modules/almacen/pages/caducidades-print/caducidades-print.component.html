@@ -1,69 +1,69 @@
-<h1>Informe de caducidades</h1>
+<h1 class="title">Informe de caducidades</h1>
 
-@for (year of data; track year.year) {
-<div class="year">
-    <div class="info">
-        <span class="info-title">{{year.year}}</span>
-        <span class="cols">
-            <span class="col">
-                <label>Unidades:</label>
-                <span class="value">{{year.totalUnidades}}</span>
-            </span>
-            <span class="col">
-                <label>PVP:</label>
-                <span class="value">{{year.totalPVP | fixedNumber}} €</span>
-            </span>
-            <span class="col">
-                <label>PUC:</label>
-                <span class="value">{{year.totalPUC | fixedNumber}} €</span>
-            </span>
-        </span>
-    </div>
-    <div class="months">
-        @for (month of year.months; track month.month) {
-        <div class="month">
-            <div class="info">
-                <span class="info-title">{{month.month | monthName}}</span>
-                <span class="cols">
-                    <span class="col">
-                        <label>Unidades:</label>
-                        <span class="value">{{month.totalUnidades}}</span>
-                    </span>
-                    <span class="col">
-                        <label>PVP:</label>
-                        <span class="value">{{month.totalPVP | fixedNumber}} €</span>
-                    </span>
-                    <span class="col">
-                        <label>PUC:</label>
-                        <span class="value">{{month.totalPUC | fixedNumber}} €</span>
-                    </span>
-                </span>
-            </div>
-            <div class="brands">
-                @for (brand of month.brands; track brand.name) {
-                <div class="brand">
-                    <div class="info">
-                        <span class="info-title">{{brand.name}}</span>
-                        <span class="cols">
-                            <span class="col">
-                                <label>Unidades:</label>
-                                <span class="value">{{brand.totalUnidades}}</span>
-                            </span>
-                            <span class="col">
-                                <label>PVP:</label>
-                                <span class="value">{{brand.totalPVP | fixedNumber}} €</span>
-                            </span>
-                            <span class="col">
-                                <label>PUC:</label>
-                                <span class="value">{{brand.totalPUC | fixedNumber}} €</span>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                }
-            </div>
-        </div>
-        }
-    </div>
+<div class="data-table">
+    <table>
+        <thead>
+            <tr>
+                <th class="left">Descripción</th>
+                <th class="center">Unidades</th>
+                <th class="right">PVP</th>
+                <th class="right">PUC</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Recorremos los años -->
+            @for (year of data; track year.year) {
+            <tr>
+                <td class="level-0">
+                    <button mat-icon-button
+                            (click)="toggleExpand('year-' + year.year)">
+                        <mat-icon>
+                            {{ isExpanded('year-' + year.year) ? 'expand_less' : 'expand_more' }}
+                        </mat-icon>
+                    </button>
+                    {{ year.year }}
+                </td>
+                <td class="center">{{ year.totalUnidades }}</td>
+                <td class="right">{{ year.totalPVP | fixedNumber }} €</td>
+                <td class="right">{{ year.totalPUC | fixedNumber }} €</td>
+            </tr>
+            <!-- Recorremos los meses si el año está expandido -->
+            @for (month of year.months; track month.month) {
+            @if (isExpanded('year-' + year.year)) {
+            <tr>
+                <td class="level-1">
+                    <button mat-icon-button
+                            (click)="toggleExpand('year-' + year.year + '-month-' + month.month)">
+                        <mat-icon>
+                            {{ isExpanded('year-' + year.year + '-month-' + month.month) ? 'expand_less' : 'expand_more' }}
+                        </mat-icon>
+                    </button>
+                    {{ month.month | monthName }}
+                </td>
+                <td class="center">{{ month.totalUnidades }}</td>
+                <td class="right">{{ month.totalPVP | fixedNumber }} €</td>
+                <td class="right">{{ month.totalPUC | fixedNumber }} €</td>
+            </tr>
+            <!-- Recorremos las marcas si el mes está expandido -->
+            @for (brand of month.brands; track brand.name) {
+            @if (isExpanded('year-' + year.year + '-month-' + month.month)) {
+            <tr>
+                <td class="level-2">{{ brand.name }}</td>
+                <td class="center">{{ brand.totalUnidades }}</td>
+                <td class="right">{{ brand.totalPVP | fixedNumber }} €</td>
+                <td class="right">{{ brand.totalPUC | fixedNumber }} €</td>
+            </tr>
+            }
+            }
+            }
+            }
+            }
+            <tr class="totals-row">
+                <td class="level-0">Totales</td>
+                <td class="center">{{totalUnidades}}</td>
+                <td class="right">{{totalPVP | fixedNumber}} €</td>
+                <td class="right">{{totalPUC | fixedNumber}} €</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-}

@@ -1,4 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Params } from '@angular/router';
 import { BuscadorCaducidadesInterface } from '@interfaces/caducidad.interface';
 import {
@@ -13,7 +15,7 @@ import InformesService from '@services/informes.service';
 @Component({
   selector: 'otpv-caducidades-print',
   standalone: true,
-  imports: [FixedNumberPipe, MonthNamePipe],
+  imports: [MatIconButton, MatIcon, FixedNumberPipe, MonthNamePipe],
   templateUrl: './caducidades-print.component.html',
   styleUrl: './caducidades-print.component.scss',
 })
@@ -24,6 +26,10 @@ export default class CaducidadesPrintComponent implements OnInit {
 
   buscador: BuscadorCaducidadesInterface | null = null;
   data: InformeCaducidadesYearInterface[] = [];
+  expandedItems: Set<string> = new Set();
+  totalUnidades: number = 0;
+  totalPVP: number = 0;
+  totalPUC: number = 0;
 
   constructor() {
     document.body.classList.add('white-bg');
@@ -51,7 +57,33 @@ export default class CaducidadesPrintComponent implements OnInit {
       .getInformeCaducidades(this.buscador)
       .subscribe((result: InformeCaducidadesResult): void => {
         this.data = result.data;
-        console.log(this.data);
+        this.totalUnidades = this.data.reduce(
+          (sum: number, year: InformeCaducidadesYearInterface): number =>
+            sum + year.totalUnidades,
+          0
+        );
+        this.totalPVP = this.data.reduce(
+          (sum: number, year: InformeCaducidadesYearInterface): number =>
+            sum + year.totalPVP,
+          0
+        );
+        this.totalPUC = this.data.reduce(
+          (sum: number, year: InformeCaducidadesYearInterface): number =>
+            sum + year.totalPUC,
+          0
+        );
       });
+  }
+
+  toggleExpand(identifier: string): void {
+    if (this.expandedItems.has(identifier)) {
+      this.expandedItems.delete(identifier);
+    } else {
+      this.expandedItems.add(identifier);
+    }
+  }
+
+  isExpanded(identifier: string): boolean {
+    return this.expandedItems.has(identifier);
   }
 }

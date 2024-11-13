@@ -1,52 +1,79 @@
-.year {
-    margin: 8px;
+.title {
+    padding: 8px 16px;
+}
+
+.data-table {
+    margin: 20px;
     border: 1px solid var(--color-black);
+    border-radius: 8px;
+    overflow: hidden;
 
-    .months {
-        margin-left: 8px;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
 
-        .month {
-            .brands {
-                margin-left: 8px;
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--color-black);
+        }
 
-                .brand {
-                    &>.info:last-child {
-                        border-bottom: 0;
-                    }
-                }
+        th {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        td {
+            &.level-0 {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            &.level-1 {
+                padding-left: 20px;
+                font-size: 16px;
+            }
+
+            &.level-2 {
+                padding-left: 40px;
+                font-size: 14px;
+            }
+        }
+
+        .totals-row {
+            font-weight: bold;
+
+            td {
+                border-top: 2px solid var(--color-black);
+                border-bottom: 0;
             }
         }
     }
 }
 
-.info {
-    display: flex;
-    padding: 8px;
-    border-bottom: 1px solid var(--color-black);
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
 
-    .info-title {
-        flex: 1;
-    }
+.left {
+    text-align: left;
+}
 
-    .cols {
-        display: flex;
+.center {
+    text-align: center;
+}
 
-        .col {
-            width: 150px;
-            margin: 0 16px;
-            display: flex;
+.right {
+    text-align: right;
+}
 
-            label {
-                width: 75px;
-                display: inline-block;
-                font-weight: bold;
-            }
-
-            .value {
-                text-align: right;
-                display: inline-block;
-                flex: 1;
-            }
-        }
+@media print {
+    button {
+        display: none;
     }
 }
