@@ -1,0 +1,69 @@
+<h1>Informe de caducidades</h1>
+
+@for (year of data; track year.year) {
+<div class="year">
+    <div class="info">
+        <span class="info-title">{{year.year}}</span>
+        <span class="cols">
+            <span class="col">
+                <label>Unidades:</label>
+                <span class="value">{{year.totalUnidades}}</span>
+            </span>
+            <span class="col">
+                <label>PVP:</label>
+                <span class="value">{{year.totalPVP | fixedNumber}} €</span>
+            </span>
+            <span class="col">
+                <label>PUC:</label>
+                <span class="value">{{year.totalPUC | fixedNumber}} €</span>
+            </span>
+        </span>
+    </div>
+    <div class="months">
+        @for (month of year.months; track month.month) {
+        <div class="month">
+            <div class="info">
+                <span class="info-title">{{month.month | monthName}}</span>
+                <span class="cols">
+                    <span class="col">
+                        <label>Unidades:</label>
+                        <span class="value">{{month.totalUnidades}}</span>
+                    </span>
+                    <span class="col">
+                        <label>PVP:</label>
+                        <span class="value">{{month.totalPVP | fixedNumber}} €</span>
+                    </span>
+                    <span class="col">
+                        <label>PUC:</label>
+                        <span class="value">{{month.totalPUC | fixedNumber}} €</span>
+                    </span>
+                </span>
+            </div>
+            <div class="brands">
+                @for (brand of month.brands; track brand.name) {
+                <div class="brand">
+                    <div class="info">
+                        <span class="info-title">{{brand.name}}</span>
+                        <span class="cols">
+                            <span class="col">
+                                <label>Unidades:</label>
+                                <span class="value">{{brand.totalUnidades}}</span>
+                            </span>
+                            <span class="col">
+                                <label>PVP:</label>
+                                <span class="value">{{brand.totalPVP | fixedNumber}} €</span>
+                            </span>
+                            <span class="col">
+                                <label>PUC:</label>
+                                <span class="value">{{brand.totalPUC | fixedNumber}} €</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</div>
+}

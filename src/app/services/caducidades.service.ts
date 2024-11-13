@@ -46,4 +46,11 @@ export default class CaducidadesService {
       data
     );
   }
+
+  deleteCaducidad(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + '-almacen/delete-caducidad',
+      { id }
+    );
+  }
 }

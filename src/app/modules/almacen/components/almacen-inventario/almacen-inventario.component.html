@@ -121,7 +121,8 @@
         <td mat-cell
             *matCellDef="let element">
             <a class="link"
-               (click)="goToArticulo($event, element)">{{element.nombre}}
+               (click)="goToArticulo($event, element)">
+                {{element.nombre}}
             </a>
             @if (element.observaciones) {
             <mat-icon [matTooltip]="element.observaciones"

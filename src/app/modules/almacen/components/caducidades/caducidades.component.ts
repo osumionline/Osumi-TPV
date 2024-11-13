@@ -133,15 +133,25 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
     this.cs
       .getCaducidades(this.buscador())
       .subscribe((result: BuscadorCaducidadResult): void => {
-        this.list.set(this.cms.getCaducidades(result.list));
-        this.caducidadesDataSource.data = this.list();
+        const caducidades: Caducidad[] = this.cms.getCaducidades(result.list);
+        const marcas = {};
+        for (const cad of caducidades) {
+          if (!marcas['marca_' + cad.articulo.idMarca]) {
+            marcas['marca_' + cad.articulo.idMarca] = this.ms.findById(
+              cad.articulo.idMarca
+            );
+          }
+          cad.articulo.marca = marcas['marca_' + cad.articulo.idMarca].nombre;
+        }
+        this.list.set(caducidades);
+        this.caducidadesDataSource.data = caducidades;
         this.pags.set(result.pags);
         this.totalUnidades.set(result.totalUnidades);
         this.totalPVP.set(result.totalPVP);
         this.totalPUC.set(result.totalPUC);
 
         this.cs.buscador = this.buscador();
-        this.cs.list = this.list();
+        this.cs.list = caducidades;
         this.cs.pags = this.pags();
         this.cs.pageIndex = this.pageIndex();
         this.cs.firstLoad = false;
@@ -166,7 +176,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
         };
         this.cs.addCaducidad(cad).subscribe((result: StatusResult): void => {
           if (result.status === 'ok') {
-            this.buscar();
+            this.resetBuscar();
           } else {
             this.dialog.alert({
               title: 'Error',
@@ -212,7 +222,32 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   }
 
   deleteCaducidad(cad: Caducidad): void {
-    console.log(cad);
+    this.dialog
+      .confirm({
+        title: 'Confirmar',
+        content: '¿Estás seguro de querer borrar esta caducidad?',
+        ok: 'Continuar',
+        cancel: 'Cancelar',
+      })
+      .subscribe((result: boolean): void => {
+        if (result === true) {
+          this.confirmDeleteCaducidad(cad);
+        }
+      });
+  }
+
+  confirmDeleteCaducidad(cad: Caducidad): void {
+    this.cs.deleteCaducidad(cad.id).subscribe((result: StatusResult): void => {
+      if (result.status === 'ok') {
+        this.resetBuscar();
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al borrar la caducidad.',
+          ok: 'Continuar',
+        });
+      }
+    });
   }
 
   changePage(ev: PageEvent): void {
@@ -227,7 +262,10 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
     this.buscar();
   }
 
-  createReport(): void {}
+  createReport(): void {
+    const data: string = window.btoa(JSON.stringify(this.buscador()));
+    window.open('/almacen/caducidades-print/' + data);
+  }
 
   ngOnDestroy(): void {
     this.cs.buscador = this.buscador();

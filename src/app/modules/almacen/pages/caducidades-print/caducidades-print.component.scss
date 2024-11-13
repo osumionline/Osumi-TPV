@@ -1,0 +1,52 @@
+.year {
+    margin: 8px;
+    border: 1px solid var(--color-black);
+
+    .months {
+        margin-left: 8px;
+
+        .month {
+            .brands {
+                margin-left: 8px;
+
+                .brand {
+                    &>.info:last-child {
+                        border-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.info {
+    display: flex;
+    padding: 8px;
+    border-bottom: 1px solid var(--color-black);
+
+    .info-title {
+        flex: 1;
+    }
+
+    .cols {
+        display: flex;
+
+        .col {
+            width: 150px;
+            margin: 0 16px;
+            display: flex;
+
+            label {
+                width: 75px;
+                display: inline-block;
+                font-weight: bold;
+            }
+
+            .value {
+                text-align: right;
+                display: inline-block;
+                flex: 1;
+            }
+        }
+    }
+}

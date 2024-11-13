@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { InformeMensualResult } from '@interfaces/informes.interface';
+import { BuscadorCaducidadesInterface } from '@interfaces/caducidad.interface';
+import {
+  InformeCaducidadesResult,
+  InformeMensualResult,
+} from '@interfaces/informes.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,6 +31,15 @@ export default class InformesService {
     return this.http.post<InformeMensualResult>(
       environment.apiUrl + '-informes/get-informe-detallado',
       { month, year }
+    );
+  }
+
+  getInformeCaducidades(
+    data: BuscadorCaducidadesInterface
+  ): Observable<InformeCaducidadesResult> {
+    return this.http.post<InformeCaducidadesResult>(
+      environment.apiUrl + '-informes/get-informe-caducidades',
+      data
     );
   }
 }

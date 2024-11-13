@@ -16,6 +16,14 @@ const ALMACEN_ROUTES: Route[] = [
       ),
     canActivate: [isOpenedGuardFn],
   },
+  {
+    path: 'caducidades-print/:data',
+    loadComponent: () =>
+      import(
+        '@modules/almacen/pages/caducidades-print/caducidades-print.component'
+      ),
+    canActivate: [isOpenedGuardFn],
+  },
 ];
 
 export default ALMACEN_ROUTES;

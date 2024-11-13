@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
 import ApiService from '@services/api.service';
 import ArticulosService from '@services/articulos.service';
+import CaducidadesService from '@services/caducidades.service';
 import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
@@ -17,21 +18,22 @@ import VentasService from '@services/ventas.service';
 
 function provideCore(): Provider[] {
   return [
-    ConfigService,
     ApiService,
-    DialogService,
+    ArticulosService,
+    CaducidadesService,
     CategoriasService,
     ClassMapperService,
-    MarcasService,
-    ProveedoresService,
-    VentasService,
-    ArticulosService,
     ClientesService,
+    ComprasService,
+    ConfigService,
+    DialogService,
     EmpleadosService,
     GestionService,
-    ComprasService,
-    OverlayService,
     InformesService,
+    MarcasService,
+    OverlayService,
+    ProveedoresService,
+    VentasService,
   ];
 }
 
