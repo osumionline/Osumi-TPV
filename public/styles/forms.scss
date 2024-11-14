@@ -89,7 +89,7 @@
     text-align: right;
   }
 
-  span {
+  &>span {
     display: inline-block;
     width: 20px;
     text-align: center;
@@ -122,7 +122,7 @@
   }
 
   &.hide {
-    visibility: hidden;
+    display: none;
   }
 }
 

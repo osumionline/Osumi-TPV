@@ -114,6 +114,10 @@ mat-card-content {
   height: 45px;
 }
 
+.mat-mdc-card-content {
+  background-color: var(--color-white);
+}
+
 *[aria-labelledby='hidden'] {
   display: none !important;
 }
