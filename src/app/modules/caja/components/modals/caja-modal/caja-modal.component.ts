@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef } from '@osumi/angular-tools';
 import CajaContentComponent from '@shared/components/caja/caja-content/caja-content.component';
 
 @Component({

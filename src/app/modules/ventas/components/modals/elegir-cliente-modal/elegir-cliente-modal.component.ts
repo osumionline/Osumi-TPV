@@ -20,11 +20,10 @@ import {
   ClientesResult,
 } from '@interfaces/cliente.interface';
 import Cliente from '@model/clientes/cliente.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,

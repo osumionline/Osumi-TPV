@@ -16,11 +16,11 @@ import { Router } from '@angular/router';
 import { CierreCajaResult } from '@interfaces/caja.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import CierreCaja from '@model/caja/cierre-caja.model';
+import { DialogService } from '@osumi/angular-tools';
 import { getCurrentDate } from '@osumi/tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({

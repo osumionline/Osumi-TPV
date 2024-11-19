@@ -16,10 +16,9 @@ import Caducidad from '@app/model/almacen/caducidad.model';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { BuscadorModal } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
-import OverlayService from '@services/overlay.service';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
 
 @Component({

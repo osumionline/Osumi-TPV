@@ -34,10 +34,10 @@ import {
   TiposPagoResult,
 } from '@interfaces/tipo-pago.interface';
 import TipoPago from '@model/tpv/tipo-pago.model';
+import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
 import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';

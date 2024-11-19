@@ -18,9 +18,8 @@ import { DateValues } from '@interfaces/interfaces';
 import { DevolucionSelectedInterface } from '@interfaces/venta.interface';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 

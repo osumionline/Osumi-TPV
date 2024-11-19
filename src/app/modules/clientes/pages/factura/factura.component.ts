@@ -11,10 +11,10 @@ import {
 import { IdSaveResult } from '@interfaces/interfaces';
 import FacturaItem from '@model/clientes/factura-item.model';
 import Factura from '@model/clientes/factura.model';
+import { DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({

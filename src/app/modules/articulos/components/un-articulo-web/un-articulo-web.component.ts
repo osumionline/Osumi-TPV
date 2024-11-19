@@ -7,7 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import Articulo from '@model/articulos/articulo.model';
 import Foto from '@model/articulos/foto.model';
-import DialogService from '@services/dialog.service';
+import { DialogService } from '@osumi/angular-tools';
 
 @Component({
   selector: 'otpv-un-articulo-web',

@@ -24,8 +24,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
 import ImprentaTableComponent from '@modules/almacen/components/imprenta-table/imprenta-table.component';
+import { DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import VentasService from '@services/ventas.service';
 
 @Component({

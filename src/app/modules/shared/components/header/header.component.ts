@@ -5,8 +5,8 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
 import { CajaModal } from '@interfaces/modals.interface';
 import CajaModalComponent from '@modules/caja/components/modals/caja-modal/caja-modal.component';
+import { OverlayService } from '@osumi/angular-tools';
 import ConfigService from '@services/config.service';
-import OverlayService from '@services/overlay.service';
 
 @Component({
   standalone: true,

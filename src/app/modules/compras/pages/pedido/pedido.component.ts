@@ -26,7 +26,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import { BuscadorModal, Modal } from '@interfaces/modals.interface';
+import { BuscadorModal } from '@interfaces/modals.interface';
 import {
   PedidoResult,
   PedidoSaveResult,
@@ -39,6 +39,7 @@ import PedidoVista from '@model/compras/pedido-vista.model';
 import Pedido from '@model/compras/pedido.model';
 import Marca from '@model/marcas/marca.model';
 import IVAOption from '@model/tpv/iva-option.model';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import {
   getDate,
   getDateFromString,
@@ -49,9 +50,7 @@ import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ComprasService from '@services/compras.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import MarcasService from '@services/marcas.service';
-import OverlayService from '@services/overlay.service';
 import ProveedoresService from '@services/proveedores.service';
 import HeaderComponent from '@shared/components/header/header.component';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';

@@ -15,10 +15,10 @@ import Empleado from '@model/tpv/empleado.model';
 import VentaFin from '@model/ventas/venta-fin.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import Venta from '@model/ventas/venta.model';
+import { DialogService } from '@osumi/angular-tools';
 import { formatNumber } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
-import DialogService from '@services/dialog.service';
 import { Observable } from 'rxjs';
 
 @Injectable({

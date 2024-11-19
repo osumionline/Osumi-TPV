@@ -11,8 +11,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { EmpleadoLoginInterface } from '@interfaces/empleado.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
-import DialogService from '@services/dialog.service';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import EmpleadosService from '@services/empleados.service';
 
 @Component({

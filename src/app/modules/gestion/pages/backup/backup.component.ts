@@ -4,9 +4,9 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatList, MatListItem } from '@angular/material/list';
 import { BackupResult, StatusResult } from '@interfaces/interfaces';
 import Backup from '@model/tpv/backup.model';
+import { DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
 

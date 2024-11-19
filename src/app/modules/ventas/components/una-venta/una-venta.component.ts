@@ -18,7 +18,6 @@ import {
 import {
   BuscadorModal,
   DevolucionModal,
-  Modal,
   VariosModal,
 } from '@interfaces/modals.interface';
 import {
@@ -33,12 +32,11 @@ import DevolucionModalComponent from '@modules/ventas/components/modals/devoluci
 import VentaAccesosDirectosModalComponent from '@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component';
 import VentaDescuentoModalComponent from '@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component';
 import VentaVariosModalComponent from '@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import EmpleadosService from '@services/empleados.service';
 import MarcasService from '@services/marcas.service';
-import OverlayService from '@services/overlay.service';
 import VentasService from '@services/ventas.service';
 import EmployeeLoginComponent from '@shared/components/employee-login/employee-login.component';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';

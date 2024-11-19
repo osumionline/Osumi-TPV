@@ -36,11 +36,11 @@ import {
   StatusResult,
 } from '@interfaces/interfaces';
 import InventarioItem from '@model/almacen/inventario-item.model';
+import { DialogService } from '@osumi/angular-tools';
 import { urldecode } from '@osumi/tools';
 import AlmacenService from '@services/almacen.service';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';

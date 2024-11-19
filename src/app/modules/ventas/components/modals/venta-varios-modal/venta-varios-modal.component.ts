@@ -16,8 +16,8 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
 import IVAOption from '@model/tpv/iva-option.model';
+import { CustomOverlayRef } from '@osumi/angular-tools';
 import ConfigService from '@services/config.service';
 
 @Component({

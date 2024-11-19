@@ -20,10 +20,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AccesoDirectoResult } from '@app/interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import AccesoDirecto from '@model/articulos/acceso-directo.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,

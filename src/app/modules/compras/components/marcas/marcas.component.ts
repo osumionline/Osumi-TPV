@@ -17,7 +17,7 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
-import DialogService from '@services/dialog.service';
+import { DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
 

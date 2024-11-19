@@ -32,21 +32,16 @@ import {
   HistoricoVentasResult,
   VentaHistoricoOtrosInterface,
 } from '@interfaces/caja.interface';
-import {
-  DateValues,
-  DialogOptions,
-  IdSaveResult,
-  StatusResult,
-} from '@interfaces/interfaces';
+import { DateValues, IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Cliente from '@model/clientes/cliente.model';
 import TipoPago from '@model/tpv/tipo-pago.model';
+import { DialogOptions, DialogService } from '@osumi/angular-tools';
 import { addDays, getDate, urlencode } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 

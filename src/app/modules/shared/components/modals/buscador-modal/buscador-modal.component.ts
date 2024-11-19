@@ -15,7 +15,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';

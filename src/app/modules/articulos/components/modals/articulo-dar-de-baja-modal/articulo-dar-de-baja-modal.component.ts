@@ -7,9 +7,8 @@ import {
 } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { StatusResult } from '@interfaces/interfaces';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
-import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,

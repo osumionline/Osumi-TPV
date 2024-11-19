@@ -10,11 +10,10 @@ import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Factura from '@model/clientes/factura.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
-import DialogService from '@services/dialog.service';
 
 @Component({
   standalone: true,

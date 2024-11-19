@@ -21,9 +21,9 @@ import {
   MarginOptionInterface,
   StatusResult,
 } from '@interfaces/interfaces';
+import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import GestionService from '@services/gestion.service';
 
 @Component({

@@ -3,7 +3,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import Empleado from '@model/tpv/empleado.model';
-import DialogService from '@services/dialog.service';
+import { DialogService } from '@osumi/angular-tools';
 import GestionService from '@services/gestion.service';
 import EmployeeLoginComponent from '@shared/components/employee-login/employee-login.component';
 import HeaderComponent from '@shared/components/header/header.component';

@@ -10,13 +10,12 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
-import { ElegirClienteModal, Modal } from '@interfaces/modals.interface';
+import { ElegirClienteModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Reserva from '@model/ventas/reserva.model';
 import ElegirClienteModalComponent from '@modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component';
 import ReservasModalComponent from '@modules/ventas/components/modals/reservas-modal/reservas-modal.component';
-import DialogService from '@services/dialog.service';
-import OverlayService from '@services/overlay.service';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import VentasService from '@services/ventas.service';
 
 @Component({

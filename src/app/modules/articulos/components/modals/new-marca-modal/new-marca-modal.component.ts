@@ -13,8 +13,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { IdSaveResult } from '@interfaces/interfaces';
 import Marca from '@model/marcas/marca.model';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
-import DialogService from '@services/dialog.service';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 
 @Component({

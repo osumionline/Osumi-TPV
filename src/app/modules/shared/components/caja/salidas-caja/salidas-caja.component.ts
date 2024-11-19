@@ -29,10 +29,10 @@ import {
 } from '@interfaces/caja.interface';
 import { DateValues, StatusResult } from '@interfaces/interfaces';
 import SalidaCaja from '@model/caja/salida-caja.model';
+import { DialogService } from '@osumi/angular-tools';
 import { addDays, getDate } from '@osumi/tools';
 import ApiService from '@services/api.service';
 import ClassMapperService from '@services/class-mapper.service';
-import DialogService from '@services/dialog.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({

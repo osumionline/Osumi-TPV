@@ -17,13 +17,15 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { DialogOptions } from '@interfaces/interfaces';
 import { FinVentaResult } from '@interfaces/venta.interface';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
+import {
+  CustomOverlayRef,
+  DialogOptions,
+  DialogService,
+} from '@osumi/angular-tools';
 import { formatNumber, toNumber } from '@osumi/tools';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 

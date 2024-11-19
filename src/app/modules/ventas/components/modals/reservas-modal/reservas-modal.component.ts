@@ -14,12 +14,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ReservasResult } from '@interfaces/cliente.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
 import ReservaLinea from '@model/ventas/reserva-linea.model';
 import Reserva from '@model/ventas/reserva.model';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
-import DialogService from '@services/dialog.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({

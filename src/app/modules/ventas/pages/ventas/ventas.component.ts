@@ -10,15 +10,14 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
-import { Modal } from '@interfaces/modals.interface';
 import Reserva from '@model/ventas/reserva.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import VentaFinalizarModalComponent from '@modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component';
 import UnaVentaComponent from '@modules/ventas/components/una-venta/una-venta.component';
 import VentasTabsComponent from '@modules/ventas/components/ventas-tabs/ventas-tabs.component';
+import { Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ConfigService from '@services/config.service';
-import OverlayService from '@services/overlay.service';
 import VentasService from '@services/ventas.service';
 import HeaderComponent from '@shared/components/header/header.component';
 

@@ -1,4 +1,3 @@
-import { NgClass, NgStyle } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -20,8 +19,6 @@ import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
-import { MatSelect } from '@angular/material/select';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -45,19 +42,17 @@ import UnArticuloGeneralComponent from '@modules/articulos/components/un-articul
 import UnArticuloHistoricoComponent from '@modules/articulos/components/un-articulo-historico/un-articulo-historico.component';
 import UnArticuloObservacionesComponent from '@modules/articulos/components/un-articulo-observaciones/un-articulo-observaciones.component';
 import UnArticuloWebComponent from '@modules/articulos/components/un-articulo-web/un-articulo-web.component';
+import { DialogService, OverlayService } from '@osumi/angular-tools';
 import { getTwoNumberDecimal, urldecode } from '@osumi/tools';
 import AlmacenService from '@services/almacen.service';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
-import DialogService from '@services/dialog.service';
 import MarcasService from '@services/marcas.service';
-import OverlayService from '@services/overlay.service';
 import ProveedoresService from '@services/proveedores.service';
 import VentasService from '@services/ventas.service';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
-import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
@@ -67,12 +62,9 @@ import { QRCodeModule } from 'angularx-qrcode';
   styleUrls: ['./un-articulo.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    NgClass,
-    NgStyle,
     FormsModule,
     MatSortModule,
     QRCodeModule,
-    FixedNumberPipe,
     MatFormField,
     MatInput,
     MatCard,
@@ -82,8 +74,6 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatIcon,
     MatTabGroup,
     MatTab,
-    MatSelect,
-    MatSlideToggle,
     MatTableModule,
     MatPaginatorModule,
     UnArticuloGeneralComponent,

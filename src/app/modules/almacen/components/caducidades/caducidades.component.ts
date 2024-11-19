@@ -19,8 +19,6 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import { Modal } from '@app/interfaces/modals.interface';
-import DialogService from '@app/services/dialog.service';
 import {
   AddCaducidadInterface,
   BuscadorCaducidadesInterface,
@@ -29,12 +27,12 @@ import {
 import { Month, StatusResult } from '@interfaces/interfaces';
 import Caducidad from '@model/almacen/caducidad.model';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import CaducidadesService from '@services/caducidades.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
-import OverlayService from '@services/overlay.service';
 import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.component';
 
 @Component({

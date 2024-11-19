@@ -9,8 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { CustomOverlayRef } from '@model/tpv/custom-overlay-ref.model';
-import DialogService from '@services/dialog.service';
+import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 
 @Component({
   standalone: true,

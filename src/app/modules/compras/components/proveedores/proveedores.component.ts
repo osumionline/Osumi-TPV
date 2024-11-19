@@ -30,7 +30,7 @@ import {
 } from '@interfaces/proveedor.interface';
 import Comercial from '@model/proveedores/comercial.model';
 import Proveedor from '@model/proveedores/proveedor.model';
-import DialogService from '@services/dialog.service';
+import { DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 import ProviderBrandListFilterPipe from '@shared/pipes/provider-brand-list-filter.pipe';
