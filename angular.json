@@ -37,7 +37,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["qrcode"]
+            "allowedCommonJsDependencies": ["qrcode", "@osumi/tools"]
           },
           "configurations": {
             "production": {
