@@ -108,8 +108,6 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer borrar esta reserva?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -143,7 +141,6 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
         this.dialog.alert({
           title: 'Error',
           content: 'Las reservas elegidas pertenecen a distintos clientes.',
-          ok: 'Continuar',
         });
         return;
       }

@@ -216,8 +216,6 @@ export default class VentaFinalizarModalComponent
           title: 'Imprimir factura',
           content:
             'Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -238,8 +236,6 @@ export default class VentaFinalizarModalComponent
           title: 'Reserva',
           content:
             'Esta reserva no tiene ningún cliente asignado, ¿quieres elegir uno?',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -256,8 +252,6 @@ export default class VentaFinalizarModalComponent
       .form({
         title: 'Introducir email',
         content: 'Introduce el email del cliente',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
         fields: [{ title: 'Email', type: 'email', value: null }],
       })
       .subscribe((result: DialogOptions): void => {
@@ -291,7 +285,6 @@ export default class VentaFinalizarModalComponent
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al guardar la reserva.',
-            ok: 'Continuar',
           });
         }
       });
@@ -304,7 +297,6 @@ export default class VentaFinalizarModalComponent
           title: 'Error',
           content:
             '¡Has indicado pago mixto pero no has elegido ningún tipo de pago!',
-          ok: 'Continuar',
         });
         return;
       } else {
@@ -314,7 +306,6 @@ export default class VentaFinalizarModalComponent
               title: 'Error',
               content:
                 '¡Las cantidades introducidas (tarjeta y efectivo) son inferiores al importe total!',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               setTimeout((): void => {
@@ -330,7 +321,6 @@ export default class VentaFinalizarModalComponent
           .alert({
             title: 'Error',
             content: '¡La cantidad introducida es inferior al importe total!',
-            ok: 'Continuar',
           })
           .subscribe((): void => {
             setTimeout((): void => {
@@ -348,7 +338,6 @@ export default class VentaFinalizarModalComponent
           title: 'Atención',
           content:
             'La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.',
-          ok: 'Continuar',
         });
       }
       if (result.status.startsWith('ok-factura-')) {

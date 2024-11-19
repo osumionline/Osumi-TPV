@@ -206,7 +206,6 @@ export default class ProveedoresComponent implements OnInit {
           'Los datos del proveedor "' +
           this.selectedProveedor.nombre +
           '" han sido correctamente guardados.',
-        ok: 'Continuar',
       });
     });
   }
@@ -219,8 +218,6 @@ export default class ProveedoresComponent implements OnInit {
           '¿Estás seguro de querer borrar el proveedor "' +
           this.selectedProveedor.nombre +
           '"? Las marcas asociadas al proveedor no se borrarán, pero si se borrarán sus comerciales asociados.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -242,13 +239,11 @@ export default class ProveedoresComponent implements OnInit {
               'El proveedor "' +
               this.selectedProveedor.nombre +
               '" ha sido correctamente borrado.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar el proveedor.',
-            ok: 'Continuar',
           });
         }
       });
@@ -311,7 +306,6 @@ export default class ProveedoresComponent implements OnInit {
             'Los datos del comercial "' +
             this.selectedComercial.nombre +
             '" han sido correctamente guardados.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.ps.resetProveedores();
@@ -327,8 +321,6 @@ export default class ProveedoresComponent implements OnInit {
           '¿Estás seguro de querer borrar el comercial "' +
           this.selectedComercial.nombre +
           '"?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -349,7 +341,6 @@ export default class ProveedoresComponent implements OnInit {
                 'El comercial "' +
                 this.selectedComercial.nombre +
                 '" ha sido correctamente borrado.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.ps.resetProveedores();
@@ -359,7 +350,6 @@ export default class ProveedoresComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar el comercial.',
-            ok: 'Continuar',
           });
         }
       });

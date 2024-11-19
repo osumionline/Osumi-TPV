@@ -363,8 +363,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           title: 'Confirmar',
           content:
             '¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -608,7 +606,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             .alert({
               title: 'Error',
               content: 'No se encuentra el localizador indicado.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.localizadorBox.nativeElement.focus();
@@ -704,8 +701,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             '¿Estás seguro de querer borrar la línea con localizador "' +
             localizador +
             '"?',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -767,8 +762,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar el archivo "' + pdf.nombre + '"?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -805,7 +798,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         .alert({
           title: 'Error',
           content: 'No has indicado ningún proveedor.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.proveedoresValue.toggle();
@@ -821,7 +813,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             'No has indicado número de ' +
             (this.pedido.tipo === 'albaran' ? 'albarán' : this.pedido.tipo) +
             '.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.numAlbaranFacturaBox.nativeElement.focus();
@@ -834,7 +825,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         .alert({
           title: 'Error',
           content: 'No has añadido ningún artículo al pedido.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.localizadorBox.nativeElement.focus();
@@ -858,7 +848,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         content:
           '¿Estás seguro de querer recepcionar este pedido? Una vez lo hagas los datos se guardarán de manera definitiva, se modificaran stocks, precios...',
         ok: 'Recepcionar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -881,7 +870,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             .alert({
               title: 'OK',
               content: 'El pedido ha sido correctamente guardado.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.dontSave = true;
@@ -893,7 +881,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             content:
               'Los siguientes códigos de barras ya están siendo usados: ' +
               urldecode(result.message),
-            ok: 'Continuar',
           });
         }
       });
@@ -914,8 +901,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer eliminar este pedido?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -928,7 +913,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
                     title: 'Pedido borrado',
                     content:
                       'El pedido y todos sus datos han sido correctamente eliminados.',
-                    ok: 'Continuar',
                   })
                   .subscribe((): void => {
                     this.dontSave = true;
@@ -938,7 +922,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
                 this.dialog.alert({
                   title: 'Error',
                   content: 'Ocurrió un error al borrar el pedido.',
-                  ok: 'Continuar',
                 });
               }
             });
@@ -961,7 +944,6 @@ export default class PedidoComponent implements OnInit, OnDestroy {
                 title: 'Error',
                 content:
                   'Ocurrió un error al guardar automáticamente el pedido.',
-                ok: 'Continuar',
               });
             }
           });

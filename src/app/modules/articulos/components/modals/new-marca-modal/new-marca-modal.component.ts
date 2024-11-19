@@ -41,7 +41,6 @@ export default class NewMarcaModalComponent implements OnInit {
         .alert({
           title: 'Error',
           content: '¡No puedes dejar el nombre de la marca en blanco!',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.nombreBox().nativeElement.focus();
@@ -61,7 +60,6 @@ export default class NewMarcaModalComponent implements OnInit {
             .alert({
               title: 'Error',
               content: 'Ya existe una marca con el nombre indicado.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.nombreBox().nativeElement.focus();
@@ -72,7 +70,6 @@ export default class NewMarcaModalComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al guardar la nueva marca.',
-            ok: 'Continuar',
           });
           return;
         }

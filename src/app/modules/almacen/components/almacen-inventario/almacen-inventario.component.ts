@@ -236,7 +236,6 @@ export default class AlmacenInventarioComponent
             content:
               'Al realizar el guardado, han ocurrido los siguientes errores:<br><br>' +
               errorList.join('<br>'),
-            ok: 'Continuar',
           });
         }
       });
@@ -257,7 +256,6 @@ export default class AlmacenInventarioComponent
           this.dialog.alert({
             title: 'Error',
             content: urldecode(result.message),
-            ok: 'Continuar',
           });
         }
       });
@@ -269,8 +267,6 @@ export default class AlmacenInventarioComponent
         title: 'Confirmar',
         content:
           '¿Estas seguro de querer borrar el artículo "' + item.nombre + '"?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -292,7 +288,6 @@ export default class AlmacenInventarioComponent
                 this.dialog.alert({
                   title: 'Error',
                   content: 'Ocurrió un error al borrar el artículo.',
-                  ok: 'Continuar',
                 });
               }
             });

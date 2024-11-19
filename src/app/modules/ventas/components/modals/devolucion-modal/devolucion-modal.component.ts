@@ -150,7 +150,6 @@ export default class DevolucionModalComponent implements OnInit {
         title: 'Error',
         content:
           '¡Atención! No has elegido ningún artículo para realizar su devolución.',
-        ok: 'Continuar',
       });
     } else {
       this.selection.clear();

@@ -122,7 +122,6 @@ export default class GestionTiposPagoComponent implements OnInit {
             title: 'Error',
             content:
               'Ocurrió un error al guardar el orden de los tipos de pago.',
-            ok: 'Continuar',
           });
         }
       });
@@ -180,7 +179,6 @@ export default class GestionTiposPagoComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: 'No has elegido un logo.',
-        ok: 'Continuar',
       });
       return;
     }
@@ -201,13 +199,11 @@ export default class GestionTiposPagoComponent implements OnInit {
             'Los datos del tipo de pago "' +
             this.selectedTipoPago.nombre +
             '" han sido correctamente guardados.',
-          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al guardar el tipo de pago.',
-          ok: 'Continuar',
         });
       }
     });
@@ -221,8 +217,6 @@ export default class GestionTiposPagoComponent implements OnInit {
           '¿Estás seguro de querer borrar el tipo de pago "' +
           this.selectedTipoPago.nombre +
           '"? No se borrarán las ventas de ese tipo de pago, pero dejará de estar disponible para nuevas ventas.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -246,13 +240,11 @@ export default class GestionTiposPagoComponent implements OnInit {
               'El tipo de pago "' +
               this.selectedTipoPago.nombre +
               '" ha sido correctamente borrado.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar el tipo de pago.',
-            ok: 'Continuar',
           });
         }
       });

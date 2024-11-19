@@ -52,7 +52,6 @@ export default class BackupComponent implements OnInit {
             title: 'Nueva copia de seguridad',
             content:
               'La nueva copia de seguridad ha sido correctamente creada.',
-            ok: 'Continuar',
           })
           .subscribe((): void => {
             this.loadBackups();
@@ -61,7 +60,6 @@ export default class BackupComponent implements OnInit {
         this.dialog.alert({
           title: 'Error',
           content: 'Ha ocurrido un error al crear la nueva copia de seguridad.',
-          ok: 'Continuar',
         });
       }
     });
@@ -73,8 +71,6 @@ export default class BackupComponent implements OnInit {
         title: 'Confirmar',
         content:
           '¿Estás seguro de querer borrar esta copia de seguridad? Es un proceso irreversible y se perderán los datos guardados.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -92,7 +88,6 @@ export default class BackupComponent implements OnInit {
             .alert({
               title: 'Copia borrada',
               content: 'La copia de seguridad ha sido correctamente eliminada.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.loadBackups();
@@ -101,7 +96,6 @@ export default class BackupComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ha ocurrido un error al borrar la copia de seguridad.',
-            ok: 'Continuar',
           });
         }
       });
@@ -113,8 +107,6 @@ export default class BackupComponent implements OnInit {
         title: 'Confirmar',
         content:
           '¿Estás seguro de querer cargar esta copia de seguridad? Es un proceso irreversible y se perderán los datos que hay actualmente en la base de datos.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {

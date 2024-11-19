@@ -119,7 +119,6 @@ export default class VentasService {
             title: 'Error',
             content:
               '¡Ocurrió un error al obtener las estadísticas del cliente!',
-            ok: 'Continuar',
           });
         }
       });

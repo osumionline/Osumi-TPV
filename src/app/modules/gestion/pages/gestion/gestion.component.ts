@@ -50,7 +50,6 @@ export default class GestionComponent implements OnInit {
         title: 'Atención',
         content:
           'No tienes permisos para acceder a la opción "Ajustes iniciales"',
-        ok: 'Continuar',
       });
     }
   }
@@ -71,7 +70,6 @@ export default class GestionComponent implements OnInit {
       this.dialog.alert({
         title: 'Atención',
         content: 'No tienes permisos para acceder a la opción "Empleados"',
-        ok: 'Continuar',
       });
     }
   }
@@ -84,7 +82,6 @@ export default class GestionComponent implements OnInit {
       this.dialog.alert({
         title: 'Atención',
         content: 'No tienes permisos para acceder a la opción "Tipos de pago"',
-        ok: 'Continuar',
       });
     }
   }

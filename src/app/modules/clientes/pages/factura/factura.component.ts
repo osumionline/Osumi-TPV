@@ -146,8 +146,6 @@ export default class FacturaComponent implements OnInit {
         title: 'Confirmar',
         content:
           '¿Estás seguro de querer imprimir esta factura? Una vez facturada no podrás volver a editarla.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {

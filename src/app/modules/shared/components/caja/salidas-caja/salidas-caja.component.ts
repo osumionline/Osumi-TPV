@@ -114,7 +114,6 @@ export default class SalidasCajaComponent {
       this.dialog.alert({
         title: 'Error',
         content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-        ok: 'Continuar',
       });
       return;
     }
@@ -186,7 +185,6 @@ export default class SalidasCajaComponent {
                 'Salida de caja con concepto "' +
                 this.salidaCajaSelected.concepto +
                 '" correctamente guardada.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.resetBusqueda();
@@ -196,7 +194,6 @@ export default class SalidasCajaComponent {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al guardar la salida de caja.',
-            ok: 'Continuar',
           });
         }
       });
@@ -210,8 +207,6 @@ export default class SalidasCajaComponent {
           '¿Estás seguro de querer borrar la salida de caja con concepto "' +
           this.salidaCajaSelected.concepto +
           '"?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -232,7 +227,6 @@ export default class SalidasCajaComponent {
                 'La salida de caja con concepto "' +
                 this.salidaCajaSelected.concepto +
                 '" ha sido correctamente borrada.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.resetBusqueda();
@@ -241,7 +235,6 @@ export default class SalidasCajaComponent {
           this.dialog.alert({
             title: 'Error',
             content: 'Error al borrar la salida de caja.',
-            ok: 'Continuar',
           });
         }
       });

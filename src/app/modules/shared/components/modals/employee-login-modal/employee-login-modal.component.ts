@@ -56,7 +56,6 @@ export default class EmployeeLoginModalComponent implements OnInit {
         .alert({
           title: 'Error',
           content: '¡No puedes dejar la contraseña en blanco!',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           setTimeout((): void => {
@@ -78,7 +77,6 @@ export default class EmployeeLoginModalComponent implements OnInit {
             .alert({
               title: 'Error',
               content: 'Contraseña incorrecta.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               setTimeout((): void => {

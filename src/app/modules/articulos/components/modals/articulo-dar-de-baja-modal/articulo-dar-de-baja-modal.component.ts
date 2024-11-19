@@ -45,7 +45,6 @@ export default class ArticuloDarDeBajaModalComponent implements OnInit {
               title: 'Éxito',
               content:
                 'El artículo "' + this.nombre + '" ha sido dado de baja.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.customOverlayRef.close(true);
@@ -55,7 +54,6 @@ export default class ArticuloDarDeBajaModalComponent implements OnInit {
             .alert({
               title: 'Error',
               content: '¡Ocurrió un error al dar de baja el artículo!',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.darDeBajaLoading.set(false);

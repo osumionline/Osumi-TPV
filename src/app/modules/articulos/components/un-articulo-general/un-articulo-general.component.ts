@@ -197,7 +197,6 @@ export default class UnArticuloGeneralComponent {
               title: 'Error',
               content:
                 'La fecha introducida no puede ser inferior a la actual.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               setTimeout((): void => {
@@ -214,7 +213,6 @@ export default class UnArticuloGeneralComponent {
             title: 'Error',
             content:
               'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
-            ok: 'Continuar',
           })
           .subscribe((): void => {
             setTimeout((): void => {

@@ -148,7 +148,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
       this.dialog.alert({
         title: 'Error',
         content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
-        ok: 'Continuar',
       });
       return;
     }
@@ -231,7 +230,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al imprimir el ticket.',
-            ok: 'Continuar',
           });
         }
       });
@@ -282,7 +280,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
           'El cliente "' +
           selectedClient.nombreApellidos +
           '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-        ok: 'Continuar',
       });
     } else {
       if (
@@ -301,8 +298,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
               'El cliente "' +
               selectedClient.nombreApellidos +
               '" no tiene dirección introducida. ¿Quieres continuar?',
-            ok: 'Continuar',
-            cancel: 'Cancelar',
           })
           .subscribe((result: boolean): void => {
             if (result === true) {
@@ -378,8 +373,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
       .form({
         title: 'Introducir email',
         content: 'Introduce el email del cliente',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
         fields: [{ title: 'Email', type: 'email', value: null }],
       })
       .subscribe((result: DialogOptions): void => {
@@ -395,8 +388,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
         title: 'Enviar email',
         content:
           'Se enviará el ticket al email "' + email + '", ¿quieres continuar?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -416,7 +407,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
               'El ticket de la venta ha sido correctamente enviado a la dirección "' +
               email +
               '"',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
@@ -425,7 +415,6 @@ export default class HistoricoVentasComponent implements AfterViewInit {
               'El ticket de la venta no ha podido ser enviado a la dirección "' +
               email +
               '", ¿tal vez la dirección no es correcta?',
-            ok: 'Continuar',
           });
         }
       });

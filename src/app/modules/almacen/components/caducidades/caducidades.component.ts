@@ -179,7 +179,6 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
             this.dialog.alert({
               title: 'Error',
               content: 'Ocurrió un error al guardar la caducidad',
-              ok: 'Continuar',
             });
           }
         });
@@ -224,8 +223,6 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer borrar esta caducidad?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -242,7 +239,6 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al borrar la caducidad.',
-          ok: 'Continuar',
         });
       }
     });

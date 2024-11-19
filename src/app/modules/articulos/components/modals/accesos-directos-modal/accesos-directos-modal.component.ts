@@ -94,8 +94,6 @@ export default class AccesosDirectosModalComponent
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer borrar este acceso directo?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result) => {
         if (result === true) {
@@ -112,7 +110,6 @@ export default class AccesosDirectosModalComponent
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al borrar el acceso directo.',
-          ok: 'Continuar',
         });
       }
     });
@@ -128,7 +125,6 @@ export default class AccesosDirectosModalComponent
           title: 'Error',
           content:
             'El acceso directo que estás intentando asignar ya está en uso.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           window.setTimeout((): void => {
@@ -146,7 +142,6 @@ export default class AccesosDirectosModalComponent
             .alert({
               title: 'OK',
               content: 'El acceso directo ha sido asignado.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.load();
@@ -155,7 +150,6 @@ export default class AccesosDirectosModalComponent
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al asignar el acceso directo.',
-            ok: 'Continuar',
           });
         }
       });

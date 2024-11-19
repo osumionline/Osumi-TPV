@@ -44,7 +44,6 @@ export default class VentaDescuentoModalComponent implements OnInit {
         .alert({
           title: 'Error',
           content: '¡No has introducido ningún descuento!',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           setTimeout((): void => {

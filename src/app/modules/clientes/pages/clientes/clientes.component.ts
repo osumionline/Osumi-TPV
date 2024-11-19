@@ -238,13 +238,11 @@ export default class ClientesComponent implements OnInit {
               'Los datos del cliente "' +
               this.selectedClient.nombreApellidos +
               '" han sido correctamente guardados.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al guardar los datos del cliente.',
-            ok: 'Continuar',
           });
         }
       });
@@ -258,8 +256,6 @@ export default class ClientesComponent implements OnInit {
           '¿Estás seguro de querer borrar el cliente "' +
           this.selectedClient.nombreApellidos +
           '"? Las ventas realizadas al cliente no se borrarán, se borrarán los datos del cliente y que dichas ventas fueron realizadas por él',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result) => {
         if (result === true) {
@@ -281,13 +277,11 @@ export default class ClientesComponent implements OnInit {
               'El cliente "' +
               this.selectedClient.nombreApellidos +
               '" ha sido correctamente borrado.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar el cliente.',
-            ok: 'Continuar',
           });
         }
       });
@@ -308,7 +302,6 @@ export default class ClientesComponent implements OnInit {
           'El cliente "' +
           this.selectedClient.nombreApellidos +
           '" no tiene DNI/CIF introducido por lo que no se le puede crear una factura.',
-        ok: 'Continuar',
       });
     } else {
       if (
@@ -327,8 +320,6 @@ export default class ClientesComponent implements OnInit {
               'El cliente "' +
               this.selectedClient.nombreApellidos +
               '" no tiene una dirección completa introducida. ¿Quieres continuar?',
-            ok: 'Continuar',
-            cancel: 'Cancelar',
           })
           .subscribe((result: boolean): void => {
             if (result === true) {
@@ -392,8 +383,6 @@ export default class ClientesComponent implements OnInit {
           ' (' +
           this.selectedClient.email +
           ')"?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -408,7 +397,6 @@ export default class ClientesComponent implements OnInit {
         this.dialog.alert({
           title: 'Factura enviada',
           content: 'La factura ha sido correctamente enviada.',
-          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
@@ -417,7 +405,6 @@ export default class ClientesComponent implements OnInit {
             'Ocurrió un error al intentar enviar la factura a la dirección "' +
             this.selectedClient.email +
             '".',
-          ok: 'Continuar',
         });
       }
     });

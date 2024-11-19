@@ -240,7 +240,6 @@ export default class InstallationComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: '¡No puedes dejar el nombre del negocio en blanco!',
-        ok: 'Continuar',
       });
       this.paso = 1;
       return;
@@ -249,7 +248,6 @@ export default class InstallationComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: '¡No puedes dejar el nombre comercial en blanco!',
-        ok: 'Continuar',
       });
       this.paso = 1;
       return;
@@ -258,7 +256,6 @@ export default class InstallationComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: '¡No puedes dejar el CIF del negocio en blanco!',
-        ok: 'Continuar',
       });
       this.paso = 1;
       return;
@@ -267,7 +264,6 @@ export default class InstallationComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: '¡No has añadido ningún logo!',
-        ok: 'Continuar',
       });
       this.paso = 1;
       return;
@@ -278,7 +274,6 @@ export default class InstallationComponent implements OnInit {
           title: 'Error',
           content:
             '¡No puedes dejar el nombre del empleado por defecto en blanco!',
-          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -287,7 +282,6 @@ export default class InstallationComponent implements OnInit {
         this.dialog.alert({
           title: 'Error',
           content: '¡No puedes dejar la contraseña en blanco!',
-          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -297,7 +291,6 @@ export default class InstallationComponent implements OnInit {
           title: 'Error',
           content:
             '¡No puedes dejar la confirmación de la contraseña en blanco!',
-          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -306,7 +299,6 @@ export default class InstallationComponent implements OnInit {
         this.dialog.alert({
           title: 'Error',
           content: '¡Las contraseñas introducidas no coinciden!',
-          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -315,7 +307,6 @@ export default class InstallationComponent implements OnInit {
         this.dialog.alert({
           title: 'Error',
           content: '¡No puedes dejar el color en blanco!',
-          ok: 'Continuar',
         });
         this.paso = 1;
         return;
@@ -326,7 +317,6 @@ export default class InstallationComponent implements OnInit {
         title: 'Error',
         content:
           '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!',
-        ok: 'Continuar',
       });
       this.paso = 2;
       return;
@@ -346,7 +336,6 @@ export default class InstallationComponent implements OnInit {
         title: 'Error',
         content:
           '¡No has elegido ningún valor en la lista de margenes de beneficio!',
-        ok: 'Continuar',
       });
       this.paso = 2;
       return;
@@ -357,7 +346,6 @@ export default class InstallationComponent implements OnInit {
         title: 'Error',
         content:
           'Si has indicado que la aplicación se va a conectar con una tienda online no puedes dejar en blanco el campo URL de la API.',
-        ok: 'Continuar',
       });
       this.paso = 3;
       return;
@@ -404,7 +392,6 @@ export default class InstallationComponent implements OnInit {
               title: 'Información',
               content:
                 'Los datos han sido guardados, puedes continuar con la aplicación. ',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.config.status = 'new';
@@ -421,7 +408,6 @@ export default class InstallationComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: '¡Ocurrió un error al guardar los datos!',
-            ok: 'Continuar',
           });
           return false;
         }

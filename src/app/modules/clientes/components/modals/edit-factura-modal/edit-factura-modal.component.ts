@@ -167,8 +167,6 @@ export default class EditFacturaModalComponent implements OnInit {
       .confirm({
         title: 'Borrar factura',
         content: '¿Estás seguro de querer borrar esta factura?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -186,7 +184,6 @@ export default class EditFacturaModalComponent implements OnInit {
             .alert({
               title: 'Factura borrada',
               content: 'La factura ha sido correctamente borrada.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.customOverlayRef.close(0);
@@ -195,7 +192,6 @@ export default class EditFacturaModalComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ha ocurrido un error al borrar la factura.',
-            ok: 'Continuar',
           });
         }
       });

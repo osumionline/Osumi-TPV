@@ -138,13 +138,11 @@ export default class MarcasComponent {
             'Los datos de la marca "' +
             this.selectedMarca.nombre +
             '" han sido correctamente guardados.',
-          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al guardar los datos de la marca.',
-          ok: 'Continuar',
         });
       }
     });
@@ -158,8 +156,6 @@ export default class MarcasComponent {
           '¿Estás seguro de querer borrar la marca "' +
           this.selectedMarca.nombre +
           '"? No se borrarán los artículos de esa marca, pero todos los artículos de esa marca dejarán de estar disponibles para venta hasta que no se les asigne una marca nueva.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -181,13 +177,11 @@ export default class MarcasComponent {
               'La marca "' +
               this.selectedMarca.nombre +
               '" ha sido correctamente borrada.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar la marca.',
-            ok: 'Continuar',
           });
         }
       });

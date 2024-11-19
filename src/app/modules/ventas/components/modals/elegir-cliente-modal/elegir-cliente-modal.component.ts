@@ -136,7 +136,6 @@ export default class ElegirClienteModalComponent
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al buscar los clientes.',
-            ok: 'Continuar',
           });
         }
       });
@@ -175,7 +174,6 @@ export default class ElegirClienteModalComponent
         .alert({
           title: 'Error',
           content: '¡No puedes dejar en blanco el nombre del cliente!',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.nuevoClienteBoxName.nativeElement.focus();
@@ -191,7 +189,6 @@ export default class ElegirClienteModalComponent
           title: 'Error',
           content:
             '¡No puedes dejar en blanco el nombre del cliente para la facturación!',
-          ok: 'Continuar',
         });
         return;
       }
@@ -209,7 +206,6 @@ export default class ElegirClienteModalComponent
           this.dialog.alert({
             title: 'Error',
             content: '¡Ocurrió un error al guardar el cliente!',
-            ok: 'Continuar',
           });
         }
       });

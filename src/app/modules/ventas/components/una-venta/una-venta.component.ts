@@ -183,7 +183,6 @@ export default class UnaVentaComponent {
               .alert({
                 title: 'Error',
                 content: '¡El código introducido no se encuentra!',
-                ok: 'Continuar',
               })
               .subscribe((): void => {
                 this.vs.ventaActual.lineas[ind].localizador = null;
@@ -219,7 +218,6 @@ export default class UnaVentaComponent {
             title: 'Error',
             content:
               'Has seleccionado un artículo que está marcado como devolución.',
-            ok: 'Continuar',
           })
           .subscribe((): void => {
             this.vs.ventaActual.lineas[ind].localizador = null;
@@ -240,7 +238,6 @@ export default class UnaVentaComponent {
         .alert({
           title: 'Observaciones',
           content: articulo.observaciones,
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -270,7 +267,6 @@ export default class UnaVentaComponent {
           title: 'Error',
           content:
             '¡Atención! No puedes realizar una nueva devolución hasta haber terminado la actual.',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.searching = false;
@@ -434,8 +430,6 @@ export default class UnaVentaComponent {
       .confirm({
         title: '¡Atención!',
         content: '¿Está seguro de querer borrar esta línea?',
-        ok: 'Confirmar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -493,7 +487,6 @@ export default class UnaVentaComponent {
       .alert({
         title: 'Observaciones',
         content: observaciones,
-        ok: 'Continuar',
       })
       .subscribe((): void => {
         this.observacionesOpen = false;
@@ -560,7 +553,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su importe',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -573,7 +565,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -611,7 +602,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -624,7 +614,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'Se ha introducido un importe a mano para el artículo, de modo que no se puede introducir un descuento',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -637,7 +626,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'Se ha introducido un descuento a mano para el artículo, de modo que no se puede introducir un importe',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -682,7 +670,6 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
-          ok: 'Continuar',
         })
         .subscribe((): void => {
           this.setFocus();
@@ -738,8 +725,6 @@ export default class UnaVentaComponent {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer cancelar esta venta?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -764,7 +749,6 @@ export default class UnaVentaComponent {
           this.dialog.alert({
             title: 'Error',
             content: `¡Atención! La línea ${linea.descripcion} no tiene cantidad asignada.`,
-            ok: 'Continuar',
           });
           break;
         }

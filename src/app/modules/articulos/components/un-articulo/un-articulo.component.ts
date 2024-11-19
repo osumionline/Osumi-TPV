@@ -215,7 +215,6 @@ export default class UnArticuloComponent {
                 'No existe ningún artículo con el localizador "' +
                 this.articulo.localizador +
                 '".',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.articulo.localizador = null;
@@ -357,7 +356,6 @@ export default class UnArticuloComponent {
       this.dialog.alert({
         title: 'Error',
         content: '¡No puedes dejar en blanco el nombre del artículo!',
-        ok: 'Continuar',
       });
       return;
     }
@@ -366,7 +364,6 @@ export default class UnArticuloComponent {
       this.dialog.alert({
         title: 'Error',
         content: '¡No has elegido la marca del artículo!',
-        ok: 'Continuar',
       });
       this.selectedTab = 0;
       return;
@@ -382,7 +379,6 @@ export default class UnArticuloComponent {
             .alert({
               title: 'Información',
               content: 'El artículo ha sido guardado correctamente.',
-              ok: 'Continuar',
             })
             .subscribe((): void => {
               this.saving.set(false);
@@ -409,8 +405,6 @@ export default class UnArticuloComponent {
                 }" para la marca "${urldecode(
                   result.message
                 )}" , ¿quieres continuar?`,
-                ok: 'Continuar',
-                cancel: 'Cancelar',
               })
               .subscribe((result: boolean): void => {
                 if (result === true) {
@@ -428,7 +422,6 @@ export default class UnArticuloComponent {
                 }" ya está en uso por el artículo "${urldecode(
                   result.message
                 )}".`,
-                ok: 'Continuar',
               })
               .subscribe((): void => {
                 this.selectedTab = 0;
@@ -440,7 +433,6 @@ export default class UnArticuloComponent {
               .alert({
                 title: 'Error',
                 content: `El código de barras "${data[0]}" ya está en uso por el artículo "${data[1]}/${data[2]}".`,
-                ok: 'Continuar',
               })
               .subscribe((): void => {
                 this.selectedTab = 1;
@@ -455,8 +447,6 @@ export default class UnArticuloComponent {
       .confirm({
         title: 'Confirmar',
         content: '¿Quieres duplicar este artículo y crear uno nuevo?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {

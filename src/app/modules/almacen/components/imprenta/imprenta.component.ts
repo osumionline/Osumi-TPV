@@ -210,7 +210,6 @@ export default class ImprentaComponent {
         title: 'Error',
         content:
           'El número máximo de etiquetas que puedes imprimir es ' + cantidadMax,
-        ok: 'Continuar',
       });
       return false;
     }

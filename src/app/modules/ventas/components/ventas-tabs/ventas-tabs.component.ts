@@ -50,8 +50,6 @@ export default class VentasTabsComponent {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer cerrar esta venta?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {

@@ -57,8 +57,6 @@ export default class UnArticuloWebComponent {
       .confirm({
         title: 'Confirmar',
         content: '¿Estás seguro de querer borrar esta foto?',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {

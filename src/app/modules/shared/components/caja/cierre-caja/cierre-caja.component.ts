@@ -91,7 +91,6 @@ export default class CierreCajaComponent {
       this.dialog.alert({
         title: 'Error',
         content: 'El campo "Importe real" es obligatorio.',
-        ok: 'Continuar',
       });
       return;
     }
@@ -102,8 +101,6 @@ export default class CierreCajaComponent {
           title: 'Confirmar',
           content:
             'Atención, la diferencia de caja es negativa. ¿Estás seguro de querer continuar?',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -126,7 +123,6 @@ export default class CierreCajaComponent {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al realizar el cierre de caja.',
-            ok: 'Continuar',
           });
         }
       });

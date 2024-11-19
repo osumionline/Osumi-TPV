@@ -198,7 +198,6 @@ export default class GestionEmpleadosComponent implements OnInit {
           'El empleado "' +
           this.form.value.nombre +
           '" originalmente no tenía contraseña pero ahora has indicado que si debe tener, de modo que no puedes dejar la contraseña en blanco.',
-        ok: 'Continuar',
       });
       return;
     }
@@ -210,7 +209,6 @@ export default class GestionEmpleadosComponent implements OnInit {
       this.dialog.alert({
         title: 'Error',
         content: 'Las contraseñas introducidas no coinciden.',
-        ok: 'Continuar',
       });
       return;
     }
@@ -237,13 +235,11 @@ export default class GestionEmpleadosComponent implements OnInit {
             'Los datos del empleado "' +
             this.selectedEmpleado.nombre +
             '" han sido correctamente guardados.',
-          ok: 'Continuar',
         });
       } else {
         this.dialog.alert({
           title: 'Datos guardados',
           content: 'Ocurrió un error al guardar los datos del empleado.',
-          ok: 'Continuar',
         });
       }
     });
@@ -257,8 +253,6 @@ export default class GestionEmpleadosComponent implements OnInit {
           '¿Estás seguro de querer borrar el empleado "' +
           this.selectedEmpleado.nombre +
           '"? Las ventas asociadas al empleado no se borrarán, pero dejarán de estar vinculadas a un empleado concreto.',
-        ok: 'Continuar',
-        cancel: 'Cancelar',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -280,13 +274,11 @@ export default class GestionEmpleadosComponent implements OnInit {
               'El empleado "' +
               this.selectedEmpleado.nombre +
               '" ha sido correctamente borrado.',
-            ok: 'Continuar',
           });
         } else {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al borrar el empleado.',
-            ok: 'Continuar',
           });
         }
       });

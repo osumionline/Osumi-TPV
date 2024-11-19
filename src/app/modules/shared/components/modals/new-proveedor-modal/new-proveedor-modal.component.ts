@@ -90,7 +90,6 @@ export default class NewProveedorModalComponent implements OnInit {
         .alert({
           title: 'Error',
           content: '¡No puedes dejar el nombre del proveedor en blanco!',
-          ok: 'Continuar',
         })
         .subscribe(() => {
           setTimeout((): void => {
@@ -106,8 +105,6 @@ export default class NewProveedorModalComponent implements OnInit {
           title: 'Confirmar',
           content:
             'No has elegido ninguna marca para el proveedor, ¿quieres continuar?',
-          ok: 'Continuar',
-          cancel: 'Cancelar',
         })
         .subscribe((result) => {
           if (result === true) {
@@ -136,8 +133,6 @@ export default class NewProveedorModalComponent implements OnInit {
             title: 'Confirmar',
             content:
               'Has elegido alguna marca que ya tenía asignado un proveedor, ¿quieres continuar? En caso de continuar será reemplazado y los artículos de dicha marca también cambiarán a este nuevo proveedor.',
-            ok: 'Continuar',
-            cancel: 'Cancelar',
           })
           .subscribe((result) => {
             if (result === true) {
@@ -166,7 +161,6 @@ export default class NewProveedorModalComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ya existe un proveedor con el nombre indicado.',
-            ok: 'Continuar',
           });
           return;
         }
@@ -174,7 +168,6 @@ export default class NewProveedorModalComponent implements OnInit {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al guardar el nuevo proveedor.',
-            ok: 'Continuar',
           });
           return;
         }
