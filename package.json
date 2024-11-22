@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^18.2.12",
     "@angular/router": "^18.2.12",
     "@osumi/tools": "^1.5.0",
-    "@osumi/angular-tools": "^1.0.7",
+    "@osumi/angular-tools": "^1.0.8",
     "@swimlane/ngx-charts": "^20.5.0",
     "angularx-qrcode": "^18.0.1",
     "rxjs": "~7.8.0",
