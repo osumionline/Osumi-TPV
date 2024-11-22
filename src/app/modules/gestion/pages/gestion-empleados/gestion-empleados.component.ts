@@ -34,7 +34,6 @@ import EmployeeListFilterPipe from '@shared/pipes/employee-list-filter.pipe';
 import { Rol, RolGroup, rolList } from '@shared/rol.class';
 
 @Component({
-  standalone: true,
   selector: 'otpv-gestion-empleados',
   templateUrl: './gestion-empleados.component.html',
   styleUrls: ['./gestion-empleados.component.scss'],

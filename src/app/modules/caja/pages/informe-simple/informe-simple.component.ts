@@ -12,7 +12,6 @@ import InformesService from '@services/informes.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-informe-simple',
   templateUrl: './informe-simple.component.html',
   styleUrls: ['./informe-simple.component.scss'],

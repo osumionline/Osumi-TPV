@@ -14,7 +14,6 @@ import InformesService from '@services/informes.service';
 
 @Component({
   selector: 'otpv-caducidades-print',
-  standalone: true,
   imports: [MatIconButton, MatIcon, FixedNumberPipe, MonthNamePipe],
   templateUrl: './caducidades-print.component.html',
   styleUrl: './caducidades-print.component.scss',

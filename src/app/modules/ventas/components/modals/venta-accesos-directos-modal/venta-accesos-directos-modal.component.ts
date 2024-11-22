@@ -8,7 +8,6 @@ import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-venta-accesos-directos-modal',
   templateUrl: './venta-accesos-directos-modal.component.html',
   imports: [MatSortModule, MatTableModule],

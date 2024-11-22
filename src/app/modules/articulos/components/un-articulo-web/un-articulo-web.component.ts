@@ -11,7 +11,6 @@ import { DialogService } from '@osumi/angular-tools';
 
 @Component({
   selector: 'otpv-un-articulo-web',
-  standalone: true,
   imports: [
     MatSlideToggle,
     MatFormField,

@@ -11,7 +11,6 @@ import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-backup',
   templateUrl: './backup.component.html',
   styleUrls: ['./backup.component.scss'],

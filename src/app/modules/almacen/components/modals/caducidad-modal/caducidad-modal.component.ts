@@ -23,7 +23,6 @@ import BuscadorModalComponent from '@shared/components/modals/buscador-modal/bus
 
 @Component({
   selector: 'otpv-caducidad-modal',
-  standalone: true,
   imports: [MatFormField, MatLabel, MatInput, FormsModule, MatButton, MatIcon],
   templateUrl: './caducidad-modal.component.html',
   styleUrl: './caducidad-modal.component.scss',

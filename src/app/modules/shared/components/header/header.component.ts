@@ -9,7 +9,6 @@ import { OverlayService } from '@osumi/angular-tools';
 import ConfigService from '@services/config.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

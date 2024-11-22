@@ -18,7 +18,6 @@ import ConfigService from '@services/config.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-factura',
   templateUrl: './factura.component.html',
   styleUrls: ['./factura.component.scss'],

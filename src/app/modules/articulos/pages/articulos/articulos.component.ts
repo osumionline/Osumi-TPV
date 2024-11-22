@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   inject,
@@ -16,16 +15,10 @@ import ArticulosService from '@services/articulos.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-articulos',
   templateUrl: './articulos.component.html',
   styleUrls: ['./articulos.component.scss'],
-  imports: [
-    NgClass,
-    HeaderComponent,
-    ArticulosTabsComponent,
-    UnArticuloComponent,
-  ],
+  imports: [HeaderComponent, ArticulosTabsComponent, UnArticuloComponent],
 })
 export default class ArticulosComponent implements OnInit, OnDestroy {
   private ars: ArticulosService = inject(ArticulosService);

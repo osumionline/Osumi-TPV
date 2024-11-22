@@ -24,7 +24,6 @@ import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-devolucion-modal',
   templateUrl: './devolucion-modal.component.html',
   styleUrls: ['./devolucion-modal.component.scss'],

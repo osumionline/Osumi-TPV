@@ -37,7 +37,6 @@ import ProviderBrandListFilterPipe from '@shared/pipes/provider-brand-list-filte
 import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-proveedores',
   templateUrl: './proveedores.component.html',
   styleUrls: ['./proveedores.component.scss'],

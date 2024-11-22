@@ -21,7 +21,6 @@ import { CustomOverlayRef } from '@osumi/angular-tools';
 import ConfigService from '@services/config.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-venta-varios-modal',
   templateUrl: './venta-varios-modal.component.html',
   imports: [

@@ -4,7 +4,6 @@ import { InformeMensualResult } from '@interfaces/informes.interface';
 import InformesService from '@services/informes.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-informe-detallado',
   templateUrl: './informe-detallado.component.html',
   styleUrls: ['./informe-detallado.component.scss'],

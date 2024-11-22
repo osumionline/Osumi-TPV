@@ -11,7 +11,6 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-articulo-dar-de-baja-modal',
   templateUrl: './articulo-dar-de-baja-modal.component.html',
   styleUrls: ['./articulo-dar-de-baja-modal.component.scss'],

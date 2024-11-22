@@ -37,7 +37,6 @@ import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.c
 
 @Component({
   selector: 'otpv-caducidades',
-  standalone: true,
   imports: [
     MatFormField,
     MatLabel,

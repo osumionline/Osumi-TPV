@@ -22,7 +22,6 @@ import VentasService from '@services/ventas.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-ventas',
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.scss'],

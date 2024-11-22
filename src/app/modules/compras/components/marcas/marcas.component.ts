@@ -22,7 +22,6 @@ import MarcasService from '@services/marcas.service';
 import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-marcas',
   templateUrl: './marcas.component.html',
   styleUrls: ['./marcas.component.scss'],

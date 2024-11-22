@@ -3,7 +3,6 @@ import { CustomOverlayRef } from '@osumi/angular-tools';
 import CajaContentComponent from '@shared/components/caja/caja-content/caja-content.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-caja-modal',
   templateUrl: './caja-modal.component.html',
   styleUrls: ['./caja-modal.component.scss'],

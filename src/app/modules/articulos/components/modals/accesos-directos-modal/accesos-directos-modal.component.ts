@@ -25,7 +25,6 @@ import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-accesos-directos-modal',
   templateUrl: './accesos-directos-modal.component.html',
   styleUrls: ['./accesos-directos-modal.component.scss'],

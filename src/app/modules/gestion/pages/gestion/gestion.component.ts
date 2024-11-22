@@ -10,7 +10,6 @@ import HeaderComponent from '@shared/components/header/header.component';
 import { rolList } from '@shared/rol.class';
 
 @Component({
-  standalone: true,
   selector: 'otpv-gestion',
   templateUrl: './gestion.component.html',
   styleUrls: ['./gestion.component.scss'],

@@ -36,7 +36,6 @@ import ClassMapperService from '@services/class-mapper.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-salidas-caja',
   templateUrl: './salidas-caja.component.html',
   styleUrls: ['./salidas-caja.component.scss'],

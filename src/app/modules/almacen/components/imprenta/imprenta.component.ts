@@ -29,7 +29,6 @@ import ClassMapperService from '@services/class-mapper.service';
 import VentasService from '@services/ventas.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-imprenta',
   templateUrl: './imprenta.component.html',
   styleUrls: ['./imprenta.component.scss'],

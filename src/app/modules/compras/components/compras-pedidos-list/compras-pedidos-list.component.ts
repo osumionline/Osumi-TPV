@@ -41,7 +41,6 @@ import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-compras-pedidos-list',
   templateUrl: './compras-pedidos-list.component.html',
   styleUrls: ['./compras-pedidos-list.component.scss'],

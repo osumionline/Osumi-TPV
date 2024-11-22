@@ -9,7 +9,6 @@ import { CustomOverlayRef } from '@osumi/angular-tools';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-margenes-modal',
   templateUrl: './margenes-modal.component.html',
   styleUrls: ['./margenes-modal.component.scss'],

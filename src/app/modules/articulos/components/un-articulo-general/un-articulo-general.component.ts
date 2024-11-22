@@ -32,7 +32,6 @@ import Utils from '@shared/utils.class';
 
 @Component({
   selector: 'otpv-un-articulo-general',
-  standalone: true,
   imports: [
     MatFormField,
     MatSelect,

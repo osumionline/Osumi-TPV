@@ -11,7 +11,6 @@ import { MatTooltip } from '@angular/material/tooltip';
 import Articulo from '@model/articulos/articulo.model';
 
 @Component({
-  standalone: true,
   selector: 'otpv-articulos-tabs',
   templateUrl: './articulos-tabs.component.html',
   styleUrls: ['./articulos-tabs.component.scss'],

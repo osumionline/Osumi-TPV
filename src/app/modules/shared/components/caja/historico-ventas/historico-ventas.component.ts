@@ -46,7 +46,6 @@ import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-historico-ventas',
   templateUrl: './historico-ventas.component.html',
   styleUrls: ['./historico-ventas.component.scss'],

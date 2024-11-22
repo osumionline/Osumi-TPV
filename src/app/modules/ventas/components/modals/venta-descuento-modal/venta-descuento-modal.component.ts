@@ -12,7 +12,6 @@ import { MatInput } from '@angular/material/input';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 
 @Component({
-  standalone: true,
   selector: 'otpv-venta-descuento-modal',
   templateUrl: './venta-descuento-modal.component.html',
   styleUrls: ['./venta-descuento-modal.component.scss'],

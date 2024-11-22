@@ -22,7 +22,6 @@ import ClientesService from '@services/clientes.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-reservas-modal',
   templateUrl: './reservas-modal.component.html',
   styleUrls: ['./reservas-modal.component.scss'],

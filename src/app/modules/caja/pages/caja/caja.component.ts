@@ -4,7 +4,6 @@ import CajaContentComponent from '@shared/components/caja/caja-content/caja-cont
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-caja',
   templateUrl: './caja.component.html',
   styleUrls: ['./caja.component.scss'],

@@ -44,7 +44,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 import { rolList } from '@shared/rol.class';
 
 @Component({
-  standalone: true,
   selector: 'otpv-una-venta',
   templateUrl: './una-venta.component.html',
   styleUrls: ['./una-venta.component.scss'],

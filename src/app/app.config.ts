@@ -1,4 +1,9 @@
-import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID } from '@angular/core';
+import {
+  ApplicationConfig,
+  LOCALE_ID,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import {
   InMemoryScrollingFeature,
   InMemoryScrollingOptions,
@@ -31,10 +36,6 @@ const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline',
 };
 
-function servicesOnRun(config: ConfigService) {
-  return (): Promise<string> => config.start();
-}
-
 const appConfig: ApplicationConfig = {
   providers: [
     {
@@ -49,12 +50,7 @@ const appConfig: ApplicationConfig = {
       provide: LOCALE_ID,
       useValue: 'es-ES',
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: servicesOnRun,
-      multi: true,
-      deps: [ConfigService],
-    },
+    provideAppInitializer(() => inject(ConfigService).start()),
     provideRouter(routes, inMemoryScrollingFeature),
     provideHttpClient(),
     provideCore(),

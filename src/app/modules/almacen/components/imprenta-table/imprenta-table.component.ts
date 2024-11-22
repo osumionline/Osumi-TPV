@@ -1,14 +1,13 @@
 import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
-  standalone: true,
   selector: 'otpv-imprenta-table',
   templateUrl: './imprenta-table.component.html',
   styleUrls: ['./imprenta-table.component.scss'],
-  imports: [QRCodeModule, FixedNumberPipe],
+  imports: [QRCodeComponent, FixedNumberPipe],
 })
 export default class ImprentaTableComponent implements OnInit {
   filas: number = 4;

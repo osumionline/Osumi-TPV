@@ -43,7 +43,6 @@ import HeaderComponent from '@shared/components/header/header.component';
 import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-gestion-tipos-pago',
   templateUrl: './gestion-tipos-pago.component.html',
   styleUrls: ['./gestion-tipos-pago.component.scss'],

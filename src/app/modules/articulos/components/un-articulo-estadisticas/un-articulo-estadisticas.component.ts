@@ -14,7 +14,6 @@ import ConfigService from '@services/config.service';
 
 @Component({
   selector: 'otpv-un-articulo-estadisticas',
-  standalone: true,
   imports: [MatFormField, MatSelect, MatOption, FormsModule],
   templateUrl: './un-articulo-estadisticas.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',

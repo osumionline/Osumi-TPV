@@ -45,7 +45,6 @@ import ClientListFilterPipe from '@shared/pipes/client-list-filter.pipe';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-clientes',
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.scss'],

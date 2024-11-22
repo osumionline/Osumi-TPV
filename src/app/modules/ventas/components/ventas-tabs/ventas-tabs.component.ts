@@ -19,7 +19,6 @@ import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import VentasService from '@services/ventas.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-ventas-tabs',
   templateUrl: './ventas-tabs.component.html',
   styleUrls: ['./ventas-tabs.component.scss'],

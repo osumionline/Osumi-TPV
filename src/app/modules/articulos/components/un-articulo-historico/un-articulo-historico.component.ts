@@ -21,7 +21,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-un-articulo-historico',
-  standalone: true,
   imports: [MatTableModule, MatSort, MatPaginator, FixedNumberPipe],
   templateUrl: './un-articulo-historico.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',

@@ -24,7 +24,6 @@ import ConfigService from '@services/config.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-cierre-caja',
   templateUrl: './cierre-caja.component.html',
   styleUrls: ['./cierre-caja.component.scss'],

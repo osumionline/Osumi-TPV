@@ -16,7 +16,6 @@ import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-edit-factura-modal',
   templateUrl: './edit-factura-modal.component.html',
   styleUrls: ['./edit-factura-modal.component.scss'],

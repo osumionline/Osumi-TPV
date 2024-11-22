@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import TipoPago from '@model/tpv/tipo-pago.model';
 
 @Pipe({
-  standalone: true,
   name: 'payTypeListFilter',
 })
 export default class PayTypeListFilterPipe implements PipeTransform {

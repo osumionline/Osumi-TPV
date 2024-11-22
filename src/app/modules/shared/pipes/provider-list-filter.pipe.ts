@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import Proveedor from '@model/proveedores/proveedor.model';
 
 @Pipe({
-  standalone: true,
   name: 'providerListFilter',
 })
 export default class ProviderListFilterPipe implements PipeTransform {

@@ -47,7 +47,6 @@ import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-almacen-inventario',
   templateUrl: './almacen-inventario.component.html',
   styleUrls: ['./almacen-inventario.component.scss'],

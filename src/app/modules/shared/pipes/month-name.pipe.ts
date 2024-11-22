@@ -3,7 +3,6 @@ import { Month } from '@app/interfaces/interfaces';
 import ConfigService from '@services/config.service';
 
 @Pipe({
-  standalone: true,
   name: 'monthName',
 })
 export default class MonthNamePipe implements PipeTransform {

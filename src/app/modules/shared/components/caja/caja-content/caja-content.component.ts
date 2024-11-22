@@ -10,7 +10,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Month } from '@interfaces/interfaces';
@@ -20,7 +19,6 @@ import HistoricoVentasComponent from '@shared/components/caja/historico-ventas/h
 import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-caja.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-caja-content',
   templateUrl: './caja-content.component.html',
   styleUrls: ['./caja-content.component.scss'],
@@ -32,7 +30,6 @@ import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-c
     MatTabGroup,
     MatTab,
     MatFormField,
-    MatInput,
     MatSelect,
     MatOption,
     MatButton,

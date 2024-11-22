@@ -20,7 +20,6 @@ import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-new-proveedor-modal',
   templateUrl: './new-proveedor-modal.component.html',
   styleUrls: ['./new-proveedor-modal.component.scss'],

@@ -7,7 +7,6 @@ import Articulo from '@model/articulos/articulo.model';
 
 @Component({
   selector: 'otpv-un-articulo-observaciones',
-  standalone: true,
   imports: [MatFormField, MatInput, MatSlideToggle, FormsModule],
   templateUrl: './un-articulo-observaciones.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',

@@ -26,7 +26,6 @@ import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-elegir-cliente-modal',
   templateUrl: './elegir-cliente-modal.component.html',
   styleUrls: ['./elegir-cliente-modal.component.scss'],

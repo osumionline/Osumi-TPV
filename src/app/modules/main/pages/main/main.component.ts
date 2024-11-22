@@ -8,7 +8,6 @@ import ConfigService from '@services/config.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],

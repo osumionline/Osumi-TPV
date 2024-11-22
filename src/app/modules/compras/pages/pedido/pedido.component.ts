@@ -58,7 +58,6 @@ import NewProveedorModalComponent from '@shared/components/modals/new-proveedor-
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-pedido',
   templateUrl: './pedido.component.html',
   styleUrls: ['./pedido.component.scss'],

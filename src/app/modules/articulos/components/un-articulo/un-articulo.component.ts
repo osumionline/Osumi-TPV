@@ -53,10 +53,8 @@ import ProveedoresService from '@services/proveedores.service';
 import VentasService from '@services/ventas.service';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
-import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
-  standalone: true,
   selector: 'otpv-un-articulo',
   templateUrl: './un-articulo.component.html',
   styleUrls: ['./un-articulo.component.scss'],
@@ -64,7 +62,6 @@ import { QRCodeModule } from 'angularx-qrcode';
   imports: [
     FormsModule,
     MatSortModule,
-    QRCodeModule,
     MatFormField,
     MatInput,
     MatCard,

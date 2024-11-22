@@ -9,7 +9,6 @@ import ComprasService from '@services/compras.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-compras',
   templateUrl: './compras.component.html',
   styleUrls: ['./compras.component.scss'],

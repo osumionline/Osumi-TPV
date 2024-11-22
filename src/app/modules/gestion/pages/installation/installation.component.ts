@@ -27,7 +27,6 @@ import ConfigService from '@services/config.service';
 import GestionService from '@services/gestion.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-installation',
   templateUrl: './installation.component.html',
   styleUrls: ['./installation.component.scss'],

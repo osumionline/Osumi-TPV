@@ -7,7 +7,6 @@ import ImprentaComponent from '@modules/almacen/components/imprenta/imprenta.com
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-almacen',
   templateUrl: './almacen.component.html',
   styleUrls: ['./almacen.component.scss'],

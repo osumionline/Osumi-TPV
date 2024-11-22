@@ -12,14 +12,13 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import Articulo from '@model/articulos/articulo.model';
 import CodigoBarras from '@model/articulos/codigo-barras.model';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'otpv-un-articulo-cod-barras',
-  standalone: true,
   imports: [
     NgClass,
-    QRCodeModule,
+    QRCodeComponent,
     MatIconButton,
     MatButton,
     MatIcon,

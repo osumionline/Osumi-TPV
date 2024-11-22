@@ -17,7 +17,6 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-new-marca-modal',
   templateUrl: './new-marca-modal.component.html',
   imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],

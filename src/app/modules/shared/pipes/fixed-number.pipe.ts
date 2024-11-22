@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { formatNumber } from '@osumi/tools';
 
 @Pipe({
-  standalone: true,
   name: 'fixedNumber',
 })
 export default class FixedNumberPipe implements PipeTransform {

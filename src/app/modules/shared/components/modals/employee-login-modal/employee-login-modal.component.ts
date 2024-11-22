@@ -15,7 +15,6 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import EmpleadosService from '@services/empleados.service';
 
 @Component({
-  standalone: true,
   selector: 'otpv-employee-login-modal',
   templateUrl: './employee-login-modal.component.html',
   styleUrls: ['./employee-login-modal.component.scss'],

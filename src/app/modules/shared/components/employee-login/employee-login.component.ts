@@ -7,7 +7,6 @@ import EmpleadosService from '@services/empleados.service';
 import EmployeeLoginModalComponent from '@shared/components/modals/employee-login-modal/employee-login-modal.component';
 
 @Component({
-  standalone: true,
   selector: 'otpv-employee-login',
   templateUrl: './employee-login.component.html',
   styleUrls: ['./employee-login.component.scss'],

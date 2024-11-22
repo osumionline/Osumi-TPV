@@ -17,7 +17,6 @@ import ClassMapperService from '@services/class-mapper.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-inventario-print',
   templateUrl: './inventario-print.component.html',
   styleUrls: ['./inventario-print.component.scss'],

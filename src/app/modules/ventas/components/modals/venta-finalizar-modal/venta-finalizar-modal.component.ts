@@ -30,7 +30,6 @@ import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
-  standalone: true,
   selector: 'otpv-venta-finalizar-modal',
   templateUrl: './venta-finalizar-modal.component.html',
   styleUrls: ['./venta-finalizar-modal.component.scss'],

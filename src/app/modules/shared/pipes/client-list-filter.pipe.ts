@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import Cliente from '@model/clientes/cliente.model';
 
 @Pipe({
-  standalone: true,
   name: 'clientListFilter',
 })
 export default class ClientListFilterPipe implements PipeTransform {
