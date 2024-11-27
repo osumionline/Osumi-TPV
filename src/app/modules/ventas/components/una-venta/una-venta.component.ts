@@ -396,6 +396,7 @@ export default class UnaVentaComponent {
                 articulo
               );
               ventaLinea.fromVenta = this.devolucionVenta;
+              ventaLinea.descuento = linea.descuento;
               const devolucionLinea: DevolucionSelectedInterface =
                 this.devolucionList.find(
                   (x: DevolucionSelectedInterface): boolean => {
