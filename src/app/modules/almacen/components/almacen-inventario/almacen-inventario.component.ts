@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -52,7 +51,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   styleUrls: ['./almacen-inventario.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,

@@ -45,7 +45,7 @@
             <tr>
                 <th class="col-concepto">
                     <mat-icon class="header-icon"
-                              [ngClass]="{'deployed': deployedAll}"
+                              [class]="{'deployed': deployedAll}"
                               (click)="deployAll()">chevron_right</mat-icon>
                     CONCEPTO
                 </th>
@@ -63,7 +63,7 @@
             @for (item of list; track item.concepto) {
             <tr>
                 <td class="col-concepto">
-                    <mat-icon [ngClass]="{'deployed': item.deployed}"
+                    <mat-icon [class]="{'deployed': item.deployed}"
                               (click)="deploy(item)">chevron_right</mat-icon>
                     {{item.concepto}} ({{item.fecha}})
                 </td>

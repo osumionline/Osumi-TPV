@@ -3,7 +3,7 @@
 }
 
 <div class="ventas-header"
-	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
 	<div class="col-marca">Marca</div>
@@ -15,10 +15,10 @@
 </div>
 
 <div class="lineas-ventas"
-	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	@for (linea of vs.ventaActual.lineas; track $index; let i = $index) {
 	<div class="linea-venta"
-		 [ngClass]="{'linea-devolucion': linea.cantidad < 0}">
+		 [class]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">
 			@if (linea.idArticulo === null) {
 			<input [id]="'loc-new-' + ind"
@@ -72,7 +72,7 @@
 			}
 		</div>
 		<div class="col-cantidad"
-			 [ngClass]="{'animate': linea.animarCantidad}">
+			 [class]="{'animate': linea.animarCantidad}">
 			@if (linea.idArticulo === null) {
 			&nbsp;
 			}
@@ -107,7 +107,7 @@
 			@else {
 			<span>{{linea.pvp | fixedNumber}} €</span>
 			<mat-icon matTooltip="Marcar como regalo"
-					  [ngClass]="{'selected': linea.regalo}"
+					  [class]="{'selected': linea.regalo}"
 					  (click)="setRegalo(i)">loyalty</mat-icon>
 			}
 		</div>
@@ -117,7 +117,7 @@
 			}
 			@if (linea.importe !== null && linea.fromVenta === null) {
 			@if (!editarImporte) {
-			<span [ngClass]="{'editar-linea-importe': vs.ventaActual.modificarImportes, 'editar-linea-importe-off': !vs.ventaActual.modificarImportes}"
+			<span [class]="{'editar-linea-importe': vs.ventaActual.modificarImportes, 'editar-linea-importe-off': !vs.ventaActual.modificarImportes}"
 				  (click)="editarLineaImporte(i)">
 				{{linea.total | fixedNumber}} €
 				@if (linea.importeManual) {
@@ -152,7 +152,7 @@
 			@if (!editarDescuento) {
 			<span class="editar-linea-descuento"
 				  (click)="editarLineaDescuento(i)"
-				  [ngClass]="{'con-descuento':linea.descuento !== 0}">
+				  [class]="{'con-descuento':linea.descuento !== 0}">
 				{{linea.descuento | fixedNumber}}
 				@if (!linea.descuentoManual) {
 				%
@@ -240,7 +240,7 @@
 		<div class="estadisticas-titulo">
 			Top ventas
 			<mat-icon (click)="closeClienteEstadisticas()"
-					  [ngClass]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
+					  [class]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
 		</div>
 		@if (showClienteEstadisticas && vs.ventaActual.cliente.topVentas.length) {
 		<div class="estadisticas-datos">
@@ -270,13 +270,13 @@
 }
 
 <div class="importe"
-	 [ngClass]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
 	<div class="total-importe"
 		 (click)="openCaja()">
 		{{vs.ventaActual.importe | fixedNumber}} €
 	</div>
 	<div class="venta-anterior"
-		 [ngClass]="{'show': showUltimaVenta}">
+		 [class]="{'show': showUltimaVenta}">
 		<span>Última venta: {{ultimaVentaImporte | fixedNumber}} €</span>
 		<span>Cambio: {{ultimaVentaCambio | fixedNumber}} €</span>
 	</div>

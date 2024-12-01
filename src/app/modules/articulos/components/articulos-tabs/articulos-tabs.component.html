@@ -2,7 +2,7 @@
     <div class="tab-list">
         @for (tab of articulos(); track $index; let i = $index) {
         <div class="tab-item"
-             [ngClass]="{'tab-selected': selected() === i}"
+             [class]="{'tab-selected': selected() === i}"
              (click)="selectTab(i)">
             <span [matTooltip]="tab.tabName"
                   [matTooltipDisabled]="tab.tabName.length<27">

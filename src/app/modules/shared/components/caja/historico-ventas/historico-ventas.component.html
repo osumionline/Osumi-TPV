@@ -11,7 +11,7 @@
         </mat-select>
     </mat-form-field>
     <div class="historico-header-fecha"
-         [ngClass]="{'show': historicoModo === 'fecha'}">
+         [class]="{'show': historicoModo === 'fecha'}">
         <button mat-icon-button
                 (click)="previousFecha()">
             <mat-icon>chevron_left</mat-icon>
@@ -32,7 +32,7 @@
         </button>
     </div>
     <div class="historico-header-rango"
-         [ngClass]="{'show': historicoModo === 'rango'}">
+         [class]="{'show': historicoModo === 'rango'}">
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Fecha desde</mat-label>
             <input matInput
@@ -107,7 +107,7 @@
                     <td mat-cell
                         *matCellDef="let element">
                         <div class="pay-type"
-                             [ngClass]="{'margin': element.idCliente === null}">
+                             [class]="{'margin': element.idCliente === null}">
                             {{element.nombreTipoPago}}
                             @if (element.idCliente !== null) {
                             <mat-icon [matTooltip]="element.cliente">account_circle</mat-icon>
@@ -120,7 +120,7 @@
                     *matHeaderRowDef="historicoVentasDisplayedColumns"></tr>
                 <tr class="clickable"
                     mat-row
-                    [ngClass]="{'selected-row': row.id===historicoVentasSelected.id}"
+                    [class]="{'selected-row': row.id === historicoVentasSelected.id}"
                     (click)="selectVenta(i)"
                     *matRowDef="let row; columns: historicoVentasDisplayedColumns; let i = index;"></tr>
             </table>
@@ -159,7 +159,7 @@
         <div class="historico-no-data">Elige una venta de la lista.</div>
         }
         <div class="historico-detail"
-             [ngClass]="{'show':historicoVentasSelected.id !== null}">
+             [class]="{'show':historicoVentasSelected.id !== null}">
             @if (historicoVentasList.length > 0 && historicoVentasSelected !== null) {
             <div class="historico-detail-lineas">
 

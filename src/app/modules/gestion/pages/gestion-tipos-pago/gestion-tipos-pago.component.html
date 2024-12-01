@@ -21,7 +21,7 @@
                             cdkDragHandle
                             (click)="selectTipoPago(tipoPago)"
                             class="drag-item"
-                            [ngClass]="{'selected-tipo-pago': selectedTipoPago.id===tipoPago.id}"
+                            [class]="{'selected-tipo-pago': selectedTipoPago.id === tipoPago.id}"
                             cdkDrag>
                         <mat-icon>drag_indicator</mat-icon>
                         {{tipoPago.nombre}}
@@ -38,9 +38,9 @@
                 </div>
             </aside>
             <main>
-                <div [ngClass]="{'show': start}"
+                <div [class]="{'show': start}"
                      class="start-message">Elige un tipo de pago de la lista.</div>
-                <div [ngClass]="{'show': !start}"
+                <div [class]="{'show': !start}"
                      class="main-body">
                     <mat-tab-group dynamicHeight
                                    #tiposPagoTabs>

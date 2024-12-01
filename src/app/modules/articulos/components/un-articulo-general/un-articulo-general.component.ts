@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -40,7 +39,6 @@ import Utils from '@shared/utils.class';
     MatIcon,
     MatSlideToggle,
     MatInput,
-    NgClass,
     FormsModule,
     FixedNumberPipe,
   ],

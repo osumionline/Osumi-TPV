@@ -3,7 +3,6 @@ import {
   DragDropModule,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -47,7 +46,6 @@ import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
   templateUrl: './gestion-tipos-pago.component.html',
   styleUrls: ['./gestion-tipos-pago.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,

@@ -164,12 +164,12 @@
                         class="center"
                         *matCellDef="let element; let i = index">
                         <mat-icon class="icon-button"
-                                  [ngClass]="{'icon-button-disabled': i === 0}"
+                                  [class]="{'icon-button-disabled': i === 0}"
                                   matTooltip="Mover línea arriba"
                                   (click)="ordenarLinea(element.localizador, 'up')">expand_less</mat-icon>
                         <mat-icon class="icon-button"
                                   matTooltip="Mover línea abajo"
-                                  [ngClass]="{'icon-button-disabled': i === pedido.lineas.length-1}"
+                                  [class]="{'icon-button-disabled': i === pedido.lineas.length-1}"
                                   (click)="ordenarLinea(element.localizador, 'down')">expand_more</mat-icon>
                     </td>
                 </ng-container>
@@ -511,7 +511,7 @@
                     *matRowDef="let row; columns: pedidoDisplayedColumns;"></tr>
             </table>
             <div class="nuevo-localizador-row"
-                 [ngClass]="{'hide': pedido.recepcionado}">
+                 [class]="{'hide': pedido.recepcionado}">
                 <mat-form-field class="remark small"
                                 subscriptSizing="dynamic">
                     <input matInput
@@ -640,14 +640,14 @@
                             <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
                         </div>
                         <div class="totales-row totales-iva-row"
-                             [ngClass]="{'no-iva': pedido.ue}">
+                             [class]="{'no-iva': pedido.ue}">
                             @for (ivaOption of pedido.ivaList; track ivaOption) {
                             @if (ivaOption.iva !== undefined || ivaOption.re !== undefined) {
                             <div class="iva-row">
                                 @if (ivaOption.iva !== undefined) {
                                 <div class="iva-col">IVA {{ivaOption.ivaOption}}%</div>
                                 <div class="iva-col"
-                                     [ngClass]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
+                                     [class]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
                                     {{ivaOption.iva | fixedNumber}} €
                                 </div>
                                 }
@@ -677,7 +677,7 @@
                             %
                         </div>
                         <div class="totales-row mark"
-                             [ngClass]="{'mark-iva': !pedido.ue}">
+                             [class]="{'mark-iva': !pedido.ue}">
                             <span>Total {{pedido.nombreTipo}}:</span>{{pedido.total | fixedNumber}} €
                         </div>
                         @if (pedido.ue) {

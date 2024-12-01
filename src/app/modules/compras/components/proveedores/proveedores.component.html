@@ -17,7 +17,7 @@
                     @for (proveedor of ps.proveedores() | providerListFilter:search; track proveedor.id) {
                     <button mat-list-item
                             (click)="selectProveedor(proveedor)"
-                            [ngClass]="{'selected-provider': selectedProveedor.id===proveedor.id}">
+                            [class]="{'selected-provider': selectedProveedor.id === proveedor.id}">
                         {{proveedor.nombre}}
                     </button>
                     }
@@ -32,9 +32,9 @@
                 </div>
             </aside>
             <main>
-                <div [ngClass]="{'show': start}"
+                <div [class]="{'show': start}"
                      class="start-message">Elige un proveedor de la lista.</div>
-                <div [ngClass]="{'show': !start}"
+                <div [class]="{'show': !start}"
                      class="main-body">
                     <mat-tab-group dynamicHeight
                                    [selectedIndex]="selectedTab"
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <div class="comercial-datos"
-                                 [ngClass]="{'show': showComercial}">
+                                 [class]="{'show': showComercial}">
                                 <form [formGroup]="formComercial"
                                       (ngSubmit)="onComercialSubmit()">
                                     <div>

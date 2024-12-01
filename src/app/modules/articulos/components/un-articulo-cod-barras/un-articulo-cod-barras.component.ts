@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -16,14 +15,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'otpv-un-articulo-cod-barras',
-  imports: [
-    NgClass,
-    QRCodeComponent,
-    MatIconButton,
-    MatButton,
-    MatIcon,
-    FormsModule,
-  ],
+  imports: [QRCodeComponent, MatIconButton, MatButton, MatIcon, FormsModule],
   templateUrl: './un-articulo-cod-barras.component.html',
   styleUrls: [
     './un-articulo-cod-barras.component.scss',

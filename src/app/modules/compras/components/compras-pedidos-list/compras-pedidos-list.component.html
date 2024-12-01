@@ -10,7 +10,7 @@
                     <mat-icon>add_circle_outline</mat-icon>
                     Nuevo pedido
                 </button>
-                <mat-card [ngClass]="{'show': showGuardadosFilters}">
+                <mat-card [class]="{'show': showGuardadosFilters}">
                     <mat-card-content>
                         <form [formGroup]="formGuardados"
                               (ngSubmit)="filtrarGuardados()">
@@ -184,7 +184,7 @@
             <tr mat-row
                 class="clickable"
                 (click)="goToPedido(row)"
-                [ngClass]="{'mark': row.tipo === 'abono'}"
+                [class]="{'mark': row.tipo === 'abono'}"
                 *matRowDef="let row; columns: pedidosGuardadosDisplayedColumns;"></tr>
         </table>
         <mat-paginator [length]="guardadosPags"
@@ -205,7 +205,7 @@
         <mat-card-title>
             <span class="pedidos-list-header">
                 Pedidos recepcionados
-                <mat-card [ngClass]="{'show': showRecepcionadosFilters}">
+                <mat-card [class]="{'show': showRecepcionadosFilters}">
                     <mat-card-content>
                         <form [formGroup]="formRecepcionados"
                               (ngSubmit)="filtrarRecepcionados()">
@@ -410,7 +410,7 @@
                 *matHeaderRowDef="pedidosRecepcionadosDisplayedColumns"></tr>
             <tr mat-row
                 class="clickable"
-                [ngClass]="{'mark': row.tipo === 'abono'}"
+                [class]="{'mark': row.tipo === 'abono'}"
                 (click)="goToPedido(row)"
                 *matRowDef="let row; columns: pedidosRecepcionadosDisplayedColumns;"></tr>
         </table>

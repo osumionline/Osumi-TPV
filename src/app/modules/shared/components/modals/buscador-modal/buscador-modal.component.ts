@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -25,7 +24,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './buscador-modal.component.html',
   styleUrls: ['./buscador-modal.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     MatFormField,

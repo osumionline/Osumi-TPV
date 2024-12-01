@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   input,
@@ -14,7 +13,7 @@ import Articulo from '@model/articulos/articulo.model';
   selector: 'otpv-articulos-tabs',
   templateUrl: './articulos-tabs.component.html',
   styleUrls: ['./articulos-tabs.component.scss'],
-  imports: [NgClass, MatIcon, MatTooltip],
+  imports: [MatIcon, MatTooltip],
 })
 export default class ArticulosTabsComponent {
   articulos: InputSignal<Articulo[]> = input.required<Articulo[]>();

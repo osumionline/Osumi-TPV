@@ -51,7 +51,7 @@
                             <div class="form-field">
                                 <label>Diferencia</label>
                                 <span class="value-placeholder"
-                                      [ngClass]="{'form-ok': cierreCaja.diferencia>0, 'form-not-ok': cierreCaja.diferencia<0}">{{cierreCaja.diferencia | fixedNumber}} €
+                                      [class]="{'form-ok': cierreCaja.diferencia > 0, 'form-not-ok': cierreCaja.diferencia < 0}">{{cierreCaja.diferencia | fixedNumber}} €
                                 </span>
                             </div>
                             <div class="form-field">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="coin-row"
-                             [ngClass]="{'show': showCoins}">
+                             [class]="{'show': showCoins}">
                             <div class="coin-col">
                                 <mat-form-field class="campo-numero-small x-small"
                                                 subscriptSizing="dynamic">
@@ -274,7 +274,7 @@
                                 <span class="value-placeholder">{{tipo.ventas | fixedNumber}} €</span>
                             </div>
                             <div class="card-content"
-                                 [ngClass]="{'show': tipo.show}">
+                                 [class]="{'show': tipo.show}">
                                 <div class="form-field max-width">
                                     <label>Operaciones</label>
                                     <span class="value-placeholder">{{tipo.operaciones}}</span>
@@ -292,7 +292,7 @@
                                 <div class="form-field max-width">
                                     <label>Diferencia</label>
                                     <span class="value-placeholder"
-                                          [ngClass]="{'form-ok': tipo.diferencia>0, 'form-not-ok': tipo.diferencia<0}">{{tipo.diferencia | fixedNumber}} €
+                                          [class]="{'form-ok': tipo.diferencia > 0, 'form-not-ok': tipo.diferencia < 0}">{{tipo.diferencia | fixedNumber}} €
                                     </span>
                                 </div>
                             </div>

@@ -1,11 +1,11 @@
 <div class="finalizar-venta">
     <div class="col-reserva"
-         [ngClass]="{'show': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">RESERVA</div>
+         [class]="{'show': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">RESERVA</div>
     <div class="col-left"
-         [ngClass]="{'hide': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">
+         [class]="{'hide': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">
         <div class="col-line">
             <div class="form-field no-padding">
-                <label [ngClass]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Efectivo</label>
+                <label [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Efectivo</label>
                 <mat-form-field subscriptSizing="dynamic">
                     <input matInput
                            class="big"
@@ -19,10 +19,10 @@
                 <span class="big">€</span>
             </div>
             <div class="form-field no-padding">
-                <label [ngClass]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Cambio</label>
+                <label [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Cambio</label>
                 <mat-form-field subscriptSizing="dynamic"
                                 class="remark"
-                                [ngClass]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">
+                                [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">
                     <input matInput
                            class="big"
                            placeholder="Cambio"
@@ -37,7 +37,7 @@
             @for (tipo of config.tiposPago; track tipo.id) {
             @if (tipo.fisico) {
             <div class="tipo-pago"
-                 [ngClass]="{'tipo-pago-selected': vs.fin.idTipoPago === tipo.id}"
+                 [class]="{'tipo-pago-selected': vs.fin.idTipoPago === tipo.id}"
                  (click)="selectTipoPago(tipo.id)">
                 <img [src]="tipo.foto"
                      [alt]="tipo.nombre">

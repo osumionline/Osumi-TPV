@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -49,7 +48,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     MatSortModule,

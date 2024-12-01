@@ -18,8 +18,8 @@
                     @for (empleado of es.empleados() | employeeListFilter:search; track empleado.id) {
                     <button mat-list-item
                             (click)="selectEmpleado(empleado)"
-                            [ngClass]="{'selected-client': selectedEmpleado.id===empleado.id}"
-                            [ngStyle]="{'background-color': empleado.color}">
+                            [class]="{'selected-client': selectedEmpleado.id === empleado.id}"
+                            [style]="{'background-color': empleado.color}">
                         {{empleado.nombre}}
                     </button>
                     }
@@ -36,9 +36,9 @@
                 }
             </aside>
             <main>
-                <div [ngClass]="{'show': start}"
+                <div [class]="{'show': start}"
                      class="start-message">Elige un empleado de la lista.</div>
-                <div [ngClass]="{'show': !start}"
+                <div [class]="{'show': !start}"
                      class="main-body">
                     <form [formGroup]="form"
                           (ngSubmit)="onSubmit()">
@@ -63,7 +63,7 @@
                                     </mat-checkbox>
                                 </div>
                                 <div class="password-row"
-                                     [ngClass]="{'show': form.value.hasPassword}">
+                                     [class]="{'show': form.value.hasPassword}">
                                     <div class="form-field half-width">
                                         <label>Contraseña</label>
                                         <mat-form-field class="max-width">
@@ -121,7 +121,7 @@
                             }
                         </mat-tab-group>
                         <div class="actions"
-                             [ngClass]="{'show': selectedTab !== 2}">
+                             [class]="{'show': selectedTab !== 2}">
                             <div class="delete">
                                 @if (form.value.id && canDeleteEmployees) {
                                 <button mat-flat-button

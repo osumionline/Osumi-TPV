@@ -55,7 +55,7 @@
         (click)="selectAccesoDirecto(row)"
         *matRowDef="let row; columns: accesosDirectosDisplayedColumns;"></tr>
 </table>
-<div [ngClass]="{'show': idArticulo() !== null}"
+<div [class]="{'show': idArticulo() !== null}"
      class="asignar">
     <p>Asignar acceso directo al artículo:</p>
     <div>

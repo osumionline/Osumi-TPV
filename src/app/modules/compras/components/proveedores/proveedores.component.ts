@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -41,7 +40,6 @@ import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
   templateUrl: './proveedores.component.html',
   styleUrls: ['./proveedores.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     ProviderBrandListFilterPipe,

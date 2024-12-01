@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -29,7 +28,6 @@ import ClassMapperService from '@services/class-mapper.service';
   templateUrl: './accesos-directos-modal.component.html',
   styleUrls: ['./accesos-directos-modal.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     MatTableModule,

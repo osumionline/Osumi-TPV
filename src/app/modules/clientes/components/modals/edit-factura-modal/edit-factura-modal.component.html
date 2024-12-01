@@ -66,7 +66,7 @@
                 *matHeaderRowDef="ventasDisplayedColumns"></tr>
             <tr class="clickable"
                 mat-row
-                [ngClass]="{'selected-row': row.id===ventaSelected.id, 'warn': row.statusFactura === 'used', 'disabled': row.statusFactura === 'si'}"
+                [class]="{'selected-row': row.id === ventaSelected.id, 'warn': row.statusFactura === 'used', 'disabled': row.statusFactura === 'si'}"
                 (click)="selectVenta(i)"
                 *matRowDef="let row; columns: ventasDisplayedColumns; let i = index;"></tr>
         </table>
@@ -76,7 +76,7 @@
         <div class="facturas-no-data">Elige una venta de la lista.</div>
         }
         <div class="facturas-venta-detail"
-             [ngClass]="{'show':ventaSelected.id !== null}">
+             [class]="{'show':ventaSelected.id !== null}">
             <table mat-table
                    [dataSource]="ventaSelectedDataSource"
                    class="mat-elevation-z2 ">
@@ -210,7 +210,7 @@
 </div>
 <div class="facturas-actions">
     <div class="facturas-delete"
-         [ngClass]="{'show': factura.id !== null && !factura.impresa}">
+         [class]="{'show': factura.id !== null && !factura.impresa}">
         <button mat-flat-button
                 type="button"
                 color="warn"

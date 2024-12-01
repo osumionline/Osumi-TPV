@@ -102,7 +102,7 @@
     <tr mat-header-row
         *matHeaderRowDef="devolucionDisplayedColumns"></tr>
     <tr mat-row
-        [ngClass]="{'selected-row': selection.isSelected(row)}"
+        [class]="{'selected-row': selection.isSelected(row)}"
         *matRowDef="let row; columns: devolucionDisplayedColumns;"></tr>
 </table>
 <div class="actions">

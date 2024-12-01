@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -40,7 +39,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './salidas-caja.component.html',
   styleUrls: ['./salidas-caja.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     FixedNumberPipe,

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -54,7 +53,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    NgClass,
     MatFormFieldModule,
     MatLabel,
     MatInput,

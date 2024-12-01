@@ -10,7 +10,7 @@
 				  #tabs />
 @for (venta of vs.list; track venta.id; let i = $index) {
 <otpv-una-venta [ind]="i"
-				[ngClass]="{'hidden':i !== vs.selected}"
+				[class]="{'hidden':i !== vs.selected}"
 				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
 				(endVentaEvent)="endVenta()"
 				(openCajaEvent)="openCaja()"

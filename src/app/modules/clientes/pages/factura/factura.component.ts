@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -21,7 +20,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   selector: 'otpv-factura',
   templateUrl: './factura.component.html',
   styleUrls: ['./factura.component.scss'],
-  imports: [NgClass, FixedNumberPipe, MatButton, MatIcon],
+  imports: [FixedNumberPipe, MatButton, MatIcon],
 })
 export default class FacturaComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

@@ -21,7 +21,7 @@
 <div class="cod-barras-list">
     @for (codBarras of articulo().codigosBarras; track codBarras.id) {
     <div class="cod-barras-item"
-         [ngClass]="{'cod-barras-por-defecto':codBarras.porDefecto}">
+         [class]="{'cod-barras-por-defecto': codBarras.porDefecto}">
         <qrcode [qrdata]="codBarras.codigoBarras.toString()"
                 [allowEmptyString]="true"
                 [elementType]="'svg'"

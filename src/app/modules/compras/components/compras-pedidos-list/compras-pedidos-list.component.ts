@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -46,7 +45,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   styleUrls: ['./compras-pedidos-list.component.scss'],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

@@ -1,4 +1,3 @@
-import { NgStyle } from '@angular/common';
 import { Component, OutputEmitterRef, inject, output } from '@angular/core';
 import { EmpleadoLoginModal } from '@interfaces/modals.interface';
 import Empleado from '@model/tpv/empleado.model';
@@ -10,7 +9,7 @@ import EmployeeLoginModalComponent from '@shared/components/modals/employee-logi
   selector: 'otpv-employee-login',
   templateUrl: './employee-login.component.html',
   styleUrls: ['./employee-login.component.scss'],
-  imports: [NgStyle],
+  imports: [],
 })
 export default class EmployeeLoginComponent {
   public es: EmpleadosService = inject(EmpleadosService);

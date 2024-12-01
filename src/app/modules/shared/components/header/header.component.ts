@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -12,7 +11,7 @@ import ConfigService from '@services/config.service';
   selector: 'otpv-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [NgClass, RouterModule, MatToolbar, MatIcon],
+  imports: [RouterModule, MatToolbar, MatIcon],
 })
 export default class HeaderComponent implements OnInit {
   private config: ConfigService = inject(ConfigService);

@@ -9,7 +9,7 @@
                #searchBoxName>
     </mat-form-field>
     <div class="resultados"
-         [ngClass]="{'show': buscadorResultadosList.length>0}">
+         [class]="{'show': buscadorResultadosList.length > 0}">
         <table mat-table
                [dataSource]="buscadorResultadosDataSource"
                matSort
@@ -76,7 +76,7 @@
                 *matRowDef="let row; columns: buscadorResultadosDisplayedColumns; let i = index;"
                 (click)="selectBuscadorResultadosRow(row)"
                 [id]="'buscador-row-'+row.localizador"
-                [ngClass]="{'selected-row':i === buscadorResultadosRow}"></tr>
+                [class]="{'selected-row': i === buscadorResultadosRow}"></tr>
         </table>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { KeyValue, KeyValuePipe, NgClass, NgStyle } from '@angular/common';
+import { KeyValue, KeyValuePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -38,8 +38,6 @@ import { Rol, RolGroup, rolList } from '@shared/rol.class';
   templateUrl: './gestion-empleados.component.html',
   styleUrls: ['./gestion-empleados.component.scss'],
   imports: [
-    NgClass,
-    NgStyle,
     KeyValuePipe,
     FormsModule,
     ReactiveFormsModule,

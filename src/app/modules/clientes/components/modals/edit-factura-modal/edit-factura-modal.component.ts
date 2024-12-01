@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -19,14 +18,7 @@ import ClientesService from '@services/clientes.service';
   selector: 'otpv-edit-factura-modal',
   templateUrl: './edit-factura-modal.component.html',
   styleUrls: ['./edit-factura-modal.component.scss'],
-  imports: [
-    NgClass,
-    FixedNumberPipe,
-    MatTableModule,
-    MatCheckbox,
-    MatButton,
-    MatIcon,
-  ],
+  imports: [FixedNumberPipe, MatTableModule, MatCheckbox, MatButton, MatIcon],
 })
 export default class EditFacturaModalComponent implements OnInit {
   private cs: ClientesService = inject(ClientesService);

@@ -83,7 +83,7 @@
                                                         @for (cat of categoriesPlain; track cat.id) {
 														<mat-option [value]="cat.id">
 															<span style="display: block;"
-																  [ngStyle]="{'margin-left': (15*cat.profundidad)+'px'}">{{cat.nombre}}</span>
+																  [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
 														</mat-option>
                                                         }
 													</mat-select>
@@ -98,16 +98,16 @@
         </mat-form-field>
     </div>
     <div class="form-field"
-         [ngClass]="{'fec-cad-hidden': !mostrarCaducidad}">
+         [class]="{'fec-cad-hidden': !mostrarCaducidad}">
         <label>Fecha de caducidad</label>
-        <mat-form-field [ngClass]="{'fec-cad-hidden': fecCadEdit}"
+        <mat-form-field [class]="{'fec-cad-hidden': fecCadEdit}"
                         (click)="editFecCad()">
             <input matInput
                    placeholder="Fecha de caducidad"
                    [(ngModel)]="fecCad"
                    [ngModelOptions]="{standalone: true}">
         </mat-form-field>
-        <mat-form-field [ngClass]="{'fec-cad-hidden': !fecCadEdit}">
+        <mat-form-field [class]="{'fec-cad-hidden': !fecCadEdit}">
             <input matInput
                    placeholder="Fecha de caducidad"
                    [(ngModel)]="articulo().fechaCaducidad"
@@ -197,14 +197,14 @@
                 </mat-slide-toggle>
             </div>
             <div class="form-field-left margen"
-                 [ngClass]="{'hide': !articulo().descuento}">
+                 [class]="{'hide': !articulo().descuento}">
                 <label>Margen (dto)</label>
                 <span (click)="abrirMargenesDescuento()">
                     {{articulo().margenDescuento | fixedNumber}} %
                 </span>
             </div>
             <div class="form-field-left"
-                 [ngClass]="{'hide': !articulo().descuento}">
+                 [class]="{'hide': !articulo().descuento}">
                 <label>PVP (dto)</label>
                 <mat-form-field class="campo-numero">
                     <input matInput
@@ -223,7 +223,7 @@
     <div class="articulo-numbers">
         <div class="articulo-col articulo-col-reverse">
             <div class="form-field-left"
-                 [ngClass]="{'hide': !articulo().descuento}">
+                 [class]="{'hide': !articulo().descuento}">
                 <label>Descuento</label>
                 <mat-form-field class="campo-numero">
                     <input matInput

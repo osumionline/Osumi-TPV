@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -30,7 +29,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [
     FormsModule,
     FixedNumberPipe,
-    NgClass,
     MatCard,
     MatCardHeader,
     MatCardTitle,

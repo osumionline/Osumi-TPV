@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -62,7 +61,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './pedido.component.html',
   styleUrls: ['./pedido.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     HeaderComponent,

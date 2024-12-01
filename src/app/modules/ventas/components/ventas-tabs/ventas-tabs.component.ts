@@ -1,4 +1,3 @@
-import { NgClass, NgStyle } from '@angular/common';
 import {
   Component,
   Input,
@@ -22,7 +21,7 @@ import VentasService from '@services/ventas.service';
   selector: 'otpv-ventas-tabs',
   templateUrl: './ventas-tabs.component.html',
   styleUrls: ['./ventas-tabs.component.scss'],
-  imports: [NgClass, NgStyle, RouterModule, MatIcon, MatTooltip],
+  imports: [RouterModule, MatIcon, MatTooltip],
 })
 export default class VentasTabsComponent {
   private dialog: DialogService = inject(DialogService);

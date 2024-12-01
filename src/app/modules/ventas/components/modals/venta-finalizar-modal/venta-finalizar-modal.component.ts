@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -34,7 +33,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './venta-finalizar-modal.component.html',
   styleUrls: ['./venta-finalizar-modal.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,

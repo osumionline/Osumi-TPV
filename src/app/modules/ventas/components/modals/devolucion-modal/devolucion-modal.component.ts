@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { NgClass } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -28,7 +27,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './devolucion-modal.component.html',
   styleUrls: ['./devolucion-modal.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     FixedNumberPipe,
     MatTableModule,

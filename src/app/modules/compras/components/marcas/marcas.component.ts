@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import {
   FormControl,
@@ -26,7 +25,6 @@ import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
   templateUrl: './marcas.component.html',
   styleUrls: ['./marcas.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     ReactiveFormsModule,
     BrandListFilterPipe,

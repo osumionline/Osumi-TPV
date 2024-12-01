@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -15,7 +14,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   selector: 'otpv-informe-simple',
   templateUrl: './informe-simple.component.html',
   styleUrls: ['./informe-simple.component.scss'],
-  imports: [NgClass, FixedNumberPipe, MatTableModule],
+  imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InformeSimpleComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

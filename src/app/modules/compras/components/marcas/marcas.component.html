@@ -18,7 +18,7 @@
                         @for (marca of ms.marcas() | brandListFilter:search; track marca.id) {
                         <button mat-list-item
                                 (click)="selectMarca(marca)"
-                                [ngClass]="{'selected-client': selectedMarca.id===marca.id}">
+                                [class]="{'selected-client': selectedMarca.id === marca.id}">
                             {{marca.nombre}}
                         </button>
                         }
@@ -34,9 +34,9 @@
                 </div>
             </aside>
             <main>
-                <div [ngClass]="{'show': start}"
+                <div [class]="{'show': start}"
                      class="start-message">Elige una marca de la lista.</div>
-                <div [ngClass]="{'show': !start}"
+                <div [class]="{'show': !start}"
                      class="main-body">
                     <mat-tab-group dynamicHeight
                                    #marcaTabs>

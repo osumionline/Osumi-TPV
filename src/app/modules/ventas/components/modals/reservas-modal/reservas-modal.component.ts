@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -26,7 +25,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   templateUrl: './reservas-modal.component.html',
   styleUrls: ['./reservas-modal.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     MatSortModule,
     FixedNumberPipe,

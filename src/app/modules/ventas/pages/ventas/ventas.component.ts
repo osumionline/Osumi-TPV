@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   HostListener,
@@ -25,7 +24,7 @@ import HeaderComponent from '@shared/components/header/header.component';
   selector: 'otpv-ventas',
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.scss'],
-  imports: [NgClass, VentasTabsComponent, UnaVentaComponent, HeaderComponent],
+  imports: [VentasTabsComponent, UnaVentaComponent, HeaderComponent],
 })
 export default class VentasComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

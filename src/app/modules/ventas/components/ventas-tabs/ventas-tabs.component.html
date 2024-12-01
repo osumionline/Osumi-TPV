@@ -2,9 +2,9 @@
 	<div class="tab-list">
 		@for (tab of vs.list; track tab.id; let i = $index) {
 		<div class="tab-item"
-			 [ngClass]="{'tab-selected': vs.selected === i}"
+			 [class]="{'tab-selected': vs.selected === i}"
 			 (click)="selectTab(i)"
-			 [ngStyle]="{'background-color':tab.color, 'color':tab.textColor}">
+			 [style]="{'background-color': tab.color, 'color': tab.textColor}">
 			{{tab.tabName}}
 			@if (showClose) {
 			<mat-icon class="tab-icon"

@@ -141,7 +141,7 @@
             Stock
         </th>
         <td class="center"
-            [ngClass]="{'modified': element.stockChanged}"
+            [class]="{'modified': element.stockChanged}"
             mat-cell
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
@@ -168,7 +168,7 @@
             PVP
         </th>
         <td class="center"
-            [ngClass]="{'modified': element.pvpChanged}"
+            [class]="{'modified': element.pvpChanged}"
             mat-cell
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
@@ -209,7 +209,7 @@
         </th>
         <td mat-cell
             class="center"
-            [ngClass]="{'modified': element.codigoBarras !== null}"
+            [class]="{'modified': element.codigoBarras !== null}"
             *matCellDef="let element">
             @if (element.hasCodigosBarras) {
             <mat-icon>check</mat-icon>

@@ -18,7 +18,7 @@
                     @for (cliente of cs.clientes() | clientListFilter:search; track cliente.id) {
                     <button mat-list-item
                             (click)="selectCliente(cliente)"
-                            [ngClass]="{'selected-client': selectedClient.id === cliente.id}">
+                            [class]="{'selected-client': selectedClient.id === cliente.id}">
                         {{cliente.nombreApellidos}}
                     </button>
                     }
@@ -33,9 +33,9 @@
                 </div>
             </aside>
             <main>
-                <div [ngClass]="{'show': start}"
+                <div [class]="{'show': start}"
                      class="start-message">Elige un cliente de la lista.</div>
-                <div [ngClass]="{'show': !start}"
+                <div [class]="{'show': !start}"
                      class="main-body">
                     <form [formGroup]="form"
                           (ngSubmit)="onSubmit()">
@@ -149,7 +149,7 @@
                             </mat-tab>
                             <mat-tab label="DATOS FACTURACIÓN">
                                 <div class="same-data"
-                                     [ngClass]="{'selected': !selectedClient.factIgual}">
+                                     [class]="{'selected': !selectedClient.factIgual}">
                                     <mat-checkbox formControlName="factIgual">
                                         Mismos datos para la facturación.
                                     </mat-checkbox>
@@ -235,7 +235,7 @@
                             </mat-tab>
                             @if (form.value.id) {
                             <mat-tab label="FACTURAS">
-                                <table [ngClass]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
+                                <table [class]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
                                        mat-table
                                        [dataSource]="facturasDataSource"
                                        matSort

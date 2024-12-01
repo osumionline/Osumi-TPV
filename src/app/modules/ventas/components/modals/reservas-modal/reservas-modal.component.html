@@ -71,7 +71,7 @@
                     *matHeaderRowDef="reservasDisplayedColumns"></tr>
                 <tr class="clickable"
                     mat-row
-                    [ngClass]="{'selected-row': (reservaSelected !== null) && (row.id===reservaSelected.id)}"
+                    [class]="{'selected-row': (reservaSelected !== null) && (row.id === reservaSelected.id)}"
                     (click)="selectReserva(i)"
                     *matRowDef="let row; columns: reservasDisplayedColumns; let i = index;"></tr>
             </table>
@@ -93,7 +93,7 @@
         <div class="reserva-detail-no-data">Elige una reserva de la lista.</div>
         }
         <div class="reserva-detail"
-             [ngClass]="{'show':reservaSelected !== null}">
+             [class]="{'show':reservaSelected !== null}">
             @if (list.length > 0 && reservaSelected !== null) {
             <div class="reserva-detail-lineas">
 

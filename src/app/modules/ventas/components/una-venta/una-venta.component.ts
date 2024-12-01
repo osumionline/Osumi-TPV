@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   Component,
   Input,
@@ -48,7 +47,6 @@ import { rolList } from '@shared/rol.class';
   templateUrl: './una-venta.component.html',
   styleUrls: ['./una-venta.component.scss'],
   imports: [
-    NgClass,
     FormsModule,
     FixedNumberPipe,
     EmployeeLoginComponent,
