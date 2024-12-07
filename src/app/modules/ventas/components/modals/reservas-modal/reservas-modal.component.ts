@@ -37,8 +37,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   private cs: ClientesService = inject(ClientesService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   list: Reserva[] = [];
   reservaSelected: Reserva = null;
@@ -88,11 +87,13 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   masterToggle(): void {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.reservasDataSource.data.forEach((row: Reserva): boolean | void =>
-          this.selection.select(row)
-        );
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.reservasDataSource.data.forEach((row: Reserva): boolean | void =>
+        this.selection.select(row)
+      );
+    }
   }
 
   selectReserva(ind: number): void {

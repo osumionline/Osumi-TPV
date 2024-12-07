@@ -312,7 +312,9 @@ export default class AlmacenInventarioComponent
   }
 
   goToArticulo(ev: MouseEvent, item: InventarioItem): void {
-    ev && ev.preventDefault();
+    if (ev) {
+      ev.preventDefault();
+    }
     this.ars.returnInfo = {
       where: 'almacen',
       id: null,

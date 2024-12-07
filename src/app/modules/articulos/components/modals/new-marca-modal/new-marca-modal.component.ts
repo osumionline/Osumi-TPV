@@ -24,8 +24,7 @@ import MarcasService from '@services/marcas.service';
 export default class NewMarcaModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private ms: MarcasService = inject(MarcasService);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   nombreBox: Signal<ElementRef> = viewChild('nombreBox');
   marca: Marca = new Marca();

@@ -19,8 +19,7 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 })
 export default class VentaDescuentoModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   descuentoImporte: number = null;
   @ViewChild('descuentoValue', { static: true }) descuentoValue: ElementRef;

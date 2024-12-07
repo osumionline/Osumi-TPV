@@ -54,6 +54,7 @@ export default class InventarioPrintComponent implements OnInit {
         const objStr: string = window.atob(data);
         this.buscador = JSON.parse(objStr);
       } catch (error) {
+        console.log(error);
         this.buscador = null;
       }
       if (this.buscador === null) {

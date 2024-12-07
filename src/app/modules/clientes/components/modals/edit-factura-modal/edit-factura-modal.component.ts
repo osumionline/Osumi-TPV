@@ -127,11 +127,13 @@ export default class EditFacturaModalComponent implements OnInit {
   }
 
   masterToggle(): void {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.ventasDataSource.data.forEach((v: VentaHistorico): void => {
-          v.statusFactura === 'no' && this.selection.select(v);
-        });
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.ventasDataSource.data.forEach((v: VentaHistorico): void => {
+        v.statusFactura === 'no' && this.selection.select(v);
+      });
+    }
   }
 
   selectVenta(ind: number): void {

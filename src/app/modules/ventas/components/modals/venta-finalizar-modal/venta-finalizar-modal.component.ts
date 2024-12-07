@@ -53,8 +53,7 @@ export default class VentaFinalizarModalComponent
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   @ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
   @ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;

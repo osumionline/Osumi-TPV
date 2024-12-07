@@ -614,7 +614,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   checkArrows(ev: KeyboardEvent): void {
     if (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') {
       ev.preventDefault();
-      const target: string[] = (<HTMLInputElement>ev.target).id.split('-');
+      const target: string[] = (ev.target as HTMLInputElement).id.split('-');
       const localizador: number = parseInt(target[2]);
       const ind: number = this.pedido.lineas.findIndex(
         (x: PedidoLinea): boolean => {
@@ -710,7 +710,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   goToArticulo(localizador: number, ev: MouseEvent = null): void {
-    ev && ev.preventDefault();
+    if (ev) {
+      ev.preventDefault();
+    }
     this.ars.returnInfo = {
       where: localizador === 0 ? 'pedido' : 'pedido-edit',
       id: this.pedido.id === null ? 0 : this.pedido.id,
@@ -726,11 +728,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   onPDFChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>ev.target).files &&
-      (<HTMLInputElement>ev.target).files.length > 0
-    ) {
-      const file = (<HTMLInputElement>ev.target).files[0];
+    const files: FileList = (ev.target as HTMLInputElement).files;
+    if (files && files.length > 0) {
+      const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         const pdf: PedidoPDF = new PedidoPDF(
@@ -739,7 +739,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           file.name
         );
         this.pedido.pdfs.push(pdf);
-        (<HTMLInputElement>document.getElementById('pdf-file')).value = '';
+        (document.getElementById('pdf-file') as HTMLInputElement).value = '';
       };
     }
   }
@@ -749,7 +749,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   closePreview(ev: MouseEvent): void {
-    ev && ev.preventDefault();
+    if (ev) {
+      ev.preventDefault();
+    }
     this.selectedPdf = null;
   }
 

@@ -15,8 +15,7 @@ import ClassMapperService from '@services/class-mapper.service';
 export default class VentaAccesosDirectosModalComponent implements OnInit {
   private ars: ArticulosService = inject(ArticulosService);
   private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   accesosDirectosList: AccesoDirecto[] = [];
   accesosDirectosDisplayedColumns: string[] = ['accesoDirecto', 'nombre'];

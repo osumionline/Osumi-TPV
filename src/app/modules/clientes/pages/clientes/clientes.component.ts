@@ -368,7 +368,9 @@ export default class ClientesComponent implements OnInit {
   }
 
   enviarFactura(ev: MouseEvent, factura: Factura): void {
-    ev && ev.stopPropagation();
+    if (ev) {
+      ev.stopPropagation();
+    }
     this.dialog
       .confirm({
         title: 'Confirmar',
@@ -408,7 +410,9 @@ export default class ClientesComponent implements OnInit {
   }
 
   imprimirFactura(ev: MouseEvent, factura: Factura): void {
-    ev && ev.stopPropagation();
+    if (ev) {
+      ev.stopPropagation();
+    }
     window.open('/clientes/factura/' + factura.id);
   }
 }

@@ -33,11 +33,9 @@ export default class UnArticuloWebComponent {
 
   onFotoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>ev.target).files &&
-      (<HTMLInputElement>ev.target).files.length > 0
-    ) {
-      const file = (<HTMLInputElement>ev.target).files[0];
+    const files: FileList = (ev.target as HTMLInputElement).files;
+    if (files && files.length > 0) {
+      const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         const foto: Foto = new Foto();
@@ -46,7 +44,7 @@ export default class UnArticuloWebComponent {
           value.fotosList.push(foto);
           return value;
         });
-        (<HTMLInputElement>document.getElementById('foto-file')).value = '';
+        (document.getElementById('foto-file') as HTMLInputElement).value = '';
       };
     }
   }

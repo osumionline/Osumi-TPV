@@ -207,7 +207,9 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   }
 
   goToArticulo(ev: MouseEvent, item: Caducidad): void {
-    ev && ev.preventDefault();
+    if (ev) {
+      ev.preventDefault();
+    }
     this.ars.returnInfo = {
       where: 'almacen',
       id: null,

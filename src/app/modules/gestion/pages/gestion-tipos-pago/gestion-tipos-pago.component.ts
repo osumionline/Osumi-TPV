@@ -153,15 +153,13 @@ export default class GestionTiposPagoComponent implements OnInit {
 
   onLogoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    if (
-      (<HTMLInputElement>ev.target).files &&
-      (<HTMLInputElement>ev.target).files.length > 0
-    ) {
-      const file = (<HTMLInputElement>ev.target).files[0];
+    const files: FileList = (ev.target as HTMLInputElement).files;
+    if (files && files.length > 0) {
+      const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
         this.logo = reader.result as string;
-        (<HTMLInputElement>document.getElementById('logo-file')).value = '';
+        (document.getElementById('logo-file') as HTMLInputElement).value = '';
       };
     }
   }

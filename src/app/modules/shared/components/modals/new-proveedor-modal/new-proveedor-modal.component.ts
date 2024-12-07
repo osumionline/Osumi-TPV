@@ -30,8 +30,7 @@ export default class NewProveedorModalComponent implements OnInit {
   private cms: ClassMapperService = inject(ClassMapperService);
   private dialog: DialogService = inject(DialogService);
   private ps: ProveedoresService = inject(ProveedoresService);
-  private customOverlayRef: CustomOverlayRef<null, {}> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   @ViewChild('nombreBox', { static: true }) nombreBox: ElementRef;
   proveedor: Proveedor = new Proveedor();

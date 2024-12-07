@@ -126,12 +126,13 @@ export default class DevolucionModalComponent implements OnInit {
   }
 
   masterToggle(): void {
-    this.isAllSelected()
-      ? this.selection.clear()
-      : this.devolucionDataSource.data.forEach(
-          (row: VentaLineaHistorico): boolean | void =>
-            this.selection.select(row)
-        );
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.devolucionDataSource.data.forEach(
+        (row: VentaLineaHistorico): boolean | void => this.selection.select(row)
+      );
+    }
   }
 
   continuar(): void {

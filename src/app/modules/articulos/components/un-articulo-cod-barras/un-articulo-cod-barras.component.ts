@@ -28,7 +28,9 @@ export default class UnArticuloCodBarrasComponent {
   codigoBarrasBox: Signal<ElementRef> =
     viewChild.required<ElementRef>('codigoBarrasBox');
 
-  focus(): void {}
+  focus(): void {
+    this.codigoBarrasBox().nativeElement.focus();
+  }
 
   preventCodBarras(ev: KeyboardEvent): void {
     if (ev) {

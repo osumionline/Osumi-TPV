@@ -25,7 +25,7 @@ export default class CaducidadesPrintComponent implements OnInit {
 
   buscador: BuscadorCaducidadesInterface | null = null;
   data: InformeCaducidadesYearInterface[] = [];
-  expandedItems: Set<string> = new Set();
+  expandedItems: Set<string> = new Set<string>();
   totalUnidades: number = 0;
   totalPVP: number = 0;
   totalPUC: number = 0;
@@ -41,6 +41,7 @@ export default class CaducidadesPrintComponent implements OnInit {
         const objStr: string = window.atob(data);
         this.buscador = JSON.parse(objStr);
       } catch (error) {
+        console.log(error);
         this.buscador = null;
       }
       if (this.buscador === null) {

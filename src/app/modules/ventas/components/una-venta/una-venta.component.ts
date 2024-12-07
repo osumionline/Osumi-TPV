@@ -641,7 +641,7 @@ export default class UnaVentaComponent {
 
   checkDescuento(ev: KeyboardEvent, close: boolean): void {
     if (ev.key == 'Enter' || close) {
-      const id: string[] = (<Element>ev.target).id.split('_');
+      const id: string[] = (ev.target as Element).id.split('_');
       const ind: number = parseInt(id.pop());
       // Comprobación para que no quede en blanco
       if (this.vs.ventaActual.lineas[ind].descuento === null) {

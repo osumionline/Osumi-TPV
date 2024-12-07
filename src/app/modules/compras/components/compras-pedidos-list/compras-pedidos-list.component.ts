@@ -188,8 +188,10 @@ export default class ComprasPedidosListComponent {
   }
 
   quitarFiltrosGuardados(ev: MouseEvent): void {
-    ev && ev.preventDefault();
-    ev && ev.stopPropagation();
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
     this.formGuardados.reset();
     this.guardadosFilter.pagina = 1;
   }
@@ -221,8 +223,10 @@ export default class ComprasPedidosListComponent {
   }
 
   quitarFiltrosRecepcionados(ev: MouseEvent): void {
-    ev && ev.preventDefault();
-    ev && ev.stopPropagation();
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
     this.formRecepcionados.reset();
     this.recepcionadosFilter.pagina = 1;
   }
