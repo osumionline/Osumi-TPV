@@ -7,10 +7,20 @@
                 <otpv-almacen-inventario />
             </mat-tab>
             <mat-tab label="Caducidades">
+                @defer (on viewport) {
                 <otpv-caducidades />
+                }
+                @placeholder {
+                <div>Caducidades</div>
+                }
             </mat-tab>
             <mat-tab label="Imprenta">
+                @defer (on viewport) {
                 <otpv-imprenta #imprenta />
+                }
+                @placeholder {
+                <div>Imprenta</div>
+                }
             </mat-tab>
         </mat-tab-group>
     </mat-card-content>

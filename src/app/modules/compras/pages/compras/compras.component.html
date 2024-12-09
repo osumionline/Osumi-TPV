@@ -7,10 +7,20 @@
                 <otpv-compras-pedidos-list #compras />
             </mat-tab>
             <mat-tab label="MARCAS">
+                @defer (on viewport) {
                 <otpv-marcas #marcas />
+                }
+                @placeholder {
+                <div>Marcas</div>
+                }
             </mat-tab>
             <mat-tab label="PROVEEDORES">
+                @defer (on viewport) {
                 <otpv-proveedores #proveedores />
+                }
+                @placeholder {
+                <div>Proveedores</div>
+                }
             </mat-tab>
         </mat-tab-group>
     </mat-card-content>
