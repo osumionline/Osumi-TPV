@@ -100,14 +100,15 @@
                 <table mat-table
                        [dataSource]="reservaSelectedDataSource"
                        matSort
-                       class="mat-elevation-z2 ">
+                       class="mat-elevation-z2 tabla-lineas-reserva">
 
                     <!-- Localizador -->
                     <ng-container matColumnDef="localizador">
                         <th mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por localizador">
+                            sortActionDescription="Ordenar por localizador"
+                            class="col-10">
                             Localizador
                         </th>
                         <td mat-cell
@@ -121,7 +122,8 @@
                         <th mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por marca">
+                            sortActionDescription="Ordenar por marca"
+                            class="col-10">
                             Marca
                         </th>
                         <td mat-cell
@@ -135,7 +137,8 @@
                         <th mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por descripcion">
+                            sortActionDescription="Ordenar por descripcion"
+                            class="col-20">
                             Descripción
                         </th>
                         <td mat-cell
@@ -150,7 +153,8 @@
                             mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por cantidad">
+                            sortActionDescription="Ordenar por cantidad"
+                            class="col-10">
                             Cant.
                         </th>
                         <td class="center"
@@ -167,7 +171,8 @@
                             mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por PVP">
+                            sortActionDescription="Ordenar por PVP"
+                            class="col-10">
                             PVP
                         </th>
                         <td class="center"
@@ -184,7 +189,8 @@
                             mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por descuento">
+                            sortActionDescription="Ordenar por descuento"
+                            class="col-10">
                             Desc.
                         </th>
                         <td class="center"
@@ -219,7 +225,8 @@
                             mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            sortActionDescription="Ordenar por importe">
+                            sortActionDescription="Ordenar por importe"
+                            class="col-10">
                             Importe
                         </th>
                         <td class="center"
@@ -233,6 +240,27 @@
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef> <strong>{{reservaSelected.total | fixedNumber}} €</strong> </td>
+                    </ng-container>
+
+                    <!-- Opciones -->
+                    <ng-container matColumnDef="opciones">
+                        <th class="center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="col-10">
+                            Opciones
+                        </th>
+                        <td class="center"
+                            mat-cell
+                            *matCellDef="let element">
+                            <button mat-icon-button
+                                    (click)="deleteLineaReserva(element)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                        <td class="center"
+                            mat-footer-cell
+                            *matFooterCellDef></td>
                     </ng-container>
 
                     <tr mat-header-row

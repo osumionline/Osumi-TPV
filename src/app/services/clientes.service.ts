@@ -175,4 +175,11 @@ export default class ClientesService {
       { id }
     );
   }
+
+  deleteLineaReserva(id: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(
+      environment.apiUrl + '-clientes/delete-linea-reserva',
+      { id }
+    );
+  }
 }

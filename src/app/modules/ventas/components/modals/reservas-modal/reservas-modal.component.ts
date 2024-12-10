@@ -7,8 +7,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatIcon } from '@angular/material/icon';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ReservasResult } from '@interfaces/cliente.interface';
@@ -31,6 +32,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatTableModule,
     MatCheckbox,
     MatButton,
+    MatIconButton,
+    MatIcon,
   ],
 })
 export default class ReservasModalComponent implements OnInit, AfterViewInit {
@@ -58,6 +61,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
     'pvp',
     'descuento',
     'importe',
+    'opciones',
   ];
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
@@ -101,6 +105,45 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
     this.reservaSelectedDataSource.data = this.reservaSelected.lineas;
   }
 
+  deleteLineaReserva(linea: ReservaLinea): void {
+    if (this.reservaSelected.lineas.length === 1) {
+      this.deleteReserva();
+    } else {
+      this.dialog
+        .confirm({
+          title: 'Confirmar',
+          content: `¿Estás seguro de querer borra la línea "${linea.nombreArticulo}"?`,
+        })
+        .subscribe((result: boolean): void => {
+          if (result === true) {
+            this.confirmDeleteLineaReserva(linea);
+          }
+        });
+    }
+  }
+
+  confirmDeleteLineaReserva(linea: ReservaLinea): void {
+    this.cs
+      .deleteLineaReserva(linea.id)
+      .subscribe((result: StatusResult): void => {
+        if (result.status === 'ok') {
+          const ind: number = this.reservaSelected.lineas.findIndex(
+            (x: ReservaLinea): boolean => x.id === linea.id
+          );
+          this.reservaSelected._totalUnidades = null;
+          this.reservaSelected._totalDescuento = null;
+          this.reservaSelected.total -= linea.importe;
+          this.reservaSelected.lineas.splice(ind, 1);
+          this.reservaSelectedDataSource.data = this.reservaSelected.lineas;
+        } else {
+          this.dialog.alert({
+            title: 'Error',
+            content: '¡Ocurrió un error al borrar la línea!',
+          });
+        }
+      });
+  }
+
   deleteReserva(): void {
     this.dialog
       .confirm({
@@ -109,18 +152,23 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
-          this.confirmDeleteVenta();
+          this.confirmDeleteReserva();
         }
       });
   }
 
-  confirmDeleteVenta(): void {
+  confirmDeleteReserva(): void {
     this.cs
       .deleteReserva(this.reservaSelected.id)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.reservaSelected = null;
           this.loadReservas();
+        } else {
+          this.dialog.alert({
+            title: 'Error',
+            content: '¡Ocurrió un error al borrar la reserva!',
+          });
         }
       });
   }
