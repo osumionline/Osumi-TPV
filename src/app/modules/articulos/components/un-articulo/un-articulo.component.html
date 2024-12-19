@@ -32,8 +32,7 @@
         <mat-tab-group animationDuration="0ms"
                        [selectedIndex]="selectedTab"
                        (selectedIndexChange)="selectedTab = $event"
-                       (selectedTabChange)="checkArticulosTab($event)"
-                       dynamicHeight>
+                       (selectedTabChange)="checkArticulosTab($event)">
             <mat-tab label="GENERAL">
                 <otpv-un-articulo-general [(articulo)]="articulo"
                                           #general />

@@ -379,12 +379,12 @@ export default class UnArticuloComponent {
             })
             .subscribe((): void => {
               this.saving.set(false);
-              if (cerrar) {
-                this.cerrarArticuloEvent.emit(this.ind);
-              } else {
-                this.updateArticuloEvent.emit();
-              }
               if (this.ars.returnInfo === null) {
+                if (cerrar) {
+                  this.cerrarArticuloEvent.emit(this.ind);
+                } else {
+                  this.updateArticuloEvent.emit();
+                }
                 this.articulo.nombreStatus = 'ok';
                 this.loadArticulo();
               } else {
