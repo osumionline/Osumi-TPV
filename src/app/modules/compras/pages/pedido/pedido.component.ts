@@ -714,7 +714,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       ev.preventDefault();
     }
     this.ars.returnInfo = {
-      where: localizador === 0 ? 'pedido' : 'pedido-edit',
+      where: localizador === null ? 'pedido' : 'pedido-edit',
       id: this.pedido.id === null ? 0 : this.pedido.id,
       extra: null,
     };
