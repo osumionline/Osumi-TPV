@@ -270,7 +270,8 @@
 }
 
 <div class="importe"
-	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}"
+	 cdkDrag>
 	<div class="total-importe"
 		 (click)="openCaja()">
 		{{vs.ventaActual.importe | fixedNumber}} €
@@ -281,7 +282,10 @@
 		<span>Cambio: {{ultimaVentaCambio | fixedNumber}} €</span>
 	</div>
 	<div class="controles-venta">
-		<button mat-stroked-button
+		<mat-icon class="handle-icon"
+				  cdkDragHandle>drag_indicator</mat-icon>
+		<button class="cancel-btn"
+				mat-stroked-button
 				[disabled]="vs.ventaActual.lineas.length === 1"
 				(click)="cancelarVenta()">Cancelar</button>
 		<button class="end-btn"

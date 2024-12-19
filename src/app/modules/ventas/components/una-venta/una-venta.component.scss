@@ -312,8 +312,22 @@
   }
 
   .controles-venta {
-    text-align: right;
+    display: flex;
+    align-items: center;
     padding: 0 8px 8px 8px;
+
+    .handle-icon {
+      opacity: 0;
+      cursor: grab;
+    }
+
+    &:hover .handle-icon {
+      opacity: 1;
+    }
+
+    .cancel-btn {
+      margin-left: auto;
+    }
 
     .end-btn {
       margin-left: 16px;

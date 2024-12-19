@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   Component,
   Input,
@@ -53,6 +54,8 @@ import { rolList } from '@shared/rol.class';
     MatIcon,
     MatTooltip,
     MatButton,
+    CdkDrag,
+    CdkDragHandle,
   ],
 })
 export default class UnaVentaComponent {
