@@ -3,6 +3,11 @@
     justify-content: space-between;
 }
 
+.devolucion-tabla {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
 .actions {
     display: flex;
     justify-content: flex-end;
