@@ -370,7 +370,9 @@ export default class HistoricoVentasComponent implements AfterViewInit {
       .form({
         title: 'Introducir email',
         content: 'Introduce el email del cliente',
-        fields: [{ title: 'Email', type: 'email', value: null }],
+        fields: [
+          { title: 'Email', type: 'email', value: null, required: true },
+        ],
       })
       .subscribe((result: DialogOptions): void => {
         if (result !== undefined) {
