@@ -336,6 +336,13 @@ export default class VentaFinalizarModalComponent
             'La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.',
         });
       }
+      if (result.status === 'ok-email-error') {
+        this.dialog.alert({
+          title: 'Atención',
+          content:
+            'La venta se ha guardado correctamente pero se ha producido un error al enviar el email.',
+        });
+      }
       if (result.status.startsWith('ok-factura-')) {
         const parts: string[] = result.status.split('-');
         const id: number = parseInt(parts.pop());
