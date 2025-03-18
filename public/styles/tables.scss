@@ -91,11 +91,14 @@ table {
 
         &:hover {
             background-color: var(--table-row-hover) !important;
-
             cursor: pointer;
 
             &>td {
                 color: var(--color-white);
+
+                mat-icon {
+                    color: var(--color-white);
+                }
             }
         }
     }
