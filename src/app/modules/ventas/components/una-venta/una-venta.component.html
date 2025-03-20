@@ -21,7 +21,7 @@
 		 [class]="{'linea-devolucion': linea.cantidad < 0}">
 		<div class="col-localizador">
 			@if (linea.idArticulo === null) {
-			<input [id]="'loc-new-' + ind"
+			<input [id]="`loc-new-${ind()}`"
 				   class="linea-localizador"
 				   (keydown)="checkLocalizador($event, i)"
 				   autocomplete="off"
@@ -90,7 +90,7 @@
 					   min="0"
 					   step="1"
 					   [(ngModel)]="linea.cantidad"
-					   [id]="'linea-cantidad-' + ind + '_' + i"
+					   [id]="`linea-cantidad-${ind()}_${i}`"
 					   (keyup)="checkCantidad($event, i, false)"
 					   (blur)="checkCantidad($event, i, true)">
 			</span>
@@ -133,7 +133,7 @@
 					   min="0"
 					   step="0.1"
 					   [(ngModel)]="linea.importe"
-					   [id]="'linea-importe-' + ind + '_' + i"
+					   [id]="`linea-importe-${ind()}_${i}`"
 					   (keyup)="checkImporte($event, i, false)"
 					   (blur)="checkImporte($event, i, true)">
 				€
@@ -181,7 +181,7 @@
 					   min="0"
 					   step="1"
 					   [(ngModel)]="linea.descuento"
-					   [id]="'linea-descuento-' + ind + '_' + i"
+					   [id]="`linea-descuento-${ind()}_${i}`"
 					   (keyup)="checkDescuento($event, false)"
 					   (blur)="checkDescuento($event, true)">
 				%

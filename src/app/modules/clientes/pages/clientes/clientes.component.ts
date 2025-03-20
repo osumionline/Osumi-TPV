@@ -2,8 +2,11 @@ import {
   Component,
   ElementRef,
   inject,
+  input,
+  InputSignal,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -27,7 +30,6 @@ import {
   MatTableModule,
 } from '@angular/material/table';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Params } from '@angular/router';
 import { ChartSelectInterface } from '@interfaces/articulo.interface';
 import { ClienteSaveResult } from '@interfaces/cliente.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
@@ -72,23 +74,23 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class ClientesComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   public cs: ClientesService = inject(ClientesService);
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private overlayService: OverlayService = inject(OverlayService);
 
+  isnew: InputSignal<string | undefined> = input.required<string | undefined>();
   broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
   search: string = '';
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
-  @ViewChild('clienteTabs', { static: true })
-  clienteTabs: MatTabGroup;
+  clienteTabs: Signal<MatTabGroup> =
+    viewChild.required<MatTabGroup>('clienteTabs');
   selectedIndex: number = 0;
   selectedClient: Cliente = new Cliente();
-  @ViewChild('nameBox', { static: true }) nameBox: ElementRef;
-  @ViewChild('emailBox', { static: true }) emailBox: ElementRef;
+  nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
+  emailBox: Signal<ElementRef> = viewChild.required<ElementRef>('emailBox');
   focusEmail: boolean = false;
 
   form: FormGroup = new FormGroup({
@@ -117,8 +119,7 @@ export default class ClientesComponent implements OnInit {
   facturasDisplayedColumns: string[] = ['id', 'fecha', 'importe', 'opciones'];
   facturasDataSource: MatTableDataSource<Factura> =
     new MatTableDataSource<Factura>();
-  @ViewChild('facturasTable', { static: false })
-  facturasTable!: MatTable<Factura>;
+  facturasTable: Signal<MatTable<Factura> | null> = viewChild('facturasTable');
 
   stats: ChartSelectInterface = {
     data: 'consumo',
@@ -143,23 +144,21 @@ export default class ClientesComponent implements OnInit {
         this.loadFacturasCliente();
       }
     };
-    this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.new) {
-        if (params.new === 'new') {
-          this.newCliente();
-        } else {
-          const ind: number = this.cs
-            .clientes()
-            .findIndex((x: Cliente): boolean => {
-              return x.id === parseInt(params.new);
-            });
-          this.focusEmail = true;
-          this.selectCliente(this.cs.clientes()[ind]);
-        }
+    if (this.isnew()) {
+      if (this.isnew() === 'new') {
+        this.newCliente();
       } else {
-        this.searchBox.nativeElement.focus();
+        const ind: number = this.cs
+          .clientes()
+          .findIndex((x: Cliente): boolean => {
+            return x.id === parseInt(this.isnew());
+          });
+        this.focusEmail = true;
+        this.selectCliente(this.cs.clientes()[ind]);
       }
-    });
+    } else {
+      this.searchBox().nativeElement.focus();
+    }
   }
 
   selectCliente(cliente: Cliente): void {
@@ -167,7 +166,7 @@ export default class ClientesComponent implements OnInit {
     this.selectedClient = cliente;
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
-    this.clienteTabs.realignInkBar();
+    this.clienteTabs().realignInkBar();
     this.cs
       .getEstadisticasCliente(this.selectedClient.id)
       .subscribe((result) => {
@@ -183,10 +182,10 @@ export default class ClientesComponent implements OnInit {
     this.loadFacturasCliente();
     setTimeout(() => {
       if (!this.focusEmail) {
-        this.nameBox.nativeElement.focus();
+        this.nameBox().nativeElement.focus();
       } else {
         this.focusEmail = false;
-        this.emailBox.nativeElement.focus();
+        this.emailBox().nativeElement.focus();
       }
     });
   }
@@ -200,7 +199,7 @@ export default class ClientesComponent implements OnInit {
         const facturas: Factura[] = [...this.selectedClient.facturas];
         this.facturasDataSource.data = facturas;
         this.facturasDataSource.connect().next(facturas);
-        this.facturasTable.renderRows();
+        this.facturasTable()?.renderRows();
       }
     });
   }
@@ -210,9 +209,9 @@ export default class ClientesComponent implements OnInit {
     this.selectedClient = new Cliente();
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
-    this.clienteTabs.realignInkBar();
+    this.clienteTabs().realignInkBar();
     setTimeout((): void => {
-      this.nameBox.nativeElement.focus();
+      this.nameBox().nativeElement.focus();
     });
   }
 

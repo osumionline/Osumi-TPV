@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -65,18 +66,19 @@ export default class ProveedoresComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
 
   search: string = '';
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
-  @ViewChild('proveedorTabs', { static: false })
-  proveedorTabs: MatTabGroup;
+  proveedorTabs: Signal<MatTabGroup> =
+    viewChild.required<MatTabGroup>('proveedorTabs');
   selectedTab: number = 0;
 
   searchMarcas: string = '';
-  @ViewChild('searchMarcasBox', { static: true }) searchMarcasBox: ElementRef;
+  searchMarcasBox: Signal<ElementRef> =
+    viewChild.required<ElementRef>('searchMarcasBox');
   marcasList: SelectMarcaInterface[] = [];
 
-  @ViewChild('nameBox', { static: true }) nameBox: ElementRef;
+  nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -101,7 +103,8 @@ export default class ProveedoresComponent implements OnInit {
     observaciones: new FormControl(null),
   });
   originalComercialValue: ComercialInterface = null;
-  @ViewChild('comercialNameBox', { static: true }) comercialNameBox: ElementRef;
+  comercialNameBox: Signal<ElementRef> =
+    viewChild.required<ElementRef>('comercialNameBox');
   selectedComercial: Comercial = new Comercial();
   canSeeStatistics: boolean = false;
 
@@ -117,7 +120,7 @@ export default class ProveedoresComponent implements OnInit {
 
   searchFocus(): void {
     setTimeout((): void => {
-      this.searchBox.nativeElement.focus();
+      this.searchBox().nativeElement.focus();
     }, 100);
   }
 
@@ -126,10 +129,10 @@ export default class ProveedoresComponent implements OnInit {
     this.selectedProveedor = proveedor;
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.proveedorTabs.realignInkBar();
+    this.proveedorTabs().realignInkBar();
     this.updateMarcasList();
     setTimeout((): void => {
-      this.nameBox.nativeElement.focus();
+      this.nameBox().nativeElement.focus();
     }, 0);
   }
 
@@ -138,10 +141,10 @@ export default class ProveedoresComponent implements OnInit {
     this.selectedProveedor = new Proveedor();
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.proveedorTabs.realignInkBar();
+    this.proveedorTabs().realignInkBar();
     this.updateMarcasList();
     setTimeout((): void => {
-      this.nameBox.nativeElement.focus();
+      this.nameBox().nativeElement.focus();
     }, 0);
   }
 
@@ -247,7 +250,7 @@ export default class ProveedoresComponent implements OnInit {
   checkMarcasTab(tab: MatTabChangeEvent): void {
     if (tab.index === 1) {
       setTimeout((): void => {
-        this.searchMarcasBox.nativeElement.focus();
+        this.searchMarcasBox().nativeElement.focus();
       }, 100);
     }
   }
@@ -264,7 +267,7 @@ export default class ProveedoresComponent implements OnInit {
     this.originalValue = this.form.getRawValue();
     this.showComercial = true;
     setTimeout((): void => {
-      this.comercialNameBox.nativeElement.focus();
+      this.comercialNameBox().nativeElement.focus();
     }, 0);
   }
 
@@ -274,7 +277,7 @@ export default class ProveedoresComponent implements OnInit {
     this.originalComercialValue = this.formComercial.getRawValue();
     this.showComercial = true;
     setTimeout((): void => {
-      this.comercialNameBox.nativeElement.focus();
+      this.comercialNameBox().nativeElement.focus();
     }, 0);
   }
 

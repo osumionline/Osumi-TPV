@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -22,11 +23,12 @@ export default class VentaDescuentoModalComponent implements OnInit {
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   descuentoImporte: number = null;
-  @ViewChild('descuentoValue', { static: true }) descuentoValue: ElementRef;
+  descuentoValue: Signal<ElementRef> =
+    viewChild.required<ElementRef>('descuentoValue');
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.descuentoValue.nativeElement.focus();
+      this.descuentoValue().nativeElement.focus();
     }, 0);
   }
 
@@ -45,7 +47,7 @@ export default class VentaDescuentoModalComponent implements OnInit {
         })
         .subscribe((): void => {
           setTimeout((): void => {
-            this.descuentoValue.nativeElement.focus();
+            this.descuentoValue().nativeElement.focus();
           }, 0);
         });
       return;

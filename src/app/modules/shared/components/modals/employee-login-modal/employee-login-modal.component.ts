@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -31,15 +32,15 @@ export default class EmployeeLoginModalComponent implements OnInit {
   id: number = null;
   nombre: string = null;
   pass: string = null;
-  @ViewChild('loginPasswordValue', { static: true })
-  loginPasswordValue: ElementRef;
+  loginPasswordValue: Signal<ElementRef> =
+    viewChild.required('loginPasswordValue');
   loginLoading: boolean = false;
 
   ngOnInit(): void {
     this.id = this.customOverlayRef.data.id;
     this.nombre = this.customOverlayRef.data.nombre;
     setTimeout((): void => {
-      this.loginPasswordValue.nativeElement.focus();
+      this.loginPasswordValue().nativeElement.focus();
     }, 0);
   }
 
@@ -58,7 +59,7 @@ export default class EmployeeLoginModalComponent implements OnInit {
         })
         .subscribe((): void => {
           setTimeout((): void => {
-            this.loginPasswordValue.nativeElement.focus();
+            this.loginPasswordValue().nativeElement.focus();
           }, 0);
         });
     } else {
@@ -79,7 +80,7 @@ export default class EmployeeLoginModalComponent implements OnInit {
             })
             .subscribe((): void => {
               setTimeout((): void => {
-                this.loginPasswordValue.nativeElement.focus();
+                this.loginPasswordValue().nativeElement.focus();
               }, 0);
             });
         }

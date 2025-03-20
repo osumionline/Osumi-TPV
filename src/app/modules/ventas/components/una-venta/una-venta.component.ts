@@ -1,9 +1,10 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   Component,
-  Input,
+  ModelSignal,
   OutputEmitterRef,
   inject,
+  model,
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -68,7 +69,7 @@ export default class UnaVentaComponent {
   private router: Router = inject(Router);
   private overlayService: OverlayService = inject(OverlayService);
 
-  @Input() ind: number = null;
+  ind: ModelSignal<number> = model.required<number>();
   deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
   endVentaEvent: OutputEmitterRef<void> = output<void>();
   openCajaEvent: OutputEmitterRef<void> = output<void>();
@@ -104,7 +105,7 @@ export default class UnaVentaComponent {
       this.vs.ventaActual.loadValue = null;
       setTimeout(() => {
         const loc: HTMLInputElement = document.getElementById(
-          'loc-new-' + this.ind
+          `loc-new-${this.ind()}`
         ) as HTMLInputElement;
         // Si viene valor lo introduzco
         if (value !== null) {
@@ -410,12 +411,12 @@ export default class UnaVentaComponent {
               this.vs.ventaActual.lineas.push(ventaLinea);
             }
             this.vs.addLineaVenta();
-            this.ind = this.vs.ventaActual.lineas.length;
+            this.ind.set(this.vs.ventaActual.lineas.length);
             this.setFocus();
             this.vs.ventaActual.updateImporte();
           });
       } else {
-        this.ind = this.vs.ventaActual.lineas.length;
+        this.ind.set(this.vs.ventaActual.lineas.length);
         this.setFocus();
         this.vs.ventaActual.updateImporte();
       }

@@ -12,7 +12,7 @@
         </thead>
         <tbody>
             <!-- Recorremos los años -->
-            @for (year of data; track year.year) {
+            @for (year of years(); track year.year) {
             <tr>
                 <td class="level-0">
                     <button mat-icon-button
@@ -60,9 +60,9 @@
             }
             <tr class="totals-row">
                 <td class="level-0">Totales</td>
-                <td class="center">{{totalUnidades}}</td>
-                <td class="right">{{totalPVP | fixedNumber}} €</td>
-                <td class="right">{{totalPUC | fixedNumber}} €</td>
+                <td class="center">{{ totalUnidades() }}</td>
+                <td class="right">{{ totalPVP() | fixedNumber }} €</td>
+                <td class="right">{{ totalPUC() | fixedNumber }} €</td>
             </tr>
         </tbody>
     </table>

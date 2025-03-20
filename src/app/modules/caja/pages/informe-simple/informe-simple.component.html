@@ -1,4 +1,4 @@
-<h1>{{monthName}} de {{year}}</h1>
+<h1>{{ monthName() }} de {{ year() }}</h1>
 
 <table mat-table
        [dataSource]="informeDataSource"
@@ -90,7 +90,7 @@
         </td>
         <td class="right"
             mat-footer-cell
-            *matFooterCellDef> <strong>{{totalTotal | fixedNumber}} €</strong> </td>
+            *matFooterCellDef> <strong>{{ totalTotal() | fixedNumber }} €</strong> </td>
     </ng-container>
 
     <!-- Suma -->
@@ -105,7 +105,7 @@
             *matCellDef="let element"> {{element.suma | fixedNumber}} € </td>
         <td class="right"
             mat-footer-cell
-            *matFooterCellDef> <strong>{{totalSuma | fixedNumber}} €</strong> </td>
+            *matFooterCellDef> <strong>{{ totalSuma() | fixedNumber }} €</strong> </td>
     </ng-container>
 
     <tr mat-header-row

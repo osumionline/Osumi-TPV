@@ -4,7 +4,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -64,7 +65,7 @@ export default class GestionEmpleadosComponent implements OnInit {
   private router: Router = inject(Router);
 
   search: string = '';
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   selectedTab: number = 0;
   start: boolean = true;
   canNewEmployees: boolean = false;
@@ -73,8 +74,8 @@ export default class GestionEmpleadosComponent implements OnInit {
   canChangeEmployeeRoles: boolean = false;
   canSeeStatistics: boolean = false;
   canSaveChanges: boolean = false;
-  @ViewChild('empleadoTabs', { static: false })
-  empleadoTabs: MatTabGroup;
+  empleadoTabs: Signal<MatTabGroup> =
+    viewChild.required<MatTabGroup>('empleadoTabs');
   selectedEmpleado: Empleado = new Empleado();
 
   form: FormGroup = new FormGroup({
@@ -87,9 +88,7 @@ export default class GestionEmpleadosComponent implements OnInit {
   });
   originalValue: EmpleadoSaveInterface = null;
 
-  list: {
-    [key: string]: RolGroup;
-  } = rolList;
+  list: Record<string, RolGroup> = rolList;
   selectedRolList: boolean[] = [];
 
   ngOnInit(): void {
@@ -118,7 +117,7 @@ export default class GestionEmpleadosComponent implements OnInit {
       }
     }
     setTimeout((): void => {
-      this.searchBox.nativeElement.focus();
+      this.searchBox().nativeElement.focus();
     }, 0);
   }
 
@@ -128,7 +127,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.updateSelectedRolList();
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.empleadoTabs.realignInkBar();
+    this.empleadoTabs().realignInkBar();
     this.updateEnabledDisabled('edit');
   }
 
@@ -138,7 +137,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.updateSelectedRolList();
     this.form.patchValue(this.selectedEmpleado.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.empleadoTabs.realignInkBar();
+    this.empleadoTabs().realignInkBar();
     this.updateEnabledDisabled('new');
   }
 

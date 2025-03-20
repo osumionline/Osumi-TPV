@@ -2,12 +2,13 @@ import {
   AfterViewInit,
   Component,
   ModelSignal,
-  ViewChild,
+  Signal,
   inject,
   model,
+  viewChild,
 } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, MatSortHeader, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {
   HistoricoArticuloBuscadorInterface,
@@ -21,7 +22,13 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-un-articulo-historico',
-  imports: [MatTableModule, MatSort, MatPaginator, FixedNumberPipe],
+  imports: [
+    MatTableModule,
+    MatSort,
+    MatSortHeader,
+    MatPaginator,
+    FixedNumberPipe,
+  ],
   templateUrl: './un-articulo-historico.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
@@ -32,7 +39,7 @@ export default class UnArticuloHistoricoComponent implements AfterViewInit {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =
     new MatTableDataSource<HistoricoArticulo>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   historicoArticuloBuscador: HistoricoArticuloBuscadorInterface = {
     id: null,
@@ -56,7 +63,7 @@ export default class UnArticuloHistoricoComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit(): void {
-    this.historicoArticuloDataSource.sort = this.sort;
+    this.historicoArticuloDataSource.sort = this.sort();
   }
 
   loadHistorico(): void {

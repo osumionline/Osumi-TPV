@@ -8,7 +8,9 @@ import {
   InMemoryScrollingFeature,
   InMemoryScrollingOptions,
   provideRouter,
+  withComponentInputBinding,
   withInMemoryScrolling,
+  withViewTransitions,
 } from '@angular/router';
 
 import { registerLocaleData } from '@angular/common';
@@ -51,7 +53,12 @@ const appConfig: ApplicationConfig = {
       useValue: 'es-ES',
     },
     provideAppInitializer(() => inject(ConfigService).start()),
-    provideRouter(routes, inMemoryScrollingFeature),
+    provideRouter(
+      routes,
+      withViewTransitions(),
+      inMemoryScrollingFeature,
+      withComponentInputBinding()
+    ),
     provideHttpClient(),
     provideCore(),
     provideAnimations(),

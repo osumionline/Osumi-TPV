@@ -1,4 +1,11 @@
-import { Component, HostListener, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
@@ -18,7 +25,7 @@ export default class HeaderComponent implements OnInit {
   private router: Router = inject(Router);
   private overlayService: OverlayService = inject(OverlayService);
 
-  @Input() selectedOption: string = '';
+  selectedOption: InputSignal<string> = input<string>('');
   title: string;
 
   ngOnInit(): void {
@@ -43,9 +50,7 @@ export default class HeaderComponent implements OnInit {
   }
 
   goTo(where: string): void {
-    const whereTo: {
-      [key: string]: string;
-    } = {
+    const whereTo: Record<string, string> = {
       F4: '/ventas',
       F5: '/articulos',
       F6: '/compras',

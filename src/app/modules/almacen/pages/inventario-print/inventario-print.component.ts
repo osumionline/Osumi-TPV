@@ -1,12 +1,13 @@
 import {
   Component,
+  InputSignal,
   OnInit,
   WritableSignal,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, Params } from '@angular/router';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
@@ -23,10 +24,10 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InventarioPrintComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private as: AlmacenService = inject(AlmacenService);
   private cms: ClassMapperService = inject(ClassMapperService);
 
+  data: InputSignal<string> = input.required<string>();
   buscador: BuscadorAlmacenInterface | null = null;
   list: InventarioItem[] = [];
   inventarioDisplayedColumns: string[] = [
@@ -48,21 +49,18 @@ export default class InventarioPrintComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      const data: string = params.data;
-      try {
-        const objStr: string = window.atob(data);
-        this.buscador = JSON.parse(objStr);
-      } catch (error) {
-        console.log(error);
-        this.buscador = null;
-      }
-      if (this.buscador === null) {
-        alert('¡Ocurrió un error al obtener los datos!');
-      } else {
-        this.load();
-      }
-    });
+    try {
+      const objStr: string = window.atob(this.data());
+      this.buscador = JSON.parse(objStr);
+    } catch (error) {
+      console.log(error);
+      this.buscador = null;
+    }
+    if (this.buscador === null) {
+      alert('¡Ocurrió un error al obtener los datos!');
+    } else {
+      this.load();
+    }
   }
 
   load(): void {

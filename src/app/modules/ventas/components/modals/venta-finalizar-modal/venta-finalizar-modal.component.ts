@@ -5,7 +5,8 @@ import {
   HostListener,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -55,8 +56,10 @@ export default class VentaFinalizarModalComponent
   private router: Router = inject(Router);
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
-  @ViewChild('efectivoValue', { static: true }) efectivoValue: ElementRef;
-  @ViewChild('tarjetaValue', { static: true }) tarjetaValue: ElementRef;
+  efectivoValue: Signal<ElementRef> =
+    viewChild.required<ElementRef>('efectivoValue');
+  tarjetaValue: Signal<ElementRef> =
+    viewChild.required<ElementRef>('tarjetaValue');
 
   ventasFinDisplayedColumns: string[] = [
     'localizador',
@@ -67,19 +70,19 @@ export default class VentaFinalizarModalComponent
   ];
   ventasFinDataSource: MatTableDataSource<VentaLinea> =
     new MatTableDataSource<VentaLinea>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   saving: boolean = false;
 
   ngOnInit(): void {
     this.ventasFinDataSource.data = this.vs.fin.lineas;
     setTimeout((): void => {
-      this.efectivoValue.nativeElement.select();
+      this.efectivoValue().nativeElement.select();
     }, 0);
   }
 
   ngAfterViewInit(): void {
-    this.ventasFinDataSource.sort = this.sort;
+    this.ventasFinDataSource.sort = this.sort();
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -112,14 +115,14 @@ export default class VentaFinalizarModalComponent
       this.vs.fin.idTipoPago = null;
       this.vs.fin.efectivo = this.vs.fin.total;
       setTimeout((): void => {
-        this.efectivoValue.nativeElement.select();
+        this.efectivoValue().nativeElement.select();
       }, 0);
     } else {
       this.vs.fin.idTipoPago = id;
       if (this.vs.fin.pagoMixto) {
         this.updateEfectivoMixto();
         setTimeout((): void => {
-          this.tarjetaValue.nativeElement.select();
+          this.tarjetaValue().nativeElement.select();
         }, 0);
       } else {
         this.vs.fin.efectivo = '0';
@@ -149,14 +152,14 @@ export default class VentaFinalizarModalComponent
   changePagoMixto(ev: MatCheckboxChange): void {
     if (ev.checked) {
       setTimeout((): void => {
-        this.tarjetaValue.nativeElement.select();
+        this.tarjetaValue().nativeElement.select();
       }, 0);
     } else {
       if (this.vs.fin.idTipoPago === null) {
         this.vs.fin.efectivo = '0';
         this.vs.fin.tarjeta = '0';
         setTimeout((): void => {
-          this.efectivoValue.nativeElement.select();
+          this.efectivoValue().nativeElement.select();
         }, 0);
       } else {
         this.vs.fin.tarjeta = '0';
@@ -307,7 +310,7 @@ export default class VentaFinalizarModalComponent
             })
             .subscribe((): void => {
               setTimeout((): void => {
-                this.tarjetaValue.nativeElement.select();
+                this.tarjetaValue().nativeElement.select();
               }, 0);
             });
           return;
@@ -322,7 +325,7 @@ export default class VentaFinalizarModalComponent
           })
           .subscribe((): void => {
             setTimeout((): void => {
-              this.efectivoValue.nativeElement.select();
+              this.efectivoValue().nativeElement.select();
             }, 0);
           });
         return;

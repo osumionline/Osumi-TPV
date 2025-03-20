@@ -9,7 +9,7 @@ const CLIENTES_ROUTES: Route[] = [
     canActivate: [isOpenedGuardFn],
   },
   {
-    path: ':new',
+    path: ':isnew',
     loadComponent: () =>
       import('@modules/clientes/pages/clientes/clientes.component'),
     canActivate: [isOpenedGuardFn],

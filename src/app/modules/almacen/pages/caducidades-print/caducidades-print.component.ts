@@ -1,7 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { ActivatedRoute, Params } from '@angular/router';
 import { BuscadorCaducidadesInterface } from '@interfaces/caducidad.interface';
 import {
   InformeCaducidadesResult,
@@ -9,7 +16,6 @@ import {
 } from '@interfaces/informes.interface';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import MonthNamePipe from '@modules/shared/pipes/month-name.pipe';
-import ClassMapperService from '@services/class-mapper.service';
 import InformesService from '@services/informes.service';
 
 @Component({
@@ -19,58 +25,62 @@ import InformesService from '@services/informes.service';
   styleUrl: './caducidades-print.component.scss',
 })
 export default class CaducidadesPrintComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private is: InformesService = inject(InformesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
 
+  data: InputSignal<string> = input.required<string>();
   buscador: BuscadorCaducidadesInterface | null = null;
-  data: InformeCaducidadesYearInterface[] = [];
+  years: WritableSignal<InformeCaducidadesYearInterface[]> = signal<
+    InformeCaducidadesYearInterface[]
+  >([]);
   expandedItems: Set<string> = new Set<string>();
-  totalUnidades: number = 0;
-  totalPVP: number = 0;
-  totalPUC: number = 0;
+  totalUnidades: WritableSignal<number> = signal<number>(0);
+  totalPVP: WritableSignal<number> = signal<number>(0);
+  totalPUC: WritableSignal<number> = signal<number>(0);
 
   constructor() {
     document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      const data: string = params.data;
-      try {
-        const objStr: string = window.atob(data);
-        this.buscador = JSON.parse(objStr);
-      } catch (error) {
-        console.log(error);
-        this.buscador = null;
-      }
-      if (this.buscador === null) {
-        alert('¡Ocurrió un error al obtener los datos!');
-      } else {
-        this.load();
-      }
-    });
+    try {
+      const objStr: string = window.atob(this.data());
+      this.buscador = JSON.parse(objStr);
+    } catch (error) {
+      console.log(error);
+      this.buscador = null;
+    }
+    if (this.buscador === null) {
+      alert('¡Ocurrió un error al obtener los datos!');
+    } else {
+      this.load();
+    }
   }
 
   load(): void {
     this.is
       .getInformeCaducidades(this.buscador)
       .subscribe((result: InformeCaducidadesResult): void => {
-        this.data = result.data;
-        this.totalUnidades = this.data.reduce(
-          (sum: number, year: InformeCaducidadesYearInterface): number =>
-            sum + year.totalUnidades,
-          0
+        this.years.set(result.data);
+        this.totalUnidades.set(
+          this.years().reduce(
+            (sum: number, year: InformeCaducidadesYearInterface): number =>
+              sum + year.totalUnidades,
+            0
+          )
         );
-        this.totalPVP = this.data.reduce(
-          (sum: number, year: InformeCaducidadesYearInterface): number =>
-            sum + year.totalPVP,
-          0
+        this.totalPVP.set(
+          this.years().reduce(
+            (sum: number, year: InformeCaducidadesYearInterface): number =>
+              sum + year.totalPVP,
+            0
+          )
         );
-        this.totalPUC = this.data.reduce(
-          (sum: number, year: InformeCaducidadesYearInterface): number =>
-            sum + year.totalPUC,
-          0
+        this.totalPUC.set(
+          this.years().reduce(
+            (sum: number, year: InformeCaducidadesYearInterface): number =>
+              sum + year.totalPUC,
+            0
+          )
         );
       });
   }

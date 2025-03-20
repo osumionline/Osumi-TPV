@@ -2,44 +2,44 @@
 	<span>{{title}}</span>
 	<div class="toolbar-options">
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'ventas'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'ventas'}"
 				routerLink="/ventas">
 			<mat-icon>local_atm</mat-icon>
 			<span>Ventas</span>
 		</button>
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'articulos'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'articulos'}"
 				routerLink="/articulos">
 			<mat-icon>card_giftcard</mat-icon>
 			<span>Artículos</span>
 		</button>
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'compras'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'compras'}"
 				routerLink="/compras">
 			<mat-icon>assignment</mat-icon>
 			<span>Compras</span>
 		</button>
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'clientes'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'clientes'}"
 				routerLink="/clientes">
 			<mat-icon>perm_contact_calendar</mat-icon>
 			<span>Clientes</span>
 		</button>
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'almacen'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'almacen'}"
 				routerLink="/almacen">
 			<mat-icon>store_mall_directory</mat-icon>
 			<span>Almacén</span>
 		</button>
 		<button class="toolbar-btn"
-				[class]="{'toolbar-btn-selected': selectedOption === 'caja'}"
+				[class]="{'toolbar-btn-selected': selectedOption() === 'caja'}"
 				routerLink="/caja">
 			<mat-icon>paid</mat-icon>
 			<span>Caja</span>
 		</button>
 	</div>
 	<button class="toolbar-btn"
-			[class]="{'toolbar-btn-selected': selectedOption === 'gestion'}"
+			[class]="{'toolbar-btn-selected': selectedOption() === 'gestion'}"
 			routerLink="/gestion">
 		<mat-icon>settings</mat-icon>
 		<span>Gestión</span>

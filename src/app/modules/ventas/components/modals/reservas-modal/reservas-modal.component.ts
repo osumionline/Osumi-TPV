@@ -4,7 +4,8 @@ import {
   Component,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -65,7 +66,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   ];
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   selection: SelectionModel<Reserva> = new SelectionModel<Reserva>(true, []);
 
@@ -81,7 +82,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.reservasDataSource.sort = this.sort;
+    this.reservasDataSource.sort = this.sort();
   }
 
   isAllSelected(): boolean {

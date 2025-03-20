@@ -1,7 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  InputSignalWithTransform,
+  numberAttribute,
+  OnInit,
+} from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { ActivatedRoute, Data, Params } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
 import { environment } from '@env/environment';
 import {
   FacturaIVAInterface,
@@ -29,6 +36,9 @@ export default class FacturaComponent implements OnInit {
   private cms: ClassMapperService = inject(ClassMapperService);
   private dialog: DialogService = inject(DialogService);
 
+  id: InputSignalWithTransform<number, unknown> = input.required({
+    transform: numberAttribute,
+  });
   broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
   preview: boolean = false;
   logoUrl: string = environment.baseUrl + 'logo.jpg';
@@ -52,9 +62,7 @@ export default class FacturaComponent implements OnInit {
   }
 
   start(): void {
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      this.loadFactura(parseInt(params.id));
-    });
+    this.loadFactura(this.id());
   }
 
   loadFactura(id: number): void {

@@ -5,7 +5,8 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
@@ -40,7 +41,8 @@ export default class BuscadorModalComponent
   private customOverlayRef: CustomOverlayRef<null, { key: string }> =
     inject(CustomOverlayRef);
 
-  @ViewChild('searchBoxName', { static: true }) searchBoxName: ElementRef;
+  searchBoxName: Signal<ElementRef> =
+    viewChild.required<ElementRef>('searchBoxName');
   searchName: string = '';
   searchTimer: number = null;
   searching: boolean = false;
@@ -54,19 +56,19 @@ export default class BuscadorModalComponent
   ];
   buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
     new MatTableDataSource<ArticuloBuscador>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   ngOnInit(): void {
     this.searchName = this.customOverlayRef.data.key;
     this.buscadorResultadosRow = 0;
     setTimeout((): void => {
-      this.searchBoxName.nativeElement.focus();
+      this.searchBoxName().nativeElement.focus();
     }, 0);
     this.searchStart();
   }
 
   ngAfterViewInit(): void {
-    this.buscadorResultadosDataSource.sort = this.sort;
+    this.buscadorResultadosDataSource.sort = this.sort();
   }
 
   checkVisible(elm: HTMLElement): boolean {

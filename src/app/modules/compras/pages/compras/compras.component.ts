@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
@@ -27,9 +27,11 @@ export default class ComprasComponent implements OnInit {
   private comprasService: ComprasService = inject(ComprasService);
   private router: Router = inject(Router);
 
-  @ViewChild('compras', { static: true }) compras: ComprasPedidosListComponent;
-  @ViewChild('marcas', { static: true }) marcas: MarcasComponent;
-  @ViewChild('proveedores', { static: true }) proveedores: ProveedoresComponent;
+  compras: Signal<ComprasPedidosListComponent> = viewChild.required(
+    ComprasPedidosListComponent
+  );
+  marcas: Signal<MarcasComponent> = viewChild(MarcasComponent);
+  proveedores: Signal<ProveedoresComponent> = viewChild(ProveedoresComponent);
 
   ngOnInit(): void {
     if (this.comprasService.pedidoCargado !== null) {
@@ -42,15 +44,15 @@ export default class ComprasComponent implements OnInit {
       this.router.navigate(['/compras/pedido/0']);
       return;
     }
-    this.compras.load();
+    this.compras().load();
   }
 
   tabChange(ev: MatTabChangeEvent): void {
     if (ev.index === 1) {
-      this.marcas.searchFocus();
+      this.marcas()?.searchFocus();
     }
     if (ev.index === 2) {
-      this.proveedores.searchFocus();
+      this.proveedores()?.searchFocus();
     }
   }
 }

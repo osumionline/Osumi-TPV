@@ -8,12 +8,6 @@ const ARTICULOS_ROUTES: Route[] = [
       import('@modules/articulos/pages/articulos/articulos.component'),
     canActivate: [isOpenedGuardFn],
   },
-  {
-    path: ':localizador',
-    loadComponent: () =>
-      import('@modules/articulos/pages/articulos/articulos.component'),
-    canActivate: [isOpenedGuardFn],
-  },
 ];
 
 export default ARTICULOS_ROUTES;

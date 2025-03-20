@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -47,7 +48,8 @@ export default class VentaVariosModalComponent implements OnInit {
     pvp: new FormControl<number>(null, Validators.required),
     iva: new FormControl<number>(21, Validators.required),
   });
-  @ViewChild('variosPVPbox', { static: true }) variosPVPbox: ElementRef;
+  variosPVPbox: Signal<ElementRef> =
+    viewChild.required<ElementRef>('variosPVPbox');
 
   ngOnInit(): void {
     for (const ivaOption of this.config.ivaOptions) {
@@ -57,7 +59,7 @@ export default class VentaVariosModalComponent implements OnInit {
     this.formVarios.get('pvp').setValue(this.customOverlayRef.data.pvp);
     this.formVarios.get('iva').setValue(this.customOverlayRef.data.iva);
     setTimeout((): void => {
-      this.variosPVPbox.nativeElement.focus();
+      this.variosPVPbox().nativeElement.focus();
     }, 0);
   }
 

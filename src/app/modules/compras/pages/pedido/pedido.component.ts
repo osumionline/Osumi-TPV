@@ -2,9 +2,13 @@ import {
   Component,
   ElementRef,
   inject,
+  input,
+  InputSignalWithTransform,
+  numberAttribute,
   OnDestroy,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -21,7 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
@@ -84,7 +88,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class PedidoComponent implements OnInit, OnDestroy {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   public config: ConfigService = inject(ConfigService);
   public ps: ProveedoresService = inject(ProveedoresService);
   private ars: ArticulosService = inject(ArticulosService);
@@ -96,16 +99,21 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   private overlayService: OverlayService = inject(OverlayService);
   private sanitizer: DomSanitizer = inject(DomSanitizer);
 
+  id: InputSignalWithTransform<number | undefined, unknown> = input.required({
+    transform: numberAttribute,
+  });
   titulo: string = 'Nuevo pedido';
   pedido: Pedido = new Pedido();
 
   dontSave: boolean = false;
 
-  @ViewChild('proveedoresValue', { static: true }) proveedoresValue: MatSelect;
+  proveedoresValue: Signal<MatSelect> =
+    viewChild.required<MatSelect>(MatSelect);
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
-  @ViewChild('numAlbaranFacturaBox', { static: true })
-  numAlbaranFacturaBox: ElementRef;
+  numAlbaranFacturaBox: Signal<ElementRef> = viewChild.required<ElementRef>(
+    'numAlbaranFacturaBox'
+  );
 
   ivaOptions: IVAOption[] = [];
   ivaList: number[] = [];
@@ -119,7 +127,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     'Transferencia bancaria',
   ];
 
-  @ViewChild('allSelected') private allSelected: MatOption;
+  allSelected: Signal<MatOption> = viewChild.required<MatOption>('allSelected');
   colOptions: PedidosColOption[] = [
     {
       id: 1,
@@ -243,7 +251,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     new MatTableDataSource<PedidoLinea>();
 
   nuevoLocalizador: number = null;
-  @ViewChild('localizadorBox', { static: true }) localizadorBox: ElementRef;
+  localizadorBox: Signal<ElementRef> =
+    viewChild.required<ElementRef>('localizadorBox');
 
   pdfsUrl: string = environment.pdfsUrl;
 
@@ -264,17 +273,15 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.reList.push(ivaOption.re);
     }
     this.changeOptions();
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      if (params.id) {
-        if (parseInt(params.id) !== 0) {
-          this.loadPedido(params.id);
-        } else {
-          this.loadPedidoTemporal();
-        }
+    if (this.id() !== undefined && !isNaN(this.id())) {
+      if (this.id() !== 0) {
+        this.loadPedido(this.id());
       } else {
-        this.newPedido();
+        this.loadPedidoTemporal();
       }
-    });
+    } else {
+      this.newPedido();
+    }
   }
 
   loadPedido(id: number): void {
@@ -334,7 +341,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.config.tipoIva === 're') {
       this.pedido.re = true;
     }
-    this.localizadorBox.nativeElement.focus();
+    this.localizadorBox().nativeElement.focus();
   }
 
   checkReturnInfo(): void {
@@ -414,8 +421,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   tosslePerOne(): void {
-    if (this.allSelected.selected) {
-      this.allSelected.deselect();
+    if (this.allSelected().selected) {
+      this.allSelected().deselect();
       return;
     }
     let selectedNum: number = 0;
@@ -429,14 +436,14 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
     }
     if (selectedNum == totalNum) {
-      this.allSelected.select();
+      this.allSelected().select();
     }
     this.changeOptions();
   }
 
   toggleAllSelection(): void {
-    if (this.allSelected.selected) {
-      this.allSelected.select();
+    if (this.allSelected().selected) {
+      this.allSelected().select();
       this.colOptionsSelected = [0];
       for (const i in this.colOptions) {
         if (!this.colOptions[i].default) {
@@ -444,7 +451,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.allSelected.deselect();
+      this.allSelected().deselect();
       this.colOptionsSelected = [];
     }
     this.changeOptions();
@@ -540,7 +547,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           this.nuevoLocalizador = data.data;
           this.loadArticulo();
         } else {
-          this.localizadorBox.nativeElement.focus();
+          this.localizadorBox().nativeElement.focus();
         }
       });
 
@@ -597,7 +604,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           this.changeAutoSave();
           this.autoSaveManually = false;
         }*/
-          this.localizadorBox.nativeElement.focus();
+          this.localizadorBox().nativeElement.focus();
         } else {
           this.dialog
             .alert({
@@ -605,7 +612,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
               content: 'No se encuentra el localizador indicado.',
             })
             .subscribe((): void => {
-              this.localizadorBox.nativeElement.focus();
+              this.localizadorBox().nativeElement.focus();
             });
         }
       });
@@ -704,7 +711,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             this.pedido.lineas.splice(ind, 1);
             this.pedidoDataSource.data = this.pedido.lineas;
           }
-          this.localizadorBox.nativeElement.focus();
+          this.localizadorBox().nativeElement.focus();
         });
     }
   }
@@ -770,7 +777,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             this.pedido.pdfs[ind].deleted = true;
           }
         }
-        this.localizadorBox.nativeElement.focus();
+        this.localizadorBox().nativeElement.focus();
       });
   }
 
@@ -799,7 +806,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: 'No has indicado ningún proveedor.',
         })
         .subscribe((): void => {
-          this.proveedoresValue.toggle();
+          this.proveedoresValue().toggle();
         });
       return false;
     }
@@ -814,7 +821,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             '.',
         })
         .subscribe((): void => {
-          this.numAlbaranFacturaBox.nativeElement.focus();
+          this.numAlbaranFacturaBox().nativeElement.focus();
         });
       return false;
     }
@@ -826,7 +833,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
           content: 'No has añadido ningún artículo al pedido.',
         })
         .subscribe((): void => {
-          this.localizadorBox.nativeElement.focus();
+          this.localizadorBox().nativeElement.focus();
         });
       return false;
     }

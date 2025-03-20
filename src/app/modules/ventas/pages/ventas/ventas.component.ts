@@ -2,12 +2,14 @@ import {
   Component,
   HostListener,
   inject,
+  input,
+  InputSignalWithTransform,
+  numberAttribute,
   OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
+  Signal,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
 import Reserva from '@model/ventas/reserva.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
@@ -27,31 +29,35 @@ import HeaderComponent from '@shared/components/header/header.component';
   imports: [VentasTabsComponent, UnaVentaComponent, HeaderComponent],
 })
 export default class VentasComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private ars: ArticulosService = inject(ArticulosService);
   public config: ConfigService = inject(ConfigService);
   public vs: VentasService = inject(VentasService);
   private overlayService: OverlayService = inject(OverlayService);
 
-  @ViewChild('tabs', { static: true }) tabs: VentasTabsComponent;
-  @ViewChildren('ventas') ventas: QueryList<UnaVentaComponent>;
-  @ViewChild('header', { static: true }) header: HeaderComponent;
+  id: InputSignalWithTransform<number | undefined, unknown> = input.required({
+    transform: numberAttribute,
+  });
+  tabs: Signal<VentasTabsComponent> =
+    viewChild.required<VentasTabsComponent>('tabs');
+  ventas: Signal<readonly UnaVentaComponent[]> =
+    viewChildren(UnaVentaComponent);
+
+  header: Signal<HeaderComponent> =
+    viewChild.required<HeaderComponent>('header');
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      if (params.id && parseInt(params.id) !== 0) {
-        this.newVenta(-1 * parseInt(params.id));
+    if (this.id() !== undefined && !isNaN(this.id()) && this.id() !== 0) {
+      this.newVenta(-1 * this.id());
+      this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
+    } else {
+      if (this.vs.selected === -1) {
+        this.newVenta();
         this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
       } else {
-        if (this.vs.selected === -1) {
-          this.newVenta();
-          this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
-        } else {
-          this.startFocus();
-        }
+        this.startFocus();
       }
-    });
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -77,7 +83,7 @@ export default class VentasComponent implements OnInit {
 
   startFocus(id: number = null): void {
     setTimeout((): void => {
-      this.ventas.get(this.vs.selected).setFocus(id);
+      this.ventas()[this.vs.selected]?.setFocus(id);
     }, 0);
   }
 
@@ -165,39 +171,40 @@ export default class VentasComponent implements OnInit {
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         if (data.data.status === 'cliente') {
-          this.tabs.selectClient('venta');
+          this.tabs().selectClient('venta');
         }
         if (data.data.status === 'factura') {
-          this.tabs.selectClient('factura');
+          this.tabs().selectClient('factura');
         }
         if (data.data.status === 'reserva') {
-          this.tabs.selectClient('reserva');
+          this.tabs().selectClient('reserva');
         }
         if (data.data.status === 'cancelar') {
-          this.ventas.get(this.vs.selected).setFocus();
+          this.ventas()[this.vs.selected]?.setFocus();
         }
         if (data.data.status === 'fin-reserva') {
           this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
-          this.ventas.get(this.vs.selected).setFocus();
+          this.ventas()[this.vs.selected]?.setFocus();
         }
         if (data.data.status === 'fin') {
           this.vs.cliente = null;
           this.vs.ventaActual.resetearVenta();
           this.vs.addLineaVenta();
-          this.ventas
-            .get(this.vs.selected)
-            .loadUltimaVenta(data.data.importe, data.data.cambio);
-          this.ventas.get(this.vs.selected).setFocus();
+          this.ventas()[this.vs.selected]?.loadUltimaVenta(
+            data.data.importe,
+            data.data.cambio
+          );
+          this.ventas()[this.vs.selected]?.setFocus();
         }
       } else {
-        this.ventas.get(this.vs.selected).setFocus();
+        this.ventas()[this.vs.selected]?.setFocus();
       }
     });
   }
 
   openCaja(): void {
-    this.header.abrirCaja();
+    this.header().abrirCaja();
   }
 }

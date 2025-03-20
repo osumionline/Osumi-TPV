@@ -1,5 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {
+  Component,
+  inject,
+  input,
+  InputSignalWithTransform,
+  numberAttribute,
+  OnInit,
+} from '@angular/core';
 import { InformeMensualResult } from '@interfaces/informes.interface';
 import InformesService from '@services/informes.service';
 
@@ -9,26 +15,25 @@ import InformesService from '@services/informes.service';
   styleUrls: ['./informe-detallado.component.scss'],
 })
 export default class InformeDetalladoComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private is: InformesService = inject(InformesService);
 
   loaded: boolean = false;
-  year: number = null;
-  month: number = null;
+  year: InputSignalWithTransform<number, unknown> = input.required({
+    transform: numberAttribute,
+  });
+  month: InputSignalWithTransform<number, unknown> = input.required({
+    transform: numberAttribute,
+  });
 
   constructor() {
     document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params: Params): void => {
-      this.month = parseInt(params.month);
-      this.year = parseInt(params.year);
-      this.is
-        .getInformeDetallado(this.month, this.year)
-        .subscribe((result: InformeMensualResult): void => {
-          console.log(result);
-        });
-    });
+    this.is
+      .getInformeDetallado(this.month(), this.year())
+      .subscribe((result: InformeMensualResult): void => {
+        console.log(result);
+      });
   }
 }

@@ -3,7 +3,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -32,7 +33,7 @@ export default class NewProveedorModalComponent implements OnInit {
   private ps: ProveedoresService = inject(ProveedoresService);
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
-  @ViewChild('nombreBox', { static: true }) nombreBox: ElementRef;
+  nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   proveedor: Proveedor = new Proveedor();
   marcasSelected: Marca[] = [];
   marcas: Marca[] = [];
@@ -43,7 +44,7 @@ export default class NewProveedorModalComponent implements OnInit {
         return m.toInterface();
       })
     );
-    this.nombreBox.nativeElement.focus();
+    this.nombreBox().nativeElement.focus();
   }
 
   removeMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
@@ -91,7 +92,7 @@ export default class NewProveedorModalComponent implements OnInit {
         })
         .subscribe(() => {
           setTimeout((): void => {
-            this.nombreBox.nativeElement.focus();
+            this.nombreBox().nativeElement.focus();
           });
         });
       return;

@@ -2,9 +2,10 @@ import {
   AfterViewInit,
   Component,
   OutputEmitterRef,
-  ViewChild,
+  Signal,
   inject,
   output,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -90,7 +91,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   ];
   historicoVentasDataSource: MatTableDataSource<VentaHistorico> =
     new MatTableDataSource<VentaHistorico>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild(MatSort);
 
   totalDia: number = 0;
   ventasEfectivo: number = 0;
@@ -111,11 +112,11 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   historicoVentasSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
 
-  @ViewChild('clientesBox', { static: true }) clientesBox: MatSelect;
+  clientesBox: Signal<MatSelect> = viewChild.required<MatSelect>('clientesBox');
 
   ngAfterViewInit(): void {
-    this.historicoVentasDataSource.sort = this.sort;
-    this.historicoVentasSelectedDataSource.sort = this.sort;
+    this.historicoVentasDataSource.sort = this.sort();
+    this.historicoVentasSelectedDataSource.sort = this.sort();
   }
 
   previousFecha(): void {
@@ -256,7 +257,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
             this.router.navigate(['/clientes/new']);
           } else {
             setTimeout((): void => {
-              this.clientesBox.toggle();
+              this.clientesBox().toggle();
             }, 0);
           }
         });
@@ -333,7 +334,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
         .subscribe((result: boolean): void => {
           if (result === true) {
             setTimeout((): void => {
-              this.clientesBox.toggle();
+              this.clientesBox().toggle();
             }, 0);
           } else {
             this.pedirEmail();

@@ -1,8 +1,9 @@
 import {
   Component,
-  Input,
+  InputSignal,
   OutputEmitterRef,
   inject,
+  input,
   output,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -28,7 +29,7 @@ export default class VentasTabsComponent {
   public vs: VentasService = inject(VentasService);
   private overlayService: OverlayService = inject(OverlayService);
 
-  @Input() showClose: boolean = false;
+  showClose: InputSignal<boolean> = input<boolean>(false);
   closeTabEvent: OutputEmitterRef<number> = output<number>();
   newTabEvent: OutputEmitterRef<number> = output<number>();
   changeTabEvent: OutputEmitterRef<number> = output<number>();

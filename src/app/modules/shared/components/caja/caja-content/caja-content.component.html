@@ -13,11 +13,11 @@
             <otpv-salidas-caja (salidaCajaEvent)="newSalidaCaja($event)"
                                #salidasCaja />
         </mat-tab>
-        <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
+        <mat-tab [aria-labelledby]="from() === 'modal' ? 'hidden' : ''"
                  label="CERRAR CAJA">
             <otpv-cierre-caja #cierreCaja />
         </mat-tab>
-        <mat-tab [aria-labelledby]="from === 'modal' ? 'hidden' : ''"
+        <mat-tab [aria-labelledby]="from() === 'modal' ? 'hidden' : ''"
                  label="INFORMES">
             <div class="generar-informe">
                 <div class="form-field margin-right">

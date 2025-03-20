@@ -6,7 +6,7 @@
 			 (click)="selectTab(i)"
 			 [style]="{'background-color': tab.color, 'color': tab.textColor}">
 			{{tab.tabName}}
-			@if (showClose) {
+			@if (showClose()) {
 			<mat-icon class="tab-icon"
 					  (click)="closeTab(i)">close</mat-icon>
 			}

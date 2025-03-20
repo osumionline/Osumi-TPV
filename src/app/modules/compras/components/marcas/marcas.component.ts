@@ -1,4 +1,10 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  Signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -45,13 +51,12 @@ export default class MarcasComponent {
   private dialog: DialogService = inject(DialogService);
 
   search: string = '';
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
-  @ViewChild('marcaTabs', { static: false })
-  marcaTabs: MatTabGroup;
+  marcaTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('marcaTabs');
   selectedMarca: Marca = new Marca();
 
-  @ViewChild('nameBox', { static: true }) nameBox: ElementRef;
+  nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
   logo: string = '/img/default.jpg';
 
   form: FormGroup = new FormGroup({
@@ -68,7 +73,7 @@ export default class MarcasComponent {
 
   searchFocus(): void {
     setTimeout((): void => {
-      this.searchBox.nativeElement.focus();
+      this.searchBox().nativeElement.focus();
     }, 100);
   }
 
@@ -78,9 +83,9 @@ export default class MarcasComponent {
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.logo = marca.foto || '/img/default.jpg';
-    this.marcaTabs.realignInkBar();
+    this.marcaTabs().realignInkBar();
     setTimeout((): void => {
-      this.nameBox.nativeElement.focus();
+      this.nameBox().nativeElement.focus();
     }, 0);
   }
 
@@ -90,9 +95,9 @@ export default class MarcasComponent {
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.logo = '/img/default.jpg';
-    this.marcaTabs.realignInkBar();
+    this.marcaTabs().realignInkBar();
     setTimeout((): void => {
-      this.nameBox.nativeElement.focus();
+      this.nameBox().nativeElement.focus();
     }, 0);
   }
 

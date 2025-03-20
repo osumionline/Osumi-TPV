@@ -1,11 +1,13 @@
 import {
   Component,
-  Input,
+  InputSignal,
   OnInit,
   OutputEmitterRef,
-  ViewChild,
+  Signal,
   inject,
+  input,
   output,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -39,17 +41,16 @@ export default class CajaContentComponent implements OnInit {
   private config: ConfigService = inject(ConfigService);
 
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
-  @Input() from: string = 'modal';
+  from: InputSignal<string> = input<string>('modal');
   cajaSelectedTab: number = 0;
-  @ViewChild('cajaTabs', { static: false })
-  cajaTabs: MatTabGroup;
+  cajaTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('cajaTabs');
 
-  @ViewChild('historicoVentas', { static: true })
-  historicoVentas: HistoricoVentasComponent;
-  @ViewChild('salidasCaja', { static: true })
-  salidasCaja: SalidasCajaComponent;
-  @ViewChild('cierreCaja', { static: true })
-  cierreCaja: CierreCajaComponent;
+  historicoVentas: Signal<HistoricoVentasComponent> =
+    viewChild.required<HistoricoVentasComponent>('historicoVentas');
+  salidasCaja: Signal<SalidasCajaComponent> =
+    viewChild.required<SalidasCajaComponent>('salidasCaja');
+  cierreCaja: Signal<CierreCajaComponent> =
+    viewChild.required<CierreCajaComponent>('cierreCaja');
 
   informeTipo: string = null;
   monthList: Month[] = [];
@@ -63,10 +64,10 @@ export default class CajaContentComponent implements OnInit {
     for (let y: number = d.getFullYear(); y > d.getFullYear() - 5; y--) {
       this.yearList.push(y);
     }
-    this.historicoVentas.changeFecha();
-    this.salidasCaja.changeFecha();
-    if (this.from === 'tab') {
-      this.cierreCaja.load();
+    this.historicoVentas().changeFecha();
+    this.salidasCaja().changeFecha();
+    if (this.from() === 'tab') {
+      this.cierreCaja().load();
     }
   }
 
@@ -77,18 +78,18 @@ export default class CajaContentComponent implements OnInit {
     if (option === 'salidas') {
       this.cajaSelectedTab = 1;
     }
-    this.cajaTabs.realignInkBar();
+    this.cajaTabs().realignInkBar();
   }
 
   checkCajaTab(ev: MatTabChangeEvent): void {
-    if (ev.index === 2 && this.from === 'tab') {
-      this.cierreCaja.load();
+    if (ev.index === 2 && this.from() === 'tab') {
+      this.cierreCaja().load();
     }
   }
 
   newSalidaCaja(ev: boolean): void {
     if (ev === true) {
-      this.cierreCaja.load();
+      this.cierreCaja().load();
     }
   }
 

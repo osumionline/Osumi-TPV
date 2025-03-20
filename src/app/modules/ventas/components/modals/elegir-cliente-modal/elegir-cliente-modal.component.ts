@@ -4,7 +4,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -56,10 +57,11 @@ export default class ElegirClienteModalComponent
     inject(CustomOverlayRef);
 
   selectClienteFrom: string = null;
-  @ViewChild('elegirClienteTabs', { static: false })
-  elegirClienteTabs: MatTabGroup;
-  @ViewChild('elegirClienteBoxName', { static: true })
-  elegirClienteBoxName: ElementRef;
+  elegirClienteTabs: Signal<MatTabGroup> =
+    viewChild.required<MatTabGroup>('elegirClienteTabs');
+  elegirClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>(
+    'elegirClienteBoxName'
+  );
   elegirClienteSelectedTab: number = 0;
   elegirClienteNombre: string = '';
   searchTimer: number = null;
@@ -74,11 +76,12 @@ export default class ElegirClienteModalComponent
   ];
   buscadorDataSource: MatTableDataSource<Cliente> =
     new MatTableDataSource<Cliente>();
-  @ViewChild(MatSort) sort: MatSort;
+  sort: Signal<MatSort> = viewChild<MatSort>(MatSort);
 
   nuevoCliente: Cliente = new Cliente();
-  @ViewChild('nuevoClienteBoxName', { static: true })
-  nuevoClienteBoxName: ElementRef;
+  nuevoClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>(
+    'nuevoClienteBoxName'
+  );
   nuevoClienteSaving: boolean = false;
 
   ngOnInit(): void {
@@ -89,21 +92,21 @@ export default class ElegirClienteModalComponent
     this.searched = false;
     this.nuevoCliente = new Cliente();
     setTimeout((): void => {
-      this.elegirClienteBoxName.nativeElement.focus();
+      this.elegirClienteBoxName().nativeElement.focus();
     }, 0);
   }
 
   ngAfterViewInit(): void {
-    this.buscadorDataSource.sort = this.sort;
-    this.elegirClienteTabs.realignInkBar();
+    this.buscadorDataSource.sort = this.sort();
+    this.elegirClienteTabs().realignInkBar();
   }
 
   changeClienteTab(ev: MatTabChangeEvent): void {
     if (ev.index === 0) {
-      this.elegirClienteBoxName.nativeElement.focus();
+      this.elegirClienteBoxName().nativeElement.focus();
     }
     if (ev.index === 1) {
-      this.nuevoClienteBoxName.nativeElement.focus();
+      this.nuevoClienteBoxName().nativeElement.focus();
     }
   }
 
@@ -175,7 +178,7 @@ export default class ElegirClienteModalComponent
           content: '¡No puedes dejar en blanco el nombre del cliente!',
         })
         .subscribe((): void => {
-          this.nuevoClienteBoxName.nativeElement.focus();
+          this.nuevoClienteBoxName().nativeElement.focus();
         });
       return;
     }

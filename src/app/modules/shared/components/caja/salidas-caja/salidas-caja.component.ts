@@ -2,9 +2,10 @@ import {
   Component,
   ElementRef,
   OutputEmitterRef,
-  ViewChild,
+  Signal,
   inject,
   output,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -74,7 +75,8 @@ export default class SalidasCajaComponent {
 
   start: boolean = true;
 
-  @ViewChild('conceptoBox', { static: true }) conceptoBox: ElementRef;
+  conceptoBox: Signal<ElementRef> =
+    viewChild.required<ElementRef>('conceptoBox');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -144,7 +146,7 @@ export default class SalidasCajaComponent {
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
     this.originalValue = this.form.getRawValue();
     setTimeout((): void => {
-      this.conceptoBox.nativeElement.focus();
+      this.conceptoBox().nativeElement.focus();
     }, 0);
   }
 

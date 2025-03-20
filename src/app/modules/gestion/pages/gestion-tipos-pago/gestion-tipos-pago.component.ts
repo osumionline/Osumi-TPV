@@ -8,7 +8,8 @@ import {
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  Signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -23,7 +24,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatActionList, MatListItem } from '@angular/material/list';
+import {
+  MatActionList,
+  MatListItem,
+  MatListItemIcon,
+} from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
@@ -57,6 +62,7 @@ import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
     MatIcon,
     MatActionList,
     MatListItem,
+    MatListItemIcon,
     MatButton,
     MatTabGroup,
     MatTab,
@@ -73,11 +79,11 @@ export default class GestionTiposPagoComponent implements OnInit {
   private router: Router = inject(Router);
 
   search: string = '';
-  @ViewChild('searchBox', { static: true }) searchBox: ElementRef;
+  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedTipoPago: TipoPago = new TipoPago();
-  @ViewChild('tiposPagoTabs', { static: false })
-  tiposPagoTabs: MatTabGroup;
+  tiposPagoTabs: Signal<MatTabGroup> =
+    viewChild.required<MatTabGroup>('tiposPagoTabs');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -95,7 +101,7 @@ export default class GestionTiposPagoComponent implements OnInit {
       return;
     }
     setTimeout((): void => {
-      this.searchBox.nativeElement.focus();
+      this.searchBox().nativeElement.focus();
     }, 0);
   }
 
@@ -129,7 +135,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     this.selectedTipoPago = tipoPago;
     this.form.patchValue(this.selectedTipoPago.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.tiposPagoTabs.realignInkBar();
+    this.tiposPagoTabs().realignInkBar();
     this.logo = this.selectedTipoPago.foto;
   }
 
@@ -138,7 +144,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     this.selectedTipoPago = new TipoPago();
     this.form.patchValue(this.selectedTipoPago.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.tiposPagoTabs.realignInkBar();
+    this.tiposPagoTabs().realignInkBar();
     this.logo = '/img/default.jpg';
   }
 
