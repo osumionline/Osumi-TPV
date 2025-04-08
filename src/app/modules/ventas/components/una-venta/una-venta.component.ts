@@ -152,7 +152,14 @@ export default class UnaVentaComponent {
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
-          this.setFocus(data.data);
+          // Si es un array, es que se han elegido varias líneas
+          if (data.data instanceof Array) {
+            console.log(data);
+            this.loadMultiArticulos(data.data);
+          } else {
+            // Si no es un array, es que se ha elegido una línea
+            this.setFocus(data.data);
+          }
         } else {
           this.setFocus();
         }
@@ -242,6 +249,71 @@ export default class UnaVentaComponent {
         })
         .subscribe((): void => {
           this.setFocus();
+        });
+    }
+  }
+
+  loadMultiArticulos(list: number[]): void {
+    // Busco líneas nuevas
+    const toBeAddded: number[] = [];
+    for (const item of list) {
+      const addInd: number = this.vs.ventaActual.lineas.findIndex(
+        (x: VentaLinea): boolean => x.localizador === item
+      );
+      if (addInd === -1) {
+        toBeAddded.push(item);
+      }
+    }
+
+    // Actualizo cantidades
+    for (const item of list) {
+      const updateInd: number = this.vs.ventaActual.lineas.findIndex(
+        (x: VentaLinea): boolean => x.localizador === item
+      );
+      if (updateInd !== -1) {
+        this.vs.ventaActual.lineas[updateInd].cantidad++;
+      }
+    }
+
+    if (toBeAddded.length > 0) {
+      this.vs
+        .getLineasTicket(toBeAddded.join(','))
+        .subscribe((result: LineasTicketResult): void => {
+          const lineas: VentaLineaHistorico[] =
+            this.cms.getHistoricoVentaLineas(result.list);
+          this.vs.ventaActual.lineas.splice(
+            this.vs.ventaActual.lineas.length - 1,
+            1
+          );
+          for (const linea of lineas) {
+            const articulo: Articulo = new Articulo();
+            articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
+            articulo.localizador =
+              linea.localizador !== null ? linea.localizador : 0;
+            articulo.nombre = linea.articulo;
+            articulo.pvp = linea.pvp;
+            articulo.marca = linea.marca;
+
+            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
+              articulo
+            );
+            ventaLinea.fromVenta = this.devolucionVenta;
+            ventaLinea.descuento = linea.descuento;
+            const devolucionLinea: DevolucionSelectedInterface =
+              this.devolucionList.find(
+                (x: DevolucionSelectedInterface): boolean => {
+                  return x.id == linea.id;
+                }
+              );
+            ventaLinea.id = devolucionLinea.id;
+            ventaLinea.cantidad = devolucionLinea.unidades;
+
+            this.vs.ventaActual.lineas.push(ventaLinea);
+          }
+          this.vs.addLineaVenta();
+          this.ind.set(this.vs.ventaActual.lineas.length);
+          this.setFocus();
+          this.vs.ventaActual.updateImporte();
         });
     }
   }

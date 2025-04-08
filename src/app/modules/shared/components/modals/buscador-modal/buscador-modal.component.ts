@@ -9,6 +9,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -31,6 +33,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatInput,
     MatTableModule,
     FixedNumberPipe,
+    MatCheckbox,
+    MatButton,
   ],
 })
 export default class BuscadorModalComponent
@@ -49,6 +53,7 @@ export default class BuscadorModalComponent
   buscadorResultadosList: ArticuloBuscador[] = [];
   buscadorResultadosRow: number = 0;
   buscadorResultadosDisplayedColumns: string[] = [
+    'select',
     'nombre',
     'marca',
     'pvp',
@@ -57,6 +62,7 @@ export default class BuscadorModalComponent
   buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
     new MatTableDataSource<ArticuloBuscador>();
   sort: Signal<MatSort> = viewChild(MatSort);
+  selectedLines: number[] = [];
 
   ngOnInit(): void {
     this.searchName = this.customOverlayRef.data.key;
@@ -153,6 +159,7 @@ export default class BuscadorModalComponent
   buscar(): void {
     this.buscadorStop();
     this.searching = true;
+    this.selectedLines = [];
     this.vs
       .search(this.searchName)
       .subscribe((result: ArticuloBuscadorResult): void => {
@@ -167,6 +174,23 @@ export default class BuscadorModalComponent
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
     this.customOverlayRef.close(row.localizador);
+  }
+
+  selectLine(row: ArticuloBuscador, ev: MouseEvent): void {
+    if (ev) {
+      ev.stopPropagation();
+    }
+    if (this.selectedLines.includes(row.localizador)) {
+      this.selectedLines = this.selectedLines.filter(
+        (line: number): boolean => line !== row.localizador
+      );
+    } else {
+      this.selectedLines.push(row.localizador);
+    }
+  }
+
+  selectBuscadorLines(): void {
+    this.customOverlayRef.close(this.selectedLines);
   }
 
   ngOnDestroy(): void {

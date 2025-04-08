@@ -9,11 +9,23 @@
                #searchBoxName>
     </mat-form-field>
     <div class="resultados"
-         [class]="{'show': buscadorResultadosList.length > 0}">
+         [class]="{'show': buscadorResultadosList.length > 0, 'selected-lines': selectedLines.length > 0}">
         <table mat-table
                [dataSource]="buscadorResultadosDataSource"
                matSort
                class="mat-elevation-z2 ">
+
+            <!-- Seleccionar -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell
+                    *matHeaderCellDef>
+                    Seleccionar
+                </th>
+                <td mat-cell
+                    *matCellDef="let element">
+                    <mat-checkbox (click)="selectLine(element, $event)"></mat-checkbox>
+                </td>
+            </ng-container>
 
             <!-- Nombre -->
             <ng-container matColumnDef="nombre">
@@ -79,4 +91,10 @@
                 [class]="{'selected-row': i === buscadorResultadosRow}"></tr>
         </table>
     </div>
+    @if (selectedLines.length > 0) {
+    <div class="select-lines-row">
+        <button mat-flat-button
+                (click)="selectBuscadorLines()">Seleccionar líneas</button>
+    </div>
+    }
 </div>

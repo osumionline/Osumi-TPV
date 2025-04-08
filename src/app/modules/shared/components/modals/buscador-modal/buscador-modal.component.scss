@@ -13,5 +13,16 @@
         &.show {
             display: block;
         }
+
+        &.selected-lines {
+            height: calc(100% - 126px);
+        }
+    }
+
+    .select-lines-row {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        height: 50px;
     }
 }
