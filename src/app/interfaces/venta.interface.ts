@@ -1,4 +1,5 @@
-import { VentaLineaHistoricoInterface } from "@interfaces/caja.interface";
+import { ArticuloInterface } from '@interfaces/articulo.interface';
+import { VentaLineaHistoricoInterface } from '@interfaces/caja.interface';
 
 export interface VentaLineaInterface {
   id: number;
@@ -76,4 +77,9 @@ export interface DevolucionSelectedInterface {
 export interface LineasTicketResult {
   status: string;
   list: VentaLineaHistoricoInterface[];
+}
+
+export interface LocalizadoresResult {
+  status: string;
+  list: ArticuloInterface[];
 }

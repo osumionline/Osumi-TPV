@@ -8,6 +8,7 @@ import { DateValues, StatusResult } from '@interfaces/interfaces';
 import {
   FinVentaResult,
   LineasTicketResult,
+  LocalizadoresResult,
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Cliente from '@model/clientes/cliente.model';
@@ -170,6 +171,13 @@ export default class VentasService {
     return this.http.post<LineasTicketResult>(
       environment.apiUrl + '-ventas/get-lineas-ticket',
       { lineas }
+    );
+  }
+
+  getLocalizadores(localizadores: string): Observable<LocalizadoresResult> {
+    return this.http.post<LocalizadoresResult>(
+      environment.apiUrl + '-ventas/get-localizadores',
+      { localizadores }
     );
   }
 

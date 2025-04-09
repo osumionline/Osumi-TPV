@@ -42,8 +42,10 @@ export default class BuscadorModalComponent
 {
   private vs: VentasService = inject(VentasService);
   private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { key: string }> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<
+    null,
+    { key: string; showSelect?: boolean }
+  > = inject(CustomOverlayRef);
 
   searchBoxName: Signal<ElementRef> =
     viewChild.required<ElementRef>('searchBoxName');
@@ -63,9 +65,17 @@ export default class BuscadorModalComponent
     new MatTableDataSource<ArticuloBuscador>();
   sort: Signal<MatSort> = viewChild(MatSort);
   selectedLines: number[] = [];
+  showSelectCol: boolean = false;
 
   ngOnInit(): void {
     this.searchName = this.customOverlayRef.data.key;
+    this.showSelectCol = this.customOverlayRef.data.showSelect ?? false;
+
+    // Define columnas dinámicamente
+    this.buscadorResultadosDisplayedColumns = this.showSelectCol
+      ? ['select', 'nombre', 'marca', 'pvp', 'stock']
+      : ['nombre', 'marca', 'pvp', 'stock'];
+
     this.buscadorResultadosRow = 0;
     setTimeout((): void => {
       this.searchBoxName().nativeElement.focus();

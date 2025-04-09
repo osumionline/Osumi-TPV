@@ -24,6 +24,7 @@ import {
 import {
   DevolucionSelectedInterface,
   LineasTicketResult,
+  LocalizadoresResult,
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
@@ -144,6 +145,7 @@ export default class UnaVentaComponent {
         modalColor: 'blue',
         css: 'modal-wide',
         key: ev.key,
+        showSelect: true,
       };
       const dialog = this.overlayService.open(
         BuscadorModalComponent,
@@ -277,37 +279,19 @@ export default class UnaVentaComponent {
 
     if (toBeAddded.length > 0) {
       this.vs
-        .getLineasTicket(toBeAddded.join(','))
-        .subscribe((result: LineasTicketResult): void => {
-          const lineas: VentaLineaHistorico[] =
-            this.cms.getHistoricoVentaLineas(result.list);
+        .getLocalizadores(toBeAddded.join(','))
+        .subscribe((result: LocalizadoresResult): void => {
+          const articulos: Articulo[] = this.cms.getArticulos(result.list);
           this.vs.ventaActual.lineas.splice(
             this.vs.ventaActual.lineas.length - 1,
             1
           );
-          for (const linea of lineas) {
-            const articulo: Articulo = new Articulo();
-            articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
-            articulo.localizador =
-              linea.localizador !== null ? linea.localizador : 0;
-            articulo.nombre = linea.articulo;
-            articulo.pvp = linea.pvp;
-            articulo.marca = linea.marca;
-
+          for (const articulo of articulos) {
+            const marca = this.ms.findById(articulo.idMarca);
+            articulo.marca = marca.nombre;
             const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
               articulo
             );
-            ventaLinea.fromVenta = this.devolucionVenta;
-            ventaLinea.descuento = linea.descuento;
-            const devolucionLinea: DevolucionSelectedInterface =
-              this.devolucionList.find(
-                (x: DevolucionSelectedInterface): boolean => {
-                  return x.id == linea.id;
-                }
-              );
-            ventaLinea.id = devolucionLinea.id;
-            ventaLinea.cantidad = devolucionLinea.unidades;
-
             this.vs.ventaActual.lineas.push(ventaLinea);
           }
           this.vs.addLineaVenta();

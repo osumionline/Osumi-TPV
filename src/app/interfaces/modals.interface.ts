@@ -4,6 +4,7 @@ import { Modal } from '@osumi/angular-tools';
 
 export interface BuscadorModal extends Modal {
   key: string;
+  showSelect?: boolean;
 }
 
 export interface AccesosDirectosModal extends Modal {
