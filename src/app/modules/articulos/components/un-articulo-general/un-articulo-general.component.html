@@ -188,6 +188,46 @@
                            class="align-right">
                 </mat-form-field>
             </div>
+            <div class="form-field-left">
+                <label>Stock mínimo</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           step="1"
+                           placeholder="Stock mínimo"
+                           [(ngModel)]="articulo().stockMin"
+                           (focus)="$event.target.select()"
+                           class="align-right">
+                </mat-form-field>
+            </div>
+            <div class="form-field-left">
+                <label>Stock máximo</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           step="1"
+                           placeholder="Stock máximo"
+                           [(ngModel)]="articulo().stockMax"
+                           (focus)="$event.target.select()"
+                           class="align-right">
+                </mat-form-field>
+            </div>
+            <div class="form-field-left">
+                <label>Lote óptimo</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           step="1"
+                           placeholder="Lote óptimo"
+                           [(ngModel)]="articulo().loteOptimo"
+                           (focus)="$event.target.select()"
+                           class="align-right">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="articulo-numbers">
+        <div class="articulo-col">
             <div class="form-field-left fixed-height">
                 <label>Descuento</label>
                 <mat-slide-toggle color="primary"
@@ -218,10 +258,6 @@
                 </mat-form-field>
                 <span>€</span>
             </div>
-        </div>
-    </div>
-    <div class="articulo-numbers">
-        <div class="articulo-col articulo-col-reverse">
             <div class="form-field-left"
                  [class]="{'hide': !articulo().descuento}">
                 <label>Descuento</label>
@@ -240,47 +276,6 @@
                 </mat-form-field>
                 <span>%</span>
             </div>
-        </div>
-    </div>
-    <div class="articulo-numbers">
-        <div class="articulo-col">
-            <!-- El campo stock irá aquí al volver a poner el stock mínimo y máximo -->
-            <!--div class="form-field-left">
-								<label>Stock mínimo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Stock mínimo"
-                                           [(ngModel)]="articulo().stockMin"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
-            <!--div class="form-field-left">
-								<label>Stock máximo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Stock máximo"
-                                           [(ngModel)]="articulo().stockMax"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
-            <!--div class="form-field-left">
-								<label>Lote óptimo</label>
-								<mat-form-field class="campo-numero">
-									<input matInput
-										   type="number"
-										   step="1"
-										   placeholder="Lote óptimo"
-                                           [(ngModel)]="articulo().loteOptimo"
-										   (focus)="$event.target.select()"
-										   class="align-right">
-								</mat-form-field>
-							</div-->
         </div>
     </div>
 </div>
