@@ -21,7 +21,11 @@ import {
 } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import {
+  MatTabChangeEvent,
+  MatTabGroup,
+  MatTabsModule,
+} from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import {
   ArticuloResult,
@@ -70,7 +74,7 @@ import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
     MatIconButton,
     MatIcon,
     MatTabGroup,
-    MatTab,
+    MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
     UnArticuloGeneralComponent,
