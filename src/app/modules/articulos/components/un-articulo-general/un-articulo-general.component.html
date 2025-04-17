@@ -133,8 +133,8 @@
                            (focus)="$event.target.select()"
                            (keyup)="updatePalb()"
                            [(ngModel)]="articulo().palb">
+                    <span matTextSuffix>€</span>
                 </mat-form-field>
-                <span>€</span>
             </div>
             <div class="form-field-left">
                 <label>PUC</label>
@@ -147,8 +147,8 @@
                            (focus)="$event.target.select()"
                            (keyup)="updatePuc()"
                            [(ngModel)]="articulo().puc">
+                    <span matTextSuffix>€</span>
                 </mat-form-field>
-                <span>€</span>
             </div>
             <div class="form-field-left margen">
                 <label>Margen</label>
@@ -167,8 +167,8 @@
                            (focus)="$event.target.select()"
                            (keyup)="updateMargen()"
                            [(ngModel)]="articulo().pvp">
+                    <span matTextSuffix>€</span>
                 </mat-form-field>
-                <span>€</span>
             </div>
         </div>
     </div>
@@ -192,14 +192,14 @@
                            min="0"
                            max="100"
                            step="1"
-                           placeholder="% (dto)"
+                           placeholder="DTO"
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
                            (keyup)="updatePorcentajeDescuento()"
                            [(ngModel)]="articulo().porcentajeDescuento">
+                    <span matTextSuffix>%</span>
                 </mat-form-field>
-                <span>%</span>
             </div>
             <div class="form-field-left margen"
                  [class]="{'hide': !articulo().descuento}">
@@ -214,14 +214,14 @@
                 <mat-form-field class="campo-numero">
                     <input matInput
                            type="number"
-                           placeholder="Precio de Venta al Público"
+                           placeholder="PVP"
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
                            (keyup)="updatePVPDescuento()"
                            [(ngModel)]="articulo().pvpDescuento">
+                    <span matTextSuffix>€</span>
                 </mat-form-field>
-                <span>€</span>
             </div>
         </div>
     </div>

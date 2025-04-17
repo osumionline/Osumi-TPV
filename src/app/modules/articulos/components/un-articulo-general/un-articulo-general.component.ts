@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
@@ -32,7 +32,7 @@ import Utils from '@shared/utils.class';
 @Component({
   selector: 'otpv-un-articulo-general',
   imports: [
-    MatFormField,
+    MatFormFieldModule,
     MatSelect,
     MatOption,
     MatIconButton,
