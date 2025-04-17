@@ -158,6 +158,22 @@
         </td>
     </ng-container>
 
+    <!-- PUC -->
+    <ng-container matColumnDef="puc">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por PUC">
+            PUC
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{ element.puc | fixedNumber }} €
+        </td>
+    </ng-container>
+
     <!-- PVP -->
     <ng-container matColumnDef="pvp">
         <th class="center"

@@ -102,6 +102,7 @@ export default class AlmacenInventarioComponent
     'referencia',
     'nombre',
     'stock',
+    'puc',
     'pvp',
     'margen',
     'codbarras',
