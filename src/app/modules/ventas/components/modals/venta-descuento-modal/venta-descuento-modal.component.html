@@ -2,7 +2,8 @@
     En caso de querer usar un importe concreto de descuento en vez de un porcentaje, introdúcelo a continuación:
 </div>
 <div class="descuento-otros">
-    <mat-form-field class="descuento-otros-importe">
+    <mat-form-field class="descuento-otros-importe"
+                    subscriptSizing="dynamic">
         <mat-label>Importe en euros</mat-label>
         <input matInput
                type="number"
@@ -12,8 +13,8 @@
                [(ngModel)]="descuentoImporte"
                (keyup)="checkDescuentoImporte($event)"
                #descuentoValue>
+        <span matTextSuffix>€</span>
     </mat-form-field>
-    €
     <button mat-flat-button
             color="primary"
             (click)="selectDescuento()">Continuar</button>

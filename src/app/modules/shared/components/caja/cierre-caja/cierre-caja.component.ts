@@ -7,7 +7,7 @@ import {
   MatCardHeader,
   MatCardTitle,
 } from '@angular/material/card';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
@@ -35,7 +35,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatCardContent,
     MatTabGroup,
     MatTab,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatInput,
     MatButton,

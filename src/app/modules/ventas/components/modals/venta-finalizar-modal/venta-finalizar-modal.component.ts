@@ -11,7 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -37,7 +37,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatInput,
     MatCheckbox,

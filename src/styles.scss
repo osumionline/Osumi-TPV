@@ -126,6 +126,10 @@ mat-card-content {
   background-color: var(--color-white);
 }
 
+.mat-mdc-form-field-text-suffix {
+  margin-left: 8px;
+}
+
 *[aria-labelledby='hidden'] {
   display: none !important;
 }

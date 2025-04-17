@@ -18,7 +18,7 @@ import {
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem } from '@angular/material/list';
@@ -58,7 +58,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     HeaderComponent,
     MatCard,
     MatCardContent,
-    MatFormField,
+    MatFormFieldModule,
     MatInput,
     MatButton,
     MatIconButton,

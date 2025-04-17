@@ -329,12 +329,12 @@
                                    (blur)="checkNull(element)"
                                    [(ngModel)]="element.palb"
                                    (ngModelChange)="updatePalb(element)">
+                            <span matTextSuffix>€</span>
                         </mat-form-field>
                         }
                         @else {
                         <span>{{element.palb | fixedNumber}}</span>
                         }
-                        €
                     </td>
                 </ng-container>
 
@@ -470,12 +470,12 @@
                                    (blur)="checkNull(element)"
                                    [(ngModel)]="element.pvp"
                                    (ngModelChange)="updateMargen(element)">
+                            <span matTextSuffix>€</span>
                         </mat-form-field>
                         }
                         @else {
                         <span>{{element.pvp | fixedNumber}}</span>
                         }
-                        €
                     </td>
                 </ng-container>
 
@@ -626,6 +626,7 @@
                                        autocomplete="off"
                                        (blur)="checkNull()"
                                        [(ngModel)]="pedido.portes">
+                                <span matTextSuffix>€</span>
                             </mat-form-field>
                             }
                             {{ pedido.recepcionado ? pedido.portes : ''}}

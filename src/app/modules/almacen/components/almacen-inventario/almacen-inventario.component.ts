@@ -11,8 +11,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatInput, MatLabel } from '@angular/material/input';
 import {
   MatPaginatorIntl,
   MatPaginatorModule,
@@ -54,7 +55,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     FormsModule,
     MatSortModule,
     FixedNumberPipe,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatInput,
     MatButton,

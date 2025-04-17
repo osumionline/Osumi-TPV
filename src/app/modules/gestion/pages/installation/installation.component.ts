@@ -7,7 +7,7 @@ import {
   MatCardContent,
 } from '@angular/material/card';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
@@ -39,7 +39,7 @@ import GestionService from '@services/gestion.service';
     MatCard,
     MatCardContent,
     MatCardActions,
-    MatFormField,
+    MatFormFieldModule,
     MatLabel,
     MatInput,
     MatRadioModule,

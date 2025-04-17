@@ -15,8 +15,9 @@
                            (focus)="$event.target.select()"
                            (input)="updateCambio()"
                            #efectivoValue>
+                    <span matTextSuffix
+                          class="big">€</span>
                 </mat-form-field>
-                <span class="big">€</span>
             </div>
             <div class="form-field no-padding">
                 <label [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Cambio</label>
@@ -29,8 +30,9 @@
                            [(ngModel)]="vs.fin.cambio"
                            [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
                            readonly>
+                    <span matTextSuffix
+                          class="big">€</span>
                 </mat-form-field>
-                <span class="big">€</span>
             </div>
         </div>
         <div class="tipos-pago">
@@ -62,6 +64,7 @@
                        (focus)="$event.target.select()"
                        (input)="updateEfectivoMixto()"
                        #tarjetaValue>
+                <span matTextSuffix>€</span>
             </mat-form-field>
         </div>
     </div>

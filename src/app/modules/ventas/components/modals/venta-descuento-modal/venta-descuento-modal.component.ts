@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 
@@ -16,7 +16,7 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
   selector: 'otpv-venta-descuento-modal',
   templateUrl: './venta-descuento-modal.component.html',
   styleUrls: ['./venta-descuento-modal.component.scss'],
-  imports: [FormsModule, MatFormField, MatLabel, MatInput, MatButton],
+  imports: [FormsModule, MatFormFieldModule, MatLabel, MatInput, MatButton],
 })
 export default class VentaDescuentoModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);

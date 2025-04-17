@@ -194,8 +194,8 @@
                        placeholder="PVP"
                        (focus)="$event.target.select()"
                        matInput>
+                <span matTextSuffix>€</span>
             </mat-form-field>
-            €
             @if (element.pvpChanged) {
             <mat-icon (click)="element.pvp = element._pvp">restart_alt</mat-icon>
             }

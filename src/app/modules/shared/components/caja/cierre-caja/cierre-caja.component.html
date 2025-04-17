@@ -31,10 +31,9 @@
                                 }
                                 @else {
                                 <span (click)="openCoins()">
-                                    {{cierreCaja.real | fixedNumber}}
+                                    {{cierreCaja.real | fixedNumber}} €
                                 </span>
                                 }
-                                €
                             </div>
                             <div class="form-field">
                                 <label>Retirado</label>
@@ -45,8 +44,8 @@
                                            [(ngModel)]="cierreCaja.retirado"
                                            (focus)="$event.target.select()"
                                            #importeRealBox>
+                                    <span matTextSuffix>€</span>
                                 </mat-form-field>
-                                €
                             </div>
                             <div class="form-field">
                                 <label>Diferencia</label>
@@ -63,8 +62,8 @@
                                            [(ngModel)]="cierreCaja.entrada"
                                            (focus)="$event.target.select()"
                                            #importeRealBox>
+                                    <span matTextSuffix>€</span>
                                 </mat-form-field>
-                                €
                             </div>
                             <div class="form-field">
                                 <label>Saldo siguiente caja</label>
@@ -286,8 +285,8 @@
                                                type="number"
                                                placeholder="Importe real"
                                                [(ngModel)]="tipo.real">
+                                        <span matTextSuffix>€</span>
                                     </mat-form-field>
-                                    €
                                 </div>
                                 <div class="form-field max-width">
                                     <label>Diferencia</label>
