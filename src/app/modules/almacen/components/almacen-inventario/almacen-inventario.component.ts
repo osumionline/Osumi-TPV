@@ -92,6 +92,7 @@ export default class AlmacenInventarioComponent
   list: WritableSignal<InventarioItem[]> = signal<InventarioItem[]>([]);
   pags: WritableSignal<number> = signal<number>(0);
   pageIndex: WritableSignal<number> = signal<number>(0);
+  mediaMargen: WritableSignal<number> = signal<number>(0);
   totalPVP: WritableSignal<number> = signal<number>(0);
   totalPUC: WritableSignal<number> = signal<number>(0);
 
@@ -132,6 +133,7 @@ export default class AlmacenInventarioComponent
         this.list.set(this.cms.getInventarioItems(result.list));
         this.inventarioDataSource.data = this.list();
         this.pags.set(result.pags);
+        this.mediaMargen.set(this.calcularMediaMargen(this.list()));
         this.totalPVP.set(result.totalPVP);
         this.totalPUC.set(result.totalPUC);
 
@@ -189,6 +191,16 @@ export default class AlmacenInventarioComponent
       }
     );
     this.buscar();
+  }
+
+  calcularMediaMargen(array: InventarioItem[]): number {
+    if (!array.length) return 0;
+
+    const suma: number = array.reduce(
+      (total: number, item: InventarioItem): number => total + item.margen,
+      0
+    );
+    return suma / array.length;
   }
 
   saveAll(): void {

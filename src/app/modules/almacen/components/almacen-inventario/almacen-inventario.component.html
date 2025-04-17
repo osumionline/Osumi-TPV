@@ -277,6 +277,8 @@
                [pageIndex]="pageIndex"
                (page)="changePage($event)" />
 <div class="total-inventario">
+    Media margen: <strong>{{mediaMargen() | fixedNumber}}</strong> %
+    &nbsp;&nbsp;&nbsp;
     Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
     &nbsp;&nbsp;&nbsp;
     Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
