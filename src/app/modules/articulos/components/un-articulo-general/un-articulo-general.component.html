@@ -119,6 +119,7 @@
 </div>
 
 <div class="articulo-numbers-row">
+
     <div class="articulo-numbers">
         <div class="articulo-col">
             <div class="form-field-left">
@@ -171,11 +172,62 @@
             </div>
         </div>
     </div>
+
     <div class="articulo-numbers">
         <div class="articulo-col">
-            <!-- div class="form-field-left fixed-height">
-                                    &nbsp; Este campo se volverá a habilitar cuando se ponga el stock mínimo y máximo
-                                </div -->
+            <div class="form-field-left fixed-height">
+                <label>Descuento</label>
+                <mat-slide-toggle color="primary"
+                                  [(ngModel)]="articulo().descuento"
+                                  (ngModelChange)="changeDescuento()">
+                    {{ articulo().descuento ? 'Activado' : 'Desactivado' }}
+                </mat-slide-toggle>
+            </div>
+            <div class="form-field-left"
+                 [class]="{'hide': !articulo().descuento}">
+                <label>Descuento</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           min="0"
+                           max="100"
+                           step="1"
+                           placeholder="% (dto)"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePorcentajeDescuento()"
+                           [(ngModel)]="articulo().porcentajeDescuento">
+                </mat-form-field>
+                <span>%</span>
+            </div>
+            <div class="form-field-left margen"
+                 [class]="{'hide': !articulo().descuento}">
+                <label>Margen (dto)</label>
+                <span (click)="abrirMargenesDescuento()">
+                    {{articulo().margenDescuento | fixedNumber}} %
+                </span>
+            </div>
+            <div class="form-field-left"
+                 [class]="{'hide': !articulo().descuento}">
+                <label>PVP (dto)</label>
+                <mat-form-field class="campo-numero">
+                    <input matInput
+                           type="number"
+                           placeholder="Precio de Venta al Público"
+                           class="align-right"
+                           (blur)="setTwoNumberDecimal($event)"
+                           (focus)="$event.target.select()"
+                           (keyup)="updatePVPDescuento()"
+                           [(ngModel)]="articulo().pvpDescuento">
+                </mat-form-field>
+                <span>€</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="articulo-numbers">
+        <div class="articulo-col">
             <div class="form-field-left">
                 <label>Stock</label>
                 <mat-form-field class="campo-numero">
@@ -226,56 +278,5 @@
             </div>
         </div>
     </div>
-    <div class="articulo-numbers">
-        <div class="articulo-col">
-            <div class="form-field-left fixed-height">
-                <label>Descuento</label>
-                <mat-slide-toggle color="primary"
-                                  [(ngModel)]="articulo().descuento"
-                                  (ngModelChange)="changeDescuento()">
-                    {{ articulo().descuento ? 'Activado' : 'Desactivado' }}
-                </mat-slide-toggle>
-            </div>
-            <div class="form-field-left margen"
-                 [class]="{'hide': !articulo().descuento}">
-                <label>Margen (dto)</label>
-                <span (click)="abrirMargenesDescuento()">
-                    {{articulo().margenDescuento | fixedNumber}} %
-                </span>
-            </div>
-            <div class="form-field-left"
-                 [class]="{'hide': !articulo().descuento}">
-                <label>PVP (dto)</label>
-                <mat-form-field class="campo-numero">
-                    <input matInput
-                           type="number"
-                           placeholder="Precio de Venta al Público"
-                           class="align-right"
-                           (blur)="setTwoNumberDecimal($event)"
-                           (focus)="$event.target.select()"
-                           (keyup)="updatePVPDescuento()"
-                           [(ngModel)]="articulo().pvpDescuento">
-                </mat-form-field>
-                <span>€</span>
-            </div>
-            <div class="form-field-left"
-                 [class]="{'hide': !articulo().descuento}">
-                <label>Descuento</label>
-                <mat-form-field class="campo-numero">
-                    <input matInput
-                           type="number"
-                           min="0"
-                           max="100"
-                           step="1"
-                           placeholder="% (dto)"
-                           class="align-right"
-                           (blur)="setTwoNumberDecimal($event)"
-                           (focus)="$event.target.select()"
-                           (keyup)="updatePorcentajeDescuento()"
-                           [(ngModel)]="articulo().porcentajeDescuento">
-                </mat-form-field>
-                <span>%</span>
-            </div>
-        </div>
-    </div>
+
 </div>
