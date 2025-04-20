@@ -33,6 +33,7 @@
   --color-light-grey: #ccc;
   --color-dark-grey: #888;
   --color-light-green: #7ad782;
+  --color-green: #19e062;
 
   @include mat.toolbar-overrides((container-background-color: var(--main-color),
       container-text-color: var(--color-white),

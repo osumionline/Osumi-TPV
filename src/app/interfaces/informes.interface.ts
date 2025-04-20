@@ -46,3 +46,46 @@ export interface InformeCaducidadesResult {
   status: string;
   data: InformeCaducidadesYearInterface[];
 }
+
+export interface InformeDetalladoMarcaInterface {
+  marca: string;
+  total_ventas_pvp: number;
+  total_beneficio: number;
+  margen: number;
+  margen_anterior: number;
+  margen_diferencia: number;
+  porcentaje_sobre_total: number;
+}
+
+export interface InformeDetalladoArticuloInterface {
+  id_articulo: number;
+  nombre: string;
+  marca: string;
+  total_unidades_vendidas: number;
+  total_ventas_pvp: number;
+  total_beneficio: number;
+  margen: number;
+  margen_anterior: number;
+  margen_diferencia: number;
+  porcentaje_en_ventas: number;
+}
+
+export interface InformeDetalladoVentasInterface {
+  total: number;
+  total_anterior: number;
+  diferencia_total: number;
+  beneficio_medio: number;
+  beneficio_medio_anterior: number;
+  beneficio_medio_diferencia: number;
+}
+
+export interface InformeDetalladoDataResult {
+  marcas: InformeDetalladoMarcaInterface[];
+  articulos: InformeDetalladoArticuloInterface[];
+  ventas: InformeDetalladoVentasInterface;
+}
+
+export interface InformeDetalladoResult {
+  status: string;
+  data: InformeDetalladoDataResult;
+}

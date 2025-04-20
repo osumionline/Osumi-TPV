@@ -1,0 +1,45 @@
+h1 {
+    text-align: center;
+}
+
+h2 {
+    width: 90%;
+    margin: 0 auto;
+    border-bottom: 1px solid #888;
+}
+
+.informe {
+    margin: 16px auto;
+    width: 90%;
+    min-width: 90%;
+}
+
+.loading {
+    display: none;
+}
+
+.incremento-cell {
+    .up {
+        color: var(--color-green);
+    }
+
+    .down {
+        color: var(--color-red);
+    }
+
+    .valor-incremento {
+        display: none;
+    }
+
+    &:hover {
+        .valor-incremento {
+            display: inline-block;
+        }
+    }
+}
+
+@media print {
+    * {
+        font-size: 10px;
+    }
+}

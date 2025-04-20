@@ -4,6 +4,7 @@ import { environment } from '@env/environment';
 import { BuscadorCaducidadesInterface } from '@interfaces/caducidad.interface';
 import {
   InformeCaducidadesResult,
+  InformeDetalladoResult,
   InformeMensualResult,
 } from '@interfaces/informes.interface';
 import { Observable } from 'rxjs';
@@ -27,8 +28,8 @@ export default class InformesService {
   getInformeDetallado(
     month: number,
     year: number
-  ): Observable<InformeMensualResult> {
-    return this.http.post<InformeMensualResult>(
+  ): Observable<InformeDetalladoResult> {
+    return this.http.post<InformeDetalladoResult>(
       environment.apiUrl + '-informes/get-informe-detallado',
       { month, year }
     );

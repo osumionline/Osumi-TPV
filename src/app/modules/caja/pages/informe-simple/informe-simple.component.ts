@@ -29,7 +29,7 @@ export default class InformeSimpleComponent implements OnInit {
   private cms: ClassMapperService = inject(ClassMapperService);
   private config: ConfigService = inject(ConfigService);
 
-  loaded: boolean = false;
+  loaded: WritableSignal<boolean> = signal<boolean>(false);
   year: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,
   });
@@ -98,7 +98,7 @@ export default class InformeSimpleComponent implements OnInit {
           this.minTicket = null;
           this.maxTicket = null;
         }
-        this.loaded = true;
+        this.loaded.set(true);
       });
   }
 

@@ -1,1 +1,279 @@
-hola
+<h1>{{ monthName() }} de {{ year() }}</h1>
+
+<h2>Marcas</h2>
+
+<table mat-table
+       matSort
+       #marcasSort="matSort"
+       [dataSource]="marcasDataSource"
+       [class]="{'loading': !loaded()}"
+       class="mat-elevation-z2 informe">
+
+    <!-- Marca -->
+    <ng-container matColumnDef="marca">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por marca">
+            Marca
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.marca}} </td>
+        <td mat-footer-cell
+            *matFooterCellDef> <strong>TOTAL</strong> </td>
+    </ng-container>
+
+    <!-- Total ventas PVP -->
+    <ng-container matColumnDef="total_ventas_pvp">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total ventas PVP">
+            Total ventas PVP
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element"> {{element.total_ventas_pvp | fixedNumber}} € </td>
+        <td class="center"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{tmTotalVentasPVP() | fixedNumber}} €</strong> </td>
+    </ng-container>
+
+    <!-- Total beneficio -->
+    <ng-container matColumnDef="total_beneficio">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total beneficio">
+            Total beneficio
+        </th>
+        <td class="right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.total_beneficio | fixedNumber}} €</span>
+        </td>
+        <td class="right"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{tmTotalBeneficio() | fixedNumber}} €</strong> </td>
+    </ng-container>
+
+    <!-- Margen beneficio -->
+    <ng-container matColumnDef="margen">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por margen beneficio">
+            % margen beneficio
+        </th>
+        <td class="
+            right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.margen | fixedNumber}} %</span>
+        </td>
+        <td class="right"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{tmMediaMargenBeneficio() | fixedNumber}} %</strong> </td>
+    </ng-container>
+
+    <!-- Incremento beneficio -->
+    <ng-container matColumnDef="margen_diferencia">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por incremento">
+            Incremento
+        </th>
+        <td class="right incremento-cell"
+            mat-cell
+            *matCellDef="let element">
+            @if (element.margen_diferencia === null) {
+            <strong>=</strong>
+            }
+            @else if (element.margen_diferencia > 0) {
+            <mat-icon class="up">arrow_upward</mat-icon>
+            }
+            @else {
+            <mat-icon class="down">arrow_downward</mat-icon>
+            }
+            <span class="valor-incremento">( {{element.margen_diferencia | fixedNumber}} % )</span>
+        </td>
+        <td mat-footer-cell
+            *matFooterCellDef></td>
+    </ng-container>
+
+    <!-- Porcentaje ventas total -->
+    <ng-container matColumnDef="porcentaje_sobre_total">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por porcentaje ventas">
+            % ventas
+        </th>
+        <td class="right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.porcentaje_sobre_total | fixedNumber}} %</span>
+        </td>
+        <td mat-footer-cell
+            *matFooterCellDef></td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="marcasDisplayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: marcasDisplayedColumns;"></tr>
+    <tr mat-footer-row
+        *matFooterRowDef="marcasDisplayedColumns"></tr>
+</table>
+
+<h2>Artículos</h2>
+
+<table mat-table
+       matSort
+       #articulosSort="matSort"
+       [dataSource]="articulosDataSource"
+       [class]="{'loading': !loaded()}"
+       class="mat-elevation-z2 informe">
+
+    <!-- Marca -->
+    <ng-container matColumnDef="marca">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por marca">
+            Marca
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.marca}} </td>
+        <td mat-footer-cell
+            *matFooterCellDef> <strong>TOTAL</strong> </td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por nombre">
+            Nombre
+        </th>
+        <td mat-cell
+            *matCellDef="let element"> {{element.nombre}} </td>
+        <td mat-footer-cell
+            *matFooterCellDef></td>
+    </ng-container>
+
+    <!-- Total unidades vendidas -->
+    <ng-container matColumnDef="total_unidades_vendidas">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total unidades vendidas">
+            Total unidades vendidas
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element"> {{element.total_unidades_vendidas}} </td>
+        <td class="center"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{taTotalUnidadesVendidas()}}</strong> </td>
+    </ng-container>
+
+    <!-- Total ventas PVP -->
+    <ng-container matColumnDef="total_ventas_pvp">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total ventas PVP">
+            Total ventas PVP
+        </th>
+        <td class="right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.total_ventas_pvp | fixedNumber}} €</span>
+        </td>
+        <td class="right"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{taTotalVentasPVP() | fixedNumber}} €</strong> </td>
+    </ng-container>
+
+    <!-- Total beneficio -->
+    <ng-container matColumnDef="total_beneficio">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total beneficio">
+            Total beneficio
+        </th>
+        <td class="
+            right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.total_beneficio | fixedNumber}} €</span>
+        </td>
+        <td class="right"
+            mat-footer-cell
+            *matFooterCellDef> <strong>{{taTotalBeneficio() | fixedNumber}} €</strong> </td>
+    </ng-container>
+
+    <!-- Incremento beneficio -->
+    <ng-container matColumnDef="margen_diferencia">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por incremento">
+            Incremento
+        </th>
+        <td class="right incremento-cell"
+            mat-cell
+            *matCellDef="let element">
+            @if (element.margen_diferencia === null) {
+            <strong>=</strong>
+            }
+            @else if (element.margen_diferencia > 0) {
+            <mat-icon class="up">arrow_upward</mat-icon>
+            }
+            @else {
+            <mat-icon class="down">arrow_downward</mat-icon>
+            }
+            <span class="valor-incremento">( {{element.margen_diferencia | fixedNumber}} % )</span>
+        </td>
+        <td mat-footer-cell
+            *matFooterCellDef></td>
+    </ng-container>
+
+    <!-- Porcentaje en ventas -->
+    <ng-container matColumnDef="porcentaje_en_ventas">
+        <th class="right"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por porcentaje en ventas">
+            % ventas
+        </th>
+        <td class="right"
+            mat-cell
+            *matCellDef="let element">
+            <span>{{element.porcentaje_en_ventas | fixedNumber}} %</span>
+        </td>
+        <td mat-footer-cell
+            *matFooterCellDef></td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="articulosDisplayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: articulosDisplayedColumns;"></tr>
+    <tr mat-footer-row
+        *matFooterRowDef="articulosDisplayedColumns"></tr>
+</table>

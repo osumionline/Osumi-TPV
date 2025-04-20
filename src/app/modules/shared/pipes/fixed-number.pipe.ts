@@ -1,14 +1,26 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { formatNumber } from '@osumi/tools';
 
 @Pipe({
   name: 'fixedNumber',
 })
 export default class FixedNumberPipe implements PipeTransform {
-  transform(num: number): string {
-    if (Number.isNaN(num)) {
-      return '0,00';
+  transform(value: number): string {
+    if (value === null || value === undefined || isNaN(value)) {
+      return '0';
     }
-    return formatNumber(num);
+
+    const fixed: string = value.toFixed(2);
+    const [intPart, decPart] = fixed.split('.');
+
+    const intWithThousands: string = intPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      '.'
+    );
+
+    if (decPart === '00') {
+      return intWithThousands;
+    }
+
+    return `${intWithThousands},${decPart}`;
   }
 }
