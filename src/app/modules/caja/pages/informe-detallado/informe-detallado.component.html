@@ -1,5 +1,74 @@
 <h1>{{ monthName() }} de {{ year() }}</h1>
 
+<h2>Ventas</h2>
+
+<table mat-table
+       matSort
+       #ventasSort="matSort"
+       [dataSource]="ventasDataSource"
+       [class]="{'loading': !loaded()}"
+       class="mat-elevation-z2 informe">
+
+    <!-- Total -->
+    <ng-container matColumnDef="total">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por total">
+            Total
+        </th>
+        <td class="center incremento-cell"
+            mat-cell
+            *matCellDef="let element">
+            @if (element.total === null) {
+            <strong>=</strong>
+            }
+            @else if (element.total_diferencia > 0) {
+            {{ element.total | fixedNumber }} €
+            <mat-icon class="up">arrow_upward</mat-icon>
+            }
+            @else {
+            {{ element.total | fixedNumber }} €
+            <mat-icon class="down">arrow_downward</mat-icon>
+            }
+            <span class="valor-incremento">( {{element.total_diferencia | fixedNumber}} € )</span>
+        </td>
+    </ng-container>
+
+    <!-- Beneficio medio -->
+    <ng-container matColumnDef="beneficio_medio">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por beneficio medio">
+            Beneficio medio
+        </th>
+        <td class="center incremento-cell"
+            mat-cell
+            *matCellDef="let element">
+            @if (element.beneficio_medio === null) {
+            <strong>=</strong>
+            }
+            @else if (element.beneficio_medio_diferencia > 0) {
+            {{ element.beneficio_medio | fixedNumber }} %
+            <mat-icon class="up">arrow_upward</mat-icon>
+            }
+            @else {
+            {{ element.beneficio_medio | fixedNumber }} %
+            <mat-icon class="down">arrow_downward</mat-icon>
+            }
+            <span class="valor-incremento">( {{element.beneficio_medio_diferencia | fixedNumber}} € )</span>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="ventasDisplayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: ventasDisplayedColumns;"></tr>
+</table>
+
 <h2>Marcas</h2>
 
 <table mat-table

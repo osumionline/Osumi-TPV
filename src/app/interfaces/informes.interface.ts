@@ -73,7 +73,7 @@ export interface InformeDetalladoArticuloInterface {
 export interface InformeDetalladoVentasInterface {
   total: number;
   total_anterior: number;
-  diferencia_total: number;
+  total_diferencia: number;
   beneficio_medio: number;
   beneficio_medio_anterior: number;
   beneficio_medio_diferencia: number;

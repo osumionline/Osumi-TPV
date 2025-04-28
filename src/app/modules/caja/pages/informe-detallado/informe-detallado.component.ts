@@ -18,6 +18,7 @@ import {
   InformeDetalladoArticuloInterface,
   InformeDetalladoMarcaInterface,
   InformeDetalladoResult,
+  InformeDetalladoVentasInterface,
 } from '@interfaces/informes.interface';
 import { Month } from '@interfaces/interfaces';
 import ConfigService from '@services/config.service';
@@ -44,6 +45,11 @@ export default class InformeDetalladoComponent
     transform: numberAttribute,
   });
   monthName: WritableSignal<string> = signal<string>('');
+
+  ventasDisplayedColumns: string[] = ['total', 'beneficio_medio'];
+  ventasDataSource: MatTableDataSource<InformeDetalladoVentasInterface> =
+    new MatTableDataSource<InformeDetalladoVentasInterface>();
+  ventasSort: Signal<MatSort> = viewChild('ventasSort');
 
   marcasDisplayedColumns: string[] = [
     'marca',
@@ -93,6 +99,10 @@ export default class InformeDetalladoComponent
     this.is
       .getInformeDetallado(this.month(), this.year())
       .subscribe((result: InformeDetalladoResult): void => {
+        // Ventas
+        this.ventasDataSource.data = [result.data.ventas];
+        console.log(this.ventasDataSource.data);
+
         // Marcas
         const marcas: InformeDetalladoMarcaInterface[] = result.data.marcas;
         for (const item of marcas) {
@@ -121,5 +131,6 @@ export default class InformeDetalladoComponent
   ngAfterViewInit(): void {
     this.marcasDataSource.sort = this.marcasSort();
     this.articulosDataSource.sort = this.articulosSort();
+    this.ventasDataSource.sort = this.ventasSort();
   }
 }
