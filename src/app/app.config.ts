@@ -21,7 +21,6 @@ import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldDefaultOptions,
 } from '@angular/material/form-field';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import routes from '@app/app.routes';
 import provideCore from '@modules/core';
 import ConfigService from '@services/config.service';
@@ -61,7 +60,6 @@ const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(),
     provideCore(),
-    provideAnimations(),
   ],
 };
 
