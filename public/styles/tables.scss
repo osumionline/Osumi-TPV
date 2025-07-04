@@ -90,7 +90,7 @@ table {
         transition: all .1s ease-in-out;
 
         &:hover {
-            background-color: var(--table-row-hover) !important;
+            background-color: var(--main-color) !important;
             cursor: pointer;
 
             &>td {

@@ -6,8 +6,8 @@
 
 :root {
   --bg-color: #eee;
-  --main-color: #3f51b5;
-  --main-color-light: #6f82eb;
+  --main-color: #026e00 !important;
+  --main-color-light: #99bb99;
   --main-color-contrast: #fff;
   --modal-bg-color: rgba(0, 0, 0, 0.6);
   --modal-alt-bg-color: rgba(255, 255, 255, 0.6);
@@ -16,7 +16,6 @@
   --table-border: #888;
   --table-data-border: rgba(0, 0, 0, 0.12);
   --table-header-bg: #ddd;
-  --table-row-hover: #3f51b5;
   --table-row-selected: #6cc7e2;
   --table-row-mark: rgb(166 222 238 / 30%);
   --table-row-warn: rgb(255, 193, 7);
@@ -34,6 +33,7 @@
   --color-dark-grey: #888;
   --color-light-green: #7ad782;
   --color-green: #19e062;
+  --color-dark-green: #026e00;
 
   @include mat.toolbar-overrides((container-background-color: var(--main-color),
       container-text-color: var(--color-white),
@@ -44,6 +44,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  @include mat.theme((color: mat.$green-palette,
+      typography: Roboto,
+      density: 0));
 }
 
 html,
