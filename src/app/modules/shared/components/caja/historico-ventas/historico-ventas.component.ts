@@ -37,7 +37,7 @@ import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Cliente from '@model/clientes/cliente.model';
 import TipoPago from '@model/tpv/tipo-pago.model';
-import { DialogOptions, DialogService } from '@osumi/angular-tools';
+import { DialogField, DialogService } from '@osumi/angular-tools';
 import { addDays, getDate, urlencode } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
@@ -375,8 +375,8 @@ export default class HistoricoVentasComponent implements AfterViewInit {
           { title: 'Email', type: 'email', value: null, required: true },
         ],
       })
-      .subscribe((result: DialogOptions): void => {
-        if (result !== undefined) {
+      .subscribe((result: DialogField[]): void => {
+        if (result !== undefined && result.length > 0) {
           this.sendTicket(this.historicoVentasSelected.id, result[0].value);
         }
       });

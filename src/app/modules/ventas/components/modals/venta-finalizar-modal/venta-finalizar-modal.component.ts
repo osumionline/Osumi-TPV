@@ -21,7 +21,7 @@ import { FinVentaResult } from '@interfaces/venta.interface';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import {
   CustomOverlayRef,
-  DialogOptions,
+  DialogField,
   DialogService,
 } from '@osumi/angular-tools';
 import { formatNumber, toNumber } from '@osumi/tools';
@@ -255,8 +255,8 @@ export default class VentaFinalizarModalComponent
           { title: 'Email', type: 'email', value: null, required: true },
         ],
       })
-      .subscribe((result: DialogOptions): void => {
-        if (result === undefined) {
+      .subscribe((result: DialogField[]): void => {
+        if (result === undefined || result.length === 0) {
           this.vs.fin.imprimir = 'si';
         } else {
           this.vs.fin.email = result[0].value;
