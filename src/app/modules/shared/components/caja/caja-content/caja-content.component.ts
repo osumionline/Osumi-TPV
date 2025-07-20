@@ -60,10 +60,8 @@ export default class CajaContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
-    const d: Date = new Date();
-    for (let y: number = d.getFullYear(); y > d.getFullYear() - 5; y--) {
-      this.yearList.push(y);
-    }
+    const currentYear: number = new Date().getFullYear();
+    this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
     this.historicoVentas().changeFecha();
     this.salidasCaja().changeFecha();
     if (this.from() === 'tab') {

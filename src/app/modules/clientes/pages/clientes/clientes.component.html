@@ -146,6 +146,33 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
+                                <div class="actions">
+                                    <div class="delete">
+                                        @if (form.value.id) {
+                                        <button mat-flat-button
+                                                color="warn"
+                                                type="button"
+                                                (click)="deleteCliente()">Eliminar</button>
+                                        }
+                                    </div>
+                                    <div class="others">
+                                        @if (form.value.id) {
+                                        <button mat-flat-button
+                                                color="primary"
+                                                type="button"
+                                                (click)="imprimirLOPD()">Imprimir LOPD</button>
+                                        }
+                                        <button mat-flat-button
+                                                color="primary"
+                                                [disabled]="!form.dirty"
+                                                type="button"
+                                                (click)="resetForm()">Cancelar</button>
+                                        <button mat-flat-button
+                                                type="submit"
+                                                color="primary"
+                                                [disabled]="!form.valid">Guardar</button>
+                                    </div>
+                                </div>
                             </mat-tab>
                             <mat-tab label="DATOS FACTURACIÓN">
                                 <div class="same-data"
@@ -229,6 +256,33 @@
                                                 }
                                             </mat-select>
                                         </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <div class="delete">
+                                        @if (form.value.id) {
+                                        <button mat-flat-button
+                                                color="warn"
+                                                type="button"
+                                                (click)="deleteCliente()">Eliminar</button>
+                                        }
+                                    </div>
+                                    <div class="others">
+                                        @if (form.value.id) {
+                                        <button mat-flat-button
+                                                color="primary"
+                                                type="button"
+                                                (click)="imprimirLOPD()">Imprimir LOPD</button>
+                                        }
+                                        <button mat-flat-button
+                                                color="primary"
+                                                [disabled]="!form.dirty"
+                                                type="button"
+                                                (click)="resetForm()">Cancelar</button>
+                                        <button mat-flat-button
+                                                type="submit"
+                                                color="primary"
+                                                [disabled]="!form.valid">Guardar</button>
                                     </div>
                                 </div>
                                 }
@@ -414,35 +468,11 @@
                                     </div>
                                 </div>
                             </mat-tab>
+                            <mat-tab label="VENTAS">
+                                <otpv-ventas-cliente [selectedClient]="selectedClient" />
+                            </mat-tab>
                             }
                         </mat-tab-group>
-                        <div class="actions">
-                            <div class="delete">
-                                @if (form.value.id) {
-                                <button mat-flat-button
-                                        color="warn"
-                                        type="button"
-                                        (click)="deleteCliente()">Eliminar</button>
-                                }
-                            </div>
-                            <div class="others">
-                                @if (form.value.id) {
-                                <button mat-flat-button
-                                        color="primary"
-                                        type="button"
-                                        (click)="imprimirLOPD()">Imprimir LOPD</button>
-                                }
-                                <button mat-flat-button
-                                        color="primary"
-                                        [disabled]="!form.dirty"
-                                        type="button"
-                                        (click)="resetForm()">Cancelar</button>
-                                <button mat-flat-button
-                                        type="submit"
-                                        color="primary"
-                                        [disabled]="!form.valid">Guardar</button>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </main>

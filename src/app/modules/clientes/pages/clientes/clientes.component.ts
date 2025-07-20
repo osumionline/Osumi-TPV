@@ -31,16 +31,22 @@ import {
 } from '@angular/material/table';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { ChartSelectInterface } from '@interfaces/articulo.interface';
-import { ClienteSaveResult } from '@interfaces/cliente.interface';
+import {
+  ClienteSaveResult,
+  EstadisticasClienteResult,
+  FacturasResult,
+} from '@interfaces/cliente.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
 import { FacturaModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
 import EditFacturaModalComponent from '@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component';
+import VentasClienteComponent from '@modules/clientes/components/ventas-cliente/ventas-cliente.component';
 import { DialogService, OverlayService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
+import VentasService from '@services/ventas.service';
 import HeaderComponent from '@shared/components/header/header.component';
 import ClientListFilterPipe from '@shared/pipes/client-list-filter.pipe';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
@@ -71,10 +77,12 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatOption,
     MatTableModule,
     MatCheckbox,
+    VentasClienteComponent,
   ],
 })
 export default class ClientesComponent implements OnInit {
   public cs: ClientesService = inject(ClientesService);
+  private vs: VentasService = inject(VentasService);
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private cms: ClassMapperService = inject(ClassMapperService);
@@ -132,10 +140,8 @@ export default class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
-    const d = new Date();
-    for (let y: number = d.getFullYear() - 5; y <= d.getFullYear(); y++) {
-      this.yearList.push(y);
-    }
+    const currentYear: number = new Date().getFullYear();
+    this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
     this.broadcastChannel.onmessage = (message) => {
       if (
         message.data.type === 'imprimir' &&
@@ -169,7 +175,7 @@ export default class ClientesComponent implements OnInit {
     this.clienteTabs().realignInkBar();
     this.cs
       .getEstadisticasCliente(this.selectedClient.id)
-      .subscribe((result) => {
+      .subscribe((result: EstadisticasClienteResult): void => {
         if (result.status === 'ok') {
           this.selectedClient.ultimasVentas = this.cms.getUltimaVentaArticulos(
             result.ultimasVentas
@@ -180,7 +186,7 @@ export default class ClientesComponent implements OnInit {
         }
       });
     this.loadFacturasCliente();
-    setTimeout(() => {
+    setTimeout((): void => {
       if (!this.focusEmail) {
         this.nameBox().nativeElement.focus();
       } else {
@@ -193,15 +199,17 @@ export default class ClientesComponent implements OnInit {
   loadFacturasCliente(): void {
     this.selectedClient.facturas = [];
     this.facturasDataSource.data = this.selectedClient.facturas;
-    this.cs.getFacturas(this.selectedClient.id).subscribe((result) => {
-      if (result.status === 'ok') {
-        this.selectedClient.facturas = this.cms.getFacturas(result.list);
-        const facturas: Factura[] = [...this.selectedClient.facturas];
-        this.facturasDataSource.data = facturas;
-        this.facturasDataSource.connect().next(facturas);
-        this.facturasTable()?.renderRows();
-      }
-    });
+    this.cs
+      .getFacturas(this.selectedClient.id)
+      .subscribe((result: FacturasResult): void => {
+        if (result.status === 'ok') {
+          this.selectedClient.facturas = this.cms.getFacturas(result.list);
+          const facturas: Factura[] = [...this.selectedClient.facturas];
+          this.facturasDataSource.data = facturas;
+          this.facturasDataSource.connect().next(facturas);
+          this.facturasTable()?.renderRows();
+        }
+      });
   }
 
   newCliente(): void {

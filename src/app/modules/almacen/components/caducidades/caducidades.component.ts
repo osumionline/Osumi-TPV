@@ -100,10 +100,8 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
-    const d: Date = new Date();
-    for (let y: number = d.getFullYear(); y > d.getFullYear() - 5; y--) {
-      this.yearList.push(y);
-    }
+    const currentYear: number = new Date().getFullYear();
+    this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
     if (!this.cs.firstLoad) {
       this.buscador.set(this.cs.buscador);
       this.list.set(this.cs.list);

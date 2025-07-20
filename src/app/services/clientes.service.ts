@@ -182,4 +182,15 @@ export default class ClientesService {
       { id }
     );
   }
+
+  searchVentasCliente(
+    id: number,
+    month: number | null,
+    year: number | null
+  ): Observable<VentasClienteResult> {
+    return this.http.post<VentasClienteResult>(
+      environment.apiUrl + '-clientes/search-ventas-cliente',
+      { id, month, year }
+    );
+  }
 }

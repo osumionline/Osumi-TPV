@@ -131,7 +131,9 @@ export default class EditFacturaModalComponent implements OnInit {
       this.selection.clear();
     } else {
       this.ventasDataSource.data.forEach((v: VentaHistorico): void => {
-        v.statusFactura === 'no' && this.selection.select(v);
+        if (v.statusFactura === 'no') {
+          this.selection.select(v);
+        }
       });
     }
   }
