@@ -113,7 +113,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
       this.dialog
         .confirm({
           title: 'Confirmar',
-          content: `¿Estás seguro de querer borra la línea "${linea.nombreArticulo}"?`,
+          content: `¿Estás seguro de querer borrar la línea "${linea.nombreArticulo}"?`,
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -124,9 +124,8 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteLineaReserva(linea: ReservaLinea): void {
-    this.cs
-      .deleteLineaReserva(linea.id)
-      .subscribe((result: StatusResult): void => {
+    this.cs.deleteLineaReserva(linea.id).subscribe({
+      next: (result: StatusResult): void => {
         if (result.status === 'ok') {
           const ind: number = this.reservaSelected.lineas.findIndex(
             (x: ReservaLinea): boolean => x.id === linea.id
@@ -142,7 +141,14 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
             content: '¡Ocurrió un error al borrar la línea!',
           });
         }
-      });
+      },
+      error: (): void => {
+        this.dialog.alert({
+          title: 'Error',
+          content: '¡Ocurrió un error al borrar la línea!',
+        });
+      },
+    });
   }
 
   deleteReserva(): void {
@@ -159,9 +165,8 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteReserva(): void {
-    this.cs
-      .deleteReserva(this.reservaSelected.id)
-      .subscribe((result: StatusResult): void => {
+    this.cs.deleteReserva(this.reservaSelected.id).subscribe({
+      next: (result: StatusResult): void => {
         if (result.status === 'ok') {
           this.reservaSelected = null;
           this.loadReservas();
@@ -171,7 +176,14 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
             content: '¡Ocurrió un error al borrar la reserva!',
           });
         }
-      });
+      },
+      error: (): void => {
+        this.dialog.alert({
+          title: 'Error',
+          content: '¡Ocurrió un error al borrar la reserva!',
+        });
+      },
+    });
   }
 
   cargarVenta(): void {
