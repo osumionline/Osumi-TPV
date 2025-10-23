@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -84,7 +84,7 @@ export default class ComprasPedidosListComponent {
   recepcionadosPag: number = 1;
   recepcionadosPags: number = 0;
 
-  showGuardadosFilters: boolean = false;
+  showGuardadosFilters: WritableSignal<boolean> = signal<boolean>(false);
   guardadosFilter: PedidosFilterInterface = {
     fechaDesde: null,
     fechaHasta: null,
@@ -107,7 +107,7 @@ export default class ComprasPedidosListComponent {
     importeHasta: new FormControl<number>(null),
   });
 
-  showRecepcionadosFilters: boolean = false;
+  showRecepcionadosFilters: WritableSignal<boolean> = signal<boolean>(false);
   recepcionadosFilter: PedidosFilterInterface = {
     fechaDesde: null,
     fechaHasta: null,
@@ -176,11 +176,11 @@ export default class ComprasPedidosListComponent {
   }
 
   openGuardadosFilters(): void {
-    this.showGuardadosFilters = !this.showGuardadosFilters;
+    this.showGuardadosFilters.update((value: boolean) => !value);
   }
 
   openRecepcionadosFilters(): void {
-    this.showRecepcionadosFilters = !this.showRecepcionadosFilters;
+    this.showRecepcionadosFilters.update((value: boolean) => !value);
   }
 
   get guardadosFiltered(): boolean {

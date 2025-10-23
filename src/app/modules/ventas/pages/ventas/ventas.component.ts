@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   inject,
   input,
   InputSignalWithTransform,
@@ -27,6 +26,9 @@ import HeaderComponent from '@shared/components/header/header.component';
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.scss'],
   imports: [VentasTabsComponent, UnaVentaComponent, HeaderComponent],
+  host: {
+    'window:keydown': 'onKeyDown($event)',
+  },
 })
 export default class VentasComponent implements OnInit {
   private ars: ArticulosService = inject(ArticulosService);
@@ -60,7 +62,6 @@ export default class VentasComponent implements OnInit {
     }
   }
 
-  @HostListener('window:keydown', ['$event'])
   onKeyDown(ev: KeyboardEvent): void {
     if (ev.key === '+') {
       ev.preventDefault();

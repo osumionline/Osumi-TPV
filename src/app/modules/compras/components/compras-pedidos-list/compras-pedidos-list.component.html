@@ -10,7 +10,7 @@
                     <mat-icon>add_circle_outline</mat-icon>
                     Nuevo pedido
                 </button>
-                <mat-card [class]="{'show': showGuardadosFilters}">
+                <mat-card [class]="{'show': showGuardadosFilters()}">
                     <mat-card-content>
                         <form [formGroup]="formGuardados"
                               (ngSubmit)="filtrarGuardados()">
@@ -205,7 +205,7 @@
         <mat-card-title>
             <span class="pedidos-list-header">
                 Pedidos recepcionados
-                <mat-card [class]="{'show': showRecepcionadosFilters}">
+                <mat-card [class]="{'show': showRecepcionadosFilters()}">
                     <mat-card-content>
                         <form [formGroup]="formRecepcionados"
                               (ngSubmit)="filtrarRecepcionados()">

@@ -172,7 +172,7 @@ export default class UnaVentaComponent {
     if (ev.key === 'Enter' && !this.observacionesOpen) {
       this.searching = true;
       // Si es 0, hay que introducir el artículo Varios
-      if (this.vs.ventaActual.lineas[ind].localizador == 0) {
+      if (this.vs.ventaActual.lineas[ind].localizador === 0) {
         this.nuevoVarios(ind);
         return;
       }
