@@ -2,7 +2,7 @@
 	<div class="tab-list">
 		@for (tab of vs.list; track tab.id; let i = $index) {
 		<div class="tab-item"
-			 [class]="{'tab-selected': vs.selected === i}"
+			 [class]="{'tab-selected': vs.selected() === i}"
 			 (click)="selectTab(i)"
 			 [style]="{'background-color': tab.color, 'color': tab.textColor}">
 			{{tab.tabName}}

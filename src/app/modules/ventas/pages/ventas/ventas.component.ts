@@ -5,17 +5,22 @@ import {
   InputSignalWithTransform,
   numberAttribute,
   OnInit,
+  signal,
   Signal,
   viewChild,
   viewChildren,
+  WritableSignal,
 } from '@angular/core';
+import { FinalizarVentaModal } from '@app/interfaces/modals.interface';
+import VentaFin from '@app/model/ventas/venta-fin.model';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
 import Reserva from '@model/ventas/reserva.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
+import Venta from '@model/ventas/venta.model';
 import VentaFinalizarModalComponent from '@modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component';
 import UnaVentaComponent from '@modules/ventas/components/una-venta/una-venta.component';
 import VentasTabsComponent from '@modules/ventas/components/ventas-tabs/ventas-tabs.component';
-import { Modal, OverlayService } from '@osumi/angular-tools';
+import { OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ConfigService from '@services/config.service';
 import VentasService from '@services/ventas.service';
@@ -31,31 +36,39 @@ import HeaderComponent from '@shared/components/header/header.component';
   },
 })
 export default class VentasComponent implements OnInit {
-  private ars: ArticulosService = inject(ArticulosService);
-  public config: ConfigService = inject(ConfigService);
-  public vs: VentasService = inject(VentasService);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   id: InputSignalWithTransform<number | undefined, unknown> = input.required({
     transform: numberAttribute,
   });
   tabs: Signal<VentasTabsComponent> =
     viewChild.required<VentasTabsComponent>('tabs');
-  ventas: Signal<readonly UnaVentaComponent[]> =
+  ventasComponents: Signal<readonly UnaVentaComponent[]> =
     viewChildren(UnaVentaComponent);
-
   header: Signal<HeaderComponent> =
     viewChild.required<HeaderComponent>('header');
+
+  ventas: WritableSignal<Venta[]> = signal(this.vs.getList());
+  selected: WritableSignal<number> = signal(this.vs.selected());
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
     if (this.id() !== undefined && !isNaN(this.id()) && this.id() !== 0) {
       this.newVenta(-1 * this.id());
-      this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
+      this.ventas.update((ventas: Venta[]): Venta[] => {
+        ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
+        return ventas;
+      });
     } else {
-      if (this.vs.selected === -1) {
+      if (this.vs.selected() === -1) {
         this.newVenta();
-        this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
+        this.ventas.update((ventas: Venta[]): Venta[] => {
+          ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
+          return ventas;
+        });
       } else {
         this.startFocus();
       }
@@ -70,66 +83,96 @@ export default class VentasComponent implements OnInit {
   }
 
   newVenta(id: number = null): void {
-    this.vs.newVenta(
+    const newVenta = this.vs.newVenta(
       this.config.empleados,
       this.config.idEmpleadoDef,
       this.config.colorEmpleadoDef,
       this.config.colorTextEmpleadoDef,
       id
     );
+    this.ventas.update((ventas: Venta[]): Venta[] => {
+      ventas.push(newVenta);
+      return ventas;
+    });
     if (!this.config.empleados) {
       this.startFocus(id);
     }
   }
 
+  changeTab(ind: number): void {
+    this.selected.set(ind);
+    this.startFocus();
+  }
+
   startFocus(id: number = null): void {
     setTimeout((): void => {
-      this.ventas()[this.vs.selected]?.setFocus(id);
+      this.ventasComponents()[this.selected()]?.setFocus(id);
     }, 0);
   }
 
   cerrarVenta(ind: number): void {
-    if (this.vs.selected === ind) {
-      this.vs.selected = 0;
+    if (this.selected() === ind) {
+      this.selected.set(0);
     }
-    this.vs.list.splice(ind, 1);
-    for (const ind in this.vs.list) {
-      this.vs.list[ind].tabName = 'VENTA ' + (parseInt(ind) + 1);
-    }
+    this.ventas.update((ventas: Venta[]): Venta[] => {
+      ventas.splice(ind, 1);
+      for (const ind in ventas) {
+        ventas[ind].tabName = 'VENTA ' + (parseInt(ind) + 1);
+      }
+      return ventas;
+    });
   }
 
   deleteVentaLinea(ind: number): void {
-    const linea: VentaLinea = this.vs.ventaActual.lineas[ind];
-    if (linea.fromReserva === null) {
-      this.vs.ventaActual.lineas.splice(ind, 1);
-    } else {
-      linea.cantidad = 0;
-    }
-    this.vs.ventaActual.updateImporte();
+    this.ventas.update((ventas: Venta[]): Venta[] => {
+      const linea: VentaLinea = ventas[this.selected()].lineas[ind];
+      if (linea.fromReserva === null) {
+        ventas[this.selected()].lineas.splice(ind, 1);
+      } else {
+        linea.cantidad = 0;
+      }
+      ventas[this.selected()].updateImporte();
+      return ventas;
+    });
     this.startFocus();
   }
 
   selectClient(selected: SelectClienteInterface): void {
     if (selected !== null) {
-      this.vs.loadVentaCliente(selected.cliente);
+      this.ventas.update((ventas: Venta[]): Venta[] => {
+        ventas[this.vs.selected()] = this.vs.loadVentaCliente(
+          selected.cliente,
+          ventas[this.vs.selected()]
+        );
+        return ventas;
+      });
     }
     if (selected === null || selected.from === null) {
       this.startFocus();
     } else {
-      this.abreFinalizarVenta();
+      const ventaFin: VentaFin = this.vs.loadFinVenta(
+        this.ventas()[this.vs.selected()]
+      );
+      this.abreFinalizarVenta(ventaFin);
     }
   }
 
   selectReserva(reservas: Reserva[]): void {
     this.newVenta();
-    this.vs.ventaActual.mostrarEmpleados = this.config.empleados;
-    this.vs.loadVentaCliente(reservas[0].cliente);
-    this.vs.ventaActual.lineas = [];
+    this.ventas.update((ventas: Venta[]): Venta[] => {
+      ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
+      ventas[this.vs.selected()] = this.vs.loadVentaCliente(
+        reservas[0].cliente,
+        ventas[this.vs.selected()]
+      );
+      ventas[this.vs.selected()].lineas = [];
+      return ventas;
+    });
     for (const reserva of reservas) {
       for (const linea of reserva.lineas) {
         let ind: number = -1;
         if (linea.idArticulo !== null) {
-          ind = this.vs.ventaActual.lineas.findIndex(
+          ind = this.ventas()[this.vs.selected()].lineas.findIndex(
             (x: VentaLinea): boolean => {
               return x.idArticulo === linea.idArticulo;
             }
@@ -140,30 +183,45 @@ export default class VentasComponent implements OnInit {
             linea
           );
           lineaVenta.fromReserva = reserva.id;
-          this.vs.ventaActual.lineas.push(lineaVenta);
+          this.ventas.update((ventas: Venta[]): Venta[] => {
+            ventas[this.vs.selected()].lineas.push(lineaVenta);
+            return ventas;
+          });
         } else {
-          this.vs.ventaActual.lineas[ind].cantidad += linea.unidades;
+          this.ventas.update((ventas: Venta[]): Venta[] => {
+            ventas[this.vs.selected()].lineas[ind].cantidad += linea.unidades;
+            return ventas;
+          });
         }
       }
     }
-    this.vs.ventaActual.updateImporte();
+    this.ventas.update((ventas: Venta[]): Venta[] => {
+      ventas[this.vs.selected()].updateImporte();
+      return ventas;
+    });
     if (!this.config.empleados) {
-      this.vs.addLineaVenta();
+      this.ventas.update((ventas: Venta[]): Venta[] => {
+        ventas[this.vs.selected()].lineas.push(new VentaLinea());
+        return ventas;
+      });
     }
   }
 
   endVenta(): void {
-    if (this.vs.ventaActual.lineas.length === 1) {
+    if (this.ventas()[this.vs.selected()].lineas.length === 1) {
       return;
     }
-    this.vs.loadFinVenta();
-    this.abreFinalizarVenta();
+    const ventaFin: VentaFin = this.vs.loadFinVenta(
+      this.ventas()[this.vs.selected()]
+    );
+    this.abreFinalizarVenta(ventaFin);
   }
 
-  abreFinalizarVenta(): void {
-    const modalFinalizarVentaData: Modal = {
+  abreFinalizarVenta(ventaFin: VentaFin): void {
+    const modalFinalizarVentaData: FinalizarVentaModal = {
       modalTitle: 'Finalizar venta',
       modalColor: 'blue',
+      fin: ventaFin,
     };
     const dialog = this.overlayService.open(
       VentaFinalizarModalComponent,
@@ -181,26 +239,32 @@ export default class VentasComponent implements OnInit {
           this.tabs().selectClient('reserva');
         }
         if (data.data.status === 'cancelar') {
-          this.ventas()[this.vs.selected]?.setFocus();
+          this.ventasComponents()[this.vs.selected()]?.setFocus();
         }
         if (data.data.status === 'fin-reserva') {
           this.vs.cliente = null;
-          this.vs.ventaActual.resetearVenta();
-          this.vs.addLineaVenta();
-          this.ventas()[this.vs.selected]?.setFocus();
+          this.ventas.update((ventas: Venta[]): Venta[] => {
+            ventas[this.vs.selected()].resetearVenta();
+            ventas[this.vs.selected()].lineas.push(new VentaLinea());
+            return ventas;
+          });
+          this.ventasComponents()[this.vs.selected()]?.setFocus();
         }
         if (data.data.status === 'fin') {
           this.vs.cliente = null;
-          this.vs.ventaActual.resetearVenta();
-          this.vs.addLineaVenta();
-          this.ventas()[this.vs.selected]?.loadUltimaVenta(
+          this.ventas.update((ventas: Venta[]): Venta[] => {
+            ventas[this.vs.selected()].resetearVenta();
+            ventas[this.vs.selected()].lineas.push(new VentaLinea());
+            return ventas;
+          });
+          this.ventasComponents()[this.vs.selected()]?.loadUltimaVenta(
             data.data.importe,
             data.data.cambio
           );
-          this.ventas()[this.vs.selected]?.setFocus();
+          this.ventasComponents()[this.vs.selected()]?.setFocus();
         }
       } else {
-        this.ventas()[this.vs.selected]?.setFocus();
+        this.ventasComponents()[this.vs.selected()]?.setFocus();
       }
     });
   }

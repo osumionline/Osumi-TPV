@@ -38,7 +38,7 @@ export default class VentaVariosModalComponent implements OnInit {
   private config: ConfigService = inject(ConfigService);
   private customOverlayRef: CustomOverlayRef<
     null,
-    { nombre: string; pvp: number; iva: number; re: number }
+    { nombre: string; pvp: number; iva: number }
   > = inject(CustomOverlayRef);
 
   ivaList: number[] = [];

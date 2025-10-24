@@ -1,5 +1,6 @@
 import { DevolucionSelectedInterface } from '@interfaces/venta.interface';
 import Factura from '@model/clientes/factura.model';
+import VentaFin from '@model/ventas/venta-fin.model';
 import { Modal } from '@osumi/angular-tools';
 
 export interface BuscadorModal extends Modal {
@@ -30,6 +31,10 @@ export interface VariosModal extends Modal {
   nombre: string;
   pvp: number;
   iva: number;
+}
+
+export interface FinalizarVentaModal extends Modal {
+  fin: VentaFin;
 }
 
 export interface EmpleadoLoginModal extends Modal {

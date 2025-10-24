@@ -31,7 +31,7 @@ export default class VentasTabsComponent {
 
   showClose: InputSignal<boolean> = input<boolean>(false);
   closeTabEvent: OutputEmitterRef<number> = output<number>();
-  newTabEvent: OutputEmitterRef<number> = output<number>();
+  newTabEvent: OutputEmitterRef<void> = output<void>();
   changeTabEvent: OutputEmitterRef<number> = output<number>();
   selectClientEvent: OutputEmitterRef<SelectClienteInterface> =
     output<SelectClienteInterface>();
@@ -40,7 +40,6 @@ export default class VentasTabsComponent {
   selectClienteFrom: string = null;
 
   selectTab(ind: number): void {
-    this.vs.selected = ind;
     this.changeTabEvent.emit(ind);
   }
 
@@ -58,7 +57,7 @@ export default class VentasTabsComponent {
   }
 
   newTab(): void {
-    this.newTabEvent.emit(0);
+    this.newTabEvent.emit();
   }
 
   selectClient(from: string = null): void {

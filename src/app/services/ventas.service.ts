@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '@env/environment';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import { HistoricoVentasResult } from '@interfaces/caja.interface';
@@ -31,9 +31,17 @@ export default class VentasService {
   private dialog: DialogService = inject(DialogService);
   private cms: ClassMapperService = inject(ClassMapperService);
 
-  selected: number = -1;
-  list: Venta[] = [];
+  selected: WritableSignal<number> = signal<number>(-1);
+  list: WritableSignal<Venta[]> = signal<Venta[]>([]);
   fin: VentaFin = new VentaFin();
+
+  getList(): Venta[] {
+    return this.list();
+  }
+
+  setList(ventas: Venta[]): void {
+    this.list.set(ventas);
+  }
 
   newVenta(
     empleados: boolean,
@@ -41,47 +49,56 @@ export default class VentasService {
     colorEmpleadoDef: string,
     colorTextEmpleadoDef: string,
     loadValue: number = null
-  ): void {
-    this.selected = this.list.length;
+  ): Venta {
+    this.selected.set(this.list.length);
     const venta = new Venta();
     venta.tabName = 'VENTA ' + (this.list.length + 1);
     venta.color = colorEmpleadoDef;
     venta.textColor = colorTextEmpleadoDef;
     venta.mostrarEmpleados = empleados;
     venta.loadValue = loadValue;
-    this.list.push(venta);
     if (!empleados) {
-      this.ventaActual.setEmpleado(
+      venta.setEmpleado(
         new Empleado().fromDefault(idEmpleadoDef, colorEmpleadoDef)
       );
-      this.addLineaVenta();
+      venta.lineas.push(new VentaLinea());
     }
+    return venta;
   }
 
   addLineaVenta(): void {
-    this.ventaActual.lineas.push(new VentaLinea());
+    this.list.update((list: Venta[]): Venta[] => {
+      list[this.selected()].lineas.push(new VentaLinea());
+      return list;
+    });
   }
 
   get ventaActual(): Venta {
-    return this.list[this.selected];
+    return this.list[this.selected()];
   }
 
   updateArticulo(articulo: Articulo): void {
-    for (const venta of this.list) {
-      for (const linea of venta.lineas) {
-        if (linea.idArticulo === articulo.id) {
-          linea.descripcion = articulo.nombre;
-          linea.stock = articulo.stock;
-          linea.pvp = articulo.pvp;
-          linea.updateImporte();
+    this.list.update((list: Venta[]): Venta[] => {
+      for (const venta of list) {
+        for (const linea of venta.lineas) {
+          if (linea.idArticulo === articulo.id) {
+            linea.descripcion = articulo.nombre;
+            linea.stock = articulo.stock;
+            linea.pvp = articulo.pvp;
+            linea.updateImporte();
+          }
         }
+        venta.updateImporte();
       }
-      venta.updateImporte();
-    }
+      return list;
+    });
   }
 
   set cliente(c: Cliente) {
-    this.ventaActual.setCliente(c);
+    this.list.update((list: Venta[]): Venta[] => {
+      list[this.selected()].setCliente(c);
+      return list;
+    });
   }
 
   get cliente(): Cliente {
@@ -92,18 +109,18 @@ export default class VentasService {
       : null;
   }
 
-  loadVentaCliente(cliente: Cliente): void {
+  loadVentaCliente(cliente: Cliente, venta: Venta): Venta {
     this.cliente = cliente;
     this.fin.idCliente = cliente.id;
     this.fin.email = cliente.email;
     if (cliente.descuento !== 0) {
-      for (const linea of this.ventaActual.lineas) {
+      for (const linea of venta.lineas) {
         if (linea.localizador !== null) {
           linea.descuentoManual = false;
           linea.descuento = cliente.descuento;
         }
       }
-      this.ventaActual.updateImporte();
+      venta.updateImporte();
     }
     this.cs
       .getEstadisticasCliente(cliente.id)
@@ -123,21 +140,22 @@ export default class VentasService {
           });
         }
       });
+    return venta;
   }
 
-  loadFinVenta(): void {
-    const lineas: VentaLinea[] = this.ventaActual.lineas.filter(
+  loadFinVenta(venta: Venta): VentaFin {
+    const lineas: VentaLinea[] = venta.lineas.filter(
       (x: VentaLinea): boolean => x.idArticulo !== null
     );
 
-    this.fin = new VentaFin(
-      formatNumber(this.ventaActual.importe),
+    return new VentaFin(
+      formatNumber(venta.importe),
       '0',
       null,
-      this.ventaActual.idEmpleado,
+      venta.idEmpleado,
       null,
       this.cliente ? this.cliente.id : -1,
-      formatNumber(this.ventaActual.importe),
+      formatNumber(venta.importe),
       lineas,
       'si',
       this.cliente ? this.cliente.email : null
@@ -161,9 +179,7 @@ export default class VentasService {
   search(q: string): Observable<ArticuloBuscadorResult> {
     return this.http.post<ArticuloBuscadorResult>(
       environment.apiUrl + '-ventas/search',
-      {
-        q,
-      }
+      { q }
     );
   }
 

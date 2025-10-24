@@ -4,13 +4,13 @@
 <otpv-ventas-tabs [showClose]="true"
 				  (closeTabEvent)="cerrarVenta($event)"
 				  (newTabEvent)="newVenta()"
-				  (changeTabEvent)="startFocus()"
+				  (changeTabEvent)="changeTab($event)"
 				  (selectClientEvent)="selectClient($event)"
 				  (selectReservaEvent)="selectReserva($event)"
 				  #tabs />
-@for (venta of vs.list; track venta.id; let i = $index) {
+@for (venta of ventas(); track venta.id; let i = $index) {
 <otpv-una-venta [ind]="i"
-				[class]="{'hidden':i !== vs.selected}"
+				[class]="{'hidden':i !== selected()}"
 				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
 				(endVentaEvent)="endVenta()"
 				(openCajaEvent)="openCaja()"

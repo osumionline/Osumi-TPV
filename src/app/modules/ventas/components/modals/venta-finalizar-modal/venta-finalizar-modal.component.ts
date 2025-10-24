@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   inject,
   OnInit,
   Signal,
@@ -17,6 +16,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import VentaFin from '@app/model/ventas/venta-fin.model';
 import { FinVentaResult } from '@interfaces/venta.interface';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import {
@@ -46,6 +46,9 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatOption,
     MatButton,
   ],
+  host: {
+    'window:keydown': 'onKeyDown($event)',
+  },
 })
 export default class VentaFinalizarModalComponent
   implements OnInit, AfterViewInit
@@ -54,7 +57,8 @@ export default class VentaFinalizarModalComponent
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> =
+    inject(CustomOverlayRef);
 
   efectivoValue: Signal<ElementRef> =
     viewChild.required<ElementRef>('efectivoValue');
@@ -72,10 +76,11 @@ export default class VentaFinalizarModalComponent
     new MatTableDataSource<VentaLinea>();
   sort: Signal<MatSort> = viewChild(MatSort);
 
+  ventaFin: VentaFin = this.customOverlayRef.data.fin;
   saving: boolean = false;
 
   ngOnInit(): void {
-    this.ventasFinDataSource.data = this.vs.fin.lineas;
+    this.ventasFinDataSource.data = this.ventaFin.lineas;
     setTimeout((): void => {
       this.efectivoValue().nativeElement.select();
     }, 0);
@@ -85,7 +90,6 @@ export default class VentaFinalizarModalComponent
     this.ventasFinDataSource.sort = this.sort();
   }
 
-  @HostListener('window:keydown', ['$event'])
   onKeyDown(ev: KeyboardEvent): void {
     if (ev.key === 'Enter') {
       this.finalizarVenta();
@@ -94,58 +98,58 @@ export default class VentaFinalizarModalComponent
 
   updateCambio(): void {
     let cambio: string = '';
-    if (!this.vs.fin.pagoMixto) {
+    if (!this.ventaFin.pagoMixto) {
       cambio = formatNumber(
-        toNumber(this.vs.fin.efectivo) - toNumber(this.vs.fin.total)
+        toNumber(this.ventaFin.efectivo) - toNumber(this.ventaFin.total)
       );
     } else {
       cambio = formatNumber(
-        toNumber(this.vs.fin.efectivo) +
-          toNumber(this.vs.fin.tarjeta) -
-          toNumber(this.vs.fin.total)
+        toNumber(this.ventaFin.efectivo) +
+          toNumber(this.ventaFin.tarjeta) -
+          toNumber(this.ventaFin.total)
       );
     }
     if (toNumber(cambio) > 0) {
-      this.vs.fin.cambio = cambio;
+      this.ventaFin.cambio = cambio;
     }
   }
 
   selectTipoPago(id: number): void {
-    if (this.vs.fin.idTipoPago === id) {
-      this.vs.fin.idTipoPago = null;
-      this.vs.fin.efectivo = this.vs.fin.total;
+    if (this.ventaFin.idTipoPago === id) {
+      this.ventaFin.idTipoPago = null;
+      this.ventaFin.efectivo = this.ventaFin.total;
       setTimeout((): void => {
         this.efectivoValue().nativeElement.select();
       }, 0);
     } else {
-      this.vs.fin.idTipoPago = id;
-      if (this.vs.fin.pagoMixto) {
+      this.ventaFin.idTipoPago = id;
+      if (this.ventaFin.pagoMixto) {
         this.updateEfectivoMixto();
         setTimeout((): void => {
           this.tarjetaValue().nativeElement.select();
         }, 0);
       } else {
-        this.vs.fin.efectivo = '0';
-        this.vs.fin.cambio = '0';
+        this.ventaFin.efectivo = '0';
+        this.ventaFin.cambio = '0';
       }
     }
   }
 
   updateEfectivoMixto(): void {
-    if (toNumber(this.vs.fin.tarjeta) === 0) {
-      this.vs.fin.efectivo = '0';
-      this.vs.fin.cambio = '0';
+    if (toNumber(this.ventaFin.tarjeta) === 0) {
+      this.ventaFin.efectivo = '0';
+      this.ventaFin.cambio = '0';
       return;
     }
     const efectivo: string = formatNumber(
-      toNumber(this.vs.fin.total) - toNumber(this.vs.fin.tarjeta)
+      toNumber(this.ventaFin.total) - toNumber(this.ventaFin.tarjeta)
     );
     if (toNumber(efectivo) > 0) {
-      this.vs.fin.efectivo = efectivo;
-      this.vs.fin.cambio = '0';
+      this.ventaFin.efectivo = efectivo;
+      this.ventaFin.cambio = '0';
     } else {
-      this.vs.fin.efectivo = '0';
-      this.vs.fin.cambio = formatNumber(toNumber(efectivo) * -1);
+      this.ventaFin.efectivo = '0';
+      this.ventaFin.cambio = formatNumber(toNumber(efectivo) * -1);
     }
   }
 
@@ -155,21 +159,21 @@ export default class VentaFinalizarModalComponent
         this.tarjetaValue().nativeElement.select();
       }, 0);
     } else {
-      if (this.vs.fin.idTipoPago === null) {
-        this.vs.fin.efectivo = '0';
-        this.vs.fin.tarjeta = '0';
+      if (this.ventaFin.idTipoPago === null) {
+        this.ventaFin.efectivo = '0';
+        this.ventaFin.tarjeta = '0';
         setTimeout((): void => {
           this.efectivoValue().nativeElement.select();
         }, 0);
       } else {
-        this.vs.fin.tarjeta = '0';
+        this.ventaFin.tarjeta = '0';
       }
     }
   }
 
   checkTicket(): void {
     // Se ha elegido email y no tiene cliente asignado
-    if (this.vs.fin.imprimir === 'email' && this.vs.fin.idCliente === -1) {
+    if (this.ventaFin.imprimir === 'email' && this.ventaFin.idCliente === -1) {
       this.dialog
         .confirm({
           title: 'Enviar email',
@@ -188,8 +192,8 @@ export default class VentaFinalizarModalComponent
     }
     // Se ha elegido email, tiene cliente asignado pero no tiene email
     if (
-      this.vs.fin.imprimir === 'email' &&
-      this.vs.fin.idCliente !== -1 &&
+      this.ventaFin.imprimir === 'email' &&
+      this.ventaFin.idCliente !== -1 &&
       (this.vs.cliente.email === null || this.vs.cliente.email === '')
     ) {
       this.dialog
@@ -209,7 +213,10 @@ export default class VentaFinalizarModalComponent
         });
     }
     // Se ha elegido factura y no tiene cliente asignado
-    if (this.vs.fin.imprimir === 'factura' && this.vs.fin.idCliente === -1) {
+    if (
+      this.ventaFin.imprimir === 'factura' &&
+      this.ventaFin.idCliente === -1
+    ) {
       this.dialog
         .confirm({
           title: 'Imprimir factura',
@@ -220,15 +227,15 @@ export default class VentaFinalizarModalComponent
           if (result === true) {
             this.customOverlayRef.close({ status: 'factura' });
           } else {
-            this.vs.fin.imprimir = 'si';
+            this.ventaFin.imprimir = 'si';
           }
         });
     }
     // Se ha elegido reserva y no tiene cliente asignado
     if (
-      (this.vs.fin.imprimir === 'reserva' ||
-        this.vs.fin.imprimir === 'reserva-sin-ticket') &&
-      this.vs.fin.idCliente === -1
+      (this.ventaFin.imprimir === 'reserva' ||
+        this.ventaFin.imprimir === 'reserva-sin-ticket') &&
+      this.ventaFin.idCliente === -1
     ) {
       this.dialog
         .confirm({
@@ -240,7 +247,7 @@ export default class VentaFinalizarModalComponent
           if (result === true) {
             this.customOverlayRef.close({ status: 'reserva' });
           } else {
-            this.vs.fin.imprimir = 'si';
+            this.ventaFin.imprimir = 'si';
           }
         });
     }
@@ -257,9 +264,9 @@ export default class VentaFinalizarModalComponent
       })
       .subscribe((result: DialogField[]): void => {
         if (result === undefined || result.length === 0) {
-          this.vs.fin.imprimir = 'si';
+          this.ventaFin.imprimir = 'si';
         } else {
-          this.vs.fin.email = result[0].value;
+          this.ventaFin.email = result[0].value;
         }
       });
   }
@@ -269,13 +276,13 @@ export default class VentaFinalizarModalComponent
   }
 
   finalizarVenta(): void {
-    const tarjeta: number = toNumber(this.vs.fin.tarjeta);
-    const efectivo: number = toNumber(this.vs.fin.efectivo);
-    const total: number = toNumber(this.vs.fin.total);
+    const tarjeta: number = toNumber(this.ventaFin.tarjeta);
+    const efectivo: number = toNumber(this.ventaFin.efectivo);
+    const total: number = toNumber(this.ventaFin.total);
 
     if (
-      this.vs.fin.imprimir === 'reserva' ||
-      this.vs.fin.imprimir === 'reserva-sin-ticket'
+      this.ventaFin.imprimir === 'reserva' ||
+      this.ventaFin.imprimir === 'reserva-sin-ticket'
     ) {
       this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
         if (result.status === 'ok') {
@@ -292,8 +299,8 @@ export default class VentaFinalizarModalComponent
       return;
     }
 
-    if (this.vs.fin.pagoMixto) {
-      if (this.vs.fin.idTipoPago === null) {
+    if (this.ventaFin.pagoMixto) {
+      if (this.ventaFin.idTipoPago === null) {
         this.dialog.alert({
           title: 'Error',
           content:
@@ -317,7 +324,7 @@ export default class VentaFinalizarModalComponent
         }
       }
     } else {
-      if (this.vs.fin.idTipoPago === null && efectivo < total) {
+      if (this.ventaFin.idTipoPago === null && efectivo < total) {
         this.dialog
           .alert({
             title: 'Error',
