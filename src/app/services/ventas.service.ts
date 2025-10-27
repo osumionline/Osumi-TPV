@@ -20,7 +20,7 @@ import { DialogService } from '@osumi/angular-tools';
 import { formatNumber } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -94,25 +94,12 @@ export default class VentasService {
     });
   }
 
-  set cliente(c: Cliente) {
-    this.list.update((list: Venta[]): Venta[] => {
-      list[this.selected()].setCliente(c);
-      return list;
-    });
-  }
-
-  get cliente(): Cliente {
-    return this.ventaActual
-      ? this.ventaActual.cliente
-        ? this.ventaActual.cliente
-        : null
-      : null;
-  }
-
-  loadVentaCliente(cliente: Cliente, venta: Venta): Venta {
-    this.cliente = cliente;
+  loadVentaCliente(cliente: Cliente, venta: Venta): Observable<Venta> {
     this.fin.idCliente = cliente.id;
     this.fin.email = cliente.email;
+
+    venta.cliente = cliente;
+
     if (cliente.descuento !== 0) {
       for (const linea of venta.lineas) {
         if (linea.localizador !== null) {
@@ -122,16 +109,14 @@ export default class VentasService {
       }
       venta.updateImporte();
     }
-    this.cs
-      .getEstadisticasCliente(cliente.id)
-      .subscribe((result: EstadisticasClienteResult): void => {
-        if (result.status === 'ok') {
-          this.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-            result.ultimasVentas
+
+    return this.cs.getEstadisticasCliente(cliente.id).pipe(
+      tap((r: EstadisticasClienteResult): void => {
+        if (r.status === 'ok') {
+          venta.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
+            r.ultimasVentas
           );
-          this.cliente.topVentas = this.cms.getTopVentaArticulos(
-            result.topVentas
-          );
+          venta.cliente.topVentas = this.cms.getTopVentaArticulos(r.topVentas);
         } else {
           this.dialog.alert({
             title: 'Error',
@@ -139,8 +124,16 @@ export default class VentasService {
               '¡Ocurrió un error al obtener las estadísticas del cliente!',
           });
         }
-      });
-    return venta;
+      }),
+      map((): Venta => venta),
+      catchError((): Observable<Venta> => {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'No se pudieron cargar las estadísticas del cliente.',
+        });
+        return of(venta);
+      })
+    );
   }
 
   loadFinVenta(venta: Venta): VentaFin {
@@ -154,11 +147,11 @@ export default class VentasService {
       null,
       venta.idEmpleado,
       null,
-      this.cliente ? this.cliente.id : -1,
+      venta.cliente ? venta.cliente.id : -1,
       formatNumber(venta.importe),
       lineas,
       'si',
-      this.cliente ? this.cliente.email : null
+      venta.cliente ? venta.cliente.email : null
     );
   }
 

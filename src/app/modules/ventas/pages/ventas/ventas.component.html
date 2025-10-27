@@ -2,6 +2,9 @@
 			 #header />
 
 <otpv-ventas-tabs [showClose]="true"
+				  [ventas]="ventas()"
+				  [selected]="selected()"
+				  [cliente]="cliente"
 				  (closeTabEvent)="cerrarVenta($event)"
 				  (newTabEvent)="newVenta()"
 				  (changeTabEvent)="changeTab($event)"

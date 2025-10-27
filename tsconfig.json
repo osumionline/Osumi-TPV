@@ -10,9 +10,9 @@
     "module": "ES2022",
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["ES2022", "dom"],
+    "lib": ["ES2023", "dom"],
     "useDefineForClassFields": false,
     "paths": {
       "@app/*": ["src/app/*"],

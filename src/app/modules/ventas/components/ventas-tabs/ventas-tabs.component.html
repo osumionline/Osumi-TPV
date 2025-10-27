@@ -1,11 +1,11 @@
 <div class="tab-container">
 	<div class="tab-list">
-		@for (tab of vs.list; track tab.id; let i = $index) {
+		@for (tab of ventas(); track tab.id; let i = $index) {
 		<div class="tab-item"
-			 [class]="{'tab-selected': vs.selected() === i}"
+			 [class]="{'tab-selected': selected() === i}"
 			 (click)="selectTab(i)"
 			 [style]="{'background-color': tab.color, 'color': tab.textColor}">
-			{{tab.tabName}}
+			{{ tab.tabName }}
 			@if (showClose()) {
 			<mat-icon class="tab-icon"
 					  (click)="closeTab(i)">close</mat-icon>
@@ -22,7 +22,7 @@
 			 matTooltip="Abrir reservas">
 			<mat-icon>grading</mat-icon>
 		</div>
-		@if (vs.list.length > 0 && !vs.cliente) {
+		@if (ventas().length > 0 && !cliente()) {
 		<div class="select-client">
 			<span (click)="selectClient()"
 				  matTooltip="Elegir cliente">
@@ -30,9 +30,9 @@
 			</span>
 		</div>
 		}
-		@if (vs.cliente) {
+		@if (cliente()) {
 		<div class="select-client">
-			<a [routerLink]="'/clientes/' + vs.cliente.id">{{vs.cliente.nombreApellidos}}</a>
+			<a [routerLink]="'/clientes/' + cliente().id">{{cliente().nombreApellidos}}</a>
 			<span matTooltip="Quitar cliente">
 				<mat-icon (click)="removeClient()">close</mat-icon>
 			</span>

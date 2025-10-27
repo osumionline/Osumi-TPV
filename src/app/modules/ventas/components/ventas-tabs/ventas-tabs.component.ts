@@ -9,6 +9,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import Venta from '@app/model/ventas/venta.model';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
 import { ElegirClienteModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
@@ -29,6 +30,9 @@ export default class VentasTabsComponent {
   public vs: VentasService = inject(VentasService);
   private overlayService: OverlayService = inject(OverlayService);
 
+  ventas: InputSignal<Venta[]> = input.required<Venta[]>();
+  selected: InputSignal<number> = input.required<number>();
+  cliente: InputSignal<Cliente> = input.required<Cliente>();
   showClose: InputSignal<boolean> = input<boolean>(false);
   closeTabEvent: OutputEmitterRef<number> = output<number>();
   newTabEvent: OutputEmitterRef<void> = output<void>();
@@ -83,7 +87,6 @@ export default class VentasTabsComponent {
   }
 
   removeClient(): void {
-    this.vs.cliente = null;
     this.selectClientEvent.emit(null);
   }
 
