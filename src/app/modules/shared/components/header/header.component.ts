@@ -1,11 +1,4 @@
-import {
-  Component,
-  HostListener,
-  inject,
-  input,
-  InputSignal,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, inject, input, InputSignal, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
@@ -26,7 +19,7 @@ export default class HeaderComponent implements OnInit {
   private overlayService: OverlayService = inject(OverlayService);
 
   selectedOption: InputSignal<string> = input<string>('');
-  title: string;
+  title: string = '';
 
   ngOnInit(): void {
     this.title = this.config.nombre;

@@ -27,17 +27,13 @@ export default class ComprasComponent implements OnInit {
   private comprasService: ComprasService = inject(ComprasService);
   private router: Router = inject(Router);
 
-  compras: Signal<ComprasPedidosListComponent> = viewChild.required(
-    ComprasPedidosListComponent
-  );
-  marcas: Signal<MarcasComponent> = viewChild(MarcasComponent);
-  proveedores: Signal<ProveedoresComponent> = viewChild(ProveedoresComponent);
+  compras: Signal<ComprasPedidosListComponent> = viewChild.required(ComprasPedidosListComponent);
+  marcas: Signal<MarcasComponent | undefined> = viewChild(MarcasComponent);
+  proveedores: Signal<ProveedoresComponent | undefined> = viewChild(ProveedoresComponent);
 
   ngOnInit(): void {
     if (this.comprasService.pedidoCargado !== null) {
-      this.router.navigate([
-        '/compras/pedido/' + this.comprasService.pedidoCargado,
-      ]);
+      this.router.navigate(['/compras/pedido/' + this.comprasService.pedidoCargado]);
       return;
     }
     if (this.comprasService.pedidoTemporal !== null) {

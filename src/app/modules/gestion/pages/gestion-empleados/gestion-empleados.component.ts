@@ -1,12 +1,5 @@
 import { KeyValue, KeyValuePipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -74,8 +67,7 @@ export default class GestionEmpleadosComponent implements OnInit {
   canChangeEmployeeRoles: boolean = false;
   canSeeStatistics: boolean = false;
   canSaveChanges: boolean = false;
-  empleadoTabs: Signal<MatTabGroup> =
-    viewChild.required<MatTabGroup>('empleadoTabs');
+  empleadoTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('empleadoTabs');
   selectedEmpleado: Empleado = new Empleado();
 
   form: FormGroup = new FormGroup({
@@ -86,7 +78,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     confirmPassword: new FormControl(null),
     color: new FormControl(null),
   });
-  originalValue: EmpleadoSaveInterface = null;
+  originalValue: EmpleadoSaveInterface | null = null;
 
   list: Record<string, RolGroup> = rolList;
   selectedRolList: boolean[] = [];
@@ -96,21 +88,11 @@ export default class GestionEmpleadosComponent implements OnInit {
       this.router.navigate(['/gestion']);
       return;
     }
-    this.canNewEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles['crear'].id
-    );
-    this.canDeleteEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles['borrar'].id
-    );
-    this.canModifyEmployees = this.gs.empleado.hasRol(
-      rolList.empleados.roles['modificar'].id
-    );
-    this.canChangeEmployeeRoles = this.gs.empleado.hasRol(
-      rolList.empleados.roles['roles'].id
-    );
-    this.canSeeStatistics = this.gs.empleado.hasRol(
-      rolList.empleados.roles['estadisticas'].id
-    );
+    this.canNewEmployees = this.gs.empleado.hasRol(rolList['empleados'].roles['crear'].id);
+    this.canDeleteEmployees = this.gs.empleado.hasRol(rolList['empleados'].roles['borrar'].id);
+    this.canModifyEmployees = this.gs.empleado.hasRol(rolList['empleados'].roles['modificar'].id);
+    this.canChangeEmployeeRoles = this.gs.empleado.hasRol(rolList['empleados'].roles['roles'].id);
+    this.canSeeStatistics = this.gs.empleado.hasRol(rolList['empleados'].roles['estadisticas'].id);
     for (const group in this.list) {
       for (const rol in this.list[group].roles) {
         this.selectedRolList[this.list[group].roles[rol].id] = false;
@@ -182,6 +164,7 @@ export default class GestionEmpleadosComponent implements OnInit {
   onSubmit(): void {
     if (
       this.form.value.hasPassword &&
+      this.originalValue !== null &&
       !this.originalValue.hasPassword &&
       (this.form.value.password === null ||
         this.form.value.password === '' ||
@@ -215,9 +198,7 @@ export default class GestionEmpleadosComponent implements OnInit {
         roles.push(parseInt(i));
       }
     }
-    const data: EmpleadoSaveInterface = JSON.parse(
-      JSON.stringify(this.form.value)
-    );
+    const data: EmpleadoSaveInterface = JSON.parse(JSON.stringify(this.form.value));
     data.roles = roles;
 
     this.selectedEmpleado.fromInterface(data, false);
@@ -259,7 +240,7 @@ export default class GestionEmpleadosComponent implements OnInit {
 
   confirmDeleteEmpleado(): void {
     this.es
-      .deleteEmpleado(this.selectedEmpleado.id)
+      .deleteEmpleado(this.selectedEmpleado.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.es.resetEmpleados();
@@ -267,9 +248,7 @@ export default class GestionEmpleadosComponent implements OnInit {
           this.dialog.alert({
             title: 'Empleado borrado',
             content:
-              'El empleado "' +
-              this.selectedEmpleado.nombre +
-              '" ha sido correctamente borrado.',
+              'El empleado "' + this.selectedEmpleado.nombre + '" ha sido correctamente borrado.',
           });
         } else {
           this.dialog.alert({
@@ -287,10 +266,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     return 0;
   };
 
-  originalRolOrder = (
-    a: KeyValue<string, Rol>,
-    b: KeyValue<string, Rol>
-  ): number => {
+  originalRolOrder = (a: KeyValue<string, Rol>, b: KeyValue<string, Rol>): number => {
     return 0;
   };
 }

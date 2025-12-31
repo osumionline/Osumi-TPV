@@ -3,10 +3,10 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class PedidoPDF {
   constructor(
-    public id: number = null,
-    public data: string = null,
-    public nombre: string = null,
-    public url: string = null,
+    public id: number | null = null,
+    public data: string | null = null,
+    public nombre: string | null = null,
+    public url: string | null = null,
     public deleted: boolean = false
   ) {}
 

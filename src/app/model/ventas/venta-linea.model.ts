@@ -7,35 +7,35 @@ export default class VentaLinea {
   descuentoManual: boolean = false;
   animarCantidad: boolean = false;
   descuentoManualAnterior: boolean = false;
-  descuentoAnterior: number = null;
+  descuentoAnterior: number | null = null;
 
   constructor(
-    public id: number = null,
-    public idArticulo: number = null,
-    public localizador: number = null,
-    public descripcion: string = null,
-    public marca: string = null,
-    public stock: number = null,
-    public cantidad: number = null,
-    public pvp: number = null,
-    public importe: number = null,
-    public descuento: number = null,
-    public iva: number = null,
-    public observaciones: string = null,
-    public fromVenta: number = null,
-    public fromReserva: number = null,
-    public fromReservaLineaId: number = null,
+    public id: number | null = null,
+    public idArticulo: number | null = null,
+    public localizador: number | null = null,
+    public descripcion: string | null = null,
+    public marca: string | null = null,
+    public stock: number | null = null,
+    public cantidad: number | null = null,
+    public pvp: number | null = null,
+    public importe: number | null = null,
+    public descuento: number | null = null,
+    public iva: number | null = null,
+    public observaciones: string | null = null,
+    public fromVenta: number | null = null,
+    public fromReserva: number | null = null,
+    public fromReservaLineaId: number | null = null,
     public regalo: boolean = false
   ) {}
 
-  get total(): number {
+  get total(): number | null {
     if (this.importeManual) {
       return this.importe;
     }
     if (this.descuentoManual) {
-      return this.importe - this.descuento;
+      return (this.importe ?? 0) - (this.descuento ?? 0);
     }
-    return this.importe * (1 - this.descuento / 100);
+    return (this.importe ?? 0) * (1 - (this.descuento ?? 0) / 100);
   }
 
   updateImporte(): void {

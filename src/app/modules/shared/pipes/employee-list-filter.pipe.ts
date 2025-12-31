@@ -10,6 +10,9 @@ export default class EmployeeListFilterPipe implements PipeTransform {
       return list;
     }
     return list.filter((e: Empleado): boolean => {
+      if (e.nombre === null) {
+        return false;
+      }
       return e.nombre.toLowerCase().includes(filter);
     });
   }

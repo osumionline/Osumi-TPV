@@ -1,7 +1,7 @@
 import { PedidoVistaInterface } from '@interfaces/pedido.interface';
 
 export default class PedidoVista {
-  constructor(public idColumn: number = null, public status: boolean = false) {}
+  constructor(public idColumn: number | null = null, public status: boolean = false) {}
 
   fromInterface(pv: PedidoVistaInterface): PedidoVista {
     this.idColumn = pv.idColumn;

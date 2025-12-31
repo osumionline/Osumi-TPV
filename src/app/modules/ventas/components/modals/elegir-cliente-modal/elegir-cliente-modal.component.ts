@@ -16,10 +16,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import {
-  ClienteSaveResult,
-  ClientesResult,
-} from '@interfaces/cliente.interface';
+import { ClienteSaveResult, ClientesResult } from '@interfaces/cliente.interface';
 import Cliente from '@model/clientes/cliente.model';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
@@ -45,43 +42,30 @@ import ConfigService from '@services/config.service';
     MatButton,
   ],
 })
-export default class ElegirClienteModalComponent
-  implements OnInit, AfterViewInit
-{
+export default class ElegirClienteModalComponent implements OnInit, AfterViewInit {
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private cs: ClientesService = inject(ClientesService);
   private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef<null, { from: string }> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { from: string }> = inject(CustomOverlayRef);
 
-  selectClienteFrom: string = null;
-  elegirClienteTabs: Signal<MatTabGroup> =
-    viewChild.required<MatTabGroup>('elegirClienteTabs');
-  elegirClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>(
-    'elegirClienteBoxName'
-  );
+  selectClienteFrom: string | null = null;
+  elegirClienteTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('elegirClienteTabs');
+  elegirClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('elegirClienteBoxName');
   elegirClienteSelectedTab: number = 0;
   elegirClienteNombre: string = '';
-  searchTimer: number = null;
+  searchTimer: number | undefined = undefined;
   searching: boolean = false;
   searched: boolean = false;
   searchResult: Cliente[] = [];
 
-  buscadorDisplayedColumns: string[] = [
-    'nombreApellidos',
-    'telefono',
-    'ultimaVenta',
-  ];
-  buscadorDataSource: MatTableDataSource<Cliente> =
-    new MatTableDataSource<Cliente>();
-  sort: Signal<MatSort> = viewChild<MatSort>(MatSort);
+  buscadorDisplayedColumns: string[] = ['nombreApellidos', 'telefono', 'ultimaVenta'];
+  buscadorDataSource: MatTableDataSource<Cliente> = new MatTableDataSource<Cliente>();
+  sort: Signal<MatSort> = viewChild.required<MatSort>(MatSort);
 
   nuevoCliente: Cliente = new Cliente();
-  nuevoClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>(
-    'nuevoClienteBoxName'
-  );
+  nuevoClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('nuevoClienteBoxName');
   nuevoClienteSaving: boolean = false;
 
   ngOnInit(): void {
@@ -126,28 +110,23 @@ export default class ElegirClienteModalComponent
       return;
     }
     this.searching = true;
-    this.cs
-      .searchClientes(this.elegirClienteNombre)
-      .subscribe((result: ClientesResult): void => {
-        this.searching = false;
-        this.searched = true;
-        if (result.status === 'ok') {
-          this.searchResult = this.cms.getClientes(result.list);
-          this.buscadorDataSource.data = this.searchResult;
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ocurrió un error al buscar los clientes.',
-          });
-        }
-      });
+    this.cs.searchClientes(this.elegirClienteNombre).subscribe((result: ClientesResult): void => {
+      this.searching = false;
+      this.searched = true;
+      if (result.status === 'ok') {
+        this.searchResult = this.cms.getClientes(result.list);
+        this.buscadorDataSource.data = this.searchResult;
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al buscar los clientes.',
+        });
+      }
+    });
   }
 
   selectCliente(cliente: Cliente): void {
-    if (
-      this.selectClienteFrom === 'venta' &&
-      (cliente.email === null || cliente.email === '')
-    ) {
+    if (this.selectClienteFrom === 'venta' && (cliente.email === null || cliente.email === '')) {
       this.dialog
         .confirm({
           title: 'Elegir cliente',
@@ -168,10 +147,7 @@ export default class ElegirClienteModalComponent
   }
 
   saveNuevoCliente(): void {
-    if (
-      this.nuevoCliente.nombreApellidos === null ||
-      this.nuevoCliente.nombreApellidos === ''
-    ) {
+    if (this.nuevoCliente.nombreApellidos === null || this.nuevoCliente.nombreApellidos === '') {
       this.dialog
         .alert({
           title: 'Error',
@@ -183,14 +159,10 @@ export default class ElegirClienteModalComponent
       return;
     }
     if (this.nuevoCliente.factIgual) {
-      if (
-        this.nuevoCliente.nombreApellidos === null ||
-        this.nuevoCliente.nombreApellidos === ''
-      ) {
+      if (this.nuevoCliente.nombreApellidos === null || this.nuevoCliente.nombreApellidos === '') {
         this.dialog.alert({
           title: 'Error',
-          content:
-            '¡No puedes dejar en blanco el nombre del cliente para la facturación!',
+          content: '¡No puedes dejar en blanco el nombre del cliente para la facturación!',
         });
         return;
       }

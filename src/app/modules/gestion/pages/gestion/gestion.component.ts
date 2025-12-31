@@ -20,7 +20,7 @@ export default class GestionComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private gs: GestionService = inject(GestionService);
 
-  empleado: Empleado = null;
+  empleado: Empleado | null = null;
 
   ngOnInit(): void {
     if (this.gs.empleado) {
@@ -37,51 +37,52 @@ export default class GestionComponent implements OnInit {
   }
 
   selectAjustes(): void {
-    if (
-      this.empleado.hasRol(
-        rolList.gestion.roles['modificarAjustesIniciales'].id
-      )
-    ) {
-      this.gs.empleado = this.empleado;
-      this.router.navigate(['/gestion/installation']);
-    } else {
-      this.dialog.alert({
-        title: 'Atención',
-        content:
-          'No tienes permisos para acceder a la opción "Ajustes iniciales"',
-      });
+    if (this.empleado !== null) {
+      if (this.empleado.hasRol(rolList['gestion'].roles['modificarAjustesIniciales'].id)) {
+        this.gs.empleado = this.empleado;
+        this.router.navigate(['/gestion/installation']);
+      } else {
+        this.dialog.alert({
+          title: 'Atención',
+          content: 'No tienes permisos para acceder a la opción "Ajustes iniciales"',
+        });
+      }
     }
   }
 
   selectEmpleados(): void {
-    if (
-      this.empleado.hasAnyRol([
-        rolList.empleados.roles['crear'].id,
-        rolList.empleados.roles['modificar'].id,
-        rolList.empleados.roles['borrar'].id,
-        rolList.empleados.roles['roles'].id,
-        rolList.empleados.roles['estadisticas'].id,
-      ])
-    ) {
-      this.gs.empleado = this.empleado;
-      this.router.navigate(['/gestion/empleados']);
-    } else {
-      this.dialog.alert({
-        title: 'Atención',
-        content: 'No tienes permisos para acceder a la opción "Empleados"',
-      });
+    if (this.empleado !== null) {
+      if (
+        this.empleado.hasAnyRol([
+          rolList['empleados'].roles['crear'].id,
+          rolList['empleados'].roles['modificar'].id,
+          rolList['empleados'].roles['borrar'].id,
+          rolList['empleados'].roles['roles'].id,
+          rolList['empleados'].roles['estadisticas'].id,
+        ])
+      ) {
+        this.gs.empleado = this.empleado;
+        this.router.navigate(['/gestion/empleados']);
+      } else {
+        this.dialog.alert({
+          title: 'Atención',
+          content: 'No tienes permisos para acceder a la opción "Empleados"',
+        });
+      }
     }
   }
 
   selectTiposPago(): void {
-    if (this.empleado.hasRol(rolList.gestion.roles['tiposPago'].id)) {
-      this.gs.empleado = this.empleado;
-      this.router.navigate(['/gestion/tipos-pago']);
-    } else {
-      this.dialog.alert({
-        title: 'Atención',
-        content: 'No tienes permisos para acceder a la opción "Tipos de pago"',
-      });
+    if (this.empleado !== null) {
+      if (this.empleado.hasRol(rolList['gestion'].roles['tiposPago'].id)) {
+        this.gs.empleado = this.empleado;
+        this.router.navigate(['/gestion/tipos-pago']);
+      } else {
+        this.dialog.alert({
+          title: 'Atención',
+          content: 'No tienes permisos para acceder a la opción "Tipos de pago"',
+        });
+      }
     }
   }
 

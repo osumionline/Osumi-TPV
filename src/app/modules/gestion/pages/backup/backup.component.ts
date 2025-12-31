@@ -14,14 +14,7 @@ import HeaderComponent from '@shared/components/header/header.component';
   selector: 'otpv-backup',
   templateUrl: './backup.component.html',
   styleUrls: ['./backup.component.scss'],
-  imports: [
-    HeaderComponent,
-    MatCard,
-    MatCardContent,
-    MatButton,
-    MatList,
-    MatListItem,
-  ],
+  imports: [HeaderComponent, MatCard, MatCardContent, MatButton, MatList, MatListItem],
 })
 export default class BackupComponent implements OnInit {
   private config: ConfigService = inject(ConfigService);
@@ -36,11 +29,9 @@ export default class BackupComponent implements OnInit {
   }
 
   loadBackups(): void {
-    this.gs
-      .getBackups(this.config.backupApiKey)
-      .subscribe((result: BackupResult): void => {
-        this.backups = this.cms.getBackups(result.list);
-      });
+    this.gs.getBackups(this.config.backupApiKey).subscribe((result: BackupResult): void => {
+      this.backups = this.cms.getBackups(result.list);
+    });
   }
 
   newBackup(): void {
@@ -49,8 +40,7 @@ export default class BackupComponent implements OnInit {
         this.dialog
           .alert({
             title: 'Nueva copia de seguridad',
-            content:
-              'La nueva copia de seguridad ha sido correctamente creada.',
+            content: 'La nueva copia de seguridad ha sido correctamente creada.',
           })
           .subscribe((): void => {
             this.loadBackups();
@@ -80,7 +70,7 @@ export default class BackupComponent implements OnInit {
 
   confirmDeleteBackup(backup: Backup): void {
     this.gs
-      .deleteBackup(this.config.backupApiKey, backup.id)
+      .deleteBackup(this.config.backupApiKey, backup.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.dialog

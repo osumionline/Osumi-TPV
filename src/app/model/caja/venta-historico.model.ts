@@ -1,30 +1,27 @@
-import {
-  VentaHistoricoInterface,
-  VentaLineaHistoricoInterface,
-} from '@interfaces/caja.interface';
+import { VentaHistoricoInterface, VentaLineaHistoricoInterface } from '@interfaces/caja.interface';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class VentaHistorico {
-  _totalUnidades: number = null;
-  _totalDescuento: number = null;
+  _totalUnidades: number | null = null;
+  _totalDescuento: number | null = null;
 
   constructor(
-    public id: number = null,
+    public id: number | null = null,
     public editable: boolean = false,
-    public idEmpleado: number = null,
-    public idCliente: number = null,
-    public cliente: string = null,
-    public total: number = null,
-    public entregado: number = null,
+    public idEmpleado: number | null = null,
+    public idCliente: number | null = null,
+    public cliente: string | null = null,
+    public total: number | null = null,
+    public entregado: number | null = null,
     public pagoMixto: boolean = false,
-    public idTipoPago: number = null,
-    public nombreTipoPago: string = null,
-    public entregadoOtro: number = null,
-    public saldo: number = null,
+    public idTipoPago: number | null = null,
+    public nombreTipoPago: string | null = null,
+    public entregadoOtro: number | null = null,
+    public saldo: number | null = null,
     public facturada: boolean = false,
-    public statusFactura: string = null,
-    public fecha: string = null,
+    public statusFactura: string | null = null,
+    public fecha: string | null = null,
     public lineas: VentaLineaHistorico[] = []
   ) {}
 
@@ -35,7 +32,7 @@ export default class VentaHistorico {
     let unidades: number = 0;
 
     for (const linea of this.lineas) {
-      unidades += linea.unidades;
+      unidades += linea.unidades ?? 0;
     }
 
     this._totalUnidades = unidades;
@@ -54,7 +51,7 @@ export default class VentaHistorico {
         descuento += linea.importeDescuento;
       } else {
         if (linea.descuento !== 0) {
-          descuento += linea.total * (linea.descuento / 100);
+          descuento += linea.total * ((linea.descuento ?? 0) / 100);
         }
       }
     }
@@ -94,11 +91,9 @@ export default class VentaHistorico {
     this.facturada = hv.facturada;
     this.statusFactura = hv.statusFactura;
     this.fecha = urldecode(hv.fecha);
-    this.lineas = hv.lineas.map(
-      (hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
-        return new VentaLineaHistorico().fromInterface(hlv);
-      }
-    );
+    this.lineas = hv.lineas.map((hlv: VentaLineaHistoricoInterface): VentaLineaHistorico => {
+      return new VentaLineaHistorico().fromInterface(hlv);
+    });
 
     return this;
   }
@@ -120,11 +115,9 @@ export default class VentaHistorico {
       facturada: this.facturada,
       statusFactura: this.statusFactura,
       fecha: urlencode(this.fecha),
-      lineas: this.lineas.map(
-        (hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {
-          return hlv.toInterface();
-        }
-      ),
+      lineas: this.lineas.map((hlv: VentaLineaHistorico): VentaLineaHistoricoInterface => {
+        return hlv.toInterface();
+      }),
     };
   }
 }

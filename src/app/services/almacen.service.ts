@@ -36,27 +36,21 @@ export default class AlmacenService {
   pageIndex: number = 0;
   firstLoad: boolean = true;
 
-  getInventario(
-    data: BuscadorAlmacenInterface
-  ): Observable<BuscadorAlmacenResult> {
+  getInventario(data: BuscadorAlmacenInterface): Observable<BuscadorAlmacenResult> {
     return this.http.post<BuscadorAlmacenResult>(
       environment.apiUrl + '-almacen/get-inventario',
       data
     );
   }
 
-  saveInventario(
-    item: InventarioItemInterface
-  ): Observable<StatusIdMessageResult> {
+  saveInventario(item: InventarioItemInterface): Observable<StatusIdMessageResult> {
     return this.http.post<StatusIdMessageResult>(
       environment.apiUrl + '-almacen/save-inventario',
       item
     );
   }
 
-  saveAllInventario(
-    list: InventarioItemInterface[]
-  ): Observable<StatusIdMessageErrorsResult> {
+  saveAllInventario(list: InventarioItemInterface[]): Observable<StatusIdMessageErrorsResult> {
     return this.http.post<StatusIdMessageErrorsResult>(
       environment.apiUrl + '-almacen/save-all-inventario',
       { list }
@@ -64,20 +58,13 @@ export default class AlmacenService {
   }
 
   deleteInventario(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-almacen/delete-inventario',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-almacen/delete-inventario', { id });
   }
 
-  exportInventario(data: BuscadorAlmacenInterface): Observable<any> {
-    return this.http.post(
-      environment.apiUrl + '-almacen/export-inventario',
-      data,
-      {
-        responseType: 'text',
-      }
-    );
+  exportInventario(data: BuscadorAlmacenInterface) {
+    return this.http.post(environment.apiUrl + '-almacen/export-inventario', data, {
+      responseType: 'text',
+    });
   }
 
   updateArticulo(articulo: Articulo): void {

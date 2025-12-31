@@ -2,8 +2,8 @@ import { CodigoBarrasInterface } from '@interfaces/articulo.interface';
 
 export default class CodigoBarras {
   constructor(
-    public id: number = null,
-    public codigoBarras: string = null,
+    public id: number | null = null,
+    public codigoBarras: string | null = null,
     public porDefecto: boolean = false
   ) {}
 

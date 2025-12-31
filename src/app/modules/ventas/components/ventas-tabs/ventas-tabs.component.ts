@@ -1,11 +1,4 @@
-import {
-  Component,
-  InputSignal,
-  OutputEmitterRef,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, InputSignal, OutputEmitterRef, inject, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
@@ -32,16 +25,16 @@ export default class VentasTabsComponent {
 
   ventas: InputSignal<Venta[]> = input.required<Venta[]>();
   selected: InputSignal<number> = input.required<number>();
-  cliente: InputSignal<Cliente> = input.required<Cliente>();
+  cliente: InputSignal<Cliente | null> = input.required<Cliente | null>();
   showClose: InputSignal<boolean> = input<boolean>(false);
   closeTabEvent: OutputEmitterRef<number> = output<number>();
   newTabEvent: OutputEmitterRef<void> = output<void>();
   changeTabEvent: OutputEmitterRef<number> = output<number>();
-  selectClientEvent: OutputEmitterRef<SelectClienteInterface> =
-    output<SelectClienteInterface>();
+  selectClientEvent: OutputEmitterRef<SelectClienteInterface | null> =
+    output<SelectClienteInterface | null>();
   selectReservaEvent: OutputEmitterRef<Reserva[]> = output<Reserva[]>();
 
-  selectClienteFrom: string = null;
+  selectClienteFrom: string | null = null;
 
   selectTab(ind: number): void {
     this.changeTabEvent.emit(ind);
@@ -64,23 +57,20 @@ export default class VentasTabsComponent {
     this.newTabEvent.emit();
   }
 
-  selectClient(from: string = null): void {
+  selectClient(from: string | null = null): void {
     this.selectClienteFrom = from;
     const modalnewProveedorData: ElegirClienteModal = {
       modalTitle: 'Seleccionar cliente',
       modalColor: 'blue',
       from: from,
     };
-    const dialog = this.overlayService.open(
-      ElegirClienteModalComponent,
-      modalnewProveedorData
-    );
+    const dialog = this.overlayService.open(ElegirClienteModalComponent, modalnewProveedorData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const cliente: Cliente = data.data;
         this.selectClientEvent.emit({
           cliente: cliente,
-          from: this.selectClienteFrom,
+          from: this.selectClienteFrom as string,
         });
       }
     });
@@ -96,10 +86,7 @@ export default class VentasTabsComponent {
       modalColor: 'blue',
       css: 'modal-wide',
     };
-    const dialog = this.overlayService.open(
-      ReservasModalComponent,
-      modalReservasData
-    );
+    const dialog = this.overlayService.open(ReservasModalComponent, modalReservasData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.selectReservaEvent.emit(data.data);

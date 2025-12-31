@@ -73,8 +73,8 @@
                     <button mat-list-item
                             (click)="selectSalidaCaja(salidaCaja)"
                             [class]="{'selected-salida-caja': salidaCajaSelected.id === salidaCaja.id}">
-                        <div matListItemTitle>{{salidaCaja.concepto}}</div>
-                        <div matListItemLine>{{salidaCaja.fecha}} - {{salidaCaja.importe | fixedNumber}} €</div>
+                        <div matListItemTitle>{{ salidaCaja.concepto }}</div>
+                        <div matListItemLine>{{ salidaCaja.fecha }} - {{ (salidaCaja.importe ?? 0) | fixedNumber }} €</div>
                     </button>
                     }
                 </mat-action-list>

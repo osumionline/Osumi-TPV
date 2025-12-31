@@ -23,13 +23,13 @@ export interface DarDeBajaModal extends Modal {
 }
 
 export interface DevolucionModal extends Modal {
-  idVenta: number;
-  list: DevolucionSelectedInterface[];
+  idVenta: number | null;
+  list: DevolucionSelectedInterface[] | null;
 }
 
 export interface VariosModal extends Modal {
-  nombre: string;
-  pvp: number;
+  nombre: string | null;
+  pvp: number | null;
   iva: number;
 }
 
@@ -38,12 +38,12 @@ export interface FinalizarVentaModal extends Modal {
 }
 
 export interface EmpleadoLoginModal extends Modal {
-  id: number;
-  nombre: string;
+  id: number | null;
+  nombre: string | null;
 }
 
 export interface ElegirClienteModal extends Modal {
-  from: string;
+  from: string | null;
 }
 
 export interface FacturaModal extends Modal {

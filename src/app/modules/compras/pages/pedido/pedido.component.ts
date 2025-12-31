@@ -30,11 +30,7 @@ import { environment } from '@env/environment';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import { BuscadorModal } from '@interfaces/modals.interface';
-import {
-  PedidoResult,
-  PedidoSaveResult,
-  PedidosColOption,
-} from '@interfaces/pedido.interface';
+import { PedidoResult, PedidoSaveResult, PedidosColOption } from '@interfaces/pedido.interface';
 import Articulo from '@model/articulos/articulo.model';
 import PedidoLinea from '@model/compras/pedido-linea.model';
 import PedidoPDF from '@model/compras/pedido-pdf.model';
@@ -43,12 +39,7 @@ import Pedido from '@model/compras/pedido.model';
 import Marca from '@model/marcas/marca.model';
 import IVAOption from '@model/tpv/iva-option.model';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
-import {
-  getDate,
-  getDateFromString,
-  getTwoNumberDecimal,
-  urldecode,
-} from '@osumi/tools';
+import { getDate, getDateFromString, getTwoNumberDecimal, urldecode } from '@osumi/tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ComprasService from '@services/compras.service';
@@ -99,7 +90,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   private overlayService: OverlayService = inject(OverlayService);
   private sanitizer: DomSanitizer = inject(DomSanitizer);
 
-  id: InputSignalWithTransform<number | undefined, unknown> = input.required({
+  id: InputSignalWithTransform<number | undefined, unknown> = input(undefined, {
     transform: numberAttribute,
   });
   titulo: string = 'Nuevo pedido';
@@ -107,13 +98,10 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   dontSave: boolean = false;
 
-  proveedoresValue: Signal<MatSelect> =
-    viewChild.required<MatSelect>(MatSelect);
+  proveedoresValue: Signal<MatSelect> = viewChild.required<MatSelect>(MatSelect);
   fechaPedido: Date = new Date();
   fechaPago: Date = new Date();
-  numAlbaranFacturaBox: Signal<ElementRef> = viewChild.required<ElementRef>(
-    'numAlbaranFacturaBox'
-  );
+  numAlbaranFacturaBox: Signal<ElementRef> = viewChild.required<ElementRef>('numAlbaranFacturaBox');
 
   ivaOptions: IVAOption[] = [];
   ivaList: number[] = [];
@@ -247,21 +235,19 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   colOptionsSelected: number[] = [];
 
   pedidoDisplayedColumns: string[] = [];
-  pedidoDataSource: MatTableDataSource<PedidoLinea> =
-    new MatTableDataSource<PedidoLinea>();
+  pedidoDataSource: MatTableDataSource<PedidoLinea> = new MatTableDataSource<PedidoLinea>();
 
-  nuevoLocalizador: number = null;
-  localizadorBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('localizadorBox');
+  nuevoLocalizador: number | null = null;
+  localizadorBox: Signal<ElementRef> = viewChild.required<ElementRef>('localizadorBox');
 
   pdfsUrl: string = environment.pdfsUrl;
 
   autoSave: boolean = false;
-  autoSaveIntervalId: number = null;
+  autoSaveIntervalId: number | undefined = undefined;
   autoSaveIntervalTime: number = 30000;
   autoSaveManually: boolean = false;
 
-  selectedPdf: SafeUrl = null;
+  selectedPdf: SafeUrl | null = null;
 
   showBuscador: boolean = false;
 
@@ -273,9 +259,10 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.reList.push(ivaOption.re);
     }
     this.changeOptions();
-    if (this.id() !== undefined && !isNaN(this.id())) {
-      if (this.id() !== 0) {
-        this.loadPedido(this.id());
+    const id: number | undefined = this.id();
+    if (id !== undefined && !isNaN(id)) {
+      if (id !== 0) {
+        this.loadPedido(id);
       } else {
         this.loadPedidoTemporal();
       }
@@ -297,7 +284,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.colOptionsSelected = [];
       for (const pv of this.pedido.vista) {
         if (pv.status) {
-          this.colOptionsSelected.push(pv.idColumn);
+          this.colOptionsSelected.push(pv.idColumn as number);
         }
       }
       if (this.pedido.recepcionado) {
@@ -310,24 +297,24 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.changeOptions();
 
       this.titulo = 'Pedido ' + this.pedido.id;
-      this.fechaPago = getDateFromString(this.pedido.fechaPago);
-      this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
+      this.fechaPago = getDateFromString(this.pedido.fechaPago as string) as Date;
+      this.fechaPedido = getDateFromString(this.pedido.fechaPedido as string) as Date;
       this.pedidoDataSource.data = this.pedido.lineas;
       this.checkReturnInfo();
     });
   }
 
   loadPedidoTemporal(): void {
-    this.pedido = this.cs.pedidoTemporal;
+    this.pedido = this.cs.pedidoTemporal as Pedido;
     if (this.pedido.fechaPago !== null) {
-      this.fechaPago = getDateFromString(this.pedido.fechaPago);
+      this.fechaPago = getDateFromString(this.pedido.fechaPago) as Date;
     }
     if (this.pedido.fechaPedido !== null) {
-      this.fechaPedido = getDateFromString(this.pedido.fechaPedido);
+      this.fechaPedido = getDateFromString(this.pedido.fechaPedido) as Date;
     }
     for (const pv of this.pedido.vista) {
       if (pv.status) {
-        this.colOptionsSelected.push(pv.idColumn);
+        this.colOptionsSelected.push(pv.idColumn as number);
       }
     }
     this.changeOptions();
@@ -365,8 +352,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       this.dialog
         .confirm({
           title: 'Confirmar',
-          content:
-            '¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.',
+          content: '¿Estás seguro de querer salir? Este pedido no ha sido guardado todavía.',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -399,10 +385,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       modalTitle: 'Nuevo proveedor',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(
-      NewProveedorModalComponent,
-      modalnewProveedorData
-    );
+    const dialog = this.overlayService.open(NewProveedorModalComponent, modalnewProveedorData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null) {
         this.pedido.idProveedor = data.data;
@@ -458,12 +441,10 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   ordenarLinea(localizador: number, sent: string): void {
-    const ind: number = this.pedido.lineas.findIndex(
-      (x: PedidoLinea): boolean => {
-        return x.localizador === localizador;
-      }
-    );
-    let nextInd: number = null;
+    const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea): boolean => {
+      return x.localizador === localizador;
+    });
+    let nextInd: number | null = null;
     if (sent === 'up') {
       if (ind === 0) {
         return;
@@ -476,49 +457,45 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
       nextInd = ind + 1;
     }
-    const aux: PedidoLinea = this.pedido.lineas[ind];
-    this.pedido.lineas[ind] = this.pedido.lineas[nextInd];
-    this.pedido.lineas[nextInd] = aux;
+    if (nextInd !== null) {
+      const aux: PedidoLinea = this.pedido.lineas[ind];
+      this.pedido.lineas[ind] = this.pedido.lineas[nextInd];
+      this.pedido.lineas[nextInd] = aux;
+    }
     this.pedidoDataSource.data = this.pedido.lineas;
   }
 
   updateTipoIva(): void {
     for (const linea of this.pedido.lineas) {
-      const ind: number = this.ivaList.findIndex(
-        (x: number): boolean => x == linea.iva
-      );
+      const ind: number = this.ivaList.findIndex((x: number): boolean => x == linea.iva);
       linea.re = this.pedido.re ? this.reList[ind] : 0;
     }
   }
 
   updatePalb(linea: PedidoLinea): void {
     linea.puc = getTwoNumberDecimal(
-      linea.palb *
-        (1 - linea.descuento / 100) *
-        (1 + (linea.iva + linea.re) / 100)
+      (linea.palb ?? 0) *
+        (1 - (linea.descuento ?? 0) / 100) *
+        (1 + ((linea.iva ?? 0) + (linea.re ?? 0)) / 100)
     );
     this.updateMargen(linea);
   }
 
   updateIva(option: string, linea: PedidoLinea): void {
-    const ind: number = this.ivaList.findIndex(
-      (x: number): boolean => x == parseInt(option)
-    );
+    const ind: number = this.ivaList.findIndex((x: number): boolean => x == parseInt(option));
     linea.re = this.pedido.re ? this.reList[ind] : 0;
     this.updatePalb(linea);
   }
 
   updateRe(option: string, linea: PedidoLinea): void {
-    const ind: number = this.reList.findIndex(
-      (x: number): boolean => x == parseFloat(option)
-    );
+    const ind: number = this.reList.findIndex((x: number): boolean => x == parseFloat(option));
     linea.iva = this.ivaList[ind];
     this.updatePalb(linea);
   }
 
   updateMargen(linea: PedidoLinea): void {
     linea.margen = getTwoNumberDecimal(
-      (100 * (linea.pvp - linea.puc)) / linea.pvp
+      (100 * ((linea.pvp ?? 0) - (linea.puc ?? 0))) / (linea.pvp ?? 1)
     );
   }
 
@@ -537,10 +514,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         css: 'modal-wide',
         key: ev.key,
       };
-      const dialog = this.overlayService.open(
-        BuscadorModalComponent,
-        modalBuscadorData
-      );
+      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
@@ -563,21 +537,17 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   loadArticulo(): void {
     this.ars
-      .loadArticulo(this.nuevoLocalizador)
+      .loadArticulo(this.nuevoLocalizador as number)
       .subscribe((result: ArticuloResult): void => {
         if (result.status === 'ok') {
           const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
-          const ind: number = this.pedido.lineas.findIndex(
-            (x: PedidoLinea): boolean => {
-              return x.localizador === articulo.localizador;
-            }
-          );
+          const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea): boolean => {
+            return x.localizador === articulo.localizador;
+          });
 
           if (ind === -1) {
-            const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(
-              articulo
-            );
+            const lineaPedido: PedidoLinea = new PedidoLinea().fromArticulo(articulo);
             if (
               this.ars.returnInfo !== null &&
               this.ars.returnInfo.extra !== null &&
@@ -589,12 +559,17 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             }
             lineaPedido.iva = articulo.iva;
             lineaPedido.re = this.pedido.re ? articulo.re : 0;
-            const marca: Marca = this.ms.findById(lineaPedido.idMarca);
-            lineaPedido.marca = marca.nombre;
+            const marca: Marca | null = this.ms.findById(lineaPedido.idMarca as number);
+            if (marca !== null) {
+              lineaPedido.marca = marca.nombre;
+            }
 
             this.pedido.lineas.push(lineaPedido);
             this.pedidoDataSource.data = this.pedido.lineas;
           } else {
+            if (this.pedido.lineas[ind].unidades === null) {
+              this.pedido.lineas[ind].unidades = 0;
+            }
             this.pedido.lineas[ind].unidades++;
           }
 
@@ -623,14 +598,12 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       ev.preventDefault();
       const target: string[] = (ev.target as HTMLInputElement).id.split('-');
       const localizador: number = parseInt(target[2]);
-      const ind: number = this.pedido.lineas.findIndex(
-        (x: PedidoLinea): boolean => {
-          return x.localizador === localizador;
-        }
-      );
+      const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea): boolean => {
+        return x.localizador === localizador;
+      });
       let previousInd: number = ind - 1;
       let nextInd: number = ind + 1;
-      let newLocalizador: number = null;
+      let newLocalizador: number | null = null;
       if (ev.key === 'ArrowUp' && previousInd !== -1) {
         if (target[1] === 'codBarras') {
           while (newLocalizador === null && previousInd > 0) {
@@ -646,10 +619,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
       if (ev.key === 'ArrowDown' && nextInd < this.pedido.lineas.length) {
         if (target[1] === 'codBarras') {
-          while (
-            newLocalizador === null &&
-            nextInd < this.pedido.lineas.length
-          ) {
+          while (newLocalizador === null && nextInd < this.pedido.lineas.length) {
             if (this.pedido.lineas[nextInd].showCodigoBarras) {
               newLocalizador = this.pedido.lineas[nextInd].localizador;
             } else {
@@ -661,14 +631,17 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         }
       }
       if (newLocalizador !== null) {
-        document
-          .getElementById(target[0] + '-' + target[1] + '-' + newLocalizador)
-          .focus();
+        const obj: HTMLElement | null = document.getElementById(
+          target[0] + '-' + target[1] + '-' + newLocalizador
+        );
+        if (obj !== null) {
+          obj.focus();
+        }
       }
     }
   }
 
-  checkNull(element: PedidoLinea = null): void {
+  checkNull(element: PedidoLinea | null = null): void {
     if (element !== null) {
       if (element.unidades === null) {
         element.unidades = 1;
@@ -692,19 +665,14 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   borrarLinea(localizador: number): void {
-    const ind: number = this.pedido.lineas.findIndex(
-      (x: PedidoLinea): boolean => {
-        return x.localizador === localizador;
-      }
-    );
+    const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea): boolean => {
+      return x.localizador === localizador;
+    });
     if (ind !== -1) {
       this.dialog
         .confirm({
           title: 'Confirmar',
-          content:
-            '¿Estás seguro de querer borrar la línea con localizador "' +
-            localizador +
-            '"?',
+          content: '¿Estás seguro de querer borrar la línea con localizador "' + localizador + '"?',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -716,7 +684,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToArticulo(localizador: number, ev: MouseEvent = null): void {
+  goToArticulo(localizador: number | null, ev: MouseEvent | null = null): void {
     if (ev) {
       ev.preventDefault();
     }
@@ -730,21 +698,20 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   addPDF(): void {
-    document.getElementById('pdf-file').click();
+    const obj: HTMLElement | null = document.getElementById('pdf-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onPDFChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
-        const pdf: PedidoPDF = new PedidoPDF(
-          null,
-          reader.result as string,
-          file.name
-        );
+        const pdf: PedidoPDF = new PedidoPDF(null, reader.result as string, file.name);
         this.pedido.pdfs.push(pdf);
         (document.getElementById('pdf-file') as HTMLInputElement).value = '';
       };
@@ -752,7 +719,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   previewPdf(pdf: PedidoPDF): void {
-    this.selectedPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdf.data);
+    this.selectedPdf = this.sanitizer.bypassSecurityTrustResourceUrl(pdf.data as string);
   }
 
   closePreview(ev: MouseEvent): void {
@@ -766,8 +733,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.dialog
       .confirm({
         title: 'Confirmar',
-        content:
-          '¿Estás seguro de querer borrar el archivo "' + pdf.nombre + '"?',
+        content: '¿Estás seguro de querer borrar el archivo "' + pdf.nombre + '"?',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -788,10 +754,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.pedido.vista = [];
     for (const opt of this.colOptions) {
       this.pedido.vista.push(
-        new PedidoVista(
-          opt.id,
-          opt.default || this.colOptionsSelected.includes(opt.id)
-        )
+        new PedidoVista(opt.id, opt.default || this.colOptionsSelected.includes(opt.id))
       );
     }
   }
@@ -866,30 +829,27 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   }
 
   guardarPedido(): void {
-    this.cs
-      .savePedido(this.pedido.toInterface())
-      .subscribe((result: PedidoSaveResult): void => {
-        if (result.status === 'ok') {
-          this.pedido.id = result.id;
-          this.titulo = 'Pedido ' + this.pedido.id;
-          this.dialog
-            .alert({
-              title: 'OK',
-              content: 'El pedido ha sido correctamente guardado.',
-            })
-            .subscribe((): void => {
-              this.dontSave = true;
-              this.back();
-            });
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content:
-              'Los siguientes códigos de barras ya están siendo usados: ' +
-              urldecode(result.message),
+    this.cs.savePedido(this.pedido.toInterface()).subscribe((result: PedidoSaveResult): void => {
+      if (result.status === 'ok') {
+        this.pedido.id = result.id;
+        this.titulo = 'Pedido ' + this.pedido.id;
+        this.dialog
+          .alert({
+            title: 'OK',
+            content: 'El pedido ha sido correctamente guardado.',
+          })
+          .subscribe((): void => {
+            this.dontSave = true;
+            this.back();
           });
-        }
-      });
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content:
+            'Los siguientes códigos de barras ya están siendo usados: ' + urldecode(result.message),
+        });
+      }
+    });
   }
 
   startAutoSave(): void {
@@ -910,27 +870,24 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
-          this.cs
-            .deletePedido(this.pedido.id)
-            .subscribe((result: StatusResult): void => {
-              if (result.status === 'ok') {
-                this.dialog
-                  .alert({
-                    title: 'Pedido borrado',
-                    content:
-                      'El pedido y todos sus datos han sido correctamente eliminados.',
-                  })
-                  .subscribe((): void => {
-                    this.dontSave = true;
-                    this.back();
-                  });
-              } else {
-                this.dialog.alert({
-                  title: 'Error',
-                  content: 'Ocurrió un error al borrar el pedido.',
+          this.cs.deletePedido(this.pedido.id as number).subscribe((result: StatusResult): void => {
+            if (result.status === 'ok') {
+              this.dialog
+                .alert({
+                  title: 'Pedido borrado',
+                  content: 'El pedido y todos sus datos han sido correctamente eliminados.',
+                })
+                .subscribe((): void => {
+                  this.dontSave = true;
+                  this.back();
                 });
-              }
-            });
+            } else {
+              this.dialog.alert({
+                title: 'Error',
+                content: 'Ocurrió un error al borrar el pedido.',
+              });
+            }
+          });
         }
       });
   }
@@ -948,8 +905,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
             if (result.status === 'error') {
               this.dialog.alert({
                 title: 'Error',
-                content:
-                  'Ocurrió un error al guardar automáticamente el pedido.',
+                content: 'Ocurrió un error al guardar automáticamente el pedido.',
               });
             }
           });

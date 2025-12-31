@@ -1,4 +1,4 @@
-@if (list) {
+@if (list().length > 0) {
 <div class="table">
     @for (row of list(); track row) {
     <div>
@@ -22,7 +22,7 @@
                         <div class="info-nombre">{{ item.nombre }}</div>
                         <div class="info-marca">{{ item.marca }}</div>
                         @if (mostrarPVP()) {
-                        <div class="info-pvp">{{ item.pvp | fixedNumber }} €</div>
+                        <div class="info-pvp">{{ item.pvp ?? 0 | fixedNumber }} €</div>
                         }
                     </div>
                 </div>

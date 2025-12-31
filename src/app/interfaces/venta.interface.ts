@@ -2,43 +2,43 @@ import { ArticuloInterface } from '@interfaces/articulo.interface';
 import { VentaLineaHistoricoInterface } from '@interfaces/caja.interface';
 
 export interface VentaLineaInterface {
-  id: number;
-  idArticulo: number;
-  localizador: number;
-  descripcion: string;
-  marca: string;
-  stock: number;
-  cantidad: number;
-  pvp: number;
-  importe: number;
-  descuento: number;
+  id: number | null;
+  idArticulo: number | null;
+  localizador: number | null;
+  descripcion: string | null;
+  marca: string | null;
+  stock: number | null;
+  cantidad: number | null;
+  pvp: number | null;
+  importe: number | null;
+  descuento: number | null;
   descuentoManual: boolean;
-  iva: number;
-  observaciones: string;
-  fromVenta: number;
-  fromReserva: number;
-  fromReservaLineaId: number;
+  iva: number | null;
+  observaciones: string | null;
+  fromVenta: number | null;
+  fromReserva: number | null;
+  fromReservaLineaId: number | null;
   regalo: boolean;
 }
 
 export interface VentaInterface {
-  idEmpleado: number;
+  idEmpleado: number | null;
   lineas: VentaLineaInterface[];
   importe: number;
 }
 
 export interface VentaFinInterface {
-  efectivo: number;
-  cambio: number;
-  tarjeta: number;
-  idEmpleado: number;
-  idTipoPago: number;
-  idCliente: number;
+  efectivo: number | null;
+  cambio: number | null;
+  tarjeta: number | null;
+  idEmpleado: number | null;
+  idTipoPago: number | null;
+  idCliente: number | null;
   total: number;
   lineas: VentaLineaInterface[];
   pagoMixto: boolean;
-  imprimir: string;
-  email: string;
+  imprimir: string | null;
+  email: string | null;
 }
 
 export interface FinVentaResult {
@@ -54,23 +54,23 @@ export interface VentaResult {
 }
 
 export interface ArticuloUltimaVentaInterface {
-  fecha: string;
-  localizador: number;
-  nombre: string;
-  unidades: number;
-  pvp: number;
-  importe: number;
+  fecha: string | null;
+  localizador: number | null;
+  nombre: string | null;
+  unidades: number | null;
+  pvp: number | null;
+  importe: number | null;
 }
 
 export interface ArticuloTopVentaInterface {
-  localizador: number;
-  nombre: string;
-  importe: number;
-  unidades: number;
+  localizador: number | null;
+  nombre: string | null;
+  importe: number | null;
+  unidades: number | null;
 }
 
 export interface DevolucionSelectedInterface {
-  id: number;
+  id: number | null;
   unidades: number;
 }
 
@@ -82,4 +82,10 @@ export interface LineasTicketResult {
 export interface LocalizadoresResult {
   status: string;
   list: ArticuloInterface[];
+}
+
+export interface VentaVariosInterface {
+  nombre: string;
+  pvp: number;
+  iva: number;
 }

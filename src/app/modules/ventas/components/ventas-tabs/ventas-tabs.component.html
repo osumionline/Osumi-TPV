@@ -32,7 +32,7 @@
 		}
 		@if (cliente()) {
 		<div class="select-client">
-			<a [routerLink]="'/clientes/' + cliente().id">{{cliente().nombreApellidos}}</a>
+			<a [routerLink]="`/clientes/${cliente()!.id}`">{{ cliente()!.nombreApellidos }}</a>
 			<span matTooltip="Quitar cliente">
 				<mat-icon (click)="removeClient()">close</mat-icon>
 			</span>

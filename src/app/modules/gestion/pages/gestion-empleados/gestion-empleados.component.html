@@ -100,13 +100,13 @@
                                 <div class="rol-list">
                                     @for (group of list | keyvalue: originalRolGroupOrder; track group.key) {
                                     <div class="rol-group">
-                                        <label>{{group.value.name}}</label>
+                                        <label>{{ group.value.name }}</label>
                                         <div class="rol-list-items">
                                             @for (rol of group.value.roles | keyvalue: originalRolOrder; track rol) {
                                             <mat-checkbox [title]="rol.value.description"
                                                           [(ngModel)]="selectedRolList[rol.value.id]"
                                                           [ngModelOptions]="{standalone: true}">
-                                                {{rol.value.name}}
+                                                {{ rol.value.name }}
                                             </mat-checkbox>
                                             }
                                         </div>

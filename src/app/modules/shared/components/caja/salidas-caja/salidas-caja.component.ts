@@ -23,10 +23,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatSelect } from '@angular/material/select';
-import {
-  SalidaCajaInterface,
-  SalidaCajaResult,
-} from '@interfaces/caja.interface';
+import { SalidaCajaInterface, SalidaCajaResult } from '@interfaces/caja.interface';
 import { DateValues, StatusResult } from '@interfaces/interfaces';
 import SalidaCaja from '@model/caja/salida-caja.model';
 import { DialogService } from '@osumi/angular-tools';
@@ -75,8 +72,7 @@ export default class SalidasCajaComponent {
 
   start: boolean = true;
 
-  conceptoBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('conceptoBox');
+  conceptoBox: Signal<ElementRef> = viewChild.required<ElementRef>('conceptoBox');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -84,7 +80,7 @@ export default class SalidasCajaComponent {
     descripcion: new FormControl(null),
     importe: new FormControl(null, Validators.required),
   });
-  originalValue: SalidaCajaInterface = null;
+  originalValue: SalidaCajaInterface | null = null;
 
   previousFecha(): void {
     this.fecha = addDays(this.fecha, -1);
@@ -168,9 +164,7 @@ export default class SalidasCajaComponent {
   }
 
   onSubmit(): void {
-    const data: SalidaCajaInterface = JSON.parse(
-      JSON.stringify(this.form.value)
-    );
+    const data: SalidaCajaInterface = JSON.parse(JSON.stringify(this.form.value));
 
     this.salidaCajaSelected.fromInterface(data, false);
     this.as
@@ -216,7 +210,7 @@ export default class SalidasCajaComponent {
 
   confirmDeleteSalidaCaja(): void {
     this.as
-      .deleteSalidaCaja(this.salidaCajaSelected.id)
+      .deleteSalidaCaja(this.salidaCajaSelected.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.dialog

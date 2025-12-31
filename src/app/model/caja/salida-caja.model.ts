@@ -3,11 +3,11 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class SalidaCaja {
   constructor(
-    public id: number = null,
-    public concepto: string = null,
-    public descripcion: string = null,
-    public importe: number = null,
-    public fecha: string = null,
+    public id: number | null = null,
+    public concepto: string | null = null,
+    public descripcion: string | null = null,
+    public importe: number | null = null,
+    public fecha: string | null = null,
     public editable: boolean = true
   ) {}
 

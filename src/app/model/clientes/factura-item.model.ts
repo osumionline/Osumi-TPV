@@ -2,16 +2,16 @@ export default class FacturaItem {
   deployed: boolean = false;
 
   constructor(
-    public concepto: string = null,
-    public fecha: string = null,
-    public precioIVA: number = null,
-    public precioSinIVA: number = null,
-    public unidades: number = null,
-    public subtotal: number = null,
-    public iva: number = null,
-    public ivaImporte: number = null,
-    public descuento: number = null,
-    public total: number = null,
+    public concepto: string | null = null,
+    public fecha: string | null = null,
+    public precioIVA: number | null = null,
+    public precioSinIVA: number | null = null,
+    public unidades: number | null = null,
+    public subtotal: number | null = null,
+    public iva: number | null = null,
+    public ivaImporte: number | null = null,
+    public descuento: number | null = null,
+    public total: number | null = null,
     public lineas: FacturaItem[] = []
   ) {}
 }

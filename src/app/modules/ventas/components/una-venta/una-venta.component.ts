@@ -1,26 +1,13 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import {
-  Component,
-  ModelSignal,
-  OutputEmitterRef,
-  inject,
-  model,
-  output,
-} from '@angular/core';
+import { Component, ModelSignal, OutputEmitterRef, inject, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import {
-  ArticuloInterface,
-  ArticuloResult,
-} from '@interfaces/articulo.interface';
-import {
-  BuscadorModal,
-  DevolucionModal,
-  VariosModal,
-} from '@interfaces/modals.interface';
+import Cliente from '@app/model/clientes/cliente.model';
+import { ArticuloInterface, ArticuloResult } from '@interfaces/articulo.interface';
+import { BuscadorModal, DevolucionModal, VariosModal } from '@interfaces/modals.interface';
 import {
   DevolucionSelectedInterface,
   LineasTicketResult,
@@ -28,13 +15,15 @@ import {
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Marca from '@model/marcas/marca.model';
 import Empleado from '@model/tpv/empleado.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
+import Venta from '@model/ventas/venta.model';
 import DevolucionModalComponent from '@modules/ventas/components/modals/devolucion-modal/devolucion-modal.component';
 import VentaAccesosDirectosModalComponent from '@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component';
 import VentaDescuentoModalComponent from '@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component';
 import VentaVariosModalComponent from '@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component';
-import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
+import { DialogService, Modal, OverlayCloseEvent, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import EmpleadosService from '@services/empleados.service';
@@ -71,6 +60,7 @@ export default class UnaVentaComponent {
   private overlayService: OverlayService = inject(OverlayService);
 
   ind: ModelSignal<number> = model.required<number>();
+  venta: ModelSignal<Venta> = model.required<Venta>();
   deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
   endVentaEvent: OutputEmitterRef<void> = output<void>();
   openCajaEvent: OutputEmitterRef<void> = output<void>();
@@ -79,41 +69,43 @@ export default class UnaVentaComponent {
   editarCantidad: boolean = false;
   editarImporte: boolean = false;
   editarDescuento: boolean = false;
-  descuentoSelected: number = null;
+  descuentoSelected: number | null = null;
 
   showClienteEstadisticas: boolean = true;
   showUltimaVenta: boolean = false;
-  ultimaVentaImporte: number = null;
-  ultimaVentaCambio: number = null;
+  ultimaVentaImporte: number | null = null;
+  ultimaVentaCambio: number | null = null;
 
-  variosInd: number = null;
+  variosInd: number | null = null;
 
-  devolucionVenta: number = null;
+  devolucionVenta: number | null = null;
   devolucionList: DevolucionSelectedInterface[] = [];
 
   showBuscador: boolean = false;
 
   loginSuccess(ev: Empleado): void {
-    this.vs.ventaActual.setEmpleado(ev);
-    this.vs.addLineaVenta();
-    this.vs.ventaActual.mostrarEmpleados = false;
+    this.venta.update((venta: Venta): Venta => {
+      const newVenta: Venta = new Venta().fromInterface(venta.toInterface(), venta.lineas);
+      newVenta.setEmpleado(ev);
+      newVenta.lineas.push(new VentaLinea());
+      newVenta.mostrarEmpleados = false;
+      return newVenta;
+    });
 
     this.setFocus(this.vs.ventaActual.loadValue);
   }
 
-  setFocus(value: number = null): void {
+  setFocus(value: number | null = null): void {
     if (!this.vs.ventaActual.mostrarEmpleados) {
       this.vs.ventaActual.loadValue = null;
-      setTimeout(() => {
+      setTimeout((): void => {
         const loc: HTMLInputElement = document.getElementById(
           `loc-new-${this.ind()}`
         ) as HTMLInputElement;
         // Si viene valor lo introduzco
         if (value !== null) {
           loc.value = value.toString();
-          this.vs.ventaActual.lineas[
-            this.vs.ventaActual.lineas.length - 1
-          ].localizador = value;
+          this.vs.ventaActual.lineas[this.vs.ventaActual.lineas.length - 1].localizador = value;
         }
         // Pongo el foco
         loc.focus();
@@ -147,10 +139,7 @@ export default class UnaVentaComponent {
         key: ev.key,
         showSelect: true,
       };
-      const dialog = this.overlayService.open(
-        BuscadorModalComponent,
-        modalBuscadorData
-      );
+      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
@@ -178,13 +167,13 @@ export default class UnaVentaComponent {
       }
       // Si el localizador es un número negativo, está escaneando un ticket.
       // Los ids de las ventas son números negativos y hay que abrir ventana de devoluciones
-      if (this.vs.ventaActual.lineas[ind].localizador < 0) {
-        this.abreDevoluciones(ind);
-        return;
-      }
-      this.ars
-        .loadArticulo(this.vs.ventaActual.lineas[ind].localizador)
-        .subscribe((result: ArticuloResult): void => {
+      const localizador: number | null = this.vs.ventaActual.lineas[ind].localizador;
+      if (localizador !== null) {
+        if (localizador < 0) {
+          this.abreDevoluciones(ind);
+          return;
+        }
+        this.ars.loadArticulo(localizador).subscribe((result: ArticuloResult): void => {
           this.searching = false;
           if (result.status === 'ok') {
             this.loadArticulo(result.articulo, ind);
@@ -200,13 +189,16 @@ export default class UnaVentaComponent {
               });
           }
         });
+      }
     }
   }
 
   loadArticulo(articuloResult: ArticuloInterface, ind: number): void {
-    const articulo = this.cms.getArticulo(articuloResult);
-    const marca = this.ms.findById(articulo.idMarca);
-    articulo.marca = marca.nombre;
+    const articulo: Articulo = this.cms.getArticulo(articuloResult);
+    const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
+    if (marca !== null) {
+      articulo.marca = marca.nombre;
+    }
     const indArticulo: number = this.vs.ventaActual.lineas.findIndex(
       (x: VentaLinea): boolean => x.idArticulo === articulo.id
     );
@@ -215,30 +207,45 @@ export default class UnaVentaComponent {
       this.vs.ventaActual.lineas[ind] = new VentaLinea().fromArticulo(articulo);
       this.vs.addLineaVenta();
     } else {
-      if (this.vs.ventaActual.lineas[indArticulo].fromVenta === null) {
-        this.vs.ventaActual.lineas[indArticulo].cantidad++;
-        this.vs.ventaActual.lineas[indArticulo].animarCantidad = true;
-        this.vs.ventaActual.lineas[ind].localizador = null;
+      if (this.venta().lineas[indArticulo].fromVenta === null) {
+        this.venta.update((venta: Venta): Venta => {
+          if (venta.lineas[indArticulo].cantidad === null) {
+            venta.lineas[indArticulo].cantidad = 0;
+          }
+          venta.lineas[indArticulo].cantidad++;
+          venta.lineas[indArticulo].animarCantidad = true;
+          venta.lineas[ind].localizador = null;
+          return venta;
+        });
         setTimeout((): void => {
-          this.vs.ventaActual.lineas[indArticulo].animarCantidad = false;
+          this.venta.update((venta: Venta): Venta => {
+            venta.lineas[indArticulo].animarCantidad = false;
+            return venta;
+          });
         }, 1000);
       } else {
         this.dialog
           .alert({
             title: 'Error',
-            content:
-              'Has seleccionado un artículo que está marcado como devolución.',
+            content: 'Has seleccionado un artículo que está marcado como devolución.',
           })
           .subscribe((): void => {
-            this.vs.ventaActual.lineas[ind].localizador = null;
+            this.venta.update((venta: Venta): Venta => {
+              venta.lineas[ind].localizador = null;
+              return venta;
+            });
             this.setFocus();
             return;
           });
       }
     }
-    if (this.vs.cliente !== null && this.vs.cliente.descuento !== 0) {
-      this.vs.ventaActual.lineas[ind].descuentoManual = false;
-      this.vs.ventaActual.lineas[ind].descuento = this.vs.cliente.descuento;
+    const cliente: Cliente | null = this.venta().cliente;
+    if (cliente !== null && cliente.descuento !== 0) {
+      this.venta.update((venta: Venta): Venta => {
+        venta.lineas[ind].descuentoManual = false;
+        venta.lineas[ind].descuento = cliente.descuento;
+        return venta;
+      });
     }
     this.vs.ventaActual.updateImporte();
     this.setFocus();
@@ -269,11 +276,17 @@ export default class UnaVentaComponent {
 
     // Actualizo cantidades
     for (const item of list) {
-      const updateInd: number = this.vs.ventaActual.lineas.findIndex(
+      const updateInd: number = this.venta().lineas.findIndex(
         (x: VentaLinea): boolean => x.localizador === item
       );
       if (updateInd !== -1) {
-        this.vs.ventaActual.lineas[updateInd].cantidad++;
+        this.venta.update((venta: Venta): Venta => {
+          if (venta.lineas[updateInd].cantidad === null) {
+            venta.lineas[updateInd].cantidad = 0;
+          }
+          venta.lineas[updateInd].cantidad++;
+          return venta;
+        });
       }
     }
 
@@ -282,16 +295,13 @@ export default class UnaVentaComponent {
         .getLocalizadores(toBeAddded.join(','))
         .subscribe((result: LocalizadoresResult): void => {
           const articulos: Articulo[] = this.cms.getArticulos(result.list);
-          this.vs.ventaActual.lineas.splice(
-            this.vs.ventaActual.lineas.length - 1,
-            1
-          );
+          this.vs.ventaActual.lineas.splice(this.vs.ventaActual.lineas.length - 1, 1);
           for (const articulo of articulos) {
-            const marca = this.ms.findById(articulo.idMarca);
-            articulo.marca = marca.nombre;
-            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
-              articulo
-            );
+            const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
+            if (marca !== null) {
+              articulo.marca = marca.nombre;
+            }
+            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(articulo);
             this.vs.ventaActual.lineas.push(ventaLinea);
           }
           this.vs.addLineaVenta();
@@ -332,7 +342,7 @@ export default class UnaVentaComponent {
         });
     } else {
       this.searching = false;
-      this.devolucionVenta = this.vs.ventaActual.lineas[ind].localizador * -1;
+      this.devolucionVenta = (this.venta().lineas[ind].localizador ?? 0) * -1;
       this.vs.ventaActual.lineas[ind].localizador = null;
 
       const modalDevolucionData: DevolucionModal = {
@@ -341,10 +351,7 @@ export default class UnaVentaComponent {
         idVenta: this.devolucionVenta,
         list: null,
       };
-      const dialog = this.overlayService.open(
-        DevolucionModalComponent,
-        modalDevolucionData
-      );
+      const dialog = this.overlayService.open(DevolucionModalComponent, modalDevolucionData);
       dialog.afterClosed$.subscribe((data): void => {
         this.afterDevolucion(data);
       });
@@ -357,7 +364,7 @@ export default class UnaVentaComponent {
       if (linea.fromVenta === this.devolucionVenta) {
         list.push({
           id: linea.id,
-          unidades: linea.cantidad * -1,
+          unidades: (linea.cantidad ?? 0) * -1,
         });
       }
     }
@@ -367,45 +374,38 @@ export default class UnaVentaComponent {
       idVenta: this.devolucionVenta,
       list: list,
     };
-    const dialog = this.overlayService.open(
-      DevolucionModalComponent,
-      modalDevolucionData
-    );
-    dialog.afterClosed$.subscribe((data): void => {
-      this.afterDevolucion(data);
-    });
-  }
-
-  afterDevolucion(data): void {
-    const checkList: VentaLinea[] = this.vs.ventaActual.lineas.filter(
-      (x: VentaLinea): boolean => {
-        return x.fromVenta !== null;
+    const dialog = this.overlayService.open(DevolucionModalComponent, modalDevolucionData);
+    dialog.afterClosed$.subscribe(
+      (data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void => {
+        this.afterDevolucion(data);
       }
     );
+  }
+
+  afterDevolucion(data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void {
+    const checkList: VentaLinea[] = this.vs.ventaActual.lineas.filter((x: VentaLinea): boolean => {
+      return x.fromVenta !== null;
+    });
 
     if (data !== null && data.data.length > 0) {
       // Busco si hay alguna línea que haya que borrar
       const toBeDeleted: number[] = [];
       for (const linea of checkList) {
         if (linea.localizador !== null) {
-          const ind: number = data.data.findIndex(
-            (x: DevolucionSelectedInterface): boolean => {
-              return x.id === linea.id;
-            }
-          );
+          const ind: number = data.data.findIndex((x: DevolucionSelectedInterface): boolean => {
+            return x.id === linea.id;
+          });
 
           if (ind === -1) {
-            toBeDeleted.push(linea.id);
+            toBeDeleted.push(linea.id as number);
           }
         }
       }
 
       for (const id of toBeDeleted) {
-        const deleteInd: number = this.vs.ventaActual.lineas.findIndex(
-          (x: VentaLinea): boolean => {
-            return x.id === id;
-          }
-        );
+        const deleteInd: number = this.vs.ventaActual.lineas.findIndex((x: VentaLinea): boolean => {
+          return x.id === id;
+        });
         this.vs.ventaActual.lineas.splice(deleteInd, 1);
       }
 
@@ -416,7 +416,7 @@ export default class UnaVentaComponent {
           (x: VentaLinea): boolean => x.id === item.id
         );
         if (addInd === -1) {
-          toBeAddded.push(item.id);
+          toBeAddded.push(item.id as number);
         }
       }
 
@@ -435,34 +435,27 @@ export default class UnaVentaComponent {
         this.vs
           .getLineasTicket(toBeAddded.join(','))
           .subscribe((result: LineasTicketResult): void => {
-            const lineas: VentaLineaHistorico[] =
-              this.cms.getHistoricoVentaLineas(result.list);
-            this.vs.ventaActual.lineas.splice(
-              this.vs.ventaActual.lineas.length - 1,
-              1
-            );
+            const lineas: VentaLineaHistorico[] = this.cms.getHistoricoVentaLineas(result.list);
+            this.vs.ventaActual.lineas.splice(this.vs.ventaActual.lineas.length - 1, 1);
             for (const linea of lineas) {
               const articulo: Articulo = new Articulo();
               articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
-              articulo.localizador =
-                linea.localizador !== null ? linea.localizador : 0;
+              articulo.localizador = linea.localizador !== null ? linea.localizador : 0;
               articulo.nombre = linea.articulo;
               articulo.pvp = linea.pvp;
               articulo.marca = linea.marca;
 
-              const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(
-                articulo
-              );
+              const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(articulo);
               ventaLinea.fromVenta = this.devolucionVenta;
               ventaLinea.descuento = linea.descuento;
-              const devolucionLinea: DevolucionSelectedInterface =
-                this.devolucionList.find(
-                  (x: DevolucionSelectedInterface): boolean => {
-                    return x.id == linea.id;
-                  }
-                );
-              ventaLinea.id = devolucionLinea.id;
-              ventaLinea.cantidad = devolucionLinea.unidades;
+              const devolucionLinea: DevolucionSelectedInterface | undefined =
+                this.devolucionList.find((x: DevolucionSelectedInterface): boolean => {
+                  return x.id == linea.id;
+                });
+              if (devolucionLinea !== undefined) {
+                ventaLinea.id = devolucionLinea.id;
+                ventaLinea.cantidad = devolucionLinea.unidades;
+              }
 
               this.vs.ventaActual.lineas.push(ventaLinea);
             }
@@ -518,18 +511,12 @@ export default class UnaVentaComponent {
       modalColor: 'blue',
       nombre: this.vs.ventaActual.lineas[ind].descripcion,
       pvp: this.vs.ventaActual.lineas[ind].pvp,
-      iva: !this.vs.ventaActual.lineas[ind].iva
-        ? 21
-        : this.vs.ventaActual.lineas[ind].iva,
+      iva: !this.vs.ventaActual.lineas[ind].iva ? 21 : this.vs.ventaActual.lineas[ind].iva,
     };
-    const dialog = this.overlayService.open(
-      VentaVariosModalComponent,
-      modalVariosData
-    );
+    const dialog = this.overlayService.open(VentaVariosModalComponent, modalVariosData);
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.vs.ventaActual.lineas[this.variosInd].descripcion =
-          data.data.nombre;
+      if (data.data !== null && this.variosInd !== null) {
+        this.vs.ventaActual.lineas[this.variosInd].descripcion = data.data.nombre;
         this.vs.ventaActual.lineas[this.variosInd].pvp = data.data.pvp;
         this.vs.ventaActual.lineas[this.variosInd].iva = data.data.iva;
         this.vs.ventaActual.updateImporte();
@@ -561,7 +548,7 @@ export default class UnaVentaComponent {
 
   editarLineaCantidad(i: number): void {
     this.editarCantidad = true;
-    setTimeout(() => {
+    setTimeout((): void => {
       const cantidad: HTMLInputElement = document.getElementById(
         'linea-cantidad-' + this.ind + '_' + i
       ) as HTMLInputElement;
@@ -569,43 +556,35 @@ export default class UnaVentaComponent {
     }, 0);
   }
 
-  checkCantidad(ev: KeyboardEvent, ind: number, close: boolean): void {
-    if (ev.key == 'Enter' || close) {
-      this.editarCantidad = false;
-      this.vs.ventaActual.updateImporte();
-      this.setFocus();
-    }
+  checkCantidad(): void {
+    this.editarCantidad = false;
+    this.vs.ventaActual.updateImporte();
+    this.setFocus();
   }
 
   setRegalo(i: number): void {
-    console.log(this.vs.ventaActual.lineas[i]);
     if (!this.vs.ventaActual.lineas[i].regalo) {
       this.vs.ventaActual.lineas[i].regalo = true;
       this.vs.ventaActual.lineas[i].descuentoManualAnterior =
         this.vs.ventaActual.lineas[i].descuentoManual;
       this.vs.ventaActual.lineas[i].descuentoManual = false;
-      this.vs.ventaActual.lineas[i].descuentoAnterior =
-        this.vs.ventaActual.lineas[i].descuento;
+      this.vs.ventaActual.lineas[i].descuentoAnterior = this.vs.ventaActual.lineas[i].descuento;
       this.vs.ventaActual.lineas[i].descuento = 100;
     } else {
       this.vs.ventaActual.lineas[i].regalo = false;
       this.vs.ventaActual.lineas[i].descuentoManual =
         this.vs.ventaActual.lineas[i].descuentoManualAnterior;
-      this.vs.ventaActual.lineas[i].descuento =
-        this.vs.ventaActual.lineas[i].descuentoAnterior;
+      this.vs.ventaActual.lineas[i].descuento = this.vs.ventaActual.lineas[i].descuentoAnterior;
     }
     this.vs.ventaActual.updateImporte();
   }
 
   editarLineaImporte(i: number): void {
-    if (
-      !this.vs.ventaActual.empleado.hasRol(
-        rolList.ventas.roles['modificarImportes'].id
-      )
-    ) {
+    const empleado: Empleado | null = this.venta().empleado;
+    if (empleado !== null && !empleado.hasRol(rolList['ventas'].roles['modificarImportes'].id)) {
       return;
     }
-    if (this.vs.ventaActual.lineas[i].regalo) {
+    if (this.venta().lineas[i].regalo) {
       this.dialog
         .alert({
           title: 'Atención',
@@ -617,7 +596,7 @@ export default class UnaVentaComponent {
         });
       return;
     }
-    if (this.vs.ventaActual.lineas[i].descuentoManual) {
+    if (this.venta().lineas[i].descuentoManual) {
       this.dialog
         .alert({
           title: 'Atención',
@@ -638,13 +617,11 @@ export default class UnaVentaComponent {
     }, 0);
   }
 
-  checkImporte(ev: KeyboardEvent, ind: number, close: boolean): void {
-    if (ev.key == 'Enter' || close) {
-      this.editarImporte = false;
-      this.vs.ventaActual.lineas[ind].importeManual = true;
-      this.vs.ventaActual.updateImporte();
-      this.setFocus();
-    }
+  checkImporte(ind: number): void {
+    this.editarImporte = false;
+    this.vs.ventaActual.lineas[ind].importeManual = true;
+    this.vs.ventaActual.updateImporte();
+    this.setFocus();
   }
 
   quitaImporteManual(ev: MouseEvent, ind: number): void {
@@ -699,18 +676,19 @@ export default class UnaVentaComponent {
     }, 0);
   }
 
-  checkDescuento(ev: KeyboardEvent, close: boolean): void {
-    if (ev.key == 'Enter' || close) {
-      const id: string[] = (ev.target as Element).id.split('_');
-      const ind: number = parseInt(id.pop());
+  checkDescuento(ev: Event): void {
+    const id: string[] = (ev.target as Element).id.split('_');
+    const indId: string | undefined = id.pop();
+    if (indId !== undefined) {
+      const ind: number = parseInt(indId);
       // Comprobación para que no quede en blanco
       if (this.vs.ventaActual.lineas[ind].descuento === null) {
         this.vs.ventaActual.lineas[ind].descuento = 0;
       }
-      this.editarDescuento = false;
-      this.vs.ventaActual.updateImporte();
-      this.setFocus();
     }
+    this.editarDescuento = false;
+    this.vs.ventaActual.updateImporte();
+    this.setFocus();
   }
 
   quitaDescuentoManual(ev: MouseEvent, ind: number): void {
@@ -740,10 +718,7 @@ export default class UnaVentaComponent {
       modalTitle: 'Introducir descuento',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(
-      VentaDescuentoModalComponent,
-      modalDescuentoData
-    );
+    const dialog = this.overlayService.open(VentaDescuentoModalComponent, modalDescuentoData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const ind: number = this.vs.ventaActual.lineas.findIndex(
@@ -787,9 +762,12 @@ export default class UnaVentaComponent {
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.devolucionVenta = null;
-          this.vs.cliente = null;
-          this.vs.ventaActual.resetearVenta();
-          this.vs.addLineaVenta();
+          this.venta.update((venta: Venta): Venta => {
+            venta.cliente = null;
+            venta.resetearVenta();
+            venta.lineas.push(new VentaLinea());
+            return venta;
+          });
           this.setFocus();
         }
       });
@@ -799,10 +777,7 @@ export default class UnaVentaComponent {
     let status: string = 'ok';
     if (this.vs.ventaActual.lineas.length > 0) {
       for (const linea of this.vs.ventaActual.lineas) {
-        if (
-          linea.descripcion !== null &&
-          (linea.cantidad === null || linea.cantidad === 0)
-        ) {
+        if (linea.descripcion !== null && (linea.cantidad === null || linea.cantidad === 0)) {
           status = 'error';
           this.dialog.alert({
             title: 'Error',

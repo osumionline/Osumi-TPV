@@ -2,20 +2,20 @@ import { CierreCajaTipoInterface } from '@interfaces/caja.interface';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class CierreCajaTipo {
-  real: number = null;
+  real: number | null = null;
   show: boolean = false;
 
   constructor(
-    public id: number = null,
-    public nombre: string = null,
-    public ventas: number = null,
-    public operaciones: number = null
+    public id: number | null = null,
+    public nombre: string | null = null,
+    public ventas: number | null = null,
+    public operaciones: number | null = null
   ) {
     this.real = ventas;
   }
 
   get diferencia(): number {
-    return -1 * (this.ventas - this.real);
+    return -1 * ((this.ventas ?? 0) - (this.real ?? 0));
   }
 
   fromInterface(cct: CierreCajaTipoInterface): CierreCajaTipo {

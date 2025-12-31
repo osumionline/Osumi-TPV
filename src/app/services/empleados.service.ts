@@ -19,8 +19,8 @@ export default class EmpleadosService {
   private cms: ClassMapperService = inject(ClassMapperService);
 
   empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([]);
-  colors: any = {};
-  textColors: any = {};
+  colors: Record<number, string | null> = {};
+  textColors: Record<number, string | null> = {};
   loaded: boolean = false;
 
   load(): Promise<string> {
@@ -37,17 +37,14 @@ export default class EmpleadosService {
   }
 
   getEmpleados(): Observable<EmpleadosResult> {
-    return this.http.post<EmpleadosResult>(
-      environment.apiUrl + '-empleados/get-empleados',
-      {}
-    );
+    return this.http.post<EmpleadosResult>(environment.apiUrl + '-empleados/get-empleados', {});
   }
 
   loadEmpleados(empleados: Empleado[]): void {
     this.empleados.set(empleados);
     for (const e of empleados) {
-      this.colors[e.id] = e.color;
-      this.textColors[e.id] = e.textColor;
+      this.colors[e.id as number] = e.color;
+      this.textColors[e.id as number] = e.textColor;
     }
     this.loaded = true;
   }
@@ -58,23 +55,14 @@ export default class EmpleadosService {
   }
 
   saveEmpleado(empleado: EmpleadoSaveInterface): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-empleados/save-empleado',
-      empleado
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/save-empleado', empleado);
   }
 
   login(empleado: EmpleadoLoginInterface): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-empleados/login',
-      empleado
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/login', empleado);
   }
 
   deleteEmpleado(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-empleados/delete-empleado',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/delete-empleado', { id });
   }
 }

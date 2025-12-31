@@ -16,24 +16,24 @@ export default class Pedido {
   _descuento: number = 0;
 
   constructor(
-    public id: number = null,
+    public id: number | null = null,
     public idProveedor: number = -1,
-    public proveedor: string = null,
-    public idMetodoPago: number = null,
-    public metodoPago: string = null,
+    public proveedor: string | null = null,
+    public idMetodoPago: number | null = null,
+    public metodoPago: string | null = null,
     public re: boolean = false,
     public ue: boolean = false,
     public tipo: string = 'albaran',
-    public num: string = null,
-    public fechaPago: string = null,
-    public fechaPedido: string = null,
-    public fechaRecepcionado: string = null,
+    public num: string | null = null,
+    public fechaPago: string | null = null,
+    public fechaPedido: string | null = null,
+    public fechaRecepcionado: string | null = null,
     public lineas: PedidoLinea[] = [],
-    public importe: number = null,
+    public importe: number | null = null,
     public portes: number = 0,
     public faltas: boolean = false,
     public recepcionado: boolean = false,
-    public observaciones: string = null,
+    public observaciones: string | null = null,
     public pdfs: PedidoPDF[] = [],
     public vista: PedidoVista[] = []
   ) {}
@@ -49,7 +49,7 @@ export default class Pedido {
     }
   }
 
-  get nombreTipo(): string {
+  get nombreTipo(): string | null {
     if (this.tipo === null) {
       return null;
     }
@@ -70,12 +70,13 @@ export default class Pedido {
         }
         break;
     }
+    return null;
   }
 
   get totalArticulos(): number {
     let num: number = 0;
     for (const linea of this.lineas) {
-      num += linea.unidades;
+      num += linea.unidades ?? 0;
     }
     return num;
   }
@@ -91,7 +92,7 @@ export default class Pedido {
   get totalPVP(): number {
     let num: number = 0;
     for (const linea of this.lineas) {
-      num += linea.unidades * linea.pvp;
+      num += (linea.unidades ?? 0) * (linea.pvp ?? 0);
     }
     return num;
   }
@@ -118,20 +119,18 @@ export default class Pedido {
   }
 
   get ivaList(): TotalsIVAOption[] {
-    const list = {};
+    const list: Record<string, number> = {};
 
     for (const linea of this.lineas) {
       if (!Object.prototype.hasOwnProperty.call(list, 'iva_' + linea.iva)) {
         list['iva_' + linea.iva] = 0;
       }
-      list['iva_' + linea.iva] +=
-        linea.subtotal * (1 + linea.iva / 100) - linea.subtotal;
+      list['iva_' + linea.iva] += linea.subtotal * (1 + (linea.iva ?? 0) / 100) - linea.subtotal;
       if (this.re) {
         if (!Object.prototype.hasOwnProperty.call(list, 're_' + linea.re)) {
           list['re_' + linea.re] = 0;
         }
-        list['re_' + linea.re] +=
-          linea.subtotal * (1 + linea.re / 100) - linea.subtotal;
+        list['re_' + linea.re] += linea.subtotal * (1 + (linea.re ?? 0) / 100) - linea.subtotal;
       }
     }
 
@@ -167,8 +166,8 @@ export default class Pedido {
     let puc: number = 0;
 
     for (const linea of this.lineas) {
-      pvp += linea.pvp * linea.unidades;
-      puc += linea.puc * linea.unidades;
+      pvp += (linea.pvp ?? 0) * (linea.unidades ?? 0);
+      puc += (linea.puc ?? 0) * (linea.unidades ?? 0);
     }
     puc += this.portes;
     if (pvp === 0) {
@@ -177,7 +176,7 @@ export default class Pedido {
     return (100 * (pvp - puc)) / pvp;
   }
 
-  get observacionesShort(): string {
+  get observacionesShort(): string | null {
     if (this.observaciones === null) {
       return null;
     }

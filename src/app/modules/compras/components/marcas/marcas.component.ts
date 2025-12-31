@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, Signal, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -68,7 +62,7 @@ export default class MarcasComponent {
     web: new FormControl(null),
     observaciones: new FormControl(null),
   });
-  originalValue: MarcaInterface = null;
+  originalValue: MarcaInterface | null = null;
   canSeeStatistics: boolean = false;
 
   searchFocus(): void {
@@ -107,13 +101,16 @@ export default class MarcasComponent {
   }
 
   addLogo(): void {
-    document.getElementById('logo-file').click();
+    const obj: HTMLElement | null = document.getElementById('logo-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onLogoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
@@ -165,25 +162,20 @@ export default class MarcasComponent {
   }
 
   confirmDeleteMarca(): void {
-    this.ms
-      .deleteMarca(this.selectedMarca.id)
-      .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
-          this.ms.resetMarcas();
-          this.start = true;
-          this.dialog.alert({
-            title: 'Marca borrada',
-            content:
-              'La marca "' +
-              this.selectedMarca.nombre +
-              '" ha sido correctamente borrada.',
-          });
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ocurrió un error al borrar la marca.',
-          });
-        }
-      });
+    this.ms.deleteMarca(this.selectedMarca.id as number).subscribe((result: StatusResult): void => {
+      if (result.status === 'ok') {
+        this.ms.resetMarcas();
+        this.start = true;
+        this.dialog.alert({
+          title: 'Marca borrada',
+          content: 'La marca "' + this.selectedMarca.nombre + '" ha sido correctamente borrada.',
+        });
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al borrar la marca.',
+        });
+      }
+    });
   }
 }

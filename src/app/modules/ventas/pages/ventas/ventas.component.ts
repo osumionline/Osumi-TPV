@@ -43,31 +43,30 @@ export default class VentasComponent implements OnInit {
   private readonly vs: VentasService = inject(VentasService);
   private readonly overlayService: OverlayService = inject(OverlayService);
 
-  id: InputSignalWithTransform<number | undefined, unknown> = input.required({
-    transform: numberAttribute,
-  });
-  tabs: Signal<VentasTabsComponent> =
-    viewChild.required<VentasTabsComponent>('tabs');
-  ventasComponents: Signal<readonly UnaVentaComponent[]> =
-    viewChildren(UnaVentaComponent);
-  header: Signal<HeaderComponent> =
-    viewChild.required<HeaderComponent>('header');
+  toOptionalNumber = (v: unknown): number | undefined =>
+    v == null ? undefined : numberAttribute(v);
+
+  id: InputSignalWithTransform<number | undefined, unknown> = input<number | undefined, unknown>(
+    undefined,
+    { transform: this.toOptionalNumber }
+  );
+  tabs: Signal<VentasTabsComponent> = viewChild.required<VentasTabsComponent>('tabs');
+  ventasComponents: Signal<readonly UnaVentaComponent[]> = viewChildren(UnaVentaComponent);
+  header: Signal<HeaderComponent> = viewChild.required<HeaderComponent>('header');
 
   ventas: WritableSignal<Venta[]> = signal(this.vs.getList());
   selected: WritableSignal<number> = signal(this.vs.selected());
 
-  get cliente(): Cliente {
-    return this.ventas[this.selected()]
-      ? this.ventas[this.selected()].cliente
-        ? this.ventas[this.selected()].cliente
-        : null
-      : null;
+  get cliente(): Cliente | null {
+    const ventaSelected: Venta = this.ventas()[this.selected()];
+    return ventaSelected.cliente ? ventaSelected.cliente : null;
   }
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
-    if (this.id() !== undefined && !isNaN(this.id()) && this.id() !== 0) {
-      this.newVenta(-1 * this.id());
+    const id: number | undefined = this.id();
+    if (id !== undefined && !isNaN(id) && this.id() !== 0) {
+      this.newVenta(-1 * id);
       this.ventas.update((ventas: Venta[]): Venta[] => {
         ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
         return ventas;
@@ -92,7 +91,7 @@ export default class VentasComponent implements OnInit {
     }
   }
 
-  newVenta(id: number = null): void {
+  newVenta(id: number | null = null): void {
     const newVenta: Venta = this.vs.newVenta(
       this.config.empleados,
       this.config.idEmpleadoDef,
@@ -115,7 +114,7 @@ export default class VentasComponent implements OnInit {
     this.startFocus();
   }
 
-  startFocus(id: number = null): void {
+  startFocus(id: number | null = null): void {
     setTimeout((): void => {
       this.ventasComponents()[this.selected()]?.setFocus(id);
     }, 0);
@@ -148,7 +147,7 @@ export default class VentasComponent implements OnInit {
     this.startFocus();
   }
 
-  selectClient(selected: SelectClienteInterface): void {
+  selectClient(selected: SelectClienteInterface | null): void {
     if (!selected) {
       this.startFocus();
       return;
@@ -162,10 +161,7 @@ export default class VentasComponent implements OnInit {
       return;
     }
 
-    const obs: Observable<Venta> = this.vs.loadVentaCliente(
-      selected.cliente,
-      venta
-    );
+    const obs: Observable<Venta> = this.vs.loadVentaCliente(selected.cliente, venta);
     this.ventas.update((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
 
     obs.subscribe((vActualizada: Venta): void => {
@@ -178,9 +174,7 @@ export default class VentasComponent implements OnInit {
     if (selected.from == null) {
       this.startFocus();
     } else {
-      const ventaFin: VentaFin = this.vs.loadFinVenta(
-        this.ventas()[this.selected()]
-      );
+      const ventaFin: VentaFin = this.vs.loadFinVenta(this.ventas()[this.selected()]);
       this.abreFinalizarVenta(ventaFin);
     }
   }
@@ -198,7 +192,7 @@ export default class VentasComponent implements OnInit {
     venta.lineas = [];
     const cliente = reservas[0].cliente;
 
-    const stats$: Observable<Venta> = this.vs.loadVentaCliente(cliente, venta);
+    const stats$: Observable<Venta> = this.vs.loadVentaCliente(cliente as Cliente, venta);
 
     for (const reserva of reservas) {
       for (const linea of reserva.lineas) {
@@ -211,18 +205,19 @@ export default class VentasComponent implements OnInit {
         }
 
         if (ind === -1) {
-          const lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(
-            linea
-          );
+          const lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
           lineaVenta.fromReserva = reserva.id;
           venta.lineas.push(lineaVenta);
         } else {
-          venta.lineas[ind].cantidad += linea.unidades;
+          let cantidad = venta.lineas[ind].cantidad;
+          if (cantidad !== null) {
+            cantidad += linea.unidades ?? 0;
+          }
         }
       }
     }
 
-    if (cliente.descuento !== 0) {
+    if (cliente !== null && cliente.descuento !== 0) {
       for (const l of venta.lineas) {
         if (l.localizador !== null) {
           l.descuentoManual = false;
@@ -251,9 +246,7 @@ export default class VentasComponent implements OnInit {
     if (this.ventas()[this.vs.selected()].lineas.length === 1) {
       return;
     }
-    const ventaFin: VentaFin = this.vs.loadFinVenta(
-      this.ventas()[this.vs.selected()]
-    );
+    const ventaFin: VentaFin = this.vs.loadFinVenta(this.ventas()[this.vs.selected()]);
     this.abreFinalizarVenta(ventaFin);
   }
 
@@ -263,10 +256,7 @@ export default class VentasComponent implements OnInit {
       modalColor: 'blue',
       fin: ventaFin,
     };
-    const dialog = this.overlayService.open(
-      VentaFinalizarModalComponent,
-      modalFinalizarVentaData
-    );
+    const dialog = this.overlayService.open(VentaFinalizarModalComponent, modalFinalizarVentaData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         if (data.data.status === 'cliente') {

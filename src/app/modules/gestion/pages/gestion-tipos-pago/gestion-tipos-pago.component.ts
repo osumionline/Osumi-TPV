@@ -1,16 +1,5 @@
-import {
-  CdkDragDrop,
-  DragDropModule,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,11 +13,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import {
-  MatActionList,
-  MatListItem,
-  MatListItemIcon,
-} from '@angular/material/list';
+import { MatActionList, MatListItem, MatListItemIcon } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
@@ -82,8 +67,7 @@ export default class GestionTiposPagoComponent implements OnInit {
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedTipoPago: TipoPago = new TipoPago();
-  tiposPagoTabs: Signal<MatTabGroup> =
-    viewChild.required<MatTabGroup>('tiposPagoTabs');
+  tiposPagoTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('tiposPagoTabs');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -91,7 +75,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     afectaCaja: new FormControl(false),
     fisico: new FormControl(false),
   });
-  originalValue: TipoPagoInterface = null;
+  originalValue: TipoPagoInterface | null = null;
 
   logo: string = '/img/default.jpg';
 
@@ -106,28 +90,21 @@ export default class GestionTiposPagoComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(
-      this.config.tiposPago,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.config.tiposPago, event.previousIndex, event.currentIndex);
     const orderList: TiposPagoOrderInterface[] = [];
     for (const ind in this.config.tiposPago) {
       const i: number = parseInt(ind);
       this.config.tiposPago[ind].orden = i;
-      orderList.push({ id: this.config.tiposPago[ind].id, orden: i });
+      orderList.push({ id: this.config.tiposPago[ind].id as number, orden: i });
     }
-    this.as
-      .saveTipoPagoOrden(orderList)
-      .subscribe((result: StatusResult): void => {
-        if (result.status === 'error') {
-          this.dialog.alert({
-            title: 'Error',
-            content:
-              'Ocurrió un error al guardar el orden de los tipos de pago.',
-          });
-        }
-      });
+    this.as.saveTipoPagoOrden(orderList).subscribe((result: StatusResult): void => {
+      if (result.status === 'error') {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al guardar el orden de los tipos de pago.',
+        });
+      }
+    });
   }
 
   selectTipoPago(tipoPago: TipoPago): void {
@@ -136,7 +113,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     this.form.patchValue(this.selectedTipoPago.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.tiposPagoTabs().realignInkBar();
-    this.logo = this.selectedTipoPago.foto;
+    this.logo = this.selectedTipoPago.foto as string;
   }
 
   newTipoPago(): void {
@@ -154,13 +131,16 @@ export default class GestionTiposPagoComponent implements OnInit {
   }
 
   addLogo(): void {
-    document.getElementById('logo-file').click();
+    const obj: HTMLElement | null = document.getElementById('logo-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onLogoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
@@ -173,9 +153,7 @@ export default class GestionTiposPagoComponent implements OnInit {
   onSubmit(): void {
     if (
       this.selectedTipoPago.id === null &&
-      (this.logo === null ||
-        this.logo === '' ||
-        this.logo === '/img/default.jpg')
+      (this.logo === null || this.logo === '' || this.logo === '/img/default.jpg')
     ) {
       this.dialog.alert({
         title: 'Error',
@@ -228,7 +206,7 @@ export default class GestionTiposPagoComponent implements OnInit {
 
   confirmDeleteTipoPago(): void {
     this.as
-      .deleteTipoPago(this.selectedTipoPago.id)
+      .deleteTipoPago(this.selectedTipoPago.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.as.loadTiposPago().subscribe((result: TiposPagoResult): void => {

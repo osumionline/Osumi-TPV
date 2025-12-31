@@ -3,11 +3,11 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class TipoPago {
   constructor(
-    public id: number = null,
-    public nombre: string = null,
-    public foto: string = null,
+    public id: number | null = null,
+    public nombre: string | null = null,
+    public foto: string | null = null,
     public afectaCaja: boolean = false,
-    public orden: number = null,
+    public orden: number | null = null,
     public fisico: boolean = true
   ) {}
 

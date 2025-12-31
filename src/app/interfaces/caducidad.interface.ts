@@ -1,23 +1,23 @@
 import { ArticuloInterface } from '@interfaces/articulo.interface';
 
 export interface CaducidadInterface {
-  id: number;
-  articulo: ArticuloInterface;
-  unidades: number;
-  pvp: number;
-  puc: number;
-  createdAt: string;
+  id: number | null;
+  articulo: ArticuloInterface | null;
+  unidades: number | null;
+  pvp: number | null;
+  puc: number | null;
+  createdAt: string | null;
 }
 
 export interface BuscadorCaducidadesInterface {
-  year: number;
-  month: number;
+  year: number | null;
+  month: number | null;
   pagina: number;
   num: number;
-  idMarca: number;
-  nombre: string;
-  orderBy: string;
-  orderSent: string;
+  idMarca: number | null;
+  nombre: string | null;
+  orderBy: string | null;
+  orderSent: string | null;
 }
 
 export interface BuscadorCaducidadResult {

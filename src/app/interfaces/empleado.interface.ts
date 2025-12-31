@@ -1,14 +1,14 @@
 export interface EmpleadoInterface {
-  id: number;
-  nombre: string;
+  id: number | null;
+  nombre: string | null;
   hasPassword: boolean;
-  color: string;
+  color: string | null;
   roles: number[];
 }
 
 export interface EmpleadoLoginInterface {
-  id: number;
-  pass: string;
+  id: number | null;
+  pass: string | null;
 }
 
 export interface EmpleadosResult {

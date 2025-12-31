@@ -164,7 +164,7 @@
                             <div class="marcas-list">
                                 @for (marca of marcasList | providerBrandListFilter: searchMarcas; track marca.id) {
                                 <div>
-                                    <mat-checkbox [(ngModel)]="marca.selected">{{marca.nombre}}</mat-checkbox>
+                                    <mat-checkbox [(ngModel)]="marca.selected">{{ marca.nombre }}</mat-checkbox>
                                 </div>
                                 }
                             </div>
@@ -180,7 +180,7 @@
                                                         [disabled]="selectedProveedor.comerciales.length===0">
                                                 @for (comercial of selectedProveedor.comerciales; track comercial.id) {
                                                 <mat-option [value]="comercial.id">
-                                                    {{comercial.nombre}}
+                                                    {{ comercial.nombre }}
                                                 </mat-option>
                                                 }
                                                 @empty {

@@ -1,11 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import {
-  MatCard,
-  MatCardActions,
-  MatCardContent,
-} from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -93,7 +89,7 @@ export default class InstallationComponent implements OnInit {
   selectedReList: number[] = [];
 
   selectedOption: string = 'iva';
-  selectedOptionInList: number = null;
+  selectedOptionInList: number | null = null;
 
   marginList: MarginOptionInterface[] = [
     { value: 10, checked: false },
@@ -174,13 +170,16 @@ export default class InstallationComponent implements OnInit {
   }
 
   addLogo(): void {
-    document.getElementById('logo-file').click();
+    const obj: HTMLElement | null = document.getElementById('logo-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onLogoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
@@ -198,9 +197,7 @@ export default class InstallationComponent implements OnInit {
     if (ev.checked) {
       this.optionsList.push(i);
     } else {
-      const ind: number = this.optionsList.findIndex(
-        (x: number): boolean => x === i
-      );
+      const ind: number = this.optionsList.findIndex((x: number): boolean => x === i);
       this.optionsList.splice(ind, 1);
     }
     this.optionsList.sort((a, b) => a - b);
@@ -269,8 +266,7 @@ export default class InstallationComponent implements OnInit {
       if (this.nombreEmpleado === '') {
         this.dialog.alert({
           title: 'Error',
-          content:
-            '¡No puedes dejar el nombre del empleado por defecto en blanco!',
+          content: '¡No puedes dejar el nombre del empleado por defecto en blanco!',
         });
         this.paso = 1;
         return;
@@ -286,8 +282,7 @@ export default class InstallationComponent implements OnInit {
       if (this.confPass === '') {
         this.dialog.alert({
           title: 'Error',
-          content:
-            '¡No puedes dejar la confirmación de la contraseña en blanco!',
+          content: '¡No puedes dejar la confirmación de la contraseña en blanco!',
         });
         this.paso = 1;
         return;
@@ -312,8 +307,7 @@ export default class InstallationComponent implements OnInit {
     if (this.optionsList.length == 0) {
       this.dialog.alert({
         title: 'Error',
-        content:
-          '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!',
+        content: '¡No has elegido ningún valor en la lista de IVA/Recargo de equivalencias!',
       });
       this.paso = 2;
       return;
@@ -331,8 +325,7 @@ export default class InstallationComponent implements OnInit {
     if (selectedMargins.length == 0) {
       this.dialog.alert({
         title: 'Error',
-        content:
-          '¡No has elegido ningún valor en la lista de margenes de beneficio!',
+        content: '¡No has elegido ningún valor en la lista de margenes de beneficio!',
       });
       this.paso = 2;
       return;
@@ -380,34 +373,30 @@ export default class InstallationComponent implements OnInit {
     };
 
     this.saving = true;
-    this.as
-      .saveInstallation(data)
-      .subscribe((result: StatusResult): boolean => {
-        if (result.status === 'ok') {
-          this.dialog
-            .alert({
-              title: 'Información',
-              content:
-                'Los datos han sido guardados, puedes continuar con la aplicación. ',
-            })
-            .subscribe((): void => {
-              this.config.status = 'new';
-              this.config.start().then((): void => {
-                if (!this.gs.empleado) {
-                  this.router.navigate(['/']);
-                } else {
-                  this.router.navigate(['/gestion']);
-                }
-              });
+    this.as.saveInstallation(data).subscribe((result: StatusResult): void => {
+      if (result.status === 'ok') {
+        this.dialog
+          .alert({
+            title: 'Información',
+            content: 'Los datos han sido guardados, puedes continuar con la aplicación. ',
+          })
+          .subscribe((): void => {
+            this.config.status = 'new';
+            this.config.start().then((): void => {
+              if (!this.gs.empleado) {
+                this.router.navigate(['/']);
+              } else {
+                this.router.navigate(['/gestion']);
+              }
             });
-        } else {
-          this.saving = false;
-          this.dialog.alert({
-            title: 'Error',
-            content: '¡Ocurrió un error al guardar los datos!',
           });
-          return false;
-        }
-      });
+      } else {
+        this.saving = false;
+        this.dialog.alert({
+          title: 'Error',
+          content: '¡Ocurrió un error al guardar los datos!',
+        });
+      }
+    });
   }
 }

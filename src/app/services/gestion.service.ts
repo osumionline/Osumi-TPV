@@ -11,13 +11,12 @@ import { Observable } from 'rxjs';
 export default class GestionService {
   private http: HttpClient = inject(HttpClient);
 
-  empleado: Empleado = null;
+  empleado: Empleado | null = null;
 
   getBackups(backupApiKey: string): Observable<BackupResult> {
-    return this.http.post<BackupResult>(
-      environment.backupApiUrl + '/get-backups',
-      { api_key: backupApiKey }
-    );
+    return this.http.post<BackupResult>(environment.backupApiUrl + '/get-backups', {
+      api_key: backupApiKey,
+    });
   }
 
   newBackup(): Observable<StatusResult> {
@@ -25,9 +24,9 @@ export default class GestionService {
   }
 
   deleteBackup(backupApiKey: string, id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.backupApiUrl + '/delete-account-backup',
-      { api_key: backupApiKey, id }
-    );
+    return this.http.post<StatusResult>(environment.backupApiUrl + '/delete-account-backup', {
+      api_key: backupApiKey,
+      id,
+    });
   }
 }

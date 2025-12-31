@@ -1,12 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
-} from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -66,21 +61,21 @@ export default class CierreCajaComponent {
 
   updateImporteReal(): void {
     this.cierreCaja.real =
-      this.cierreCaja.importe1c * 0.01 +
-      this.cierreCaja.importe2c * 0.02 +
-      this.cierreCaja.importe5c * 0.05 +
-      this.cierreCaja.importe10c * 0.1 +
-      this.cierreCaja.importe20c * 0.2 +
-      this.cierreCaja.importe50c * 0.5 +
-      this.cierreCaja.importe1 +
-      this.cierreCaja.importe2 * 2 +
-      this.cierreCaja.importe5 * 5 +
-      this.cierreCaja.importe10 * 10 +
-      this.cierreCaja.importe20 * 20 +
-      this.cierreCaja.importe50 * 50 +
-      this.cierreCaja.importe100 * 100 +
-      this.cierreCaja.importe200 * 200 +
-      this.cierreCaja.importe500 * 500;
+      (this.cierreCaja.importe1c ?? 0) * 0.01 +
+      (this.cierreCaja.importe2c ?? 0) * 0.02 +
+      (this.cierreCaja.importe5c ?? 0) * 0.05 +
+      (this.cierreCaja.importe10c ?? 0) * 0.1 +
+      (this.cierreCaja.importe20c ?? 0) * 0.2 +
+      (this.cierreCaja.importe50c ?? 0) * 0.5 +
+      (this.cierreCaja.importe1 ?? 0) +
+      (this.cierreCaja.importe2 ?? 0) * 2 +
+      (this.cierreCaja.importe5 ?? 0) * 5 +
+      (this.cierreCaja.importe10 ?? 0) * 10 +
+      (this.cierreCaja.importe20 ?? 0) * 20 +
+      (this.cierreCaja.importe50 ?? 0) * 50 +
+      (this.cierreCaja.importe100 ?? 0) * 100 +
+      (this.cierreCaja.importe200 ?? 0) * 200 +
+      (this.cierreCaja.importe500 ?? 0) * 500;
   }
 
   cerrarCaja(): void {

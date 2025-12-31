@@ -12,8 +12,7 @@
                 </button>
                 <mat-card [class]="{'show': showGuardadosFilters()}">
                     <mat-card-content>
-                        <form [formGroup]="formGuardados"
-                              (ngSubmit)="filtrarGuardados()">
+                        <form (ngSubmit)="filtrarGuardados()">
                             <div class="filters">
                                 <div class="filter-options">
                                     <div class="row">
@@ -22,8 +21,7 @@
                                                 <mat-label>Fecha desde</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="guardadosRangoDesdePicker"
-                                                       formControlName="fechaDesde"
-                                                       name="guardadosRangoDesde">
+                                                       [field]="formGuardados.fechaDesde">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="guardadosRangoDesdePicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #guardadosRangoDesdePicker></mat-datepicker>
@@ -34,8 +32,7 @@
                                                 <mat-label>Fecha hasta</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="guardadosRangoHastaPicker"
-                                                       formControlName="fechaHasta"
-                                                       name="guardadosRangoHasta">
+                                                       [field]="formGuardados.fechaHasta">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="guardadosRangoHastaPicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #guardadosRangoHastaPicker></mat-datepicker>
@@ -45,7 +42,7 @@
                                     <div class="row">
                                         <mat-form-field subscriptSizing="dynamic"
                                                         class="max-width">
-                                            <mat-select formControlName="idProveedor"
+                                            <mat-select [field]="formGuardados.idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
                                                 @for (proveedor of proveedoresService.proveedores(); track proveedor.id) {
@@ -62,8 +59,7 @@
                                             <mat-label>Albarán</mat-label>
                                             <input matInput
                                                    placeholder="Albarán"
-                                                   formControlName="albaran"
-                                                   name="guardadosAlbaran">
+                                                   [field]="formGuardados.albaran">
                                         </mat-form-field>
                                     </div>
                                     <div class="row">
@@ -73,8 +69,7 @@
                                                 <input matInput
                                                        placeholder="Importe (desde)"
                                                        type="number"
-                                                       formControlName="importeDesde"
-                                                       name="guardadosImporteDesde">
+                                                       [field]="formGuardados.importeDesde">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -84,8 +79,7 @@
                                                 <input matInput
                                                        placeholder="Importe (hasta)"
                                                        type="number"
-                                                       formControlName="importeHasta"
-                                                       name="guardadosImporteHasta">
+                                                       [field]="formGuardados.importeHasta">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -98,7 +92,7 @@
                                         <mat-icon>find_in_page</mat-icon>
                                         Filtrar
                                     </button>
-                                    @if (guardadosFiltered) {
+                                    @if (guardadosFiltered()) {
                                     <button mat-flat-button
                                             color="primary"
                                             (click)="quitarFiltrosGuardados($event)">
@@ -207,8 +201,7 @@
                 Pedidos recepcionados
                 <mat-card [class]="{'show': showRecepcionadosFilters()}">
                     <mat-card-content>
-                        <form [formGroup]="formRecepcionados"
-                              (ngSubmit)="filtrarRecepcionados()">
+                        <form (ngSubmit)="filtrarRecepcionados()">
                             <div class="filters">
                                 <div class="filter-options">
                                     <div class="row">
@@ -217,8 +210,7 @@
                                                 <mat-label>Fecha desde</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="recepcionadosRangoDesdePicker"
-                                                       formControlName="fechaDesde"
-                                                       name="recepcionadosRangoDesde">
+                                                       [field]="formRecepcionados.fechaDesde">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="recepcionadosRangoDesdePicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #recepcionadosRangoDesdePicker></mat-datepicker>
@@ -229,8 +221,7 @@
                                                 <mat-label>Fecha hasta</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="recepcionadosRangoHastaPicker"
-                                                       formControlName="fechaHasta"
-                                                       name="recepcionadosRangoHasta">
+                                                       [field]="formRecepcionados.fechaHasta">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="recepcionadosRangoHastaPicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #recepcionadosRangoHastaPicker></mat-datepicker>
@@ -240,12 +231,12 @@
                                     <div class="row">
                                         <mat-form-field subscriptSizing="dynamic"
                                                         class="max-width">
-                                            <mat-select formControlName="idProveedor"
+                                            <mat-select [field]="formRecepcionados.idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
                                                 @for (proveedor of proveedoresService.proveedores(); track proveedor.id) {
                                                 <mat-option [value]="proveedor.id">
-                                                    {{proveedor.nombre}}
+                                                    {{ proveedor.nombre }}
                                                 </mat-option>
                                                 }
                                             </mat-select>
@@ -257,8 +248,7 @@
                                             <mat-label>Albarán</mat-label>
                                             <input matInput
                                                    placeholder="Albarán"
-                                                   formControlName="albaran"
-                                                   name="recepcionadosAlbaran">
+                                                   [field]="formRecepcionados.albaran">
                                         </mat-form-field>
                                     </div>
                                     <div class="row">
@@ -267,8 +257,8 @@
                                                 <mat-label>Importe (desde)</mat-label>
                                                 <input matInput
                                                        placeholder="Importe (desde)"
-                                                       formControlName="importeDesde"
-                                                       name="recepcionadosImporteDesde">
+                                                       type="number"
+                                                       [field]="formRecepcionados.importeDesde">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -277,8 +267,8 @@
                                                 <mat-label>Importe (hasta)</mat-label>
                                                 <input matInput
                                                        placeholder="Importe (hasta)"
-                                                       formControlName="importeHasta"
-                                                       name="recepcionadosImporteHasta">
+                                                       type="number"
+                                                       [field]="formRecepcionados.importeHasta">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -291,7 +281,7 @@
                                         <mat-icon>find_in_page</mat-icon>
                                         Filtrar
                                     </button>
-                                    @if (recepcionadosFiltered) {
+                                    @if (recepcionadosFiltered()) {
                                     <button mat-flat-button
                                             color="primary"
                                             (click)="quitarFiltrosRecepcionados($event)">

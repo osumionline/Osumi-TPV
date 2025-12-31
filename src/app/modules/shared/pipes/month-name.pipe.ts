@@ -9,9 +9,9 @@ export default class MonthNamePipe implements PipeTransform {
   private config: ConfigService = inject(ConfigService);
 
   transform(value: number): string {
-    const month: Month = this.config.monthList.find(
+    const month: Month | undefined = this.config.monthList.find(
       (m: Month): boolean => m.id === value
     );
-    return month.name;
+    return month ? month.name : '';
   }
 }

@@ -1,12 +1,8 @@
 export default class IVAOption {
-  id: string = null;
+  id: string | null = null;
   _value: number = -1;
 
-  constructor(
-    public tipoIVA: string = 'iva',
-    public iva: number = -1,
-    public re: number = -1
-  ) {
+  constructor(public tipoIVA: string = 'iva', public iva: number = -1, public re: number = -1) {
     if (iva !== -1 || re !== -1) {
       this.id = iva + '_' + re;
     }

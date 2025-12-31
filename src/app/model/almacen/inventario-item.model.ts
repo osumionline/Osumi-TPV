@@ -2,22 +2,22 @@ import { InventarioItemInterface } from '@interfaces/almacen.interface';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class InventarioItem {
-  _stock: number = null;
-  _pvp: number = null;
-  codigoBarras: string = null;
+  _stock: number | null = null;
+  _pvp: number | null = null;
+  codigoBarras: string | null = null;
 
   constructor(
-    public id: number = null,
-    public localizador: number = null,
-    public marca: string = null,
-    public proveedor: string = null,
-    public referencia: string = null,
-    public nombre: string = null,
-    public stock: number = null,
-    public puc: number = null,
-    public pvp: number = null,
+    public id: number | null = null,
+    public localizador: number | null = null,
+    public marca: string | null = null,
+    public proveedor: string | null = null,
+    public referencia: string | null = null,
+    public nombre: string | null = null,
+    public stock: number | null = null,
+    public puc: number | null = null,
+    public pvp: number | null = null,
     public hasCodigosBarras: boolean = false,
-    public observaciones: string = null
+    public observaciones: string | null = null
   ) {
     this._stock = stock;
     this._pvp = pvp;
@@ -35,7 +35,7 @@ export default class InventarioItem {
     if (this.pvp === 0) {
       return 0;
     }
-    return (100 * (this.pvp - this.puc)) / this.pvp;
+    return (100 * ((this.pvp ?? 0) - (this.puc ?? 0))) / (this.pvp ?? 0);
   }
 
   fromInterface(ii: InventarioItemInterface): InventarioItem {

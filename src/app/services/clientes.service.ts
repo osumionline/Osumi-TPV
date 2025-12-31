@@ -42,10 +42,7 @@ export default class ClientesService {
   }
 
   getClientes(): Observable<ClientesResult> {
-    return this.http.post<ClientesResult>(
-      environment.apiUrl + '-clientes/get-clientes',
-      {}
-    );
+    return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/get-clientes', {});
   }
 
   loadClientes(clientes: Cliente[]): void {
@@ -58,10 +55,8 @@ export default class ClientesService {
     this.load();
   }
 
-  findById(id: number): Cliente {
-    const ind: number = this.clientes().findIndex(
-      (x: Cliente): boolean => x.id === id
-    );
+  findById(id: number): Cliente | null {
+    const ind: number = this.clientes().findIndex((x: Cliente): boolean => x.id === id);
     if (ind !== -1) {
       return this.clientes()[ind];
     }
@@ -69,17 +64,13 @@ export default class ClientesService {
   }
 
   getCliente(id: number): Observable<ClienteResult> {
-    return this.http.post<ClienteResult>(
-      environment.apiUrl + '-clientes/get-cliente',
-      { id }
-    );
+    return this.http.post<ClienteResult>(environment.apiUrl + '-clientes/get-cliente', { id });
   }
 
   searchClientes(name: string): Observable<ClientesResult> {
-    return this.http.post<ClientesResult>(
-      environment.apiUrl + '-clientes/search-clientes',
-      { name }
-    );
+    return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/search-clientes', {
+      name,
+    });
   }
 
   saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
@@ -97,37 +88,29 @@ export default class ClientesService {
   }
 
   deleteCliente(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/delete-cliente',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-cliente', { id });
   }
 
   asignarCliente(id: number, idCliente: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/asignar-cliente',
-      { id, idCliente }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/asignar-cliente', {
+      id,
+      idCliente,
+    });
   }
 
   getFacturas(id: number): Observable<FacturasResult> {
-    return this.http.post<FacturasResult>(
-      environment.apiUrl + '-clientes/get-facturas-cliente',
-      { id }
-    );
+    return this.http.post<FacturasResult>(environment.apiUrl + '-clientes/get-facturas-cliente', {
+      id,
+    });
   }
 
   getFactura(id: number): Observable<FacturaResult> {
-    return this.http.post<FacturaResult>(
-      environment.apiUrl + '-clientes/get-factura-cliente',
-      { id }
-    );
+    return this.http.post<FacturaResult>(environment.apiUrl + '-clientes/get-factura-cliente', {
+      id,
+    });
   }
 
-  getVentas(
-    id: number,
-    idFacturaInclude: number = null
-  ): Observable<VentasClienteResult> {
+  getVentas(id: number, idFacturaInclude: number | null = null): Observable<VentasClienteResult> {
     return this.http.post<VentasClienteResult>(
       environment.apiUrl + '-clientes/get-ventas-cliente',
       { id, idFacturaInclude }
@@ -135,52 +118,35 @@ export default class ClientesService {
   }
 
   saveFactura(data: FacturaSaveInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
-      environment.apiUrl + '-clientes/save-factura',
-      data
-    );
+    return this.http.post<IdSaveResult>(environment.apiUrl + '-clientes/save-factura', data);
   }
 
   deleteFactura(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/delete-factura',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-factura', { id });
   }
 
   saveFacturaFromVenta(id: number): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
-      environment.apiUrl + '-clientes/save-factura-from-venta',
-      { id }
-    );
+    return this.http.post<IdSaveResult>(environment.apiUrl + '-clientes/save-factura-from-venta', {
+      id,
+    });
   }
 
   sendFactura(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/send-factura',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/send-factura', { id });
   }
 
   getReservas(): Observable<ReservasResult> {
-    return this.http.post<ReservasResult>(
-      environment.apiUrl + '-clientes/get-reservas',
-      {}
-    );
+    return this.http.post<ReservasResult>(environment.apiUrl + '-clientes/get-reservas', {});
   }
 
   deleteReserva(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/delete-reserva',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-reserva', { id });
   }
 
   deleteLineaReserva(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-clientes/delete-linea-reserva',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-linea-reserva', {
+      id,
+    });
   }
 
   searchVentasCliente(

@@ -39,7 +39,7 @@
                         <mat-select [(ngModel)]="informeMonth">
                             @for (month of monthList; track month.id) {
                             <mat-option [value]="month.id">
-                                {{month.name}}
+                                {{ month.name }}
                             </mat-option>
                             }
                         </mat-select>
@@ -51,7 +51,7 @@
                         <mat-select [(ngModel)]="informeYear">
                             @for (year of yearList; track year) {
                             <mat-option [value]="year">
-                                {{year}}
+                                {{ year }}
                             </mat-option>
                             }
                         </mat-select>

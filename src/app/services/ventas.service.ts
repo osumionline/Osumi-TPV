@@ -45,22 +45,20 @@ export default class VentasService {
 
   newVenta(
     empleados: boolean,
-    idEmpleadoDef: number,
-    colorEmpleadoDef: string,
-    colorTextEmpleadoDef: string,
-    loadValue: number = null
+    idEmpleadoDef: number | null,
+    colorEmpleadoDef: string | null,
+    colorTextEmpleadoDef: string | null,
+    loadValue: number | null = null
   ): Venta {
-    this.selected.set(this.list.length);
+    this.selected.set(this.list().length);
     const venta = new Venta();
-    venta.tabName = 'VENTA ' + (this.list.length + 1);
+    venta.tabName = 'VENTA ' + (this.list().length + 1);
     venta.color = colorEmpleadoDef;
     venta.textColor = colorTextEmpleadoDef;
     venta.mostrarEmpleados = empleados;
     venta.loadValue = loadValue;
     if (!empleados) {
-      venta.setEmpleado(
-        new Empleado().fromDefault(idEmpleadoDef, colorEmpleadoDef)
-      );
+      venta.setEmpleado(new Empleado().fromDefault(idEmpleadoDef, colorEmpleadoDef));
       venta.lineas.push(new VentaLinea());
     }
     return venta;
@@ -74,7 +72,7 @@ export default class VentasService {
   }
 
   get ventaActual(): Venta {
-    return this.list[this.selected()];
+    return this.list()[this.selected()];
   }
 
   updateArticulo(articulo: Articulo): void {
@@ -110,18 +108,15 @@ export default class VentasService {
       venta.updateImporte();
     }
 
-    return this.cs.getEstadisticasCliente(cliente.id).pipe(
+    return this.cs.getEstadisticasCliente(cliente.id as number).pipe(
       tap((r: EstadisticasClienteResult): void => {
         if (r.status === 'ok') {
-          venta.cliente.ultimasVentas = this.cms.getUltimaVentaArticulos(
-            r.ultimasVentas
-          );
-          venta.cliente.topVentas = this.cms.getTopVentaArticulos(r.topVentas);
+          venta.cliente!.ultimasVentas = this.cms.getUltimaVentaArticulos(r.ultimasVentas);
+          venta.cliente!.topVentas = this.cms.getTopVentaArticulos(r.topVentas);
         } else {
           this.dialog.alert({
             title: 'Error',
-            content:
-              '¡Ocurrió un error al obtener las estadísticas del cliente!',
+            content: '¡Ocurrió un error al obtener las estadísticas del cliente!',
           });
         }
       }),
@@ -144,7 +139,7 @@ export default class VentasService {
     return new VentaFin(
       formatNumber(venta.importe),
       '0',
-      null,
+      '0',
       venta.idEmpleado,
       null,
       venta.cliente ? venta.cliente.id : -1,
@@ -170,24 +165,19 @@ export default class VentasService {
   }
 
   search(q: string): Observable<ArticuloBuscadorResult> {
-    return this.http.post<ArticuloBuscadorResult>(
-      environment.apiUrl + '-ventas/search',
-      { q }
-    );
+    return this.http.post<ArticuloBuscadorResult>(environment.apiUrl + '-ventas/search', { q });
   }
 
   getLineasTicket(lineas: string): Observable<LineasTicketResult> {
-    return this.http.post<LineasTicketResult>(
-      environment.apiUrl + '-ventas/get-lineas-ticket',
-      { lineas }
-    );
+    return this.http.post<LineasTicketResult>(environment.apiUrl + '-ventas/get-lineas-ticket', {
+      lineas,
+    });
   }
 
   getLocalizadores(localizadores: string): Observable<LocalizadoresResult> {
-    return this.http.post<LocalizadoresResult>(
-      environment.apiUrl + '-ventas/get-localizadores',
-      { localizadores }
-    );
+    return this.http.post<LocalizadoresResult>(environment.apiUrl + '-ventas/get-localizadores', {
+      localizadores,
+    });
   }
 
   getHistorico(data: DateValues): Observable<HistoricoVentasResult> {
@@ -198,23 +188,17 @@ export default class VentasService {
   }
 
   asignarTipoPago(id: number, idTipoPago: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-ventas/asignar-tipo-pago',
-      { id, idTipoPago }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/asignar-tipo-pago', {
+      id,
+      idTipoPago,
+    });
   }
 
   printTicket(id: number, tipo: string): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-ventas/print-ticket',
-      { id, tipo }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/print-ticket', { id, tipo });
   }
 
   sendTicket(id: number, email: string): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-ventas/send-ticket',
-      { id, email }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/send-ticket', { id, email });
   }
 }

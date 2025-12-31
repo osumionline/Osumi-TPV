@@ -1,6 +1,6 @@
 <div class="reservas">
     <div class="reservas-list">
-        @if (list.length>0) {
+        @if (list.length > 0) {
         <div>
             <table mat-table
                    [dataSource]="reservasDataSource"
@@ -36,7 +36,7 @@
                         Fecha
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.fecha}} </td>
+                        *matCellDef="let element"> {{ element.fecha }} </td>
                 </ng-container>
 
                 <!-- Cliente -->
@@ -50,7 +50,7 @@
                     </th>
                     <td class="center"
                         mat-cell
-                        *matCellDef="let element"> {{element.cliente.nombreApellidos}}</td>
+                        *matCellDef="let element"> {{ element.cliente.nombreApellidos }}</td>
                 </ng-container>
 
                 <!-- Importe -->
@@ -64,7 +64,7 @@
                     </th>
                     <td mat-cell
                         class="right"
-                        *matCellDef="let element">{{element.total | fixedNumber}} €</td>
+                        *matCellDef="let element">{{ element.total | fixedNumber }} €</td>
                 </ng-container>
 
                 <tr mat-header-row
@@ -93,7 +93,7 @@
         <div class="reserva-detail-no-data">Elige una reserva de la lista.</div>
         }
         <div class="reserva-detail"
-             [class]="{'show':reservaSelected !== null}">
+             [class]="{'show': reservaSelected !== null}">
             @if (list.length > 0 && reservaSelected !== null) {
             <div class="reserva-detail-lineas">
 
@@ -159,10 +159,10 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{element.unidades}} </td>
+                            *matCellDef="let element"> {{ element.unidades }} </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{reservaSelected.totalUnidades}}</strong> </td>
+                            *matFooterCellDef> <strong>{{ reservaSelected.totalUnidades }}</strong> </td>
                     </ng-container>
 
                     <!-- PVP -->
@@ -177,7 +177,7 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
+                            *matCellDef="let element"> {{ element.pvp | fixedNumber }} € </td>
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef></td>
@@ -198,7 +198,7 @@
                             *matCellDef="let element">
                             <div>
                                 @if (element.importeDescuento) {
-                                {{element.importeDescuento | fixedNumber}} €
+                                {{ element.importeDescuento | fixedNumber }} €
                                 }
                                 @if (!element.importeDescuento && element.descuento !== 0) {
                                 {{element.descuento}} %
@@ -213,7 +213,7 @@
                             *matFooterCellDef>
                             @if (reservaSelected.totalDescuento !== 0) {
                             <div>
-                                <strong>{{reservaSelected.totalDescuento | fixedNumber}} €</strong>
+                                <strong>{{ reservaSelected.totalDescuento | fixedNumber }} €</strong>
                             </div>
                             }
                         </td>
@@ -232,14 +232,14 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            {{element.importe | fixedNumber}} €
+                            {{ element.importe | fixedNumber }} €
                             @if (element.total !== element.importe) {
-                            <div class="original-price">{{element.total | fixedNumber}} €</div>
+                            <div class="original-price">{{ element.total | fixedNumber }} €</div>
                             }
                         </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{reservaSelected.total | fixedNumber}} €</strong> </td>
+                            *matFooterCellDef> <strong>{{ reservaSelected.total ?? 0 | fixedNumber }} €</strong> </td>
                     </ng-container>
 
                     <!-- Opciones -->

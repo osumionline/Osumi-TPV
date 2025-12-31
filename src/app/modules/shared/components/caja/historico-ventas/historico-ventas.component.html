@@ -78,7 +78,7 @@
                         Fecha
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.fecha}} </td>
+                        *matCellDef="let element"> {{ element.fecha }} </td>
                 </ng-container>
 
                 <!-- Importe -->
@@ -92,7 +92,7 @@
                     </th>
                     <td class="right"
                         mat-cell
-                        *matCellDef="let element"> {{element.total | fixedNumber}} €</td>
+                        *matCellDef="let element"> {{ element.total | fixedNumber }} €</td>
                 </ng-container>
 
                 <!-- Tipo de pago -->
@@ -127,25 +127,25 @@
             <div class="totales">
                 <div class="totales-row">
                     <label>Total día:</label>
-                    <span>{{totalDia | fixedNumber}} €</span>
+                    <span>{{ totalDia | fixedNumber }} €</span>
                 </div>
                 <div class="totales-row">
                     <label>Ventas efectivo:</label>
-                    <span>{{ventasEfectivo | fixedNumber}} €</span>
+                    <span>{{ ventasEfectivo | fixedNumber }} €</span>
                 </div>
                 @for (otro of ventasOtros; track otro.nombre) {
                 <div class="totales-row">
-                    <label>Ventas {{otro.nombre}}:</label>
-                    <span>{{otro.valor | fixedNumber}} €</span>
+                    <label>Ventas {{ otro.nombre }}:</label>
+                    <span>{{ otro.valor | fixedNumber }} €</span>
                 </div>
                 }
                 <div class="totales-row">
                     <label>Ventas web:</label>
-                    <span>{{ventasWeb | fixedNumber}} €</span>
+                    <span>{{ ventasWeb | fixedNumber }} €</span>
                 </div>
                 <div class="totales-row">
                     <label>Beneficio:</label>
-                    <span>{{ventasBeneficio | fixedNumber}} €</span>
+                    <span>{{ ventasBeneficio | fixedNumber }} €</span>
                 </div>
             </div>
         </div>
@@ -205,7 +205,7 @@
                             Descripción
                         </th>
                         <td mat-cell
-                            *matCellDef="let element"> {{element.articulo}} </td>
+                            *matCellDef="let element"> {{ element.articulo }} </td>
                         <td mat-footer-cell
                             *matFooterCellDef></td>
                     </ng-container>
@@ -221,10 +221,10 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{element.unidades}} </td>
+                            *matCellDef="let element"> {{ element. unidades }} </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{historicoVentasSelected.totalUnidades}}</strong> </td>
+                            *matFooterCellDef> <strong>{{ historicoVentasSelected.totalUnidades }}</strong> </td>
                     </ng-container>
 
                     <!-- PVP -->
@@ -238,7 +238,7 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{element.pvp | fixedNumber}} € </td>
+                            *matCellDef="let element"> {{ element.pvp | fixedNumber }} € </td>
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef></td>
@@ -257,10 +257,10 @@
                             mat-cell
                             *matCellDef="let element">
                             @if (element.importeDescuento) {
-                            <span>{{element.importeDescuento | fixedNumber}} €</span>
+                            <span>{{ element.importeDescuento | fixedNumber }} €</span>
                             }
                             @if (!element.importeDescuento && element.descuento !== 0) {
-                            <span>{{element.descuento}} %</span>
+                            <span>{{ element.descuento }} %</span>
                             }
                             @if (!element.importeDescuento && element.descuento === 0) {
                             <span>-</span>
@@ -274,7 +274,7 @@
                             *matFooterCellDef>
                             @if (historicoVentasSelected.totalDescuento !== 0) {
                             <div>
-                                <strong>{{historicoVentasSelected.totalDescuento | fixedNumber}} €</strong>
+                                <strong>{{ historicoVentasSelected.totalDescuento | fixedNumber }} €</strong>
                             </div>
                             }
                         </td>
@@ -294,12 +294,12 @@
                             *matCellDef="let element">
                             {{element.importe | fixedNumber}} €
                             @if (element.total !== element.importe) {
-                            <div class="original-price">{{element.total | fixedNumber}} €</div>
+                            <div class="original-price">{{ element.total | fixedNumber }} €</div>
                             }
                         </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{historicoVentasSelected.total | fixedNumber}} €</strong> </td>
+                            *matFooterCellDef> <strong>{{ (historicoVentasSelected.total ?? 0) | fixedNumber }} €</strong> </td>
                     </ng-container>
 
                     <tr mat-header-row
@@ -336,7 +336,7 @@
                             <mat-option [value]="null">Elige cliente</mat-option>
                             @for (cliente of cs.clientes(); track cliente.id) {
                             <mat-option [value]="cliente.id">
-                                {{cliente.nombreApellidos}}
+                                {{ cliente.nombreApellidos }}
                             </mat-option>
                             }
                         </mat-select>

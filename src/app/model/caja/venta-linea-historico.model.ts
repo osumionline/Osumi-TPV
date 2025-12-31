@@ -2,36 +2,36 @@ import { VentaLineaHistoricoInterface } from '@interfaces/caja.interface';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class VentaLineaHistorico {
-  devolver: number;
+  devolver: number | null = null;
 
   constructor(
-    public id: number = null,
-    public idArticulo: number = null,
-    public articulo: string = null,
-    public localizador: number = null,
-    public marca: string = null,
-    public puc: number = null,
-    public pvp: number = null,
-    public iva: number = null,
-    public re: number = null,
-    public importe: number = null,
-    public descuento: number = null,
-    public importeDescuento: number = null,
-    public devuelto: number = null,
-    public unidades: number = null,
+    public id: number | null = null,
+    public idArticulo: number | null = null,
+    public articulo: string | null = null,
+    public localizador: number | null = null,
+    public marca: string | null = null,
+    public puc: number | null = null,
+    public pvp: number | null = null,
+    public iva: number | null = null,
+    public re: number | null = null,
+    public importe: number | null = null,
+    public descuento: number | null = null,
+    public importeDescuento: number | null = null,
+    public devuelto: number | null = null,
+    public unidades: number | null = null,
     public regalo: boolean = false
   ) {}
 
   get total(): number {
-    return Math.floor(this.pvp * this.unidades * 100) / 100;
+    return Math.floor((this.pvp ?? 0) * (this.unidades ?? 0) * 100) / 100;
   }
 
   get totalDescuento(): number {
     if (this.descuento !== null && this.descuento !== 0) {
-      return this.unidades * this.pvp * (this.descuento / 100);
+      return (this.unidades ?? 0) * (this.pvp ?? 0) * (this.descuento / 100);
     }
     if (this.importeDescuento !== null && this.importeDescuento !== 0) {
-      return this.unidades * this.importeDescuento;
+      return (this.unidades ?? 0) * this.importeDescuento;
     }
     return 0;
   }

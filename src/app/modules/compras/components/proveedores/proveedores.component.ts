@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,10 +17,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { SelectMarcaInterface } from '@interfaces/marca.interface';
-import {
-  ComercialInterface,
-  ProveedorInterface,
-} from '@interfaces/proveedor.interface';
+import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
 import Comercial from '@model/proveedores/comercial.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';
@@ -69,13 +59,11 @@ export default class ProveedoresComponent implements OnInit {
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
-  proveedorTabs: Signal<MatTabGroup> =
-    viewChild.required<MatTabGroup>('proveedorTabs');
+  proveedorTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('proveedorTabs');
   selectedTab: number = 0;
 
   searchMarcas: string = '';
-  searchMarcasBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('searchMarcasBox');
+  searchMarcasBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchMarcasBox');
   marcasList: SelectMarcaInterface[] = [];
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
@@ -89,7 +77,7 @@ export default class ProveedoresComponent implements OnInit {
     web: new FormControl(null),
     observaciones: new FormControl(null),
   });
-  originalValue: ProveedorInterface = null;
+  originalValue: ProveedorInterface | null = null;
 
   logo: string = '/img/default.jpg';
 
@@ -102,17 +90,16 @@ export default class ProveedoresComponent implements OnInit {
     email: new FormControl(null),
     observaciones: new FormControl(null),
   });
-  originalComercialValue: ComercialInterface = null;
-  comercialNameBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('comercialNameBox');
+  originalComercialValue: ComercialInterface | null = null;
+  comercialNameBox: Signal<ElementRef> = viewChild.required<ElementRef>('comercialNameBox');
   selectedComercial: Comercial = new Comercial();
   canSeeStatistics: boolean = false;
 
   ngOnInit(): void {
     for (const marca of this.ms.marcas()) {
       this.marcasList.push({
-        id: marca.id,
-        nombre: marca.nombre,
+        id: marca.id as number,
+        nombre: marca.nombre as string,
         selected: false,
       });
     }
@@ -163,13 +150,16 @@ export default class ProveedoresComponent implements OnInit {
   }
 
   addLogo(): void {
-    document.getElementById('logo-file').click();
+    const obj: HTMLElement | null = document.getElementById('logo-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onLogoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
@@ -180,9 +170,7 @@ export default class ProveedoresComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const data: ProveedorInterface = JSON.parse(
-      JSON.stringify(this.form.value)
-    );
+    const data: ProveedorInterface = JSON.parse(JSON.stringify(this.form.value));
     data.foto = this.logo;
     this.selectedProveedor.fromInterface(data, null, false);
 
@@ -226,7 +214,7 @@ export default class ProveedoresComponent implements OnInit {
 
   confirmDeleteProveedor(): void {
     this.ps
-      .deleteProveedor(this.selectedProveedor.id)
+      .deleteProveedor(this.selectedProveedor.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.ps.resetProveedores();
@@ -234,9 +222,7 @@ export default class ProveedoresComponent implements OnInit {
           this.dialog.alert({
             title: 'Proveedor borrado',
             content:
-              'El proveedor "' +
-              this.selectedProveedor.nombre +
-              '" ha sido correctamente borrado.',
+              'El proveedor "' + this.selectedProveedor.nombre + '" ha sido correctamente borrado.',
           });
         } else {
           this.dialog.alert({
@@ -287,9 +273,7 @@ export default class ProveedoresComponent implements OnInit {
   }
 
   onComercialSubmit(): void {
-    const data: ComercialInterface = JSON.parse(
-      JSON.stringify(this.formComercial.value)
-    );
+    const data: ComercialInterface = JSON.parse(JSON.stringify(this.formComercial.value));
     this.selectedComercial.fromInterface(data, false);
     data.idProveedor = this.selectedProveedor.id;
     this.selectedComercial.idProveedor = this.selectedProveedor.id;
@@ -316,9 +300,7 @@ export default class ProveedoresComponent implements OnInit {
       .confirm({
         title: 'Confirmar',
         content:
-          '¿Estás seguro de querer borrar el comercial "' +
-          this.selectedComercial.nombre +
-          '"?',
+          '¿Estás seguro de querer borrar el comercial "' + this.selectedComercial.nombre + '"?',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
@@ -329,7 +311,7 @@ export default class ProveedoresComponent implements OnInit {
 
   confirmDeleteComercial(): void {
     this.ps
-      .deleteComercial(this.selectedComercial.id)
+      .deleteComercial(this.selectedComercial.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.dialog

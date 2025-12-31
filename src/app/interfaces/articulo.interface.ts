@@ -1,6 +1,6 @@
 export interface CategoriaInterface {
   id: number;
-  nombre: string;
+  nombre: string | null;
   profundidad: number;
   hijos: CategoriaInterface[];
 }
@@ -32,46 +32,46 @@ export interface ChartResultInterface {
 }
 
 export interface CodigoBarrasInterface {
-  id: number;
-  codigoBarras: string;
+  id: number | null;
+  codigoBarras: string | null;
   porDefecto: boolean;
 }
 
 export interface FotoInterface {
   status: string;
-  id: number;
-  data: string;
+  id: number | null;
+  data: string | null;
 }
 
 export interface ArticuloInterface {
-  id: number;
-  localizador: number;
-  nombre: string;
-  idCategoria: number;
-  idMarca: number;
-  idProveedor: number;
+  id: number | null;
+  localizador: number | null;
+  nombre: string | null;
+  idCategoria: number | null;
+  idMarca: number | null;
+  idProveedor: number | null;
   referencia: string;
   palb: number;
   puc: number;
-  pvp: number;
-  pvpDescuento: number;
+  pvp: number | null;
+  pvpDescuento: number | null;
   iva: number;
   re: number;
   margen: number;
-  margenDescuento: number;
+  margenDescuento: number | null;
   stock: number;
   stockMin: number;
   stockMax: number;
   loteOptimo: number;
   ventaOnline: boolean;
-  fechaCaducidad: string;
+  fechaCaducidad: string | null;
   mostrarEnWeb: boolean;
-  descCorta: string;
-  descripcion: string;
-  observaciones: string;
+  descCorta: string | null;
+  descripcion: string | null;
+  observaciones: string | null;
   mostrarObsPedidos: boolean;
   mostrarObsVentas: boolean;
-  accesoDirecto: number;
+  accesoDirecto: number | null;
   codigosBarras: CodigoBarrasInterface[];
   fotos: number[];
   fotosList?: FotoInterface[];
@@ -92,11 +92,11 @@ export interface ArticuloResult {
 }
 
 export interface ArticuloBuscadorInterface {
-  localizador: number;
-  nombre: string;
-  marca: string;
-  pvp: number;
-  stock: number;
+  localizador: number | null;
+  nombre: string | null;
+  marca: string | null;
+  pvp: number | null;
+  stock: number | null;
 }
 
 export interface ArticuloBuscadorResult {
@@ -105,9 +105,9 @@ export interface ArticuloBuscadorResult {
 }
 
 export interface AccesoDirectoInterface {
-  id: number;
-  accesoDirecto: number;
-  nombre: string;
+  id: number | null;
+  accesoDirecto: number | null;
+  nombre: string | null;
 }
 
 export interface AccesoDirectoResult {
@@ -115,28 +115,28 @@ export interface AccesoDirectoResult {
 }
 
 export interface EtiquetaInterface {
-  id: number;
-  texto: string;
-  slug: string;
+  id: number | null;
+  texto: string | null;
+  slug: string | null;
 }
 
 export interface EtiquetaWebInterface {
-  id: number;
-  texto: string;
-  slug: string;
+  id: number | null;
+  texto: string | null;
+  slug: string | null;
 }
 
 export interface HistoricoArticuloInterface {
-  id: number;
-  tipo: number;
-  stockPrevio: number;
-  diferencia: number;
-  stockFinal: number;
-  idVenta: number;
-  idPedido: number;
-  puc: number;
-  pvp: number;
-  createdAt: string;
+  id: number | null;
+  tipo: number | null;
+  stockPrevio: number | null;
+  diferencia: number | null;
+  stockFinal: number | null;
+  idVenta: number | null;
+  idPedido: number | null;
+  puc: number | null;
+  pvp: number | null;
+  createdAt: string | null;
 }
 
 export interface HistoricoArticuloResult {

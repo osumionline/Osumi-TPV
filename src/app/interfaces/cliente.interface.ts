@@ -6,27 +6,27 @@ import {
 import Cliente from '@model/clientes/cliente.model';
 
 export interface ClienteInterface {
-  id: number;
-  nombreApellidos: string;
-  dniCif: string;
-  telefono: string;
-  email: string;
-  direccion: string;
-  codigoPostal: string;
-  poblacion: string;
-  provincia: number;
+  id: number | null;
+  nombreApellidos: string | null;
+  dniCif: string | null;
+  telefono: string | null;
+  email: string | null;
+  direccion: string | null;
+  codigoPostal: string | null;
+  poblacion: string | null;
+  provincia: number | null;
   factIgual: boolean;
-  factNombreApellidos: string;
-  factDniCif: string;
-  factTelefono: string;
-  factEmail: string;
-  factDireccion: string;
-  factCodigoPostal: string;
-  factPoblacion: string;
-  factProvincia: number;
-  observaciones: string;
+  factNombreApellidos: string | null;
+  factDniCif: string | null;
+  factTelefono: string | null;
+  factEmail: string | null;
+  factDireccion: string | null;
+  factCodigoPostal: string | null;
+  factPoblacion: string | null;
+  factProvincia: number | null;
+  observaciones: string | null;
   descuento: number;
-  ultimaVenta: string;
+  ultimaVenta: string | null;
 }
 
 export interface ClientesResult {
@@ -56,20 +56,20 @@ export interface SelectClienteInterface {
 }
 
 export interface FacturaInterface {
-  id: number;
-  idCliente: number;
-  numFactura: number;
-  nombreApellidos: string;
-  dniCif: string;
-  telefono: string;
-  email: string;
-  direccion: string;
-  codigoPostal: string;
-  poblacion: string;
-  provincia: number;
-  importe: number;
+  id: number | null;
+  idCliente: number | null;
+  numFactura: number | null;
+  nombreApellidos: string | null;
+  dniCif: string | null;
+  telefono: string | null;
+  email: string | null;
+  direccion: string | null;
+  codigoPostal: string | null;
+  poblacion: string | null;
+  provincia: number | null;
+  importe: number | null;
   impresa: boolean;
-  fecha: string;
+  fecha: string | null;
   ventas: VentaHistoricoInterface[];
 }
 
@@ -89,34 +89,34 @@ export interface VentasClienteResult {
 }
 
 export interface FacturaSaveInterface {
-  id: number;
-  idCliente: number;
-  ventas: number[];
+  id: number | null;
+  idCliente: number | null;
+  ventas: (number | null)[];
   imprimir: boolean;
 }
 
 export interface ReservaLineaInterface {
-  id: number;
-  idArticulo: number;
-  nombreArticulo: string;
-  localizador: number;
-  marca: string;
-  stock: number;
-  puc: number;
-  pvp: number;
-  iva: number;
-  importe: number;
-  descuento: number;
-  importeDescuento: number;
-  unidades: number;
+  id: number | null;
+  idArticulo: number | null;
+  nombreArticulo: string | null;
+  localizador: number | null;
+  marca: string | null;
+  stock: number | null;
+  puc: number | null;
+  pvp: number | null;
+  iva: number | null;
+  importe: number | null;
+  descuento: number | null;
+  importeDescuento: number | null;
+  unidades: number | null;
 }
 
 export interface ReservaInterface {
-  id: number;
-  idCliente: number;
-  cliente: ClienteInterface;
-  total: number;
-  fecha: string;
+  id: number | null;
+  idCliente: number | null;
+  cliente: ClienteInterface | null;
+  total: number | null;
+  fecha: string | null;
   lineas: ReservaLineaInterface[];
 }
 

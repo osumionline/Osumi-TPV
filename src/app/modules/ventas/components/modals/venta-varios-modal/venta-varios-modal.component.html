@@ -1,11 +1,10 @@
-<form [formGroup]="formVarios"
-      (ngSubmit)="actualizarVarios()">
+<form (ngSubmit)="actualizarVarios()">
     <div class="form-field">
         <label>Nombre</label>
         <mat-form-field subscriptSizing="dynamic">
             <input matInput
                    placeholder="Nombre"
-                   formControlName="nombre">
+                   [field]="variosForm.nombre">
         </mat-form-field>
     </div>
     <div class="form-field">
@@ -16,17 +15,17 @@
                    step="0.01"
                    placeholder="PVP"
                    (focus)="$event.target.select()"
-                   formControlName="pvp"
+                   [field]="variosForm.pvp"
                    #variosPVPbox>
         </mat-form-field>
     </div>
     <div class="form-field margin-right">
         <label>IVA (*)</label>
         <mat-form-field>
-            <mat-select formControlName="iva">
+            <mat-select [field]="variosForm.iva">
                 @for (iva of ivaList; track iva) {
                 <mat-option [value]="iva">
-                    {{iva}} %
+                    {{ iva }} %
                 </mat-option>
                 }
             </mat-select>

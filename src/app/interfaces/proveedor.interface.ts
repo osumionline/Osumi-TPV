@@ -1,21 +1,21 @@
 export interface ComercialInterface {
-  id: number;
-  idProveedor: number;
-  nombre: string;
-  telefono: string;
-  email: string;
-  observaciones: string;
+  id: number | null;
+  idProveedor: number | null;
+  nombre: string | null;
+  telefono: string | null;
+  email: string | null;
+  observaciones: string | null;
 }
 
 export interface ProveedorInterface {
-  id: number;
-  nombre: string;
-  foto: string;
-  direccion: string;
-  telefono: string;
-  email: string;
-  web: string;
-  observaciones: string;
+  id: number | null;
+  nombre: string | null;
+  foto: string | null;
+  direccion: string | null;
+  telefono: string | null;
+  email: string | null;
+  web: string | null;
+  observaciones: string | null;
   marcas: number[];
   comerciales: ComercialInterface[];
 }

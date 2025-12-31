@@ -4,7 +4,7 @@ import { urldecode, urlencode } from '@osumi/tools';
 export default class Categoria {
   constructor(
     public id: number = -1,
-    public nombre: string = '',
+    public nombre: string | null = null,
     public profundidad: number = -1,
     public hijos: Categoria[] = []
   ) {}

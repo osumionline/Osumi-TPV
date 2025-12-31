@@ -14,42 +14,42 @@ import { urldecode, urlencode } from '@osumi/tools';
 export default class Articulo {
   tabName: string = '';
   status: 'new' | 'load' | 'loaded' = 'new';
-  marca: string = '';
+  marca: string | null = '';
   proveedor: string = '';
   fotosList: Foto[] = [];
   nombreStatus: 'ok' | 'checked' = 'ok';
   descuento: boolean = false;
-  porcentajeDescuento: number = null;
+  porcentajeDescuento: number | null = null;
 
   constructor(
-    public id: number = null,
-    public localizador: number = null,
-    public nombre: string = null,
-    public idCategoria: number = null,
-    public idMarca: number = null,
-    public idProveedor: number = null,
+    public id: number | null = null,
+    public localizador: number | null = null,
+    public nombre: string | null = null,
+    public idCategoria: number | null = null,
+    public idMarca: number | null = null,
+    public idProveedor: number | null = null,
     public referencia: string = '',
     public palb: number = 0,
     public puc: number = 0,
-    public pvp: number = 0,
-    public pvpDescuento: number = null,
+    public pvp: number | null = 0,
+    public pvpDescuento: number | null = null,
     public iva: number = 0,
     public re: number = 0,
     public margen: number = 0,
-    public margenDescuento: number = null,
+    public margenDescuento: number | null = null,
     public stock: number = 0,
     public stockMin: number = 0,
     public stockMax: number = 0,
     public loteOptimo: number = 0,
     public ventaOnline: boolean = false,
-    public fechaCaducidad: string = null,
+    public fechaCaducidad: string | null = null,
     public mostrarEnWeb: boolean = false,
-    public descCorta: string = '',
-    public descripcion: string = '',
-    public observaciones: string = '',
+    public descCorta: string | null = null,
+    public descripcion: string | null = null,
+    public observaciones: string | null = null,
     public mostrarObsPedidos: boolean = false,
     public mostrarObsVentas: boolean = false,
-    public accesoDirecto: number = null,
+    public accesoDirecto: number | null = null,
     public codigosBarras: CodigoBarras[] = [],
     public fotos: number[] = [],
     public etiquetas: Etiqueta[] = [],
@@ -86,11 +86,9 @@ export default class Articulo {
     this.descripcion = decode ? urldecode(a.descripcion) : a.descripcion;
     this.accesoDirecto = a.accesoDirecto;
     if (a.codigosBarras) {
-      this.codigosBarras = a.codigosBarras.map(
-        (cb: CodigoBarrasInterface): CodigoBarras => {
-          return new CodigoBarras().fromInterface(cb);
-        }
-      );
+      this.codigosBarras = a.codigosBarras.map((cb: CodigoBarrasInterface): CodigoBarras => {
+        return new CodigoBarras().fromInterface(cb);
+      });
     }
     if (a.fotos) {
       this.fotos = a.fotos;
@@ -104,11 +102,9 @@ export default class Articulo {
       });
     }
     if (a.etiquetasWeb) {
-      this.etiquetasWeb = a.etiquetasWeb.map(
-        (e: EtiquetaWebInterface): EtiquetaWeb => {
-          return new EtiquetaWeb().fromInterface(e);
-        }
-      );
+      this.etiquetasWeb = a.etiquetasWeb.map((e: EtiquetaWebInterface): EtiquetaWeb => {
+        return new EtiquetaWeb().fromInterface(e);
+      });
     }
     this.status = 'loaded';
     this.descuento = this.pvpDescuento !== null;
@@ -148,20 +144,16 @@ export default class Articulo {
       loteOptimo: this.loteOptimo,
       ventaOnline: this.ventaOnline,
       fechaCaducidad: this.fechaCaducidad,
-      observaciones: encode
-        ? urlencode(this.observaciones)
-        : this.observaciones,
+      observaciones: encode ? urlencode(this.observaciones) : this.observaciones,
       mostrarObsPedidos: this.mostrarObsPedidos,
       mostrarObsVentas: this.mostrarObsVentas,
       accesoDirecto: this.accesoDirecto,
       mostrarEnWeb: this.mostrarEnWeb,
       descCorta: encode ? urlencode(this.descCorta) : this.descCorta,
       descripcion: encode ? urlencode(this.descripcion) : this.descripcion,
-      codigosBarras: this.codigosBarras.map(
-        (cb: CodigoBarras): CodigoBarrasInterface => {
-          return cb.toInterface();
-        }
-      ),
+      codigosBarras: this.codigosBarras.map((cb: CodigoBarras): CodigoBarrasInterface => {
+        return cb.toInterface();
+      }),
       fotos: this.fotos,
       fotosList: this.fotosList.map((f: Foto): FotoInterface => {
         return f.toInterface();
@@ -170,11 +162,9 @@ export default class Articulo {
       etiquetas: this.etiquetas.map((e: Etiqueta): EtiquetaInterface => {
         return e.toInterface();
       }),
-      etiquetasWeb: this.etiquetasWeb.map(
-        (e: EtiquetaWeb): EtiquetaWebInterface => {
-          return e.toInterface();
-        }
-      ),
+      etiquetasWeb: this.etiquetasWeb.map((e: EtiquetaWeb): EtiquetaWebInterface => {
+        return e.toInterface();
+      }),
     };
   }
 }

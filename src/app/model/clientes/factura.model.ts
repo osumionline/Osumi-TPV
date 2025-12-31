@@ -1,27 +1,24 @@
 import { VentaHistoricoInterface } from '@interfaces/caja.interface';
-import {
-  FacturaInterface,
-  FacturaSaveInterface,
-} from '@interfaces/cliente.interface';
+import { FacturaInterface, FacturaSaveInterface } from '@interfaces/cliente.interface';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Factura {
   constructor(
-    public id: number = null,
-    public idCliente: number = null,
-    public numFactura: number = null,
-    public nombreApellidos: string = null,
-    public dniCif: string = null,
-    public telefono: string = null,
-    public email: string = null,
-    public direccion: string = null,
-    public codigoPostal: string = null,
-    public poblacion: string = null,
-    public provincia: number = null,
-    public importe: number = null,
+    public id: number | null = null,
+    public idCliente: number | null = null,
+    public numFactura: number | null = null,
+    public nombreApellidos: string | null = null,
+    public dniCif: string | null = null,
+    public telefono: string | null = null,
+    public email: string | null = null,
+    public direccion: string | null = null,
+    public codigoPostal: string | null = null,
+    public poblacion: string | null = null,
+    public provincia: number | null = null,
+    public importe: number | null = null,
     public impresa: boolean = false,
-    public fecha: string = null,
+    public fecha: string | null = null,
     public ventas: VentaHistorico[] = []
   ) {}
 
@@ -89,7 +86,7 @@ export default class Factura {
     return {
       id: this.id,
       idCliente: this.idCliente,
-      ventas: this.ventas.map((v: VentaHistorico): number => {
+      ventas: this.ventas.map((v: VentaHistorico): number | null => {
         return v.id;
       }),
       imprimir: imprimir,

@@ -27,7 +27,7 @@
                         Nombre
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.nombreApellidos}} </td>
+                        *matCellDef="let element"> {{ element.nombreApellidos }} </td>
                 </ng-container>
 
                 <!-- Teléfono -->
@@ -39,7 +39,7 @@
                         Teléfono
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.telefono}} </td>
+                        *matCellDef="let element"> {{ element.telefono }} </td>
                 </ng-container>
 
                 <!-- Última venta -->
@@ -53,7 +53,7 @@
                     </th>
                     <td class="center"
                         mat-cell
-                        *matCellDef="let element"> {{element.ultimaVenta ? element.ultimaVenta : '-'}} </td>
+                        *matCellDef="let element"> {{ element.ultimaVenta ? element.ultimaVenta : '-' }} </td>
                 </ng-container>
 
                 <tr mat-header-row
@@ -134,7 +134,7 @@
                 <mat-select [(ngModel)]="nuevoCliente.provincia">
                     @for (provincia of config.provincias(); track provincia.id) {
                     <mat-option [value]="provincia.id">
-                        {{provincia.name}}
+                        {{ provincia.name }}
                     </mat-option>
                     }
                 </mat-select>
@@ -209,7 +209,7 @@
                 <mat-select [(ngModel)]="nuevoCliente.factProvincia">
                     @for (provincia of config.provincias(); track provincia.id) {
                     <mat-option [value]="provincia.id">
-                        {{provincia.name}}
+                        {{ provincia.name }}
                     </mat-option>
                     }
                 </mat-select>

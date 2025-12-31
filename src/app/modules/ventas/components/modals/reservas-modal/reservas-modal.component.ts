@@ -1,12 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -44,16 +37,10 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   list: Reserva[] = [];
-  reservaSelected: Reserva = null;
+  reservaSelected: Reserva | null = null;
 
-  reservasDisplayedColumns: string[] = [
-    'select',
-    'fecha',
-    'cliente',
-    'importe',
-  ];
-  reservasDataSource: MatTableDataSource<Reserva> =
-    new MatTableDataSource<Reserva>();
+  reservasDisplayedColumns: string[] = ['select', 'fecha', 'cliente', 'importe'];
+  reservasDataSource: MatTableDataSource<Reserva> = new MatTableDataSource<Reserva>();
   reservaSelectedDisplayedColumns: string[] = [
     'localizador',
     'marca',
@@ -66,7 +53,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   ];
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
   selection: SelectionModel<Reserva> = new SelectionModel<Reserva>(true, []);
 
@@ -107,6 +94,9 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   deleteLineaReserva(linea: ReservaLinea): void {
+    if (this.reservaSelected === null) {
+      return;
+    }
     if (this.reservaSelected.lineas.length === 1) {
       this.deleteReserva();
     } else {
@@ -124,17 +114,22 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteLineaReserva(linea: ReservaLinea): void {
-    this.cs.deleteLineaReserva(linea.id).subscribe({
+    this.cs.deleteLineaReserva(linea.id as number).subscribe({
       next: (result: StatusResult): void => {
         if (result.status === 'ok') {
-          const ind: number = this.reservaSelected.lineas.findIndex(
-            (x: ReservaLinea): boolean => x.id === linea.id
-          );
-          this.reservaSelected._totalUnidades = null;
-          this.reservaSelected._totalDescuento = null;
-          this.reservaSelected.total -= linea.importe;
-          this.reservaSelected.lineas.splice(ind, 1);
-          this.reservaSelectedDataSource.data = this.reservaSelected.lineas;
+          if (this.reservaSelected !== null) {
+            const ind: number = this.reservaSelected.lineas.findIndex(
+              (x: ReservaLinea): boolean => x.id === linea.id
+            );
+            this.reservaSelected._totalUnidades = null;
+            this.reservaSelected._totalDescuento = null;
+            if (this.reservaSelected.total === null) {
+              this.reservaSelected.total = 0;
+            }
+            this.reservaSelected.total -= linea.importe ?? 0;
+            this.reservaSelected.lineas.splice(ind, 1);
+            this.reservaSelectedDataSource.data = this.reservaSelected.lineas;
+          }
         } else {
           this.dialog.alert({
             title: 'Error',
@@ -165,25 +160,27 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   confirmDeleteReserva(): void {
-    this.cs.deleteReserva(this.reservaSelected.id).subscribe({
-      next: (result: StatusResult): void => {
-        if (result.status === 'ok') {
-          this.reservaSelected = null;
-          this.loadReservas();
-        } else {
+    if (this.reservaSelected !== null) {
+      this.cs.deleteReserva(this.reservaSelected.id as number).subscribe({
+        next: (result: StatusResult): void => {
+          if (result.status === 'ok') {
+            this.reservaSelected = null;
+            this.loadReservas();
+          } else {
+            this.dialog.alert({
+              title: 'Error',
+              content: '¡Ocurrió un error al borrar la reserva!',
+            });
+          }
+        },
+        error: (): void => {
           this.dialog.alert({
             title: 'Error',
             content: '¡Ocurrió un error al borrar la reserva!',
           });
-        }
-      },
-      error: (): void => {
-        this.dialog.alert({
-          title: 'Error',
-          content: '¡Ocurrió un error al borrar la reserva!',
-        });
-      },
-    });
+        },
+      });
+    }
   }
 
   cargarVenta(): void {
@@ -191,7 +188,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   }
 
   cargarVentas(): void {
-    let idCliente: number = null;
+    let idCliente: number | null = null;
     for (const reserva of this.selection.selected) {
       if (idCliente === null) {
         idCliente = reserva.idCliente;

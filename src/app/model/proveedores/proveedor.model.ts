@@ -1,27 +1,24 @@
-import {
-  ComercialInterface,
-  ProveedorInterface,
-} from '@interfaces/proveedor.interface';
+import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
 import Comercial from '@model/proveedores/comercial.model';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Proveedor {
   constructor(
-    public id: number = null,
-    public nombre: string = '',
-    public foto: string = null,
-    public direccion: string = '',
-    public telefono: string = '',
-    public email: string = '',
-    public web: string = '',
-    public observaciones: string = '',
+    public id: number | null = null,
+    public nombre: string | null = null,
+    public foto: string | null = null,
+    public direccion: string | null = null,
+    public telefono: string | null = null,
+    public email: string | null = null,
+    public web: string | null = null,
+    public observaciones: string | null = null,
     public marcas: number[] = [],
     public comerciales: Comercial[] = []
   ) {}
 
   fromInterface(
     p: ProveedorInterface,
-    comerciales: Comercial[],
+    comerciales: Comercial[] | null,
     decode: boolean = true
   ): Proveedor {
     this.id = p.id;
@@ -51,9 +48,7 @@ export default class Proveedor {
       telefono: encode ? urlencode(this.telefono) : this.telefono,
       email: encode ? urlencode(this.email) : this.email,
       web: encode ? urlencode(this.web) : this.web,
-      observaciones: encode
-        ? urlencode(this.observaciones)
-        : this.observaciones,
+      observaciones: encode ? urlencode(this.observaciones) : this.observaciones,
       marcas: this.marcas,
       comerciales: this.comerciales.map((c: Comercial): ComercialInterface => {
         return c.toInterface();

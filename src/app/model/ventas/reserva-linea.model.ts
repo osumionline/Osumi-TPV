@@ -3,23 +3,23 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class ReservaLinea {
   constructor(
-    public id: number = null,
-    public idArticulo: number = null,
-    public nombreArticulo: string = null,
-    public localizador: number = null,
-    public marca: string = null,
-    public stock: number = null,
-    public puc: number = null,
-    public pvp: number = null,
-    public iva: number = null,
-    public importe: number = null,
-    public descuento: number = null,
-    public importeDescuento: number = null,
-    public unidades: number = null
+    public id: number | null = null,
+    public idArticulo: number | null = null,
+    public nombreArticulo: string | null = null,
+    public localizador: number | null = null,
+    public marca: string | null = null,
+    public stock: number | null = null,
+    public puc: number | null = null,
+    public pvp: number | null = null,
+    public iva: number | null = null,
+    public importe: number | null = null,
+    public descuento: number | null = null,
+    public importeDescuento: number | null = null,
+    public unidades: number | null = null
   ) {}
 
   get total(): number {
-    return Math.floor(this.pvp * this.unidades * 100) / 100;
+    return Math.floor((this.pvp ?? 0) * (this.unidades ?? 0) * 100) / 100;
   }
 
   fromInterface(rl: ReservaLineaInterface): ReservaLinea {

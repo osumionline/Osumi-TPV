@@ -1,57 +1,57 @@
 export interface PedidoLineaInterface {
-  id: number;
-  idArticulo: number;
-  nombreArticulo: string;
-  localizador: number;
-  idMarca: number;
-  marca: string;
-  unidades: number;
-  palb: number;
-  puc: number;
-  pvp: number;
-  margen: number;
-  stock: number;
-  iva: number;
-  re: number;
-  descuento: number;
-  codBarras: string;
+  id: number | null;
+  idArticulo: number | null;
+  nombreArticulo: string | null;
+  localizador: number | null;
+  idMarca: number | null;
+  marca: string | null;
+  unidades: number | null;
+  palb: number | null;
+  puc: number | null;
+  pvp: number | null;
+  margen: number | null;
+  stock: number | null;
+  iva: number | null;
+  re: number | null;
+  descuento: number | null;
+  codBarras: string | null;
   hasCodBarras: boolean;
-  referencia: string;
+  referencia: string | null;
 }
 
 export interface PedidoPDFInterface {
-  id: number;
-  data: string;
-  nombre: string;
-  url: string;
+  id: number | null;
+  data: string | null;
+  nombre: string | null;
+  url: string | null;
   deleted: boolean;
 }
 
 export interface PedidoVistaInterface {
-  idColumn: number;
+  idColumn: number | null;
   status: boolean;
 }
 
 export interface PedidoInterface {
-  id: number;
+  id: number | null;
   idProveedor: number;
-  proveedor: string;
-  idMetodoPago: number;
-  metodoPago: string;
+  proveedor: string | null;
+  idMetodoPago: number | null;
+  metodoPago: string | null;
   re: boolean;
   ue: boolean;
   tipo: string;
-  num: string;
-  fechaPago: string;
-  fechaPedido: string;
-  fechaRecepcionado: string;
+  num: string | null;
+  fechaPago: string | null;
+  fechaPedido: string | null;
+  fechaRecepcionado: string | null;
   lineas: PedidoLineaInterface[];
-  importe: number;
+  importe: number | null;
   portes: number;
   descuento: number;
   faltas: boolean;
   recepcionado: boolean;
-  observaciones: string;
+  observaciones: string | null;
   pdfs: PedidoPDFInterface[];
   vista: PedidoVistaInterface[];
 }

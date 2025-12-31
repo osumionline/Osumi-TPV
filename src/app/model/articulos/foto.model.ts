@@ -3,9 +3,9 @@ import { FotoInterface } from '@interfaces/articulo.interface';
 
 export default class Foto {
   status: string = 'new';
-  data: string = null;
+  data: string | null = null;
 
-  constructor(public id: number = null) {
+  constructor(public id: number | null = null) {
     if (id !== null) {
       this.status = 'ok';
     }
@@ -16,7 +16,7 @@ export default class Foto {
     this.data = str;
   }
 
-  get url(): string {
+  get url(): string | null {
     if (this.status === 'ok') {
       return environment.fotosUrl + this.id + '.webp';
     } else {

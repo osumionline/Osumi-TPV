@@ -7,7 +7,7 @@
                type="password"
                placeholder="Contraseña"
                [(ngModel)]="pass"
-               (keyup)="checkLoginPassword($event)"
+               (keyup.enter)="login()"
                #loginPasswordValue>
     </mat-form-field>
     <button mat-flat-button

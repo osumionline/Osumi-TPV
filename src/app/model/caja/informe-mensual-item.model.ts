@@ -6,14 +6,14 @@ import { formatNumber, urldecode, urlencode } from '@osumi/tools';
 
 export default class InformeMensualItem {
   constructor(
-    public num: number = null,
-    public weekDay: string = null,
-    public minTicket: number = null,
-    public maxTicket: number = null,
-    public efectivo: number = null,
+    public num: number | null = null,
+    public weekDay: string | null = null,
+    public minTicket: number | null = null,
+    public maxTicket: number | null = null,
+    public efectivo: number | null = null,
     public otros: InformeMensualItemOtrosInterface[] = [],
-    public totalDia: number = null,
-    public suma: number = null
+    public totalDia: number | null = null,
+    public suma: number | null = null
   ) {}
 
   get fecha(): string {
@@ -31,26 +31,22 @@ export default class InformeMensualItem {
     if (this.minTicket === null && this.maxTicket === null) {
       return '------';
     }
-    const ind: number = this.otros.findIndex(
-      (x: InformeMensualItemOtrosInterface): boolean => {
-        return x.nombre === key;
-      }
-    );
+    const ind: number = this.otros.findIndex((x: InformeMensualItemOtrosInterface): boolean => {
+      return x.nombre === key;
+    });
     if (ind === -1) {
       return formatNumber(0) + ' €';
     }
     return formatNumber(this.otros[ind].valor) + ' €';
   }
 
-  getOtrosValue(key: string): number {
+  getOtrosValue(key: string): number | null {
     if (this.minTicket === null && this.maxTicket === null) {
       return null;
     }
-    const ind: number = this.otros.findIndex(
-      (x: InformeMensualItemOtrosInterface): boolean => {
-        return x.nombre === key;
-      }
-    );
+    const ind: number = this.otros.findIndex((x: InformeMensualItemOtrosInterface): boolean => {
+      return x.nombre === key;
+    });
     if (ind === -1) {
       return 0;
     }

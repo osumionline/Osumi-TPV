@@ -1,7 +1,7 @@
 <div class="empleados-list">
     @for (empleado of es.empleados(); track empleado.id) {
     <div class="empleado"
-         [style]="{'background-color':empleado.color, 'color': empleado.textColor}"
+         [style]="{'background-color': empleado.color, 'color': empleado.textColor}"
          (click)="abreLogin(empleado)">
         {{empleado.nombre}}
     </div>

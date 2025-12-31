@@ -49,14 +49,13 @@ export default class CajaContentComponent implements OnInit {
     viewChild.required<HistoricoVentasComponent>('historicoVentas');
   salidasCaja: Signal<SalidasCajaComponent> =
     viewChild.required<SalidasCajaComponent>('salidasCaja');
-  cierreCaja: Signal<CierreCajaComponent> =
-    viewChild.required<CierreCajaComponent>('cierreCaja');
+  cierreCaja: Signal<CierreCajaComponent> = viewChild.required<CierreCajaComponent>('cierreCaja');
 
-  informeTipo: string = null;
+  informeTipo: string | null = null;
   monthList: Month[] = [];
-  informeMonth: number = null;
+  informeMonth: number | null = null;
   yearList: number[] = [];
-  informeYear: number = null;
+  informeYear: number | null = null;
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -96,8 +95,6 @@ export default class CajaContentComponent implements OnInit {
   }
 
   generarInforme(): void {
-    window.open(
-      `/caja/informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`
-    );
+    window.open(`/caja/informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`);
   }
 }

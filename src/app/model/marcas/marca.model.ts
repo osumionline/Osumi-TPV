@@ -5,15 +5,15 @@ export default class Marca {
   crearProveedor: boolean = false;
 
   constructor(
-    public id: number = null,
-    public nombre: string = null,
-    public direccion: string = null,
-    public foto: string = null,
-    public telefono: string = null,
-    public email: string = null,
-    public web: string = null,
-    public observaciones: string = null,
-    public proveedor: string = null
+    public id: number | null = null,
+    public nombre: string | null = null,
+    public direccion: string | null = null,
+    public foto: string | null = null,
+    public telefono: string | null = null,
+    public email: string | null = null,
+    public web: string | null = null,
+    public observaciones: string | null = null,
+    public proveedor: string | null = null
   ) {}
 
   fromInterface(m: MarcaInterface, decode: boolean = true): Marca {
@@ -39,9 +39,7 @@ export default class Marca {
       telefono: encode ? urlencode(this.telefono) : this.telefono,
       email: encode ? urlencode(this.email) : this.email,
       web: encode ? urlencode(this.web) : this.web,
-      observaciones: encode
-        ? urlencode(this.observaciones)
-        : this.observaciones,
+      observaciones: encode ? urlencode(this.observaciones) : this.observaciones,
       crearProveedor: this.crearProveedor,
       proveedor: encode ? urlencode(this.proveedor) : this.proveedor,
     };

@@ -1,13 +1,13 @@
 export interface MarcaInterface {
-  id: number;
-  nombre: string;
-  direccion: string;
-  foto: string;
-  telefono: string;
-  email: string;
-  web: string;
-  observaciones: string;
-  proveedor: string;
+  id: number | null;
+  nombre: string | null;
+  direccion: string | null;
+  foto: string | null;
+  telefono: string | null;
+  email: string | null;
+  web: string | null;
+  observaciones: string | null;
+  proveedor: string | null;
   crearProveedor?: boolean;
 }
 

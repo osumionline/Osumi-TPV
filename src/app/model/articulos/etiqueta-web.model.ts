@@ -3,9 +3,9 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class EtiquetaWeb {
   constructor(
-    public id: number = null,
-    public texto: string = null,
-    public slug: string = null
+    public id: number | null = null,
+    public texto: string | null = null,
+    public slug: string | null = null
   ) {}
 
   fromInterface(e: EtiquetaWebInterface): EtiquetaWeb {

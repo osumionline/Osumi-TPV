@@ -23,13 +23,13 @@ export default class ArticulosService {
 
   selected: WritableSignal<number> = signal<number>(-1);
   list: WritableSignal<Articulo[]> = signal<Articulo[]>([]);
-  returnInfo: ReturnInfoInterface = null;
+  returnInfo: ReturnInfoInterface | null = null;
 
   get articuloActual(): Articulo {
     return this.list()[this.selected()];
   }
 
-  createNewArticulo(localizador: number = null): Articulo {
+  createNewArticulo(localizador: number | null = null): Articulo {
     const articulo: Articulo = new Articulo();
     articulo.tabName = 'ARTÍCULO';
     articulo.localizador = localizador;
@@ -46,7 +46,7 @@ export default class ArticulosService {
     });
   }
 
-  newArticulo(localizador: number = null): void {
+  newArticulo(localizador: number | null = null): void {
     const articulo: Articulo = this.createNewArticulo(localizador);
     this.addArticuloToList(articulo);
     this.selected.set(this.list().length - 1);
@@ -84,10 +84,7 @@ export default class ArticulosService {
   }
 
   deleteArticulo(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-articulos/delete-articulo',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-articulos/delete-articulo', { id });
   }
 
   saveArticulo(articulo: ArticuloInterface): Observable<ArticuloSaveResult> {
@@ -98,10 +95,9 @@ export default class ArticulosService {
   }
 
   loadArticulo(localizador: number): Observable<ArticuloResult> {
-    return this.http.post<ArticuloResult>(
-      environment.apiUrl + '-articulos/load-articulo',
-      { localizador }
-    );
+    return this.http.post<ArticuloResult>(environment.apiUrl + '-articulos/load-articulo', {
+      localizador,
+    });
   }
 
   getAccesosDirectosList(): Observable<AccesoDirectoResult> {
@@ -111,20 +107,16 @@ export default class ArticulosService {
     );
   }
 
-  asignarAccesoDirecto(
-    id: number,
-    accesoDirecto: number
-  ): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-articulos/asignar-acceso-directo',
-      { id, accesoDirecto }
-    );
+  asignarAccesoDirecto(id: number, accesoDirecto: number): Observable<StatusResult> {
+    return this.http.post<StatusResult>(environment.apiUrl + '-articulos/asignar-acceso-directo', {
+      id,
+      accesoDirecto,
+    });
   }
 
   deleteAccesoDirecto(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-articulos/delete-acceso-directo',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-articulos/delete-acceso-directo', {
+      id,
+    });
   }
 }

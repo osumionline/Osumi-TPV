@@ -8,19 +8,19 @@
                         <div class="row">
                             <div class="form-field">
                                 <label>Saldo inicial</label>
-                                <span class="value-placeholder">{{cierreCaja.saldoInicial | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ (cierreCaja.saldoInicial ?? 0) | fixedNumber }} €</span>
                             </div>
                             <div class="form-field">
                                 <label>Ventas efectivo</label>
-                                <span class="value-placeholder">{{cierreCaja.importeEfectivo | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ (cierreCaja.importeEfectivo ?? 0) | fixedNumber }} €</span>
                             </div>
                             <div class="form-field">
                                 <label>Salidas caja</label>
-                                <span class="value-placeholder">{{cierreCaja.salidasCaja | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ (cierreCaja.salidasCaja ?? 0) | fixedNumber }} €</span>
                             </div>
                             <div class="form-field">
                                 <label>Saldo final</label>
-                                <span class="value-placeholder">{{cierreCaja.saldoFinal | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ (cierreCaja.saldoFinal ?? 0) | fixedNumber }} €</span>
                             </div>
                             <div class="form-field deploy">
                                 <label>Importe real (*)</label>
@@ -31,7 +31,7 @@
                                 }
                                 @else {
                                 <span (click)="openCoins()">
-                                    {{cierreCaja.real | fixedNumber}} €
+                                    {{ cierreCaja.real | fixedNumber }} €
                                 </span>
                                 }
                             </div>
@@ -67,7 +67,7 @@
                             </div>
                             <div class="form-field">
                                 <label>Saldo siguiente caja</label>
-                                <span class="value-placeholder">{{cierreCaja.saldoSiguiente | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ cierreCaja.saldoSiguiente | fixedNumber }} €</span>
                             </div>
                         </div>
                         <div class="coin-row"
@@ -270,13 +270,13 @@
                         <mat-card-content>
                             <div class="form-field max-width">
                                 <label>Ventas</label>
-                                <span class="value-placeholder">{{tipo.ventas | fixedNumber}} €</span>
+                                <span class="value-placeholder">{{ (tipo.ventas ?? 0) | fixedNumber }} €</span>
                             </div>
                             <div class="card-content"
                                  [class]="{'show': tipo.show}">
                                 <div class="form-field max-width">
                                     <label>Operaciones</label>
-                                    <span class="value-placeholder">{{tipo.operaciones}}</span>
+                                    <span class="value-placeholder">{{ tipo.operaciones }}</span>
                                 </div>
                                 <div class="form-field max-width">
                                     <label>Importe real</label>
@@ -291,7 +291,8 @@
                                 <div class="form-field max-width">
                                     <label>Diferencia</label>
                                     <span class="value-placeholder"
-                                          [class]="{'form-ok': tipo.diferencia > 0, 'form-not-ok': tipo.diferencia < 0}">{{tipo.diferencia | fixedNumber}} €
+                                          [class]="{'form-ok': tipo.diferencia > 0, 'form-not-ok': tipo.diferencia < 0}">
+                                        {{ tipo.diferencia | fixedNumber }} €
                                     </span>
                                 </div>
                             </div>

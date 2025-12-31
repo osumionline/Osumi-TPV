@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -22,9 +15,8 @@ export default class VentaDescuentoModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
-  descuentoImporte: number = null;
-  descuentoValue: Signal<ElementRef> =
-    viewChild.required<ElementRef>('descuentoValue');
+  descuentoImporte: number | null = null;
+  descuentoValue: Signal<ElementRef> = viewChild.required<ElementRef>('descuentoValue');
 
   ngOnInit(): void {
     setTimeout(() => {

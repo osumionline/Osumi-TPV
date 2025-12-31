@@ -10,6 +10,9 @@ export default class PayTypeListFilterPipe implements PipeTransform {
       return list;
     }
     return list.filter((tp: TipoPago): boolean => {
+      if (tp.nombre === null) {
+        return false;
+      }
       return tp.nombre.toLowerCase().includes(filter);
     });
   }

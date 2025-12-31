@@ -21,28 +21,21 @@ export default class ComprasService {
   private http: HttpClient = inject(HttpClient);
   private cms: ClassMapperService = inject(ClassMapperService);
 
-  pedidoTemporal: Pedido = null;
-  pedidoCargado: number = null;
+  pedidoTemporal: Pedido | null = null;
+  pedidoCargado: number | null = null;
 
   getAllPedidos(filters: PedidosFilterInterface): Observable<PedidosAllResult> {
-    return this.http.post<PedidosAllResult>(
-      environment.apiUrl + '-compras/get-pedidos',
-      filters
-    );
+    return this.http.post<PedidosAllResult>(environment.apiUrl + '-compras/get-pedidos', filters);
   }
 
-  getPedidosGuardados(
-    filters: PedidosFilterInterface
-  ): Observable<PedidosResult> {
+  getPedidosGuardados(filters: PedidosFilterInterface): Observable<PedidosResult> {
     return this.http.post<PedidosResult>(
       environment.apiUrl + '-compras/get-pedidos-guardados',
       filters
     );
   }
 
-  getPedidosRecepcionados(
-    filters: PedidosFilterInterface
-  ): Observable<PedidosResult> {
+  getPedidosRecepcionados(filters: PedidosFilterInterface): Observable<PedidosResult> {
     return this.http.post<PedidosResult>(
       environment.apiUrl + '-compras/get-pedidos-recepcionados',
       filters
@@ -50,17 +43,11 @@ export default class ComprasService {
   }
 
   getPedido(id: number): Observable<PedidoResult> {
-    return this.http.post<PedidoResult>(
-      environment.apiUrl + '-compras/get-pedido',
-      { id }
-    );
+    return this.http.post<PedidoResult>(environment.apiUrl + '-compras/get-pedido', { id });
   }
 
   savePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
-    return this.http.post<PedidoSaveResult>(
-      environment.apiUrl + '-compras/save-pedido',
-      pedido
-    );
+    return this.http.post<PedidoSaveResult>(environment.apiUrl + '-compras/save-pedido', pedido);
   }
 
   autoSavePedido(pedido: PedidoInterface): Observable<PedidoSaveResult> {
@@ -79,9 +66,6 @@ export default class ComprasService {
   }
 
   deletePedido(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-compras/delete-pedido',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-compras/delete-pedido', { id });
   }
 }

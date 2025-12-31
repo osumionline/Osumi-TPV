@@ -31,10 +31,7 @@ export default class MarcasService {
   }
 
   getMarcas(): Observable<MarcasResult> {
-    return this.http.post<MarcasResult>(
-      environment.apiUrl + '-marcas/get-marcas',
-      {}
-    );
+    return this.http.post<MarcasResult>(environment.apiUrl + '-marcas/get-marcas', {});
   }
 
   loadMarcas(marcas: Marca[]): void {
@@ -47,10 +44,8 @@ export default class MarcasService {
     this.load();
   }
 
-  findById(id: number): Marca {
-    const ind: number = this.marcas().findIndex(
-      (x: Marca): boolean => x.id === id
-    );
+  findById(id: number): Marca | null {
+    const ind: number = this.marcas().findIndex((x: Marca): boolean => x.id === id);
     if (ind !== -1) {
       return this.marcas()[ind];
     }
@@ -58,16 +53,10 @@ export default class MarcasService {
   }
 
   saveMarca(marca: MarcaInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
-      environment.apiUrl + '-marcas/save-marca',
-      marca
-    );
+    return this.http.post<IdSaveResult>(environment.apiUrl + '-marcas/save-marca', marca);
   }
 
   deleteMarca(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-marcas/delete-marca',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-marcas/delete-marca', { id });
   }
 }

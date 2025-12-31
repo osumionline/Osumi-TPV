@@ -10,6 +10,9 @@ export default class ProviderListFilterPipe implements PipeTransform {
       return list;
     }
     return list.filter((p: Proveedor): boolean => {
+      if (p.nombre === null) {
+        return false;
+      }
       return p.nombre.toLowerCase().includes(filter);
     });
   }

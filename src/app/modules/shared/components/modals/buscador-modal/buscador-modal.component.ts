@@ -37,33 +37,22 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatButton,
   ],
 })
-export default class BuscadorModalComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export default class BuscadorModalComponent implements OnInit, AfterViewInit, OnDestroy {
   private vs: VentasService = inject(VentasService);
   private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<
-    null,
-    { key: string; showSelect?: boolean }
-  > = inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { key: string; showSelect?: boolean }> =
+    inject(CustomOverlayRef);
 
-  searchBoxName: Signal<ElementRef> =
-    viewChild.required<ElementRef>('searchBoxName');
+  searchBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('searchBoxName');
   searchName: string = '';
-  searchTimer: number = null;
+  searchTimer: number | undefined = undefined;
   searching: boolean = false;
   buscadorResultadosList: ArticuloBuscador[] = [];
   buscadorResultadosRow: number = 0;
-  buscadorResultadosDisplayedColumns: string[] = [
-    'select',
-    'nombre',
-    'marca',
-    'pvp',
-    'stock',
-  ];
+  buscadorResultadosDisplayedColumns: string[] = ['select', 'nombre', 'marca', 'pvp', 'stock'];
   buscadorResultadosDataSource: MatTableDataSource<ArticuloBuscador> =
     new MatTableDataSource<ArticuloBuscador>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  sort: Signal<MatSort> = viewChild.required(MatSort);
   selectedLines: number[] = [];
   showSelectCol: boolean = false;
 
@@ -89,28 +78,21 @@ export default class BuscadorModalComponent
 
   checkVisible(elm: HTMLElement): boolean {
     const rect: DOMRect = elm.getBoundingClientRect();
-    const viewHeight: number = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight
-    );
+    const viewHeight: number = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
   }
 
   focusRow(): void {
-    const element: HTMLElement = document.getElementById(
-      'buscador-row-' +
-        this.buscadorResultadosList[this.buscadorResultadosRow].localizador
+    const element: HTMLElement | null = document.getElementById(
+      'buscador-row-' + this.buscadorResultadosList[this.buscadorResultadosRow].localizador
     );
-    if (!this.checkVisible(element)) {
+    if (element !== null && !this.checkVisible(element)) {
       element.scrollIntoView();
     }
   }
 
-  checkSearchKeys(ev: KeyboardEvent = null): void {
-    if (
-      ev !== null &&
-      (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')
-    ) {
+  checkSearchKeys(ev: KeyboardEvent | null = null): void {
+    if (ev !== null && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')) {
       ev.preventDefault();
       if (ev.key === 'ArrowUp') {
         if (this.buscadorResultadosRow === 0) {
@@ -120,28 +102,20 @@ export default class BuscadorModalComponent
         this.focusRow();
       }
       if (ev.key === 'ArrowDown') {
-        if (
-          this.buscadorResultadosRow ===
-          this.buscadorResultadosList.length - 1
-        ) {
+        if (this.buscadorResultadosRow === this.buscadorResultadosList.length - 1) {
           return;
         }
         this.buscadorResultadosRow++;
         this.focusRow();
       }
       if (ev.key === 'Enter') {
-        this.selectBuscadorResultadosRow(
-          this.buscadorResultadosList[this.buscadorResultadosRow]
-        );
+        this.selectBuscadorResultadosRow(this.buscadorResultadosList[this.buscadorResultadosRow]);
       }
     }
   }
 
-  searchStart(ev: KeyboardEvent = null): void {
-    if (
-      ev !== null &&
-      (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')
-    ) {
+  searchStart(ev: KeyboardEvent | null = null): void {
+    if (ev !== null && (ev.key === 'ArrowDown' || ev.key === 'ArrowUp' || ev.key === 'Enter')) {
       ev.preventDefault();
     } else {
       if (this.searchName === '') {
@@ -170,16 +144,12 @@ export default class BuscadorModalComponent
     this.buscadorStop();
     this.searching = true;
     this.selectedLines = [];
-    this.vs
-      .search(this.searchName)
-      .subscribe((result: ArticuloBuscadorResult): void => {
-        this.searching = false;
-        this.buscadorResultadosRow = 0;
-        this.buscadorResultadosList = this.cms.getArticulosBuscador(
-          result.list
-        );
-        this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
-      });
+    this.vs.search(this.searchName).subscribe((result: ArticuloBuscadorResult): void => {
+      this.searching = false;
+      this.buscadorResultadosRow = 0;
+      this.buscadorResultadosList = this.cms.getArticulosBuscador(result.list);
+      this.buscadorResultadosDataSource.data = this.buscadorResultadosList;
+    });
   }
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
@@ -190,12 +160,12 @@ export default class BuscadorModalComponent
     if (ev) {
       ev.stopPropagation();
     }
-    if (this.selectedLines.includes(row.localizador)) {
+    if (this.selectedLines.includes(row.localizador as number)) {
       this.selectedLines = this.selectedLines.filter(
         (line: number): boolean => line !== row.localizador
       );
     } else {
-      this.selectedLines.push(row.localizador);
+      this.selectedLines.push(row.localizador as number);
     }
   }
 

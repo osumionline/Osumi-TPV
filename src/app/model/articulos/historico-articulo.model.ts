@@ -2,16 +2,16 @@ import { HistoricoArticuloInterface } from '@interfaces/articulo.interface';
 
 export default class HistoricoArticulo {
   constructor(
-    public id: number = null,
-    public tipo: number = null,
-    public stockPrevio: number = null,
-    public diferencia: number = null,
-    public stockFinal: number = null,
-    public idVenta: number = null,
-    public idPedido: number = null,
-    public puc: number = null,
-    public pvp: number = null,
-    public createdAt: string = null
+    public id: number | null = null,
+    public tipo: number | null = null,
+    public stockPrevio: number | null = null,
+    public diferencia: number | null = null,
+    public stockFinal: number | null = null,
+    public idVenta: number | null = null,
+    public idPedido: number | null = null,
+    public puc: number | null = null,
+    public pvp: number | null = null,
+    public createdAt: string | null = null
   ) {}
 
   fromInterface(ha: HistoricoArticuloInterface): HistoricoArticulo {

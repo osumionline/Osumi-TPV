@@ -3,9 +3,9 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class AccesoDirecto {
   constructor(
-    public id: number = null,
-    public accesoDirecto: number = null,
-    public nombre: string = null
+    public id: number | null = null,
+    public accesoDirecto: number | null = null,
+    public nombre: string | null = null
   ) {}
 
   fromInterface(ad: AccesoDirectoInterface): AccesoDirecto {

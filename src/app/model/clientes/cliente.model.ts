@@ -10,34 +10,32 @@ export default class Cliente {
   facturas: Factura[] = [];
 
   constructor(
-    public id: number = null,
-    public nombreApellidos: string = null,
-    public dniCif: string = null,
-    public telefono: string = null,
-    public email: string = null,
-    public direccion: string = null,
-    public codigoPostal: string = null,
-    public poblacion: string = null,
-    public provincia: number = null,
+    public id: number | null = null,
+    public nombreApellidos: string | null = null,
+    public dniCif: string | null = null,
+    public telefono: string | null = null,
+    public email: string | null = null,
+    public direccion: string | null = null,
+    public codigoPostal: string | null = null,
+    public poblacion: string | null = null,
+    public provincia: number | null = null,
     public factIgual: boolean = true,
-    public factNombreApellidos: string = null,
-    public factDniCif: string = null,
-    public factTelefono: string = null,
-    public factEmail: string = null,
-    public factDireccion: string = null,
-    public factCodigoPostal: string = null,
-    public factPoblacion: string = null,
-    public factProvincia: number = null,
-    public observaciones: string = null,
+    public factNombreApellidos: string | null = null,
+    public factDniCif: string | null = null,
+    public factTelefono: string | null = null,
+    public factEmail: string | null = null,
+    public factDireccion: string | null = null,
+    public factCodigoPostal: string | null = null,
+    public factPoblacion: string | null = null,
+    public factProvincia: number | null = null,
+    public observaciones: string | null = null,
     public descuento: number = 0,
-    public ultimaVenta: string = null
+    public ultimaVenta: string | null = null
   ) {}
 
   fromInterface(c: ClienteInterface, decode: boolean = true): Cliente {
     this.id = c.id;
-    this.nombreApellidos = decode
-      ? urldecode(c.nombreApellidos)
-      : c.nombreApellidos;
+    this.nombreApellidos = decode ? urldecode(c.nombreApellidos) : c.nombreApellidos;
     this.dniCif = decode ? urldecode(c.dniCif) : c.dniCif;
     this.telefono = decode ? urldecode(c.telefono) : c.telefono;
     this.email = decode ? urldecode(c.email) : c.email;
@@ -46,16 +44,12 @@ export default class Cliente {
     this.poblacion = decode ? urldecode(c.poblacion) : c.poblacion;
     this.provincia = c.provincia;
     this.factIgual = c.factIgual;
-    this.factNombreApellidos = decode
-      ? urldecode(c.factNombreApellidos)
-      : c.factNombreApellidos;
+    this.factNombreApellidos = decode ? urldecode(c.factNombreApellidos) : c.factNombreApellidos;
     this.factDniCif = decode ? urldecode(c.factDniCif) : c.factDniCif;
     this.factTelefono = decode ? urldecode(c.factTelefono) : c.factTelefono;
     this.factEmail = decode ? urldecode(c.factEmail) : c.factEmail;
     this.factDireccion = decode ? urldecode(c.factDireccion) : c.factDireccion;
-    this.factCodigoPostal = decode
-      ? urldecode(c.factCodigoPostal)
-      : c.factCodigoPostal;
+    this.factCodigoPostal = decode ? urldecode(c.factCodigoPostal) : c.factCodigoPostal;
     this.factPoblacion = decode ? urldecode(c.factPoblacion) : c.factPoblacion;
     this.factProvincia = c.factProvincia;
     this.observaciones = decode ? urldecode(c.observaciones) : c.observaciones;
@@ -68,9 +62,7 @@ export default class Cliente {
   toInterface(encode: boolean = true): ClienteInterface {
     return {
       id: this.id,
-      nombreApellidos: encode
-        ? urlencode(this.nombreApellidos)
-        : this.nombreApellidos,
+      nombreApellidos: encode ? urlencode(this.nombreApellidos) : this.nombreApellidos,
       dniCif: encode ? urlencode(this.dniCif) : this.dniCif,
       telefono: encode ? urlencode(this.telefono) : this.telefono,
       email: encode ? urlencode(this.email) : this.email,
@@ -79,25 +71,15 @@ export default class Cliente {
       poblacion: encode ? urlencode(this.poblacion) : this.poblacion,
       provincia: this.provincia,
       factIgual: this.factIgual,
-      factNombreApellidos: encode
-        ? urlencode(this.factNombreApellidos)
-        : this.factNombreApellidos,
+      factNombreApellidos: encode ? urlencode(this.factNombreApellidos) : this.factNombreApellidos,
       factDniCif: encode ? urlencode(this.factDniCif) : this.factDniCif,
       factTelefono: encode ? urlencode(this.factTelefono) : this.factTelefono,
       factEmail: encode ? urlencode(this.factEmail) : this.factEmail,
-      factDireccion: encode
-        ? urlencode(this.factDireccion)
-        : this.factDireccion,
-      factCodigoPostal: encode
-        ? urlencode(this.factCodigoPostal)
-        : this.factCodigoPostal,
-      factPoblacion: encode
-        ? urlencode(this.factPoblacion)
-        : this.factPoblacion,
+      factDireccion: encode ? urlencode(this.factDireccion) : this.factDireccion,
+      factCodigoPostal: encode ? urlencode(this.factCodigoPostal) : this.factCodigoPostal,
+      factPoblacion: encode ? urlencode(this.factPoblacion) : this.factPoblacion,
       factProvincia: this.factProvincia,
-      observaciones: encode
-        ? urlencode(this.observaciones)
-        : this.observaciones,
+      observaciones: encode ? urlencode(this.observaciones) : this.observaciones,
       descuento: this.descuento,
       ultimaVenta: encode ? urlencode(this.ultimaVenta) : this.ultimaVenta,
     };

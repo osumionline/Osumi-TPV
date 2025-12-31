@@ -16,7 +16,7 @@
                 </mat-form-field>
                 <mat-action-list cdkDropList
                                  (cdkDropListDropped)="onDrop($event)">
-                    @for (tipoPago of config.tiposPago | payTypeListFilter:search; track tipoPago.id) {
+                    @for (tipoPago of config.tiposPago | payTypeListFilter: search; track tipoPago.id) {
                     <button mat-list-item
                             cdkDragHandle
                             (click)="selectTipoPago(tipoPago)"

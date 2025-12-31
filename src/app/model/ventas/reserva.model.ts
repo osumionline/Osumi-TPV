@@ -1,20 +1,17 @@
-import {
-  ReservaInterface,
-  ReservaLineaInterface,
-} from '@interfaces/cliente.interface';
+import { ReservaInterface, ReservaLineaInterface } from '@interfaces/cliente.interface';
 import Cliente from '@model/clientes/cliente.model';
 import ReservaLinea from '@model/ventas/reserva-linea.model';
 
 export default class Reserva {
-  _totalUnidades: number = null;
-  _totalDescuento: number = null;
+  _totalUnidades: number | null = null;
+  _totalDescuento: number | null = null;
 
   constructor(
-    public id: number = null,
-    public idCliente: number = null,
-    public cliente: Cliente = null,
-    public total: number = null,
-    public fecha: string = null,
+    public id: number | null = null,
+    public idCliente: number | null = null,
+    public cliente: Cliente | null = null,
+    public total: number | null = null,
+    public fecha: string | null = null,
     public lineas: ReservaLinea[] = []
   ) {}
 
@@ -25,7 +22,7 @@ export default class Reserva {
     let unidades: number = 0;
 
     for (const linea of this.lineas) {
-      unidades += linea.unidades;
+      unidades += linea.unidades ?? 0;
     }
 
     this._totalUnidades = unidades;
@@ -44,7 +41,7 @@ export default class Reserva {
         descuento += linea.importeDescuento;
       } else {
         if (linea.descuento !== 0) {
-          descuento += linea.total * (linea.descuento / 100);
+          descuento += linea.total * ((linea.descuento ?? 0) / 100);
         }
       }
     }
@@ -57,7 +54,7 @@ export default class Reserva {
   fromInterface(r: ReservaInterface): Reserva {
     this.id = r.id;
     this.idCliente = r.idCliente;
-    this.cliente = new Cliente().fromInterface(r.cliente);
+    this.cliente = r.cliente !== null ? new Cliente().fromInterface(r.cliente) : null;
     this.total = r.total;
     this.fecha = r.fecha;
     this.lineas = r.lineas.map((rl: ReservaLineaInterface): ReservaLinea => {
@@ -71,7 +68,7 @@ export default class Reserva {
     return {
       id: this.id,
       idCliente: this.idCliente,
-      cliente: this.cliente.toInterface(),
+      cliente: this.cliente !== null ? this.cliente.toInterface() : null,
       total: this.total,
       fecha: this.fecha,
       lineas: this.lineas.map((rl: ReservaLinea): ReservaLineaInterface => {

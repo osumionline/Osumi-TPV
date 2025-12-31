@@ -1,6 +1,7 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
+  AllProvincesInterface,
   AppDataResult,
   Month,
   ProvinceInterface,
@@ -55,9 +56,9 @@ export default class ConfigService {
 
   tiposPago: TipoPago[] = [];
   isOpened: boolean = false;
-  idEmpleadoDef: number = null;
-  colorEmpleadoDef: string = '#fff';
-  colorTextEmpleadoDef: string = '#000';
+  idEmpleadoDef: number | null = null;
+  colorEmpleadoDef: string | null = '#fff';
+  colorTextEmpleadoDef: string | null = '#000';
 
   monthList: Month[] = [
     { id: 1, name: 'Enero', days: 31 },
@@ -74,9 +75,7 @@ export default class ConfigService {
     { id: 12, name: 'Diciembre', days: 31 },
   ];
 
-  provincias: WritableSignal<ProvinceInterface[]> = signal<ProvinceInterface[]>(
-    []
-  );
+  provincias: WritableSignal<ProvinceInterface[]> = signal<ProvinceInterface[]>([]);
 
   start(): Promise<string> {
     return new Promise((resolve) => {
@@ -93,12 +92,9 @@ export default class ConfigService {
             this.isOpened = result.opened;
             this.status = 'loaded';
             const marcasPromise: Promise<string> = this.marcasService.load();
-            const proveedoresPromise: Promise<string> =
-              this.proveedoresService.load();
-            const empleadosPromise: Promise<string> =
-              this.empleadosService.load();
-            const clientesPromise: Promise<string> =
-              this.clientesService.load();
+            const proveedoresPromise: Promise<string> = this.proveedoresService.load();
+            const empleadosPromise: Promise<string> = this.empleadosService.load();
+            const clientesPromise: Promise<string> = this.clientesService.load();
             const provinciasPromise: Promise<string> = this.loadProvinces();
             Promise.all([
               marcasPromise,
@@ -110,10 +106,9 @@ export default class ConfigService {
               if (this.empleadosService.empleados().length == 1) {
                 this.empleados = false;
                 this.idEmpleadoDef = this.empleadosService.empleados()[0].id;
-                this.colorEmpleadoDef =
-                  this.empleadosService.colors[this.idEmpleadoDef];
+                this.colorEmpleadoDef = this.empleadosService.colors[this.idEmpleadoDef as number];
                 this.colorTextEmpleadoDef =
-                  this.empleadosService.textColors[this.idEmpleadoDef];
+                  this.empleadosService.textColors[this.idEmpleadoDef as number];
               }
               resolve(this.status);
             });
@@ -144,9 +139,7 @@ export default class ConfigService {
       if (this.tipoIva === 'iva') {
         this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i]));
       } else {
-        this.ivaOptions.push(
-          new IVAOption(this.tipoIva, data.ivaList[i], data.reList[i])
-        );
+        this.ivaOptions.push(new IVAOption(this.tipoIva, data.ivaList[i], data.reList[i]));
       }
     }
     this.marginList = data.marginList;
@@ -163,12 +156,12 @@ export default class ConfigService {
       if (this.provincias.length > 0) {
         resolve('ok');
       } else {
-        this.apiService.getProvinceList().subscribe((data) => {
-          let newList = [];
+        this.apiService.getProvinceList().subscribe((data: AllProvincesInterface): void => {
+          let newList: ProvinceInterface[] = [];
           for (const ccaa of data.ccaa) {
             newList = newList.concat(ccaa.provinces);
           }
-          newList.sort(function (a, b) {
+          newList.sort(function (a: ProvinceInterface, b: ProvinceInterface): number {
             return a.name.localeCompare(b.name);
           });
 

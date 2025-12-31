@@ -1,7 +1,4 @@
-import {
-  VentaInterface,
-  VentaLineaInterface,
-} from '@interfaces/venta.interface';
+import { VentaInterface, VentaLineaInterface } from '@interfaces/venta.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Empleado from '@model/tpv/empleado.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
@@ -9,18 +6,18 @@ import { rolList } from '@shared/rol.class';
 
 export default class Venta {
   tabName: string = '';
-  cliente: Cliente = null;
+  cliente: Cliente | null = null;
   mostrarEmpleados: boolean = false;
-  color: string = '#c0c8f7';
-  textColor: string = '#fff';
-  empleado: Empleado = null;
+  color: string | null = '#c0c8f7';
+  textColor: string | null = '#fff';
+  empleado: Empleado | null = null;
   modificarImportes: boolean = false;
 
-  loadValue: number = null;
+  loadValue: number | null = null;
 
   constructor(
-    public id: number = null,
-    public idEmpleado: number = null,
+    public id: number | null = null,
+    public idEmpleado: number | null = null,
     public lineas: VentaLinea[] = [],
     public importe: number = 0
   ) {
@@ -34,7 +31,7 @@ export default class Venta {
     let cant: number = 0;
     for (const i in this.lineas) {
       this.lineas[i].updateImporte();
-      cant += this.lineas[i].total;
+      cant += this.lineas[i].total ?? 0;
     }
     this.importe = cant;
   }
@@ -46,9 +43,7 @@ export default class Venta {
   setEmpleado(e: Empleado): void {
     this.empleado = e;
     this.idEmpleado = e.id;
-    this.modificarImportes = e.hasRol(
-      rolList.ventas.roles['modificarImportes'].id
-    );
+    this.modificarImportes = e.hasRol(rolList['ventas'].roles['modificarImportes'].id);
     this.color = e.color;
     this.textColor = e.textColor;
   }
@@ -67,13 +62,9 @@ export default class Venta {
   }
 
   toInterface(): VentaInterface {
-    const lineasVentas: VentaLineaInterface[] = [];
-    for (const lv of this.lineas) {
-      lineasVentas.push(lv.toInterface());
-    }
     return {
       idEmpleado: this.idEmpleado,
-      lineas: lineasVentas,
+      lineas: this.lineas.map((lv: VentaLinea): VentaLineaInterface => lv.toInterface()),
       importe: this.importe,
     };
   }

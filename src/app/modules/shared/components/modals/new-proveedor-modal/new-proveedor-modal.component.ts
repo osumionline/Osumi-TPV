@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
@@ -48,9 +41,7 @@ export default class NewProveedorModalComponent implements OnInit {
   }
 
   removeMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
-    const ind: number = this.marcasSelected.findIndex(
-      (x: Marca): boolean => x.id == marca.id
-    );
+    const ind: number = this.marcasSelected.findIndex((x: Marca): boolean => x.id == marca.id);
 
     if (!ev.checked) {
       if (ind !== -1) {
@@ -62,9 +53,7 @@ export default class NewProveedorModalComponent implements OnInit {
   }
 
   addMarcaToProveedor(marca: Marca, ev: MatCheckboxChange): void {
-    const ind: number = this.marcas.findIndex(
-      (x: Marca): boolean => x.id == marca.id
-    );
+    const ind: number = this.marcas.findIndex((x: Marca): boolean => x.id == marca.id);
     if (ev.checked) {
       if (ind !== -1) {
         this.marcasSelected.push(marca);
@@ -75,12 +64,28 @@ export default class NewProveedorModalComponent implements OnInit {
   }
 
   sortMarcasLists(): void {
-    this.marcasSelected.sort((a: Marca, b: Marca) =>
-      a.nombre > b.nombre ? 1 : b.nombre > a.nombre ? -1 : 0
-    );
-    this.marcas.sort((a: Marca, b: Marca) =>
-      a.nombre > b.nombre ? 1 : b.nombre > a.nombre ? -1 : 0
-    );
+    this.marcasSelected.sort((a: Marca, b: Marca): number => {
+      if (a.nombre !== null && b.nombre !== null) {
+        if (a.nombre > b.nombre) {
+          return 1;
+        }
+        if (b.nombre > a.nombre) {
+          return -1;
+        }
+      }
+      return 0;
+    });
+    this.marcas.sort((a: Marca, b: Marca): number => {
+      if (a.nombre !== null && b.nombre !== null) {
+        if (a.nombre > b.nombre) {
+          return 1;
+        }
+        if (b.nombre > a.nombre) {
+          return -1;
+        }
+      }
+      return 0;
+    });
   }
 
   guardarProveedor(): void {
@@ -102,8 +107,7 @@ export default class NewProveedorModalComponent implements OnInit {
       this.dialog
         .confirm({
           title: 'Confirmar',
-          content:
-            'No has elegido ninguna marca para el proveedor, ¿quieres continuar?',
+          content: 'No has elegido ninguna marca para el proveedor, ¿quieres continuar?',
         })
         .subscribe((result) => {
           if (result === true) {
@@ -143,33 +147,31 @@ export default class NewProveedorModalComponent implements OnInit {
     }
 
     this.proveedor.marcas = this.marcasSelected.map((m: Marca): number => {
-      return m.id;
+      return m.id as number;
     });
     this.guardarProveedorContinue();
   }
 
   guardarProveedorContinue(): void {
-    this.ps
-      .saveProveedor(this.proveedor.toInterface())
-      .subscribe((result: IdSaveResult): void => {
-        if (result.status === 'ok') {
-          this.ps.resetProveedores();
-          this.customOverlayRef.close(result.id);
-        }
-        if (result.status === 'error-nombre') {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ya existe un proveedor con el nombre indicado.',
-          });
-          return;
-        }
-        if (result.status === 'error') {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ocurrió un error al guardar el nuevo proveedor.',
-          });
-          return;
-        }
-      });
+    this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result: IdSaveResult): void => {
+      if (result.status === 'ok') {
+        this.ps.resetProveedores();
+        this.customOverlayRef.close(result.id);
+      }
+      if (result.status === 'error-nombre') {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ya existe un proveedor con el nombre indicado.',
+        });
+        return;
+      }
+      if (result.status === 'error') {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al guardar el nuevo proveedor.',
+        });
+        return;
+      }
+    });
   }
 }

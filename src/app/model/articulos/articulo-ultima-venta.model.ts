@@ -3,12 +3,12 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class ArticuloUltimaVenta {
   constructor(
-    public fecha: string = null,
-    public localizador: number = null,
-    public nombre: string = null,
-    public unidades: number = null,
-    public pvp: number = null,
-    public importe: number = null
+    public fecha: string | null = null,
+    public localizador: number | null = null,
+    public nombre: string | null = null,
+    public unidades: number | null = null,
+    public pvp: number | null = null,
+    public importe: number | null = null
   ) {}
 
   fromInterface(uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta {

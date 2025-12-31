@@ -1,37 +1,34 @@
-import {
-  CierreCajaInterface,
-  CierreCajaTipoInterface,
-} from '@interfaces/caja.interface';
+import { CierreCajaInterface, CierreCajaTipoInterface } from '@interfaces/caja.interface';
 import CierreCajaTipo from '@model/caja/cierre-caja-tipo.model';
 import { getCurrentDate, urldecode } from '@osumi/tools';
 
 export default class CierreCaja {
-  saldoSiguienteCaja: number = null;
+  saldoSiguienteCaja: number | null = null;
 
   constructor(
-    public date: string = null,
-    public saldoInicial: number = null,
-    public importeEfectivo: number = null,
-    public salidasCaja: number = null,
-    public saldoFinal: number = null,
-    public real: number = null,
-    public importe1c: number = null,
-    public importe2c: number = null,
-    public importe5c: number = null,
-    public importe10c: number = null,
-    public importe20c: number = null,
-    public importe50c: number = null,
-    public importe1: number = null,
-    public importe2: number = null,
-    public importe5: number = null,
-    public importe10: number = null,
-    public importe20: number = null,
-    public importe50: number = null,
-    public importe100: number = null,
-    public importe200: number = null,
-    public importe500: number = null,
-    public retirado: number = null,
-    public entrada: number = null,
+    public date: string | null = null,
+    public saldoInicial: number | null = null,
+    public importeEfectivo: number | null = null,
+    public salidasCaja: number | null = null,
+    public saldoFinal: number | null = null,
+    public real: number | null = null,
+    public importe1c: number | null = null,
+    public importe2c: number | null = null,
+    public importe5c: number | null = null,
+    public importe10c: number | null = null,
+    public importe20c: number | null = null,
+    public importe50c: number | null = null,
+    public importe1: number | null = null,
+    public importe2: number | null = null,
+    public importe5: number | null = null,
+    public importe10: number | null = null,
+    public importe20: number | null = null,
+    public importe50: number | null = null,
+    public importe100: number | null = null,
+    public importe200: number | null = null,
+    public importe500: number | null = null,
+    public retirado: number | null = null,
+    public entrada: number | null = null,
     public tipos: CierreCajaTipo[] = []
   ) {
     this.date = getCurrentDate();
@@ -41,11 +38,11 @@ export default class CierreCaja {
     if (this.real === null) {
       return 0;
     }
-    return -1 * (this.saldoFinal - this.real - this.retirado);
+    return -1 * ((this.saldoFinal ?? 0) - this.real - (this.retirado ?? 0));
   }
 
   get saldoSiguiente(): number {
-    return this.real + this.entrada;
+    return (this.real ?? 0) + (this.entrada ?? 0);
   }
 
   fromInterface(cc: CierreCajaInterface): CierreCaja {
@@ -72,11 +69,9 @@ export default class CierreCaja {
     this.importe500 = cc.importe500;
     this.retirado = cc.retirado;
     this.entrada = cc.entrada;
-    this.tipos = cc.tipos.map(
-      (cct: CierreCajaTipoInterface): CierreCajaTipo => {
-        return new CierreCajaTipo().fromInterface(cct);
-      }
-    );
+    this.tipos = cc.tipos.map((cct: CierreCajaTipoInterface): CierreCajaTipo => {
+      return new CierreCajaTipo().fromInterface(cct);
+    });
     return this;
   }
 

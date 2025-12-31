@@ -1,7 +1,4 @@
-import {
-  VentaFinInterface,
-  VentaLineaInterface,
-} from '@interfaces/venta.interface';
+import { VentaFinInterface, VentaLineaInterface } from '@interfaces/venta.interface';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import { toNumber, urldecode, urlencode } from '@osumi/tools';
 
@@ -12,19 +9,19 @@ export default class VentaFin {
     public efectivo: string = '0',
     public cambio: string = '0',
     public tarjeta: string = '0',
-    public idEmpleado: number = null,
-    public idTipoPago: number = null,
-    public idCliente: number = null,
+    public idEmpleado: number | null = null,
+    public idTipoPago: number | null = null,
+    public idCliente: number | null = null,
     public total: string = '0',
     public lineas: VentaLinea[] = [],
-    public imprimir: string = 'si',
-    public email: string = null
+    public imprimir: string | null = 'si',
+    public email: string | null = null
   ) {}
 
   fromInterface(vf: VentaFinInterface): VentaFin {
-    this.efectivo = vf.efectivo.toString();
-    this.cambio = vf.cambio.toString();
-    this.tarjeta = vf.tarjeta.toString();
+    this.efectivo = vf.efectivo !== null ? vf.efectivo.toString() : '0';
+    this.cambio = vf.cambio !== null ? vf.cambio.toString() : '0';
+    this.tarjeta = vf.tarjeta !== null ? vf.tarjeta.toString() : '0';
     this.idEmpleado = vf.idEmpleado;
     this.idTipoPago = vf.idTipoPago;
     this.idCliente = vf.idCliente;
@@ -40,9 +37,9 @@ export default class VentaFin {
 
   toInterface(): VentaFinInterface {
     return {
-      efectivo: toNumber(this.efectivo),
-      cambio: toNumber(this.cambio),
-      tarjeta: toNumber(this.tarjeta),
+      efectivo: this.efectivo !== null ? toNumber(this.efectivo) : 0,
+      cambio: this.cambio !== null ? toNumber(this.cambio) : 0,
+      tarjeta: this.tarjeta !== null ? toNumber(this.tarjeta) : 0,
       idEmpleado: this.idEmpleado,
       idTipoPago: this.idTipoPago,
       idCliente: this.idCliente,

@@ -3,29 +3,36 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "module": "ES2022",
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
     "moduleResolution": "bundler",
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2023",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["ES2023", "dom"],
-    "useDefineForClassFields": false,
+    "module": "es2022",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@shared/*": ["src/app/modules/shared/*"],
       "@env/*": ["src/environments/*"],
-      "@modules/*": ["src/app/modules/*"],
-      "@services/*": ["src/app/services/*"],
+      "@app/*": ["src/app/*"],
+      "@guard/*": ["src/app/guard/*"],
       "@interfaces/*": ["src/app/interfaces/*"],
-      "@model/*": ["src/app/model/*"]
+      "@model/*": ["src/app/model/*"],
+      "@modules/*": ["src/app/modules/*"],
+      "@shared/*": ["src/app/modules/shared/*"],
+      "@services/*": ["src/app/services/*"]
     }
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
   }
 }

@@ -1,9 +1,9 @@
 export interface TipoPagoInterface {
-  id: number;
-  nombre: string;
-  foto: string;
+  id: number | null;
+  nombre: string | null;
+  foto: string | null;
   afectaCaja: boolean;
-  orden: number;
+  orden: number | null;
   fisico: boolean;
 }
 

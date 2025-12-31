@@ -6,44 +6,44 @@ export default class PedidoLinea {
   showCodigoBarras: boolean = false;
   descuentoPedido: number = 0;
   mostrarObsPedidos: boolean = false;
-  observaciones: string = null;
+  observaciones: string | null = null;
 
   constructor(
-    public id: number = null,
-    public idArticulo: number = null,
-    public nombreArticulo: string = null,
-    public localizador: number = null,
-    public idMarca: number = null,
-    public marca: string = null,
-    public unidades: number = null,
-    public palb: number = null,
-    public puc: number = null,
-    public pvp: number = null,
-    public margen: number = null,
-    public stock: number = null,
-    public iva: number = null,
-    public re: number = null,
-    public descuento: number = null,
-    public codBarras: string = null,
+    public id: number | null = null,
+    public idArticulo: number | null = null,
+    public nombreArticulo: string | null = null,
+    public localizador: number | null = null,
+    public idMarca: number | null = null,
+    public marca: string | null = null,
+    public unidades: number | null = null,
+    public palb: number | null = null,
+    public puc: number | null = null,
+    public pvp: number | null = null,
+    public margen: number | null = null,
+    public stock: number | null = null,
+    public iva: number | null = null,
+    public re: number | null = null,
+    public descuento: number | null = null,
+    public codBarras: string | null = null,
     public hasCodBarras: boolean = false,
-    public referencia: string = null
+    public referencia: string | null = null
   ) {}
 
   get subtotal(): number {
     return (
-      this.unidades *
-      this.palb *
-      (1 - this.descuento / 100) *
+      (this.unidades ?? 0) *
+      (this.palb ?? 0) *
+      (1 - (this.descuento ?? 0) / 100) *
       (1 - this.descuentoPedido / 100)
     );
   }
 
   get total(): number {
-    return getTwoNumberDecimal(this.unidades * this.puc);
+    return getTwoNumberDecimal((this.unidades ?? 0) * (this.puc ?? 0));
   }
 
   get beneficio(): number {
-    return this.unidades * (this.pvp - this.puc);
+    return (this.unidades ?? 0) * ((this.pvp ?? 0) - (this.puc ?? 0));
   }
 
   fromInterface(pl: PedidoLineaInterface): PedidoLinea {

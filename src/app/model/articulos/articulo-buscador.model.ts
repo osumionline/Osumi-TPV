@@ -5,11 +5,11 @@ export default class ArticuloBuscador {
   num: number = 0;
 
   constructor(
-    public localizador: number = null,
-    public nombre: string = null,
-    public marca: string = null,
-    public pvp: number = null,
-    public stock: number = null
+    public localizador: number | null = null,
+    public nombre: string | null = null,
+    public marca: string | null = null,
+    public pvp: number | null = null,
+    public stock: number | null = null
   ) {}
 
   fromInterface(ab: ArticuloBuscadorInterface): ArticuloBuscador {

@@ -1,27 +1,14 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { disabled, Field, form, min } from '@angular/forms/signals';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle,
-} from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import {
-  MatPaginatorIntl,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -32,12 +19,12 @@ import {
   PedidosResult,
 } from '@interfaces/pedido.interface';
 import Pedido from '@model/compras/pedido.model';
-import { getDate } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ComprasService from '@services/compras.service';
 import ProveedoresService from '@services/proveedores.service';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
+import { shallowEqual } from '@shared/utils';
 
 @Component({
   selector: 'otpv-compras-pedidos-list',
@@ -66,6 +53,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatTableModule,
     MatTooltip,
     MatPaginatorModule,
+    Field,
   ],
 })
 export default class ComprasPedidosListComponent {
@@ -84,58 +72,79 @@ export default class ComprasPedidosListComponent {
   recepcionadosPag: number = 1;
   recepcionadosPags: number = 0;
 
+  GUARDADOS_INIT: PedidosFilterInterface = {
+    fechaDesde: '',
+    fechaHasta: '',
+    idProveedor: -1,
+    albaran: '',
+    importeDesde: 0,
+    importeHasta: 0,
+    pagina: 1,
+    num: 10,
+  };
   showGuardadosFilters: WritableSignal<boolean> = signal<boolean>(false);
-  guardadosFilter: PedidosFilterInterface = {
-    fechaDesde: null,
-    fechaHasta: null,
-    idProveedor: null,
-    albaran: null,
-    importeDesde: null,
-    importeHasta: null,
+  guardadosModel: WritableSignal<PedidosFilterInterface> = signal<PedidosFilterInterface>({
+    ...this.GUARDADOS_INIT,
+  });
+  guardadosRangoDesde: Date | null = null;
+  guardadosRangoHasta: Date | null = null;
+
+  formGuardados = form(this.guardadosModel, (p) => {
+    min(p.importeDesde, 0);
+    min(p.importeHasta, 0);
+
+    // deshabilitar campos en carga (si quieres)
+    disabled(p.fechaDesde, () => this.loadingGuardados());
+    disabled(p.fechaHasta, () => this.loadingGuardados());
+    disabled(p.idProveedor, () => this.loadingGuardados());
+    disabled(p.albaran, () => this.loadingGuardados());
+    disabled(p.importeDesde, () => this.loadingGuardados());
+    disabled(p.importeHasta, () => this.loadingGuardados());
+  });
+
+  RECEPCIONADOS_INIT: PedidosFilterInterface = {
+    fechaDesde: '',
+    fechaHasta: '',
+    idProveedor: -1,
+    albaran: '',
+    importeDesde: 0,
+    importeHasta: 0,
     pagina: 1,
     num: 10,
   };
-  guardadosRangoDesde: Date = null;
-  guardadosRangoHasta: Date = null;
-
-  formGuardados: FormGroup = new FormGroup({
-    fechaDesde: new FormControl<Date>(null),
-    fechaHasta: new FormControl<Date>(null),
-    idProveedor: new FormControl<number>(null),
-    albaran: new FormControl<string>(null),
-    importeDesde: new FormControl<number>(null),
-    importeHasta: new FormControl<number>(null),
-  });
-
   showRecepcionadosFilters: WritableSignal<boolean> = signal<boolean>(false);
-  recepcionadosFilter: PedidosFilterInterface = {
-    fechaDesde: null,
-    fechaHasta: null,
-    idProveedor: null,
-    albaran: null,
-    importeDesde: null,
-    importeHasta: null,
-    pagina: 1,
-    num: 10,
-  };
-  recepcionadosRangoDesde: Date = null;
-  recepcionadosRangoHasta: Date = null;
+  recepcionadosModel: WritableSignal<PedidosFilterInterface> = signal<PedidosFilterInterface>({
+    ...this.RECEPCIONADOS_INIT,
+  });
+  recepcionadosRangoDesde: Date | null = null;
+  recepcionadosRangoHasta: Date | null = null;
 
-  formRecepcionados: FormGroup = new FormGroup({
-    fechaDesde: new FormControl<Date>(null),
-    fechaHasta: new FormControl<Date>(null),
-    idProveedor: new FormControl<number>(null),
-    albaran: new FormControl<string>(null),
-    importeDesde: new FormControl<number>(null),
-    importeHasta: new FormControl<number>(null),
+  formRecepcionados = form(this.recepcionadosModel, (p) => {
+    min(p.importeDesde, 0);
+    min(p.importeHasta, 0);
+
+    disabled(p.fechaDesde, () => this.loadingRecepcionados());
+    disabled(p.fechaHasta, () => this.loadingRecepcionados());
+    disabled(p.idProveedor, () => this.loadingRecepcionados());
+    disabled(p.albaran, () => this.loadingRecepcionados());
+    disabled(p.importeDesde, () => this.loadingRecepcionados());
+    disabled(p.importeHasta, () => this.loadingRecepcionados());
   });
 
-  pedidosGuardadosDisplayedColumns: string[] = [
-    'fechaPedido',
-    'proveedor',
-    'num',
-    'importe',
-  ];
+  loadingGuardados: WritableSignal<boolean> = signal(false);
+  loadingRecepcionados: WritableSignal<boolean> = signal(false);
+
+  isGuardadosValid: Signal<boolean> = computed(
+    (): boolean =>
+      !this.formGuardados.importeDesde().errors() && !this.formGuardados.importeHasta().errors()
+  );
+  isRecepcionadosValid: Signal<boolean> = computed(
+    (): boolean =>
+      !this.formRecepcionados.importeDesde().errors() &&
+      !this.formRecepcionados.importeHasta().errors()
+  );
+
+  pedidosGuardadosDisplayedColumns: string[] = ['fechaPedido', 'proveedor', 'num', 'importe'];
   pedidosRecepcionadosDisplayedColumns: string[] = [
     'fechaRecepcionado',
     'fechaPedido',
@@ -146,80 +155,67 @@ export default class ComprasPedidosListComponent {
     'iconos',
   ];
 
-  pedidosGuardadosDataSource: MatTableDataSource<Pedido> =
-    new MatTableDataSource<Pedido>();
-  pedidosRecepcionadosDataSource: MatTableDataSource<Pedido> =
-    new MatTableDataSource<Pedido>();
+  pedidosGuardadosDataSource: MatTableDataSource<Pedido> = new MatTableDataSource<Pedido>();
+  pedidosRecepcionadosDataSource: MatTableDataSource<Pedido> = new MatTableDataSource<Pedido>();
 
   load(): void {
     const filters: PedidosFilterInterface = {
-      fechaDesde: null,
-      fechaHasta: null,
-      idProveedor: null,
-      albaran: null,
-      importeDesde: null,
-      importeHasta: null,
+      fechaDesde: '',
+      fechaHasta: '',
+      idProveedor: -1,
+      albaran: '',
+      importeDesde: 0,
+      importeHasta: 0,
       pagina: 1,
       num: this.numPorPag,
     };
-    this.comprasService
-      .getAllPedidos(filters)
-      .subscribe((result: PedidosAllResult): void => {
-        this.pedidosGuardados = this.cms.getPedidos(result.guardados);
-        this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
-        this.guardadosPags = result.guardadosPags * this.numPorPag;
-        this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
+    this.comprasService.getAllPedidos(filters).subscribe((result: PedidosAllResult): void => {
+      this.pedidosGuardados = this.cms.getPedidos(result.guardados);
+      this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
+      this.guardadosPags = result.guardadosPags * this.numPorPag;
+      this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
 
-        this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
-        this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
-      });
+      this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
+      this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
+    });
   }
 
   openGuardadosFilters(): void {
-    this.showGuardadosFilters.update((value: boolean) => !value);
+    this.showGuardadosFilters.update((value: boolean): boolean => !value);
   }
 
   openRecepcionadosFilters(): void {
-    this.showRecepcionadosFilters.update((value: boolean) => !value);
+    this.showRecepcionadosFilters.update((value: boolean): boolean => !value);
   }
 
-  get guardadosFiltered(): boolean {
-    return this.formGuardados.dirty;
-  }
+  guardadosFiltered: Signal<boolean> = computed(
+    (): boolean => !shallowEqual(this.guardadosModel(), this.GUARDADOS_INIT)
+  );
+
+  recepcionadosFiltered: Signal<boolean> = computed(
+    (): boolean => !shallowEqual(this.recepcionadosModel(), this.RECEPCIONADOS_INIT)
+  );
 
   quitarFiltrosGuardados(ev: MouseEvent): void {
     if (ev) {
       ev.preventDefault();
       ev.stopPropagation();
     }
-    this.formGuardados.reset();
-    this.guardadosFilter.pagina = 1;
+    this.guardadosModel.set({ ...this.GUARDADOS_INIT });
   }
 
   filtrarGuardados(): void {
-    this.guardadosFilter.fechaDesde = getDate(
-      this.formGuardados.get('fechaDesde').value
-    );
-    this.guardadosFilter.fechaHasta = getDate(
-      this.formGuardados.get('fechaHasta').value
-    );
-    this.guardadosFilter.idProveedor =
-      this.formGuardados.get('idProveedor').value;
-    this.guardadosFilter.albaran = this.formGuardados.get('albaran').value;
-    this.guardadosFilter.importeDesde =
-      this.formGuardados.get('importeDesde').value;
-    this.guardadosFilter.importeHasta =
-      this.formGuardados.get('importeHasta').value;
+    if (!this.isGuardadosValid()) {
+      return;
+    }
+    this.loadingGuardados.set(true);
     this.comprasService
-      .getPedidosGuardados(this.guardadosFilter)
+      .getPedidosGuardados(this.guardadosModel())
       .subscribe((result: PedidosResult): void => {
         this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
-        this.guardadosPags = result.pags * this.guardadosFilter.num;
+        this.guardadosPags = result.pags * this.guardadosModel().num;
+        this.loadingGuardados.set(false);
       });
-  }
-
-  get recepcionadosFiltered(): boolean {
-    return this.formRecepcionados.dirty;
   }
 
   quitarFiltrosRecepcionados(ev: MouseEvent): void {
@@ -227,32 +223,20 @@ export default class ComprasPedidosListComponent {
       ev.preventDefault();
       ev.stopPropagation();
     }
-    this.formRecepcionados.reset();
-    this.recepcionadosFilter.pagina = 1;
+    this.recepcionadosModel.set({ ...this.RECEPCIONADOS_INIT });
   }
 
   filtrarRecepcionados(): void {
-    this.recepcionadosFilter.fechaDesde = getDate(
-      this.formRecepcionados.get('fechaDesde').value
-    );
-    this.recepcionadosFilter.fechaHasta = getDate(
-      this.formRecepcionados.get('fechaHasta').value
-    );
-    this.recepcionadosFilter.idProveedor =
-      this.formRecepcionados.get('idProveedor').value;
-    this.recepcionadosFilter.albaran =
-      this.formRecepcionados.get('albaran').value;
-    this.recepcionadosFilter.importeDesde =
-      this.formRecepcionados.get('importeDesde').value;
-    this.recepcionadosFilter.importeHasta =
-      this.formRecepcionados.get('importeHasta').value;
+    if (!this.isRecepcionadosValid()) {
+      return;
+    }
+    this.loadingRecepcionados.set(true);
     this.comprasService
-      .getPedidosRecepcionados(this.recepcionadosFilter)
+      .getPedidosRecepcionados(this.recepcionadosModel())
       .subscribe((result: PedidosResult): void => {
-        this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(
-          result.list
-        );
-        this.recepcionadosPags = result.pags * this.recepcionadosFilter.num;
+        this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(result.list);
+        this.recepcionadosPags = result.pags * this.recepcionadosModel().num;
+        this.loadingGuardados.set(false);
       });
   }
 
@@ -262,15 +246,21 @@ export default class ComprasPedidosListComponent {
 
   changePageGuardados(ev: PageEvent): void {
     this.pageGuardadosIndex = ev.pageIndex;
-    this.guardadosFilter.pagina = ev.pageIndex + 1;
-    this.guardadosFilter.num = ev.pageSize;
+    this.guardadosModel.update((model: PedidosFilterInterface): PedidosFilterInterface => {
+      model.pagina = ev.pageIndex + 1;
+      model.num = ev.pageSize;
+      return model;
+    });
     this.filtrarGuardados();
   }
 
   changePageRecepcionados(ev: PageEvent): void {
     this.pageRecepcionadosIndex = ev.pageIndex;
-    this.recepcionadosFilter.pagina = ev.pageIndex + 1;
-    this.recepcionadosFilter.num = ev.pageSize;
+    this.guardadosModel.update((model: PedidosFilterInterface): PedidosFilterInterface => {
+      model.pagina = ev.pageIndex + 1;
+      model.num = ev.pageSize;
+      return model;
+    });
     this.filtrarRecepcionados();
   }
 }

@@ -10,6 +10,9 @@ export default class ClientListFilterPipe implements PipeTransform {
       return list;
     }
     return list.filter((c: Cliente): boolean => {
+      if (c.nombreApellidos === null) {
+        return false;
+      }
       return c.nombreApellidos.toLowerCase().includes(filter);
     });
   }

@@ -1,17 +1,17 @@
 <div class="finalizar-venta">
     <div class="col-reserva"
-         [class]="{'show': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">RESERVA</div>
+         [class]="{'show': (ventaFin.imprimir === 'reserva' || ventaFin.imprimir === 'reserva-sin-ticket')}">RESERVA</div>
     <div class="col-left"
-         [class]="{'hide': (vs.fin.imprimir === 'reserva' || vs.fin.imprimir === 'reserva-sin-ticket')}">
+         [class]="{'hide': (ventaFin.imprimir === 'reserva' || ventaFin.imprimir === 'reserva-sin-ticket')}">
         <div class="col-line">
             <div class="form-field no-padding">
-                <label [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Efectivo</label>
+                <label [class]="{'disabled': ventaFin.idTipoPago !== null && !ventaFin.pagoMixto}">Efectivo</label>
                 <mat-form-field subscriptSizing="dynamic">
                     <input matInput
                            class="big"
                            placeholder="Efectivo"
-                           [(ngModel)]="vs.fin.efectivo"
-                           [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+                           [(ngModel)]="ventaFin.efectivo"
+                           [disabled]="ventaFin.idTipoPago !== null && !ventaFin.pagoMixto"
                            (focus)="$event.target.select()"
                            (input)="updateCambio()"
                            #efectivoValue>
@@ -20,15 +20,15 @@
                 </mat-form-field>
             </div>
             <div class="form-field no-padding">
-                <label [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">Cambio</label>
+                <label [class]="{'disabled': ventaFin.idTipoPago !== null && !ventaFin.pagoMixto}">Cambio</label>
                 <mat-form-field subscriptSizing="dynamic"
                                 class="remark"
-                                [class]="{'disabled': vs.fin.idTipoPago !== null && !vs.fin.pagoMixto}">
+                                [class]="{'disabled': ventaFin.idTipoPago !== null && !ventaFin.pagoMixto}">
                     <input matInput
                            class="big"
                            placeholder="Cambio"
-                           [(ngModel)]="vs.fin.cambio"
-                           [disabled]="vs.fin.idTipoPago !== null && !vs.fin.pagoMixto"
+                           [(ngModel)]="ventaFin.cambio"
+                           [disabled]="ventaFin.idTipoPago !== null && !ventaFin.pagoMixto"
                            readonly>
                     <span matTextSuffix
                           class="big">€</span>
@@ -39,13 +39,13 @@
             @for (tipo of config.tiposPago; track tipo.id) {
             @if (tipo.fisico) {
             <div class="tipo-pago"
-                 [class]="{'tipo-pago-selected': vs.fin.idTipoPago === tipo.id}"
+                 [class]="{'tipo-pago-selected': ventaFin.idTipoPago === tipo.id}"
                  (click)="selectTipoPago(tipo.id)">
                 <img [src]="tipo.foto"
                      [alt]="tipo.nombre">
                 {{tipo.nombre}}
                 <div class="tipo-pago-check">
-                    <mat-checkbox [checked]="vs.fin.idTipoPago === tipo.id" />
+                    <mat-checkbox [checked]="ventaFin.idTipoPago === tipo.id" />
                 </div>
                 <div class="tipo-pago-check-over"></div>
             </div>
@@ -53,14 +53,14 @@
             }
         </div>
         <div class="col-line-check">
-            <mat-checkbox [(ngModel)]="vs.fin.pagoMixto"
+            <mat-checkbox [(ngModel)]="ventaFin.pagoMixto"
                           (change)="changePagoMixto($event)">Pago mixto</mat-checkbox>
             <mat-form-field subscriptSizing="dynamic">
                 <mat-label>Importe</mat-label>
                 <input matInput
                        placeholder="Importe"
-                       [(ngModel)]="vs.fin.tarjeta"
-                       [disabled]="!vs.fin.pagoMixto"
+                       [(ngModel)]="ventaFin.tarjeta"
+                       [disabled]="!ventaFin.pagoMixto"
                        (focus)="$event.target.select()"
                        (input)="updateEfectivoMixto()"
                        #tarjetaValue>
@@ -161,12 +161,12 @@
         </div>
         <div class="total mat-elevation-z4">
             <div class="total-title">TOTAL</div>
-            <div class="total-importe">{{vs.fin.total}} €</div>
+            <div class="total-importe">{{ ventaFin.total }} €</div>
         </div>
         <div class="col-line-check">
             <div class="options">
                 <mat-form-field subscriptSizing="dynamic">
-                    <mat-select [(ngModel)]="vs.fin.imprimir"
+                    <mat-select [(ngModel)]="ventaFin.imprimir"
                                 (ngModelChange)="checkTicket()">
                         <mat-option value="si">Imprimir ticket</mat-option>
                         <mat-option value="no">No imprimir</mat-option>
@@ -177,8 +177,8 @@
                         <mat-option value="email">Enviar email</mat-option>
                     </mat-select>
                 </mat-form-field>
-                @if (vs.fin.imprimir === 'email' && vs.fin.email !== null) {
-                <span>{{vs.fin.email}}</span>
+                @if (ventaFin.imprimir === 'email' && ventaFin.email !== null) {
+                <span>{{ ventaFin.email }}</span>
                 }
             </div>
             <div class="actions">

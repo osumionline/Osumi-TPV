@@ -19,11 +19,7 @@ import { Router } from '@angular/router';
 import VentaFin from '@app/model/ventas/venta-fin.model';
 import { FinVentaResult } from '@interfaces/venta.interface';
 import VentaLinea from '@model/ventas/venta-linea.model';
-import {
-  CustomOverlayRef,
-  DialogField,
-  DialogService,
-} from '@osumi/angular-tools';
+import { CustomOverlayRef, DialogField, DialogService } from '@osumi/angular-tools';
 import { formatNumber, toNumber } from '@osumi/tools';
 import ConfigService from '@services/config.service';
 import VentasService from '@services/ventas.service';
@@ -50,20 +46,15 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     'window:keydown': 'onKeyDown($event)',
   },
 })
-export default class VentaFinalizarModalComponent
-  implements OnInit, AfterViewInit
-{
+export default class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
   public vs: VentasService = inject(VentasService);
   public config: ConfigService = inject(ConfigService);
   private dialog: DialogService = inject(DialogService);
   private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> =
-    inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> = inject(CustomOverlayRef);
 
-  efectivoValue: Signal<ElementRef> =
-    viewChild.required<ElementRef>('efectivoValue');
-  tarjetaValue: Signal<ElementRef> =
-    viewChild.required<ElementRef>('tarjetaValue');
+  efectivoValue: Signal<ElementRef> = viewChild.required<ElementRef>('efectivoValue');
+  tarjetaValue: Signal<ElementRef> = viewChild.required<ElementRef>('tarjetaValue');
 
   ventasFinDisplayedColumns: string[] = [
     'localizador',
@@ -72,9 +63,8 @@ export default class VentaFinalizarModalComponent
     'descuento',
     'total',
   ];
-  ventasFinDataSource: MatTableDataSource<VentaLinea> =
-    new MatTableDataSource<VentaLinea>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  ventasFinDataSource: MatTableDataSource<VentaLinea> = new MatTableDataSource<VentaLinea>();
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
   ventaFin: VentaFin = this.customOverlayRef.data.fin;
   saving: boolean = false;
@@ -99,9 +89,7 @@ export default class VentaFinalizarModalComponent
   updateCambio(): void {
     let cambio: string = '';
     if (!this.ventaFin.pagoMixto) {
-      cambio = formatNumber(
-        toNumber(this.ventaFin.efectivo) - toNumber(this.ventaFin.total)
-      );
+      cambio = formatNumber(toNumber(this.ventaFin.efectivo) - toNumber(this.ventaFin.total));
     } else {
       cambio = formatNumber(
         toNumber(this.ventaFin.efectivo) +
@@ -114,7 +102,7 @@ export default class VentaFinalizarModalComponent
     }
   }
 
-  selectTipoPago(id: number): void {
+  selectTipoPago(id: number | null): void {
     if (this.ventaFin.idTipoPago === id) {
       this.ventaFin.idTipoPago = null;
       this.ventaFin.efectivo = this.ventaFin.total;
@@ -194,7 +182,7 @@ export default class VentaFinalizarModalComponent
     if (
       this.ventaFin.imprimir === 'email' &&
       this.ventaFin.idCliente !== -1 &&
-      (this.vs.cliente.email === null || this.vs.cliente.email === '')
+      (this.ventaFin.email === null || this.ventaFin.email === '')
     ) {
       this.dialog
         .confirm({
@@ -206,22 +194,18 @@ export default class VentaFinalizarModalComponent
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
-            this.router.navigate(['/clientes/' + this.vs.cliente.id]);
+            this.router.navigate(['/clientes/' + this.ventaFin.idCliente]);
           } else {
             this.pedirEmail();
           }
         });
     }
     // Se ha elegido factura y no tiene cliente asignado
-    if (
-      this.ventaFin.imprimir === 'factura' &&
-      this.ventaFin.idCliente === -1
-    ) {
+    if (this.ventaFin.imprimir === 'factura' && this.ventaFin.idCliente === -1) {
       this.dialog
         .confirm({
           title: 'Imprimir factura',
-          content:
-            'Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?',
+          content: 'Esta venta no tiene ningún cliente asignado, ¿quieres elegir uno?',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -233,15 +217,13 @@ export default class VentaFinalizarModalComponent
     }
     // Se ha elegido reserva y no tiene cliente asignado
     if (
-      (this.ventaFin.imprimir === 'reserva' ||
-        this.ventaFin.imprimir === 'reserva-sin-ticket') &&
+      (this.ventaFin.imprimir === 'reserva' || this.ventaFin.imprimir === 'reserva-sin-ticket') &&
       this.ventaFin.idCliente === -1
     ) {
       this.dialog
         .confirm({
           title: 'Reserva',
-          content:
-            'Esta reserva no tiene ningún cliente asignado, ¿quieres elegir uno?',
+          content: 'Esta reserva no tiene ningún cliente asignado, ¿quieres elegir uno?',
         })
         .subscribe((result: boolean): void => {
           if (result === true) {
@@ -258,9 +240,7 @@ export default class VentaFinalizarModalComponent
       .form({
         title: 'Introducir email',
         content: 'Introduce el email del cliente',
-        fields: [
-          { title: 'Email', type: 'email', value: null, required: true },
-        ],
+        fields: [{ title: 'Email', type: 'email', value: '', required: true }],
       })
       .subscribe((result: DialogField[]): void => {
         if (result === undefined || result.length === 0) {
@@ -280,10 +260,7 @@ export default class VentaFinalizarModalComponent
     const efectivo: number = toNumber(this.ventaFin.efectivo);
     const total: number = toNumber(this.ventaFin.total);
 
-    if (
-      this.ventaFin.imprimir === 'reserva' ||
-      this.ventaFin.imprimir === 'reserva-sin-ticket'
-    ) {
+    if (this.ventaFin.imprimir === 'reserva' || this.ventaFin.imprimir === 'reserva-sin-ticket') {
       this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
         if (result.status === 'ok') {
           this.customOverlayRef.close({
@@ -303,8 +280,7 @@ export default class VentaFinalizarModalComponent
       if (this.ventaFin.idTipoPago === null) {
         this.dialog.alert({
           title: 'Error',
-          content:
-            '¡Has indicado pago mixto pero no has elegido ningún tipo de pago!',
+          content: '¡Has indicado pago mixto pero no has elegido ningún tipo de pago!',
         });
         return;
       } else {
@@ -357,8 +333,11 @@ export default class VentaFinalizarModalComponent
       }
       if (result.status.startsWith('ok-factura-')) {
         const parts: string[] = result.status.split('-');
-        const id: number = parseInt(parts.pop());
-        window.open('/clientes/factura/' + id);
+        const idParts: string | undefined = parts.pop();
+        if (idParts !== undefined) {
+          const id: number = parseInt(idParts);
+          window.open('/clientes/factura/' + id);
+        }
       }
       this.customOverlayRef.close({
         status: 'fin',

@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -24,16 +17,13 @@ import EmpleadosService from '@services/empleados.service';
 export default class EmployeeLoginModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private es: EmpleadosService = inject(EmpleadosService);
-  private customOverlayRef: CustomOverlayRef<
-    null,
-    { id: number; nombre: string }
-  > = inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> =
+    inject(CustomOverlayRef);
 
-  id: number = null;
-  nombre: string = null;
-  pass: string = null;
-  loginPasswordValue: Signal<ElementRef> =
-    viewChild.required('loginPasswordValue');
+  id: number | null = null;
+  nombre: string | null = null;
+  pass: string | null = null;
+  loginPasswordValue: Signal<ElementRef> = viewChild.required('loginPasswordValue');
   loginLoading: boolean = false;
 
   ngOnInit(): void {
@@ -42,12 +32,6 @@ export default class EmployeeLoginModalComponent implements OnInit {
     setTimeout((): void => {
       this.loginPasswordValue().nativeElement.focus();
     }, 0);
-  }
-
-  checkLoginPassword(ev: KeyboardEvent): void {
-    if (ev.key == 'Enter') {
-      this.login();
-    }
   }
 
   login(): void {

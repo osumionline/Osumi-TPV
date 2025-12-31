@@ -12,7 +12,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 export default class ImprentaTableComponent implements OnInit {
   filas: number = 4;
   columnas: number = 5;
-  list: WritableSignal<ArticuloBuscador[][]> = signal<ArticuloBuscador[][]>([]);
+  list: WritableSignal<(ArticuloBuscador | null)[][]> = signal<(ArticuloBuscador | null)[][]>([]);
   mostrarPVP: WritableSignal<boolean> = signal<boolean>(true);
 
   ngOnInit(): void {
@@ -31,16 +31,14 @@ export default class ImprentaTableComponent implements OnInit {
 
     let f_ind: number = 0;
     let c_ind: number = 0;
-    const list: ArticuloBuscador[][] = [];
+    const list: (ArticuloBuscador | null)[][] = [];
 
     for (const s of seleccionados) {
       for (let ind: number = 0; ind < s.num; ind++) {
         if (list[f_ind] === undefined) {
           list[f_ind] = [];
         }
-        list[f_ind][c_ind] = new ArticuloBuscador().fromInterface(
-          s.toInterface()
-        );
+        list[f_ind][c_ind] = new ArticuloBuscador().fromInterface(s.toInterface());
         c_ind++;
         if (c_ind === columnas) {
           f_ind++;

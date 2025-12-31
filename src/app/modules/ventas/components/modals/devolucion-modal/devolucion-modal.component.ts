@@ -1,11 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import {
-  Component,
-  OnInit,
-  OutputEmitterRef,
-  inject,
-  output,
-} from '@angular/core';
+import { Component, OnInit, OutputEmitterRef, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -56,8 +50,10 @@ export default class DevolucionModalComponent implements OnInit {
     'descuento',
     'importe',
   ];
-  selection: SelectionModel<VentaLineaHistorico> =
-    new SelectionModel<VentaLineaHistorico>(true, []);
+  selection: SelectionModel<VentaLineaHistorico> = new SelectionModel<VentaLineaHistorico>(
+    true,
+    []
+  );
   continueEvent: OutputEmitterRef<DevolucionSelectedInterface[]> =
     output<DevolucionSelectedInterface[]>();
 
@@ -70,27 +66,17 @@ export default class DevolucionModalComponent implements OnInit {
         desde: null,
         hasta: null,
       };
-      this.vs
-        .getHistorico(data)
-        .subscribe((result: HistoricoVentasResult): void => {
-          const list: VentaHistorico[] = this.cms.getHistoricoVentas(
-            result.list
-          );
-          this.venta = list[0];
-          this.devolucionDataSource.data = this.venta.lineas;
-        });
+      this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
+        const list: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+        this.venta = list[0];
+        this.devolucionDataSource.data = this.venta.lineas;
+      });
     } else {
-      this.continueDevolucion(
-        this.customOverlayRef.data.idVenta,
-        this.customOverlayRef.data.list
-      );
+      this.continueDevolucion(this.customOverlayRef.data.idVenta, this.customOverlayRef.data.list);
     }
   }
 
-  continueDevolucion(
-    idVenta: number,
-    list: DevolucionSelectedInterface[]
-  ): void {
+  continueDevolucion(idVenta: number, list: DevolucionSelectedInterface[]): void {
     const data: DateValues = {
       modo: 'id',
       fecha: null,
@@ -98,25 +84,19 @@ export default class DevolucionModalComponent implements OnInit {
       desde: null,
       hasta: null,
     };
-    this.vs
-      .getHistorico(data)
-      .subscribe((result: HistoricoVentasResult): void => {
-        this.selection.clear();
-        const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(
-          result.list
-        );
-        this.venta = ventas[0];
-        for (const item of list) {
-          const ind: number = this.venta.lineas.findIndex(
-            (x: VentaLineaHistorico): boolean => {
-              return x.id === item.id;
-            }
-          );
-          this.venta.lineas[ind].devolver = item.unidades;
-          this.selection.select(this.venta.lineas[ind]);
-        }
-        this.devolucionDataSource.data = this.venta.lineas;
-      });
+    this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
+      this.selection.clear();
+      const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+      this.venta = ventas[0];
+      for (const item of list) {
+        const ind: number = this.venta.lineas.findIndex((x: VentaLineaHistorico): boolean => {
+          return x.id === item.id;
+        });
+        this.venta.lineas[ind].devolver = item.unidades;
+        this.selection.select(this.venta.lineas[ind]);
+      }
+      this.devolucionDataSource.data = this.venta.lineas;
+    });
   }
 
   isAllSelected(): boolean {
@@ -129,8 +109,8 @@ export default class DevolucionModalComponent implements OnInit {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.devolucionDataSource.data.forEach(
-        (row: VentaLineaHistorico): boolean | void => this.selection.select(row)
+      this.devolucionDataSource.data.forEach((row: VentaLineaHistorico): boolean | void =>
+        this.selection.select(row)
       );
     }
   }
@@ -140,14 +120,13 @@ export default class DevolucionModalComponent implements OnInit {
     this.selection.selected.forEach((s: VentaLineaHistorico): void => {
       list.push({
         id: s.id,
-        unidades: s.devolver * -1,
+        unidades: (s.devolver ?? 0) * -1,
       });
     });
     if (list.length === 0) {
       this.dialog.alert({
         title: 'Error',
-        content:
-          '¡Atención! No has elegido ningún artículo para realizar su devolución.',
+        content: '¡Atención! No has elegido ningún artículo para realizar su devolución.',
       });
     } else {
       this.selection.clear();

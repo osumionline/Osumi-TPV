@@ -127,23 +127,23 @@ export interface ColorValues {
 
 export interface DateValues {
   modo: string;
-  id: number;
-  fecha: string;
-  desde: string;
-  hasta: string;
+  id: number | null;
+  fecha: string | null;
+  desde: string | null;
+  hasta: string | null;
 }
 
 export interface ReturnInfoInterface {
   where: string;
-  id: number;
-  extra: number;
+  id: number | null;
+  extra: number | null;
 }
 
 export interface BackupInterface {
-  id: number;
-  idAccount: number;
-  account: string;
-  date: string;
+  id: number | null;
+  idAccount: number | null;
+  account: string | null;
+  date: string | null;
 }
 
 export interface BackupResult {

@@ -51,10 +51,8 @@ export default class ProveedoresService {
     this.load();
   }
 
-  findById(id: number): Proveedor {
-    const ind: number = this.proveedores().findIndex(
-      (x: Proveedor): boolean => x.id === id
-    );
+  findById(id: number): Proveedor | null {
+    const ind: number = this.proveedores().findIndex((x: Proveedor): boolean => x.id === id);
     if (ind !== -1) {
       return this.proveedores()[ind];
     }
@@ -69,10 +67,9 @@ export default class ProveedoresService {
   }
 
   deleteProveedor(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-proveedores/delete-proveedor',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-proveedores/delete-proveedor', {
+      id,
+    });
   }
 
   saveComercial(comercial: ComercialInterface): Observable<IdSaveResult> {
@@ -83,9 +80,8 @@ export default class ProveedoresService {
   }
 
   deleteComercial(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(
-      environment.apiUrl + '-proveedores/delete-comercial',
-      { id }
-    );
+    return this.http.post<StatusResult>(environment.apiUrl + '-proveedores/delete-comercial', {
+      id,
+    });
   }
 }

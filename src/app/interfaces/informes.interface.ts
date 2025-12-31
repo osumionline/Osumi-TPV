@@ -4,14 +4,14 @@ export interface InformeMensualItemOtrosInterface {
 }
 
 export interface InformeMensualItemInterface {
-  num: number;
-  weekDay: string;
-  minTicket: number;
-  maxTicket: number;
-  efectivo: number;
+  num: number | null;
+  weekDay: string | null;
+  minTicket: number | null;
+  maxTicket: number | null;
+  efectivo: number | null;
   otros: InformeMensualItemOtrosInterface[];
-  totalDia: number;
-  suma: number;
+  totalDia: number | null;
+  suma: number | null;
 }
 
 export interface InformeMensualResult {

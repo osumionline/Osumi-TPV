@@ -3,10 +3,10 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class ArticuloTopVenta {
   constructor(
-    public localizador: number = null,
-    public nombre: string = null,
-    public importe: number = null,
-    public unidades: number = null
+    public localizador: number | null = null,
+    public nombre: string | null = null,
+    public importe: number | null = null,
+    public unidades: number | null = null
   ) {}
 
   fromInterface(tva: ArticuloTopVentaInterface): ArticuloTopVenta {

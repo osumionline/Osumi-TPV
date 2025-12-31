@@ -10,6 +10,9 @@ export default class BrandListFilterPipe implements PipeTransform {
       return list;
     }
     return list.filter((m: Marca): boolean => {
+      if (m.nombre === null) {
+        return false;
+      }
       return m.nombre.toLowerCase().includes(filter);
     });
   }

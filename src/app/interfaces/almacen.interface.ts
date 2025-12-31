@@ -1,27 +1,27 @@
 export interface BuscadorAlmacenInterface {
-  idProveedor: number;
-  idMarca: number;
-  nombre: string;
+  idProveedor: number | null;
+  idMarca: number | null;
+  nombre: string | null;
   descuento: boolean;
-  orderBy: string;
-  orderSent: string;
+  orderBy: string | null;
+  orderSent: string | null;
   pagina: number;
   num: number;
 }
 
 export interface InventarioItemInterface {
-  id: number;
-  localizador: number;
-  marca: string;
-  proveedor: string;
-  referencia: string;
-  nombre: string;
-  stock: number;
-  puc: number;
-  pvp: number;
+  id: number | null;
+  localizador: number | null;
+  marca: string | null;
+  proveedor: string | null;
+  referencia: string | null;
+  nombre: string | null;
+  stock: number | null;
+  puc: number | null;
+  pvp: number | null;
   hasCodigosBarras: boolean;
-  codigoBarras?: string;
-  observaciones: string;
+  codigoBarras?: string | null;
+  observaciones: string | null;
 }
 
 export interface BuscadorAlmacenResult {

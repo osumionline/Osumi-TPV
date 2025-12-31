@@ -3,10 +3,10 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Backup {
   constructor(
-    public id: number = null,
-    public idAccount: number = null,
-    public account: string = null,
-    public date: string = null
+    public id: number | null = null,
+    public idAccount: number | null = null,
+    public account: string | null = null,
+    public date: string | null = null
   ) {}
 
   fromInterface(b: BackupInterface): Backup {
