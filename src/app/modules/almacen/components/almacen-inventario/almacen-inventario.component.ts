@@ -14,11 +14,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput, MatLabel } from '@angular/material/input';
-import {
-  MatPaginatorIntl,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
@@ -69,9 +65,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatSlideToggle,
   ],
 })
-export default class AlmacenInventarioComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export default class AlmacenInventarioComponent implements OnInit, AfterViewInit, OnDestroy {
   private ars: ArticulosService = inject(ArticulosService);
   public ms: MarcasService = inject(MarcasService);
   public ps: ProveedoresService = inject(ProveedoresService);
@@ -112,7 +106,7 @@ export default class AlmacenInventarioComponent
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
@@ -128,22 +122,20 @@ export default class AlmacenInventarioComponent
   }
 
   buscar(): void {
-    this.as
-      .getInventario(this.buscador())
-      .subscribe((result: BuscadorAlmacenResult): void => {
-        this.list.set(this.cms.getInventarioItems(result.list));
-        this.inventarioDataSource.data = this.list();
-        this.pags.set(result.pags);
-        this.mediaMargen.set(this.calcularMediaMargen(this.list()));
-        this.totalPVP.set(result.totalPVP);
-        this.totalPUC.set(result.totalPUC);
+    this.as.getInventario(this.buscador()).subscribe((result: BuscadorAlmacenResult): void => {
+      this.list.set(this.cms.getInventarioItems(result.list));
+      this.inventarioDataSource.data = this.list();
+      this.pags.set(result.pags);
+      this.mediaMargen.set(this.calcularMediaMargen(this.list()));
+      this.totalPVP.set(result.totalPVP);
+      this.totalPUC.set(result.totalPUC);
 
-        this.as.buscador = this.buscador();
-        this.as.list = this.list();
-        this.as.pags = this.pags();
-        this.as.pageIndex = this.pageIndex();
-        this.as.firstLoad = false;
-      });
+      this.as.buscador = this.buscador();
+      this.as.list = this.list();
+      this.as.pags = this.pags();
+      this.as.pageIndex = this.pageIndex();
+      this.as.firstLoad = false;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -152,45 +144,37 @@ export default class AlmacenInventarioComponent
 
   resetBuscar(): void {
     this.pageIndex.set(0);
-    this.buscador.update(
-      (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-        value.pagina = 1;
-        return value;
-      }
-    );
+    this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+      value.pagina = 1;
+      return value;
+    });
     this.buscar();
   }
 
   cambiarOrden(sort: Sort): void {
     if (sort.direction === '') {
-      this.buscador.update(
-        (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-          value.orderBy = null;
-          value.orderSent = null;
-          return value;
-        }
-      );
+      this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+        value.orderBy = null;
+        value.orderSent = null;
+        return value;
+      });
     } else {
-      this.buscador.update(
-        (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-          value.orderBy = sort.active;
-          value.orderSent = sort.direction;
-          return value;
-        }
-      );
+      this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+        value.orderBy = sort.active;
+        value.orderSent = sort.direction;
+        return value;
+      });
     }
     this.buscar();
   }
 
   changePage(ev: PageEvent): void {
     this.pageIndex.set(ev.pageIndex);
-    this.buscador.update(
-      (value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-        value.pagina = ev.pageIndex + 1;
-        value.num = ev.pageSize;
-        return value;
-      }
-    );
+    this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+      value.pagina = ev.pageIndex + 1;
+      value.num = ev.pageSize;
+      return value;
+    });
     this.buscar();
   }
 
@@ -211,97 +195,83 @@ export default class AlmacenInventarioComponent
         list.push(item.toInterface());
       }
     }
-    this.as
-      .saveAllInventario(list)
-      .subscribe((result: StatusIdMessageErrorsResult): void => {
-        const errorList: string[] = [];
+    this.as.saveAllInventario(list).subscribe((result: StatusIdMessageErrorsResult): void => {
+      const errorList: string[] = [];
 
-        for (const status of result.list) {
-          const ind: number = this.list().findIndex(
-            (x: InventarioItem): boolean => {
-              return x.id === status.id;
+      for (const status of result.list) {
+        const ind: number = this.list().findIndex((x: InventarioItem): boolean => {
+          return x.id === status.id;
+        });
+        if (status.status === 'ok') {
+          this.list.update((value: InventarioItem[]): InventarioItem[] => {
+            value[ind]._pvp = value[ind].pvp;
+            value[ind]._stock = value[ind].stock;
+            if (value[ind].codigoBarras !== null) {
+              value[ind].hasCodigosBarras = true;
+              value[ind].codigoBarras = null;
             }
-          );
-          if (status.status === 'ok') {
-            this.list.update((value: InventarioItem[]): InventarioItem[] => {
-              value[ind]._pvp = value[ind].pvp;
-              value[ind]._stock = value[ind].stock;
-              if (value[ind].codigoBarras !== null) {
-                value[ind].hasCodigosBarras = true;
-                value[ind].codigoBarras = null;
-              }
-              return value;
-            });
-          } else {
-            errorList.push(
-              '<strong>' +
-                this.list()[ind].nombre +
-                '</strong>: ' +
-                urldecode(status.message)
-            );
-          }
-        }
-        if (errorList.length > 0) {
-          this.dialog.alert({
-            title: 'Error',
-            content:
-              'Al realizar el guardado, han ocurrido los siguientes errores:<br><br>' +
-              errorList.join('<br>'),
+            return value;
           });
+        } else {
+          errorList.push(
+            '<strong>' + this.list()[ind].nombre + '</strong>: ' + urldecode(status.message)
+          );
         }
-      });
+      }
+      if (errorList.length > 0) {
+        this.dialog.alert({
+          title: 'Error',
+          content:
+            'Al realizar el guardado, han ocurrido los siguientes errores:<br><br>' +
+            errorList.join('<br>'),
+        });
+      }
+    });
   }
 
   saveInventario(item: InventarioItem): void {
-    this.as
-      .saveInventario(item.toInterface())
-      .subscribe((result: StatusIdMessageResult): void => {
-        if (result.status === 'ok') {
-          item._pvp = item.pvp;
-          item._stock = item.stock;
-          if (item.codigoBarras !== null) {
-            item.hasCodigosBarras = true;
-            item.codigoBarras = null;
-          }
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content: urldecode(result.message),
-          });
+    this.as.saveInventario(item.toInterface()).subscribe((result: StatusIdMessageResult): void => {
+      if (result.status === 'ok') {
+        item._pvp = item.pvp;
+        item._stock = item.stock;
+        if (item.codigoBarras !== null) {
+          item.hasCodigosBarras = true;
+          item.codigoBarras = null;
         }
-      });
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: urldecode(result.message),
+        });
+      }
+    });
   }
 
   deleteInventario(item: InventarioItem): void {
     this.dialog
       .confirm({
         title: 'Confirmar',
-        content:
-          '¿Estas seguro de querer borrar el artículo "' + item.nombre + '"?',
+        content: '¿Estas seguro de querer borrar el artículo "' + item.nombre + '"?',
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
-          this.as
-            .deleteInventario(item.id)
-            .subscribe((result: StatusResult): void => {
-              if (result.status === 'ok') {
-                const ind: number = this.list().findIndex(
-                  (x: InventarioItem): boolean => x.id === item.id
-                );
-                this.list.update(
-                  (value: InventarioItem[]): InventarioItem[] => {
-                    value.splice(ind, 1);
-                    return value;
-                  }
-                );
-                this.inventarioDataSource.data = this.list();
-              } else {
-                this.dialog.alert({
-                  title: 'Error',
-                  content: 'Ocurrió un error al borrar el artículo.',
-                });
-              }
-            });
+          this.as.deleteInventario(item.id as number).subscribe((result: StatusResult): void => {
+            if (result.status === 'ok') {
+              const ind: number = this.list().findIndex(
+                (x: InventarioItem): boolean => x.id === item.id
+              );
+              this.list.update((value: InventarioItem[]): InventarioItem[] => {
+                value.splice(ind, 1);
+                return value;
+              });
+              this.inventarioDataSource.data = this.list();
+            } else {
+              this.dialog.alert({
+                title: 'Error',
+                content: 'Ocurrió un error al borrar el artículo.',
+              });
+            }
+          });
         }
       });
   }

@@ -9,7 +9,7 @@ export interface BuscadorModal extends Modal {
 }
 
 export interface AccesosDirectosModal extends Modal {
-  idArticulo: number;
+  idArticulo: number | null;
 }
 
 export interface MargenesModal extends Modal {
@@ -18,8 +18,8 @@ export interface MargenesModal extends Modal {
 }
 
 export interface DarDeBajaModal extends Modal {
-  id: number;
-  nombre: string;
+  id: number | null;
+  nombre: string | null;
 }
 
 export interface DevolucionModal extends Modal {
@@ -47,8 +47,8 @@ export interface ElegirClienteModal extends Modal {
 }
 
 export interface FacturaModal extends Modal {
-  id: number;
-  factura: Factura;
+  id: number | null;
+  factura: Factura | null;
 }
 
 export interface CajaModal extends Modal {

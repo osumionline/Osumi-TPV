@@ -39,8 +39,8 @@ export default class InformeSimpleComponent implements OnInit {
   monthName: WritableSignal<string> = signal<string>('');
   list: InformeMensualItem[] = [];
   otrosList: string[] = [];
-  minTicket: number = 999999999;
-  maxTicket: number = 0;
+  minTicket: number | null = 999999999;
+  maxTicket: number | null = 0;
   totalEfectivo: number = 0;
 
   totalTotal: WritableSignal<number> = signal<number>(0);
@@ -49,18 +49,16 @@ export default class InformeSimpleComponent implements OnInit {
   informeDisplayedColumns: string[] = ['fecha', 'tickets', 'efectivo'];
   informeDataSource: MatTableDataSource<InformeMensualItem> =
     new MatTableDataSource<InformeMensualItem>();
-  otrosNames = {};
+  otrosNames: Record<string, string> = {};
 
   constructor() {
     document.body.classList.add('white-bg');
   }
 
   ngOnInit(): void {
-    const indMonth: number = this.config.monthList.findIndex(
-      (x: Month): boolean => {
-        return x.id === this.month();
-      }
-    );
+    const indMonth: number = this.config.monthList.findIndex((x: Month): boolean => {
+      return x.id === this.month();
+    });
     this.monthName.set(this.config.monthList[indMonth].name);
 
     this.is
@@ -77,18 +75,18 @@ export default class InformeSimpleComponent implements OnInit {
         this.informeDataSource.data = this.list;
         let hasResults: boolean = false;
         for (const item of this.list) {
-          if (item.minTicket !== null && item.minTicket < this.minTicket) {
+          if (item.minTicket !== null && item.minTicket < (this.minTicket ?? 0)) {
             this.minTicket = item.minTicket;
             hasResults = true;
           }
-          if (item.maxTicket !== null && item.maxTicket > this.maxTicket) {
+          if (item.maxTicket !== null && item.maxTicket > (this.maxTicket ?? 0)) {
             this.maxTicket = item.maxTicket;
           }
           if (item.efectivo !== null) {
             this.totalEfectivo += item.efectivo;
           }
           if (item.totalDia !== null) {
-            this.totalTotal.update((value) => (value += item.totalDia));
+            this.totalTotal.update((value: number): number => (value += item.totalDia ?? 0));
           }
           if (item.suma !== null) {
             this.totalSuma.set(item.suma);
@@ -117,7 +115,7 @@ export default class InformeSimpleComponent implements OnInit {
     let total: number = 0;
     for (const item of this.list) {
       if (item.getOtrosValue(key) !== null) {
-        total += item.getOtrosValue(key);
+        total += item.getOtrosValue(key) ?? 0;
       }
     }
     return total;

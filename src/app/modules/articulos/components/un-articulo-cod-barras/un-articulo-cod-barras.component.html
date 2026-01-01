@@ -22,7 +22,7 @@
     @for (codBarras of articulo().codigosBarras; track codBarras.id) {
     <div class="cod-barras-item"
          [class]="{'cod-barras-por-defecto': codBarras.porDefecto}">
-        <qrcode [qrdata]="codBarras.codigoBarras.toString()"
+        <qrcode [qrdata]="codBarras.codigoBarras!.toString()"
                 [allowEmptyString]="true"
                 [elementType]="'svg'"
                 [errorCorrectionLevel]="'M'"

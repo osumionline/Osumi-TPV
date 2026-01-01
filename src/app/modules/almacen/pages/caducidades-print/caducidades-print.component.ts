@@ -58,7 +58,7 @@ export default class CaducidadesPrintComponent implements OnInit {
 
   load(): void {
     this.is
-      .getInformeCaducidades(this.buscador)
+      .getInformeCaducidades(this.buscador as BuscadorCaducidadesInterface)
       .subscribe((result: InformeCaducidadesResult): void => {
         this.years.set(result.data);
         this.totalUnidades.set(
@@ -70,15 +70,13 @@ export default class CaducidadesPrintComponent implements OnInit {
         );
         this.totalPVP.set(
           this.years().reduce(
-            (sum: number, year: InformeCaducidadesYearInterface): number =>
-              sum + year.totalPVP,
+            (sum: number, year: InformeCaducidadesYearInterface): number => sum + year.totalPVP,
             0
           )
         );
         this.totalPUC.set(
           this.years().reduce(
-            (sum: number, year: InformeCaducidadesYearInterface): number =>
-              sum + year.totalPUC,
+            (sum: number, year: InformeCaducidadesYearInterface): number => sum + year.totalPUC,
             0
           )
         );

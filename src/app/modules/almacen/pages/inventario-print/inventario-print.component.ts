@@ -8,10 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import {
-  BuscadorAlmacenInterface,
-  BuscadorAlmacenResult,
-} from '@interfaces/almacen.interface';
+import { BuscadorAlmacenInterface, BuscadorAlmacenResult } from '@interfaces/almacen.interface';
 import InventarioItem from '@model/almacen/inventario-item.model';
 import AlmacenService from '@services/almacen.service';
 import ClassMapperService from '@services/class-mapper.service';
@@ -64,10 +61,9 @@ export default class InventarioPrintComponent implements OnInit {
   }
 
   load(): void {
-    this.buscador.num = null;
-    this.as
-      .getInventario(this.buscador)
-      .subscribe((result: BuscadorAlmacenResult): void => {
+    if (this.buscador !== null) {
+      this.buscador.num = null;
+      this.as.getInventario(this.buscador).subscribe((result: BuscadorAlmacenResult): void => {
         this.list = this.cms.getInventarioItems(result.list);
         this.inventarioDataSource.data = this.list;
         this.totalPVP.set(result.totalPVP);
@@ -77,5 +73,6 @@ export default class InventarioPrintComponent implements OnInit {
           window.print();
         });
       });
+    }
   }
 }

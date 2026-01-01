@@ -38,14 +38,13 @@ import ClassMapperService from '@services/class-mapper.service';
     MatInput,
   ],
 })
-export default class AccesosDirectosModalComponent
-  implements OnInit, AfterViewInit
-{
+export default class AccesosDirectosModalComponent implements OnInit, AfterViewInit {
   private dialog: DialogService = inject(DialogService);
   private ars: ArticulosService = inject(ArticulosService);
   private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> =
-    inject(CustomOverlayRef<null, { idArticulo: number }>);
+  private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> = inject(
+    CustomOverlayRef<null, { idArticulo: number }>
+  );
 
   idArticulo: WritableSignal<number | null> = signal<number | null>(null);
   accesosDirectosList: AccesoDirecto[] = [];
@@ -53,9 +52,9 @@ export default class AccesosDirectosModalComponent
   accesosDirectosDisplayedColumns: string[] = ['accesoDirecto', 'nombre', 'id'];
   accesosDirectosDataSource: MatTableDataSource<AccesoDirecto> =
     new MatTableDataSource<AccesoDirecto>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
-  acccesoDirectoBox: Signal<ElementRef> = viewChild('acccesoDirectoBox');
+  acccesoDirectoBox: Signal<ElementRef> = viewChild.required('acccesoDirectoBox');
 
   ngOnInit(): void {
     this.idArticulo.set(this.customOverlayRef.data.idArticulo);
@@ -67,16 +66,14 @@ export default class AccesosDirectosModalComponent
   }
 
   load(): void {
-    this.ars
-      .getAccesosDirectosList()
-      .subscribe((result: AccesoDirectoResult): void => {
-        this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-        this.accesosDirectosDataSource.data = this.accesosDirectosList;
-        this.accesoDirecto = null;
-        window.setTimeout((): void => {
-          this.acccesoDirectoBox().nativeElement.focus();
-        }, 0);
-      });
+    this.ars.getAccesosDirectosList().subscribe((result: AccesoDirectoResult): void => {
+      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.accesosDirectosDataSource.data = this.accesosDirectosList;
+      this.accesoDirecto = null;
+      window.setTimeout((): void => {
+        this.acccesoDirectoBox().nativeElement.focus();
+      }, 0);
+    });
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
@@ -120,8 +117,7 @@ export default class AccesosDirectosModalComponent
       this.dialog
         .alert({
           title: 'Error',
-          content:
-            'El acceso directo que estás intentando asignar ya está en uso.',
+          content: 'El acceso directo que estás intentando asignar ya está en uso.',
         })
         .subscribe((): void => {
           window.setTimeout((): void => {
@@ -132,7 +128,7 @@ export default class AccesosDirectosModalComponent
     }
 
     this.ars
-      .asignarAccesoDirecto(this.idArticulo(), this.accesoDirecto)
+      .asignarAccesoDirecto(this.idArticulo() as number, this.accesoDirecto as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.dialog

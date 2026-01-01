@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { StatusResult } from '@interfaces/interfaces';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
@@ -19,13 +13,12 @@ import ArticulosService from '@services/articulos.service';
 export default class ArticuloDarDeBajaModalComponent implements OnInit {
   private dialog: DialogService = inject(DialogService);
   private ars: ArticulosService = inject(ArticulosService);
-  private customOverlayRef: CustomOverlayRef<
-    null,
-    { id: number; nombre: string }
-  > = inject(CustomOverlayRef<null, { id: number; nombre: string }>);
+  private customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> = inject(
+    CustomOverlayRef<null, { id: number; nombre: string }>
+  );
 
-  id: number;
-  nombre: string = null;
+  id: number | null = null;
+  nombre: string | null = null;
   darDeBajaLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -35,29 +28,26 @@ export default class ArticuloDarDeBajaModalComponent implements OnInit {
 
   darDeBajaOk(): void {
     this.darDeBajaLoading.set(true);
-    this.ars
-      .deleteArticulo(this.id)
-      .subscribe((response: StatusResult): void => {
-        if (response.status == 'ok') {
-          this.dialog
-            .alert({
-              title: 'Éxito',
-              content:
-                'El artículo "' + this.nombre + '" ha sido dado de baja.',
-            })
-            .subscribe((): void => {
-              this.customOverlayRef.close(true);
-            });
-        } else {
-          this.dialog
-            .alert({
-              title: 'Error',
-              content: '¡Ocurrió un error al dar de baja el artículo!',
-            })
-            .subscribe((): void => {
-              this.darDeBajaLoading.set(false);
-            });
-        }
-      });
+    this.ars.deleteArticulo(this.id as number).subscribe((response: StatusResult): void => {
+      if (response.status == 'ok') {
+        this.dialog
+          .alert({
+            title: 'Éxito',
+            content: 'El artículo "' + this.nombre + '" ha sido dado de baja.',
+          })
+          .subscribe((): void => {
+            this.customOverlayRef.close(true);
+          });
+      } else {
+        this.dialog
+          .alert({
+            title: 'Error',
+            content: '¡Ocurrió un error al dar de baja el artículo!',
+          })
+          .subscribe((): void => {
+            this.darDeBajaLoading.set(false);
+          });
+      }
+    });
   }
 }

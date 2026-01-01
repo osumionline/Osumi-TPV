@@ -22,13 +22,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-un-articulo-historico',
-  imports: [
-    MatTableModule,
-    MatSort,
-    MatSortHeader,
-    MatPaginator,
-    FixedNumberPipe,
-  ],
+  imports: [MatTableModule, MatSort, MatSortHeader, MatPaginator, FixedNumberPipe],
   templateUrl: './un-articulo-historico.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
@@ -39,7 +33,7 @@ export default class UnArticuloHistoricoComponent implements AfterViewInit {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =
     new MatTableDataSource<HistoricoArticulo>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
   historicoArticuloBuscador: HistoricoArticuloBuscadorInterface = {
     id: null,

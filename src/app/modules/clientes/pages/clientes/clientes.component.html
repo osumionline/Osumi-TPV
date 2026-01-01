@@ -19,7 +19,7 @@
                     <button mat-list-item
                             (click)="selectCliente(cliente)"
                             [class]="{'selected-client': selectedClient.id === cliente.id}">
-                        {{cliente.nombreApellidos}}
+                        {{ cliente.nombreApellidos }}
                     </button>
                     }
                 </mat-action-list>
@@ -128,7 +128,7 @@
                                             <mat-select formControlName="provincia">
                                                 @for (provincia of config.provincias(); track provincia.id) {
                                                 <mat-option [value]="provincia.id">
-                                                    {{provincia.name}}
+                                                    {{ provincia.name }}
                                                 </mat-option>
                                                 }
                                             </mat-select>
@@ -181,7 +181,7 @@
                                         Mismos datos para la facturación.
                                     </mat-checkbox>
                                 </div>
-                                @if (!form.value.factIgual) {
+                                @if ( !form.value.factIgual ) {
                                 <div>
                                     <div class="form-field half-width">
                                         <label>Nombre y apellidos</label>
@@ -251,7 +251,7 @@
                                             <mat-select formControlName="factProvincia">
                                                 @for (provincia of config.provincias(); track provincia.id) {
                                                 <mat-option [value]="provincia.id">
-                                                    {{provincia.name}}
+                                                    {{ provincia.name }}
                                                 </mat-option>
                                                 }
                                             </mat-select>
@@ -303,7 +303,7 @@
                                             Factura
                                         </th>
                                         <td mat-cell
-                                            *matCellDef="let element"> {{element.id}} </td>
+                                            *matCellDef="let element"> {{ element.id }} </td>
                                     </ng-container>
 
                                     <!-- Fecha -->
@@ -313,7 +313,7 @@
                                             Fecha
                                         </th>
                                         <td mat-cell
-                                            *matCellDef="let element"> {{element.fecha}} </td>
+                                            *matCellDef="let element"> {{ element.fecha }} </td>
                                     </ng-container>
 
                                     <!-- Importe -->
@@ -325,7 +325,7 @@
                                         </th>
                                         <td class="center"
                                             mat-cell
-                                            *matCellDef="let element"> {{element.importe | fixedNumber}} € </td>
+                                            *matCellDef="let element"> {{ element.importe | fixedNumber }} € </td>
                                     </ng-container>
 
                                     <!-- Opciones -->
@@ -393,12 +393,12 @@
                                         <div class="stats-table-data">
                                             @for (venta of selectedClient.ultimasVentas; track venta) {
                                             <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">{{venta.fecha}}</div>
-                                                <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
-                                                <div class="stats-table-col stats-table-col-3">{{venta.nombre}}</div>
-                                                <div class="stats-table-col stats-table-col-center">{{venta.unidades}}</div>
-                                                <div class="stats-table-col stats-table-col-right">{{venta.pvp | fixedNumber}} €</div>
-                                                <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
+                                                <div class="stats-table-col stats-table-col-center">{{ venta.fecha }}</div>
+                                                <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
+                                                <div class="stats-table-col stats-table-col-3">{{ venta.nombre }}</div>
+                                                <div class="stats-table-col stats-table-col-center">{{ venta.unidades }}</div>
+                                                <div class="stats-table-col stats-table-col-right">{{ (venta.pvp ?? 0) | fixedNumber }} €</div>
+                                                <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
                                             </div>
                                             }
                                             @empty {
@@ -420,9 +420,9 @@
                                         <div class="stats-table-data">
                                             @for (venta of selectedClient.topVentas; track venta.localizador) {
                                             <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">{{venta.localizador}}</div>
-                                                <div class="stats-table-col stats-table-col-5">{{venta.nombre}}</div>
-                                                <div class="stats-table-col stats-table-col-right">{{venta.importe | fixedNumber}} €</div>
+                                                <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
+                                                <div class="stats-table-col stats-table-col-5">{{ venta.nombre }}</div>
+                                                <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
                                             </div>
                                             }
                                             @empty {
@@ -445,7 +445,7 @@
                                                     <mat-option [value]="-1">Todos</mat-option>
                                                     @for (month of monthList; track month.id) {
                                                     <mat-option [value]="month.id">
-                                                        {{month.name}}
+                                                        {{ month.name }}
                                                     </mat-option>
                                                     }
                                                 </mat-select>
@@ -459,7 +459,7 @@
                                                     <mat-option [value]="-1">Todos</mat-option>
                                                     @for (year of yearList; track year) {
                                                     <mat-option [value]="year">
-                                                        {{year}}
+                                                        {{ year }}
                                                     </mat-option>
                                                     }
                                                 </mat-select>

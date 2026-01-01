@@ -27,10 +27,10 @@ export default class LopdComponent implements OnInit {
   });
   nombre: string = '';
   poblacion: string = '';
-  day: number = null;
-  month: string = null;
-  year: number = null;
-  cliente: Cliente = null;
+  day: number | null = null;
+  month: string | null = null;
+  year: number | null = null;
+  cliente: Cliente | null = null;
 
   constructor() {
     document.body.classList.add('white-bg');

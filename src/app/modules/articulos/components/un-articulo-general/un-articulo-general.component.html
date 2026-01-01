@@ -5,7 +5,7 @@
             <mat-select [(ngModel)]="articulo().idMarca">
                 @for (marca of ms.marcas(); track marca.id) {
                 <mat-option [value]="marca.id">
-                    {{marca.nombre}}
+                    {{ marca.nombre }}
                 </mat-option>
                 }
             </mat-select>
@@ -25,7 +25,7 @@
                         (ngModelChange)="updateIva($event)">
                 @for (iva of ivaList; track iva) {
                 <mat-option [value]="iva">
-                    {{iva}} %
+                    {{ iva }} %
                 </mat-option>
                 }
             </mat-select>
@@ -39,7 +39,7 @@
                         (ngModelChange)="updateRe($event)">
                 @for (re of reList; track re) {
                 <mat-option [value]="re">
-                    {{re}} %
+                    {{ re }} %
                 </mat-option>
                 }
             </mat-select>
@@ -64,7 +64,7 @@
             <mat-select [(ngModel)]="articulo().idProveedor">
                 @for (prov of ps.proveedores(); track prov.id) {
                 <mat-option [value]="prov.id">
-                    {{prov.nombre}}
+                    {{ prov.nombre }}
                 </mat-option>
                 }
             </mat-select>
@@ -111,8 +111,8 @@
             <input matInput
                    placeholder="Fecha de caducidad"
                    [(ngModel)]="articulo().fechaCaducidad"
-                   (keyup)="checkFecCad($event)"
-                   (blur)="checkFecCad($event, true)"
+                   (keyup.enter)="checkFecCad()"
+                   (blur)="checkFecCad()"
                    #fecCadValue>
         </mat-form-field>
     </div>
@@ -153,7 +153,7 @@
             <div class="form-field-left margen">
                 <label>Margen</label>
                 <span (click)="abrirMargenes()">
-                    {{articulo().margen | fixedNumber}} %
+                    {{ articulo().margen | fixedNumber }} %
                 </span>
             </div>
             <div class="form-field-left">
@@ -205,7 +205,7 @@
                  [class]="{'hide': !articulo().descuento}">
                 <label>Margen (dto)</label>
                 <span (click)="abrirMargenesDescuento()">
-                    {{articulo().margenDescuento | fixedNumber}} %
+                    {{ (articulo().margenDescuento ?? 0) | fixedNumber }} %
                 </span>
             </div>
             <div class="form-field-left"

@@ -15,27 +15,13 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import {
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import {
-  MatTabChangeEvent,
-  MatTabGroup,
-  MatTabsModule,
-} from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import {
-  ArticuloResult,
-  ArticuloSaveResult,
-} from '@interfaces/articulo.interface';
-import {
-  AccesosDirectosModal,
-  BuscadorModal,
-  DarDeBajaModal,
-} from '@interfaces/modals.interface';
+import { ArticuloResult, ArticuloSaveResult } from '@interfaces/articulo.interface';
+import { AccesosDirectosModal, BuscadorModal, DarDeBajaModal } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Marca from '@model/marcas/marca.model';
 import AccesosDirectosModalComponent from '@modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component';
@@ -105,16 +91,16 @@ export default class UnArticuloComponent {
 
   loading: boolean = true;
   selectedTab: number = -1;
-  localizadorBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('localizadorBox');
+  localizadorBox: Signal<ElementRef> = viewChild.required<ElementRef>('localizadorBox');
   mostrarWeb: WritableSignal<boolean> = signal<boolean>(false);
 
   general: Signal<UnArticuloGeneralComponent> =
     viewChild.required<UnArticuloGeneralComponent>('general');
   codBarras: Signal<UnArticuloCodBarrasComponent> =
     viewChild.required<UnArticuloCodBarrasComponent>('codBarras');
-  estadisticas: Signal<UnArticuloEstadisticasComponent> =
-    viewChild<UnArticuloEstadisticasComponent>('estadisticas');
+  estadisticas: Signal<UnArticuloEstadisticasComponent | undefined> = viewChild<
+    UnArticuloEstadisticasComponent | undefined
+  >('estadisticas');
   historico: Signal<UnArticuloHistoricoComponent> =
     viewChild.required<UnArticuloHistoricoComponent>('historico');
 
@@ -165,10 +151,7 @@ export default class UnArticuloComponent {
         css: 'modal-wide',
         key: ev.key,
       };
-      const dialog = this.overlayService.open(
-        BuscadorModalComponent,
-        modalBuscadorData
-      );
+      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
@@ -191,15 +174,14 @@ export default class UnArticuloComponent {
 
   loadArticulo(): void {
     this.ars
-      .loadArticulo(this.articulo.localizador)
+      .loadArticulo(this.articulo.localizador as number)
       .subscribe((result: ArticuloResult): void => {
         if (result.status === 'ok') {
           this.articulo = this.cms.getArticulo(result.articulo);
           if (this.articulo.pvpDescuento !== null) {
-            const importeDescuento: number =
-              this.articulo.pvp - this.articulo.pvpDescuento;
+            const importeDescuento: number = (this.articulo.pvp ?? 0) - this.articulo.pvpDescuento;
             this.articulo.porcentajeDescuento = getTwoNumberDecimal(
-              (importeDescuento / this.articulo.pvp) * -100
+              (importeDescuento / (this.articulo.pvp ?? 1)) * -100
             );
           }
           this.articulo.tabName = this.articulo.nombre;
@@ -213,9 +195,7 @@ export default class UnArticuloComponent {
             .alert({
               title: 'Error',
               content:
-                'No existe ningún artículo con el localizador "' +
-                this.articulo.localizador +
-                '".',
+                'No existe ningún artículo con el localizador "' + this.articulo.localizador + '".',
             })
             .subscribe((): void => {
               this.articulo.localizador = null;
@@ -232,15 +212,18 @@ export default class UnArticuloComponent {
       this.general().loadFecCad();
     }
 
-    if (this.articulo.id !== null && this.estadisticas() && this.historico()) {
-      this.estadisticas().loadStatsVentas();
-      this.estadisticas().loadStatsWeb();
+    const estadisticas: UnArticuloEstadisticasComponent | undefined = this.estadisticas();
+    if (this.articulo.id !== null && estadisticas !== undefined && this.historico()) {
+      estadisticas.loadStatsVentas();
+      estadisticas.loadStatsWeb();
       this.historico().loadHistorico();
     }
 
     if (this.articulo.idMarca !== null) {
-      const marca: Marca = this.ms.findById(this.articulo.idMarca);
-      this.articulo.marca = marca.nombre;
+      const marca: Marca | null = this.ms.findById(this.articulo.idMarca);
+      if (marca !== null) {
+        this.articulo.marca = marca.nombre;
+      }
     }
     this.articulo.status = 'loaded';
   }
@@ -286,10 +269,7 @@ export default class UnArticuloComponent {
       id: this.articulo.id,
       nombre: this.articulo.nombre,
     };
-    const dialog = this.overlayService.open(
-      ArticuloDarDeBajaModalComponent,
-      modalDarDeBajaData
-    );
+    const dialog = this.overlayService.open(ArticuloDarDeBajaModalComponent, modalDarDeBajaData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data === true) {
         this.focus();
@@ -298,31 +278,33 @@ export default class UnArticuloComponent {
   }
 
   goToReturn(): void {
-    switch (this.ars.returnInfo.where) {
-      case 'ventas':
-        {
-          this.vs.updateArticulo(this.articulo);
-          this.router.navigate(['/ventas']);
-        }
-        break;
-      case 'pedido':
-        {
-          this.ars.returnInfo.extra = this.articulo.localizador;
-          this.router.navigate(['/compras/pedido/', this.ars.returnInfo.id]);
-        }
-        break;
-      case 'pedido-edit':
-        {
-          this.ars.returnInfo.extra = null;
-          this.router.navigate(['/compras/pedido/', this.ars.returnInfo.id]);
-        }
-        break;
-      case 'almacen':
-        {
-          this.als.updateArticulo(this.articulo);
-          this.router.navigate(['/almacen']);
-        }
-        break;
+    if (this.ars.returnInfo !== null) {
+      switch (this.ars.returnInfo.where) {
+        case 'ventas':
+          {
+            this.vs.updateArticulo(this.articulo);
+            this.router.navigate(['/ventas']);
+          }
+          break;
+        case 'pedido':
+          {
+            this.ars.returnInfo.extra = this.articulo.localizador;
+            this.router.navigate(['/compras/pedido/', this.ars.returnInfo.id]);
+          }
+          break;
+        case 'pedido-edit':
+          {
+            this.ars.returnInfo.extra = null;
+            this.router.navigate(['/compras/pedido/', this.ars.returnInfo.id]);
+          }
+          break;
+        case 'almacen':
+          {
+            this.als.updateArticulo(this.articulo);
+            this.router.navigate(['/almacen']);
+          }
+          break;
+      }
     }
   }
 
@@ -403,9 +385,7 @@ export default class UnArticuloComponent {
                 title: 'Confirmar',
                 content: `Ya existe un artículo con el nombre "${
                   this.articulo.nombre
-                }" para la marca "${urldecode(
-                  result.message
-                )}" , ¿quieres continuar?`,
+                }" para la marca "${urldecode(result.message)}" , ¿quieres continuar?`,
               })
               .subscribe((result: boolean): void => {
                 if (result === true) {
@@ -420,9 +400,7 @@ export default class UnArticuloComponent {
                 title: 'Error',
                 content: `La referencia "${
                   this.articulo.referencia
-                }" ya está en uso por el artículo "${urldecode(
-                  result.message
-                )}".`,
+                }" ya está en uso por el artículo "${urldecode(result.message)}".`,
               })
               .subscribe((): void => {
                 this.selectedTab = 0;

@@ -12,7 +12,7 @@ import Foto from '@model/articulos/foto.model';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Articulo {
-  tabName: string = '';
+  tabName: string | null = '';
   status: 'new' | 'load' | 'loaded' = 'new';
   marca: string | null = '';
   proveedor: string = '';

@@ -11,14 +11,7 @@ import { DialogService } from '@osumi/angular-tools';
 
 @Component({
   selector: 'otpv-un-articulo-web',
-  imports: [
-    MatSlideToggle,
-    MatFormField,
-    MatInput,
-    FormsModule,
-    MatIcon,
-    MatButton,
-  ],
+  imports: [MatSlideToggle, MatFormField, MatInput, FormsModule, MatIcon, MatButton],
   templateUrl: './un-articulo-web.component.html',
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
@@ -28,13 +21,16 @@ export default class UnArticuloWebComponent {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
 
   addFoto(): void {
-    document.getElementById('foto-file').click();
+    const obj: HTMLElement | null = document.getElementById('foto-file');
+    if (obj !== null) {
+      obj.click();
+    }
   }
 
   onFotoChange(ev: Event): void {
     const reader: FileReader = new FileReader();
-    const files: FileList = (ev.target as HTMLInputElement).files;
-    if (files && files.length > 0) {
+    const files: FileList | null = (ev.target as HTMLInputElement).files;
+    if (files !== null && files.length > 0) {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
@@ -71,7 +67,7 @@ export default class UnArticuloWebComponent {
   }
 
   moveFoto(sent: string, i: number): void {
-    let aux: Foto = null;
+    let aux: Foto | null = null;
     if (sent === 'left') {
       if (i === 0) {
         return;

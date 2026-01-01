@@ -26,6 +26,7 @@ import {
 } from '@interfaces/caducidad.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
 import Caducidad from '@model/almacen/caducidad.model';
+import Marca from '@model/marcas/marca.model';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
@@ -94,9 +95,8 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
     'puc',
     'opciones',
   ];
-  caducidadesDataSource: MatTableDataSource<Caducidad> =
-    new MatTableDataSource<Caducidad>();
-  sort: Signal<MatSort> = viewChild(MatSort);
+  caducidadesDataSource: MatTableDataSource<Caducidad> = new MatTableDataSource<Caducidad>();
+  sort: Signal<MatSort> = viewChild.required(MatSort);
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -115,42 +115,38 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
 
   resetBuscar(): void {
     this.pageIndex.set(0);
-    this.buscador.update(
-      (value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
-        value.pagina = 1;
-        return value;
-      }
-    );
+    this.buscador.update((value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
+      value.pagina = 1;
+      return value;
+    });
     this.buscar();
   }
 
   buscar(): void {
-    this.cs
-      .getCaducidades(this.buscador())
-      .subscribe((result: BuscadorCaducidadResult): void => {
-        const caducidades: Caducidad[] = this.cms.getCaducidades(result.list);
-        const marcas = {};
-        for (const cad of caducidades) {
-          if (!marcas['marca_' + cad.articulo.idMarca]) {
-            marcas['marca_' + cad.articulo.idMarca] = this.ms.findById(
-              cad.articulo.idMarca
-            );
-          }
-          cad.articulo.marca = marcas['marca_' + cad.articulo.idMarca].nombre;
+    this.cs.getCaducidades(this.buscador()).subscribe((result: BuscadorCaducidadResult): void => {
+      const caducidades: Caducidad[] = this.cms.getCaducidades(result.list);
+      const marcas: Record<string, Marca | null> = {};
+      for (const cad of caducidades) {
+        if (!marcas['marca_' + cad.articulo!.idMarca]) {
+          marcas['marca_' + cad.articulo!.idMarca] = this.ms.findById(
+            cad.articulo!.idMarca as number
+          );
         }
-        this.list.set(caducidades);
-        this.caducidadesDataSource.data = caducidades;
-        this.pags.set(result.pags);
-        this.totalUnidades.set(result.totalUnidades);
-        this.totalPVP.set(result.totalPVP);
-        this.totalPUC.set(result.totalPUC);
+        cad.articulo!.marca = marcas['marca_' + cad.articulo!.idMarca]!.nombre;
+      }
+      this.list.set(caducidades);
+      this.caducidadesDataSource.data = caducidades;
+      this.pags.set(result.pags);
+      this.totalUnidades.set(result.totalUnidades);
+      this.totalPVP.set(result.totalPVP);
+      this.totalPUC.set(result.totalPUC);
 
-        this.cs.buscador = this.buscador();
-        this.cs.list = caducidades;
-        this.cs.pags = this.pags();
-        this.cs.pageIndex = this.pageIndex();
-        this.cs.firstLoad = false;
-      });
+      this.cs.buscador = this.buscador();
+      this.cs.list = caducidades;
+      this.cs.pags = this.pags();
+      this.cs.pageIndex = this.pageIndex();
+      this.cs.firstLoad = false;
+    });
   }
 
   addCaducidad(): void {
@@ -158,12 +154,8 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       modalTitle: 'Nueva caducidad',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(
-      CaducidadModalComponent,
-      modalCaducidadData
-    );
+    const dialog = this.overlayService.open(CaducidadModalComponent, modalCaducidadData);
     dialog.afterClosed$.subscribe((data): void => {
-      console.log(data);
       if (data !== null) {
         const cad: AddCaducidadInterface = {
           idArticulo: data.data.articulo.id,
@@ -185,21 +177,17 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
 
   cambiarOrden(sort: Sort): void {
     if (sort.direction === '') {
-      this.buscador.update(
-        (value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
-          value.orderBy = null;
-          value.orderSent = null;
-          return value;
-        }
-      );
+      this.buscador.update((value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
+        value.orderBy = null;
+        value.orderSent = null;
+        return value;
+      });
     } else {
-      this.buscador.update(
-        (value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
-          value.orderBy = sort.active;
-          value.orderSent = sort.direction;
-          return value;
-        }
-      );
+      this.buscador.update((value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
+        value.orderBy = sort.active;
+        value.orderSent = sort.direction;
+        return value;
+      });
     }
     this.buscar();
   }
@@ -213,7 +201,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       id: null,
       extra: null,
     };
-    this.ars.newArticulo(item.articulo.localizador);
+    this.ars.newArticulo(item.articulo!.localizador);
     this.router.navigate(['/articulos']);
   }
 
@@ -231,7 +219,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   }
 
   confirmDeleteCaducidad(cad: Caducidad): void {
-    this.cs.deleteCaducidad(cad.id).subscribe((result: StatusResult): void => {
+    this.cs.deleteCaducidad(cad.id as number).subscribe((result: StatusResult): void => {
       if (result.status === 'ok') {
         this.resetBuscar();
       } else {
@@ -245,13 +233,11 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
 
   changePage(ev: PageEvent): void {
     this.pageIndex.set(ev.pageIndex);
-    this.buscador.update(
-      (value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
-        value.pagina = ev.pageIndex + 1;
-        value.num = ev.pageSize;
-        return value;
-      }
-    );
+    this.buscador.update((value: BuscadorCaducidadesInterface): BuscadorCaducidadesInterface => {
+      value.pagina = ev.pageIndex + 1;
+      value.num = ev.pageSize;
+      return value;
+    });
     this.buscar();
   }
 

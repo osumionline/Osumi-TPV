@@ -22,11 +22,11 @@ import HeaderComponent from '@shared/components/header/header.component';
   ],
 })
 export default class AlmacenComponent {
-  imprenta: Signal<ImprentaComponent> = viewChild('imprenta');
+  imprenta: Signal<ImprentaComponent | undefined> = viewChild('imprenta');
 
   tabChange(ev: MatTabChangeEvent): void {
     if (ev.index === 1) {
-      this.imprenta().searchFocus();
+      this.imprenta()?.searchFocus();
     }
   }
 }

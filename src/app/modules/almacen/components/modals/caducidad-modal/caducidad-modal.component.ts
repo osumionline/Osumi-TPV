@@ -31,16 +31,16 @@ export default class CaducidadModalComponent {
   private os: OverlayService = inject(OverlayService);
   private ars: ArticulosService = inject(ArticulosService);
   private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { caducidad: Caducidad }> =
-    inject(CustomOverlayRef<null, { caducidad: Caducidad }>);
+  private customOverlayRef: CustomOverlayRef<null, { caducidad: Caducidad }> = inject(
+    CustomOverlayRef<null, { caducidad: Caducidad }>
+  );
 
   articulo: Articulo = new Articulo();
   articuloSelected: WritableSignal<boolean> = signal<boolean>(false);
-  articuloName: string = 'Elige un artículo';
+  articuloName: string | null = 'Elige un artículo';
   unidades: number = 0;
   showBuscador: boolean = false;
-  localizadorBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('localizadorBox');
+  localizadorBox: Signal<ElementRef> = viewChild.required<ElementRef>('localizadorBox');
 
   focus(): void {
     setTimeout((): void => {
@@ -86,7 +86,7 @@ export default class CaducidadModalComponent {
 
   loadArticulo(): void {
     this.ars
-      .loadArticulo(this.articulo.localizador)
+      .loadArticulo(this.articulo.localizador as number)
       .subscribe((result: ArticuloResult): void => {
         if (result.status === 'ok') {
           this.articulo = this.cms.getArticulo(result.articulo);

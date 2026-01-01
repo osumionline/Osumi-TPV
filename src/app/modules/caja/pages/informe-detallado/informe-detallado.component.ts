@@ -31,9 +31,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   styleUrls: ['./informe-detallado.component.scss'],
   imports: [FixedNumberPipe, MatTableModule, MatIcon, MatSortModule],
 })
-export default class InformeDetalladoComponent
-  implements OnInit, AfterViewInit
-{
+export default class InformeDetalladoComponent implements OnInit, AfterViewInit {
   private is: InformesService = inject(InformesService);
   private config: ConfigService = inject(ConfigService);
 
@@ -49,7 +47,7 @@ export default class InformeDetalladoComponent
   ventasDisplayedColumns: string[] = ['total', 'beneficio_medio'];
   ventasDataSource: MatTableDataSource<InformeDetalladoVentasInterface> =
     new MatTableDataSource<InformeDetalladoVentasInterface>();
-  ventasSort: Signal<MatSort> = viewChild('ventasSort');
+  ventasSort: Signal<MatSort> = viewChild.required('ventasSort');
 
   marcasDisplayedColumns: string[] = [
     'marca',
@@ -61,7 +59,7 @@ export default class InformeDetalladoComponent
   ];
   marcasDataSource: MatTableDataSource<InformeDetalladoMarcaInterface> =
     new MatTableDataSource<InformeDetalladoMarcaInterface>();
-  marcasSort: Signal<MatSort> = viewChild('marcasSort');
+  marcasSort: Signal<MatSort> = viewChild.required('marcasSort');
 
   tmTotalVentasPVP: WritableSignal<number> = signal<number>(0);
   tmTotalBeneficio: WritableSignal<number> = signal<number>(0);
@@ -78,7 +76,7 @@ export default class InformeDetalladoComponent
   ];
   articulosDataSource: MatTableDataSource<InformeDetalladoArticuloInterface> =
     new MatTableDataSource<InformeDetalladoArticuloInterface>();
-  articulosSort: Signal<MatSort> = viewChild('articulosSort');
+  articulosSort: Signal<MatSort> = viewChild.required('articulosSort');
 
   taTotalUnidadesVendidas: WritableSignal<number> = signal<number>(0);
   taTotalVentasPVP: WritableSignal<number> = signal<number>(0);
@@ -89,11 +87,9 @@ export default class InformeDetalladoComponent
   }
 
   ngOnInit(): void {
-    const indMonth: number = this.config.monthList.findIndex(
-      (x: Month): boolean => {
-        return x.id === this.month();
-      }
-    );
+    const indMonth: number = this.config.monthList.findIndex((x: Month): boolean => {
+      return x.id === this.month();
+    });
     this.monthName.set(this.config.monthList[indMonth].name);
 
     this.is
@@ -106,22 +102,21 @@ export default class InformeDetalladoComponent
         // Marcas
         const marcas: InformeDetalladoMarcaInterface[] = result.data.marcas;
         for (const item of marcas) {
-          this.tmTotalVentasPVP.update((x) => x + item.total_ventas_pvp);
-          this.tmTotalBeneficio.update((x) => x + item.total_beneficio);
-          this.tmMediaMargenBeneficio.update((x) => x + item.margen);
+          this.tmTotalVentasPVP.update((x: number): number => x + item.total_ventas_pvp);
+          this.tmTotalBeneficio.update((x: number): number => x + item.total_beneficio);
+          this.tmMediaMargenBeneficio.update((x: number): number => x + item.margen);
         }
-        this.tmMediaMargenBeneficio.update((x) => x / marcas.length);
+        this.tmMediaMargenBeneficio.update((x: number): number => x / marcas.length);
         this.marcasDataSource.data = marcas;
 
         // Artículos
-        const articulos: InformeDetalladoArticuloInterface[] =
-          result.data.articulos;
+        const articulos: InformeDetalladoArticuloInterface[] = result.data.articulos;
         for (const item of articulos) {
           this.taTotalUnidadesVendidas.update(
-            (x) => x + item.total_unidades_vendidas
+            (x: number): number => x + item.total_unidades_vendidas
           );
-          this.taTotalVentasPVP.update((x) => x + item.total_ventas_pvp);
-          this.taTotalBeneficio.update((x) => x + item.total_beneficio);
+          this.taTotalVentasPVP.update((x: number): number => x + item.total_ventas_pvp);
+          this.taTotalBeneficio.update((x: number): number => x + item.total_beneficio);
         }
         this.articulosDataSource.data = articulos;
         this.loaded.set(true);

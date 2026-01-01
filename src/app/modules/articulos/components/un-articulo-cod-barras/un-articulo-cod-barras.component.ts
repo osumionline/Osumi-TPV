@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  ModelSignal,
-  Signal,
-  model,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, ModelSignal, Signal, model, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -24,9 +17,8 @@ import { QRCodeComponent } from 'angularx-qrcode';
 })
 export default class UnArticuloCodBarrasComponent {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
-  newCodBarras: string = null;
-  codigoBarrasBox: Signal<ElementRef> =
-    viewChild.required<ElementRef>('codigoBarrasBox');
+  newCodBarras: string | null = null;
+  codigoBarrasBox: Signal<ElementRef> = viewChild.required<ElementRef>('codigoBarrasBox');
 
   focus(): void {
     this.codigoBarrasBox().nativeElement.focus();
@@ -40,7 +32,7 @@ export default class UnArticuloCodBarrasComponent {
     }
   }
 
-  fixCodBarras(ev: KeyboardEvent = null): void {
+  fixCodBarras(ev: KeyboardEvent | null = null): void {
     if (ev) {
       if (ev.key === 'Enter') {
         this.addNewCodBarras();

@@ -10,10 +10,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, Data } from '@angular/router';
 import { environment } from '@env/environment';
-import {
-  FacturaIVAInterface,
-  FacturaResult,
-} from '@interfaces/cliente.interface';
+import { FacturaIVAInterface, FacturaResult } from '@interfaces/cliente.interface';
 import { IdSaveResult } from '@interfaces/interfaces';
 import FacturaItem from '@model/clientes/factura-item.model';
 import Factura from '@model/clientes/factura.model';
@@ -56,7 +53,7 @@ export default class FacturaComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data): void => {
-      this.preview = data.type === 'preview';
+      this.preview = data['type'] === 'preview';
       this.start();
     });
   }
@@ -88,25 +85,38 @@ export default class FacturaComponent implements OnInit {
         const ventaLinea: FacturaItem = new FacturaItem();
         ventaLinea.concepto = linea.articulo;
         ventaLinea.precioIVA = linea.pvp;
-        ventaLinea.precioSinIVA = linea.pvp / ((100 + linea.iva) / 100);
+        ventaLinea.precioSinIVA = (linea.pvp ?? 0) / ((100 + (linea.iva ?? 0)) / 100);
         ventaLinea.unidades = linea.unidades;
-        ventaLinea.subtotal = linea.unidades * ventaLinea.precioSinIVA;
+        ventaLinea.subtotal = (linea.unidades ?? 0) * ventaLinea.precioSinIVA;
         ventaLinea.iva = linea.iva;
-        ventaLinea.ivaImporte =
-          linea.pvp * linea.unidades - ventaLinea.subtotal;
+        ventaLinea.ivaImporte = (linea.pvp ?? 0) * (linea.unidades ?? 0) - ventaLinea.subtotal;
         ventaLinea.descuento = linea.totalDescuento;
         ventaLinea.total = linea.importe;
 
-        temp.precioIVA += ventaLinea.unidades * ventaLinea.precioIVA;
-        temp.precioSinIVA += ventaLinea.unidades * ventaLinea.precioSinIVA;
-        //temp.unidades += ventaLinea.unidades;
+        if (temp.precioIVA === null) {
+          temp.precioIVA = 0;
+        }
+        temp.precioIVA += (ventaLinea.unidades ?? 0) * (ventaLinea.precioIVA ?? 0);
+        if (temp.precioSinIVA === null) {
+          temp.precioSinIVA = 0;
+        }
+        temp.precioSinIVA += (ventaLinea.unidades ?? 0) * ventaLinea.precioSinIVA;
+        if (temp.subtotal === null) {
+          temp.subtotal = 0;
+        }
         temp.subtotal += ventaLinea.subtotal;
+        if (temp.ivaImporte === null) {
+          temp.ivaImporte = 0;
+        }
         temp.ivaImporte += ventaLinea.ivaImporte;
+        if (temp.descuento === null) {
+          temp.descuento = 0;
+        }
         temp.descuento += ventaLinea.descuento;
         this.subtotal += ventaLinea.subtotal;
-        this.addIva(ventaLinea.iva, ventaLinea.ivaImporte);
+        this.addIva(ventaLinea.iva ?? 0, ventaLinea.ivaImporte);
         this.descuento += ventaLinea.descuento;
-        this.total += ventaLinea.total;
+        this.total += ventaLinea.total ?? 0;
 
         temp.lineas.push(ventaLinea);
       }
@@ -116,19 +126,15 @@ export default class FacturaComponent implements OnInit {
   }
 
   addIva(iva: number, importe: number): void {
-    const ind: number = this.ivas.findIndex(
-      (x: FacturaIVAInterface): boolean => {
-        return x.iva === iva;
-      }
-    );
+    const ind: number = this.ivas.findIndex((x: FacturaIVAInterface): boolean => {
+      return x.iva === iva;
+    });
     if (ind === -1) {
       this.ivas.push({ iva, importe });
     } else {
       this.ivas[ind].importe += importe;
     }
-    this.ivas.sort(
-      (a: FacturaIVAInterface, b: FacturaIVAInterface): number => a.iva - b.iva
-    );
+    this.ivas.sort((a: FacturaIVAInterface, b: FacturaIVAInterface): number => a.iva - b.iva);
   }
 
   deployAll(): void {
@@ -170,7 +176,7 @@ export default class FacturaComponent implements OnInit {
             type: 'imprimir',
             id: this.factura.idCliente,
           });
-          this.loadFactura(this.factura.id);
+          this.loadFactura(this.factura.id as number);
         }
       });
   }

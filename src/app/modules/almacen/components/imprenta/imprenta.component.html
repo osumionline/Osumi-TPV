@@ -98,7 +98,7 @@
                     <label>Mostrar PVP</label>
                     <mat-slide-toggle color="primary"
                                       [(ngModel)]="mostrarPVP"
-                                      (ngModelChange)="updateTable()">{{ mostrarPVP ? 'Sí' : 'No' }}</mat-slide-toggle>
+                                      (ngModelChange)="updateTable()">{{ mostrarPVP() ? 'Sí' : 'No' }}</mat-slide-toggle>
                 </div>
             </div>
             <div class="col-options-print">

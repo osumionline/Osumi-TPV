@@ -146,9 +146,9 @@ export interface HistoricoArticuloResult {
 }
 
 export interface HistoricoArticuloBuscadorInterface {
-  id: number;
-  orderBy: string;
-  orderSent: string;
+  id: number | null;
+  orderBy: string | null;
+  orderSent: string | null;
   pagina: number;
   num: number;
 }

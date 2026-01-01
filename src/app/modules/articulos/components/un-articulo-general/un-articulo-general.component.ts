@@ -64,9 +64,9 @@ export default class UnArticuloGeneralComponent {
   marginList: number[] = this.config.marginList;
   mostrarWeb: boolean = this.config.ventaOnline;
   mostrarCaducidad: boolean = this.config.fechaCad;
-  fecCad: string = null;
+  fecCad: string | null = null;
   fecCadEdit: boolean = false;
-  fecCadValue: Signal<ElementRef> = viewChild<ElementRef>('fecCadValue');
+  fecCadValue: Signal<ElementRef> = viewChild.required<ElementRef>('fecCadValue');
 
   newMarca(): void {
     const modalnewMarcaData: Modal = {
@@ -101,13 +101,18 @@ export default class UnArticuloGeneralComponent {
   }
 
   loadFecCad(): void {
-    const fecCad: string[] = this.articulo().fechaCaducidad.split('/');
-    const mes: Month = this.config.monthList.find(
-      (x: Month): boolean => x.id === parseInt(fecCad[0])
-    );
+    const fechaCaducidad: string | null = this.articulo().fechaCaducidad;
+    if (fechaCaducidad !== null) {
+      const fecCad: string[] = fechaCaducidad.split('/');
+      const mes: Month | undefined = this.config.monthList.find(
+        (x: Month): boolean => x.id === parseInt(fecCad[0])
+      );
 
-    this.fecCad = mes.name + ' 20' + fecCad[1];
-    this.fecCadEdit = false;
+      if (mes !== undefined) {
+        this.fecCad = mes.name + ' 20' + fecCad[1];
+        this.fecCadEdit = false;
+      }
+    }
   }
 
   updateIva(ev: string): void {
@@ -151,46 +156,29 @@ export default class UnArticuloGeneralComponent {
 
   validateFecCad(): boolean {
     const fecCadFormat = /[0-9][0-9]\/[0-9][0-9]/;
-    return this.articulo().fechaCaducidad.match(fecCadFormat) !== null;
+    return (this.articulo().fechaCaducidad ?? '').match(fecCadFormat) !== null;
   }
 
-  checkFecCad(ev: KeyboardEvent, blur: boolean = false): void {
-    if (ev.key == 'Enter' || blur) {
-      if (this.validateFecCad()) {
-        const d = new Date();
-        const checkFecCadStr: string[] = this.articulo().fechaCaducidad.split('/');
-        const month = this.config.monthList.find(
-          (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
-        );
-        const checkD = new Date(
-          2000 + parseInt(checkFecCadStr[1]),
-          parseInt(checkFecCadStr[0]) - 1,
-          month.days,
-          23,
-          59,
-          59
-        );
-        if (d.getTime() > checkD.getTime()) {
-          this.dialog
-            .alert({
-              title: 'Error',
-              content: 'La fecha introducida no puede ser inferior a la actual.',
-            })
-            .subscribe((): void => {
-              setTimeout((): void => {
-                this.fecCadValue().nativeElement.select();
-              }, 200);
-            });
-          return;
-        } else {
-          this.loadFecCad();
-        }
-      } else {
+  checkFecCad(): void {
+    if (this.validateFecCad()) {
+      const d = new Date();
+      const checkFecCadStr: string[] = (this.articulo().fechaCaducidad ?? '').split('/');
+      const month: Month | undefined = this.config.monthList.find(
+        (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
+      );
+      const checkD = new Date(
+        2000 + parseInt(checkFecCadStr[1]),
+        parseInt(checkFecCadStr[0]) - 1,
+        month!.days,
+        23,
+        59,
+        59
+      );
+      if (d.getTime() > checkD.getTime()) {
         this.dialog
           .alert({
             title: 'Error',
-            content:
-              'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
+            content: 'La fecha introducida no puede ser inferior a la actual.',
           })
           .subscribe((): void => {
             setTimeout((): void => {
@@ -198,7 +186,22 @@ export default class UnArticuloGeneralComponent {
             }, 200);
           });
         return;
+      } else {
+        this.loadFecCad();
       }
+    } else {
+      this.dialog
+        .alert({
+          title: 'Error',
+          content:
+            'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 sería "05/23".',
+        })
+        .subscribe((): void => {
+          setTimeout((): void => {
+            this.fecCadValue().nativeElement.select();
+          }, 200);
+        });
+      return;
     }
   }
 
@@ -214,7 +217,7 @@ export default class UnArticuloGeneralComponent {
     this.updatePuc(puc);
   }
 
-  updatePuc(puc: number = null): void {
+  updatePuc(puc: number | null = null): void {
     if (puc !== null) {
       this.articulo.update((value: Articulo): Articulo => {
         value.puc = puc;
@@ -233,7 +236,7 @@ export default class UnArticuloGeneralComponent {
       this.articulo().pvp !== 0
     ) {
       this.articulo.update((value: Articulo): Articulo => {
-        value.margen = ((value.pvp - value.puc) / value.pvp) * 100;
+        value.margen = (((value.pvp ?? 0) - value.puc) / (value.pvp ?? 1)) * 100;
         return value;
       });
     } else {
@@ -268,10 +271,11 @@ export default class UnArticuloGeneralComponent {
       this.articulo().pvpDescuento !== 0
     ) {
       this.articulo.update((value: Articulo): Articulo => {
-        value.margenDescuento = ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
-        const descuento: number = value.pvp - value.pvpDescuento;
-        value.porcentajeDescuento = (descuento / value.pvp) * 100;
-        value.pvpDescuento = value.pvp * ((100 - value.porcentajeDescuento) / 100);
+        value.margenDescuento =
+          (((value.pvpDescuento ?? 0) - value.puc) / (value.pvpDescuento ?? 0)) * 100;
+        const descuento: number = (value.pvp ?? 0) - (value.pvpDescuento ?? 0);
+        value.porcentajeDescuento = (descuento / (value.pvp ?? 1)) * 100;
+        value.pvpDescuento = (value.pvp ?? 0) * ((100 - value.porcentajeDescuento) / 100);
         return value;
       });
     } else {
@@ -287,10 +291,10 @@ export default class UnArticuloGeneralComponent {
   updatePorcentajeDescuento(): void {
     if (this.articulo().puc !== null && this.articulo().puc !== 0) {
       this.articulo.update((value: Articulo): Articulo => {
-        value.pvpDescuento = value.pvp * ((100 - value.porcentajeDescuento) / 100);
+        value.pvpDescuento = (value.pvp ?? 0) * ((100 - (value.porcentajeDescuento ?? 0)) / 100);
         value.margenDescuento = ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
-        const descuento: number = value.pvp - value.pvpDescuento;
-        value.porcentajeDescuento = getTwoNumberDecimal((descuento / value.pvp) * 100);
+        const descuento: number = (value.pvp ?? 0) - value.pvpDescuento;
+        value.porcentajeDescuento = getTwoNumberDecimal((descuento / (value.pvp ?? 1)) * 100);
         return value;
       });
     } else {
@@ -335,8 +339,10 @@ export default class UnArticuloGeneralComponent {
         this.articulo.update((value: Articulo): Articulo => {
           value.margenDescuento = data.data;
           value.pvpDescuento = getTwoNumberDecimal((value.puc * 100) / (100 - data.data));
-          const importeDescuento: number = value.pvp - value.pvpDescuento;
-          value.porcentajeDescuento = getTwoNumberDecimal((importeDescuento / value.pvp) * -100);
+          const importeDescuento: number = (value.pvp ?? 0) - value.pvpDescuento;
+          value.porcentajeDescuento = getTwoNumberDecimal(
+            (importeDescuento / (value.pvp ?? 1)) * -100
+          );
 
           return value;
         });

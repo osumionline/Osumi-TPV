@@ -58,7 +58,7 @@ export default class VentaLinea {
     this.pvp = a.pvp;
     this.descuento = 0;
     if (a.pvpDescuento !== null) {
-      this.descuento = a.pvp - a.pvpDescuento;
+      this.descuento = (a.pvp ?? 0) - a.pvpDescuento;
       this.descuentoManual = true;
     }
     this.importe = a.pvp;

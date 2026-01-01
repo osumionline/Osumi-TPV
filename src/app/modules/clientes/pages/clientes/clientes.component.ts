@@ -24,11 +24,7 @@ import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
-import {
-  MatTable,
-  MatTableDataSource,
-  MatTableModule,
-} from '@angular/material/table';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { ChartSelectInterface } from '@interfaces/articulo.interface';
 import {
@@ -93,8 +89,7 @@ export default class ClientesComponent implements OnInit {
   search: string = '';
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
-  clienteTabs: Signal<MatTabGroup> =
-    viewChild.required<MatTabGroup>('clienteTabs');
+  clienteTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('clienteTabs');
   selectedIndex: number = 0;
   selectedClient: Cliente = new Cliente();
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
@@ -125,9 +120,8 @@ export default class ClientesComponent implements OnInit {
   });
 
   facturasDisplayedColumns: string[] = ['id', 'fecha', 'importe', 'opciones'];
-  facturasDataSource: MatTableDataSource<Factura> =
-    new MatTableDataSource<Factura>();
-  facturasTable: Signal<MatTable<Factura> | null> = viewChild('facturasTable');
+  facturasDataSource: MatTableDataSource<Factura> = new MatTableDataSource<Factura>();
+  facturasTable: Signal<MatTable<Factura> | null> = viewChild.required('facturasTable');
 
   stats: ChartSelectInterface = {
     data: 'consumo',
@@ -143,22 +137,18 @@ export default class ClientesComponent implements OnInit {
     const currentYear: number = new Date().getFullYear();
     this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
     this.broadcastChannel.onmessage = (message) => {
-      if (
-        message.data.type === 'imprimir' &&
-        message.data.id === this.selectedClient.id
-      ) {
+      if (message.data.type === 'imprimir' && message.data.id === this.selectedClient.id) {
         this.loadFacturasCliente();
       }
     };
-    if (this.isnew()) {
-      if (this.isnew() === 'new') {
+    const isnew: string | undefined = this.isnew();
+    if (isnew !== undefined) {
+      if (isnew === 'new') {
         this.newCliente();
       } else {
-        const ind: number = this.cs
-          .clientes()
-          .findIndex((x: Cliente): boolean => {
-            return x.id === parseInt(this.isnew());
-          });
+        const ind: number = this.cs.clientes().findIndex((x: Cliente): boolean => {
+          return x.id === parseInt(isnew);
+        });
         this.focusEmail = true;
         this.selectCliente(this.cs.clientes()[ind]);
       }
@@ -174,15 +164,13 @@ export default class ClientesComponent implements OnInit {
     this.selectedIndex = 0;
     this.clienteTabs().realignInkBar();
     this.cs
-      .getEstadisticasCliente(this.selectedClient.id)
+      .getEstadisticasCliente(this.selectedClient.id as number)
       .subscribe((result: EstadisticasClienteResult): void => {
         if (result.status === 'ok') {
           this.selectedClient.ultimasVentas = this.cms.getUltimaVentaArticulos(
             result.ultimasVentas
           );
-          this.selectedClient.topVentas = this.cms.getTopVentaArticulos(
-            result.topVentas
-          );
+          this.selectedClient.topVentas = this.cms.getTopVentaArticulos(result.topVentas);
         }
       });
     this.loadFacturasCliente();
@@ -200,7 +188,7 @@ export default class ClientesComponent implements OnInit {
     this.selectedClient.facturas = [];
     this.facturasDataSource.data = this.selectedClient.facturas;
     this.cs
-      .getFacturas(this.selectedClient.id)
+      .getFacturas(this.selectedClient.id as number)
       .subscribe((result: FacturasResult): void => {
         if (result.status === 'ok') {
           this.selectedClient.facturas = this.cms.getFacturas(result.list);
@@ -270,7 +258,7 @@ export default class ClientesComponent implements OnInit {
 
   confirmDeleteCliente(): void {
     this.cs
-      .deleteCliente(this.selectedClient.id)
+      .deleteCliente(this.selectedClient.id as number)
       .subscribe((result: StatusResult): void => {
         if (result.status === 'ok') {
           this.cs.resetClientes();
@@ -296,10 +284,7 @@ export default class ClientesComponent implements OnInit {
   }
 
   nuevaFactura(): void {
-    if (
-      this.selectedClient.dniCif === null ||
-      this.selectedClient.dniCif === ''
-    ) {
+    if (this.selectedClient.dniCif === null || this.selectedClient.dniCif === '') {
       this.dialog.alert({
         title: 'Error',
         content:
@@ -344,10 +329,7 @@ export default class ClientesComponent implements OnInit {
       id: cliente.id,
       factura: null,
     };
-    const dialog = this.overlayService.open(
-      EditFacturaModalComponent,
-      modalnewProveedorData
-    );
+    const dialog = this.overlayService.open(EditFacturaModalComponent, modalnewProveedorData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();
@@ -363,10 +345,7 @@ export default class ClientesComponent implements OnInit {
       id: null,
       factura: this.facturasDataSource.data[ind],
     };
-    const dialog = this.overlayService.open(
-      EditFacturaModalComponent,
-      modalnewProveedorData
-    );
+    const dialog = this.overlayService.open(EditFacturaModalComponent, modalnewProveedorData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();
@@ -392,7 +371,7 @@ export default class ClientesComponent implements OnInit {
       })
       .subscribe((result: boolean): void => {
         if (result === true) {
-          this.confirmEnviarFactura(factura.id);
+          this.confirmEnviarFactura(factura.id as number);
         }
       });
   }

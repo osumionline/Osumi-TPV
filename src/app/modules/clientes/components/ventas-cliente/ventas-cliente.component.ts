@@ -1,11 +1,4 @@
-import {
-  Component,
-  effect,
-  inject,
-  input,
-  InputSignal,
-  OnInit,
-} from '@angular/core';
+import { Component, effect, inject, input, InputSignal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
@@ -55,14 +48,8 @@ export default class VentasClienteComponent implements OnInit {
 
   ventasMonth: number | null = null;
   ventasYear: number | null = null;
-  ventasDisplayedColumns: string[] = [
-    'fecha',
-    'total',
-    'nombreTipoPago',
-    'options',
-  ];
-  ventasDataSource: MatTableDataSource<VentaHistorico> =
-    new MatTableDataSource<VentaHistorico>();
+  ventasDisplayedColumns: string[] = ['fecha', 'total', 'nombreTipoPago', 'options'];
+  ventasDataSource: MatTableDataSource<VentaHistorico> = new MatTableDataSource<VentaHistorico>();
   ventaSelected: VentaHistorico | null = null;
   ventaSelectedDisplayedColumns: string[] = [
     'localizador',
@@ -99,16 +86,10 @@ export default class VentasClienteComponent implements OnInit {
       (this.ventasMonth !== null && this.ventasYear !== null)
     ) {
       this.cs
-        .searchVentasCliente(
-          this.selectedClient().id,
-          this.ventasMonth,
-          this.ventasYear
-        )
+        .searchVentasCliente(this.selectedClient().id as number, this.ventasMonth, this.ventasYear)
         .subscribe((result: VentasClienteResult): void => {
           if (result.status === 'ok') {
-            const ventasCliente: VentaHistorico[] = this.cms.getHistoricoVentas(
-              result.list
-            );
+            const ventasCliente: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
             this.ventasDataSource.data = ventasCliente;
           }
         });
@@ -124,7 +105,7 @@ export default class VentasClienteComponent implements OnInit {
     ev.stopPropagation();
     console.log('imprimirTicket', venta);
     this.vs
-      .printTicket(this.ventaSelected.id, 'venta')
+      .printTicket(this.ventaSelected!.id as number, 'venta')
       .subscribe((result: StatusResult): void => {
         if (result.status === 'error') {
           this.dialog.alert({
@@ -148,28 +129,26 @@ export default class VentasClienteComponent implements OnInit {
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.sendTicketConfirm(
-            this.ventaSelected.id,
-            this.selectedClient().email
+            this.ventaSelected!.id as number,
+            this.selectedClient().email as string
           );
         }
       });
   }
 
   sendTicketConfirm(id: number, email: string): void {
-    this.vs
-      .sendTicket(id, urlencode(email))
-      .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
-          this.dialog.alert({
-            title: 'Enviado',
-            content: `El ticket de la venta ha sido correctamente enviado a la dirección "${email}"`,
-          });
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content: `El ticket de la venta no ha podido ser enviado a la dirección "${email}", ¿tal vez la dirección no es correcta?`,
-          });
-        }
-      });
+    this.vs.sendTicket(id, urlencode(email) as string).subscribe((result: StatusResult): void => {
+      if (result.status === 'ok') {
+        this.dialog.alert({
+          title: 'Enviado',
+          content: `El ticket de la venta ha sido correctamente enviado a la dirección "${email}"`,
+        });
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: `El ticket de la venta no ha podido ser enviado a la dirección "${email}", ¿tal vez la dirección no es correcta?`,
+        });
+      }
+    });
   }
 }

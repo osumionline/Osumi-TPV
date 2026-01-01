@@ -24,26 +24,17 @@ export default class EditFacturaModalComponent implements OnInit {
   private cs: ClientesService = inject(ClientesService);
   private cms: ClassMapperService = inject(ClassMapperService);
   private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef<
-    null,
-    { id: number; factura: Factura }
-  > = inject(CustomOverlayRef);
+  private customOverlayRef: CustomOverlayRef<null, { id: number; factura: Factura }> =
+    inject(CustomOverlayRef);
 
   title: string = 'Selecciona las ventas que quieras incluir en la factura:';
   factura: Factura = new Factura();
 
-  ventasDisplayedColumns: string[] = [
-    'select',
-    'fecha',
-    'importe',
-    'nombreTipoPago',
-  ];
+  ventasDisplayedColumns: string[] = ['select', 'fecha', 'importe', 'nombreTipoPago'];
   ventasCliente: VentaHistorico[] = [];
-  ventasDataSource: MatTableDataSource<VentaHistorico> =
-    new MatTableDataSource<VentaHistorico>();
+  ventasDataSource: MatTableDataSource<VentaHistorico> = new MatTableDataSource<VentaHistorico>();
   ventasSelected: VentaHistorico = new VentaHistorico();
-  selection: SelectionModel<VentaHistorico> =
-    new SelectionModel<VentaHistorico>(true, []);
+  selection: SelectionModel<VentaHistorico> = new SelectionModel<VentaHistorico>(true, []);
 
   ventaSelected: VentaHistorico = new VentaHistorico();
   ventaSelectedDisplayedColumns: string[] = [
@@ -61,12 +52,7 @@ export default class EditFacturaModalComponent implements OnInit {
   ngOnInit(): void {
     this.ventaSelected = new VentaHistorico();
     if (this.customOverlayRef.data.id !== null) {
-      this.ventasDisplayedColumns = [
-        'select',
-        'fecha',
-        'importe',
-        'nombreTipoPago',
-      ];
+      this.ventasDisplayedColumns = ['select', 'fecha', 'importe', 'nombreTipoPago'];
       this.loadVentas(this.customOverlayRef.data.id);
     }
     if (this.customOverlayRef.data.factura !== null) {
@@ -83,24 +69,17 @@ export default class EditFacturaModalComponent implements OnInit {
       this.ventasCliente = this.factura.ventas;
       this.ventasDataSource.data = this.ventasCliente;
     } else {
-      this.ventasDisplayedColumns = [
-        'select',
-        'fecha',
-        'importe',
-        'nombreTipoPago',
-      ];
+      this.ventasDisplayedColumns = ['select', 'fecha', 'importe', 'nombreTipoPago'];
       this.cs
-        .getVentas(this.factura.idCliente, this.factura.id)
+        .getVentas(this.factura.idCliente as number, this.factura.id)
         .subscribe((result: VentasClienteResult): void => {
           this.ventasCliente = this.cms.getHistoricoVentas(result.list);
           this.ventasDataSource.data = this.ventasCliente;
           this.selection.clear();
           for (const venta of this.factura.ventas) {
-            const ind: number = this.ventasCliente.findIndex(
-              (x: VentaHistorico): boolean => {
-                return x.id === venta.id;
-              }
-            );
+            const ind: number = this.ventasCliente.findIndex((x: VentaHistorico): boolean => {
+              return x.id === venta.id;
+            });
             this.selection.select(this.ventasCliente[ind]);
           }
         });
@@ -118,11 +97,9 @@ export default class EditFacturaModalComponent implements OnInit {
 
   isAllSelected(): boolean {
     const numSelected: number = this.selection.selected.length;
-    const numRows: number = this.ventasDataSource.data.filter(
-      (v: VentaHistorico): boolean => {
-        return v.statusFactura === 'no';
-      }
-    ).length;
+    const numRows: number = this.ventasDataSource.data.filter((v: VentaHistorico): boolean => {
+      return v.statusFactura === 'no';
+    }).length;
     return numSelected === numRows;
   }
 
@@ -148,13 +125,11 @@ export default class EditFacturaModalComponent implements OnInit {
     this.selection.selected.forEach((v: VentaHistorico): void => {
       this.factura.ventas.push(v);
     });
-    this.cs
-      .saveFactura(this.factura.toSaveInterface())
-      .subscribe((result: IdSaveResult) => {
-        if (result.status === 'ok') {
-          this.customOverlayRef.close(result.id);
-        }
-      });
+    this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult) => {
+      if (result.status === 'ok') {
+        this.customOverlayRef.close(result.id);
+      }
+    });
   }
 
   deleteFactura(): void {
@@ -171,25 +146,23 @@ export default class EditFacturaModalComponent implements OnInit {
   }
 
   confirmDeleteFactura(): void {
-    this.cs
-      .deleteFactura(this.factura.id)
-      .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
-          this.dialog
-            .alert({
-              title: 'Factura borrada',
-              content: 'La factura ha sido correctamente borrada.',
-            })
-            .subscribe((): void => {
-              this.customOverlayRef.close(0);
-            });
-        } else {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ha ocurrido un error al borrar la factura.',
+    this.cs.deleteFactura(this.factura.id as number).subscribe((result: StatusResult): void => {
+      if (result.status === 'ok') {
+        this.dialog
+          .alert({
+            title: 'Factura borrada',
+            content: 'La factura ha sido correctamente borrada.',
+          })
+          .subscribe((): void => {
+            this.customOverlayRef.close(0);
           });
-        }
-      });
+      } else {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ha ocurrido un error al borrar la factura.',
+        });
+      }
+    });
   }
 
   preview(): void {
@@ -197,14 +170,12 @@ export default class EditFacturaModalComponent implements OnInit {
     this.selection.selected.forEach((v: VentaHistorico): void => {
       this.factura.ventas.push(v);
     });
-    this.cs
-      .saveFactura(this.factura.toSaveInterface())
-      .subscribe((result: IdSaveResult): void => {
-        if (result.status === 'ok') {
-          window.open('/clientes/factura/' + result.id + '/preview');
-          this.customOverlayRef.close(result.id);
-        }
-      });
+    this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult): void => {
+      if (result.status === 'ok') {
+        window.open('/clientes/factura/' + result.id + '/preview');
+        this.customOverlayRef.close(result.id);
+      }
+    });
   }
 
   imprimir(): void {

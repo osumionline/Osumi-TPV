@@ -6,7 +6,7 @@
                         (ngModelChange)="resetBuscar()">
                 @for (year of yearList; track year) {
                 <mat-option [value]="year">
-                    {{year}}
+                    {{ year }}
                 </mat-option>
                 }
             </mat-select>
@@ -17,7 +17,7 @@
                         (ngModelChange)="resetBuscar()">
                 @for (month of monthList; track month.id) {
                 <mat-option [value]="month.id">
-                    {{month.name}}
+                    {{ month.name }}
                 </mat-option>
                 }
             </mat-select>
@@ -29,7 +29,7 @@
                 <mat-option [value]="null">Elige marca</mat-option>
                 @for (marca of ms.marcas(); track marca.id) {
                 <mat-option [value]="marca.id">
-                    {{marca.nombre}}
+                    {{ marca.nombre }}
                 </mat-option>
                 }
             </mat-select>
@@ -73,7 +73,7 @@
             Localizador
         </th>
         <td mat-cell
-            *matCellDef="let element"> {{element.articulo.localizador}} </td>
+            *matCellDef="let element">{{ element.articulo.localizador }}</td>
     </ng-container>
 
     <!-- Marca -->
@@ -85,7 +85,7 @@
             Marca
         </th>
         <td mat-cell
-            *matCellDef="let element"> {{element.articulo.marca}} </td>
+            *matCellDef="let element">{{ element.articulo.marca }}</td>
     </ng-container>
 
     <!-- Nombre -->
@@ -99,7 +99,7 @@
         <td mat-cell
             *matCellDef="let element">
             <a class="link"
-               (click)="goToArticulo($event, element)">{{element.articulo.nombre}}
+               (click)="goToArticulo($event, element)">{{ element.articulo.nombre }}
             </a>
             @if (element.articulo.observaciones) {
             <mat-icon [matTooltip]="element.articulo.observaciones"
@@ -120,7 +120,7 @@
         <td class="center"
             mat-cell
             *matCellDef="let element">
-            {{element.unidades}}
+            {{ element.unidades }}
         </td>
     </ng-container>
 
@@ -136,7 +136,7 @@
         <td class="center"
             mat-cell
             *matCellDef="let element">
-            {{ element.unidades * element.articulo.pvp | fixedNumber}} €
+            {{ element.unidades * element.articulo.pvp | fixedNumber }} €
         </td>
     </ng-container>
 
@@ -152,7 +152,7 @@
         <td class="center"
             mat-cell
             *matCellDef="let element">
-            {{ element.unidades * element.articulo.puc | fixedNumber}} €
+            {{ element.unidades * element.articulo.puc | fixedNumber }} €
         </td>
     </ng-container>
 
@@ -185,9 +185,9 @@
                [pageIndex]="pageIndex"
                (page)="changePage($event)" />
 <div class="total-inventario">
-    Total Unidades: <strong>{{totalUnidades()}}</strong>
+    Total Unidades: <strong>{{ totalUnidades() }}</strong>
     &nbsp;&nbsp;&nbsp;
-    Total PVP: <strong>{{totalPVP() | fixedNumber}}</strong> €
+    Total PVP: <strong>{{ totalPVP() | fixedNumber }}</strong> €
     &nbsp;&nbsp;&nbsp;
-    Total PUC: <strong>{{totalPUC() | fixedNumber}}</strong> €
+    Total PUC: <strong>{{ totalPUC() | fixedNumber }}</strong> €
 </div>

@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -26,7 +19,7 @@ export default class NewMarcaModalComponent implements OnInit {
   private ms: MarcasService = inject(MarcasService);
   private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
-  nombreBox: Signal<ElementRef> = viewChild('nombreBox');
+  nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   marca: Marca = new Marca();
 
   ngOnInit(): void {
@@ -46,31 +39,29 @@ export default class NewMarcaModalComponent implements OnInit {
       return;
     }
 
-    this.ms
-      .saveMarca(this.marca.toInterface())
-      .subscribe((result: IdSaveResult): void => {
-        if (result.status === 'ok') {
-          this.ms.resetMarcas();
-          this.customOverlayRef.close(result.id);
-        }
-        if (result.status === 'error-nombre') {
-          this.dialog
-            .alert({
-              title: 'Error',
-              content: 'Ya existe una marca con el nombre indicado.',
-            })
-            .subscribe((): void => {
-              this.nombreBox().nativeElement.focus();
-            });
-          return;
-        }
-        if (result.status === 'error') {
-          this.dialog.alert({
+    this.ms.saveMarca(this.marca.toInterface()).subscribe((result: IdSaveResult): void => {
+      if (result.status === 'ok') {
+        this.ms.resetMarcas();
+        this.customOverlayRef.close(result.id);
+      }
+      if (result.status === 'error-nombre') {
+        this.dialog
+          .alert({
             title: 'Error',
-            content: 'Ocurrió un error al guardar la nueva marca.',
+            content: 'Ya existe una marca con el nombre indicado.',
+          })
+          .subscribe((): void => {
+            this.nombreBox().nativeElement.focus();
           });
-          return;
-        }
-      });
+        return;
+      }
+      if (result.status === 'error') {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al guardar la nueva marca.',
+        });
+        return;
+      }
+    });
   }
 }

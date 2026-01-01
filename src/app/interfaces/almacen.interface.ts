@@ -6,7 +6,7 @@ export interface BuscadorAlmacenInterface {
   orderBy: string | null;
   orderSent: string | null;
   pagina: number;
-  num: number;
+  num: number | null;
 }
 
 export interface InventarioItemInterface {
