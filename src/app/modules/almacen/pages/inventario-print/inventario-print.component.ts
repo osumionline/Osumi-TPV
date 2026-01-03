@@ -21,8 +21,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InventarioPrintComponent implements OnInit {
-  private as: AlmacenService = inject(AlmacenService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private readonly as: AlmacenService = inject(AlmacenService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
 
   data: InputSignal<string> = input.required<string>();
   buscador: BuscadorAlmacenInterface | null = null;

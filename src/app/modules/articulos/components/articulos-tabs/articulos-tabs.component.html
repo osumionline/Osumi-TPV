@@ -5,8 +5,8 @@
              [class]="{'tab-selected': selected() === i}"
              (click)="selectTab(i)">
             <span [matTooltip]="tab.tabName"
-                  [matTooltipDisabled]="tab.tabName.length<27">
-                {{tab.tabName}}
+                  [matTooltipDisabled]="tab.tabName!.length < 27">
+                {{ tab.tabName }}
             </span>
             <mat-icon class="tab-icon"
                       (click)="closeTab(i)">close</mat-icon>

@@ -25,7 +25,7 @@ import InformesService from '@services/informes.service';
   styleUrl: './caducidades-print.component.scss',
 })
 export default class CaducidadesPrintComponent implements OnInit {
-  private is: InformesService = inject(InformesService);
+  private readonly is: InformesService = inject(InformesService);
 
   data: InputSignal<string> = input.required<string>();
   buscador: BuscadorCaducidadesInterface | null = null;

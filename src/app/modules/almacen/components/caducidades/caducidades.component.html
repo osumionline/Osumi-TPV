@@ -27,7 +27,7 @@
             <mat-select [(ngModel)]="buscador().idMarca"
                         (ngModelChange)="resetBuscar()">
                 <mat-option [value]="null">Elige marca</mat-option>
-                @for (marca of ms.marcas(); track marca.id) {
+                @for (marca of marcas; track marca.id) {
                 <mat-option [value]="marca.id">
                     {{ marca.nombre }}
                 </mat-option>

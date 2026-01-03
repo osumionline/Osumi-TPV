@@ -21,10 +21,10 @@ import ClientesService from '@services/clientes.service';
   imports: [FixedNumberPipe, MatTableModule, MatCheckbox, MatButton, MatIcon],
 })
 export default class EditFacturaModalComponent implements OnInit {
-  private cs: ClientesService = inject(ClientesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef<null, { id: number; factura: Factura }> =
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { id: number; factura: Factura }> =
     inject(CustomOverlayRef);
 
   title: string = 'Selecciona las ventas que quieras incluir en la factura:';

@@ -11,11 +11,10 @@ import ArticulosService from '@services/articulos.service';
   imports: [MatButton],
 })
 export default class ArticuloDarDeBajaModalComponent implements OnInit {
-  private dialog: DialogService = inject(DialogService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> = inject(
-    CustomOverlayRef<null, { id: number; nombre: string }>
-  );
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> =
+    inject(CustomOverlayRef<null, { id: number; nombre: string }>);
 
   id: number | null = null;
   nombre: string | null = null;

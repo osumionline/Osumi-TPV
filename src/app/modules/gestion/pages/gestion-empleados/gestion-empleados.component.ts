@@ -51,11 +51,11 @@ import { Rol, RolGroup, rolList } from '@shared/rol.class';
   ],
 })
 export default class GestionEmpleadosComponent implements OnInit {
-  public es: EmpleadosService = inject(EmpleadosService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private gs: GestionService = inject(GestionService);
-  private router: Router = inject(Router);
+  public readonly es: EmpleadosService = inject(EmpleadosService);
+  public readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly gs: GestionService = inject(GestionService);
+  private readonly router: Router = inject(Router);
 
   search: string = '';
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');

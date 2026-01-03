@@ -39,10 +39,10 @@ import ClassMapperService from '@services/class-mapper.service';
   ],
 })
 export default class AccesosDirectosModalComponent implements OnInit, AfterViewInit {
-  private dialog: DialogService = inject(DialogService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> = inject(
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> = inject(
     CustomOverlayRef<null, { idArticulo: number }>
   );
 

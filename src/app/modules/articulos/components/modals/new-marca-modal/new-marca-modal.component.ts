@@ -15,9 +15,9 @@ import MarcasService from '@services/marcas.service';
   imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],
 })
 export default class NewMarcaModalComponent implements OnInit {
-  private dialog: DialogService = inject(DialogService);
-  private ms: MarcasService = inject(MarcasService);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   marca: Marca = new Marca();

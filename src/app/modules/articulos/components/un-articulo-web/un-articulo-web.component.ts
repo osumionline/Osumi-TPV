@@ -16,7 +16,7 @@ import { DialogService } from '@osumi/angular-tools';
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
 export default class UnArticuloWebComponent {
-  private dialog: DialogService = inject(DialogService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
 

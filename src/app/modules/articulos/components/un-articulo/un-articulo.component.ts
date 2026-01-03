@@ -39,7 +39,6 @@ import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
-import ProveedoresService from '@services/proveedores.service';
 import VentasService from '@services/ventas.service';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
@@ -72,16 +71,15 @@ import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
   ],
 })
 export default class UnArticuloComponent {
-  private router: Router = inject(Router);
-  private dialog: DialogService = inject(DialogService);
-  private config: ConfigService = inject(ConfigService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  public ms: MarcasService = inject(MarcasService);
-  public ps: ProveedoresService = inject(ProveedoresService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private vs: VentasService = inject(VentasService);
-  private als: AlmacenService = inject(AlmacenService);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly router: Router = inject(Router);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly als: AlmacenService = inject(AlmacenService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   articulo: Articulo = new Articulo();
   ind: number = -1;

@@ -24,8 +24,8 @@ import HeaderComponent from '@shared/components/header/header.component';
   ],
 })
 export default class ComprasComponent implements OnInit {
-  private comprasService: ComprasService = inject(ComprasService);
-  private router: Router = inject(Router);
+  private readonly comprasService: ComprasService = inject(ComprasService);
+  private readonly router: Router = inject(Router);
 
   compras: Signal<ComprasPedidosListComponent> = viewChild.required(ComprasPedidosListComponent);
   marcas: Signal<MarcasComponent | undefined> = viewChild(MarcasComponent);

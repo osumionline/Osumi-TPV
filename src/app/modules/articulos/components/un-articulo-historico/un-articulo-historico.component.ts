@@ -27,8 +27,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
 export default class UnArticuloHistoricoComponent implements AfterViewInit {
-  private ars: ArticulosService = inject(ArticulosService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
 
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   historicoArticuloDataSource: MatTableDataSource<HistoricoArticulo> =

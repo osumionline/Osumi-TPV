@@ -28,10 +28,10 @@ import BuscadorModalComponent from '@shared/components/modals/buscador-modal/bus
   styleUrl: './caducidad-modal.component.scss',
 })
 export default class CaducidadModalComponent {
-  private os: OverlayService = inject(OverlayService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { caducidad: Caducidad }> = inject(
+  private readonly os: OverlayService = inject(OverlayService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { caducidad: Caducidad }> = inject(
     CustomOverlayRef<null, { caducidad: Caducidad }>
   );
 

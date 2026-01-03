@@ -25,9 +25,9 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe, MatTableModule],
 })
 export default class InformeSimpleComponent implements OnInit {
-  private is: InformesService = inject(InformesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private config: ConfigService = inject(ConfigService);
+  private readonly is: InformesService = inject(InformesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly config: ConfigService = inject(ConfigService);
 
   loaded: WritableSignal<boolean> = signal<boolean>(false);
   year: InputSignalWithTransform<number, unknown> = input.required({

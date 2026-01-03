@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import isOpenedGuardFn from '@app/guard/opened.guard.fn';
+import isOpenedGuardFn from '@guard/opened.guard.fn';
 
 const CAJA_ROUTES: Route[] = [
   {
@@ -10,15 +10,12 @@ const CAJA_ROUTES: Route[] = [
   {
     path: 'informes/detallado/:year/:month',
     loadComponent: () =>
-      import(
-        '@modules/caja/pages/informe-detallado/informe-detallado.component'
-      ),
+      import('@modules/caja/pages/informe-detallado/informe-detallado.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: 'informes/simple/:year/:month',
-    loadComponent: () =>
-      import('@modules/caja/pages/informe-simple/informe-simple.component'),
+    loadComponent: () => import('@modules/caja/pages/informe-simple/informe-simple.component'),
     canActivate: [isOpenedGuardFn],
   },
 ];

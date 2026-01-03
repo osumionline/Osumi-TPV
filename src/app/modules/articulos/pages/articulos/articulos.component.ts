@@ -21,13 +21,12 @@ import HeaderComponent from '@shared/components/header/header.component';
   imports: [HeaderComponent, ArticulosTabsComponent, UnArticuloComponent],
 })
 export default class ArticulosComponent implements OnInit, OnDestroy {
-  private ars: ArticulosService = inject(ArticulosService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
 
   articulos: WritableSignal<Articulo[]> = signal<Articulo[]>([]);
   selected: WritableSignal<number> = signal<number>(-1);
 
-  articulo: Signal<UnArticuloComponent> =
-    viewChild.required<UnArticuloComponent>('articulo');
+  articulo: Signal<UnArticuloComponent> = viewChild.required<UnArticuloComponent>('articulo');
 
   ngOnInit(): void {
     this.articulos.set([...this.ars.list()]);
@@ -91,9 +90,7 @@ export default class ArticulosComponent implements OnInit, OnDestroy {
   }
 
   duplicate(articulo: Articulo): void {
-    const nuevoArticulo: Articulo = new Articulo().fromInterface(
-      articulo.toInterface()
-    );
+    const nuevoArticulo: Articulo = new Articulo().fromInterface(articulo.toInterface());
     nuevoArticulo.id = null;
     nuevoArticulo.localizador = null;
     const nuevoNombre: string = `${nuevoArticulo.nombre} (copia)`;

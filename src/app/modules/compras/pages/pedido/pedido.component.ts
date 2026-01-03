@@ -37,6 +37,7 @@ import PedidoPDF from '@model/compras/pedido-pdf.model';
 import PedidoVista from '@model/compras/pedido-vista.model';
 import Pedido from '@model/compras/pedido.model';
 import Marca from '@model/marcas/marca.model';
+import Proveedor from '@model/proveedores/proveedor.model';
 import IVAOption from '@model/tpv/iva-option.model';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import { getDate, getDateFromString, getTwoNumberDecimal, urldecode } from '@osumi/tools';
@@ -79,16 +80,16 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class PedidoComponent implements OnInit, OnDestroy {
-  public config: ConfigService = inject(ConfigService);
-  public ps: ProveedoresService = inject(ProveedoresService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private ms: MarcasService = inject(MarcasService);
-  private cs: ComprasService = inject(ComprasService);
-  private router: Router = inject(Router);
-  private overlayService: OverlayService = inject(OverlayService);
-  private sanitizer: DomSanitizer = inject(DomSanitizer);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly cs: ComprasService = inject(ComprasService);
+  private readonly router: Router = inject(Router);
+  private readonly overlayService: OverlayService = inject(OverlayService);
+  private readonly sanitizer: DomSanitizer = inject(DomSanitizer);
 
   id: InputSignalWithTransform<number | undefined, unknown> = input(undefined, {
     transform: numberAttribute,
@@ -106,6 +107,8 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   ivaOptions: IVAOption[] = [];
   ivaList: number[] = [];
   reList: number[] = [];
+  tipoIva: string = this.config.tipoIva;
+  proveedores: Proveedor[] = this.ps.proveedores();
 
   metodosPago: string[] = [
     'Domiciliación bancaria',

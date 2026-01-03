@@ -9,7 +9,7 @@ import CajaContentComponent from '@shared/components/caja/caja-content/caja-cont
   imports: [CajaContentComponent],
 })
 export default class CajaModalComponent {
-  private customOverlayRef: CustomOverlayRef<null, { option: string }> =
+  private readonly customOverlayRef: CustomOverlayRef<null, { option: string }> =
     inject(CustomOverlayRef);
 
   cajaContent: Signal<CajaContentComponent> =

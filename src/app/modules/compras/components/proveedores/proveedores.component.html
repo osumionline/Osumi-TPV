@@ -14,7 +14,7 @@
                     </span>
                 </mat-form-field>
                 <mat-action-list class="proveedores-list">
-                    @for (proveedor of ps.proveedores() | providerListFilter:search; track proveedor.id) {
+                    @for (proveedor of filteredProveedores(); track proveedor.id) {
                     <button mat-list-item
                             (click)="selectProveedor(proveedor)"
                             [class]="{'selected-provider': selectedProveedor.id === proveedor.id}">
@@ -162,7 +162,7 @@
                                 </span>
                             </mat-form-field>
                             <div class="marcas-list">
-                                @for (marca of marcasList | providerBrandListFilter: searchMarcas; track marca.id) {
+                                @for (marca of filteredMarcasList(); track marca.id) {
                                 <div>
                                     <mat-checkbox [(ngModel)]="marca.selected">{{ marca.nombre }}</mat-checkbox>
                                 </div>

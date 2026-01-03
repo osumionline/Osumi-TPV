@@ -15,10 +15,10 @@
                 </mat-form-field>
                 <div class="list">
                     <mat-action-list>
-                        @for (marca of ms.marcas() | brandListFilter: search; track marca.id) {
+                        @for (marca of filteredMarcas(); track marca.id) {
                         <button mat-list-item
                                 (click)="selectMarca(marca)"
-                                [class]="{'selected-client': selectedMarca.id === marca.id}">
+                                [class.selected-client]="selectedMarca.id === marca.id">
                             {{marca.nombre}}
                         </button>
                         }

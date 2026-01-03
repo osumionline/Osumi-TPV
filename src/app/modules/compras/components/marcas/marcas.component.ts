@@ -1,4 +1,13 @@
-import { Component, ElementRef, inject, Signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,7 +27,6 @@ import { MarcaInterface } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
 import { DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
-import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
 
 @Component({
   selector: 'otpv-marcas',
@@ -27,7 +35,6 @@ import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    BrandListFilterPipe,
     MatCard,
     MatCardContent,
     MatFormField,
@@ -41,10 +48,10 @@ import BrandListFilterPipe from '@shared/pipes/brand-list-filter.pipe';
   ],
 })
 export default class MarcasComponent {
-  public ms: MarcasService = inject(MarcasService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly dialog: DialogService = inject(DialogService);
 
-  search: string = '';
+  search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   marcaTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('marcaTabs');
@@ -64,6 +71,19 @@ export default class MarcasComponent {
   });
   originalValue: MarcaInterface | null = null;
   canSeeStatistics: boolean = false;
+
+  marcas: WritableSignal<Marca[]> = signal<Marca[]>([...this.ms.marcas()]);
+  filteredMarcas: Signal<Marca[]> = computed<Marca[]>((): Marca[] => {
+    const term: string = (this.search() || '').trim().toLowerCase();
+    if (!term) {
+      return this.marcas();
+    }
+
+    return this.marcas().filter((m: Marca): boolean => {
+      const nombre: string = m?.nombre ?? '';
+      return nombre.toLowerCase().includes(term);
+    });
+  });
 
   searchFocus(): void {
     setTimeout((): void => {

@@ -32,8 +32,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe, MatTableModule, MatIcon, MatSortModule],
 })
 export default class InformeDetalladoComponent implements OnInit, AfterViewInit {
-  private is: InformesService = inject(InformesService);
-  private config: ConfigService = inject(ConfigService);
+  private readonly is: InformesService = inject(InformesService);
+  private readonly config: ConfigService = inject(ConfigService);
 
   loaded: WritableSignal<boolean> = signal<boolean>(false);
   year: InputSignalWithTransform<number, unknown> = input.required({

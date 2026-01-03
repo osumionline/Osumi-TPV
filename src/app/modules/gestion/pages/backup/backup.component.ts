@@ -17,10 +17,10 @@ import HeaderComponent from '@shared/components/header/header.component';
   imports: [HeaderComponent, MatCard, MatCardContent, MatButton, MatList, MatListItem],
 })
 export default class BackupComponent implements OnInit {
-  private config: ConfigService = inject(ConfigService);
-  private gs: GestionService = inject(GestionService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly gs: GestionService = inject(GestionService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   backups: Backup[] = [];
 

@@ -3,7 +3,7 @@
         <label>Marca (*)</label>
         <mat-form-field>
             <mat-select [(ngModel)]="articulo().idMarca">
-                @for (marca of ms.marcas(); track marca.id) {
+                @for (marca of marcas; track marca.id) {
                 <mat-option [value]="marca.id">
                     {{ marca.nombre }}
                 </mat-option>
@@ -62,7 +62,7 @@
         <label>Proveedor</label>
         <mat-form-field>
             <mat-select [(ngModel)]="articulo().idProveedor">
-                @for (prov of ps.proveedores(); track prov.id) {
+                @for (prov of proveedores; track prov.id) {
                 <mat-option [value]="prov.id">
                     {{ prov.nombre }}
                 </mat-option>

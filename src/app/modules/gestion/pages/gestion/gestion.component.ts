@@ -16,9 +16,9 @@ import { rolList } from '@shared/rol.class';
   imports: [HeaderComponent, EmployeeLoginComponent, MatButton, MatIcon],
 })
 export default class GestionComponent implements OnInit {
-  private router: Router = inject(Router);
-  private dialog: DialogService = inject(DialogService);
-  private gs: GestionService = inject(GestionService);
+  private readonly router: Router = inject(Router);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly gs: GestionService = inject(GestionService);
 
   empleado: Empleado | null = null;
 

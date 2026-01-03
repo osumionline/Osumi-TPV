@@ -17,6 +17,8 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { Month } from '@interfaces/interfaces';
 import { MargenesModal } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
+import Marca from '@model/marcas/marca.model';
+import Proveedor from '@model/proveedores/proveedor.model';
 import IVAOption from '@model/tpv/iva-option.model';
 import MargenesModalComponent from '@modules/articulos/components/modals/margenes-modal/margenes-modal.component';
 import NewMarcaModalComponent from '@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component';
@@ -46,11 +48,11 @@ import { setTwoNumberDecimal } from '@shared/utils';
   styleUrls: ['./un-articulo-general.component.scss', '../un-articulo/un-articulo.component.scss'],
 })
 export default class UnArticuloGeneralComponent {
-  public ms: MarcasService = inject(MarcasService);
-  public ps: ProveedoresService = inject(ProveedoresService);
-  private overlayService: OverlayService = inject(OverlayService);
-  private config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   tipoIva: string = this.config.tipoIva;
@@ -67,6 +69,9 @@ export default class UnArticuloGeneralComponent {
   fecCad: string | null = null;
   fecCadEdit: boolean = false;
   fecCadValue: Signal<ElementRef> = viewChild.required<ElementRef>('fecCadValue');
+
+  marcas: Marca[] = this.ms.marcas();
+  proveedores: Proveedor[] = this.ps.proveedores();
 
   newMarca(): void {
     const modalnewMarcaData: Modal = {

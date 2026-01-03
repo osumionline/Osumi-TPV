@@ -18,9 +18,9 @@ import ConfigService from '@services/config.service';
   styleUrls: ['./lopd.component.scss'],
 })
 export default class LopdComponent implements OnInit {
-  private config: ConfigService = inject(ConfigService);
-  private cs: ClientesService = inject(ClientesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
 
   id: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,

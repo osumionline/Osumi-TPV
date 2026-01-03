@@ -19,8 +19,8 @@ import ConfigService from '@services/config.service';
   styleUrl: '../un-articulo/un-articulo.component.scss',
 })
 export default class UnArticuloEstadisticasComponent {
-  private config: ConfigService = inject(ConfigService);
-  private ars: ArticulosService = inject(ArticulosService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
 
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   monthList: Month[] = this.config.monthList;
@@ -41,18 +41,14 @@ export default class UnArticuloEstadisticasComponent {
   statsWebData: ChartDataInterface[] = [];
 
   loadStatsVentas(): void {
-    this.ars
-      .getStatistics(this.statsVentas)
-      .subscribe((result: ChartResultInterface): void => {
-        this.statsVentasData = result.data;
-      });
+    this.ars.getStatistics(this.statsVentas).subscribe((result: ChartResultInterface): void => {
+      this.statsVentasData = result.data;
+    });
   }
 
   loadStatsWeb(): void {
-    this.ars
-      .getStatistics(this.statsWeb)
-      .subscribe((result: ChartResultInterface): void => {
-        this.statsWebData = result.data;
-      });
+    this.ars.getStatistics(this.statsWeb).subscribe((result: ChartResultInterface): void => {
+      this.statsWebData = result.data;
+    });
   }
 }

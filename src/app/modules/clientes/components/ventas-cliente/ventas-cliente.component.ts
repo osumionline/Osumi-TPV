@@ -36,11 +36,11 @@ import VentasService from '@services/ventas.service';
   styleUrl: './ventas-cliente.component.scss',
 })
 export default class VentasClienteComponent implements OnInit {
-  public cs: ClientesService = inject(ClientesService);
-  private vs: VentasService = inject(VentasService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
 
   selectedClient: InputSignal<Cliente> = input.required<Cliente>();
   monthList: Month[] = [];

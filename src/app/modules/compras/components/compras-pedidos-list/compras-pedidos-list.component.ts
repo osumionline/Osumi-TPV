@@ -19,6 +19,7 @@ import {
   PedidosResult,
 } from '@interfaces/pedido.interface';
 import Pedido from '@model/compras/pedido.model';
+import Proveedor from '@model/proveedores/proveedor.model';
 import ClassMapperService from '@services/class-mapper.service';
 import ComprasService from '@services/compras.service';
 import ProveedoresService from '@services/proveedores.service';
@@ -57,10 +58,10 @@ import { shallowEqual } from '@shared/utils';
   ],
 })
 export default class ComprasPedidosListComponent {
-  public comprasService: ComprasService = inject(ComprasService);
-  public proveedoresService: ProveedoresService = inject(ProveedoresService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private router: Router = inject(Router);
+  private readonly cs: ComprasService = inject(ComprasService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly router: Router = inject(Router);
 
   numPorPag: number = 10;
   pedidosGuardados: Pedido[] = [];
@@ -71,6 +72,8 @@ export default class ComprasPedidosListComponent {
   pageRecepcionadosIndex: number = 0;
   recepcionadosPag: number = 1;
   recepcionadosPags: number = 0;
+
+  proveedores: Proveedor[] = this.ps.proveedores();
 
   GUARDADOS_INIT: PedidosFilterInterface = {
     fechaDesde: '',
@@ -169,7 +172,7 @@ export default class ComprasPedidosListComponent {
       pagina: 1,
       num: this.numPorPag,
     };
-    this.comprasService.getAllPedidos(filters).subscribe((result: PedidosAllResult): void => {
+    this.cs.getAllPedidos(filters).subscribe((result: PedidosAllResult): void => {
       this.pedidosGuardados = this.cms.getPedidos(result.guardados);
       this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
       this.guardadosPags = result.guardadosPags * this.numPorPag;
@@ -209,13 +212,11 @@ export default class ComprasPedidosListComponent {
       return;
     }
     this.loadingGuardados.set(true);
-    this.comprasService
-      .getPedidosGuardados(this.guardadosModel())
-      .subscribe((result: PedidosResult): void => {
-        this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
-        this.guardadosPags = result.pags * this.guardadosModel().num;
-        this.loadingGuardados.set(false);
-      });
+    this.cs.getPedidosGuardados(this.guardadosModel()).subscribe((result: PedidosResult): void => {
+      this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
+      this.guardadosPags = result.pags * this.guardadosModel().num;
+      this.loadingGuardados.set(false);
+    });
   }
 
   quitarFiltrosRecepcionados(ev: MouseEvent): void {
@@ -231,7 +232,7 @@ export default class ComprasPedidosListComponent {
       return;
     }
     this.loadingRecepcionados.set(true);
-    this.comprasService
+    this.cs
       .getPedidosRecepcionados(this.recepcionadosModel())
       .subscribe((result: PedidosResult): void => {
         this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(result.list);

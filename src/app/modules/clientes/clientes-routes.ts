@@ -1,17 +1,15 @@
 import { Route } from '@angular/router';
-import isOpenedGuardFn from '@app/guard/opened.guard.fn';
+import isOpenedGuardFn from '@guard/opened.guard.fn';
 
 const CLIENTES_ROUTES: Route[] = [
   {
     path: '',
-    loadComponent: () =>
-      import('@modules/clientes/pages/clientes/clientes.component'),
+    loadComponent: () => import('@modules/clientes/pages/clientes/clientes.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
     path: ':isnew',
-    loadComponent: () =>
-      import('@modules/clientes/pages/clientes/clientes.component'),
+    loadComponent: () => import('@modules/clientes/pages/clientes/clientes.component'),
     canActivate: [isOpenedGuardFn],
   },
   {
@@ -21,15 +19,13 @@ const CLIENTES_ROUTES: Route[] = [
   },
   {
     path: 'factura/:id',
-    loadComponent: () =>
-      import('@modules/clientes/pages/factura/factura.component'),
+    loadComponent: () => import('@modules/clientes/pages/factura/factura.component'),
     data: { type: 'print' },
     canActivate: [isOpenedGuardFn],
   },
   {
     path: 'factura/:id/preview',
-    loadComponent: () =>
-      import('@modules/clientes/pages/factura/factura.component'),
+    loadComponent: () => import('@modules/clientes/pages/factura/factura.component'),
     data: { type: 'preview' },
     canActivate: [isOpenedGuardFn],
   },

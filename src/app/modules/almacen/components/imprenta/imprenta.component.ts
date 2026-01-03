@@ -43,9 +43,9 @@ import VentasService from '@services/ventas.service';
   ],
 })
 export default class ImprentaComponent {
-  private vs: VentasService = inject(VentasService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   searchBox: Signal<ElementRef> = viewChild.required('searchBox');
   search: WritableSignal<string> = signal<string>('');

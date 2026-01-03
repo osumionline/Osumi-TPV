@@ -32,6 +32,8 @@ import {
   StatusResult,
 } from '@interfaces/interfaces';
 import InventarioItem from '@model/almacen/inventario-item.model';
+import Marca from '@model/marcas/marca.model';
+import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';
 import { urldecode } from '@osumi/tools';
 import AlmacenService from '@services/almacen.service';
@@ -66,13 +68,13 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class AlmacenInventarioComponent implements OnInit, AfterViewInit, OnDestroy {
-  private ars: ArticulosService = inject(ArticulosService);
-  public ms: MarcasService = inject(MarcasService);
-  public ps: ProveedoresService = inject(ProveedoresService);
-  private as: AlmacenService = inject(AlmacenService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private router: Router = inject(Router);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly as: AlmacenService = inject(AlmacenService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly router: Router = inject(Router);
 
   buscador: WritableSignal<BuscadorAlmacenInterface> = signal({
     idProveedor: null,
@@ -90,6 +92,9 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   mediaMargen: WritableSignal<number> = signal<number>(0);
   totalPVP: WritableSignal<number> = signal<number>(0);
   totalPUC: WritableSignal<number> = signal<number>(0);
+
+  marcas: Marca[] = this.ms.marcas();
+  proveedores: Proveedor[] = this.ps.proveedores();
 
   inventarioDisplayedColumns: string[] = [
     'localizador',

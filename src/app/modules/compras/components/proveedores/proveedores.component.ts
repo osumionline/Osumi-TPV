@@ -1,4 +1,14 @@
-import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -23,8 +33,6 @@ import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
-import ProviderBrandListFilterPipe from '@shared/pipes/provider-brand-list-filter.pipe';
-import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
 
 @Component({
   selector: 'otpv-proveedores',
@@ -33,8 +41,6 @@ import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    ProviderBrandListFilterPipe,
-    ProviderListFilterPipe,
     MatCard,
     MatCardContent,
     MatFormField,
@@ -51,20 +57,53 @@ import ProviderListFilterPipe from '@shared/pipes/provider-list-filter.pipe';
   ],
 })
 export default class ProveedoresComponent implements OnInit {
-  public ps: ProveedoresService = inject(ProveedoresService);
-  private ms: MarcasService = inject(MarcasService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly dialog: DialogService = inject(DialogService);
 
-  search: string = '';
+  search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
   proveedorTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('proveedorTabs');
   selectedTab: number = 0;
 
-  searchMarcas: string = '';
+  proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([...this.ps.proveedores()]);
+  filteredProveedores: Signal<Proveedor[]> = computed<Proveedor[]>((): Proveedor[] => {
+    const term: string = (this.search() || '').trim().toLowerCase();
+    if (!term) {
+      return this.proveedores();
+    }
+
+    return this.proveedores().filter((p: Proveedor): boolean => {
+      const nombre: string = p?.nombre ?? '';
+      return nombre.toLowerCase().includes(term);
+    });
+  });
+
+  searchMarcas: WritableSignal<string> = signal<string>('');
   searchMarcasBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchMarcasBox');
-  marcasList: SelectMarcaInterface[] = [];
+  marcasList: WritableSignal<SelectMarcaInterface[]> = signal<SelectMarcaInterface[]>([]);
+
+  private compareMarca(a: SelectMarcaInterface, b: SelectMarcaInterface): number {
+    return Number(b.selected) - Number(a.selected) || a.nombre.localeCompare(b.nombre);
+  }
+  filteredMarcasList: Signal<SelectMarcaInterface[]> = computed<SelectMarcaInterface[]>(
+    (): SelectMarcaInterface[] => {
+      const term: string = (this.searchMarcas() ?? '').trim().toLowerCase();
+      const list: SelectMarcaInterface[] = this.marcasList();
+
+      const base: SelectMarcaInterface[] = term
+        ? list.filter((m: SelectMarcaInterface): boolean => m.nombre?.toLowerCase().includes(term))
+        : list;
+
+      return base
+        .slice()
+        .sort((a: SelectMarcaInterface, b: SelectMarcaInterface): number =>
+          this.compareMarca(a, b)
+        );
+    }
+  );
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
 
@@ -96,13 +135,15 @@ export default class ProveedoresComponent implements OnInit {
   canSeeStatistics: boolean = false;
 
   ngOnInit(): void {
+    const marcasList: SelectMarcaInterface[] = [];
     for (const marca of this.ms.marcas()) {
-      this.marcasList.push({
+      marcasList.push({
         id: marca.id as number,
         nombre: marca.nombre as string,
         selected: false,
       });
     }
+    this.marcasList.set([...marcasList]);
   }
 
   searchFocus(): void {
@@ -136,12 +177,15 @@ export default class ProveedoresComponent implements OnInit {
   }
 
   updateMarcasList(): void {
-    for (const marca of this.marcasList) {
-      marca.selected = false;
-      if (this.selectedProveedor.marcas.includes(marca.id)) {
-        marca.selected = true;
+    this.marcasList.update((marcas: SelectMarcaInterface[]): SelectMarcaInterface[] => {
+      for (const marca of marcas) {
+        marca.selected = false;
+        if (this.selectedProveedor.marcas.includes(marca.id)) {
+          marca.selected = true;
+        }
       }
-    }
+      return [...marcas];
+    });
   }
 
   resetForm(): void {
@@ -175,7 +219,7 @@ export default class ProveedoresComponent implements OnInit {
     this.selectedProveedor.fromInterface(data, null, false);
 
     const proveedorMarcasList: number[] = [];
-    for (const marca of this.marcasList) {
+    for (const marca of this.marcasList()) {
       if (marca.selected) {
         proveedorMarcasList.push(marca.id);
       }

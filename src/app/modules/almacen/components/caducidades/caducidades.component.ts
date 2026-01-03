@@ -58,14 +58,14 @@ import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.c
   styleUrl: './caducidades.component.scss',
 })
 export default class CaducidadesComponent implements OnInit, OnDestroy {
-  private config: ConfigService = inject(ConfigService);
-  public ms: MarcasService = inject(MarcasService);
-  private cs: CaducidadesService = inject(CaducidadesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private ars: ArticulosService = inject(ArticulosService);
-  private router: Router = inject(Router);
-  private overlayService: OverlayService = inject(OverlayService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly cs: CaducidadesService = inject(CaducidadesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly router: Router = inject(Router);
+  private readonly overlayService: OverlayService = inject(OverlayService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   buscador: WritableSignal<BuscadorCaducidadesInterface> = signal({
     year: null,
@@ -85,6 +85,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   totalUnidades: WritableSignal<number> = signal<number>(0);
   totalPVP: WritableSignal<number> = signal<number>(0);
   totalPUC: WritableSignal<number> = signal<number>(0);
+  marcas: Marca[] = this.ms.marcas();
 
   caducidadesDisplayedColumns: string[] = [
     'localizador',

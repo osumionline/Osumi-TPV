@@ -1,12 +1,15 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   input,
   InputSignal,
   OnInit,
+  signal,
   Signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 import {
   FormControl,
@@ -32,7 +35,7 @@ import {
   EstadisticasClienteResult,
   FacturasResult,
 } from '@interfaces/cliente.interface';
-import { Month, StatusResult } from '@interfaces/interfaces';
+import { Month, ProvinceInterface, StatusResult } from '@interfaces/interfaces';
 import { FacturaModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
@@ -42,9 +45,7 @@ import { DialogService, OverlayService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
-import VentasService from '@services/ventas.service';
 import HeaderComponent from '@shared/components/header/header.component';
-import ClientListFilterPipe from '@shared/pipes/client-list-filter.pipe';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
@@ -56,7 +57,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     ReactiveFormsModule,
     MatSortModule,
     FixedNumberPipe,
-    ClientListFilterPipe,
     HeaderComponent,
     MatCard,
     MatCardContent,
@@ -77,16 +77,15 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class ClientesComponent implements OnInit {
-  public cs: ClientesService = inject(ClientesService);
-  private vs: VentasService = inject(VentasService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   isnew: InputSignal<string | undefined> = input.required<string | undefined>();
   broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
-  search: string = '';
+  search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   clienteTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('clienteTabs');
@@ -95,6 +94,21 @@ export default class ClientesComponent implements OnInit {
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
   emailBox: Signal<ElementRef> = viewChild.required<ElementRef>('emailBox');
   focusEmail: boolean = false;
+
+  clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([...this.cs.clientes()]);
+  filteredClientes: Signal<Cliente[]> = computed<Cliente[]>((): Cliente[] => {
+    const term: string = (this.search() || '').trim().toLowerCase();
+    if (!term) {
+      return this.clientes();
+    }
+
+    return this.clientes().filter((c: Cliente): boolean => {
+      const nombre: string = c?.nombreApellidos ?? '';
+      return nombre.toLowerCase().includes(term);
+    });
+  });
+
+  provincias: ProvinceInterface[] = this.config.provincias();
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),

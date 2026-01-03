@@ -27,11 +27,11 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe, MatButton, MatIcon],
 })
 export default class FacturaComponent implements OnInit {
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  public config: ConfigService = inject(ConfigService);
-  private cs: ClientesService = inject(ClientesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   id: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,
@@ -46,6 +46,12 @@ export default class FacturaComponent implements OnInit {
   ivas: FacturaIVAInterface[] = [];
   descuento: number = 0;
   total: number = 0;
+
+  nombreComercial: string = this.config.nombreComercial;
+  cif: string = this.config.cif;
+  direccion: string = this.config.direccion;
+  telefono: string = this.config.telefono;
+  email: string = this.config.email;
 
   constructor() {
     document.body.classList.add('white-bg');
