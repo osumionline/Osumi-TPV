@@ -6,18 +6,19 @@ import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
-import FixedNumberPipe from '@app/modules/shared/pipes/fixed-number.pipe';
 import { VentasClienteResult } from '@interfaces/cliente.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Cliente from '@model/clientes/cliente.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 import { urlencode } from '@osumi/tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
 import VentasService from '@services/ventas.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-ventas-cliente',
@@ -88,7 +89,7 @@ export default class VentasClienteComponent implements OnInit {
       this.cs
         .searchVentasCliente(this.selectedClient().id as number, this.ventasMonth, this.ventasYear)
         .subscribe((result: VentasClienteResult): void => {
-          if (result.status === 'ok') {
+          if (result.status === ApiStatusEnum.OK) {
             const ventasCliente: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
             this.ventasDataSource.data = ventasCliente;
           }
@@ -107,7 +108,7 @@ export default class VentasClienteComponent implements OnInit {
     this.vs
       .printTicket(this.ventaSelected!.id as number, 'venta')
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'error') {
+        if (result.status === ApiStatusEnum.ERROR) {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al imprimir el ticket.',
@@ -138,7 +139,7 @@ export default class VentasClienteComponent implements OnInit {
 
   sendTicketConfirm(id: number, email: string): void {
     this.vs.sendTicket(id, urlencode(email) as string).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog.alert({
           title: 'Enviado',
           content: `El ticket de la venta ha sido correctamente enviado a la dirección "${email}"`,

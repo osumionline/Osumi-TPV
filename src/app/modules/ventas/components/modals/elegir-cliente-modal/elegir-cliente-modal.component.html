@@ -132,7 +132,7 @@
             <mat-form-field>
                 <mat-label>Provincia</mat-label>
                 <mat-select [(ngModel)]="nuevoCliente.provincia">
-                    @for (provincia of config.provincias(); track provincia.id) {
+                    @for (provincia of provincias(); track provincia.id) {
                     <mat-option [value]="provincia.id">
                         {{ provincia.name }}
                     </mat-option>
@@ -207,7 +207,7 @@
             <mat-form-field>
                 <mat-label>Provincia (Facturación)</mat-label>
                 <mat-select [(ngModel)]="nuevoCliente.factProvincia">
-                    @for (provincia of config.provincias(); track provincia.id) {
+                    @for (provincia of provincias(); track provincia.id) {
                     <mat-option [value]="provincia.id">
                         {{ provincia.name }}
                     </mat-option>

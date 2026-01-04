@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import {
   ClienteInterface,
   ClienteResult,
@@ -15,16 +13,13 @@ import {
 } from '@interfaces/cliente.interface';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import Cliente from '@model/clientes/cliente.model';
-import ClassMapperService from '@services/class-mapper.service';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class ClientesService {
-  private http: HttpClient = inject(HttpClient);
-  private cms: ClassMapperService = inject(ClassMapperService);
-
+export default class ClientesService extends BaseService {
   clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([]);
   loaded: boolean = false;
 
@@ -42,7 +37,7 @@ export default class ClientesService {
   }
 
   getClientes(): Observable<ClientesResult> {
-    return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/get-clientes', {});
+    return this.http.post<ClientesResult>(this.apiUrl + '-clientes/get-clientes', {});
   }
 
   loadClientes(clientes: Cliente[]): void {
@@ -64,87 +59,84 @@ export default class ClientesService {
   }
 
   getCliente(id: number): Observable<ClienteResult> {
-    return this.http.post<ClienteResult>(environment.apiUrl + '-clientes/get-cliente', { id });
+    return this.http.post<ClienteResult>(this.apiUrl + '-clientes/get-cliente', { id });
   }
 
   searchClientes(name: string): Observable<ClientesResult> {
-    return this.http.post<ClientesResult>(environment.apiUrl + '-clientes/search-clientes', {
+    return this.http.post<ClientesResult>(this.apiUrl + '-clientes/search-clientes', {
       name,
     });
   }
 
   saveCliente(cliente: ClienteInterface): Observable<ClienteSaveResult> {
-    return this.http.post<ClienteSaveResult>(
-      environment.apiUrl + '-clientes/save-cliente',
-      cliente
-    );
+    return this.http.post<ClienteSaveResult>(this.apiUrl + '-clientes/save-cliente', cliente);
   }
 
   getEstadisticasCliente(id: number): Observable<EstadisticasClienteResult> {
     return this.http.post<EstadisticasClienteResult>(
-      environment.apiUrl + '-clientes/get-estadisticas-cliente',
+      this.apiUrl + '-clientes/get-estadisticas-cliente',
       { id }
     );
   }
 
   deleteCliente(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-cliente', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/delete-cliente', { id });
   }
 
   asignarCliente(id: number, idCliente: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/asignar-cliente', {
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/asignar-cliente', {
       id,
       idCliente,
     });
   }
 
   getFacturas(id: number): Observable<FacturasResult> {
-    return this.http.post<FacturasResult>(environment.apiUrl + '-clientes/get-facturas-cliente', {
+    return this.http.post<FacturasResult>(this.apiUrl + '-clientes/get-facturas-cliente', {
       id,
     });
   }
 
   getFactura(id: number): Observable<FacturaResult> {
-    return this.http.post<FacturaResult>(environment.apiUrl + '-clientes/get-factura-cliente', {
+    return this.http.post<FacturaResult>(this.apiUrl + '-clientes/get-factura-cliente', {
       id,
     });
   }
 
   getVentas(id: number, idFacturaInclude: number | null = null): Observable<VentasClienteResult> {
-    return this.http.post<VentasClienteResult>(
-      environment.apiUrl + '-clientes/get-ventas-cliente',
-      { id, idFacturaInclude }
-    );
+    return this.http.post<VentasClienteResult>(this.apiUrl + '-clientes/get-ventas-cliente', {
+      id,
+      idFacturaInclude,
+    });
   }
 
   saveFactura(data: FacturaSaveInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(environment.apiUrl + '-clientes/save-factura', data);
+    return this.http.post<IdSaveResult>(this.apiUrl + '-clientes/save-factura', data);
   }
 
   deleteFactura(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-factura', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/delete-factura', { id });
   }
 
   saveFacturaFromVenta(id: number): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(environment.apiUrl + '-clientes/save-factura-from-venta', {
+    return this.http.post<IdSaveResult>(this.apiUrl + '-clientes/save-factura-from-venta', {
       id,
     });
   }
 
   sendFactura(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/send-factura', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/send-factura', { id });
   }
 
   getReservas(): Observable<ReservasResult> {
-    return this.http.post<ReservasResult>(environment.apiUrl + '-clientes/get-reservas', {});
+    return this.http.post<ReservasResult>(this.apiUrl + '-clientes/get-reservas', {});
   }
 
   deleteReserva(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-reserva', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/delete-reserva', { id });
   }
 
   deleteLineaReserva(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-clientes/delete-linea-reserva', {
+    return this.http.post<StatusResult>(this.apiUrl + '-clientes/delete-linea-reserva', {
       id,
     });
   }
@@ -154,9 +146,10 @@ export default class ClientesService {
     month: number | null,
     year: number | null
   ): Observable<VentasClienteResult> {
-    return this.http.post<VentasClienteResult>(
-      environment.apiUrl + '-clientes/search-ventas-cliente',
-      { id, month, year }
-    );
+    return this.http.post<VentasClienteResult>(this.apiUrl + '-clientes/search-ventas-cliente', {
+      id,
+      month,
+      year,
+    });
   }
 }

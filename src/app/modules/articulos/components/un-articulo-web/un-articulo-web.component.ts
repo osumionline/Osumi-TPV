@@ -7,6 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import Articulo from '@model/articulos/articulo.model';
 import Foto from '@model/articulos/foto.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 
 @Component({
@@ -54,10 +55,10 @@ export default class UnArticuloWebComponent {
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.articulo.update((value: Articulo): Articulo => {
-            if (value.fotosList[i].status === 'ok') {
+            if (value.fotosList[i].status === ApiStatusEnum.OK) {
               value.fotosList[i].status = 'deleted';
             }
-            if (value.fotosList[i].status === 'new') {
+            if (value.fotosList[i].status === ApiStatusEnum.NEW) {
               value.fotosList.splice(i, 1);
             }
             return value;

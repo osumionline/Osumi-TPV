@@ -26,7 +26,9 @@ import {
 } from '@interfaces/caducidad.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
 import Caducidad from '@model/almacen/caducidad.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
+import CaducidadModalComponent from '@modules/almacen/components/modals/caducidad-modal/caducidad-modal.component';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
@@ -34,7 +36,6 @@ import CaducidadesService from '@services/caducidades.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
-import CaducidadModalComponent from '../modals/caducidad-modal/caducidad-modal.component';
 
 @Component({
   selector: 'otpv-caducidades',
@@ -163,7 +164,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
           unidades: data.data.unidades,
         };
         this.cs.addCaducidad(cad).subscribe((result: StatusResult): void => {
-          if (result.status === 'ok') {
+          if (result.status === ApiStatusEnum.OK) {
             this.resetBuscar();
           } else {
             this.dialog.alert({
@@ -221,7 +222,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
 
   confirmDeleteCaducidad(cad: Caducidad): void {
     this.cs.deleteCaducidad(cad.id as number).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.resetBuscar();
       } else {
         this.dialog.alert({

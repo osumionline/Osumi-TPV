@@ -17,6 +17,7 @@ import {
   MarginOptionInterface,
   StatusResult,
 } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ConfigService from '@services/config.service';
@@ -43,11 +44,11 @@ import GestionService from '@services/gestion.service';
   ],
 })
 export default class InstallationComponent implements OnInit {
-  private dialog: DialogService = inject(DialogService);
-  private as: ApiService = inject(ApiService);
-  private gs: GestionService = inject(GestionService);
-  private router: Router = inject(Router);
-  private config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly as: ApiService = inject(ApiService);
+  private readonly gs: GestionService = inject(GestionService);
+  private readonly router: Router = inject(Router);
+  private readonly config: ConfigService = inject(ConfigService);
 
   back: boolean = false;
 
@@ -374,7 +375,7 @@ export default class InstallationComponent implements OnInit {
 
     this.saving = true;
     this.as.saveInstallation(data).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog
           .alert({
             title: 'Información',

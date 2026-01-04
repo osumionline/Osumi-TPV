@@ -38,7 +38,7 @@ import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-c
   ],
 })
 export default class CajaContentComponent implements OnInit {
-  private config: ConfigService = inject(ConfigService);
+  private readonly config: ConfigService = inject(ConfigService);
 
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
   from: InputSignal<string> = input<string>('modal');

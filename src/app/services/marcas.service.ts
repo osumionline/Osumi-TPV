@@ -1,19 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface, MarcasResult } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
-import ClassMapperService from '@services/class-mapper.service';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class MarcasService {
-  private http: HttpClient = inject(HttpClient);
-  private cms: ClassMapperService = inject(ClassMapperService);
-
+export default class MarcasService extends BaseService {
   marcas: WritableSignal<Marca[]> = signal<Marca[]>([]);
   loaded: boolean = false;
 
@@ -31,7 +26,7 @@ export default class MarcasService {
   }
 
   getMarcas(): Observable<MarcasResult> {
-    return this.http.post<MarcasResult>(environment.apiUrl + '-marcas/get-marcas', {});
+    return this.http.post<MarcasResult>(this.apiUrl + '-marcas/get-marcas', {});
   }
 
   loadMarcas(marcas: Marca[]): void {
@@ -53,10 +48,10 @@ export default class MarcasService {
   }
 
   saveMarca(marca: MarcaInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(environment.apiUrl + '-marcas/save-marca', marca);
+    return this.http.post<IdSaveResult>(this.apiUrl + '-marcas/save-marca', marca);
   }
 
   deleteMarca(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-marcas/delete-marca', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-marcas/delete-marca', { id });
   }
 }

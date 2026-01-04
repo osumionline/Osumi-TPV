@@ -28,6 +28,7 @@ import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { SelectMarcaInterface } from '@interfaces/marca.interface';
 import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Comercial from '@model/proveedores/comercial.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';
@@ -260,7 +261,7 @@ export default class ProveedoresComponent implements OnInit {
     this.ps
       .deleteProveedor(this.selectedProveedor.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.ps.resetProveedores();
           this.start = true;
           this.dialog.alert({
@@ -357,7 +358,7 @@ export default class ProveedoresComponent implements OnInit {
     this.ps
       .deleteComercial(this.selectedComercial.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.dialog
             .alert({
               title: 'Comercial borrado',

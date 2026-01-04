@@ -8,6 +8,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ReservasResult } from '@interfaces/cliente.interface';
 import { StatusResult } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import ReservaLinea from '@model/ventas/reserva-linea.model';
 import Reserva from '@model/ventas/reserva.model';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
@@ -31,10 +32,10 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class ReservasModalComponent implements OnInit, AfterViewInit {
-  private cs: ClientesService = inject(ClientesService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   list: Reserva[] = [];
   reservaSelected: Reserva | null = null;
@@ -116,7 +117,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   confirmDeleteLineaReserva(linea: ReservaLinea): void {
     this.cs.deleteLineaReserva(linea.id as number).subscribe({
       next: (result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           if (this.reservaSelected !== null) {
             const ind: number = this.reservaSelected.lineas.findIndex(
               (x: ReservaLinea): boolean => x.id === linea.id
@@ -163,7 +164,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
     if (this.reservaSelected !== null) {
       this.cs.deleteReserva(this.reservaSelected.id as number).subscribe({
         next: (result: StatusResult): void => {
-          if (result.status === 'ok') {
+          if (result.status === ApiStatusEnum.OK) {
             this.reservaSelected = null;
             this.loadReservas();
           } else {

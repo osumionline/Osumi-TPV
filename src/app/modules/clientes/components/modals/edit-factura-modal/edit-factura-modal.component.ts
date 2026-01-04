@@ -9,6 +9,7 @@ import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Factura from '@model/clientes/factura.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
@@ -126,7 +127,7 @@ export default class EditFacturaModalComponent implements OnInit {
       this.factura.ventas.push(v);
     });
     this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult) => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.customOverlayRef.close(result.id);
       }
     });
@@ -147,7 +148,7 @@ export default class EditFacturaModalComponent implements OnInit {
 
   confirmDeleteFactura(): void {
     this.cs.deleteFactura(this.factura.id as number).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog
           .alert({
             title: 'Factura borrada',
@@ -171,7 +172,7 @@ export default class EditFacturaModalComponent implements OnInit {
       this.factura.ventas.push(v);
     });
     this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         window.open('/clientes/factura/' + result.id + '/preview');
         this.customOverlayRef.close(result.id);
       }
@@ -186,7 +187,7 @@ export default class EditFacturaModalComponent implements OnInit {
     this.cs
       .saveFactura(this.factura.toSaveInterface(true))
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           window.open('/clientes/factura/' + result.id);
           this.customOverlayRef.close(result.id);
         }

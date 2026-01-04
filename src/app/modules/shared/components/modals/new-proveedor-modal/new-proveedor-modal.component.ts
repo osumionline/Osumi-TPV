@@ -6,6 +6,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { IdSaveResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
@@ -20,11 +21,11 @@ import ProveedoresService from '@services/proveedores.service';
   imports: [FormsModule, MatFormField, MatInput, MatCheckbox, MatButton],
 })
 export default class NewProveedorModalComponent implements OnInit {
-  private ms: MarcasService = inject(MarcasService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private ps: ProveedoresService = inject(ProveedoresService);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   proveedor: Proveedor = new Proveedor();
@@ -154,18 +155,18 @@ export default class NewProveedorModalComponent implements OnInit {
 
   guardarProveedorContinue(): void {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result: IdSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.ps.resetProveedores();
         this.customOverlayRef.close(result.id);
       }
-      if (result.status === 'error-nombre') {
+      if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog.alert({
           title: 'Error',
           content: 'Ya existe un proveedor con el nombre indicado.',
         });
         return;
       }
-      if (result.status === 'error') {
+      if (result.status === ApiStatusEnum.ERROR) {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al guardar el nuevo proveedor.',

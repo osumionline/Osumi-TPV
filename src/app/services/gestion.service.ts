@@ -1,16 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { BackupResult, StatusResult } from '@interfaces/interfaces';
 import Empleado from '@model/tpv/empleado.model';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class GestionService {
-  private http: HttpClient = inject(HttpClient);
-
+export default class GestionService extends BaseService {
   empleado: Empleado | null = null;
 
   getBackups(backupApiKey: string): Observable<BackupResult> {
@@ -20,7 +18,7 @@ export default class GestionService {
   }
 
   newBackup(): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '/new-backup', {});
+    return this.http.post<StatusResult>(this.apiUrl + '/new-backup', {});
   }
 
   deleteBackup(backupApiKey: string, id: number): Observable<StatusResult> {

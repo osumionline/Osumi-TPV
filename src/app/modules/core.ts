@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
 import ApiService from '@services/api.service';
 import ArticulosService from '@services/articulos.service';
+import BaseService from '@services/base.service';
 import CaducidadesService from '@services/caducidades.service';
 import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
@@ -18,6 +19,7 @@ function provideCore(): Provider[] {
   return [
     ApiService,
     ArticulosService,
+    BaseService,
     CaducidadesService,
     CategoriasService,
     ClassMapperService,

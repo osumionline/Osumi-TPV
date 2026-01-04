@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import {
   ComercialInterface,
@@ -8,16 +6,13 @@ import {
   ProveedoresResult,
 } from '@interfaces/proveedor.interface';
 import Proveedor from '@model/proveedores/proveedor.model';
-import ClassMapperService from '@services/class-mapper.service';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class ProveedoresService {
-  private http: HttpClient = inject(HttpClient);
-  private cms: ClassMapperService = inject(ClassMapperService);
-
+export default class ProveedoresService extends BaseService {
   proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([]);
   loaded: boolean = false;
 
@@ -35,10 +30,7 @@ export default class ProveedoresService {
   }
 
   getProveedores(): Observable<ProveedoresResult> {
-    return this.http.post<ProveedoresResult>(
-      environment.apiUrl + '-proveedores/get-proveedores',
-      {}
-    );
+    return this.http.post<ProveedoresResult>(this.apiUrl + '-proveedores/get-proveedores', {});
   }
 
   loadProveedores(proveedores: Proveedor[]): void {
@@ -60,27 +52,21 @@ export default class ProveedoresService {
   }
 
   saveProveedor(proveedor: ProveedorInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
-      environment.apiUrl + '-proveedores/save-proveedor',
-      proveedor
-    );
+    return this.http.post<IdSaveResult>(this.apiUrl + '-proveedores/save-proveedor', proveedor);
   }
 
   deleteProveedor(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-proveedores/delete-proveedor', {
+    return this.http.post<StatusResult>(this.apiUrl + '-proveedores/delete-proveedor', {
       id,
     });
   }
 
   saveComercial(comercial: ComercialInterface): Observable<IdSaveResult> {
-    return this.http.post<IdSaveResult>(
-      environment.apiUrl + '-proveedores/save-comercial',
-      comercial
-    );
+    return this.http.post<IdSaveResult>(this.apiUrl + '-proveedores/save-comercial', comercial);
   }
 
   deleteComercial(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-proveedores/delete-comercial', {
+    return this.http.post<StatusResult>(this.apiUrl + '-proveedores/delete-comercial', {
       id,
     });
   }

@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatList, MatListItem } from '@angular/material/list';
 import { BackupResult, StatusResult } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Backup from '@model/tpv/backup.model';
 import { DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
@@ -22,7 +23,7 @@ export default class BackupComponent implements OnInit {
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
 
-  backups: Backup[] = [];
+  backups: WritableSignal<Backup[]> = signal<Backup[]>([]);
 
   ngOnInit(): void {
     this.loadBackups();
@@ -30,13 +31,13 @@ export default class BackupComponent implements OnInit {
 
   loadBackups(): void {
     this.gs.getBackups(this.config.backupApiKey).subscribe((result: BackupResult): void => {
-      this.backups = this.cms.getBackups(result.list);
+      this.backups.set(this.cms.getBackups(result.list));
     });
   }
 
   newBackup(): void {
     this.gs.newBackup().subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog
           .alert({
             title: 'Nueva copia de seguridad',
@@ -72,7 +73,7 @@ export default class BackupComponent implements OnInit {
     this.gs
       .deleteBackup(this.config.backupApiKey, backup.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.dialog
             .alert({
               title: 'Copia borrada',

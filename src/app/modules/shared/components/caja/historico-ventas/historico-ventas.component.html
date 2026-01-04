@@ -32,7 +32,7 @@
         </button>
     </div>
     <div class="historico-header-rango"
-         [class]="{'show': historicoModo === 'rango'}">
+         [class.show]="historicoModo === 'rango'">
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Fecha desde</mat-label>
             <input matInput
@@ -107,8 +107,8 @@
                     <td mat-cell
                         *matCellDef="let element">
                         <div class="pay-type"
-                             [class]="{'margin': element.idCliente === null}">
-                            {{element.nombreTipoPago}}
+                             [class.margin]="element.idCliente === null">
+                            {{ element.nombreTipoPago }}
                             @if (element.idCliente !== null) {
                             <mat-icon [matTooltip]="element.cliente">account_circle</mat-icon>
                             }
@@ -120,7 +120,7 @@
                     *matHeaderRowDef="historicoVentasDisplayedColumns"></tr>
                 <tr class="clickable"
                     mat-row
-                    [class]="{'selected-row': row.id === historicoVentasSelected.id}"
+                    [class.selected-row]="row.id === historicoVentasSelected.id"
                     (click)="selectVenta(i)"
                     *matRowDef="let row; columns: historicoVentasDisplayedColumns; let i = index;"></tr>
             </table>
@@ -159,7 +159,7 @@
         <div class="historico-no-data">Elige una venta de la lista.</div>
         }
         <div class="historico-detail"
-             [class]="{'show':historicoVentasSelected.id !== null}">
+             [class.show]="historicoVentasSelected.id !== null">
             @if (historicoVentasList.length > 0 && historicoVentasSelected !== null) {
             <div class="historico-detail-lineas">
 
@@ -177,9 +177,13 @@
                             Localizador
                         </th>
                         <td mat-cell
-                            *matCellDef="let element"> {{ element.idArticulo !== null ? element.localizador : '-' }} </td>
+                            *matCellDef="let element">
+                            {{ element.idArticulo !== null ? element.localizador : '-' }}
+                        </td>
                         <td mat-footer-cell
-                            *matFooterCellDef> <strong>Total</strong> </td>
+                            *matFooterCellDef>
+                            <strong>Total</strong>
+                        </td>
                     </ng-container>
 
                     <!-- Marca -->
@@ -191,7 +195,9 @@
                             Marca
                         </th>
                         <td mat-cell
-                            *matCellDef="let element"> {{ element.idArticulo !== null ? element.marca : '-' }} </td>
+                            *matCellDef="let element">
+                            {{ element.idArticulo !== null ? element.marca : '-' }}
+                        </td>
                         <td mat-footer-cell
                             *matFooterCellDef></td>
                     </ng-container>
@@ -205,7 +211,9 @@
                             Descripción
                         </th>
                         <td mat-cell
-                            *matCellDef="let element"> {{ element.articulo }} </td>
+                            *matCellDef="let element">
+                            {{ element.articulo }}
+                        </td>
                         <td mat-footer-cell
                             *matFooterCellDef></td>
                     </ng-container>
@@ -221,10 +229,14 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{ element. unidades }} </td>
+                            *matCellDef="let element">
+                            {{ element.unidades }}
+                        </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{ historicoVentasSelected.totalUnidades }}</strong> </td>
+                            *matFooterCellDef>
+                            <strong>{{ historicoVentasSelected.totalUnidades }}</strong>
+                        </td>
                     </ng-container>
 
                     <!-- PVP -->
@@ -238,7 +250,9 @@
                         </th>
                         <td class="center"
                             mat-cell
-                            *matCellDef="let element"> {{ element.pvp | fixedNumber }} € </td>
+                            *matCellDef="let element">
+                            {{ element.pvp | fixedNumber }} €
+                        </td>
                         <td class="center"
                             mat-footer-cell
                             *matFooterCellDef></td>
@@ -273,9 +287,7 @@
                             mat-footer-cell
                             *matFooterCellDef>
                             @if (historicoVentasSelected.totalDescuento !== 0) {
-                            <div>
-                                <strong>{{ historicoVentasSelected.totalDescuento | fixedNumber }} €</strong>
-                            </div>
+                            <strong>{{ historicoVentasSelected.totalDescuento | fixedNumber }} €</strong>
                             }
                         </td>
                     </ng-container>
@@ -292,14 +304,16 @@
                         <td class="center"
                             mat-cell
                             *matCellDef="let element">
-                            {{element.importe | fixedNumber}} €
+                            {{ element.importe | fixedNumber }} €
                             @if (element.total !== element.importe) {
                             <div class="original-price">{{ element.total | fixedNumber }} €</div>
                             }
                         </td>
                         <td class="center"
                             mat-footer-cell
-                            *matFooterCellDef> <strong>{{ (historicoVentasSelected.total ?? 0) | fixedNumber }} €</strong> </td>
+                            *matFooterCellDef>
+                            <strong>{{ (historicoVentasSelected.total ?? 0) | fixedNumber }} €</strong>
+                        </td>
                     </ng-container>
 
                     <tr mat-header-row
@@ -320,9 +334,9 @@
                                     (ngModelChange)="changeFormaPago()"
                                     [disabled]="!historicoVentasSelected.editable">
                             <mat-option [value]="-1">Efectivo</mat-option>
-                            @for (tipoPago of config.tiposPago; track tipoPago.id) {
+                            @for (tipoPago of tiposPago(); track tipoPago.id) {
                             <mat-option [value]="tipoPago.id">
-                                {{tipoPago.nombre}}
+                                {{ tipoPago.nombre }}
                             </mat-option>
                             }
                         </mat-select>
@@ -334,7 +348,7 @@
                                     [disabled]="historicoVentasSelected.facturada"
                                     #clientesBox>
                             <mat-option [value]="null">Elige cliente</mat-option>
-                            @for (cliente of cs.clientes(); track cliente.id) {
+                            @for (cliente of clientes(); track cliente.id) {
                             <mat-option [value]="cliente.id">
                                 {{ cliente.nombreApellidos }}
                             </mat-option>

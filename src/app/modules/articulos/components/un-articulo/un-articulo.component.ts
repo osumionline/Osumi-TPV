@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import { ArticuloResult, ArticuloSaveResult } from '@interfaces/articulo.interface';
 import { AccesosDirectosModal, BuscadorModal, DarDeBajaModal } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import AccesosDirectosModalComponent from '@modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component';
 import ArticuloDarDeBajaModalComponent from '@modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component';
@@ -174,7 +175,7 @@ export default class UnArticuloComponent {
     this.ars
       .loadArticulo(this.articulo.localizador as number)
       .subscribe((result: ArticuloResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.articulo = this.cms.getArticulo(result.articulo);
           if (this.articulo.pvpDescuento !== null) {
             const importeDescuento: number = (this.articulo.pvp ?? 0) - this.articulo.pvpDescuento;
@@ -354,7 +355,7 @@ export default class UnArticuloComponent {
     this.ars
       .saveArticulo(this.articulo.toInterface())
       .subscribe((result: ArticuloSaveResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.articulo.localizador = result.localizador;
           this.dialog
             .alert({
@@ -377,7 +378,7 @@ export default class UnArticuloComponent {
             });
         } else {
           this.saving.set(false);
-          if (result.status === 'nombre-used') {
+          if (result.status === ApiStatusEnum.NOMBRE_USED) {
             this.dialog
               .confirm({
                 title: 'Confirmar',
@@ -392,7 +393,7 @@ export default class UnArticuloComponent {
                 }
               });
           }
-          if (result.status === 'referencia-used') {
+          if (result.status === ApiStatusEnum.REFERENCIA_USED) {
             this.dialog
               .alert({
                 title: 'Error',
@@ -404,7 +405,7 @@ export default class UnArticuloComponent {
                 this.selectedTab = 0;
               });
           }
-          if (result.status === 'cb-used') {
+          if (result.status === ApiStatusEnum.CB_USED) {
             const data: string[] = urldecode(result.message).split('/');
             this.dialog
               .alert({

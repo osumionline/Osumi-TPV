@@ -3,8 +3,10 @@ import {
   ElementRef,
   OutputEmitterRef,
   Signal,
+  WritableSignal,
   inject,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import {
@@ -26,6 +28,7 @@ import { MatSelect } from '@angular/material/select';
 import { SalidaCajaInterface, SalidaCajaResult } from '@interfaces/caja.interface';
 import { DateValues, StatusResult } from '@interfaces/interfaces';
 import SalidaCaja from '@model/caja/salida-caja.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 import { addDays, getDate } from '@osumi/tools';
 import ApiService from '@services/api.service';
@@ -57,9 +60,9 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class SalidasCajaComponent {
-  private dialog: DialogService = inject(DialogService);
-  private as: ApiService = inject(ApiService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly as: ApiService = inject(ApiService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
 
   salidaCajaEvent: OutputEmitterRef<boolean> = output<boolean>();
   salidasModo: 'fecha' | 'rango' = 'fecha';
@@ -70,7 +73,7 @@ export default class SalidasCajaComponent {
   salidasCajaList: SalidaCaja[] = [];
   salidaCajaSelected: SalidaCaja = new SalidaCaja();
 
-  start: boolean = true;
+  start: WritableSignal<boolean> = signal<boolean>(true);
 
   conceptoBox: Signal<ElementRef> = viewChild.required<ElementRef>('conceptoBox');
 
@@ -123,21 +126,21 @@ export default class SalidasCajaComponent {
   }
 
   buscarSalidasCaja(data: DateValues): void {
-    this.start = true;
+    this.start.set(true);
     this.as.getSalidasCaja(data).subscribe((result: SalidaCajaResult): void => {
       this.salidasCajaList = this.cms.getSalidasCaja(result.list);
     });
   }
 
   selectSalidaCaja(salidaCaja: SalidaCaja): void {
-    this.start = false;
+    this.start.set(false);
     this.salidaCajaSelected = salidaCaja;
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
     this.originalValue = this.form.getRawValue();
   }
 
   newSalidaCaja(): void {
-    this.start = false;
+    this.start.set(false);
     this.salidaCajaSelected = new SalidaCaja();
     this.form.patchValue(this.salidaCajaSelected.toInterface(false));
     this.originalValue = this.form.getRawValue();
@@ -170,7 +173,7 @@ export default class SalidasCajaComponent {
     this.as
       .saveSalidaCaja(this.salidaCajaSelected.toInterface())
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.dialog
             .alert({
               title: 'Datos guardados',
@@ -212,7 +215,7 @@ export default class SalidasCajaComponent {
     this.as
       .deleteSalidaCaja(this.salidaCajaSelected.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.dialog
             .alert({
               title: 'Salida de caja borrada',

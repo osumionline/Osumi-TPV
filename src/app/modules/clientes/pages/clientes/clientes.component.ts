@@ -39,6 +39,7 @@ import { Month, ProvinceInterface, StatusResult } from '@interfaces/interfaces';
 import { FacturaModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import EditFacturaModalComponent from '@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component';
 import VentasClienteComponent from '@modules/clientes/components/ventas-cliente/ventas-cliente.component';
 import { DialogService, OverlayService } from '@osumi/angular-tools';
@@ -180,7 +181,7 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .getEstadisticasCliente(this.selectedClient.id as number)
       .subscribe((result: EstadisticasClienteResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.selectedClient.ultimasVentas = this.cms.getUltimaVentaArticulos(
             result.ultimasVentas
           );
@@ -204,7 +205,7 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .getFacturas(this.selectedClient.id as number)
       .subscribe((result: FacturasResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.selectedClient.facturas = this.cms.getFacturas(result.list);
           const facturas: Factura[] = [...this.selectedClient.facturas];
           this.facturasDataSource.data = facturas;
@@ -235,7 +236,7 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .saveCliente(this.selectedClient.toInterface())
       .subscribe((result: ClienteSaveResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.cs.resetClientes();
           this.resetForm();
           this.dialog.alert({
@@ -274,7 +275,7 @@ export default class ClientesComponent implements OnInit {
     this.cs
       .deleteCliente(this.selectedClient.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.cs.resetClientes();
           this.start = true;
           this.dialog.alert({
@@ -392,7 +393,7 @@ export default class ClientesComponent implements OnInit {
 
   confirmEnviarFactura(id: number): void {
     this.cs.sendFactura(id).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog.alert({
           title: 'Factura enviada',
           content: 'La factura ha sido correctamente enviada.',

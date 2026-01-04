@@ -1,23 +1,24 @@
 import { environment } from '@env/environment';
 import { FotoInterface } from '@interfaces/articulo.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 
 export default class Foto {
-  status: string = 'new';
+  status: string = ApiStatusEnum.NEW;
   data: string | null = null;
 
   constructor(public id: number | null = null) {
     if (id !== null) {
-      this.status = 'ok';
+      this.status = ApiStatusEnum.OK;
     }
   }
 
   load(str: string): void {
-    this.status = 'new';
+    this.status = ApiStatusEnum.NEW;
     this.data = str;
   }
 
   get url(): string | null {
-    if (this.status === 'ok') {
+    if (this.status === ApiStatusEnum.OK) {
       return environment.fotosUrl + this.id + '.webp';
     } else {
       return this.data;

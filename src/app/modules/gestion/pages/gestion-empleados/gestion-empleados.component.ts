@@ -1,5 +1,15 @@
 import { KeyValue, KeyValuePipe } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,13 +28,12 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { EmpleadoSaveInterface } from '@interfaces/empleado.interface';
 import { StatusResult } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Empleado from '@model/tpv/empleado.model';
 import { DialogService } from '@osumi/angular-tools';
-import ConfigService from '@services/config.service';
 import EmpleadosService from '@services/empleados.service';
 import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
-import EmployeeListFilterPipe from '@shared/pipes/employee-list-filter.pipe';
 import { Rol, RolGroup, rolList } from '@shared/rol.class';
 
 @Component({
@@ -36,7 +45,6 @@ import { Rol, RolGroup, rolList } from '@shared/rol.class';
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    EmployeeListFilterPipe,
     MatCard,
     MatCardContent,
     MatFormField,
@@ -51,13 +59,12 @@ import { Rol, RolGroup, rolList } from '@shared/rol.class';
   ],
 })
 export default class GestionEmpleadosComponent implements OnInit {
-  public readonly es: EmpleadosService = inject(EmpleadosService);
-  public readonly config: ConfigService = inject(ConfigService);
+  private readonly es: EmpleadosService = inject(EmpleadosService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly gs: GestionService = inject(GestionService);
   private readonly router: Router = inject(Router);
 
-  search: string = '';
+  search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   selectedTab: number = 0;
   start: boolean = true;
@@ -69,6 +76,19 @@ export default class GestionEmpleadosComponent implements OnInit {
   canSaveChanges: boolean = false;
   empleadoTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('empleadoTabs');
   selectedEmpleado: Empleado = new Empleado();
+
+  empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([...this.es.empleados()]);
+  filteredEmpleados: Signal<Empleado[]> = computed<Empleado[]>((): Empleado[] => {
+    const term: string = (this.search() || '').trim().toLowerCase();
+    if (!term) {
+      return this.empleados();
+    }
+
+    return this.empleados().filter((e: Empleado): boolean => {
+      const nombre: string = e?.nombre ?? '';
+      return nombre.toLowerCase().includes(term);
+    });
+  });
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -203,7 +223,7 @@ export default class GestionEmpleadosComponent implements OnInit {
 
     this.selectedEmpleado.fromInterface(data, false);
     this.es.saveEmpleado(data).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.es.resetEmpleados();
         this.resetForm();
         this.dialog.alert({
@@ -242,7 +262,7 @@ export default class GestionEmpleadosComponent implements OnInit {
     this.es
       .deleteEmpleado(this.selectedEmpleado.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.es.resetEmpleados();
           this.start = true;
           this.dialog.alert({

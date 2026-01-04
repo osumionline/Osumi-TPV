@@ -26,9 +26,11 @@ import ConfigService from '@services/config.service';
   imports: [MatFormField, MatInput, MatSelect, MatOption, MatButton, MatIcon, Field],
 })
 export default class VentaVariosModalComponent implements OnInit {
-  private config: ConfigService = inject(ConfigService);
-  private customOverlayRef: CustomOverlayRef<null, { nombre: string; pvp: number; iva: number }> =
-    inject(CustomOverlayRef);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly customOverlayRef: CustomOverlayRef<
+    null,
+    { nombre: string; pvp: number; iva: number }
+  > = inject(CustomOverlayRef);
 
   ivaList: number[] = [];
   selectedIvaOption: IVAOption = new IVAOption();

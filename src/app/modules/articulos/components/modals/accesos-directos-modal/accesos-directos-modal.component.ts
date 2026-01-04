@@ -16,9 +16,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { AccesoDirectoResult } from '@app/interfaces/articulo.interface';
+import { AccesoDirectoResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import AccesoDirecto from '@model/articulos/acceso-directo.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
@@ -98,7 +99,7 @@ export default class AccesosDirectosModalComponent implements OnInit, AfterViewI
 
   borrarAccesoDirectoConfirm(id: number): void {
     this.ars.deleteAccesoDirecto(id).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.load();
       } else {
         this.dialog.alert({
@@ -130,7 +131,7 @@ export default class AccesosDirectosModalComponent implements OnInit, AfterViewI
     this.ars
       .asignarAccesoDirecto(this.idArticulo() as number, this.accesoDirecto as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.dialog
             .alert({
               title: 'OK',

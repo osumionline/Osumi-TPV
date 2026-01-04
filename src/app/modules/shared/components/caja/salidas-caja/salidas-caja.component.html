@@ -11,7 +11,7 @@
         </mat-select>
     </mat-form-field>
     <div class="salidas-header-fecha"
-         [class]="{'show': salidasModo === 'fecha'}">
+         [class.show]="salidasModo === 'fecha'">
         <button mat-icon-button
                 (click)="previousFecha()">
             <mat-icon>chevron_left</mat-icon>
@@ -32,7 +32,7 @@
         </button>
     </div>
     <div class="salidas-header-rango"
-         [class]="{'show': salidasModo === 'rango'}">
+         [class.show]="salidasModo === 'rango'">
         <mat-form-field subscriptSizing="dynamic">
             <mat-label>Fecha desde</mat-label>
             <input matInput
@@ -88,9 +88,9 @@
                 </div>
             </aside>
             <main>
-                <div [class]="{'show': start}"
+                <div [class.show]="start()"
                      class="start-message">Elige una salida de caja de la lista.</div>
-                <div [class]="{'show': !start}"
+                <div [class.show]="!start()"
                      class="main-body">
                     <form [formGroup]="form"
                           (ngSubmit)="onSubmit()">

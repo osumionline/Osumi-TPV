@@ -4,8 +4,10 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   Signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -16,8 +18,10 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import VentaFin from '@app/model/ventas/venta-fin.model';
 import { FinVentaResult } from '@interfaces/venta.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
+import TipoPago from '@model/tpv/tipo-pago.model';
+import VentaFin from '@model/ventas/venta-fin.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import { CustomOverlayRef, DialogField, DialogService } from '@osumi/angular-tools';
 import { formatNumber, toNumber } from '@osumi/tools';
@@ -47,14 +51,16 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   },
 })
 export default class VentaFinalizarModalComponent implements OnInit, AfterViewInit {
-  public vs: VentasService = inject(VentasService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> = inject(CustomOverlayRef);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly router: Router = inject(Router);
+  private readonly customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> =
+    inject(CustomOverlayRef);
 
   efectivoValue: Signal<ElementRef> = viewChild.required<ElementRef>('efectivoValue');
   tarjetaValue: Signal<ElementRef> = viewChild.required<ElementRef>('tarjetaValue');
+  tiposPago: WritableSignal<TipoPago[]> = signal<TipoPago[]>([...this.config.tiposPago]);
 
   ventasFinDisplayedColumns: string[] = [
     'localizador',
@@ -262,7 +268,7 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
 
     if (this.ventaFin.imprimir === 'reserva' || this.ventaFin.imprimir === 'reserva-sin-ticket') {
       this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.customOverlayRef.close({
             status: 'fin-reserva',
           });
@@ -317,14 +323,14 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
 
     this.saving = true;
     this.vs.guardarVenta().subscribe((result: FinVentaResult): void => {
-      if (result.status === 'ok-tbai-error') {
+      if (result.status === ApiStatusEnum.OK_TBAI_ERROR) {
         this.dialog.alert({
           title: 'Atención',
           content:
             'La venta se ha guardado correctamente pero se ha producido un error al enviar a TicketBai.',
         });
       }
-      if (result.status === 'ok-email-error') {
+      if (result.status === ApiStatusEnum.OK_EMAIL_ERROR) {
         this.dialog.alert({
           title: 'Atención',
           content:

@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { environment } from '@env/environment';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import { HistoricoVentasResult } from '@interfaces/caja.interface';
 import { EstadisticasClienteResult } from '@interfaces/cliente.interface';
@@ -12,24 +10,23 @@ import {
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Cliente from '@model/clientes/cliente.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Empleado from '@model/tpv/empleado.model';
 import VentaFin from '@model/ventas/venta-fin.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import Venta from '@model/ventas/venta.model';
 import { DialogService } from '@osumi/angular-tools';
 import { formatNumber } from '@osumi/tools';
-import ClassMapperService from '@services/class-mapper.service';
+import BaseService from '@services/base.service';
 import ClientesService from '@services/clientes.service';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class VentasService {
-  private http: HttpClient = inject(HttpClient);
-  private cs: ClientesService = inject(ClientesService);
-  private dialog: DialogService = inject(DialogService);
-  private cms: ClassMapperService = inject(ClassMapperService);
+export default class VentasService extends BaseService {
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly dialog: DialogService = inject(DialogService);
 
   selected: WritableSignal<number> = signal<number>(-1);
   list: WritableSignal<Venta[]> = signal<Venta[]>([]);
@@ -110,7 +107,7 @@ export default class VentasService {
 
     return this.cs.getEstadisticasCliente(cliente.id as number).pipe(
       tap((r: EstadisticasClienteResult): void => {
-        if (r.status === 'ok') {
+        if (r.status === ApiStatusEnum.OK) {
           venta.cliente!.ultimasVentas = this.cms.getUltimaVentaArticulos(r.ultimasVentas);
           venta.cliente!.topVentas = this.cms.getTopVentaArticulos(r.topVentas);
         } else {
@@ -152,53 +149,50 @@ export default class VentasService {
 
   guardarVenta(): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
-      environment.apiUrl + '-ventas/save-venta',
+      this.apiUrl + '-ventas/save-venta',
       this.fin.toInterface()
     );
   }
 
   guardarReserva(): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
-      environment.apiUrl + '-clientes/save-reserva',
+      this.apiUrl + '-clientes/save-reserva',
       this.fin.toInterface()
     );
   }
 
   search(q: string): Observable<ArticuloBuscadorResult> {
-    return this.http.post<ArticuloBuscadorResult>(environment.apiUrl + '-ventas/search', { q });
+    return this.http.post<ArticuloBuscadorResult>(this.apiUrl + '-ventas/search', { q });
   }
 
   getLineasTicket(lineas: string): Observable<LineasTicketResult> {
-    return this.http.post<LineasTicketResult>(environment.apiUrl + '-ventas/get-lineas-ticket', {
+    return this.http.post<LineasTicketResult>(this.apiUrl + '-ventas/get-lineas-ticket', {
       lineas,
     });
   }
 
   getLocalizadores(localizadores: string): Observable<LocalizadoresResult> {
-    return this.http.post<LocalizadoresResult>(environment.apiUrl + '-ventas/get-localizadores', {
+    return this.http.post<LocalizadoresResult>(this.apiUrl + '-ventas/get-localizadores', {
       localizadores,
     });
   }
 
   getHistorico(data: DateValues): Observable<HistoricoVentasResult> {
-    return this.http.post<HistoricoVentasResult>(
-      environment.apiUrl + '-ventas/get-historico',
-      data
-    );
+    return this.http.post<HistoricoVentasResult>(this.apiUrl + '-ventas/get-historico', data);
   }
 
   asignarTipoPago(id: number, idTipoPago: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/asignar-tipo-pago', {
+    return this.http.post<StatusResult>(this.apiUrl + '-ventas/asignar-tipo-pago', {
       id,
       idTipoPago,
     });
   }
 
   printTicket(id: number, tipo: string): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/print-ticket', { id, tipo });
+    return this.http.post<StatusResult>(this.apiUrl + '-ventas/print-ticket', { id, tipo });
   }
 
   sendTicket(id: number, email: string): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-ventas/send-ticket', { id, email });
+    return this.http.post<StatusResult>(this.apiUrl + '-ventas/send-ticket', { id, email });
   }
 }

@@ -6,6 +6,7 @@ import {
   Month,
   ProvinceInterface,
 } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import IVAOption from '@model/tpv/iva-option.model';
 import TipoPago from '@model/tpv/tipo-pago.model';
 import ApiService from '@services/api.service';
@@ -20,13 +21,13 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export default class ConfigService {
-  private title: Title = inject(Title);
-  private apiService: ApiService = inject(ApiService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private marcasService: MarcasService = inject(MarcasService);
-  private proveedoresService: ProveedoresService = inject(ProveedoresService);
-  private empleadosService: EmpleadosService = inject(EmpleadosService);
-  private clientesService: ClientesService = inject(ClientesService);
+  private readonly title: Title = inject(Title);
+  private readonly apiService: ApiService = inject(ApiService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly marcasService: MarcasService = inject(MarcasService);
+  private readonly proveedoresService: ProveedoresService = inject(ProveedoresService);
+  private readonly empleadosService: EmpleadosService = inject(EmpleadosService);
+  private readonly clientesService: ClientesService = inject(ClientesService);
 
   status: string = 'new';
 
@@ -79,7 +80,7 @@ export default class ConfigService {
 
   start(): Promise<string> {
     return new Promise((resolve) => {
-      if (this.status === 'loaded') {
+      if (this.status === ApiStatusEnum.LOADED) {
         resolve(this.status);
       } else {
         this.apiService.checkStart().subscribe((result) => {

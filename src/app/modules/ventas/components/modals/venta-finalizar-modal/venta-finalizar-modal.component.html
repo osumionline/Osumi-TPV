@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="tipos-pago">
-            @for (tipo of config.tiposPago; track tipo.id) {
+            @for (tipo of tiposPago(); track tipo.id) {
             @if (tipo.fisico) {
             <div class="tipo-pago"
                  [class]="{'tipo-pago-selected': ventaFin.idTipoPago === tipo.id}"

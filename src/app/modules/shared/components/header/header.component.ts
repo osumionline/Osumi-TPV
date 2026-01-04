@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, input, InputSignal, OnInit } from '@angular/core';
+import { Component, inject, input, InputSignal, signal, WritableSignal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
@@ -12,20 +12,18 @@ import ConfigService from '@services/config.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   imports: [RouterModule, MatToolbar, MatIcon],
+  host: {
+    'window:keydown': 'onKeyDown($event)',
+  },
 })
-export default class HeaderComponent implements OnInit {
-  private config: ConfigService = inject(ConfigService);
-  private router: Router = inject(Router);
-  private overlayService: OverlayService = inject(OverlayService);
+export default class HeaderComponent {
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly router: Router = inject(Router);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   selectedOption: InputSignal<string> = input<string>('');
-  title: string = '';
+  title: WritableSignal<string> = signal<string>(this.config.nombre);
 
-  ngOnInit(): void {
-    this.title = this.config.nombre;
-  }
-
-  @HostListener('window:keydown', ['$event'])
   onKeyDown(ev: KeyboardEvent): void {
     const options: string[] = ['F4', 'F5', 'F6', 'F7', 'F8', 'F9'];
     if (options.includes(ev.key)) {

@@ -36,6 +36,7 @@ import PedidoLinea from '@model/compras/pedido-linea.model';
 import PedidoPDF from '@model/compras/pedido-pdf.model';
 import PedidoVista from '@model/compras/pedido-vista.model';
 import Pedido from '@model/compras/pedido.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import IVAOption from '@model/tpv/iva-option.model';
@@ -542,7 +543,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.ars
       .loadArticulo(this.nuevoLocalizador as number)
       .subscribe((result: ArticuloResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           const articulo: Articulo = this.cms.getArticulo(result.articulo);
 
           const ind: number = this.pedido.lineas.findIndex((x: PedidoLinea): boolean => {
@@ -833,7 +834,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   guardarPedido(): void {
     this.cs.savePedido(this.pedido.toInterface()).subscribe((result: PedidoSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.pedido.id = result.id;
         this.titulo = 'Pedido ' + this.pedido.id;
         this.dialog
@@ -874,7 +875,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.cs.deletePedido(this.pedido.id as number).subscribe((result: StatusResult): void => {
-            if (result.status === 'ok') {
+            if (result.status === ApiStatusEnum.OK) {
               this.dialog
                 .alert({
                   title: 'Pedido borrado',
@@ -905,7 +906,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         this.cs
           .autoSavePedido(this.pedido.toInterface())
           .subscribe((result: PedidoSaveResult): void => {
-            if (result.status === 'error') {
+            if (result.status === ApiStatusEnum.ERROR) {
               this.dialog.alert({
                 title: 'Error',
                 content: 'Ocurrió un error al guardar automáticamente el pedido.',

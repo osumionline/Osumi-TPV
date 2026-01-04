@@ -24,6 +24,7 @@ import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import { DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
@@ -146,7 +147,7 @@ export default class MarcasComponent {
 
     this.selectedMarca.fromInterface(data, false);
     this.ms.saveMarca(data).subscribe((result: IdSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
         this.resetForm();
         this.dialog.alert({
@@ -183,7 +184,7 @@ export default class MarcasComponent {
 
   confirmDeleteMarca(): void {
     this.ms.deleteMarca(this.selectedMarca.id as number).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
         this.start = true;
         this.dialog.alert({

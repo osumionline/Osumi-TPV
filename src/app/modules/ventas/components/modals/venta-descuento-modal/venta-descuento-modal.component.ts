@@ -12,8 +12,8 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
   imports: [FormsModule, MatFormFieldModule, MatLabel, MatInput, MatButton],
 })
 export default class VentaDescuentoModalComponent implements OnInit {
-  private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   descuentoImporte: number | null = null;
   descuentoValue: Signal<ElementRef> = viewChild.required<ElementRef>('descuentoValue');

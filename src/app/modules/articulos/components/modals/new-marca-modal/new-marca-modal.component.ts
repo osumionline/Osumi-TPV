@@ -5,6 +5,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { IdSaveResult } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
@@ -40,11 +41,11 @@ export default class NewMarcaModalComponent implements OnInit {
     }
 
     this.ms.saveMarca(this.marca.toInterface()).subscribe((result: IdSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
         this.customOverlayRef.close(result.id);
       }
-      if (result.status === 'error-nombre') {
+      if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog
           .alert({
             title: 'Error',
@@ -55,7 +56,7 @@ export default class NewMarcaModalComponent implements OnInit {
           });
         return;
       }
-      if (result.status === 'error') {
+      if (result.status === ApiStatusEnum.ERROR) {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al guardar la nueva marca.',

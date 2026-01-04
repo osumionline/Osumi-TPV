@@ -1,4 +1,4 @@
-import { Component, OutputEmitterRef, inject, output } from '@angular/core';
+import { Component, OutputEmitterRef, WritableSignal, inject, output, signal } from '@angular/core';
 import { EmpleadoLoginModal } from '@interfaces/modals.interface';
 import Empleado from '@model/tpv/empleado.model';
 import { OverlayService } from '@osumi/angular-tools';
@@ -12,9 +12,10 @@ import EmployeeLoginModalComponent from '@shared/components/modals/employee-logi
   imports: [],
 })
 export default class EmployeeLoginComponent {
-  public es: EmpleadosService = inject(EmpleadosService);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly es: EmpleadosService = inject(EmpleadosService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
+  empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([...this.es.empleados()]);
   selectedEmpleado: Empleado = new Empleado();
   successEvent: OutputEmitterRef<Empleado> = output<Empleado>();
 
@@ -28,10 +29,7 @@ export default class EmployeeLoginComponent {
       id: this.selectedEmpleado.id,
       nombre: this.selectedEmpleado.nombre,
     };
-    const dialog = this.overlayService.open(
-      EmployeeLoginModalComponent,
-      modalEmpleadoLoginData
-    );
+    const dialog = this.overlayService.open(EmployeeLoginModalComponent, modalEmpleadoLoginData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data === true) {
         this.successEvent.emit(this.selectedEmpleado);

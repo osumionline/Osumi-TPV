@@ -12,10 +12,11 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import Caducidad from '@app/model/almacen/caducidad.model';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { BuscadorModal } from '@interfaces/modals.interface';
+import Caducidad from '@model/almacen/caducidad.model';
 import Articulo from '@model/articulos/articulo.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
@@ -88,7 +89,7 @@ export default class CaducidadModalComponent {
     this.ars
       .loadArticulo(this.articulo.localizador as number)
       .subscribe((result: ArticuloResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.articulo = this.cms.getArticulo(result.articulo);
           this.articuloName = this.articulo.nombre;
           this.articuloSelected.set(true);

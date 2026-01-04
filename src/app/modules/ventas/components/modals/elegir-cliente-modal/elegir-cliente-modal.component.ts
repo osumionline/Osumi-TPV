@@ -4,8 +4,10 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   Signal,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -17,7 +19,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { ClienteSaveResult, ClientesResult } from '@interfaces/cliente.interface';
+import { ProvinceInterface } from '@interfaces/interfaces';
 import Cliente from '@model/clientes/cliente.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
@@ -43,13 +47,17 @@ import ConfigService from '@services/config.service';
   ],
 })
 export default class ElegirClienteModalComponent implements OnInit, AfterViewInit {
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private cs: ClientesService = inject(ClientesService);
-  private router: Router = inject(Router);
-  private customOverlayRef: CustomOverlayRef<null, { from: string }> = inject(CustomOverlayRef);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly router: Router = inject(Router);
+  private readonly customOverlayRef: CustomOverlayRef<null, { from: string }> =
+    inject(CustomOverlayRef);
 
+  provincias: WritableSignal<ProvinceInterface[]> = signal<ProvinceInterface[]>([
+    ...this.config.provincias(),
+  ]);
   selectClienteFrom: string | null = null;
   elegirClienteTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('elegirClienteTabs');
   elegirClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('elegirClienteBoxName');
@@ -113,7 +121,7 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
     this.cs.searchClientes(this.elegirClienteNombre).subscribe((result: ClientesResult): void => {
       this.searching = false;
       this.searched = true;
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.searchResult = this.cms.getClientes(result.list);
         this.buscadorDataSource.data = this.searchResult;
       } else {
@@ -171,7 +179,7 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
     this.cs
       .saveCliente(this.nuevoCliente.toInterface())
       .subscribe((result: ClienteSaveResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.cs.resetClientes();
           this.nuevoCliente.id = result.id;
           this.selectCliente(this.nuevoCliente);

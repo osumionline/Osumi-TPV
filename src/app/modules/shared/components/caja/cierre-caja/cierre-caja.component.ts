@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { CierreCajaResult } from '@interfaces/caja.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import CierreCaja from '@model/caja/cierre-caja.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 import { getCurrentDate } from '@osumi/tools';
 import ApiService from '@services/api.service';
@@ -39,14 +40,15 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class CierreCajaComponent {
-  private as: ApiService = inject(ApiService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private router: Router = inject(Router);
+  private readonly as: ApiService = inject(ApiService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly router: Router = inject(Router);
 
   cierreCaja: CierreCaja = new CierreCaja();
   showCoins: boolean = false;
+  ventaOnline: WritableSignal<boolean> = signal<boolean>(this.config.ventaOnline);
 
   load(): void {
     const date: string = getCurrentDate();
@@ -108,7 +110,7 @@ export default class CierreCajaComponent {
     this.as
       .saveCierreCaja(this.cierreCaja.toInterface())
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.config.isOpened = false;
           this.router.navigate(['/']);
         } else {

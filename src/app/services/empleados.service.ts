@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import {
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
@@ -8,16 +6,13 @@ import {
 } from '@interfaces/empleado.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import Empleado from '@model/tpv/empleado.model';
-import ClassMapperService from '@services/class-mapper.service';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class EmpleadosService {
-  private http: HttpClient = inject(HttpClient);
-  private cms: ClassMapperService = inject(ClassMapperService);
-
+export default class EmpleadosService extends BaseService {
   empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([]);
   colors: Record<number, string | null> = {};
   textColors: Record<number, string | null> = {};
@@ -37,7 +32,7 @@ export default class EmpleadosService {
   }
 
   getEmpleados(): Observable<EmpleadosResult> {
-    return this.http.post<EmpleadosResult>(environment.apiUrl + '-empleados/get-empleados', {});
+    return this.http.post<EmpleadosResult>(this.apiUrl + '-empleados/get-empleados', {});
   }
 
   loadEmpleados(empleados: Empleado[]): void {
@@ -55,14 +50,14 @@ export default class EmpleadosService {
   }
 
   saveEmpleado(empleado: EmpleadoSaveInterface): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/save-empleado', empleado);
+    return this.http.post<StatusResult>(this.apiUrl + '-empleados/save-empleado', empleado);
   }
 
   login(empleado: EmpleadoLoginInterface): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/login', empleado);
+    return this.http.post<StatusResult>(this.apiUrl + '-empleados/login', empleado);
   }
 
   deleteEmpleado(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-empleados/delete-empleado', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-empleados/delete-empleado', { id });
   }
 }

@@ -1,9 +1,9 @@
-@if (vs.ventaActual.mostrarEmpleados) {
+@if (venta().mostrarEmpleados) {
 <otpv-employee-login (successEvent)="loginSuccess($event)" />
 }
 
 <div class="ventas-header"
-	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
+	 [class.hidden]="venta().mostrarEmpleados">
 	<div class="col-localizador">Localizador</div>
 	<div class="col-descripcion">Descripción</div>
 	<div class="col-marca">Marca</div>
@@ -15,8 +15,8 @@
 </div>
 
 <div class="lineas-ventas"
-	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}">
-	@for (linea of vs.ventaActual.lineas; track $index; let i = $index) {
+	 [class.hidden]="venta().mostrarEmpleados">
+	@for (linea of venta().lineas; track $index; let i = $index) {
 	<div class="linea-venta"
 		 [class]="{'linea-devolucion': (linea.cantidad ?? 0) < 0}">
 		<div class="col-localizador">
@@ -29,7 +29,7 @@
 				   [disabled]="searching">
 			}
 			@if (linea.idArticulo !== null) {
-			{{linea.localizador}}
+			{{ linea.localizador }}
 			}
 			@if (linea.idArticulo !== null && linea.fromVenta === null) {
 			<mat-icon class="delete-linea"
@@ -80,7 +80,7 @@
 			@if (!editarCantidad && linea.fromVenta === null) {
 			<span class="editar-linea-cantidad"
 				  (click)="editarLineaCantidad(i)">
-				{{linea.cantidad}}
+				{{ linea.cantidad }}
 			</span>
 			}
 			@if (editarCantidad && linea.fromVenta === null) {
@@ -96,7 +96,7 @@
 			</span>
 			}
 			@if (linea.fromVenta !== null) {
-			<span>{{linea.cantidad}}</span>
+			<span>{{ linea.cantidad }}</span>
 			}
 			}
 		</div>
@@ -117,7 +117,7 @@
 			}
 			@if (linea.importe !== null && linea.fromVenta === null) {
 			@if (!editarImporte) {
-			<span [class]="{'editar-linea-importe': vs.ventaActual.modificarImportes, 'editar-linea-importe-off': !vs.ventaActual.modificarImportes}"
+			<span [class]="{'editar-linea-importe': venta().modificarImportes, 'editar-linea-importe-off': !venta().modificarImportes}"
 				  (click)="editarLineaImporte(i)">
 				{{ (linea.total ?? 0) | fixedNumber}} €
 				@if (linea.importeManual) {
@@ -160,7 +160,7 @@
 				@else {
 				€
 				}
-				@if (!linea.descuentoManual && vs.ventaActual.modificarImportes) {
+				@if (!linea.descuentoManual && venta().modificarImportes) {
 				<span (click)="abreDescuento($event, linea)"
 					  matTooltip="introducir un importe como descuento">
 					<mat-icon>euro</mat-icon>
@@ -189,7 +189,7 @@
 			}
 			}
 			@if (linea.fromVenta !== null) {
-			<span>{{linea.descuento}} %</span>
+			<span>{{ linea.descuento }} %</span>
 			}
 		</div>
 		<div class="col-stock">
@@ -197,18 +197,18 @@
 			&nbsp;
 			}
 			@else {
-			<span>{{linea.idArticulo !== 0 ? linea.stock : '-'}}</span>
+			<span>{{ linea.idArticulo !== 0 ? linea.stock : '-' }}</span>
 			}
 		</div>
 	</div>
 	}
 </div>
 
-@if (vs.ventaActual.cliente) {
+@if (venta().cliente) {
 <div class="cliente-estadisticas">
 	<div class="col-ultimas-ventas">
 		<div class="estadisticas-titulo">Últimas ventas</div>
-		@if (showClienteEstadisticas && vs.ventaActual.cliente.ultimasVentas.length) {
+		@if (showClienteEstadisticas && venta().cliente!.ultimasVentas.length) {
 		<div class="estadisticas-datos">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-fecha">Fecha</div>
@@ -218,7 +218,7 @@
 				<div class="estadisticas-item-importe">PVP</div>
 				<div class="estadisticas-item-importe">Imp.</div>
 			</div>
-			@for (item of vs.ventaActual.cliente.ultimasVentas; track item) {
+			@for (item of venta().cliente!.ultimasVentas; track item) {
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-fecha">{{ item.fecha }}</div>
 				<div class="estadisticas-item-localizador">{{ item.localizador }}</div>
@@ -230,7 +230,7 @@
 			}
 		</div>
 		}
-		@if (showClienteEstadisticas && !vs.ventaActual.cliente.ultimasVentas.length) {
+		@if (showClienteEstadisticas && !venta().cliente!.ultimasVentas.length) {
 		<div class="estadisticas-sin-datos">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
@@ -242,7 +242,7 @@
 			<mat-icon (click)="closeClienteEstadisticas()"
 					  [class]="{'closed': !showClienteEstadisticas}">expand_more</mat-icon>
 		</div>
-		@if (showClienteEstadisticas && vs.ventaActual.cliente.topVentas.length) {
+		@if (showClienteEstadisticas && venta().cliente!.topVentas.length) {
 		<div class="estadisticas-datos">
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-localizador">Loc.</div>
@@ -250,7 +250,7 @@
 				<div class="estadisticas-item-importe">Imp.</div>
 				<div class="estadisticas-item-importe">Ud.</div>
 			</div>
-			@for (item of vs.ventaActual.cliente.topVentas; track item.localizador) {
+			@for (item of venta().cliente!.topVentas; track item.localizador) {
 			<div class="estadisticas-item">
 				<div class="estadisticas-item-localizador">{{ item.localizador }}</div>
 				<div class="estadisticas-item-nombre">{{ item.nombre }}</div>
@@ -260,7 +260,7 @@
 			}
 		</div>
 		}
-		@if (showClienteEstadisticas && !vs.ventaActual.cliente.topVentas.length) {
+		@if (showClienteEstadisticas && !venta().cliente!.topVentas.length) {
 		<div class="estadisticas-sin-datos">
 			El cliente no ha realizado ninguna compra todavía.
 		</div>
@@ -270,14 +270,14 @@
 }
 
 <div class="importe"
-	 [class]="{'hidden': vs.ventaActual.mostrarEmpleados}"
+	 [class.hidden]="venta().mostrarEmpleados"
 	 cdkDrag>
 	<div class="total-importe"
 		 (click)="openCaja()">
-		{{vs.ventaActual.importe | fixedNumber}} €
+		{{ venta().importe | fixedNumber }} €
 	</div>
 	<div class="venta-anterior"
-		 [class]="{'show': showUltimaVenta}">
+		 [class.show]="showUltimaVenta">
 		<span>Última venta: {{ (ultimaVentaImporte ?? 0) | fixedNumber }} €</span>
 		<span>Cambio: {{ (ultimaVentaCambio ?? 0) | fixedNumber }} €</span>
 	</div>
@@ -286,12 +286,12 @@
 				  cdkDragHandle>drag_indicator</mat-icon>
 		<button class="cancel-btn"
 				mat-stroked-button
-				[disabled]="vs.ventaActual.lineas.length === 1"
+				[disabled]="venta().lineas.length === 1"
 				(click)="cancelarVenta()">Cancelar</button>
 		<button class="end-btn"
 				mat-flat-button
 				color="primary"
-				[disabled]="vs.ventaActual.lineas.length === 1"
+				[disabled]="venta().lineas.length === 1"
 				(click)="terminarVenta()">Terminar</button>
 	</div>
 </div>

@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { FinalizarVentaModal } from '@app/interfaces/modals.interface';
 import Cliente from '@app/model/clientes/cliente.model';
+import ApiStatusEnum from '@app/model/enum/api-status.enum';
 import VentaFin from '@app/model/ventas/venta-fin.model';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
 import Reserva from '@model/ventas/reserva.model';
@@ -259,19 +260,19 @@ export default class VentasComponent implements OnInit {
     const dialog = this.overlayService.open(VentaFinalizarModalComponent, modalFinalizarVentaData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        if (data.data.status === 'cliente') {
+        if (data.data.status === ApiStatusEnum.CLIENTE) {
           this.tabs().selectClient('venta');
         }
-        if (data.data.status === 'factura') {
+        if (data.data.status === ApiStatusEnum.FACTURA) {
           this.tabs().selectClient('factura');
         }
-        if (data.data.status === 'reserva') {
+        if (data.data.status === ApiStatusEnum.RESERVA) {
           this.tabs().selectClient('reserva');
         }
-        if (data.data.status === 'cancelar') {
+        if (data.data.status === ApiStatusEnum.CANCELAR) {
           this.ventasComponents()[this.vs.selected()]?.setFocus();
         }
-        if (data.data.status === 'fin-reserva') {
+        if (data.data.status === ApiStatusEnum.FIN_RESERVA) {
           this.ventas.update((ventas: Venta[]): Venta[] => {
             ventas[this.vs.selected()].cliente = null;
             ventas[this.vs.selected()].resetearVenta();
@@ -280,7 +281,7 @@ export default class VentasComponent implements OnInit {
           });
           this.ventasComponents()[this.vs.selected()]?.setFocus();
         }
-        if (data.data.status === 'fin') {
+        if (data.data.status === ApiStatusEnum.FIN) {
           this.ventas.update((ventas: Venta[]): Venta[] => {
             ventas[this.vs.selected()].cliente = null;
             ventas[this.vs.selected()].resetearVenta();

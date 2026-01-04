@@ -10,7 +10,6 @@ import Reserva from '@model/ventas/reserva.model';
 import ElegirClienteModalComponent from '@modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component';
 import ReservasModalComponent from '@modules/ventas/components/modals/reservas-modal/reservas-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
-import VentasService from '@services/ventas.service';
 
 @Component({
   selector: 'otpv-ventas-tabs',
@@ -19,9 +18,8 @@ import VentasService from '@services/ventas.service';
   imports: [RouterModule, MatIcon, MatTooltip],
 })
 export default class VentasTabsComponent {
-  private dialog: DialogService = inject(DialogService);
-  public vs: VentasService = inject(VentasService);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   ventas: InputSignal<Venta[]> = input.required<Venta[]>();
   selected: InputSignal<number> = input.required<number>();

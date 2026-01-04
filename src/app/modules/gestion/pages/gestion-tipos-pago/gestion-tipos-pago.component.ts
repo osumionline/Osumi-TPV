@@ -1,5 +1,15 @@
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, inject, OnInit, Signal, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -22,6 +32,7 @@ import {
   TiposPagoOrderInterface,
   TiposPagoResult,
 } from '@interfaces/tipo-pago.interface';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import TipoPago from '@model/tpv/tipo-pago.model';
 import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
@@ -29,7 +40,6 @@ import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
-import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
 
 @Component({
   selector: 'otpv-gestion-tipos-pago',
@@ -39,7 +49,6 @@ import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    PayTypeListFilterPipe,
     MatCard,
     MatCardContent,
     MatFormField,
@@ -56,18 +65,31 @@ import PayTypeListFilterPipe from '@shared/pipes/pay-type-list-filter.pipe';
   ],
 })
 export default class GestionTiposPagoComponent implements OnInit {
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private as: ApiService = inject(ApiService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private gs: GestionService = inject(GestionService);
-  private router: Router = inject(Router);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly as: ApiService = inject(ApiService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly gs: GestionService = inject(GestionService);
+  private readonly router: Router = inject(Router);
 
-  search: string = '';
+  search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   start: boolean = true;
   selectedTipoPago: TipoPago = new TipoPago();
   tiposPagoTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('tiposPagoTabs');
+
+  tiposPago: WritableSignal<TipoPago[]> = signal<TipoPago[]>([...this.config.tiposPago]);
+  filteredTiposPago: Signal<TipoPago[]> = computed<TipoPago[]>((): TipoPago[] => {
+    const term: string = (this.search() || '').trim().toLowerCase();
+    if (!term) {
+      return this.tiposPago();
+    }
+
+    return this.tiposPago().filter((tp: TipoPago): boolean => {
+      const nombre: string = tp?.nombre ?? '';
+      return nombre.toLowerCase().includes(term);
+    });
+  });
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -98,7 +120,7 @@ export default class GestionTiposPagoComponent implements OnInit {
       orderList.push({ id: this.config.tiposPago[ind].id as number, orden: i });
     }
     this.as.saveTipoPagoOrden(orderList).subscribe((result: StatusResult): void => {
-      if (result.status === 'error') {
+      if (result.status === ApiStatusEnum.ERROR) {
         this.dialog.alert({
           title: 'Error',
           content: 'Ocurrió un error al guardar el orden de los tipos de pago.',
@@ -167,7 +189,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     this.selectedTipoPago.fromInterface(data, false);
 
     this.as.saveTipoPago(data).subscribe((result: IdSaveResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.as.loadTiposPago().subscribe((result: TiposPagoResult): void => {
           this.config.tiposPago = this.cms.getTiposPago(result.list);
         });
@@ -208,7 +230,7 @@ export default class GestionTiposPagoComponent implements OnInit {
     this.as
       .deleteTipoPago(this.selectedTipoPago.id as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.as.loadTiposPago().subscribe((result: TiposPagoResult): void => {
             this.config.tiposPago = this.cms.getTiposPago(result.list);
           });

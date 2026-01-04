@@ -5,7 +5,6 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import Cliente from '@app/model/clientes/cliente.model';
 import { ArticuloInterface, ArticuloResult } from '@interfaces/articulo.interface';
 import { BuscadorModal, DevolucionModal, VariosModal } from '@interfaces/modals.interface';
 import {
@@ -15,6 +14,8 @@ import {
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
+import Cliente from '@model/clientes/cliente.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Empleado from '@model/tpv/empleado.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
@@ -50,14 +51,14 @@ import { rolList } from '@shared/rol.class';
   ],
 })
 export default class UnaVentaComponent {
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private ms: MarcasService = inject(MarcasService);
-  public vs: VentasService = inject(VentasService);
-  private ars: ArticulosService = inject(ArticulosService);
-  public es: EmpleadosService = inject(EmpleadosService);
-  private router: Router = inject(Router);
-  private overlayService: OverlayService = inject(OverlayService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly ms: MarcasService = inject(MarcasService);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly es: EmpleadosService = inject(EmpleadosService);
+  private readonly router: Router = inject(Router);
+  private readonly overlayService: OverlayService = inject(OverlayService);
 
   ind: ModelSignal<number> = model.required<number>();
   venta: ModelSignal<Venta> = model.required<Venta>();
@@ -175,7 +176,7 @@ export default class UnaVentaComponent {
         }
         this.ars.loadArticulo(localizador).subscribe((result: ArticuloResult): void => {
           this.searching = false;
-          if (result.status === 'ok') {
+          if (result.status === ApiStatusEnum.OK) {
             this.loadArticulo(result.articulo, ind);
           } else {
             this.dialog
@@ -787,7 +788,7 @@ export default class UnaVentaComponent {
         }
       }
     }
-    if (status === 'ok') {
+    if (status === ApiStatusEnum.OK) {
       this.endVentaEvent.emit();
     }
   }

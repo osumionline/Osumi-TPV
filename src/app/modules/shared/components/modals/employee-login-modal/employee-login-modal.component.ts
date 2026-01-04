@@ -5,6 +5,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { EmpleadoLoginInterface } from '@interfaces/empleado.interface';
 import { StatusResult } from '@interfaces/interfaces';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import EmpleadosService from '@services/empleados.service';
 
@@ -15,9 +16,9 @@ import EmpleadosService from '@services/empleados.service';
   imports: [FormsModule, MatFormField, MatInput, MatLabel, MatButton],
 })
 export default class EmployeeLoginModalComponent implements OnInit {
-  private dialog: DialogService = inject(DialogService);
-  private es: EmpleadosService = inject(EmpleadosService);
-  private customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> =
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly es: EmpleadosService = inject(EmpleadosService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> =
     inject(CustomOverlayRef);
 
   id: number | null = null;
@@ -54,7 +55,7 @@ export default class EmployeeLoginModalComponent implements OnInit {
       };
       this.es.login(empleado).subscribe((result: StatusResult): void => {
         this.loginLoading = false;
-        if (result.status === 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           this.customOverlayRef.close(true);
         } else {
           this.dialog

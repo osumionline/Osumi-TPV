@@ -6,7 +6,7 @@ import ConfigService from '@services/config.service';
   name: 'monthName',
 })
 export default class MonthNamePipe implements PipeTransform {
-  private config: ConfigService = inject(ConfigService);
+  private readonly config: ConfigService = inject(ConfigService);
 
   transform(value: number): string {
     const month: Month | undefined = this.config.monthList.find(

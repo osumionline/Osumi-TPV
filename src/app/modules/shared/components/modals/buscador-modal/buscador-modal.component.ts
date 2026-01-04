@@ -38,9 +38,9 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class BuscadorModalComponent implements OnInit, AfterViewInit, OnDestroy {
-  private vs: VentasService = inject(VentasService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef<null, { key: string; showSelect?: boolean }> =
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly customOverlayRef: CustomOverlayRef<null, { key: string; showSelect?: boolean }> =
     inject(CustomOverlayRef);
 
   searchBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('searchBoxName');

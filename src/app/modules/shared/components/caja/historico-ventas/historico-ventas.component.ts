@@ -3,8 +3,10 @@ import {
   Component,
   OutputEmitterRef,
   Signal,
+  WritableSignal,
   inject,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +21,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@app/model/enum/api-status.enum';
 import { environment } from '@env/environment';
 import { HistoricoVentasResult, VentaHistoricoOtrosInterface } from '@interfaces/caja.interface';
 import { DateValues, IdSaveResult, StatusResult } from '@interfaces/interfaces';
@@ -59,18 +62,21 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class HistoricoVentasComponent implements AfterViewInit {
-  private vs: VentasService = inject(VentasService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  public cs: ClientesService = inject(ClientesService);
-  public config: ConfigService = inject(ConfigService);
-  private dialog: DialogService = inject(DialogService);
-  private router: Router = inject(Router);
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly cs: ClientesService = inject(ClientesService);
+  private readonly config: ConfigService = inject(ConfigService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly router: Router = inject(Router);
 
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
   historicoModo: string = 'fecha';
   fecha: Date = new Date();
   rangoDesde: Date = new Date();
   rangoHasta: Date = new Date();
+
+  tiposPago: WritableSignal<TipoPago[]> = signal<TipoPago[]>([...this.config.tiposPago]);
+  clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([...this.cs.clientes()]);
 
   historicoVentasList: VentaHistorico[] = [];
   historicoVentasDisplayedColumns: string[] = ['fecha', 'total', 'nombreTipoPago'];
@@ -206,7 +212,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
     this.vs
       .printTicket(this.historicoVentasSelected.id as number, tipo)
       .subscribe((result: StatusResult): void => {
-        if (result.status === 'error') {
+        if (result.status === ApiStatusEnum.ERROR) {
           this.dialog.alert({
             title: 'Error',
             content: 'Ocurrió un error al imprimir el ticket.',
@@ -294,10 +300,10 @@ export default class HistoricoVentasComponent implements AfterViewInit {
     this.cs
       .saveFacturaFromVenta(this.historicoVentasSelected.id as number)
       .subscribe((result: IdSaveResult): void => {
-        if (result.status === 'ok' || result.status === 'error-factura') {
+        if (result.status === ApiStatusEnum.OK || result.status === ApiStatusEnum.ERROR_FACTURA) {
           window.open('/clientes/factura/' + result.id + '/preview');
         }
-        if (result.status === 'error-facturada') {
+        if (result.status === ApiStatusEnum.ERROR_FACTURADA) {
           window.open('/clientes/factura/' + result.id);
         }
       });
@@ -377,7 +383,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
 
   sendTicketConfirm(id: number, email: string): void {
     this.vs.sendTicket(id, urlencode(email) as string).subscribe((result: StatusResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         this.dialog.alert({
           title: 'Enviado',
           content:

@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable } from '@angular/core';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
@@ -13,14 +11,13 @@ import {
 } from '@interfaces/interfaces';
 import InventarioItem from '@model/almacen/inventario-item.model';
 import Articulo from '@model/articulos/articulo.model';
+import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export default class AlmacenService {
-  private http: HttpClient = inject(HttpClient);
-
+export default class AlmacenService extends BaseService {
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,
     idMarca: null,
@@ -37,32 +34,26 @@ export default class AlmacenService {
   firstLoad: boolean = true;
 
   getInventario(data: BuscadorAlmacenInterface): Observable<BuscadorAlmacenResult> {
-    return this.http.post<BuscadorAlmacenResult>(
-      environment.apiUrl + '-almacen/get-inventario',
-      data
-    );
+    return this.http.post<BuscadorAlmacenResult>(this.apiUrl + '-almacen/get-inventario', data);
   }
 
   saveInventario(item: InventarioItemInterface): Observable<StatusIdMessageResult> {
-    return this.http.post<StatusIdMessageResult>(
-      environment.apiUrl + '-almacen/save-inventario',
-      item
-    );
+    return this.http.post<StatusIdMessageResult>(this.apiUrl + '-almacen/save-inventario', item);
   }
 
   saveAllInventario(list: InventarioItemInterface[]): Observable<StatusIdMessageErrorsResult> {
     return this.http.post<StatusIdMessageErrorsResult>(
-      environment.apiUrl + '-almacen/save-all-inventario',
+      this.apiUrl + '-almacen/save-all-inventario',
       { list }
     );
   }
 
   deleteInventario(id: number): Observable<StatusResult> {
-    return this.http.post<StatusResult>(environment.apiUrl + '-almacen/delete-inventario', { id });
+    return this.http.post<StatusResult>(this.apiUrl + '-almacen/delete-inventario', { id });
   }
 
   exportInventario(data: BuscadorAlmacenInterface) {
-    return this.http.post(environment.apiUrl + '-almacen/export-inventario', data, {
+    return this.http.post(this.apiUrl + '-almacen/export-inventario', data, {
       responseType: 'text',
     });
   }

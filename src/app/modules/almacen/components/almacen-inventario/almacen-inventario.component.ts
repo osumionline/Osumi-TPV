@@ -32,6 +32,7 @@ import {
   StatusResult,
 } from '@interfaces/interfaces';
 import InventarioItem from '@model/almacen/inventario-item.model';
+import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';
@@ -207,7 +208,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
         const ind: number = this.list().findIndex((x: InventarioItem): boolean => {
           return x.id === status.id;
         });
-        if (status.status === 'ok') {
+        if (status.status === ApiStatusEnum.OK) {
           this.list.update((value: InventarioItem[]): InventarioItem[] => {
             value[ind]._pvp = value[ind].pvp;
             value[ind]._stock = value[ind].stock;
@@ -236,7 +237,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
 
   saveInventario(item: InventarioItem): void {
     this.as.saveInventario(item.toInterface()).subscribe((result: StatusIdMessageResult): void => {
-      if (result.status === 'ok') {
+      if (result.status === ApiStatusEnum.OK) {
         item._pvp = item.pvp;
         item._stock = item.stock;
         if (item.codigoBarras !== null) {
@@ -261,7 +262,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.as.deleteInventario(item.id as number).subscribe((result: StatusResult): void => {
-            if (result.status === 'ok') {
+            if (result.status === ApiStatusEnum.OK) {
               const ind: number = this.list().findIndex(
                 (x: InventarioItem): boolean => x.id === item.id
               );

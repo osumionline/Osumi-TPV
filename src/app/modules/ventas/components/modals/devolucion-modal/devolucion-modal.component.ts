@@ -31,10 +31,10 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   ],
 })
 export default class DevolucionModalComponent implements OnInit {
-  private vs: VentasService = inject(VentasService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private dialog: DialogService = inject(DialogService);
-  private customOverlayRef: CustomOverlayRef<
+  private readonly vs: VentasService = inject(VentasService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly dialog: DialogService = inject(DialogService);
+  private readonly customOverlayRef: CustomOverlayRef<
     null,
     { idVenta: number; list: DevolucionSelectedInterface[] }
   > = inject(CustomOverlayRef);

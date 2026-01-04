@@ -13,9 +13,9 @@ import ClassMapperService from '@services/class-mapper.service';
   imports: [MatSortModule, MatTableModule],
 })
 export default class VentaAccesosDirectosModalComponent implements OnInit {
-  private ars: ArticulosService = inject(ArticulosService);
-  private cms: ClassMapperService = inject(ClassMapperService);
-  private customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly ars: ArticulosService = inject(ArticulosService);
+  private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
   accesosDirectosList: AccesoDirecto[] = [];
   accesosDirectosDisplayedColumns: string[] = ['accesoDirecto', 'nombre'];
@@ -23,12 +23,10 @@ export default class VentaAccesosDirectosModalComponent implements OnInit {
     new MatTableDataSource<AccesoDirecto>();
 
   ngOnInit(): void {
-    this.ars
-      .getAccesosDirectosList()
-      .subscribe((result: AccesoDirectoResult): void => {
-        this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
-        this.accesosDirectosDataSource.data = this.accesosDirectosList;
-      });
+    this.ars.getAccesosDirectosList().subscribe((result: AccesoDirectoResult): void => {
+      this.accesosDirectosList = this.cms.getAccesosDirectos(result.list);
+      this.accesosDirectosDataSource.data = this.accesosDirectosList;
+    });
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
