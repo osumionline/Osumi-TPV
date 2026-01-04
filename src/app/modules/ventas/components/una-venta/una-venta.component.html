@@ -26,7 +26,7 @@
 				   (keydown)="checkLocalizador($event, i)"
 				   autocomplete="off"
 				   [(ngModel)]="linea.localizador"
-				   [disabled]="searching">
+				   [disabled]="searching()">
 			}
 			@if (linea.idArticulo !== null) {
 			{{ linea.localizador }}
@@ -278,8 +278,8 @@
 	</div>
 	<div class="venta-anterior"
 		 [class.show]="showUltimaVenta">
-		<span>Última venta: {{ (ultimaVentaImporte ?? 0) | fixedNumber }} €</span>
-		<span>Cambio: {{ (ultimaVentaCambio ?? 0) | fixedNumber }} €</span>
+		<span>Última venta: {{ ultimaVentaImporte() | fixedNumber }} €</span>
+		<span>Cambio: {{ ultimaVentaCambio() | fixedNumber }} €</span>
 	</div>
 	<div class="controles-venta">
 		<mat-icon class="handle-icon"

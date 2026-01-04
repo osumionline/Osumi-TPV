@@ -30,7 +30,7 @@ export interface DevolucionModal extends Modal {
 export interface VariosModal extends Modal {
   nombre: string | null;
   pvp: number | null;
-  iva: number;
+  iva: number | null;
 }
 
 export interface FinalizarVentaModal extends Modal {
