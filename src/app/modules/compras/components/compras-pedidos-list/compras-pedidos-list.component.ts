@@ -1,6 +1,6 @@
 import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { disabled, Field, form, min } from '@angular/forms/signals';
+import { disabled, form, FormField, min } from '@angular/forms/signals';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatNativeDateModule, MatOption } from '@angular/material/core';
@@ -54,7 +54,7 @@ import { shallowEqual } from '@shared/utils';
     MatTableModule,
     MatTooltip,
     MatPaginatorModule,
-    Field,
+    FormField,
   ],
 })
 export default class ComprasPedidosListComponent {

@@ -9,7 +9,7 @@ import {
   viewChild,
   WritableSignal,
 } from '@angular/core';
-import { disabled, Field, form, min, required } from '@angular/forms/signals';
+import { disabled, form, FormField, min, required } from '@angular/forms/signals';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +23,7 @@ import ConfigService from '@services/config.service';
 @Component({
   selector: 'otpv-venta-varios-modal',
   templateUrl: './venta-varios-modal.component.html',
-  imports: [MatFormField, MatInput, MatSelect, MatOption, MatButton, MatIcon, Field],
+  imports: [MatFormField, MatInput, MatSelect, MatOption, MatButton, MatIcon, FormField],
 })
 export default class VentaVariosModalComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);

@@ -21,7 +21,7 @@
                                                 <mat-label>Fecha desde</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="guardadosRangoDesdePicker"
-                                                       [field]="formGuardados.fechaDesde">
+                                                       [formField]="formGuardados.fechaDesde">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="guardadosRangoDesdePicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #guardadosRangoDesdePicker></mat-datepicker>
@@ -32,7 +32,7 @@
                                                 <mat-label>Fecha hasta</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="guardadosRangoHastaPicker"
-                                                       [field]="formGuardados.fechaHasta">
+                                                       [formField]="formGuardados.fechaHasta">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="guardadosRangoHastaPicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #guardadosRangoHastaPicker></mat-datepicker>
@@ -42,7 +42,7 @@
                                     <div class="row">
                                         <mat-form-field subscriptSizing="dynamic"
                                                         class="max-width">
-                                            <mat-select [field]="formGuardados.idProveedor"
+                                            <mat-select [formField]="formGuardados.idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
                                                 @for (proveedor of proveedores; track proveedor.id) {
@@ -59,7 +59,7 @@
                                             <mat-label>Albarán</mat-label>
                                             <input matInput
                                                    placeholder="Albarán"
-                                                   [field]="formGuardados.albaran">
+                                                   [formField]="formGuardados.albaran">
                                         </mat-form-field>
                                     </div>
                                     <div class="row">
@@ -69,7 +69,7 @@
                                                 <input matInput
                                                        placeholder="Importe (desde)"
                                                        type="number"
-                                                       [field]="formGuardados.importeDesde">
+                                                       [formField]="formGuardados.importeDesde">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -79,7 +79,7 @@
                                                 <input matInput
                                                        placeholder="Importe (hasta)"
                                                        type="number"
-                                                       [field]="formGuardados.importeHasta">
+                                                       [formField]="formGuardados.importeHasta">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -210,7 +210,7 @@
                                                 <mat-label>Fecha desde</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="recepcionadosRangoDesdePicker"
-                                                       [field]="formRecepcionados.fechaDesde">
+                                                       [formField]="formRecepcionados.fechaDesde">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="recepcionadosRangoDesdePicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #recepcionadosRangoDesdePicker></mat-datepicker>
@@ -221,7 +221,7 @@
                                                 <mat-label>Fecha hasta</mat-label>
                                                 <input matInput
                                                        [matDatepicker]="recepcionadosRangoHastaPicker"
-                                                       [field]="formRecepcionados.fechaHasta">
+                                                       [formField]="formRecepcionados.fechaHasta">
                                                 <mat-datepicker-toggle matSuffix
                                                                        [for]="recepcionadosRangoHastaPicker"></mat-datepicker-toggle>
                                                 <mat-datepicker #recepcionadosRangoHastaPicker></mat-datepicker>
@@ -231,7 +231,7 @@
                                     <div class="row">
                                         <mat-form-field subscriptSizing="dynamic"
                                                         class="max-width">
-                                            <mat-select [field]="formRecepcionados.idProveedor"
+                                            <mat-select [formField]="formRecepcionados.idProveedor"
                                                         placeholder="Proveedor">
                                                 <mat-option [value]="null">Elige proveedor</mat-option>
                                                 @for (proveedor of proveedores; track proveedor.id) {
@@ -248,7 +248,7 @@
                                             <mat-label>Albarán</mat-label>
                                             <input matInput
                                                    placeholder="Albarán"
-                                                   [field]="formRecepcionados.albaran">
+                                                   [formField]="formRecepcionados.albaran">
                                         </mat-form-field>
                                     </div>
                                     <div class="row">
@@ -258,7 +258,7 @@
                                                 <input matInput
                                                        placeholder="Importe (desde)"
                                                        type="number"
-                                                       [field]="formRecepcionados.importeDesde">
+                                                       [formField]="formRecepcionados.importeDesde">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>
@@ -268,7 +268,7 @@
                                                 <input matInput
                                                        placeholder="Importe (hasta)"
                                                        type="number"
-                                                       [field]="formRecepcionados.importeHasta">
+                                                       [formField]="formRecepcionados.importeHasta">
                                                 <span matTextSuffix>€</span>
                                             </mat-form-field>
                                         </div>

@@ -4,7 +4,7 @@
         <mat-form-field subscriptSizing="dynamic">
             <input matInput
                    placeholder="Nombre"
-                   [field]="variosForm.nombre">
+                   [formField]="variosForm.nombre">
         </mat-form-field>
     </div>
     <div class="form-field">
@@ -15,14 +15,14 @@
                    step="0.01"
                    placeholder="PVP"
                    (focus)="$event.target.select()"
-                   [field]="variosForm.pvp"
+                   [formField]="variosForm.pvp"
                    #variosPVPbox>
         </mat-form-field>
     </div>
     <div class="form-field margin-right">
         <label>IVA (*)</label>
         <mat-form-field>
-            <mat-select [field]="variosForm.iva">
+            <mat-select [formField]="variosForm.iva">
                 @for (iva of ivaList; track iva) {
                 <mat-option [value]="iva">
                     {{ iva }} %
