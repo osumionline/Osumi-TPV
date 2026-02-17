@@ -64,11 +64,11 @@ export default class ComprasPedidosListComponent {
   private readonly router: Router = inject(Router);
 
   numPorPag: number = 10;
-  pedidosGuardados: Pedido[] = [];
+  pedidosGuardados: WritableSignal<Pedido[]> = signal<Pedido[]>([]);
   pageGuardadosIndex: number = 0;
   guardadosPag: number = 1;
   guardadosPags: number = 0;
-  pedidosRecepcionados: Pedido[] = [];
+  pedidosRecepcionados: WritableSignal<Pedido[]> = signal<Pedido[]>([]);
   pageRecepcionadosIndex: number = 0;
   recepcionadosPag: number = 1;
   recepcionadosPags: number = 0;
@@ -139,12 +139,12 @@ export default class ComprasPedidosListComponent {
 
   isGuardadosValid: Signal<boolean> = computed(
     (): boolean =>
-      !this.formGuardados.importeDesde().errors() && !this.formGuardados.importeHasta().errors()
+      !this.formGuardados.importeDesde().errors() && !this.formGuardados.importeHasta().errors(),
   );
   isRecepcionadosValid: Signal<boolean> = computed(
     (): boolean =>
       !this.formRecepcionados.importeDesde().errors() &&
-      !this.formRecepcionados.importeHasta().errors()
+      !this.formRecepcionados.importeHasta().errors(),
   );
 
   pedidosGuardadosDisplayedColumns: string[] = ['fechaPedido', 'proveedor', 'num', 'importe'];
@@ -173,13 +173,13 @@ export default class ComprasPedidosListComponent {
       num: this.numPorPag,
     };
     this.cs.getAllPedidos(filters).subscribe((result: PedidosAllResult): void => {
-      this.pedidosGuardados = this.cms.getPedidos(result.guardados);
-      this.pedidosRecepcionados = this.cms.getPedidos(result.recepcionados);
+      this.pedidosGuardados.set(this.cms.getPedidos(result.guardados));
+      this.pedidosRecepcionados.set(this.cms.getPedidos(result.recepcionados));
       this.guardadosPags = result.guardadosPags * this.numPorPag;
       this.recepcionadosPags = result.recepcionadosPags * this.numPorPag;
 
-      this.pedidosGuardadosDataSource.data = this.pedidosGuardados;
-      this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados;
+      this.pedidosGuardadosDataSource.data = this.pedidosGuardados();
+      this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados();
     });
   }
 
@@ -192,11 +192,11 @@ export default class ComprasPedidosListComponent {
   }
 
   guardadosFiltered: Signal<boolean> = computed(
-    (): boolean => !shallowEqual(this.guardadosModel(), this.GUARDADOS_INIT)
+    (): boolean => !shallowEqual(this.guardadosModel(), this.GUARDADOS_INIT),
   );
 
   recepcionadosFiltered: Signal<boolean> = computed(
-    (): boolean => !shallowEqual(this.recepcionadosModel(), this.RECEPCIONADOS_INIT)
+    (): boolean => !shallowEqual(this.recepcionadosModel(), this.RECEPCIONADOS_INIT),
   );
 
   quitarFiltrosGuardados(ev: MouseEvent): void {
@@ -213,7 +213,8 @@ export default class ComprasPedidosListComponent {
     }
     this.loadingGuardados.set(true);
     this.cs.getPedidosGuardados(this.guardadosModel()).subscribe((result: PedidosResult): void => {
-      this.pedidosGuardadosDataSource.data = this.cms.getPedidos(result.list);
+      this.pedidosGuardados.set(this.cms.getPedidos(result.list));
+      this.pedidosGuardadosDataSource.data = this.pedidosGuardados();
       this.guardadosPags = result.pags * this.guardadosModel().num;
       this.loadingGuardados.set(false);
     });
@@ -235,7 +236,8 @@ export default class ComprasPedidosListComponent {
     this.cs
       .getPedidosRecepcionados(this.recepcionadosModel())
       .subscribe((result: PedidosResult): void => {
-        this.pedidosRecepcionadosDataSource.data = this.cms.getPedidos(result.list);
+        this.pedidosRecepcionados.set(this.cms.getPedidos(result.list));
+        this.pedidosRecepcionadosDataSource.data = this.pedidosRecepcionados();
         this.recepcionadosPags = result.pags * this.recepcionadosModel().num;
         this.loadingGuardados.set(false);
       });

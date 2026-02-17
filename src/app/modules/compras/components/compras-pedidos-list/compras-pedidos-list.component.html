@@ -115,7 +115,7 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        @if (pedidosGuardadosDataSource.data.length > 0) {
+        @if (pedidosGuardados().length > 0) {
         <table mat-table
                [dataSource]="pedidosGuardadosDataSource"
                class="mat-elevation-z2 ">
@@ -304,7 +304,7 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        @if (pedidosRecepcionadosDataSource.data.length > 0) {
+        @if (pedidosRecepcionados().length > 0) {
         <table mat-table
                [dataSource]="pedidosRecepcionadosDataSource"
                class="mat-elevation-z2 ">
