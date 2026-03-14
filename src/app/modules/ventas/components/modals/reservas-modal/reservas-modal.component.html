@@ -1,6 +1,6 @@
 <div class="reservas">
     <div class="reservas-list">
-        @if (list.length > 0) {
+        @if (list().length > 0) {
         <div>
             <table mat-table
                    [dataSource]="reservasDataSource"
@@ -94,7 +94,7 @@
         }
         <div class="reserva-detail"
              [class]="{'show': reservaSelected !== null}">
-            @if (list.length > 0 && reservaSelected !== null) {
+            @if (list().length > 0 && reservaSelected !== null) {
             <div class="reserva-detail-lineas">
 
                 <table mat-table

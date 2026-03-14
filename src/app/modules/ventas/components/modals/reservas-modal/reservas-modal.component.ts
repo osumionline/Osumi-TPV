@@ -1,5 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, inject, OnInit, Signal, viewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+  viewChild,
+  WritableSignal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -31,13 +40,13 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatIcon,
   ],
 })
-export default class ReservasModalComponent implements OnInit, AfterViewInit {
+export default class ReservasModalComponent implements OnInit {
   private readonly cs: ClientesService = inject(ClientesService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
 
-  list: Reserva[] = [];
+  list: WritableSignal<Reserva[]> = signal<Reserva[]>([]);
   reservaSelected: Reserva | null = null;
 
   reservasDisplayedColumns: string[] = ['select', 'fecha', 'cliente', 'importe'];
@@ -54,9 +63,19 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
   ];
   reservaSelectedDataSource: MatTableDataSource<ReservaLinea> =
     new MatTableDataSource<ReservaLinea>();
-  sort: Signal<MatSort> = viewChild.required(MatSort);
+  sort: Signal<MatSort | undefined> = viewChild(MatSort);
 
   selection: SelectionModel<Reserva> = new SelectionModel<Reserva>(true, []);
+
+  constructor() {
+    effect((): void => {
+      const s: MatSort | undefined = this.sort();
+      if (!s) {
+        return;
+      }
+      this.reservasDataSource.sort = s;
+    });
+  }
 
   ngOnInit(): void {
     this.loadReservas();
@@ -64,13 +83,9 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
 
   loadReservas(): void {
     this.cs.getReservas().subscribe((result: ReservasResult): void => {
-      this.list = this.cms.getReservas(result.list);
-      this.reservasDataSource.data = this.list;
+      this.list.set(this.cms.getReservas(result.list));
+      this.reservasDataSource.data = this.list();
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.reservasDataSource.sort = this.sort();
   }
 
   isAllSelected(): boolean {
@@ -84,13 +99,13 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
       this.selection.clear();
     } else {
       this.reservasDataSource.data.forEach((row: Reserva): boolean | void =>
-        this.selection.select(row)
+        this.selection.select(row),
       );
     }
   }
 
   selectReserva(ind: number): void {
-    this.reservaSelected = this.list[ind];
+    this.reservaSelected = this.list()[ind];
     this.reservaSelectedDataSource.data = this.reservaSelected.lineas;
   }
 
@@ -120,7 +135,7 @@ export default class ReservasModalComponent implements OnInit, AfterViewInit {
         if (result.status === ApiStatusEnum.OK) {
           if (this.reservaSelected !== null) {
             const ind: number = this.reservaSelected.lineas.findIndex(
-              (x: ReservaLinea): boolean => x.id === linea.id
+              (x: ReservaLinea): boolean => x.id === linea.id,
             );
             this.reservaSelected._totalUnidades = null;
             this.reservaSelected._totalDescuento = null;
