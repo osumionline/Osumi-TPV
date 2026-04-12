@@ -1,9 +1,10 @@
 <div class="filtros">
     <div class="col-filtros">
-        <mat-form-field subscriptSizing="dynamic">
+        <mat-form-field subscriptSizing="dynamic"
+                        class="margin-right">
             <mat-label>Proveedor</mat-label>
-            <mat-select [(ngModel)]="buscador().idProveedor"
-                        (ngModelChange)="resetBuscar()">
+            <mat-select [ngModel]="buscador().idProveedor"
+                        (ngModelChange)="updateBuscador({ idProveedor: $event }); resetBuscar()">
                 <mat-option [value]="null">Elige proveedor</mat-option>
                 @for (proveedor of proveedores; track proveedor.id) {
                 <mat-option [value]="proveedor.id">
@@ -12,10 +13,11 @@
                 }
             </mat-select>
         </mat-form-field>
-        <mat-form-field subscriptSizing="dynamic">
+        <mat-form-field subscriptSizing="dynamic"
+                        class="margin-right">
             <mat-label>Marca</mat-label>
-            <mat-select [(ngModel)]="buscador().idMarca"
-                        (ngModelChange)="resetBuscar()">
+            <mat-select [ngModel]="buscador().idMarca"
+                        (ngModelChange)="updateBuscador({ idMarca: $event }); resetBuscar()">
                 <mat-option [value]="null">Elige marca</mat-option>
                 @for (marca of marcas; track marca.id) {
                 <mat-option [value]="marca.id">
@@ -24,20 +26,37 @@
                 }
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="nombre"
+        <mat-form-field class="nombre margin-right"
                         subscriptSizing="dynamic">
             <mat-label>Nombre, etiquetas...</mat-label>
-            <input [(ngModel)]="buscador().nombre"
-                   (keyup)="resetBuscar()"
+            <input [ngModel]="buscador().nombre"
+                   (ngModelChange)="updateBuscador({ nombre: $event }); resetBuscar(true)"
                    matInput>
         </mat-form-field>
-        <mat-slide-toggle [(ngModel)]="buscador().descuento"
-                          (change)="resetBuscar()">Con descuento</mat-slide-toggle>
+        <mat-slide-toggle [ngModel]="buscador().descuento"
+                          (ngModelChange)="updateBuscador({ descuento: $event }); resetBuscar()"
+                          class="margin-right">
+            Con descuento
+        </mat-slide-toggle>
+    </div>
+    <div class="col-columnas">
+        <mat-form-field subscriptSizing="dynamic"
+                        class="margin-right">
+            <mat-label>Columnas</mat-label>
+            <mat-select multiple
+                        [ngModel]="inventarioDisplayedColumns"
+                        (ngModelChange)="changeColumns($event)">
+                @for (col of columns; track col.value) {
+                <mat-option [value]="col.value">{{ col.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="col-actions">
-        <button mat-flat-button
-                color="primary"
-                (click)="saveAll()">
+            <button mat-flat-button
+                    color="primary"
+                    [disabled]="!hasChanges()"
+                    (click)="saveAll()">
             <mat-icon>save</mat-icon>
             Guardar todos
         </button>
@@ -174,6 +193,22 @@
         </td>
     </ng-container>
 
+    <!-- Precio albarán -->
+    <ng-container matColumnDef="palb">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por precio albarán">
+            Precio albarán
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{ element.palb | fixedNumber }} €
+        </td>
+    </ng-container>
+
     <!-- PVP -->
     <ng-container matColumnDef="pvp">
         <th class="center"
@@ -225,7 +260,7 @@
         </th>
         <td mat-cell
             class="center"
-            [class]="{'modified': element.codigoBarras !== null}"
+            [class]="{'modified': hasCodigoBarrasValue(element)}"
             *matCellDef="let element">
             @if (element.hasCodigosBarras) {
             <mat-icon>check</mat-icon>
@@ -254,7 +289,7 @@
             mat-cell
             *matCellDef="let element">
             <button mat-icon-button
-                    [disabled]="!element.stockChanged && !element.pvpChanged && element.codigoBarras === null"
+                    [disabled]="!itemHasChanges(element)"
                     (click)="saveInventario(element)">
                 <mat-icon>save</mat-icon>
             </button>

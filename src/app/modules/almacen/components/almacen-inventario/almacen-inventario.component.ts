@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
-  Signal,
   WritableSignal,
   inject,
   signal,
-  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -17,13 +14,14 @@ import { MatInput, MatLabel } from '@angular/material/input';
 import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
+  InventarioColumn,
   InventarioItemInterface,
 } from '@interfaces/almacen.interface';
 import {
@@ -68,7 +66,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatSlideToggle,
   ],
 })
-export default class AlmacenInventarioComponent implements OnInit, AfterViewInit, OnDestroy {
+export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   private readonly ars: ArticulosService = inject(ArticulosService);
   private readonly ms: MarcasService = inject(MarcasService);
   private readonly ps: ProveedoresService = inject(ProveedoresService);
@@ -97,6 +95,20 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   marcas: Marca[] = this.ms.marcas();
   proveedores: Proveedor[] = this.ps.proveedores();
 
+  columns: InventarioColumn[] = [
+    { value: 'localizador', name: 'Localizador' },
+    { value: 'proveedor', name: 'Proveedor' },
+    { value: 'marca', name: 'Marca' },
+    { value: 'referencia', name: 'Referencia' },
+    { value: 'nombre', name: 'Nombre' },
+    { value: 'stock', name: 'Stock' },
+    { value: 'puc', name: 'PUC' },
+    { value: 'palb', name: 'Precio albarán' },
+    { value: 'pvp', name: 'PVP' },
+    { value: 'margen', name: 'Margen' },
+    { value: 'codbarras', name: 'Código de barras' },
+    { value: 'opciones', name: 'Opciones' },
+  ];
   inventarioDisplayedColumns: string[] = [
     'localizador',
     'proveedor',
@@ -112,7 +124,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   ];
   inventarioDataSource: MatTableDataSource<InventarioItem> =
     new MatTableDataSource<InventarioItem>();
-  sort: Signal<MatSort> = viewChild.required(MatSort);
+  private searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     this.ars.returnInfo = null;
@@ -122,6 +134,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
       this.inventarioDataSource.data = this.list();
       this.pageIndex.set(this.as.pageIndex);
       this.pags.set(this.as.pags);
+      this.inventarioDisplayedColumns = this.as.inventarioDisplayedColumns;
     } else {
       this.buscar();
     }
@@ -136,39 +149,50 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
       this.totalPVP.set(result.totalPVP);
       this.totalPUC.set(result.totalPUC);
 
-      this.as.buscador = this.buscador();
-      this.as.list = this.list();
-      this.as.pags = this.pags();
-      this.as.pageIndex = this.pageIndex();
-      this.as.firstLoad = false;
+      this.saveState();
     });
   }
 
-  ngAfterViewInit(): void {
-    this.inventarioDataSource.sort = this.sort();
+  updateBuscador(changes: Partial<BuscadorAlmacenInterface>): void {
+    this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
+      return this.cloneBuscador(value, changes);
+    });
   }
 
-  resetBuscar(): void {
+  resetBuscar(debounce: boolean = false): void {
+    if (this.searchTimeout !== null) {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = null;
+    }
+
     this.pageIndex.set(0);
     this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-      value.pagina = 1;
-      return value;
+      return this.cloneBuscador(value, { pagina: 1 });
     });
-    this.buscar();
+    if (debounce) {
+      this.searchTimeout = setTimeout((): void => {
+        this.searchTimeout = null;
+        this.buscar();
+      }, 300);
+    } else {
+      this.buscar();
+    }
   }
 
   cambiarOrden(sort: Sort): void {
     if (sort.direction === '') {
       this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-        value.orderBy = null;
-        value.orderSent = null;
-        return value;
+        return this.cloneBuscador(value, {
+          orderBy: null,
+          orderSent: null,
+        });
       });
     } else {
       this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-        value.orderBy = sort.active;
-        value.orderSent = sort.direction;
-        return value;
+        return this.cloneBuscador(value, {
+          orderBy: sort.active,
+          orderSent: sort.direction,
+        });
       });
     }
     this.buscar();
@@ -177,11 +201,20 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   changePage(ev: PageEvent): void {
     this.pageIndex.set(ev.pageIndex);
     this.buscador.update((value: BuscadorAlmacenInterface): BuscadorAlmacenInterface => {
-      value.pagina = ev.pageIndex + 1;
-      value.num = ev.pageSize;
-      return value;
+      return this.cloneBuscador(value, {
+        pagina: ev.pageIndex + 1,
+        num: ev.pageSize,
+      });
     });
     this.buscar();
+  }
+
+  changeColumns(values: string[]): void {
+    const selectedValues: Set<string> = new Set<string>(values);
+    this.inventarioDisplayedColumns = this.columns
+      .filter((col: InventarioColumn): boolean => selectedValues.has(col.value))
+      .map((col: InventarioColumn): string => col.value);
+    this.as.inventarioDisplayedColumns = [...this.inventarioDisplayedColumns];
   }
 
   calcularMediaMargen(array: InventarioItem[]): number {
@@ -189,18 +222,32 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
 
     const suma: number = array.reduce(
       (total: number, item: InventarioItem): number => total + item.margen,
-      0
+      0,
     );
     return suma / array.length;
+  }
+
+  hasChanges(): boolean {
+    return this.list().some((item: InventarioItem): boolean => this.itemHasChanges(item));
+  }
+
+  itemHasChanges(item: InventarioItem): boolean {
+    return item.pvpChanged || item.stockChanged || this.hasCodigoBarrasValue(item);
   }
 
   saveAll(): void {
     const list: InventarioItemInterface[] = [];
     for (const item of this.list()) {
-      if (item.pvpChanged || item.stockChanged || item.codigoBarras !== null) {
+      if (this.itemHasChanges(item)) {
+        this.normalizeCodigoBarras(item);
         list.push(item.toInterface());
       }
     }
+
+    if (list.length === 0) {
+      return;
+    }
+
     this.as.saveAllInventario(list).subscribe((result: StatusIdMessageErrorsResult): void => {
       const errorList: string[] = [];
 
@@ -208,19 +255,20 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
         const ind: number = this.list().findIndex((x: InventarioItem): boolean => {
           return x.id === status.id;
         });
+        if (ind === -1) {
+          continue;
+        }
+
         if (status.status === ApiStatusEnum.OK) {
           this.list.update((value: InventarioItem[]): InventarioItem[] => {
-            value[ind]._pvp = value[ind].pvp;
-            value[ind]._stock = value[ind].stock;
-            if (value[ind].codigoBarras !== null) {
-              value[ind].hasCodigosBarras = true;
-              value[ind].codigoBarras = null;
-            }
-            return value;
+            const list: InventarioItem[] = [...value];
+            list[ind] = this.getSavedItem(list[ind]);
+            return list;
           });
+          this.inventarioDataSource.data = this.list();
         } else {
           errorList.push(
-            '<strong>' + this.list()[ind].nombre + '</strong>: ' + urldecode(status.message)
+            '<strong>' + this.list()[ind].nombre + '</strong>: ' + urldecode(status.message),
           );
         }
       }
@@ -236,14 +284,10 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   }
 
   saveInventario(item: InventarioItem): void {
+    this.normalizeCodigoBarras(item);
     this.as.saveInventario(item.toInterface()).subscribe((result: StatusIdMessageResult): void => {
       if (result.status === ApiStatusEnum.OK) {
-        item._pvp = item.pvp;
-        item._stock = item.stock;
-        if (item.codigoBarras !== null) {
-          item.hasCodigosBarras = true;
-          item.codigoBarras = null;
-        }
+        this.updateInventarioItem(item.id, this.getSavedItem(item));
       } else {
         this.dialog.alert({
           title: 'Error',
@@ -263,12 +307,8 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
         if (result === true) {
           this.as.deleteInventario(item.id as number).subscribe((result: StatusResult): void => {
             if (result.status === ApiStatusEnum.OK) {
-              const ind: number = this.list().findIndex(
-                (x: InventarioItem): boolean => x.id === item.id
-              );
               this.list.update((value: InventarioItem[]): InventarioItem[] => {
-                value.splice(ind, 1);
-                return value;
+                return value.filter((x: InventarioItem): boolean => x.id !== item.id);
               });
               this.inventarioDataSource.data = this.list();
             } else {
@@ -293,6 +333,7 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
       a.download = 'inventario.csv';
       a.click();
       a.remove();
+      window.URL.revokeObjectURL(url);
     });
   }
 
@@ -315,10 +356,63 @@ export default class AlmacenInventarioComponent implements OnInit, AfterViewInit
   }
 
   ngOnDestroy(): void {
+    if (this.searchTimeout !== null) {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = null;
+    }
+
+    this.saveState();
+  }
+
+  private saveState(): void {
     this.as.buscador = this.buscador();
     this.as.list = this.list();
     this.as.pags = this.pags();
     this.as.pageIndex = this.pageIndex();
+    this.as.inventarioDisplayedColumns = [...this.inventarioDisplayedColumns];
     this.as.firstLoad = false;
+  }
+
+  private updateInventarioItem(id: number | null, item: InventarioItem): void {
+    this.list.update((value: InventarioItem[]): InventarioItem[] => {
+      return value.map((listItem: InventarioItem): InventarioItem => {
+        return listItem.id === id ? item : listItem;
+      });
+    });
+    this.inventarioDataSource.data = this.list();
+  }
+
+  private getSavedItem(item: InventarioItem): InventarioItem {
+    const savedItem: InventarioItem = this.cloneInventarioItem(item);
+    savedItem._pvp = savedItem.pvp;
+    savedItem._stock = savedItem.stock;
+    if (this.hasCodigoBarrasValue(savedItem)) {
+      savedItem.hasCodigosBarras = true;
+      savedItem.codigoBarras = null;
+    }
+
+    return savedItem;
+  }
+
+  private normalizeCodigoBarras(item: InventarioItem): void {
+    if (item.codigoBarras !== null) {
+      const codigoBarras: string = item.codigoBarras.trim();
+      item.codigoBarras = codigoBarras !== '' ? codigoBarras : null;
+    }
+  }
+
+  hasCodigoBarrasValue(item: InventarioItem): boolean {
+    return item.codigoBarras !== null && item.codigoBarras.trim() !== '';
+  }
+
+  private cloneBuscador(
+    buscador: BuscadorAlmacenInterface,
+    changes: Partial<BuscadorAlmacenInterface> = {}
+  ): BuscadorAlmacenInterface {
+    return Object.assign({}, buscador, changes);
+  }
+
+  private cloneInventarioItem(item: InventarioItem): InventarioItem {
+    return Object.assign(new InventarioItem(), item);
   }
 }

@@ -14,10 +14,11 @@ export default class InventarioItem {
     public referencia: string | null = null,
     public nombre: string | null = null,
     public stock: number | null = null,
+    public palb: number | null = null,
     public puc: number | null = null,
     public pvp: number | null = null,
     public hasCodigosBarras: boolean = false,
-    public observaciones: string | null = null
+    public observaciones: string | null = null,
   ) {
     this._stock = stock;
     this._pvp = pvp;
@@ -47,6 +48,7 @@ export default class InventarioItem {
     this.nombre = urldecode(ii.nombre);
     this.stock = ii.stock;
     this._stock = ii.stock;
+    this.palb = ii.palb;
     this.puc = ii.puc;
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
@@ -65,6 +67,7 @@ export default class InventarioItem {
       referencia: urlencode(this.referencia),
       nombre: urlencode(this.nombre),
       stock: this.stock,
+      palb: this.palb,
       puc: this.puc,
       pvp: this.pvp,
       hasCodigosBarras: this.hasCodigosBarras,

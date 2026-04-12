@@ -17,6 +17,7 @@ export interface InventarioItemInterface {
   referencia: string | null;
   nombre: string | null;
   stock: number | null;
+  palb: number | null;
   puc: number | null;
   pvp: number | null;
   hasCodigosBarras: boolean;
@@ -30,4 +31,9 @@ export interface BuscadorAlmacenResult {
   pags: number;
   totalPVP: number;
   totalPUC: number;
+}
+
+export interface InventarioColumn {
+  value: string;
+  name: string;
 }

@@ -32,6 +32,19 @@ export default class AlmacenService extends BaseService {
   pags: number = 0;
   pageIndex: number = 0;
   firstLoad: boolean = true;
+  inventarioDisplayedColumns: string[] = [
+    'localizador',
+    'proveedor',
+    'marca',
+    'referencia',
+    'nombre',
+    'stock',
+    'puc',
+    'pvp',
+    'margen',
+    'codbarras',
+    'opciones',
+  ];
 
   getInventario(data: BuscadorAlmacenInterface): Observable<BuscadorAlmacenResult> {
     return this.http.post<BuscadorAlmacenResult>(this.apiUrl + '-almacen/get-inventario', data);
@@ -66,6 +79,7 @@ export default class AlmacenService extends BaseService {
         item.nombre = articulo.nombre;
         item.stock = articulo.stock;
         item._stock = articulo.stock;
+        item.palb = articulo.palb;
         item.puc = articulo.puc;
         item.pvp = articulo.pvp;
         item._pvp = articulo.pvp;
