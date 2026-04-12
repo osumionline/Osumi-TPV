@@ -96,7 +96,7 @@ export default class UnArticuloGeneralComponent {
     };
     const dialog = this.overlayService.open(NewProveedorModalComponent, modalnewProveedorData);
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
+      if (data !== null && data.data !== null) {
         this.articulo.update((value: Articulo): Articulo => {
           value.idProveedor = data.data;
           return value;
@@ -107,21 +107,24 @@ export default class UnArticuloGeneralComponent {
 
   loadFecCad(): void {
     const fechaCaducidad: string | null = this.articulo().fechaCaducidad;
-    if (fechaCaducidad !== null) {
+    if (fechaCaducidad !== null && fechaCaducidad !== '') {
       const fecCad: string[] = fechaCaducidad.split('/');
       const mes: Month | undefined = this.config.monthList.find(
-        (x: Month): boolean => x.id === parseInt(fecCad[0])
+        (x: Month): boolean => x.id === parseInt(fecCad[0]),
       );
 
       if (mes !== undefined) {
         this.fecCad = mes.name + ' 20' + fecCad[1];
         this.fecCadEdit = false;
       }
+    } else {
+      this.fecCad = null;
+      this.fecCadEdit = false;
     }
   }
 
-  updateIva(ev: string): void {
-    const ind: number = this.ivaList.findIndex((x: number): boolean => x == parseInt(ev));
+  updateIva(ev: number | string): void {
+    const ind: number = this.ivaList.findIndex((x: number): boolean => x === parseInt(String(ev)));
     this.articulo.update((value: Articulo): Articulo => {
       value.re = this.reList[ind];
       return value;
@@ -134,8 +137,8 @@ export default class UnArticuloGeneralComponent {
     this.updatePuc(puc);
   }
 
-  updateRe(ev: string): void {
-    const ind: number = this.reList.findIndex((x: number): boolean => x == parseFloat(ev));
+  updateRe(ev: number | string): void {
+    const ind: number = this.reList.findIndex((x: number): boolean => x === parseFloat(String(ev)));
     this.articulo.update((value: Articulo): Articulo => {
       value.iva = this.ivaList[ind];
       return value;
@@ -160,24 +163,39 @@ export default class UnArticuloGeneralComponent {
   }
 
   validateFecCad(): boolean {
-    const fecCadFormat = /[0-9][0-9]\/[0-9][0-9]/;
-    return (this.articulo().fechaCaducidad ?? '').match(fecCadFormat) !== null;
+    const fecCadFormat = /^(0[1-9]|1[0-2])\/[0-9][0-9]$/;
+    return (this.articulo().fechaCaducidad ?? '').trim().match(fecCadFormat) !== null;
   }
 
   checkFecCad(): void {
+    const fechaCaducidad: string = (this.articulo().fechaCaducidad ?? '').trim();
+    if (fechaCaducidad === '') {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.fechaCaducidad = null;
+        return value;
+      });
+      this.loadFecCad();
+      return;
+    }
+
     if (this.validateFecCad()) {
       const d = new Date();
-      const checkFecCadStr: string[] = (this.articulo().fechaCaducidad ?? '').split('/');
+      const checkFecCadStr: string[] = fechaCaducidad.split('/');
       const month: Month | undefined = this.config.monthList.find(
-        (x: Month): boolean => x.id === parseInt(checkFecCadStr[0])
+        (x: Month): boolean => x.id === parseInt(checkFecCadStr[0]),
       );
+      if (month === undefined) {
+        this.showFecCadFormatError();
+        return;
+      }
+
       const checkD = new Date(
         2000 + parseInt(checkFecCadStr[1]),
         parseInt(checkFecCadStr[0]) - 1,
-        month!.days,
+        month.days,
         23,
         59,
-        59
+        59,
       );
       if (d.getTime() > checkD.getTime()) {
         this.dialog
@@ -214,7 +232,14 @@ export default class UnArticuloGeneralComponent {
     return setTwoNumberDecimal(ev);
   }
 
-  updatePalb(): void {
+  updatePalb(palb?: number | null): void {
+    if (palb !== undefined) {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.palb = palb ?? 0;
+        return value;
+      });
+    }
+
     const ivare: number =
       (this.articulo().iva !== null ? this.articulo().iva : 0) +
       (this.articulo().re != -1 ? this.articulo().re : 0);
@@ -222,10 +247,10 @@ export default class UnArticuloGeneralComponent {
     this.updatePuc(puc);
   }
 
-  updatePuc(puc: number | null = null): void {
-    if (puc !== null) {
+  updatePuc(puc?: number | null): void {
+    if (puc !== undefined) {
       this.articulo.update((value: Articulo): Articulo => {
-        value.puc = puc;
+        value.puc = puc ?? 0;
         return value;
       });
     }
@@ -233,7 +258,14 @@ export default class UnArticuloGeneralComponent {
     this.updateMargen();
   }
 
-  updateMargen(): void {
+  updateMargen(pvp?: number | null): void {
+    if (pvp !== undefined) {
+      this.articulo.update((value: Articulo): Articulo => {
+        value.pvp = pvp;
+        return value;
+      });
+    }
+
     if (
       this.articulo().puc !== null &&
       this.articulo().puc !== 0 &&
@@ -263,53 +295,67 @@ export default class UnArticuloGeneralComponent {
     }
   }
 
-  updatePVPDescuento(): void {
-    this.updateMargenDescuento();
-    this.updatePorcentajeDescuento();
+  updatePVPDescuento(pvpDescuento?: number | null): void {
+    this.articulo.update((value: Articulo): Articulo => {
+      if (pvpDescuento !== undefined) {
+        value.pvpDescuento = pvpDescuento;
+      }
+
+      const pvp: number = value.pvp ?? 0;
+      const pvpDescuentoValue: number = value.pvpDescuento ?? 0;
+
+      if (pvp <= 0 || value.pvpDescuento === null) {
+        value.margenDescuento = null;
+        value.porcentajeDescuento = null;
+        return this.cloneArticulo(value);
+      }
+
+      const descuento: number = pvp - pvpDescuentoValue;
+      value.porcentajeDescuento = getTwoNumberDecimal((descuento / pvp) * 100);
+      value.margenDescuento = this.getMargenDescuento(value.puc, pvpDescuentoValue);
+      return this.cloneArticulo(value);
+    });
   }
 
   updateMargenDescuento(): void {
-    if (
-      this.articulo().puc !== null &&
-      this.articulo().puc !== 0 &&
-      this.articulo().pvpDescuento !== null &&
-      this.articulo().pvpDescuento !== 0
-    ) {
-      this.articulo.update((value: Articulo): Articulo => {
-        value.margenDescuento =
-          (((value.pvpDescuento ?? 0) - value.puc) / (value.pvpDescuento ?? 0)) * 100;
-        const descuento: number = (value.pvp ?? 0) - (value.pvpDescuento ?? 0);
-        value.porcentajeDescuento = (descuento / (value.pvp ?? 1)) * 100;
-        value.pvpDescuento = (value.pvp ?? 0) * ((100 - value.porcentajeDescuento) / 100);
-        return value;
-      });
-    } else {
-      this.articulo.update((value: Articulo): Articulo => {
+    this.articulo.update((value: Articulo): Articulo => {
+      const pvp: number = value.pvp ?? 0;
+      const margenDescuento: number | null = value.margenDescuento;
+
+      if (pvp <= 0 || value.puc === null || margenDescuento === null || margenDescuento >= 100) {
         value.margenDescuento = null;
         value.porcentajeDescuento = null;
         value.pvpDescuento = null;
-        return value;
-      });
-    }
+        return this.cloneArticulo(value);
+      }
+
+      value.pvpDescuento = getTwoNumberDecimal((value.puc * 100) / (100 - margenDescuento));
+      const descuento: number = pvp - value.pvpDescuento;
+      value.porcentajeDescuento = getTwoNumberDecimal((descuento / pvp) * 100);
+      return this.cloneArticulo(value);
+    });
   }
 
-  updatePorcentajeDescuento(): void {
-    if (this.articulo().puc !== null && this.articulo().puc !== 0) {
-      this.articulo.update((value: Articulo): Articulo => {
-        value.pvpDescuento = (value.pvp ?? 0) * ((100 - (value.porcentajeDescuento ?? 0)) / 100);
-        value.margenDescuento = ((value.pvpDescuento - value.puc) / value.pvpDescuento) * 100;
-        const descuento: number = (value.pvp ?? 0) - value.pvpDescuento;
-        value.porcentajeDescuento = getTwoNumberDecimal((descuento / (value.pvp ?? 1)) * 100);
-        return value;
-      });
-    } else {
-      this.articulo.update((value: Articulo): Articulo => {
+  updatePorcentajeDescuento(porcentajeDescuento?: number | null): void {
+    this.articulo.update((value: Articulo): Articulo => {
+      if (porcentajeDescuento !== undefined) {
+        value.porcentajeDescuento = porcentajeDescuento;
+      }
+
+      const pvp: number = value.pvp ?? 0;
+
+      if (pvp <= 0 || value.porcentajeDescuento === null) {
         value.margenDescuento = null;
         value.porcentajeDescuento = null;
         value.pvpDescuento = null;
-        return value;
-      });
-    }
+        return this.cloneArticulo(value);
+      }
+
+      value.porcentajeDescuento = this.clampPorcentajeDescuento(value.porcentajeDescuento);
+      value.pvpDescuento = getTwoNumberDecimal(pvp * ((100 - value.porcentajeDescuento) / 100));
+      value.margenDescuento = this.getMargenDescuento(value.puc, value.pvpDescuento);
+      return this.cloneArticulo(value);
+    });
   }
 
   abrirMargenes(): void {
@@ -321,11 +367,11 @@ export default class UnArticuloGeneralComponent {
     };
     const dialog = this.overlayService.open(MargenesModalComponent, modalMargenesData);
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
+      if (data !== null && data.data !== null) {
         this.articulo.update((value: Articulo): Articulo => {
           value.margen = data.data;
           value.pvp = getTwoNumberDecimal((value.puc * 100) / (100 - data.data));
-          return value;
+          return this.cloneArticulo(value);
         });
       }
     });
@@ -340,18 +386,41 @@ export default class UnArticuloGeneralComponent {
     };
     const dialog = this.overlayService.open(MargenesModalComponent, modalMargenesData);
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.articulo.update((value: Articulo): Articulo => {
-          value.margenDescuento = data.data;
-          value.pvpDescuento = getTwoNumberDecimal((value.puc * 100) / (100 - data.data));
-          const importeDescuento: number = (value.pvp ?? 0) - value.pvpDescuento;
-          value.porcentajeDescuento = getTwoNumberDecimal(
-            (importeDescuento / (value.pvp ?? 1)) * -100
-          );
-
-          return value;
-        });
+      if (data !== null && data.data !== null) {
+        setTimeout((): void => {
+          this.updatePorcentajeDescuento(data.data);
+        }, 0);
       }
     });
+  }
+
+  private showFecCadFormatError(): void {
+    this.dialog
+      .alert({
+        title: 'Error',
+        content:
+          'El formato de fecha introducido no es correcto: mm/aa, por ejemplo Mayo de 2023 serÃ­a "05/23".',
+      })
+      .subscribe((): void => {
+        setTimeout((): void => {
+          this.fecCadValue().nativeElement.select();
+        }, 200);
+      });
+  }
+
+  private getMargenDescuento(puc: number | null, pvpDescuento: number | null): number | null {
+    if (puc === null || puc === 0 || pvpDescuento === null || pvpDescuento === 0) {
+      return null;
+    }
+
+    return ((pvpDescuento - puc) / pvpDescuento) * 100;
+  }
+
+  private clampPorcentajeDescuento(porcentajeDescuento: number): number {
+    return Math.min(Math.max(porcentajeDescuento, 0), 100);
+  }
+
+  private cloneArticulo(articulo: Articulo): Articulo {
+    return Object.assign(new Articulo(), articulo);
   }
 }

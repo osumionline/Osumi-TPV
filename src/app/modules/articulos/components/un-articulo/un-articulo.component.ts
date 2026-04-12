@@ -178,10 +178,15 @@ export default class UnArticuloComponent {
         if (result.status === ApiStatusEnum.OK) {
           this.articulo = this.cms.getArticulo(result.articulo);
           if (this.articulo.pvpDescuento !== null) {
-            const importeDescuento: number = (this.articulo.pvp ?? 0) - this.articulo.pvpDescuento;
-            this.articulo.porcentajeDescuento = getTwoNumberDecimal(
-              (importeDescuento / (this.articulo.pvp ?? 1)) * -100
-            );
+            const pvp: number = this.articulo.pvp ?? 0;
+            if (pvp > 0) {
+              const importeDescuento: number = pvp - this.articulo.pvpDescuento;
+              this.articulo.porcentajeDescuento = getTwoNumberDecimal(
+                (importeDescuento / pvp) * 100
+              );
+            } else {
+              this.articulo.porcentajeDescuento = null;
+            }
           }
           this.articulo.tabName = this.articulo.nombre;
           this.updateArticuloEvent.emit();

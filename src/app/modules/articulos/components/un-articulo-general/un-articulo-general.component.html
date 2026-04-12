@@ -131,8 +131,8 @@
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
-                           (keyup)="updatePalb()"
-                           [(ngModel)]="articulo().palb">
+                           [ngModel]="articulo().palb"
+                           (ngModelChange)="updatePalb($event)">
                     <span matTextSuffix>€</span>
                 </mat-form-field>
             </div>
@@ -145,8 +145,8 @@
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
-                           (keyup)="updatePuc()"
-                           [(ngModel)]="articulo().puc">
+                           [ngModel]="articulo().puc"
+                           (ngModelChange)="updatePuc($event)">
                     <span matTextSuffix>€</span>
                 </mat-form-field>
             </div>
@@ -165,8 +165,8 @@
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
-                           (keyup)="updateMargen()"
-                           [(ngModel)]="articulo().pvp">
+                           [ngModel]="articulo().pvp"
+                           (ngModelChange)="updateMargen($event)">
                     <span matTextSuffix>€</span>
                 </mat-form-field>
             </div>
@@ -196,8 +196,8 @@
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
-                           (keyup)="updatePorcentajeDescuento()"
-                           [(ngModel)]="articulo().porcentajeDescuento">
+                           [ngModel]="articulo().porcentajeDescuento"
+                           (ngModelChange)="updatePorcentajeDescuento($event)">
                     <span matTextSuffix>%</span>
                 </mat-form-field>
             </div>
@@ -218,8 +218,8 @@
                            class="align-right"
                            (blur)="setTwoNumberDecimal($event)"
                            (focus)="$event.target.select()"
-                           (keyup)="updatePVPDescuento()"
-                           [(ngModel)]="articulo().pvpDescuento">
+                           [ngModel]="articulo().pvpDescuento"
+                           (ngModelChange)="updatePVPDescuento($event)">
                     <span matTextSuffix>€</span>
                 </mat-form-field>
             </div>

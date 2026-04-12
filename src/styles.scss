@@ -1,8 +1,8 @@
 @use '@angular/material' as mat;
-@use "public/styles/modals.scss";
-@use "public/styles/ventas.scss";
-@use "public/styles/forms.scss";
-@use "public/styles/tables.scss";
+@use "./styles/modals.scss";
+@use "./styles/ventas.scss";
+@use "./styles/forms.scss";
+@use "./styles/tables.scss";
 
 :root {
   --bg-color: #eee;
