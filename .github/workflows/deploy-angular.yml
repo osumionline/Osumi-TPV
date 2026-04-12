@@ -2,7 +2,7 @@ name: Deploy Angular App to Plesk
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   workflow_dispatch:
 
 env:
@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '24'
 
       - name: Cache npm
         uses: actions/cache@v4
@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular (production)
+      - name: Build Angular (test)
         run: npm run build -- --configuration test
 
       - name: Validate build output
@@ -53,8 +53,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "dist-browser.tar.gz"
-          target: "~/deploy_tmp"
+          source: 'dist-browser.tar.gz'
+          target: '~/deploy_tmp'
 
       - name: Deploy on server (clean & extract)
         uses: appleboy/ssh-action@v1.1.0
