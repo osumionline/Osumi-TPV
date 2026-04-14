@@ -78,7 +78,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   tiposPago: WritableSignal<TipoPago[]> = signal<TipoPago[]>([...this.config.tiposPago]);
   clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([...this.cs.clientes()]);
 
-  historicoVentasList: VentaHistorico[] = [];
+  historicoVentasList: WritableSignal<VentaHistorico[]> = signal<VentaHistorico[]>([]);
   historicoVentasDisplayedColumns: string[] = ['fecha', 'total', 'nombreTipoPago'];
   historicoVentasDataSource: MatTableDataSource<VentaHistorico> =
     new MatTableDataSource<VentaHistorico>();
@@ -152,8 +152,8 @@ export default class HistoricoVentasComponent implements AfterViewInit {
 
   buscarHistorico(data: DateValues): void {
     this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
-      this.historicoVentasList = this.cms.getHistoricoVentas(result.list);
-      this.historicoVentasDataSource.data = this.historicoVentasList;
+      this.historicoVentasList.set(this.cms.getHistoricoVentas(result.list));
+      this.historicoVentasDataSource.data = this.historicoVentasList();
 
       this.totalDia = result.totalDia;
       this.ventasEfectivo = result.ventasEfectivo;
@@ -164,7 +164,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   }
 
   selectVenta(ind: number): void {
-    this.historicoVentasSelected = this.historicoVentasList[ind];
+    this.historicoVentasSelected = this.historicoVentasList()[ind];
     this.historicoVentasSelectedDataSource.data = this.historicoVentasSelected.lineas;
   }
 
@@ -172,7 +172,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
     this.cs
       .asignarCliente(
         this.historicoVentasSelected.id as number,
-        this.historicoVentasSelected.idCliente as number
+        this.historicoVentasSelected.idCliente as number,
       )
       .subscribe((result: StatusResult): void => {
         if (result.status == 'ok') {
@@ -190,13 +190,13 @@ export default class HistoricoVentasComponent implements AfterViewInit {
     this.vs
       .asignarTipoPago(
         this.historicoVentasSelected.id as number,
-        this.historicoVentasSelected.idTipoPago as number
+        this.historicoVentasSelected.idTipoPago as number,
       )
       .subscribe((result: StatusResult): void => {
         if (result.status == 'ok') {
           if (this.historicoVentasSelected.idTipoPago !== null) {
             const tp: TipoPago | undefined = this.config.tiposPago.find(
-              (x: TipoPago): boolean => x.id === this.historicoVentasSelected.idTipoPago
+              (x: TipoPago): boolean => x.id === this.historicoVentasSelected.idTipoPago,
             );
             if (tp !== undefined) {
               this.historicoVentasSelected.nombreTipoPago = tp.nombre;
@@ -223,7 +223,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
 
   getTicketImage(): void {
     window.open(
-      environment.baseUrl + 'api-ventas/get-ticket-image/' + this.historicoVentasSelected.id
+      environment.baseUrl + 'api-ventas/get-ticket-image/' + this.historicoVentasSelected.id,
     );
   }
 
@@ -254,7 +254,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
 
   confirmFactura(): void {
     const selectedClient: Cliente | null = this.cs.findById(
-      this.historicoVentasSelected.idCliente as number
+      this.historicoVentasSelected.idCliente as number,
     );
 
     if (selectedClient !== null) {

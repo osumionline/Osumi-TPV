@@ -62,7 +62,7 @@
 
 <div class="historico-body">
     <div class="historico-table">
-        @if (historicoVentasList.length > 0) {
+        @if (historicoVentasList().length > 0) {
         <div>
             <table mat-table
                    [dataSource]="historicoVentasDataSource"
@@ -160,7 +160,7 @@
         }
         <div class="historico-detail"
              [class.show]="historicoVentasSelected.id !== null">
-            @if (historicoVentasList.length > 0 && historicoVentasSelected !== null) {
+            @if (historicoVentasList().length > 0 && historicoVentasSelected !== null) {
             <div class="historico-detail-lineas">
 
                 <table mat-table
