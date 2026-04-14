@@ -111,7 +111,7 @@ export default class UnaVentaComponent {
       });
       setTimeout((): void => {
         const loc: HTMLInputElement = document.getElementById(
-          `loc-new-${this.ind()}`
+          `loc-new-${this.ind()}`,
         ) as HTMLInputElement;
         // Si viene valor lo introduzco
         if (value !== null) {
@@ -210,16 +210,14 @@ export default class UnaVentaComponent {
   }
 
   loadArticulo(articuloResult: ArticuloInterface, ind: number): void {
-    console.log('loadArticulo', articuloResult, ind);
     const articulo: Articulo = this.cms.getArticulo(articuloResult);
     const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
     if (marca !== null) {
       articulo.marca = marca.nombre;
     }
     const indArticulo: number = this.venta().lineas.findIndex(
-      (x: VentaLinea): boolean => x.idArticulo === articulo.id
+      (x: VentaLinea): boolean => x.idArticulo === articulo.id,
     );
-    console.log({ articulo, indArticulo });
 
     if (indArticulo === -1) {
       this.venta.update((venta: Venta): Venta => {
@@ -261,7 +259,6 @@ export default class UnaVentaComponent {
       }
     }
     const cliente: Cliente | null = this.venta().cliente;
-    console.log({ cliente });
     if (cliente !== null && cliente.descuento !== 0) {
       this.venta.update((venta: Venta): Venta => {
         venta.lineas[ind].descuentoManual = false;
@@ -273,7 +270,6 @@ export default class UnaVentaComponent {
       venta.updateImporte();
       return venta;
     });
-    console.log('setFocus');
     this.setFocus();
 
     if (articulo.mostrarObsVentas && articulo.observaciones) {
@@ -293,7 +289,7 @@ export default class UnaVentaComponent {
     const toBeAddded: number[] = [];
     for (const item of list) {
       const addInd: number = this.venta().lineas.findIndex(
-        (x: VentaLinea): boolean => x.localizador === item
+        (x: VentaLinea): boolean => x.localizador === item,
       );
       if (addInd === -1) {
         toBeAddded.push(item);
@@ -303,7 +299,7 @@ export default class UnaVentaComponent {
     // Actualizo cantidades
     for (const item of list) {
       const updateInd: number = this.venta().lineas.findIndex(
-        (x: VentaLinea): boolean => x.localizador === item
+        (x: VentaLinea): boolean => x.localizador === item,
       );
       if (updateInd !== -1) {
         this.venta.update((venta: Venta): Venta => {
@@ -321,20 +317,18 @@ export default class UnaVentaComponent {
         .getLocalizadores(toBeAddded.join(','))
         .subscribe((result: LocalizadoresResult): void => {
           const articulos: Articulo[] = this.cms.getArticulos(result.list);
-          this.venta.update((venta: Venta): Venta => {
-            venta.lineas.splice(venta.lineas.length - 1, 1);
-            for (const articulo of articulos) {
-              const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
-              if (marca !== null) {
-                articulo.marca = marca.nombre;
-              }
-              const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(articulo);
-              venta.lineas.push(ventaLinea);
-              return venta;
+          const venta: Venta = this.venta();
+          venta.lineas.splice(venta.lineas.length - 1, 1);
+          for (const articulo of articulos) {
+            const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
+            if (marca !== null) {
+              articulo.marca = marca.nombre;
             }
-            venta.lineas.push(new VentaLinea());
-            return venta;
-          });
+            const ventaLinea: VentaLinea = new VentaLinea().fromArticulo(articulo);
+            venta.lineas.push(ventaLinea);
+          }
+          venta.lineas.push(new VentaLinea());
+          this.venta.set(venta);
           this.ind.set(this.venta().lineas.length);
           this.setFocus();
           this.venta.update((venta: Venta): Venta => {
@@ -420,7 +414,7 @@ export default class UnaVentaComponent {
     dialog.afterClosed$.subscribe(
       (data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void => {
         this.afterDevolucion(data);
-      }
+      },
     );
   }
 
@@ -458,7 +452,7 @@ export default class UnaVentaComponent {
       const toBeAddded: number[] = [];
       for (const item of data.data) {
         const addInd: number = this.venta().lineas.findIndex(
-          (x: VentaLinea): boolean => x.id === item.id
+          (x: VentaLinea): boolean => x.id === item.id,
         );
         if (addInd === -1) {
           toBeAddded.push(item.id as number);
@@ -468,7 +462,7 @@ export default class UnaVentaComponent {
       // Actualizo cantidades
       for (const item of data.data) {
         const updateInd: number = this.venta().lineas.findIndex(
-          (x: VentaLinea): boolean => x.id === item.id
+          (x: VentaLinea): boolean => x.id === item.id,
         );
         if (updateInd !== -1) {
           this.venta.update((venta: Venta): Venta => {
@@ -623,10 +617,10 @@ export default class UnaVentaComponent {
     this.editarCantidad = true;
     setTimeout((): void => {
       const cantidad: HTMLInputElement = document.getElementById(
-        'linea-cantidad-' + this.ind + '_' + i
+        'linea-cantidad-' + this.ind() + '_' + i,
       ) as HTMLInputElement;
       cantidad.select();
-    }, 0);
+    }, 10);
   }
 
   checkCantidad(): void {
@@ -687,7 +681,7 @@ export default class UnaVentaComponent {
     this.editarImporte = true;
     setTimeout((): void => {
       const importe: HTMLInputElement = document.getElementById(
-        'linea-importe-' + this.ind + '_' + i
+        'linea-importe-' + this.ind() + '_' + i,
       ) as HTMLInputElement;
       importe.select();
     }, 0);
@@ -752,7 +746,7 @@ export default class UnaVentaComponent {
     this.editarDescuento = true;
     setTimeout((): void => {
       const descuento: HTMLInputElement = document.getElementById(
-        'linea-descuento-' + this.ind + '_' + i
+        'linea-descuento-' + this.ind() + '_' + i,
       ) as HTMLInputElement;
       descuento.select();
     }, 0);
@@ -813,7 +807,7 @@ export default class UnaVentaComponent {
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const ind: number = this.venta().lineas.findIndex(
-          (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected
+          (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected,
         );
         this.venta.update((venta: Venta): Venta => {
           venta.lineas[ind].descuento = data.data;
@@ -836,7 +830,7 @@ export default class UnaVentaComponent {
     };
     const dialog = this.overlayService.open(
       VentaAccesosDirectosModalComponent,
-      modalAccesosDirectosData
+      modalAccesosDirectosData,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
