@@ -93,16 +93,13 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
   }
 
   updateCambio(): void {
-    let cambio: string = '';
-    if (!this.ventaFin.pagoMixto) {
-      cambio = formatNumber(toNumber(this.ventaFin.efectivo) - toNumber(this.ventaFin.total));
-    } else {
-      cambio = formatNumber(
-        toNumber(this.ventaFin.efectivo) +
-          toNumber(this.ventaFin.tarjeta) -
-          toNumber(this.ventaFin.total)
-      );
-    }
+    const cambio: string = !this.ventaFin.pagoMixto
+      ? formatNumber(toNumber(this.ventaFin.efectivo) - toNumber(this.ventaFin.total))
+      : formatNumber(
+          toNumber(this.ventaFin.efectivo) +
+            toNumber(this.ventaFin.tarjeta) -
+            toNumber(this.ventaFin.total),
+        );
     if (toNumber(cambio) > 0) {
       this.ventaFin.cambio = cambio;
     }
@@ -136,7 +133,7 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
       return;
     }
     const efectivo: string = formatNumber(
-      toNumber(this.ventaFin.total) - toNumber(this.ventaFin.tarjeta)
+      toNumber(this.ventaFin.total) - toNumber(this.ventaFin.tarjeta),
     );
     if (toNumber(efectivo) > 0) {
       this.ventaFin.efectivo = efectivo;
@@ -322,7 +319,7 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
     }
 
     this.saving = true;
-    this.vs.guardarVenta().subscribe((result: FinVentaResult): void => {
+    this.vs.guardarVenta(this.ventaFin).subscribe((result: FinVentaResult): void => {
       if (result.status === ApiStatusEnum.OK_TBAI_ERROR) {
         this.dialog.alert({
           title: 'Atención',

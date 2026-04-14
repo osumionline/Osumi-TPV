@@ -45,7 +45,7 @@ export default class VentasService extends BaseService {
     idEmpleadoDef: number | null,
     colorEmpleadoDef: string | null,
     colorTextEmpleadoDef: string | null,
-    loadValue: number | null = null
+    loadValue: number | null = null,
   ): Venta {
     this.selected.set(this.list().length);
     const venta = new Venta();
@@ -124,13 +124,13 @@ export default class VentasService extends BaseService {
           content: 'No se pudieron cargar las estadísticas del cliente.',
         });
         return of(venta);
-      })
+      }),
     );
   }
 
   loadFinVenta(venta: Venta): VentaFin {
     const lineas: VentaLinea[] = venta.lineas.filter(
-      (x: VentaLinea): boolean => x.idArticulo !== null
+      (x: VentaLinea): boolean => x.idArticulo !== null,
     );
 
     return new VentaFin(
@@ -143,21 +143,18 @@ export default class VentasService extends BaseService {
       formatNumber(venta.importe),
       lineas,
       'si',
-      venta.cliente ? venta.cliente.email : null
+      venta.cliente ? venta.cliente.email : null,
     );
   }
 
-  guardarVenta(): Observable<FinVentaResult> {
-    return this.http.post<FinVentaResult>(
-      this.apiUrl + '-ventas/save-venta',
-      this.fin.toInterface()
-    );
+  guardarVenta(fin: VentaFin): Observable<FinVentaResult> {
+    return this.http.post<FinVentaResult>(this.apiUrl + '-ventas/save-venta', fin.toInterface());
   }
 
   guardarReserva(): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
       this.apiUrl + '-clientes/save-reserva',
-      this.fin.toInterface()
+      this.fin.toInterface(),
     );
   }
 
