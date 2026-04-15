@@ -8,7 +8,8 @@
 			{{ tab.tabName }}
 			@if (showClose()) {
 			<mat-icon class="tab-icon"
-					  (click)="closeTab(i)">close</mat-icon>
+					  (click)="closeTab(i)"
+					  matTooltip="Cerrar venta">close</mat-icon>
 			}
 		</div>
 		}

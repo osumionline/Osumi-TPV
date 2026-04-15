@@ -174,7 +174,10 @@ export default class UnaVentaComponent {
     if (ev.key === 'Enter' && !this.observacionesOpen) {
       this.searching.set(true);
       // Si es 0, hay que introducir el artículo Varios
-      if (this.venta().lineas[ind].localizador === 0) {
+      if (
+        this.venta().lineas[ind].localizador === 0 ||
+        String(this.venta().lineas[ind].localizador) === '0'
+      ) {
         this.nuevoVarios(ind);
         return;
       }
@@ -576,15 +579,14 @@ export default class UnaVentaComponent {
     const dialog = this.overlayService.open(VentaVariosModalComponent, modalVariosData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        this.venta.update((venta: Venta): Venta => {
-          if (this.variosInd !== null) {
-            venta.lineas[this.variosInd].descripcion = data.data.nombre;
-            venta.lineas[this.variosInd].pvp = data.data.pvp;
-            venta.lineas[this.variosInd].iva = data.data.iva;
-            venta.updateImporte();
-          }
-          return venta;
-        });
+        const venta = this.venta();
+        if (this.variosInd !== null) {
+          venta.lineas[this.variosInd].descripcion = data.data.nombre;
+          venta.lineas[this.variosInd].pvp = data.data.pvp;
+          venta.lineas[this.variosInd].iva = data.data.iva;
+          venta.updateImporte();
+        }
+        this.venta.set(new Venta().fromInterface(venta.toInterface(), venta.lineas));
       }
       this.setFocus();
     });

@@ -9,6 +9,7 @@ import {
   viewChild,
   WritableSignal,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { disabled, form, FormField, min, required } from '@angular/forms/signals';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
@@ -23,7 +24,16 @@ import ConfigService from '@services/config.service';
 @Component({
   selector: 'otpv-venta-varios-modal',
   templateUrl: './venta-varios-modal.component.html',
-  imports: [MatFormField, MatInput, MatSelect, MatOption, MatButton, MatIcon, FormField],
+  imports: [
+    MatFormField,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatIcon,
+    FormField,
+    FormsModule,
+  ],
 })
 export default class VentaVariosModalComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);
@@ -54,7 +64,7 @@ export default class VentaVariosModalComponent implements OnInit {
     (): boolean =>
       this.variosForm.nombre().errors().length === 0 &&
       this.variosForm.pvp().errors().length === 0 &&
-      this.variosForm.iva().errors().length === 0
+      this.variosForm.iva().errors().length === 0,
   );
   variosPVPbox: Signal<ElementRef> = viewChild.required<ElementRef>('variosPVPbox');
 
