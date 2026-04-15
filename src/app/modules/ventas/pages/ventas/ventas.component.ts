@@ -49,7 +49,7 @@ export default class VentasComponent implements OnInit {
 
   id: InputSignalWithTransform<number | undefined, unknown> = input<number | undefined, unknown>(
     undefined,
-    { transform: this.toOptionalNumber }
+    { transform: this.toOptionalNumber },
   );
   tabs: Signal<VentasTabsComponent> = viewChild.required<VentasTabsComponent>('tabs');
   ventasComponents: Signal<readonly UnaVentaComponent[]> = viewChildren(UnaVentaComponent);
@@ -98,7 +98,7 @@ export default class VentasComponent implements OnInit {
       this.config.idEmpleadoDef,
       this.config.colorEmpleadoDef,
       this.config.colorTextEmpleadoDef,
-      id
+      id,
     );
     this.ventas.update((ventas: Venta[]): Venta[] => {
       ventas.push(newVenta);
@@ -148,6 +148,10 @@ export default class VentasComponent implements OnInit {
     this.startFocus();
   }
 
+  updateVenta(ind: number, venta: Venta): void {
+    this.ventas.update((ventas: Venta[]): Venta[] => ventas.toSpliced(ind, 1, venta));
+  }
+
   selectClient(selected: SelectClienteInterface | null): void {
     if (!selected) {
       this.startFocus();
@@ -181,18 +185,21 @@ export default class VentasComponent implements OnInit {
   }
 
   selectReserva(reservas: Reserva[]): void {
-    if (!reservas?.length) return;
+    if (!reservas.length) {
+      return;
+    }
 
     this.newVenta();
     const idx: number = this.selected();
     const ventasArr: Venta[] = this.ventas();
     const venta: Venta = ventasArr[idx];
-    if (!venta) return;
+    if (!venta) {
+      return;
+    }
 
     venta.mostrarEmpleados = this.config.empleados;
     venta.lineas = [];
-    const cliente = reservas[0].cliente;
-
+    const cliente: Cliente | null = reservas[0].cliente;
     const stats$: Observable<Venta> = this.vs.loadVentaCliente(cliente as Cliente, venta);
 
     for (const reserva of reservas) {
@@ -201,7 +208,7 @@ export default class VentasComponent implements OnInit {
 
         if (linea.idArticulo !== null) {
           ind = venta.lineas.findIndex(
-            (x: VentaLinea): boolean => x.idArticulo === linea.idArticulo
+            (x: VentaLinea): boolean => x.idArticulo === linea.idArticulo,
           );
         }
 
@@ -209,11 +216,6 @@ export default class VentasComponent implements OnInit {
           const lineaVenta: VentaLinea = new VentaLinea().fromLineaReserva(linea);
           lineaVenta.fromReserva = reserva.id;
           venta.lineas.push(lineaVenta);
-        } else {
-          let cantidad = venta.lineas[ind].cantidad;
-          if (cantidad !== null) {
-            cantidad += linea.unidades ?? 0;
-          }
         }
       }
     }
@@ -290,7 +292,7 @@ export default class VentasComponent implements OnInit {
           });
           this.ventasComponents()[this.vs.selected()]?.loadUltimaVenta(
             data.data.importe,
-            data.data.cambio
+            data.data.cambio,
           );
           this.ventasComponents()[this.vs.selected()]?.setFocus();
         }

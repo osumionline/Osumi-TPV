@@ -1,10 +1,12 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   Component,
+  InputSignal,
   ModelSignal,
   OutputEmitterRef,
   WritableSignal,
   inject,
+  input,
   model,
   output,
   signal,
@@ -67,7 +69,7 @@ export default class UnaVentaComponent {
   private readonly router: Router = inject(Router);
   private readonly overlayService: OverlayService = inject(OverlayService);
 
-  ind: ModelSignal<number> = model.required<number>();
+  ind: InputSignal<number> = input.required<number>();
   venta: ModelSignal<Venta> = model.required<Venta>();
   deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
   endVentaEvent: OutputEmitterRef<void> = output<void>();
@@ -91,24 +93,40 @@ export default class UnaVentaComponent {
 
   showBuscador: boolean = false;
 
+  private cloneVenta(venta: Venta): Venta {
+    const newVenta: Venta = new Venta(venta.id, venta.idEmpleado, venta.lineas, venta.importe);
+    newVenta.tabName = venta.tabName;
+    newVenta.cliente = venta.cliente;
+    newVenta.mostrarEmpleados = venta.mostrarEmpleados;
+    newVenta.color = venta.color;
+    newVenta.textColor = venta.textColor;
+    newVenta.empleado = venta.empleado;
+    newVenta.modificarImportes = venta.modificarImportes;
+    newVenta.loadValue = venta.loadValue;
+
+    return newVenta;
+  }
+
+  private setVenta(venta: Venta): void {
+    this.venta.set(this.cloneVenta(venta));
+  }
+
   loginSuccess(ev: Empleado): void {
-    this.venta.update((venta: Venta): Venta => {
-      const newVenta: Venta = new Venta().fromInterface(venta.toInterface(), venta.lineas);
-      newVenta.setEmpleado(ev);
-      newVenta.lineas.push(new VentaLinea());
-      newVenta.mostrarEmpleados = false;
-      return newVenta;
-    });
+    const venta: Venta = this.venta();
+    const newVenta: Venta = this.cloneVenta(venta);
+    newVenta.setEmpleado(ev);
+    newVenta.lineas.push(new VentaLinea());
+    newVenta.mostrarEmpleados = false;
+    this.setVenta(newVenta);
 
     this.setFocus(this.venta().loadValue);
   }
 
   setFocus(value: number | null = null): void {
     if (!this.venta().mostrarEmpleados) {
-      this.venta.update((venta: Venta): Venta => {
-        venta.loadValue = null;
-        return venta;
-      });
+      const venta: Venta = this.venta();
+      venta.loadValue = null;
+      this.setVenta(venta);
       setTimeout((): void => {
         const loc: HTMLInputElement = document.getElementById(
           `loc-new-${this.ind()}`,
@@ -116,10 +134,9 @@ export default class UnaVentaComponent {
         // Si viene valor lo introduzco
         if (value !== null) {
           loc.value = value.toString();
-          this.venta.update((venta: Venta): Venta => {
-            venta.lineas[venta.lineas.length - 1].localizador = value;
-            return venta;
-          });
+          const venta: Venta = this.venta();
+          venta.lineas[venta.lineas.length - 1].localizador = value;
+          this.setVenta(venta);
         }
         // Pongo el foco
         loc.focus();
@@ -200,10 +217,9 @@ export default class UnaVentaComponent {
                 content: '¡El código introducido no se encuentra!',
               })
               .subscribe((): void => {
-                this.venta.update((venta: Venta): Venta => {
-                  venta.lineas[ind].localizador = null;
-                  return venta;
-                });
+                const venta: Venta = this.venta();
+                venta.lineas[ind].localizador = null;
+                this.setVenta(venta);
                 this.setFocus();
               });
           }
@@ -213,37 +229,32 @@ export default class UnaVentaComponent {
   }
 
   loadArticulo(articuloResult: ArticuloInterface, ind: number): void {
+    const venta: Venta = this.venta();
     const articulo: Articulo = this.cms.getArticulo(articuloResult);
     const marca: Marca | null = this.ms.findById(articulo.idMarca as number);
     if (marca !== null) {
       articulo.marca = marca.nombre;
     }
-    const indArticulo: number = this.venta().lineas.findIndex(
+    const indArticulo: number = venta.lineas.findIndex(
       (x: VentaLinea): boolean => x.idArticulo === articulo.id,
     );
 
     if (indArticulo === -1) {
-      this.venta.update((venta: Venta): Venta => {
-        venta.lineas[ind] = new VentaLinea().fromArticulo(articulo);
-        venta.lineas.push(new VentaLinea());
-        return venta;
-      });
+      venta.lineas[ind] = new VentaLinea().fromArticulo(articulo);
+      venta.lineas.push(new VentaLinea());
+      this.setVenta(venta);
     } else {
-      if (this.venta().lineas[indArticulo].fromVenta === null) {
-        this.venta.update((venta: Venta): Venta => {
-          if (venta.lineas[indArticulo].cantidad === null) {
-            venta.lineas[indArticulo].cantidad = 0;
-          }
-          venta.lineas[indArticulo].cantidad++;
-          venta.lineas[indArticulo].animarCantidad = true;
-          venta.lineas[ind].localizador = null;
-          return venta;
-        });
+      if (venta.lineas[indArticulo].fromVenta === null) {
+        if (venta.lineas[indArticulo].cantidad === null) {
+          venta.lineas[indArticulo].cantidad = 0;
+        }
+        venta.lineas[indArticulo].cantidad++;
+        venta.lineas[indArticulo].animarCantidad = true;
+        venta.lineas[ind].localizador = null;
+        this.setVenta(venta);
         setTimeout((): void => {
-          this.venta.update((venta: Venta): Venta => {
-            venta.lineas[indArticulo].animarCantidad = false;
-            return venta;
-          });
+          venta.lineas[indArticulo].animarCantidad = false;
+          this.setVenta(venta);
         }, 1000);
       } else {
         this.dialog
@@ -252,10 +263,9 @@ export default class UnaVentaComponent {
             content: 'Has seleccionado un artículo que está marcado como devolución.',
           })
           .subscribe((): void => {
-            this.venta.update((venta: Venta): Venta => {
-              venta.lineas[ind].localizador = null;
-              return venta;
-            });
+            const venta: Venta = this.venta();
+            venta.lineas[ind].localizador = null;
+            this.setVenta(venta);
             this.setFocus();
             return;
           });
@@ -263,16 +273,11 @@ export default class UnaVentaComponent {
     }
     const cliente: Cliente | null = this.venta().cliente;
     if (cliente !== null && cliente.descuento !== 0) {
-      this.venta.update((venta: Venta): Venta => {
-        venta.lineas[ind].descuentoManual = false;
-        venta.lineas[ind].descuento = cliente.descuento;
-        return venta;
-      });
+      venta.lineas[ind].descuentoManual = false;
+      venta.lineas[ind].descuento = cliente.descuento;
     }
-    this.venta.update((venta: Venta): Venta => {
-      venta.updateImporte();
-      return venta;
-    });
+    venta.updateImporte();
+    this.setVenta(venta);
     this.setFocus();
 
     if (articulo.mostrarObsVentas && articulo.observaciones) {
@@ -300,20 +305,19 @@ export default class UnaVentaComponent {
     }
 
     // Actualizo cantidades
+    const venta: Venta = this.venta();
     for (const item of list) {
-      const updateInd: number = this.venta().lineas.findIndex(
+      const updateInd: number = venta.lineas.findIndex(
         (x: VentaLinea): boolean => x.localizador === item,
       );
       if (updateInd !== -1) {
-        this.venta.update((venta: Venta): Venta => {
-          if (venta.lineas[updateInd].cantidad === null) {
-            venta.lineas[updateInd].cantidad = 0;
-          }
-          venta.lineas[updateInd].cantidad++;
-          return venta;
-        });
+        if (venta.lineas[updateInd].cantidad === null) {
+          venta.lineas[updateInd].cantidad = 0;
+        }
+        venta.lineas[updateInd].cantidad++;
       }
     }
+    this.setVenta(venta);
 
     if (toBeAddded.length > 0) {
       this.vs
@@ -331,13 +335,9 @@ export default class UnaVentaComponent {
             venta.lineas.push(ventaLinea);
           }
           venta.lineas.push(new VentaLinea());
-          this.venta.set(venta);
-          this.ind.set(this.venta().lineas.length);
           this.setFocus();
-          this.venta.update((venta: Venta): Venta => {
-            venta.updateImporte();
-            return venta;
-          });
+          venta.updateImporte();
+          this.setVenta(venta);
         });
     }
   }
@@ -350,11 +350,10 @@ export default class UnaVentaComponent {
     articulo.pvp = 0;
     articulo.marca = 'Varios';
 
-    this.venta.update((venta: Venta): Venta => {
-      venta.lineas[ind] = new VentaLinea().fromArticulo(articulo);
-      venta.lineas.push(new VentaLinea());
-      return venta;
-    });
+    const venta: Venta = this.venta();
+    venta.lineas[ind] = new VentaLinea().fromArticulo(articulo);
+    venta.lineas.push(new VentaLinea());
+    this.setVenta(venta);
 
     this.searching.set(false);
     this.abreVarios(ind);
@@ -370,19 +369,17 @@ export default class UnaVentaComponent {
         })
         .subscribe((): void => {
           this.searching.set(false);
-          this.venta.update((venta: Venta): Venta => {
-            venta.lineas[ind].localizador = null;
-            return venta;
-          });
+          const venta: Venta = this.venta();
+          venta.lineas[ind].localizador = null;
+          this.setVenta(venta);
           this.setFocus();
         });
     } else {
+      const venta: Venta = this.venta();
       this.searching.set(false);
-      this.devolucionVenta = (this.venta().lineas[ind].localizador ?? 0) * -1;
-      this.venta.update((venta: Venta): Venta => {
-        venta.lineas[ind].localizador = null;
-        return venta;
-      });
+      this.devolucionVenta = (venta.lineas[ind].localizador ?? 0) * -1;
+      venta.lineas[ind].localizador = null;
+      this.setVenta(venta);
 
       const modalDevolucionData: DevolucionModal = {
         modalTitle: 'Devolución',
@@ -422,7 +419,8 @@ export default class UnaVentaComponent {
   }
 
   afterDevolucion(data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void {
-    const checkList: VentaLinea[] = this.venta().lineas.filter((x: VentaLinea): boolean => {
+    const venta: Venta = this.venta();
+    const checkList: VentaLinea[] = venta.lineas.filter((x: VentaLinea): boolean => {
       return x.fromVenta !== null;
     });
 
@@ -442,21 +440,16 @@ export default class UnaVentaComponent {
       }
 
       for (const id of toBeDeleted) {
-        const deleteInd: number = this.venta().lineas.findIndex((x: VentaLinea): boolean => {
+        const deleteInd: number = venta.lineas.findIndex((x: VentaLinea): boolean => {
           return x.id === id;
         });
-        this.venta.update((venta: Venta): Venta => {
-          venta.lineas.splice(deleteInd, 1);
-          return venta;
-        });
+        venta.lineas.splice(deleteInd, 1);
       }
 
       // Busco líneas nuevas
       const toBeAddded: number[] = [];
       for (const item of data.data) {
-        const addInd: number = this.venta().lineas.findIndex(
-          (x: VentaLinea): boolean => x.id === item.id,
-        );
+        const addInd: number = venta.lineas.findIndex((x: VentaLinea): boolean => x.id === item.id);
         if (addInd === -1) {
           toBeAddded.push(item.id as number);
         }
@@ -464,27 +457,24 @@ export default class UnaVentaComponent {
 
       // Actualizo cantidades
       for (const item of data.data) {
-        const updateInd: number = this.venta().lineas.findIndex(
+        const updateInd: number = venta.lineas.findIndex(
           (x: VentaLinea): boolean => x.id === item.id,
         );
         if (updateInd !== -1) {
-          this.venta.update((venta: Venta): Venta => {
-            venta.lineas[updateInd].cantidad = item.unidades;
-            return venta;
-          });
+          venta.lineas[updateInd].cantidad = item.unidades;
         }
       }
+      this.setVenta(venta);
 
       this.devolucionList = data.data;
       if (toBeAddded.length > 0) {
         this.vs
           .getLineasTicket(toBeAddded.join(','))
           .subscribe((result: LineasTicketResult): void => {
+            const venta: Venta = this.venta();
             const lineas: VentaLineaHistorico[] = this.cms.getHistoricoVentaLineas(result.list);
-            this.venta.update((venta: Venta): Venta => {
-              venta.lineas.splice(venta.lineas.length - 1, 1);
-              return venta;
-            });
+            venta.lineas.splice(venta.lineas.length - 1, 1);
+
             for (const linea of lineas) {
               const articulo: Articulo = new Articulo();
               articulo.id = linea.idArticulo !== null ? linea.idArticulo : 0;
@@ -505,38 +495,23 @@ export default class UnaVentaComponent {
                 ventaLinea.cantidad = devolucionLinea.unidades;
               }
 
-              this.venta.update((venta: Venta): Venta => {
-                venta.lineas.push(ventaLinea);
-                return venta;
-              });
+              venta.lineas.push(ventaLinea);
             }
-            this.venta.update((venta: Venta): Venta => {
-              venta.lineas.push(new VentaLinea());
-              return venta;
-            });
-            this.ind.set(this.venta().lineas.length);
+            venta.lineas.push(new VentaLinea());
             this.setFocus();
-            this.venta.update((venta: Venta): Venta => {
-              venta.updateImporte();
-              return venta;
-            });
+            venta.updateImporte();
+            this.setVenta(venta);
           });
       } else {
-        this.ind.set(this.venta().lineas.length);
         this.setFocus();
-        this.venta.update((venta: Venta): Venta => {
-          venta.updateImporte();
-          return venta;
-        });
+        venta.updateImporte();
       }
     } else {
       this.devolucionVenta = null;
       this.setFocus();
-      this.venta.update((venta: Venta): Venta => {
-        venta.updateImporte();
-        return venta;
-      });
+      venta.updateImporte();
     }
+    this.setVenta(venta);
   }
 
   borraLinea(ind: number): void {
@@ -586,7 +561,7 @@ export default class UnaVentaComponent {
           venta.lineas[this.variosInd].iva = data.data.iva;
           venta.updateImporte();
         }
-        this.venta.set(new Venta().fromInterface(venta.toInterface(), venta.lineas));
+        this.setVenta(venta);
       }
       this.setFocus();
     });
@@ -627,10 +602,9 @@ export default class UnaVentaComponent {
 
   checkCantidad(): void {
     this.editarCantidad = false;
-    this.venta.update((venta: Venta): Venta => {
-      venta.updateImporte();
-      return venta;
-    });
+    const venta: Venta = this.venta();
+    venta.updateImporte();
+    this.setVenta(venta);
     this.setFocus();
   }
 
@@ -648,7 +622,7 @@ export default class UnaVentaComponent {
       venta.lineas[i].descuento = venta.lineas[i].descuentoAnterior;
     }
     venta.updateImporte();
-    this.venta.set(venta);
+    this.setVenta(venta);
   }
 
   editarLineaImporte(i: number): void {
@@ -691,20 +665,18 @@ export default class UnaVentaComponent {
 
   checkImporte(ind: number): void {
     this.editarImporte = false;
-    this.venta.update((venta: Venta): Venta => {
-      venta.lineas[ind].importeManual = true;
-      venta.updateImporte();
-      return venta;
-    });
+    const venta: Venta = this.venta();
+    venta.lineas[ind].importeManual = true;
+    venta.updateImporte();
+    this.setVenta(venta);
     this.setFocus();
   }
 
   quitaImporteManual(ev: MouseEvent, ind: number): void {
     ev.stopPropagation();
-    this.venta.update((venta: Venta): Venta => {
-      venta.lineas[ind].importeManual = false;
-      return venta;
-    });
+    const venta: Venta = this.venta();
+    venta.lineas[ind].importeManual = false;
+    this.setVenta(venta);
     this.setFocus();
   }
 
@@ -757,31 +729,26 @@ export default class UnaVentaComponent {
   checkDescuento(ev: Event): void {
     const id: string[] = (ev.target as Element).id.split('_');
     const indId: string | undefined = id.pop();
+    const venta: Venta = this.venta();
     if (indId !== undefined) {
       const ind: number = parseInt(indId);
       // Comprobación para que no quede en blanco
-      if (this.venta().lineas[ind].descuento === null) {
-        this.venta.update((venta: Venta): Venta => {
-          venta.lineas[ind].descuento = 0;
-          return venta;
-        });
+      if (venta.lineas[ind].descuento === null) {
+        venta.lineas[ind].descuento = 0;
       }
     }
     this.editarDescuento = false;
-    this.venta.update((venta: Venta): Venta => {
-      venta.updateImporte();
-      return venta;
-    });
+    venta.updateImporte();
+    this.setVenta(venta);
     this.setFocus();
   }
 
   quitaDescuentoManual(ev: MouseEvent, ind: number): void {
     ev.stopPropagation();
-    this.venta.update((venta: Venta): Venta => {
-      venta.lineas[ind].descuento = 0;
-      venta.lineas[ind].descuentoManual = false;
-      return venta;
-    });
+    const venta: Venta = this.venta();
+    venta.lineas[ind].descuento = 0;
+    venta.lineas[ind].descuentoManual = false;
+    this.setVenta(venta);
     this.setFocus();
   }
 
@@ -808,15 +775,14 @@ export default class UnaVentaComponent {
     const dialog = this.overlayService.open(VentaDescuentoModalComponent, modalDescuentoData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        const ind: number = this.venta().lineas.findIndex(
+        const venta: Venta = this.venta();
+        const ind: number = venta.lineas.findIndex(
           (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected,
         );
-        this.venta.update((venta: Venta): Venta => {
-          venta.lineas[ind].descuento = data.data;
-          venta.lineas[ind].descuentoManual = true;
-          venta.updateImporte();
-          return venta;
-        });
+        venta.lineas[ind].descuento = data.data;
+        venta.lineas[ind].descuentoManual = true;
+        venta.updateImporte();
+        this.setVenta(venta);
       }
     });
   }
@@ -852,12 +818,11 @@ export default class UnaVentaComponent {
       .subscribe((result: boolean): void => {
         if (result === true) {
           this.devolucionVenta = null;
-          this.venta.update((venta: Venta): Venta => {
-            venta.cliente = null;
-            venta.resetearVenta();
-            venta.lineas.push(new VentaLinea());
-            return venta;
-          });
+          const venta: Venta = this.venta();
+          venta.cliente = null;
+          venta.resetearVenta();
+          venta.lineas.push(new VentaLinea());
+          this.setVenta(venta);
           this.setFocus();
         }
       });
@@ -865,6 +830,9 @@ export default class UnaVentaComponent {
 
   terminarVenta(): void {
     let status: string = 'ok';
+    const venta: Venta = this.venta();
+    venta.updateImporte();
+    this.setVenta(venta);
     if (this.venta().lineas.length > 0) {
       for (const linea of this.venta().lineas) {
         if (linea.descripcion !== null && (linea.cantidad === null || linea.cantidad === 0)) {

@@ -14,6 +14,7 @@
 @for (venta of ventas(); track venta.id; let i = $index) {
 <otpv-una-venta [ind]="i"
 				[venta]="venta"
+				(ventaChange)="updateVenta(i, $event)"
 				[class]="{'hidden':i !== selected()}"
 				(deleteVentaLineaEvent)="deleteVentaLinea($event)"
 				(endVentaEvent)="endVenta()"
