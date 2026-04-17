@@ -63,22 +63,35 @@ export default class VentasComponent implements OnInit {
     return ventaSelected.cliente ? ventaSelected.cliente : null;
   }
 
+  private setVentas(ventas: Venta[]): void {
+    this.ventas.set(ventas);
+    this.vs.setList(ventas);
+  }
+
+  private updateVentas(updateFn: (ventas: Venta[]) => Venta[]): void {
+    this.ventas.update(updateFn);
+    this.vs.setList(this.ventas());
+  }
+
+  private setSelected(ind: number): void {
+    this.selected.set(ind);
+    this.vs.setSelected(ind);
+  }
+
   ngOnInit(): void {
     this.ars.returnInfo = null;
     const id: number | undefined = this.id();
     if (id !== undefined && !isNaN(id) && this.id() !== 0) {
       this.newVenta(-1 * id);
-      this.ventas.update((ventas: Venta[]): Venta[] => {
-        ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
-        return ventas;
-      });
+      const ventas: Venta[] = this.ventas();
+      ventas[this.selected()].mostrarEmpleados = this.config.empleados;
+      this.setVentas([...ventas]);
     } else {
-      if (this.vs.selected() === -1) {
+      if (this.selected() === -1) {
         this.newVenta();
-        this.ventas.update((ventas: Venta[]): Venta[] => {
-          ventas[this.vs.selected()].mostrarEmpleados = this.config.empleados;
-          return ventas;
-        });
+        const ventas: Venta[] = this.ventas();
+        ventas[this.selected()].mostrarEmpleados = this.config.empleados;
+        this.setVentas([...ventas]);
       } else {
         this.startFocus();
       }
@@ -100,18 +113,15 @@ export default class VentasComponent implements OnInit {
       this.config.colorTextEmpleadoDef,
       id,
     );
-    this.ventas.update((ventas: Venta[]): Venta[] => {
-      ventas.push(newVenta);
-      return ventas;
-    });
-    this.selected.set(this.ventas().length - 1);
+    this.setVentas([...this.ventas(), newVenta]);
+    this.setSelected(this.ventas().length - 1);
     if (!this.config.empleados) {
       this.startFocus(id);
     }
   }
 
   changeTab(ind: number): void {
-    this.selected.set(ind);
+    this.setSelected(ind);
     this.startFocus();
   }
 
@@ -122,34 +132,42 @@ export default class VentasComponent implements OnInit {
   }
 
   cerrarVenta(ind: number): void {
-    if (this.selected() === ind) {
-      this.selected.set(0);
+    const ventas: Venta[] = this.ventas();
+    ventas.splice(ind, 1);
+    for (const ind in ventas) {
+      ventas[ind].tabName = 'VENTA ' + (parseInt(ind) + 1);
     }
-    this.ventas.update((ventas: Venta[]): Venta[] => {
-      ventas.splice(ind, 1);
-      for (const ind in ventas) {
-        ventas[ind].tabName = 'VENTA ' + (parseInt(ind) + 1);
-      }
-      return ventas;
-    });
+
+    const selected: number = this.selected();
+    let nextSelected: number = selected;
+    if (ventas.length === 0) {
+      nextSelected = -1;
+    } else if (ind < selected) {
+      nextSelected = selected - 1;
+    } else if (ind === selected) {
+      nextSelected = Math.min(ind, ventas.length - 1);
+    }
+
+    this.setVentas([...ventas]);
+    this.setSelected(nextSelected);
   }
 
   deleteVentaLinea(ind: number): void {
-    this.ventas.update((ventas: Venta[]): Venta[] => {
-      const linea: VentaLinea = ventas[this.selected()].lineas[ind];
-      if (linea.fromReserva === null) {
-        ventas[this.selected()].lineas.splice(ind, 1);
-      } else {
-        linea.cantidad = 0;
-      }
-      ventas[this.selected()].updateImporte();
-      return ventas;
-    });
+    const ventas: Venta[] = this.ventas();
+    const linea: VentaLinea = ventas[this.selected()].lineas[ind];
+    if (linea.fromReserva === null) {
+      ventas[this.selected()].lineas.splice(ind, 1);
+    } else {
+      linea.cantidad = 0;
+    }
+    ventas[this.selected()].updateImporte();
+    this.setVentas([...ventas]);
+
     this.startFocus();
   }
 
   updateVenta(ind: number, venta: Venta): void {
-    this.ventas.update((ventas: Venta[]): Venta[] => ventas.toSpliced(ind, 1, venta));
+    this.updateVentas((ventas: Venta[]): Venta[] => ventas.toSpliced(ind, 1, venta));
   }
 
   selectClient(selected: SelectClienteInterface | null): void {
@@ -167,10 +185,10 @@ export default class VentasComponent implements OnInit {
     }
 
     const obs: Observable<Venta> = this.vs.loadVentaCliente(selected.cliente, venta);
-    this.ventas.update((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
+    this.updateVentas((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
 
     obs.subscribe((vActualizada: Venta): void => {
-      this.ventas.update((arr: Venta[]): Venta[] => {
+      this.updateVentas((arr: Venta[]): Venta[] => {
         const i: number = arr.indexOf(vActualizada);
         return i === -1 ? arr : arr.toSpliced(i, 1, vActualizada);
       });
@@ -235,10 +253,10 @@ export default class VentasComponent implements OnInit {
       venta.lineas.push(new VentaLinea());
     }
 
-    this.ventas.update((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
+    this.updateVentas((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
 
     stats$.subscribe((ventaConStats: Venta): void => {
-      this.ventas.update((arr: Venta[]): Venta[] => {
+      this.updateVentas((arr: Venta[]): Venta[] => {
         const i: number = arr.indexOf(ventaConStats);
         return i === -1 ? arr : arr.toSpliced(i, 1, ventaConStats);
       });
@@ -246,10 +264,14 @@ export default class VentasComponent implements OnInit {
   }
 
   endVenta(): void {
-    if (this.ventas()[this.vs.selected()].lineas.length === 1) {
+    const selected: number = this.selected();
+    const venta: Venta = this.ventas()[selected];
+
+    if (venta.lineas.length === 1) {
       return;
     }
-    const ventaFin: VentaFin = this.vs.loadFinVenta(this.ventas()[this.vs.selected()]);
+
+    const ventaFin: VentaFin = this.vs.loadFinVenta(venta);
     this.abreFinalizarVenta(ventaFin);
   }
 
@@ -272,32 +294,30 @@ export default class VentasComponent implements OnInit {
           this.tabs().selectClient('reserva');
         }
         if (data.data.status === ApiStatusEnum.CANCELAR) {
-          this.ventasComponents()[this.vs.selected()]?.setFocus();
+          this.ventasComponents()[this.selected()]?.setFocus();
         }
         if (data.data.status === ApiStatusEnum.FIN_RESERVA) {
-          this.ventas.update((ventas: Venta[]): Venta[] => {
-            ventas[this.vs.selected()].cliente = null;
-            ventas[this.vs.selected()].resetearVenta();
-            ventas[this.vs.selected()].lineas.push(new VentaLinea());
-            return ventas;
-          });
-          this.ventasComponents()[this.vs.selected()]?.setFocus();
+          const ventas: Venta[] = this.ventas();
+          ventas[this.selected()].cliente = null;
+          ventas[this.selected()].resetearVenta();
+          ventas[this.selected()].lineas.push(new VentaLinea());
+          this.setVentas([...ventas]);
+          this.ventasComponents()[this.selected()]?.setFocus();
         }
         if (data.data.status === ApiStatusEnum.FIN) {
-          this.ventas.update((ventas: Venta[]): Venta[] => {
-            ventas[this.vs.selected()].cliente = null;
-            ventas[this.vs.selected()].resetearVenta();
-            ventas[this.vs.selected()].lineas.push(new VentaLinea());
-            return ventas;
-          });
-          this.ventasComponents()[this.vs.selected()]?.loadUltimaVenta(
+          const ventas: Venta[] = this.ventas();
+          ventas[this.selected()].cliente = null;
+          ventas[this.selected()].resetearVenta();
+          ventas[this.selected()].lineas.push(new VentaLinea());
+          this.setVentas([...ventas]);
+          this.ventasComponents()[this.selected()]?.loadUltimaVenta(
             data.data.importe,
             data.data.cambio,
           );
-          this.ventasComponents()[this.vs.selected()]?.setFocus();
+          this.ventasComponents()[this.selected()]?.setFocus();
         }
       } else {
-        this.ventasComponents()[this.vs.selected()]?.setFocus();
+        this.ventasComponents()[this.selected()]?.setFocus();
       }
     });
   }

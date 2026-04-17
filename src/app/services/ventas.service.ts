@@ -40,6 +40,10 @@ export default class VentasService extends BaseService {
     this.list.set(ventas);
   }
 
+  setSelected(selected: number): void {
+    this.selected.set(selected);
+  }
+
   newVenta(
     empleados: boolean,
     idEmpleadoDef: number | null,
