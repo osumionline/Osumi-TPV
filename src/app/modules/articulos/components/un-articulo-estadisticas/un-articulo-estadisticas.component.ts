@@ -25,6 +25,7 @@ export default class UnArticuloEstadisticasComponent {
   articulo: ModelSignal<Articulo> = model.required<Articulo>();
   monthList: Month[] = this.config.monthList;
   statsVentas: ChartSelectInterface = {
+    idArticulo: null,
     data: 'ventas',
     type: 'units',
     month: -1,
@@ -32,6 +33,7 @@ export default class UnArticuloEstadisticasComponent {
   };
   statsVentasData: ChartDataInterface[] = [];
   statsWeb: ChartSelectInterface = {
+    idArticulo: null,
     data: 'web',
     type: 'units',
     month: -1,
@@ -41,12 +43,14 @@ export default class UnArticuloEstadisticasComponent {
   statsWebData: ChartDataInterface[] = [];
 
   loadStatsVentas(): void {
+    this.statsVentas.idArticulo = this.articulo().id;
     this.ars.getStatistics(this.statsVentas).subscribe((result: ChartResultInterface): void => {
       this.statsVentasData = result.data;
     });
   }
 
   loadStatsWeb(): void {
+    this.statsWeb.idArticulo = this.articulo().id;
     this.ars.getStatistics(this.statsWeb).subscribe((result: ChartResultInterface): void => {
       this.statsWebData = result.data;
     });

@@ -26,7 +26,8 @@ export default class ArticulosTabsComponent {
     this.changeSelectedTabEvent.emit(ind);
   }
 
-  closeTab(ind: number): void {
+  closeTab(ev: MouseEvent, ind: number): void {
+    ev.stopPropagation();
     this.closeTabEvent.emit(ind);
   }
 

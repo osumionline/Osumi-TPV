@@ -100,8 +100,9 @@ export default class UnArticuloComponent {
   estadisticas: Signal<UnArticuloEstadisticasComponent | undefined> = viewChild<
     UnArticuloEstadisticasComponent | undefined
   >('estadisticas');
-  historico: Signal<UnArticuloHistoricoComponent> =
-    viewChild.required<UnArticuloHistoricoComponent>('historico');
+  historico: Signal<UnArticuloHistoricoComponent | undefined> = viewChild<
+    UnArticuloHistoricoComponent | undefined
+  >('historico');
 
   saving: WritableSignal<boolean> = signal<boolean>(false);
   showBuscador: boolean = false;
@@ -182,7 +183,7 @@ export default class UnArticuloComponent {
             if (pvp > 0) {
               const importeDescuento: number = pvp - this.articulo.pvpDescuento;
               this.articulo.porcentajeDescuento = getTwoNumberDecimal(
-                (importeDescuento / pvp) * 100
+                (importeDescuento / pvp) * 100,
               );
             } else {
               this.articulo.porcentajeDescuento = null;
@@ -217,10 +218,11 @@ export default class UnArticuloComponent {
     }
 
     const estadisticas: UnArticuloEstadisticasComponent | undefined = this.estadisticas();
-    if (this.articulo.id !== null && estadisticas !== undefined && this.historico()) {
+    const historico: UnArticuloHistoricoComponent | undefined = this.historico();
+    if (this.articulo.id !== null && estadisticas !== undefined && historico !== undefined) {
       estadisticas.loadStatsVentas();
       estadisticas.loadStatsWeb();
-      this.historico().loadHistorico();
+      historico.loadHistorico();
     }
 
     if (this.articulo.idMarca !== null) {
@@ -240,7 +242,7 @@ export default class UnArticuloComponent {
     };
     const dialog = this.overlayService.open(
       AccesosDirectosModalComponent,
-      modalAccesosDirectosData
+      modalAccesosDirectosData,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
@@ -252,7 +254,7 @@ export default class UnArticuloComponent {
   }
 
   checkArticulosTab(ev: MatTabChangeEvent): void {
-    if (ev.index === 2) {
+    if (ev.index === 1) {
       setTimeout((): void => {
         this.codBarras().focus();
       }, 0);
@@ -281,18 +283,20 @@ export default class UnArticuloComponent {
     });
   }
 
-  goToReturn(): void {
+  goToReturn(updateSource: boolean = false): void {
     if (this.ars.returnInfo !== null) {
       switch (this.ars.returnInfo.where) {
         case 'ventas':
           {
-            this.vs.updateArticulo(this.articulo);
+            if (updateSource) {
+              this.vs.updateArticulo(this.articulo);
+            }
             this.router.navigate(['/ventas']);
           }
           break;
         case 'pedido':
           {
-            this.ars.returnInfo.extra = this.articulo.localizador;
+            this.ars.returnInfo.extra = updateSource ? this.articulo.localizador : null;
             this.router.navigate(['/compras/pedido/', this.ars.returnInfo.id]);
           }
           break;
@@ -304,7 +308,9 @@ export default class UnArticuloComponent {
           break;
         case 'almacen':
           {
-            this.als.updateArticulo(this.articulo);
+            if (updateSource) {
+              this.als.updateArticulo(this.articulo);
+            }
             this.router.navigate(['/almacen']);
           }
           break;
@@ -372,13 +378,14 @@ export default class UnArticuloComponent {
               if (this.ars.returnInfo === null) {
                 if (cerrar) {
                   this.cerrarArticuloEvent.emit(this.ind);
+                  return;
                 } else {
                   this.updateArticuloEvent.emit();
                 }
                 this.articulo.nombreStatus = 'ok';
                 this.loadArticulo();
               } else {
-                this.goToReturn();
+                this.goToReturn(true);
               }
             });
         } else {

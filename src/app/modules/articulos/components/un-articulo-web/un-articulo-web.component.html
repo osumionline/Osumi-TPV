@@ -35,7 +35,7 @@
        accept="image/png, image/gif, image/jpeg"
        (change)="onFotoChange($event)">
 <div class="fotos-list">
-    @for (foto of articulo().fotosList; track foto.id; let i = $index) {
+    @for (foto of articulo().fotosList; track foto.id ?? foto.data ?? $index; let i = $index) {
     @if (foto.status !== 'deleted') {
     <div class="foto-item">
         <img [src]="foto.url"

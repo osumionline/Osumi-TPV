@@ -10,6 +10,7 @@ export interface CategoriasResult {
 }
 
 export interface ChartSelectInterface {
+  idArticulo?: number | null;
   data: string;
   type: string;
   month: number;

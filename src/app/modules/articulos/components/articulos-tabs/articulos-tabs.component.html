@@ -9,7 +9,8 @@
                 {{ tab.tabName }}
             </span>
             <mat-icon class="tab-icon"
-                      (click)="closeTab(i)">close</mat-icon>
+                      (click)="closeTab($event, i)"
+                      matTooltip="Cerrar artículo">close</mat-icon>
         </div>
         }
         <div class="new-tab"

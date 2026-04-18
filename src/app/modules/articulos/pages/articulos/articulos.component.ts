@@ -28,11 +28,26 @@ export default class ArticulosComponent implements OnInit, OnDestroy {
 
   articulo: Signal<UnArticuloComponent> = viewChild.required<UnArticuloComponent>('articulo');
 
+  private setArticulos(articulos: Articulo[]): void {
+    this.articulos.set([...articulos]);
+    this.ars.updateArticulos([...articulos]);
+  }
+
+  private updateArticulos(updateFn: (articulos: Articulo[]) => Articulo[]): void {
+    this.setArticulos(updateFn([...this.articulos()]));
+  }
+
+  private setSelected(ind: number): void {
+    this.selected.set(ind);
+    this.ars.updateSelected(ind);
+  }
+
   ngOnInit(): void {
     this.articulos.set([...this.ars.list()]);
     this.selected.set(this.ars.selected());
     if (this.articulos().length === 0) {
       this.createNewTab();
+      return;
     }
     this.articulo().load(this.articulos()[this.selected()], this.selected());
   }
@@ -41,13 +56,15 @@ export default class ArticulosComponent implements OnInit, OnDestroy {
     if (save) {
       this.updateArticulo();
     }
-    this.selected.set(ind);
-    this.articulo().load(this.articulos()[this.selected()], this.selected());
+    this.setSelected(ind);
+    if (ind !== -1) {
+      this.articulo().load(this.articulos()[this.selected()], this.selected());
+    }
   }
 
   createNewTab(): void {
     const articulo: Articulo = this.ars.createNewArticulo();
-    this.articulos.update((value: Articulo[]): Articulo[] => {
+    this.updateArticulos((value: Articulo[]): Articulo[] => {
       value.push(articulo);
       return value;
     });
@@ -55,16 +72,23 @@ export default class ArticulosComponent implements OnInit, OnDestroy {
   }
 
   closeTab(ind: number): void {
-    this.articulos.update((value: Articulo[]): Articulo[] => {
+    this.updateArticulos((value: Articulo[]): Articulo[] => {
       value.splice(ind, 1);
       return value;
     });
+    if (this.articulos().length === 0) {
+      this.createNewTab();
+      return;
+    }
     this.changeSelectedTab(this.newSelected(ind), false);
   }
 
   updateArticulo(): void {
     const currentArticulo: Articulo = this.articulo().getArticulo();
-    this.articulos.update((value: Articulo[]): Articulo[] => {
+    if (this.selected() === -1 || currentArticulo === undefined) {
+      return;
+    }
+    this.updateArticulos((value: Articulo[]): Articulo[] => {
       value[this.selected()] = currentArticulo;
       return value;
     });
@@ -102,16 +126,15 @@ export default class ArticulosComponent implements OnInit, OnDestroy {
     nuevoArticulo.stock = 0;
     nuevoArticulo.status = 'new';
     nuevoArticulo.observaciones = '';
-    this.articulos.update((value: Articulo[]): Articulo[] => {
+    this.updateArticulo();
+    this.updateArticulos((value: Articulo[]): Articulo[] => {
       value.push(nuevoArticulo);
       return value;
     });
-    this.selected.set(this.articulos().length - 1);
+    this.changeSelectedTab(this.articulos().length - 1, false);
   }
 
   ngOnDestroy(): void {
     this.updateArticulo();
-    this.ars.updateArticulos(this.articulos());
-    this.ars.updateSelected(this.selected());
   }
 }

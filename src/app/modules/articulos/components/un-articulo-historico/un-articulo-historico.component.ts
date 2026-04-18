@@ -60,7 +60,10 @@ export default class UnArticuloHistoricoComponent implements AfterViewInit {
     this.historicoArticuloDataSource.sort = this.sort();
   }
 
-  loadHistorico(): void {
+  loadHistorico(resetPage: boolean = true): void {
+    if (resetPage) {
+      this.historicoArticuloBuscador.pagina = 1;
+    }
     this.historicoArticuloBuscador.id = this.articulo().id;
     this.ars
       .getHistoricoArticulo(this.historicoArticuloBuscador)
@@ -85,6 +88,6 @@ export default class UnArticuloHistoricoComponent implements AfterViewInit {
   changePageHistoricoArticulo(ev: PageEvent): void {
     this.historicoArticuloBuscador.pagina = ev.pageIndex + 1;
     this.historicoArticuloBuscador.num = ev.pageSize;
-    this.loadHistorico();
+    this.loadHistorico(false);
   }
 }

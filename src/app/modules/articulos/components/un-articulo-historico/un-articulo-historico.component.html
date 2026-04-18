@@ -156,6 +156,6 @@
     <mat-paginator [length]="historicoArticuloPags"
                    [pageSize]="historicoArticuloBuscador.num"
                    [pageSizeOptions]="[20, 50, 100, 200]"
-                   [pageIndex]="historicoArticuloBuscador.pagina"
+                   [pageIndex]="historicoArticuloBuscador.pagina - 1"
                    (page)="changePageHistoricoArticulo($event)" />
 </div>
