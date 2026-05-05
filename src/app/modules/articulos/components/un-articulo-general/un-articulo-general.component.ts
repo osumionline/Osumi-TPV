@@ -3,8 +3,10 @@ import {
   ElementRef,
   ModelSignal,
   Signal,
+  WritableSignal,
   inject,
   model,
+  signal,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +16,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { CategoriaInterface } from '@interfaces/articulo.interface';
 import { Month } from '@interfaces/interfaces';
 import { MargenesModal } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
@@ -72,6 +75,8 @@ export default class UnArticuloGeneralComponent {
 
   marcas: Marca[] = this.ms.marcas();
   proveedores: Proveedor[] = this.ps.proveedores();
+
+  categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>([]);
 
   newMarca(): void {
     const modalnewMarcaData: Modal = {

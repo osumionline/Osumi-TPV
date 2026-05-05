@@ -76,19 +76,19 @@
             <mat-icon>add_circle_outline</mat-icon>
         </button>
     </div>
-    <!--div class="form-field">
-												<label>Categoría</label>
-												<mat-form-field>
-													<mat-select [(ngModel)]="articulo().idCategoria">
-                                                        @for (cat of categoriesPlain; track cat.id) {
-														<mat-option [value]="cat.id">
-															<span style="display: block;"
-																  [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
-														</mat-option>
-                                                        }
-													</mat-select>
-												</mat-form-field>
-											</div-->
+    <div class="form-field margin-right">
+        <label>Categoría</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="articulo().idCategoria">
+                @for (cat of categoriesPlain(); track cat.id) {
+                <mat-option [value]="cat.id">
+                    <span style="display: block;"
+                          [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
     <div class="form-field margin-right">
         <label>Referencia</label>
         <mat-form-field>
