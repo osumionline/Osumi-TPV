@@ -1,9 +1,10 @@
 import {
-  AfterViewInit,
   Component,
   OutputEmitterRef,
   Signal,
   WritableSignal,
+  computed,
+  effect,
   inject,
   output,
   signal,
@@ -37,6 +38,9 @@ import ConfigService from '@services/config.service';
 import VentasService from '@services/ventas.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
+type HistoricoModo = 'fecha' | 'rango';
+type TicketTipo = 'venta' | 'regalo';
+
 @Component({
   selector: 'otpv-historico-ventas',
   templateUrl: './historico-ventas.component.html',
@@ -61,7 +65,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatTooltip,
   ],
 })
-export default class HistoricoVentasComponent implements AfterViewInit {
+export default class HistoricoVentasComponent {
   private readonly vs: VentasService = inject(VentasService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly cs: ClientesService = inject(ClientesService);
@@ -70,27 +74,46 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   private readonly router: Router = inject(Router);
 
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
-  historicoModo: string = 'fecha';
-  fecha: Date = new Date();
-  rangoDesde: Date = new Date();
-  rangoHasta: Date = new Date();
+  historicoModo: WritableSignal<HistoricoModo> = signal<HistoricoModo>('fecha');
+  fecha: WritableSignal<Date> = signal<Date>(new Date());
+  rangoDesde: WritableSignal<Date> = signal<Date>(new Date());
+  rangoHasta: WritableSignal<Date> = signal<Date>(new Date());
 
   tiposPago: WritableSignal<TipoPago[]> = signal<TipoPago[]>([...this.config.tiposPago]);
-  clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([...this.cs.clientes()]);
+  clientes: Signal<Cliente[]> = this.cs.clientes;
 
   historicoVentasList: WritableSignal<VentaHistorico[]> = signal<VentaHistorico[]>([]);
   historicoVentasDisplayedColumns: string[] = ['fecha', 'total', 'nombreTipoPago'];
   historicoVentasDataSource: MatTableDataSource<VentaHistorico> =
     new MatTableDataSource<VentaHistorico>();
-  sort: Signal<MatSort> = viewChild.required(MatSort);
+  ventasSort: Signal<MatSort | undefined> = viewChild<MatSort>('ventasSort');
 
-  totalDia: number = 0;
-  ventasEfectivo: number = 0;
-  ventasOtros: VentaHistoricoOtrosInterface[] = [];
-  ventasWeb: number = 0;
-  ventasBeneficio: number = 0;
+  totalDia: WritableSignal<number> = signal<number>(0);
+  ventasEfectivo: WritableSignal<number> = signal<number>(0);
+  ventasOtros: WritableSignal<VentaHistoricoOtrosInterface[]> = signal<
+    VentaHistoricoOtrosInterface[]
+  >([]);
+  ventasWeb: WritableSignal<number> = signal<number>(0);
+  ventasBeneficio: WritableSignal<number> = signal<number>(0);
+  ticketMedio: Signal<number> = computed((): number => {
+    const ventas: VentaHistorico[] = this.historicoVentasList();
 
-  historicoVentasSelected: VentaHistorico = new VentaHistorico();
+    if (ventas.length === 0) {
+      return 0;
+    }
+
+    const totalVentas: number = ventas.reduce(
+      (total: number, venta: VentaHistorico): number => total + (venta.total ?? 0),
+      0,
+    );
+
+    return totalVentas / ventas.length;
+  });
+
+  historicoVentasSelected: WritableSignal<VentaHistorico | null> = signal<VentaHistorico | null>(
+    null,
+    { equal: (): boolean => false },
+  );
   historicoVentasSelectedDisplayedColumns: string[] = [
     'localizador',
     'marca',
@@ -102,30 +125,55 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   ];
   historicoVentasSelectedDataSource: MatTableDataSource<VentaLineaHistorico> =
     new MatTableDataSource<VentaLineaHistorico>();
+  lineasSort: Signal<MatSort | undefined> = viewChild<MatSort>('lineasSort');
+  syncTableSorts = effect((): void => {
+    const ventasSort: MatSort | undefined = this.ventasSort();
+    const lineasSort: MatSort | undefined = this.lineasSort();
 
-  clientesBox: Signal<MatSelect> = viewChild.required<MatSelect>('clientesBox');
+    if (ventasSort !== undefined) {
+      this.historicoVentasDataSource.sort = ventasSort;
+    }
 
-  ngAfterViewInit(): void {
-    this.historicoVentasDataSource.sort = this.sort();
-    this.historicoVentasSelectedDataSource.sort = this.sort();
+    if (lineasSort !== undefined) {
+      this.historicoVentasSelectedDataSource.sort = lineasSort;
+    }
+  });
+
+  clientesBox: Signal<MatSelect | undefined> = viewChild<MatSelect>('clientesBox');
+
+  changeHistoricoModo(modo: HistoricoModo): void {
+    this.historicoModo.set(modo);
+  }
+
+  changeFechaValue(fecha: Date): void {
+    this.fecha.set(fecha);
+    this.changeFecha();
+  }
+
+  changeRangoDesde(fecha: Date): void {
+    this.rangoDesde.set(fecha);
+  }
+
+  changeRangoHasta(fecha: Date): void {
+    this.rangoHasta.set(fecha);
   }
 
   previousFecha(): void {
-    this.fecha = addDays(this.fecha, -1);
+    this.fecha.update((fecha: Date): Date => addDays(fecha, -1));
     this.changeFecha();
   }
 
   nextFecha(): void {
-    this.fecha = addDays(this.fecha, 1);
+    this.fecha.update((fecha: Date): Date => addDays(fecha, 1));
     this.changeFecha();
   }
 
   changeFecha(): void {
-    this.historicoVentasSelected = new VentaHistorico();
+    this.clearSelectedVenta();
     const data: DateValues = {
       modo: 'fecha',
       id: null,
-      fecha: getDate(this.fecha),
+      fecha: getDate(this.fecha()),
       desde: null,
       hasta: null,
     };
@@ -133,7 +181,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   }
 
   buscarPorRango(): void {
-    if (this.rangoDesde.getTime() > this.rangoHasta.getTime()) {
+    if (this.rangoDesde().getTime() > this.rangoHasta().getTime()) {
       this.dialog.alert({
         title: 'Error',
         content: 'La fecha "desde" no puede ser superior a la fecha "hasta"',
@@ -144,91 +192,121 @@ export default class HistoricoVentasComponent implements AfterViewInit {
       modo: 'rango',
       fecha: null,
       id: null,
-      desde: getDate(this.rangoDesde),
-      hasta: getDate(this.rangoHasta),
+      desde: getDate(this.rangoDesde()),
+      hasta: getDate(this.rangoHasta()),
     };
     this.buscarHistorico(data);
   }
 
   buscarHistorico(data: DateValues): void {
     this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
-      this.historicoVentasList.set(this.cms.getHistoricoVentas(result.list));
-      this.historicoVentasDataSource.data = this.historicoVentasList();
+      const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+      this.historicoVentasList.set(ventas);
+      this.historicoVentasDataSource.data = ventas;
 
-      this.totalDia = result.totalDia;
-      this.ventasEfectivo = result.ventasEfectivo;
-      this.ventasOtros = result.ventasOtros;
-      this.ventasWeb = result.ventasWeb;
-      this.ventasBeneficio = result.ventasBeneficio;
+      this.totalDia.set(result.totalDia);
+      this.ventasEfectivo.set(result.ventasEfectivo);
+      this.ventasOtros.set(result.ventasOtros);
+      this.ventasWeb.set(result.ventasWeb);
+      this.ventasBeneficio.set(result.ventasBeneficio);
     });
   }
 
   selectVenta(ind: number): void {
-    this.historicoVentasSelected = this.historicoVentasList()[ind];
-    this.historicoVentasSelectedDataSource.data = this.historicoVentasSelected.lineas;
+    const venta: VentaHistorico | undefined = this.historicoVentasList()[ind];
+    if (venta === undefined) {
+      this.clearSelectedVenta();
+      return;
+    }
+
+    this.historicoVentasSelected.set(venta);
+    this.historicoVentasSelectedDataSource.data = venta.lineas;
   }
 
-  changeCliente(): void {
+  changeCliente(idCliente: number | null): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    venta.idCliente = idCliente;
+    this.refreshSelectedVenta();
     this.cs
-      .asignarCliente(
-        this.historicoVentasSelected.id as number,
-        this.historicoVentasSelected.idCliente as number,
-      )
+      .asignarCliente(venta.id, idCliente as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status == 'ok') {
+        if (result.status === ApiStatusEnum.OK) {
           const cliente: Cliente | undefined = this.cs
             .clientes()
-            .find((x: Cliente): boolean => x.id === this.historicoVentasSelected.idCliente);
+            .find((x: Cliente): boolean => x.id === venta.idCliente);
           if (cliente !== undefined) {
-            this.historicoVentasSelected.cliente = cliente.nombreApellidos;
+            venta.cliente = cliente.nombreApellidos;
+          } else {
+            venta.cliente = null;
           }
+          this.refreshSelectedVenta();
         }
       });
   }
 
-  changeFormaPago(): void {
+  changeFormaPago(tipoPago: number): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    venta.tipoPago = tipoPago;
+    this.refreshSelectedVenta();
     this.vs
-      .asignarTipoPago(
-        this.historicoVentasSelected.id as number,
-        this.historicoVentasSelected.idTipoPago as number,
-      )
+      .asignarTipoPago(venta.id, venta.idTipoPago as number)
       .subscribe((result: StatusResult): void => {
-        if (result.status == 'ok') {
-          if (this.historicoVentasSelected.idTipoPago !== null) {
+        if (result.status === ApiStatusEnum.OK) {
+          if (venta.idTipoPago !== null) {
             const tp: TipoPago | undefined = this.config.tiposPago.find(
-              (x: TipoPago): boolean => x.id === this.historicoVentasSelected.idTipoPago,
+              (x: TipoPago): boolean => x.id === venta.idTipoPago,
             );
             if (tp !== undefined) {
-              this.historicoVentasSelected.nombreTipoPago = tp.nombre;
+              venta.nombreTipoPago = tp.nombre;
             }
           } else {
-            this.historicoVentasSelected.nombreTipoPago = 'Efectivo';
+            venta.nombreTipoPago = 'Efectivo';
           }
+          this.refreshSelectedVenta();
         }
       });
   }
 
-  printTicket(tipo: string): void {
-    this.vs
-      .printTicket(this.historicoVentasSelected.id as number, tipo)
-      .subscribe((result: StatusResult): void => {
-        if (result.status === ApiStatusEnum.ERROR) {
-          this.dialog.alert({
-            title: 'Error',
-            content: 'Ocurrió un error al imprimir el ticket.',
-          });
-        }
-      });
+  printTicket(tipo: TicketTipo): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    this.vs.printTicket(venta.id, tipo).subscribe((result: StatusResult): void => {
+      if (result.status === ApiStatusEnum.ERROR) {
+        this.dialog.alert({
+          title: 'Error',
+          content: 'Ocurrió un error al imprimir el ticket.',
+        });
+      }
+    });
   }
 
   getTicketImage(): void {
-    window.open(
-      environment.baseUrl + 'api-ventas/get-ticket-image/' + this.historicoVentasSelected.id,
-    );
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    window.open(environment.baseUrl + 'api-ventas/get-ticket-image/' + venta.id);
   }
 
   generarFactura(): void {
-    if (this.historicoVentasSelected.idCliente === null) {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null) {
+      return;
+    }
+
+    if (venta.idCliente === null) {
       this.dialog
         .confirm({
           title: 'Cliente',
@@ -243,7 +321,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
             this.router.navigate(['/clientes/new']);
           } else {
             setTimeout((): void => {
-              this.clientesBox().toggle();
+              this.clientesBox()?.toggle();
             }, 0);
           }
         });
@@ -253,9 +331,12 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   }
 
   confirmFactura(): void {
-    const selectedClient: Cliente | null = this.cs.findById(
-      this.historicoVentasSelected.idCliente as number,
-    );
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.idCliente === null) {
+      return;
+    }
+
+    const selectedClient: Cliente | null = this.cs.findById(venta.idCliente);
 
     if (selectedClient !== null) {
       if (selectedClient.dniCif === null || selectedClient.dniCif === '') {
@@ -297,20 +378,28 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   }
 
   saveFacturaFromVenta(): void {
-    this.cs
-      .saveFacturaFromVenta(this.historicoVentasSelected.id as number)
-      .subscribe((result: IdSaveResult): void => {
-        if (result.status === ApiStatusEnum.OK || result.status === ApiStatusEnum.ERROR_FACTURA) {
-          window.open('/clientes/factura/' + result.id + '/preview');
-        }
-        if (result.status === ApiStatusEnum.ERROR_FACTURADA) {
-          window.open('/clientes/factura/' + result.id);
-        }
-      });
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    this.cs.saveFacturaFromVenta(venta.id).subscribe((result: IdSaveResult): void => {
+      if (result.status === ApiStatusEnum.OK || result.status === ApiStatusEnum.ERROR_FACTURA) {
+        window.open('/clientes/factura/' + result.id + '/preview');
+      }
+      if (result.status === ApiStatusEnum.ERROR_FACTURADA) {
+        window.open('/clientes/factura/' + result.id);
+      }
+    });
   }
 
   enviarEmail(): void {
-    if (this.historicoVentasSelected.idCliente === null) {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
+    if (venta.idCliente === null) {
       this.dialog
         .confirm({
           title: 'Cliente',
@@ -322,14 +411,14 @@ export default class HistoricoVentasComponent implements AfterViewInit {
         .subscribe((result: boolean): void => {
           if (result === true) {
             setTimeout((): void => {
-              this.clientesBox().toggle();
+              this.clientesBox()?.toggle();
             }, 0);
           } else {
             this.pedirEmail();
           }
         });
     } else {
-      const cliente: Cliente | null = this.cs.findById(this.historicoVentasSelected.idCliente);
+      const cliente: Cliente | null = this.cs.findById(venta.idCliente);
       if (cliente !== null) {
         if (cliente.email === null || cliente.email === '') {
           this.dialog
@@ -348,13 +437,18 @@ export default class HistoricoVentasComponent implements AfterViewInit {
               }
             });
         } else {
-          this.sendTicket(this.historicoVentasSelected.id as number, cliente.email);
+          this.sendTicket(venta.id, cliente.email);
         }
       }
     }
   }
 
   pedirEmail(): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
     this.dialog
       .form({
         title: 'Introducir email',
@@ -363,7 +457,7 @@ export default class HistoricoVentasComponent implements AfterViewInit {
       })
       .subscribe((result: DialogField[]): void => {
         if (result !== undefined && result.length > 0) {
-          this.sendTicket(this.historicoVentasSelected.id as number, result[0].value);
+          this.sendTicket(venta.id as number, result[0].value);
         }
       });
   }
@@ -402,7 +496,25 @@ export default class HistoricoVentasComponent implements AfterViewInit {
   }
 
   devolucion(): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta === null || venta.id === null) {
+      return;
+    }
+
     this.cerrarVentanaEvent.emit(0);
-    this.router.navigate(['/ventas/' + this.historicoVentasSelected.id]);
+    this.router.navigate(['/ventas/' + venta.id]);
+  }
+
+  private clearSelectedVenta(): void {
+    this.historicoVentasSelected.set(null);
+    this.historicoVentasSelectedDataSource.data = [];
+  }
+
+  private refreshSelectedVenta(): void {
+    const venta: VentaHistorico | null = this.historicoVentasSelected();
+    if (venta !== null) {
+      this.historicoVentasSelected.set(venta);
+      this.historicoVentasDataSource.data = [...this.historicoVentasList()];
+    }
   }
 }

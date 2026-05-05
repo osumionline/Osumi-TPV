@@ -71,6 +71,7 @@ export default class VentaHistorico {
   set tipoPago(tp: number) {
     if (tp === -1) {
       this.idTipoPago = null;
+      return;
     }
     this.idTipoPago = tp;
   }
