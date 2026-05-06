@@ -12,6 +12,19 @@ export default class CategoriasService extends BaseService {
   categoriasPlain: Categoria[] = [];
   loaded: boolean = false;
 
+  load(): Promise<string> {
+    return new Promise((resolve) => {
+      if (this.loaded) {
+        resolve('ok');
+      } else {
+        this.getCategorias().subscribe((result: CategoriasResult): void => {
+          this.loadCategorias([this.cms.getCategoria(result.list)]);
+          resolve('ok');
+        });
+      }
+    });
+  }
+
   loadCategorias(list: Categoria[]): void {
     this.categorias = list;
     this.loadCategoriasPlain(list);

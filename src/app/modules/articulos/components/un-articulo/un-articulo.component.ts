@@ -19,6 +19,7 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ArticuloResult, ArticuloSaveResult } from '@interfaces/articulo.interface';
 import { AccesosDirectosModal, BuscadorModal, DarDeBajaModal } from '@interfaces/modals.interface';
@@ -63,6 +64,7 @@ import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
+    MatTooltip,
     UnArticuloGeneralComponent,
     UnArticuloCodBarrasComponent,
     UnArticuloEstadisticasComponent,

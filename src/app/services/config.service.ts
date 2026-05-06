@@ -10,6 +10,7 @@ import ApiStatusEnum from '@model/enum/api-status.enum';
 import IVAOption from '@model/tpv/iva-option.model';
 import TipoPago from '@model/tpv/tipo-pago.model';
 import ApiService from '@services/api.service';
+import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import EmpleadosService from '@services/empleados.service';
@@ -28,6 +29,7 @@ export default class ConfigService {
   private readonly proveedoresService: ProveedoresService = inject(ProveedoresService);
   private readonly empleadosService: EmpleadosService = inject(EmpleadosService);
   private readonly clientesService: ClientesService = inject(ClientesService);
+  private readonly categoriasService: CategoriasService = inject(CategoriasService);
 
   status: string = 'new';
 
@@ -96,12 +98,14 @@ export default class ConfigService {
             const proveedoresPromise: Promise<string> = this.proveedoresService.load();
             const empleadosPromise: Promise<string> = this.empleadosService.load();
             const clientesPromise: Promise<string> = this.clientesService.load();
+            const categoriasPromise: Promise<string> = this.categoriasService.load();
             const provinciasPromise: Promise<string> = this.loadProvinces();
             Promise.all([
               marcasPromise,
               proveedoresPromise,
               empleadosPromise,
               clientesPromise,
+              categoriasPromise,
               provinciasPromise,
             ]).then((): void => {
               if (this.empleadosService.empleados().length == 1) {
@@ -180,7 +184,7 @@ export default class ConfigService {
     return new IVAOption(
       this.ivaOptions[ind].tipoIVA,
       this.ivaOptions[ind].iva,
-      this.ivaOptions[ind].re
+      this.ivaOptions[ind].re,
     );
   }
 
@@ -191,7 +195,7 @@ export default class ConfigService {
     return new IVAOption(
       this.ivaOptions[ind].tipoIVA,
       this.ivaOptions[ind].iva,
-      this.ivaOptions[ind].re
+      this.ivaOptions[ind].re,
     );
   }
 

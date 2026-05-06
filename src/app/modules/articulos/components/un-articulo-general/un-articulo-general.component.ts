@@ -16,6 +16,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTooltip } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { CategoriaInterface } from '@interfaces/articulo.interface';
 import { Month } from '@interfaces/interfaces';
 import { MargenesModal } from '@interfaces/modals.interface';
@@ -27,6 +29,7 @@ import MargenesModalComponent from '@modules/articulos/components/modals/margene
 import NewMarcaModalComponent from '@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import { getTwoNumberDecimal } from '@osumi/tools';
+import CategoriasService from '@services/categorias.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
@@ -44,8 +47,10 @@ import { setTwoNumberDecimal } from '@shared/utils';
     MatIcon,
     MatSlideToggle,
     MatInput,
+    MatTooltip,
     FormsModule,
     FixedNumberPipe,
+    RouterLink,
   ],
   templateUrl: './un-articulo-general.component.html',
   styleUrls: ['./un-articulo-general.component.scss', '../un-articulo/un-articulo.component.scss'],
@@ -53,6 +58,7 @@ import { setTwoNumberDecimal } from '@shared/utils';
 export default class UnArticuloGeneralComponent {
   private readonly ms: MarcasService = inject(MarcasService);
   private readonly ps: ProveedoresService = inject(ProveedoresService);
+  private readonly cs: CategoriasService = inject(CategoriasService);
   private readonly overlayService: OverlayService = inject(OverlayService);
   private readonly config: ConfigService = inject(ConfigService);
   private readonly dialog: DialogService = inject(DialogService);
@@ -76,7 +82,9 @@ export default class UnArticuloGeneralComponent {
   marcas: Marca[] = this.ms.marcas();
   proveedores: Proveedor[] = this.ps.proveedores();
 
-  categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>([]);
+  categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>(
+    this.cs.categoriasPlain,
+  );
 
   newMarca(): void {
     const modalnewMarcaData: Modal = {
