@@ -7,6 +7,7 @@ import { MatListItem, MatNavList } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
 import CategoriasService from '@app/services/categorias.service';
 import Categoria from '@model/articulos/categoria.model';
+import CategoriaDetalleComponent from '@modules/articulos/components/categoria-detalle/categoria-detalle.component';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
@@ -21,6 +22,7 @@ import HeaderComponent from '@shared/components/header/header.component';
     MatIconButton,
     MatTooltip,
     NgTemplateOutlet,
+    CategoriaDetalleComponent,
   ],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.scss',

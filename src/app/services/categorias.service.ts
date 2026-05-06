@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CategoriasResult } from '@interfaces/articulo.interface';
+import { CategoriaArticulosResult, CategoriasResult } from '@interfaces/articulo.interface';
 import Categoria from '@model/articulos/categoria.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
@@ -40,5 +40,12 @@ export default class CategoriasService extends BaseService {
 
   getCategorias(): Observable<CategoriasResult> {
     return this.http.post<CategoriasResult>(this.apiUrl + '-categorias/get-categorias', {});
+  }
+
+  getArticulosCategoria(id: number): Observable<CategoriaArticulosResult> {
+    return this.http.post<CategoriaArticulosResult>(
+      this.apiUrl + '-categorias/get-articulos-categoria',
+      { id },
+    );
   }
 }

@@ -9,6 +9,11 @@ export interface CategoriasResult {
   list: CategoriaInterface;
 }
 
+export interface CategoriaArticulosResult {
+  status: string;
+  list: ArticuloInterface[];
+}
+
 export interface ChartSelectInterface {
   idArticulo?: number | null;
   data: string;

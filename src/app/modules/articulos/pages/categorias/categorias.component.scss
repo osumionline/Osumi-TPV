@@ -55,6 +55,15 @@
             width: 60%;
             padding: 8px;
             box-sizing: border-box;
+
+            .no-selection {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                color: #888;
+                font-style: italic;
+            }
         }
     }
 }

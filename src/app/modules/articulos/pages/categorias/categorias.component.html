@@ -54,6 +54,14 @@
                 }
             </ng-template>
         </div>
-        <div class="col-60">60</div>
+        <div class="col-60">
+            @if (selectedCategoria()) {
+            <otpv-categoria-detalle [categoria]="selectedCategoria()!" />
+            } @else {
+            <div class="no-selection">
+                <p>Seleccione una categoría para ver los detalles.</p>
+            </div>
+            }
+        </div>
     </mat-card-content>
 </mat-card>
