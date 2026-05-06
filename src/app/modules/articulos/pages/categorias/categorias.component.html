@@ -1,7 +1,59 @@
 <otpv-header selectedOption="articulos" />
 
 <mat-card class="card-margin">
-    <mat-card-content>
+    <mat-card-content class="card-content">
+        <div class="col-40">
+            <mat-nav-list>
+                <ng-container *ngTemplateOutlet="renderCategorias; context: { $implicit: categorias(), nivel: 0 }"></ng-container>
+            </mat-nav-list>
 
+            <ng-template #renderCategorias
+                         let-categorias
+                         let-nivel="nivel">
+                @for (categoria of categorias; track categoria.id) {
+                <mat-list-item [style.padding-left.px]="nivel * 16"
+                               [class.deployed]="categoria.deployed"
+                               [class.selected]="selectedCategoria()?.id === categoria.id">
+                    <div class="categoria-item">
+                        @if (categoria.hijos.length > 0) {
+                        <button mat-icon-button
+                                (click)="toggleCategory(categoria)"
+                                [matTooltip]="categoria.deployed ? 'Contraer' : 'Expandir'">
+                            <mat-icon>
+                                {{ categoria.deployed ? 'expand_less' : 'expand_more' }}
+                            </mat-icon>
+                        </button>
+                        } @else {
+                        <span class="empty-icon"></span>
+                        }
+                        <span class="categoria-nombre"
+                              (click)="selectCategory(categoria)">
+                            {{ categoria.nombre }}
+                        </span>
+                        <span class="spacer"></span>
+                        <button mat-icon-button
+                                (click)="addCategory(categoria)"
+                                matTooltip="Agregar subcategoría">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                (click)="editCategory(categoria)"
+                                matTooltip="Editar categoría">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button
+                                (click)="deleteCategory(categoria)"
+                                matTooltip="Eliminar categoría">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </mat-list-item>
+                @if (categoria.deployed) {
+                <ng-container *ngTemplateOutlet="renderCategorias; context: { $implicit: categoria.hijos, nivel: nivel + 1 }"></ng-container>
+                }
+                }
+            </ng-template>
+        </div>
+        <div class="col-60">60</div>
     </mat-card-content>
 </mat-card>

@@ -2,11 +2,13 @@ import { CategoriaInterface } from '@interfaces/articulo.interface';
 import { urldecode, urlencode } from '@osumi/tools';
 
 export default class Categoria {
+  deployed: boolean = false;
+
   constructor(
     public id: number = -1,
     public nombre: string | null = null,
     public profundidad: number = -1,
-    public hijos: Categoria[] = []
+    public hijos: Categoria[] = [],
   ) {}
 
   fromInterface(c: CategoriaInterface, hijos: Categoria[]): Categoria {

@@ -1,4 +1,60 @@
 .card-margin {
     margin: 16px;
     position: relative;
+
+    .card-content {
+        display: flex;
+        flex-direction: row;
+
+        .col-40 {
+            width: 40%;
+            padding: 8px;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            box-sizing: border-box;
+
+            mat-list-item {
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin: 4px 0;
+                padding: 4px 8px;
+                background-color: #f9f9f9;
+
+                &.deployed {
+                    background-color: #e6f7ff;
+                }
+
+                &.selected {
+                    background-color: #cceeff;
+                }
+
+                .categoria-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .categoria-nombre {
+                        flex-grow: 1;
+                        cursor: pointer;
+                    }
+
+                    .spacer {
+                        flex-grow: 1;
+                    }
+
+                    .empty-icon {
+                        display: inline-block;
+                        width: 40px;
+                        height: 40px;
+                    }
+                }
+            }
+        }
+
+        .col-60 {
+            width: 60%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    }
 }
