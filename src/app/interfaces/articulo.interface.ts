@@ -1,5 +1,6 @@
 export interface CategoriaInterface {
   id: number;
+  idPadre: number | null;
   nombre: string | null;
   profundidad: number;
   hijos: CategoriaInterface[];
@@ -12,6 +13,11 @@ export interface CategoriasResult {
 export interface CategoriaArticulosResult {
   status: string;
   list: ArticuloInterface[];
+}
+
+export interface CategoriaArticulosSave {
+  idCategoria: number;
+  idArticulos: number[];
 }
 
 export interface ChartSelectInterface {

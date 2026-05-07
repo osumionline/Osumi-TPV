@@ -1,1 +1,57 @@
-<p>categoria-detalle works!</p>
+<h3>
+    {{ categoria().nombre }}
+    <button matButton="filled"
+            (click)="search()">
+        Editar
+    </button>
+</h3>
+<h4>Artículos en esta categoría:</h4>
+<table mat-table
+       [dataSource]="articulos()"
+       class="mat-elevation-z2">
+    <!-- Localizador -->
+    <ng-container matColumnDef="localizador">
+        <th mat-header-cell
+            *matHeaderCellDef> Localizador </th>
+        <td mat-cell
+            *matCellDef="let articulo"
+            class="localizador"> {{ articulo.localizador }} </td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell
+            *matHeaderCellDef> Nombre </th>
+        <td mat-cell
+            *matCellDef="let articulo"
+            class="nombre"> {{ articulo.nombre }} </td>
+    </ng-container>
+
+    <!-- Borrar -->
+    <ng-container matColumnDef="borrar">
+        <th mat-header-cell
+            *matHeaderCellDef> Borrar </th>
+        <td mat-cell
+            *matCellDef="let articulo"
+            class="borrar">
+            <button mat-icon-button
+                    (click)="removeArticulo(articulo)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="articulosResultadosDisplayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: articulosResultadosDisplayedColumns;"></tr>
+</table>
+<div class="guardar">
+    @if (saved()) {
+    <span class="datos-guardados">Datos guardados</span>
+    }
+    <button matButton="filled"
+            (click)="save()">
+        Guardar cambios
+    </button>
+</div>

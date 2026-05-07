@@ -36,8 +36,9 @@
                                 matTooltip="Agregar subcategoría">
                             <mat-icon>add</mat-icon>
                         </button>
+                        @if (categoria.id !== 0) {
                         <button mat-icon-button
-                                (click)="editCategory(categoria)"
+                                (click)="editCategory(categoria.id)"
                                 matTooltip="Editar categoría">
                             <mat-icon>edit</mat-icon>
                         </button>
@@ -46,6 +47,7 @@
                                 matTooltip="Eliminar categoría">
                             <mat-icon>delete</mat-icon>
                         </button>
+                        }
                     </div>
                 </mat-list-item>
                 @if (categoria.deployed) {

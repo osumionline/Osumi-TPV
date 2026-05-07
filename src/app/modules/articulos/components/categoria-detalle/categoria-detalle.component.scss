@@ -1,0 +1,32 @@
+h3 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--separator-color);
+}
+
+.localizador {
+    width: 20%;
+}
+
+.nombre {
+    width: 70%;
+}
+
+.borrar {
+    width: 10%;
+    text-align: center;
+}
+
+.guardar {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+
+    .datos-guardados {
+        display: flex;
+        align-items: center;
+        margin-right: 16px;
+        color: var(--color-dark-green);
+    }
+}

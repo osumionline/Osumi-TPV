@@ -6,6 +6,7 @@ export default class Categoria {
 
   constructor(
     public id: number = -1,
+    public idPadre: number | null = null,
     public nombre: string | null = null,
     public profundidad: number = -1,
     public hijos: Categoria[] = [],
@@ -13,6 +14,7 @@ export default class Categoria {
 
   fromInterface(c: CategoriaInterface, hijos: Categoria[]): Categoria {
     this.id = c.id;
+    this.idPadre = c.idPadre;
     this.nombre = urldecode(c.nombre);
     this.profundidad = c.profundidad;
     this.hijos = hijos;
@@ -27,6 +29,7 @@ export default class Categoria {
     }
     return {
       id: this.id,
+      idPadre: this.idPadre,
       nombre: urlencode(this.nombre),
       profundidad: this.profundidad,
       hijos: hijos,
