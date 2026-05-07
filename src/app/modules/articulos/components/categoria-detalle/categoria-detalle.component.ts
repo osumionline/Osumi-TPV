@@ -10,8 +10,8 @@ import {
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { StatusResult } from '@app/interfaces/interfaces';
 import { CategoriaArticulosResult, CategoriaArticulosSave } from '@interfaces/articulo.interface';
+import { StatusResult } from '@interfaces/interfaces';
 import { BuscadorModal } from '@interfaces/modals.interface';
 import { LocalizadoresResult } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
@@ -20,7 +20,7 @@ import { DialogService, OverlayService } from '@osumi/angular-tools';
 import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
 import VentasService from '@services/ventas.service';
-import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
+import BuscadorAvanzadoModalComponent from '@shared/components/modals/buscador-avanzado-modal/buscador-avanzado-modal.component';
 
 @Component({
   selector: 'otpv-categoria-detalle',
@@ -52,7 +52,6 @@ export default class CategoriaDetalleComponent implements OnInit {
   }
 
   search(): void {
-    console.log('Buscar categoría', this.categoria());
     const modalBuscadorData: BuscadorModal = {
       modalTitle: 'Buscador',
       modalColor: 'blue',
@@ -60,7 +59,7 @@ export default class CategoriaDetalleComponent implements OnInit {
       key: '',
       showSelect: true,
     };
-    const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
+    const dialog = this.overlayService.open(BuscadorAvanzadoModalComponent, modalBuscadorData);
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadSearchResults(data.data);

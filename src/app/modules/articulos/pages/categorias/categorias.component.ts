@@ -5,11 +5,11 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatListItem, MatNavList } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
-import { StatusResult } from '@app/interfaces/interfaces';
-import CategoriasService from '@app/services/categorias.service';
+import { StatusResult } from '@interfaces/interfaces';
 import Categoria from '@model/articulos/categoria.model';
 import CategoriaDetalleComponent from '@modules/articulos/components/categoria-detalle/categoria-detalle.component';
 import { DialogField, DialogService } from '@osumi/angular-tools';
+import CategoriasService from '@services/categorias.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
@@ -35,10 +35,6 @@ export default class CategoriasComponent {
 
   categorias: WritableSignal<Categoria[]> = signal<Categoria[]>(this.cs.categorias);
   selectedCategoria: WritableSignal<Categoria | null> = signal<Categoria | null>(null);
-
-  // =========================
-  // 🧠 HELPERS
-  // =========================
 
   private updateTree(categories: Categoria[], updater: (cat: Categoria) => Categoria): Categoria[] {
     return categories.map((cat: Categoria): Categoria => {
@@ -136,10 +132,6 @@ export default class CategoriasComponent {
 
     return null;
   }
-
-  // =========================
-  // 🎯 UI ACTIONS
-  // =========================
 
   toggleCategory(category: Categoria): void {
     const updated: Categoria[] = this.updateTree(this.categorias(), (cat: Categoria): Categoria => {

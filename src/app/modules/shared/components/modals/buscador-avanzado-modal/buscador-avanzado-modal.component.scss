@@ -1,0 +1,13 @@
+.filtros {
+    margin-bottom: 16px;
+
+    .col-filtros {
+        display: flex;
+        align-items: center;
+
+        .nombre {
+            flex: 1;
+            margin-right: 16px;
+        }
+    }
+}
