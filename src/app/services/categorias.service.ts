@@ -5,7 +5,7 @@ import {
   CategoriaInterface,
   CategoriasResult,
 } from '@interfaces/articulo.interface';
-import { StatusResult } from '@interfaces/interfaces';
+import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import Categoria from '@model/articulos/categoria.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
@@ -68,5 +68,9 @@ export default class CategoriasService extends BaseService {
 
   deleteCategoria(id: number): Observable<StatusResult> {
     return this.http.post<StatusResult>(this.apiUrl + '-categorias/delete-categoria', { id });
+  }
+
+  addCategoria(categoria: CategoriaInterface): Observable<IdSaveResult> {
+    return this.http.post<IdSaveResult>(this.apiUrl + '-categorias/add-categoria', categoria);
   }
 }

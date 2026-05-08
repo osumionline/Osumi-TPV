@@ -5,7 +5,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatListItem, MatNavList } from '@angular/material/list';
 import { MatTooltip } from '@angular/material/tooltip';
-import { StatusResult } from '@interfaces/interfaces';
+import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import Categoria from '@model/articulos/categoria.model';
 import CategoriaDetalleComponent from '@modules/articulos/components/categoria-detalle/categoria-detalle.component';
 import { DialogField, DialogService } from '@osumi/angular-tools';
@@ -36,20 +36,23 @@ export default class CategoriasComponent {
   categorias: WritableSignal<Categoria[]> = signal<Categoria[]>(this.cs.categorias);
   selectedCategoria: WritableSignal<Categoria | null> = signal<Categoria | null>(null);
 
-  private updateTree(categories: Categoria[], updater: (cat: Categoria) => Categoria): Categoria[] {
+  private updateTree(
+    categories: Categoria[],
+    updater: (cat: Categoria, children: Categoria[]) => Categoria,
+  ): Categoria[] {
     return categories.map((cat: Categoria): Categoria => {
       const updatedChildren: Categoria[] = this.updateTree(cat.hijos, updater);
-      const updated: Categoria = updater(cat);
+      const updated: Categoria = updater(cat, updatedChildren);
 
       const newCat = new Categoria(
         updated.id,
         updated.idPadre,
         updated.nombre,
         updated.profundidad,
-        updatedChildren,
+        updated.hijos,
       );
 
-      newCat.deployed = updated.deployed;
+      newCat.deployed = updated.deployed ?? cat.deployed;
 
       return newCat;
     });
@@ -157,23 +160,69 @@ export default class CategoriasComponent {
   }
 
   addCategory(parent: Categoria): void {
-    const updated: Categoria[] = this.updateTree(this.categorias(), (cat: Categoria): Categoria => {
-      if (cat.id === parent.id) {
-        const newChild = new Categoria(-1, cat.id, 'Nueva Categoría', cat.profundidad + 1, []);
+    this.dialog
+      .form({
+        title: 'Categoría',
+        content: 'Introduce el nombre de la nueva categoría',
+        fields: [
+          {
+            title: 'Nombre',
+            type: 'text',
+            value: '',
+            required: true,
+          },
+        ],
+      })
+      .subscribe((result: DialogField[]): void => {
+        console.log(result);
+        if (result === undefined || result.length === 0) {
+          return;
+        }
 
-        const newCat = new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, [
-          ...cat.hijos,
-          newChild,
-        ]);
+        const name: string = result[0].value;
+        const newCategory = new Categoria(-1, parent.id, name, parent.profundidad + 1, []);
+        console.log(newCategory);
 
-        newCat.deployed = true;
-        return newCat;
-      }
+        this.cs.addCategoria(newCategory.toInterface()).subscribe((result: IdSaveResult): void => {
+          console.log(result);
+          if (result.status !== 'ok') {
+            this.dialog.alert({
+              title: 'Error',
+              content: 'Error al añadir la categoría',
+            });
+            return;
+          }
 
-      return cat;
-    });
+          const finalCategory = new Categoria(
+            result.id,
+            parent.id,
+            name,
+            parent.profundidad + 1,
+            [],
+          );
+          console.log(finalCategory);
 
-    this.categorias.set(updated);
+          const updated: Categoria[] = this.updateTree(
+            this.categorias(),
+            (cat: Categoria, children: Categoria[]): Categoria => {
+              if (cat.id === parent.id) {
+                const newCat = new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, [
+                  ...children,
+                  finalCategory,
+                ]);
+
+                newCat.deployed = true;
+                return newCat;
+              }
+
+              return new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, children);
+            },
+          );
+          console.log(updated);
+
+          this.categorias.set(updated);
+        });
+      });
   }
 
   editCategory(categoryId: number): void {
