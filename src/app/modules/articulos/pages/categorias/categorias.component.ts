@@ -43,13 +43,14 @@ export default class CategoriasComponent {
     return categories.map((cat: Categoria): Categoria => {
       const updatedChildren: Categoria[] = this.updateTree(cat.hijos, updater);
       const updated: Categoria = updater(cat, updatedChildren);
+      const children: Categoria[] = updated.hijos === cat.hijos ? updatedChildren : updated.hijos;
 
       const newCat = new Categoria(
         updated.id,
         updated.idPadre,
         updated.nombre,
         updated.profundidad,
-        updated.hijos,
+        children,
       );
 
       newCat.deployed = updated.deployed ?? cat.deployed;
@@ -215,7 +216,10 @@ export default class CategoriasComponent {
                 return newCat;
               }
 
-              return new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, children);
+              const newCat = new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, children);
+
+              newCat.deployed = cat.deployed;
+              return newCat;
             },
           );
           console.log(updated);
