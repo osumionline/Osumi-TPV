@@ -20,7 +20,7 @@ import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-c
 @Component({
   selector: 'otpv-caja-content',
   templateUrl: './caja-content.component.html',
-  styleUrls: ['./caja-content.component.scss'],
+  styleUrls: [],
   imports: [
     FormsModule,
     HistoricoVentasComponent,
