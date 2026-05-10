@@ -1,9 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { CategoriaInterface } from '@interfaces/articulo.interface';
 import { Month } from '@interfaces/interfaces';
+import CategoriasService from '@services/categorias.service';
 import ConfigService from '@services/config.service';
 
 @Component({
@@ -14,12 +16,26 @@ import ConfigService from '@services/config.service';
 })
 export default class GenerarInformeComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);
+  private readonly cs: CategoriasService = inject(CategoriasService);
 
-  informeTipo: string | null = null;
   monthList: Month[] = [];
-  informeMonth: number | null = null;
   yearList: number[] = [];
-  informeYear: number | null = null;
+  categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>(
+    this.cs.categoriasPlain,
+  );
+  informeTipo: WritableSignal<string | null> = signal<string | null>(null);
+  informeMonth: WritableSignal<number | null> = signal<number | null>(null);
+  informeYear: WritableSignal<number | null> = signal<number | null>(null);
+  idCategoria: WritableSignal<number | null> = signal<number | null>(null);
+
+  generarInformeDisabled: Signal<boolean> = computed((): boolean => {
+    return (
+      this.informeTipo() === null ||
+      this.informeMonth() === null ||
+      this.informeYear() === null ||
+      (this.informeTipo() === 'ventas' && this.idCategoria() === null)
+    );
+  });
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -28,6 +44,14 @@ export default class GenerarInformeComponent implements OnInit {
   }
 
   generarInforme(): void {
-    window.open(`/caja/informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`);
+    if (this.informeTipo() === 'ventas') {
+      window.open(
+        `/caja/informes/${this.informeTipo()}/${this.idCategoria()}/${this.informeYear()}/${this.informeMonth()}`,
+      );
+      return;
+    }
+    window.open(
+      `/caja/informes/${this.informeTipo()}/${this.informeYear()}/${this.informeMonth()}`,
+    );
   }
 }

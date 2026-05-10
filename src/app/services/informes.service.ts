@@ -29,7 +29,19 @@ export default class InformesService extends BaseService {
   getInformeCaducidades(data: BuscadorCaducidadesInterface): Observable<InformeCaducidadesResult> {
     return this.http.post<InformeCaducidadesResult>(
       this.apiUrl + '-informes/get-informe-caducidades',
-      data
+      data,
     );
+  }
+
+  getInformeVentas(
+    idCategory: number,
+    month: number,
+    year: number,
+  ): Observable<InformeDetalladoResult> {
+    return this.http.post<InformeDetalladoResult>(this.apiUrl + '-informes/get-informe-ventas', {
+      idCategory,
+      month,
+      year,
+    });
   }
 }

@@ -18,6 +18,11 @@ const CAJA_ROUTES: Route[] = [
     loadComponent: () => import('@modules/caja/pages/informe-simple/informe-simple.component'),
     canActivate: [isOpenedGuardFn],
   },
+  {
+    path: 'informes/ventas/:idCategoria/:year/:month',
+    loadComponent: () => import('@modules/caja/pages/informe-ventas/informe-ventas.component'),
+    canActivate: [isOpenedGuardFn],
+  },
 ];
 
 export default CAJA_ROUTES;

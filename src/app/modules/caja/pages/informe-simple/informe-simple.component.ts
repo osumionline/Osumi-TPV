@@ -86,7 +86,10 @@ export default class InformeSimpleComponent implements OnInit {
             this.totalEfectivo += item.efectivo;
           }
           if (item.totalDia !== null) {
-            this.totalTotal.update((value: number): number => (value += item.totalDia ?? 0));
+            this.totalTotal.update((value: number): number => {
+              value += item.totalDia ?? 0;
+              return value;
+            });
           }
           if (item.suma !== null) {
             this.totalSuma.set(item.suma);

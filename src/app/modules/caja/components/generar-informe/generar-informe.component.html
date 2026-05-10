@@ -9,9 +9,27 @@
                 <mat-option value="detallado">
                     Detallado
                 </mat-option>
+                <mat-option value="ventas">
+                    Ventas
+                </mat-option>
             </mat-select>
         </mat-form-field>
     </div>
+    @if (informeTipo() === 'ventas') {
+    <div class="form-field margin-right">
+        <label>Categoría</label>
+        <mat-form-field>
+            <mat-select [(ngModel)]="idCategoria">
+                @for (cat of categoriesPlain(); track cat.id) {
+                <mat-option [value]="cat.id">
+                    <span style="display: block;"
+                          [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+    }
     <div class="form-field margin-right">
         <label>Mes</label>
         <mat-form-field>
@@ -38,8 +56,7 @@
     </div>
     <div class="form-field margin-right">
         <button mat-flat-button
-                color="primary"
-                [disabled]="informeTipo === null || informeMonth === null || informeYear === null"
+                [disabled]="generarInformeDisabled()"
                 (click)="generarInforme()">
             Generar informe
         </button>
