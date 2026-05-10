@@ -10,11 +10,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatFormField } from '@angular/material/form-field';
-import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { Month } from '@interfaces/interfaces';
+import GenerarInformeComponent from '@modules/caja/components/generar-informe/generar-informe.component';
 import ConfigService from '@services/config.service';
 import CierreCajaComponent from '@shared/components/caja/cierre-caja/cierre-caja.component';
 import HistoricoVentasComponent from '@shared/components/caja/historico-ventas/historico-ventas.component';
@@ -31,10 +28,7 @@ import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-c
     CierreCajaComponent,
     MatTabGroup,
     MatTab,
-    MatFormField,
-    MatSelect,
-    MatOption,
-    MatButton,
+    GenerarInformeComponent,
   ],
 })
 export default class CajaContentComponent implements OnInit {
@@ -51,16 +45,7 @@ export default class CajaContentComponent implements OnInit {
     viewChild.required<SalidasCajaComponent>('salidasCaja');
   cierreCaja: Signal<CierreCajaComponent> = viewChild.required<CierreCajaComponent>('cierreCaja');
 
-  informeTipo: string | null = null;
-  monthList: Month[] = [];
-  informeMonth: number | null = null;
-  yearList: number[] = [];
-  informeYear: number | null = null;
-
   ngOnInit(): void {
-    this.monthList = this.config.monthList;
-    const currentYear: number = new Date().getFullYear();
-    this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
     this.historicoVentas().changeFecha();
     this.salidasCaja().changeFecha();
     if (this.from() === 'tab') {
@@ -92,9 +77,5 @@ export default class CajaContentComponent implements OnInit {
 
   cerrarCaja(): void {
     this.cerrarVentanaEvent.emit(0);
-  }
-
-  generarInforme(): void {
-    window.open(`/caja/informes/${this.informeTipo}/${this.informeYear}/${this.informeMonth}`);
   }
 }

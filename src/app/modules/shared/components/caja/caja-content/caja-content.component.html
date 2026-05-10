@@ -19,53 +19,7 @@
         </mat-tab>
         <mat-tab [aria-labelledby]="from() === 'modal' ? 'hidden' : ''"
                  label="INFORMES">
-            <div class="generar-informe">
-                <div class="form-field margin-right">
-                    <label>Tipo de informe</label>
-                    <mat-form-field>
-                        <mat-select [(ngModel)]="informeTipo">
-                            <mat-option value="simple">
-                                Simple
-                            </mat-option>
-                            <mat-option value="detallado">
-                                Detallado
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="form-field margin-right">
-                    <label>Mes</label>
-                    <mat-form-field>
-                        <mat-select [(ngModel)]="informeMonth">
-                            @for (month of monthList; track month.id) {
-                            <mat-option [value]="month.id">
-                                {{ month.name }}
-                            </mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="form-field margin-right">
-                    <label>Año</label>
-                    <mat-form-field>
-                        <mat-select [(ngModel)]="informeYear">
-                            @for (year of yearList; track year) {
-                            <mat-option [value]="year">
-                                {{ year }}
-                            </mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="form-field margin-right">
-                    <button mat-flat-button
-                            color="primary"
-                            [disabled]="informeTipo === null || informeMonth === null || informeYear === null"
-                            (click)="generarInforme()">
-                        Generar informe
-                    </button>
-                </div>
-            </div>
+            <otpv-generar-informe />
         </mat-tab>
     </mat-tab-group>
 </div>
