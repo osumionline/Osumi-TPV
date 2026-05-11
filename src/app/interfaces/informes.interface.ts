@@ -89,3 +89,24 @@ export interface InformeDetalladoResult {
   status: string;
   data: InformeDetalladoDataResult;
 }
+
+export interface InformeVentasArticuloInterface {
+  id: number;
+  nombre: string;
+  idMarca: number;
+  marca: string;
+  importe: number;
+}
+
+export interface InformeVentasCategoriaInterface {
+  id: number;
+  nombre: string;
+  total: number;
+  articulos: InformeVentasArticuloInterface[];
+  subcategorias: InformeVentasCategoriaInterface[];
+}
+
+export interface InformeVentasResult {
+  status: string;
+  data: InformeVentasCategoriaInterface;
+}

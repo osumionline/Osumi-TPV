@@ -1,9 +1,9 @@
 import {
   Component,
+  effect,
   inject,
   input,
   InputSignal,
-  OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -28,7 +28,7 @@ import BuscadorAvanzadoModalComponent from '@shared/components/modals/buscador-a
   templateUrl: './categoria-detalle.component.html',
   styleUrl: './categoria-detalle.component.scss',
 })
-export default class CategoriaDetalleComponent implements OnInit {
+export default class CategoriaDetalleComponent {
   private readonly cs: CategoriasService = inject(CategoriasService);
   private readonly vs: VentasService = inject(VentasService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
@@ -42,11 +42,24 @@ export default class CategoriaDetalleComponent implements OnInit {
   articulosResultadosDataSource: MatTableDataSource<Articulo> = new MatTableDataSource<Articulo>();
   saved: WritableSignal<boolean> = signal<boolean>(false);
 
-  ngOnInit(): void {
+  private lastCategoriaId: number | null = null;
+
+  constructor() {
+    effect((): void => {
+      const currentCategoria: Categoria = this.categoria();
+      if (currentCategoria && currentCategoria.id !== this.lastCategoriaId) {
+        this.lastCategoriaId = currentCategoria.id;
+        this.loadArticulos();
+      }
+    });
+  }
+
+  private loadArticulos(): void {
     this.cs
       .getArticulosCategoria(this.categoria().id!)
       .subscribe((result: CategoriaArticulosResult): void => {
         this.articulos.set(this.cms.getArticulos(result.list));
+        this.articulosResultadosDataSource.data = this.articulos();
         console.log(this.articulos());
       });
   }

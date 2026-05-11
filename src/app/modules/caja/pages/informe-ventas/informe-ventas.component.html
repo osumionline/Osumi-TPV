@@ -1,1 +1,53 @@
-<p>informe-ventas works!</p>
+<div class="informe-ventas">
+    <h1 class="titulo">Informe de ventas</h1>
+
+    <table class="tabla-informe">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngTemplateOutlet="renderCategorias; context: { categorias: [data()], nivel: 0 }"></ng-container>
+
+            <ng-template #renderCategorias
+                         let-categorias
+                         let-nivel="nivel">
+                @for (categoria of categorias; track categoria.id) {
+                <tr>
+                    <td [style.padding-left.px]="nivel * 16">
+                        <button mat-icon-button
+                                (click)="categoria.deployed = !categoria.deployed">
+                            <mat-icon>{{ categoria.deployed ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        </button>
+                    </td>
+                    <td>{{ categoria.nombre }}</td>
+                    <td></td> <!-- Sin marca para categorías -->
+                    <td>{{ categoria.total | currency }}</td>
+                </tr>
+
+                @if (categoria.deployed) {
+                <ng-container *ngTemplateOutlet="renderArticulos; context: { articulos: categoria.articulos, nivel: nivel + 1 }"></ng-container>
+                <ng-container *ngTemplateOutlet="renderCategorias; context: { categorias: categoria.subcategorias, nivel: nivel + 1 }"></ng-container>
+                }
+                }
+            </ng-template>
+
+            <ng-template #renderArticulos
+                         let-articulos
+                         let-nivel="nivel">
+                @for (articulo of articulos; track articulo.id) {
+                <tr>
+                    <td [style.padding-left.px]="nivel * 16 + 16"></td>
+                    <td>{{ articulo.nombre }}</td>
+                    <td>{{ articulo.marca }}</td>
+                    <td>{{ articulo.importe | currency }}</td>
+                </tr>
+                }
+            </ng-template>
+        </tbody>
+    </table>
+</div>

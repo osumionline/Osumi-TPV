@@ -4,6 +4,7 @@ import {
   InformeCaducidadesResult,
   InformeDetalladoResult,
   InformeMensualResult,
+  InformeVentasResult,
 } from '@interfaces/informes.interface';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
@@ -37,8 +38,8 @@ export default class InformesService extends BaseService {
     idCategory: number,
     month: number,
     year: number,
-  ): Observable<InformeDetalladoResult> {
-    return this.http.post<InformeDetalladoResult>(this.apiUrl + '-informes/get-informe-ventas', {
+  ): Observable<InformeVentasResult> {
+    return this.http.post<InformeVentasResult>(this.apiUrl + '-informes/get-informe-ventas', {
       idCategory,
       month,
       year,
