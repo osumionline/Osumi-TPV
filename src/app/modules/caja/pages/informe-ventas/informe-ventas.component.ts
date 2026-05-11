@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import {
   InformeVentasCategoriaInterface,
   InformeVentasResult,
@@ -21,7 +22,14 @@ import InformesService from '@services/informes.service';
 
 @Component({
   selector: 'otpv-informe-ventas',
-  imports: [NgTemplateOutlet, MatButtonModule, MatIconModule, CurrencyPipe, CommonModule],
+  imports: [
+    NgTemplateOutlet,
+    MatButtonModule,
+    MatIconModule,
+    CurrencyPipe,
+    CommonModule,
+    MatTooltip,
+  ],
   templateUrl: './informe-ventas.component.html',
   styleUrl: './informe-ventas.component.scss',
 })
@@ -30,6 +38,7 @@ export default class InformeVentasComponent implements OnInit {
   private readonly is: InformesService = inject(InformesService);
 
   loaded: WritableSignal<boolean> = signal<boolean>(false);
+  expandedCategories: WritableSignal<Set<number>> = signal<Set<number>>(new Set<number>());
   idCategoria: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,
   });
@@ -48,11 +57,6 @@ export default class InformeVentasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log({
-      idCategoria: this.idCategoria(),
-      year: this.year(),
-      month: this.month(),
-    });
     const indMonth: number = this.config.monthList.findIndex((x: Month): boolean => {
       return x.id === this.month();
     });
@@ -61,8 +65,43 @@ export default class InformeVentasComponent implements OnInit {
     this.is
       .getInformeVentas(this.idCategoria(), this.month(), this.year())
       .subscribe((result: InformeVentasResult): void => {
-        console.log(result);
         this.data.set(result.data);
+        this.expandedCategories.set(this.getCategoryIds(result.data));
+        this.loaded.set(true);
       });
+  }
+
+  hasChildren(categoria: InformeVentasCategoriaInterface): boolean {
+    return categoria.articulos.length > 0 || categoria.subcategorias.length > 0;
+  }
+
+  isExpanded(categoria: InformeVentasCategoriaInterface): boolean {
+    return this.expandedCategories().has(categoria.id);
+  }
+
+  toggleCategory(categoria: InformeVentasCategoriaInterface): void {
+    this.expandedCategories.update((expanded: Set<number>): Set<number> => {
+      const next: Set<number> = new Set<number>(expanded);
+
+      if (next.has(categoria.id)) {
+        next.delete(categoria.id);
+      } else {
+        next.add(categoria.id);
+      }
+
+      return next;
+    });
+  }
+
+  private getCategoryIds(categoria: InformeVentasCategoriaInterface): Set<number> {
+    const ids: Set<number> = new Set<number>([categoria.id]);
+
+    categoria.subcategorias.forEach((subcategoria: InformeVentasCategoriaInterface): void => {
+      this.getCategoryIds(subcategoria).forEach((id: number): void => {
+        ids.add(id);
+      });
+    });
+
+    return ids;
   }
 }
