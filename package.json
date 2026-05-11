@@ -10,7 +10,7 @@
     "lint": "ng lint"
   },
   "private": true,
-  "packageManager": "npm@11.14.0",
+  "packageManager": "npm@11.14.1",
   "dependencies": {
     "@angular/cdk": "^21.2.10",
     "@angular/common": "^21.2.12",
@@ -36,7 +36,7 @@
     "eslint": "^10.3.0",
     "jsdom": "^29.1.1",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.59.2",
-    "vitest": "^4.1.5"
+    "typescript-eslint": "^8.59.3",
+    "vitest": "^4.1.6"
   }
 }
