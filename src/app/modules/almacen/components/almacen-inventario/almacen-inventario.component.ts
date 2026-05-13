@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput, MatLabel } from '@angular/material/input';
@@ -17,6 +17,7 @@ import {
   InventarioColumn,
   InventarioItemInterface,
 } from '@interfaces/almacen.interface';
+import { CategoriaInterface } from '@interfaces/articulo.interface';
 import {
   StatusIdMessageErrorsResult,
   StatusIdMessageResult,
@@ -30,6 +31,7 @@ import { DialogService } from '@osumi/angular-tools';
 import { urldecode } from '@osumi/tools';
 import AlmacenService from '@services/almacen.service';
 import ArticulosService from '@services/articulos.service';
+import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
@@ -48,7 +50,6 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatFormFieldModule,
     MatLabel,
     MatInput,
-    MatButton,
     MatIconButton,
     MatSelect,
     MatOption,
@@ -65,6 +66,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   private readonly ps: ProveedoresService = inject(ProveedoresService);
   private readonly as: AlmacenService = inject(AlmacenService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
+  private readonly cs: CategoriasService = inject(CategoriasService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly router: Router = inject(Router);
 
@@ -87,16 +89,20 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   marcas: Marca[] = this.ms.marcas();
   proveedores: Proveedor[] = this.ps.proveedores();
+  categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>(
+    this.cs.categoriasPlain,
+  );
 
   columns: InventarioColumn[] = [
     { value: 'localizador', name: 'Localizador' },
     { value: 'proveedor', name: 'Proveedor' },
     { value: 'marca', name: 'Marca' },
     { value: 'referencia', name: 'Referencia' },
+    { value: 'categoria', name: 'Categoría' },
     { value: 'nombre', name: 'Nombre' },
     { value: 'stock', name: 'Stock' },
-    { value: 'puc', name: 'PUC' },
     { value: 'palb', name: 'Precio albarán' },
+    { value: 'puc', name: 'PUC' },
     { value: 'pvp', name: 'PVP' },
     { value: 'margen', name: 'Margen' },
     { value: 'codbarras', name: 'Código de barras' },
@@ -226,7 +232,11 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   itemHasChanges(item: InventarioItem): boolean {
     return (
-      item.palbChanged || item.pvpChanged || item.stockChanged || this.hasCodigoBarrasValue(item)
+      item.categoriaChanged ||
+      item.palbChanged ||
+      item.pvpChanged ||
+      item.stockChanged ||
+      this.hasCodigoBarrasValue(item)
     );
   }
 

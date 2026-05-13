@@ -47,7 +47,7 @@ export default class HeaderComponent {
       F6: '/compras',
       F7: '/clientes',
       F8: '/almacen',
-      F9: '/gestion',
+      F9: '/configuracion',
     };
     this.router.navigate([whereTo[where]]);
   }

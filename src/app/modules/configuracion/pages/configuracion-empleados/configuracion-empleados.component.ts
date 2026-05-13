@@ -37,9 +37,9 @@ import HeaderComponent from '@shared/components/header/header.component';
 import { Rol, RolGroup, rolList } from '@shared/rol.class';
 
 @Component({
-  selector: 'otpv-gestion-empleados',
-  templateUrl: './gestion-empleados.component.html',
-  styleUrls: ['./gestion-empleados.component.scss'],
+  selector: 'otpv-configuracion-empleados',
+  templateUrl: './configuracion-empleados.component.html',
+  styleUrls: ['./configuracion-empleados.component.scss'],
   imports: [
     KeyValuePipe,
     FormsModule,
@@ -58,7 +58,7 @@ import { Rol, RolGroup, rolList } from '@shared/rol.class';
     MatCheckbox,
   ],
 })
-export default class GestionEmpleadosComponent implements OnInit {
+export default class ConfiguracionEmpleadosComponent implements OnInit {
   private readonly es: EmpleadosService = inject(EmpleadosService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly gs: GestionService = inject(GestionService);

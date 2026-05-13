@@ -12,6 +12,7 @@ export interface BuscadorAlmacenInterface {
 export interface InventarioItemInterface {
   id: number | null;
   localizador: number | null;
+  idCategoria: number | null;
   marca: string | null;
   proveedor: string | null;
   referencia: string | null;

@@ -42,9 +42,9 @@ import GestionService from '@services/gestion.service';
 import HeaderComponent from '@shared/components/header/header.component';
 
 @Component({
-  selector: 'otpv-gestion-tipos-pago',
-  templateUrl: './gestion-tipos-pago.component.html',
-  styleUrls: ['./gestion-tipos-pago.component.scss'],
+  selector: 'otpv-configuracion-tipos-pago',
+  templateUrl: './configuracion-tipos-pago.component.html',
+  styleUrls: ['./configuracion-tipos-pago.component.scss'],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -64,7 +64,7 @@ import HeaderComponent from '@shared/components/header/header.component';
     DragDropModule,
   ],
 })
-export default class GestionTiposPagoComponent implements OnInit {
+export default class ConfiguracionTiposPagoComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly as: ApiService = inject(ApiService);

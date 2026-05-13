@@ -53,24 +53,21 @@
         </mat-form-field>
     </div>
     <div class="col-actions">
-        <button mat-flat-button
-                color="primary"
+        <button mat-icon-button
                 [disabled]="!hasChanges()"
-                (click)="saveAll()">
+                (click)="saveAll()"
+                matTooltip="Guardar todos">
             <mat-icon>save</mat-icon>
-            Guardar todos
         </button>
-        <button mat-flat-button
-                color="primary"
-                (click)="exportInventario()">
+        <button mat-icon-button
+                (click)="exportInventario()"
+                matTooltip="Exportar a Excel">
             <mat-icon>border_all</mat-icon>
-            Exportar a Excel
         </button>
-        <button mat-flat-button
-                color="primary"
-                (click)="printInventario()">
+        <button mat-icon-button
+                (click)="printInventario()"
+                matTooltip="Imprimir">
             <mat-icon>print</mat-icon>
-            Imprimir
         </button>
     </div>
 </div>
@@ -129,6 +126,35 @@
             *matCellDef="let element">{{ element.referencia }}</td>
     </ng-container>
 
+    <!-- Categoría -->
+    <ng-container matColumnDef="categoria">
+        <th mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por categoría">
+            Categoría
+        </th>
+        <td mat-cell
+            [class]="{'modified': element.categoriaChanged}"
+            *matCellDef="let element">
+            <mat-form-field class="campo-numero-small x-small"
+                            subscriptSizing="dynamic">
+                <mat-select [(ngModel)]="element.idCategoria">
+                    @for (cat of categoriesPlain(); track cat.id) {
+                    <mat-option [value]="cat.id">
+                        <span style="display: block;"
+                              [style]="{'margin-left': (5 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            @if (element.categoriaChanged) {
+            <mat-icon (click)="element.idCategoria = element._idCategoria"
+                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
+            }
+        </td>
+    </ng-container>
+
     <!-- Nombre -->
     <ng-container matColumnDef="nombre">
         <th mat-header-cell
@@ -172,24 +198,9 @@
                        matInput>
             </mat-form-field>
             @if (element.stockChanged) {
-            <mat-icon (click)="element.stock = element._stock">restart_alt</mat-icon>
+            <mat-icon (click)="element.stock = element._stock"
+                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
-        </td>
-    </ng-container>
-
-    <!-- PUC -->
-    <ng-container matColumnDef="puc">
-        <th class="center"
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Ordenar por PUC">
-            PUC
-        </th>
-        <td class="center"
-            mat-cell
-            *matCellDef="let element">
-            {{ element.puc | fixedNumber }} €
         </td>
     </ng-container>
 
@@ -216,8 +227,25 @@
                 <span matTextSuffix>€</span>
             </mat-form-field>
             @if (element.palbChanged) {
-            <mat-icon (click)="element.palb = element._palb">restart_alt</mat-icon>
+            <mat-icon (click)="element.palb = element._palb"
+                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
+        </td>
+    </ng-container>
+
+    <!-- PUC -->
+    <ng-container matColumnDef="puc">
+        <th class="center"
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Ordenar por PUC">
+            PUC
+        </th>
+        <td class="center"
+            mat-cell
+            *matCellDef="let element">
+            {{ element.puc | fixedNumber }} €
         </td>
     </ng-container>
 
@@ -244,7 +272,8 @@
                 <span matTextSuffix>€</span>
             </mat-form-field>
             @if (element.pvpChanged) {
-            <mat-icon (click)="element.pvp = element._pvp">restart_alt</mat-icon>
+            <mat-icon (click)="element.pvp = element._pvp"
+                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
     </ng-container>
@@ -302,12 +331,13 @@
             *matCellDef="let element">
             <button mat-icon-button
                     [disabled]="!itemHasChanges(element)"
-                    (click)="saveInventario(element)">
+                    (click)="saveInventario(element)"
+                    matTooltip="Guardar">
                 <mat-icon>save</mat-icon>
             </button>
-            <button color="warn"
-                    mat-icon-button
-                    (click)="deleteInventario(element)">
+            <button mat-icon-button
+                    (click)="deleteInventario(element)"
+                    matTooltip="Eliminar">
                 <mat-icon>delete</mat-icon>
             </button>
         </td>

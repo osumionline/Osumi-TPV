@@ -10,12 +10,12 @@ import HeaderComponent from '@shared/components/header/header.component';
 import { rolList } from '@shared/rol.class';
 
 @Component({
-  selector: 'otpv-gestion',
-  templateUrl: './gestion.component.html',
-  styleUrls: ['./gestion.component.scss'],
+  selector: 'otpv-configuracion',
+  templateUrl: './configuracion.component.html',
+  styleUrls: ['./configuracion.component.scss'],
   imports: [HeaderComponent, EmployeeLoginComponent, MatButton, MatIcon],
 })
-export default class GestionComponent implements OnInit {
+export default class ConfiguracionComponent implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly gs: GestionService = inject(GestionService);
@@ -40,7 +40,7 @@ export default class GestionComponent implements OnInit {
     if (this.empleado !== null) {
       if (this.empleado.hasRol(rolList['gestion'].roles['modificarAjustesIniciales'].id)) {
         this.gs.empleado = this.empleado;
-        this.router.navigate(['/gestion/installation']);
+        this.router.navigate(['/configuracion/installation']);
       } else {
         this.dialog.alert({
           title: 'Atención',
@@ -62,7 +62,7 @@ export default class GestionComponent implements OnInit {
         ])
       ) {
         this.gs.empleado = this.empleado;
-        this.router.navigate(['/gestion/empleados']);
+        this.router.navigate(['/configuracion/empleados']);
       } else {
         this.dialog.alert({
           title: 'Atención',
@@ -76,7 +76,7 @@ export default class GestionComponent implements OnInit {
     if (this.empleado !== null) {
       if (this.empleado.hasRol(rolList['gestion'].roles['tiposPago'].id)) {
         this.gs.empleado = this.empleado;
-        this.router.navigate(['/gestion/tipos-pago']);
+        this.router.navigate(['/configuracion/tipos-pago']);
       } else {
         this.dialog.alert({
           title: 'Atención',
@@ -88,6 +88,6 @@ export default class GestionComponent implements OnInit {
 
   selectBackup(): void {
     this.gs.empleado = this.empleado;
-    this.router.navigate(['/gestion/backup']);
+    this.router.navigate(['/configuracion/backup']);
   }
 }
