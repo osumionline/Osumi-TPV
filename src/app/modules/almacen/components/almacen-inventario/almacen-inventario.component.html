@@ -53,10 +53,10 @@
         </mat-form-field>
     </div>
     <div class="col-actions">
-            <button mat-flat-button
-                    color="primary"
-                    [disabled]="!hasChanges()"
-                    (click)="saveAll()">
+        <button mat-flat-button
+                color="primary"
+                [disabled]="!hasChanges()"
+                (click)="saveAll()">
             <mat-icon>save</mat-icon>
             Guardar todos
         </button>
@@ -203,9 +203,21 @@
             Precio albarán
         </th>
         <td class="center"
+            [class]="{'modified': element.palbChanged}"
             mat-cell
             *matCellDef="let element">
-            {{ element.palb | fixedNumber }} €
+            <mat-form-field class="campo-numero-small x-small"
+                            subscriptSizing="dynamic">
+                <input [(ngModel)]="element.palb"
+                       type="number"
+                       placeholder="Precio albarán"
+                       (focus)="$event.target.select()"
+                       matInput>
+                <span matTextSuffix>€</span>
+            </mat-form-field>
+            @if (element.palbChanged) {
+            <mat-icon (click)="element.palb = element._palb">restart_alt</mat-icon>
+            }
         </td>
     </ng-container>
 

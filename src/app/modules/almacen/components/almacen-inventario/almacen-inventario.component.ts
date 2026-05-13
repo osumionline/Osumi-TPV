@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  WritableSignal,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -232,7 +225,9 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   }
 
   itemHasChanges(item: InventarioItem): boolean {
-    return item.pvpChanged || item.stockChanged || this.hasCodigoBarrasValue(item);
+    return (
+      item.palbChanged || item.pvpChanged || item.stockChanged || this.hasCodigoBarrasValue(item)
+    );
   }
 
   saveAll(): void {
@@ -384,6 +379,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   private getSavedItem(item: InventarioItem): InventarioItem {
     const savedItem: InventarioItem = this.cloneInventarioItem(item);
+    savedItem._palb = savedItem.palb;
     savedItem._pvp = savedItem.pvp;
     savedItem._stock = savedItem.stock;
     if (this.hasCodigoBarrasValue(savedItem)) {
@@ -407,7 +403,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   private cloneBuscador(
     buscador: BuscadorAlmacenInterface,
-    changes: Partial<BuscadorAlmacenInterface> = {}
+    changes: Partial<BuscadorAlmacenInterface> = {},
   ): BuscadorAlmacenInterface {
     return Object.assign({}, buscador, changes);
   }

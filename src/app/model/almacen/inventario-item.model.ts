@@ -3,6 +3,7 @@ import { urldecode, urlencode } from '@osumi/tools';
 
 export default class InventarioItem {
   _stock: number | null = null;
+  _palb: number | null = null;
   _pvp: number | null = null;
   codigoBarras: string | null = null;
 
@@ -20,12 +21,17 @@ export default class InventarioItem {
     public hasCodigosBarras: boolean = false,
     public observaciones: string | null = null,
   ) {
+    this._palb = palb;
     this._stock = stock;
     this._pvp = pvp;
   }
 
   get stockChanged(): boolean {
     return this._stock !== this.stock;
+  }
+
+  get palbChanged(): boolean {
+    return this._palb !== this.palb;
   }
 
   get pvpChanged(): boolean {
@@ -49,6 +55,7 @@ export default class InventarioItem {
     this.stock = ii.stock;
     this._stock = ii.stock;
     this.palb = ii.palb;
+    this._palb = ii.palb;
     this.puc = ii.puc;
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
