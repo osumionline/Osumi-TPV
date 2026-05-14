@@ -1,6 +1,7 @@
 export interface BuscadorAlmacenInterface {
   idProveedor: number | null;
   idMarca: number | null;
+  idCategoria: number | null;
   nombre: string | null;
   descuento: boolean;
   orderBy: string | null;

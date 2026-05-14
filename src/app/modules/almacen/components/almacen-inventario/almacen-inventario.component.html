@@ -26,6 +26,18 @@
                 }
             </mat-select>
         </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic"
+                        class="margin-right">
+            <mat-select [(ngModel)]="buscador().idCategoria"
+                        (ngModelChange)="updateBuscador({ idCategoria: $event }); resetBuscar()">
+                @for (cat of categoriesPlain(); track cat.id) {
+                <mat-option [value]="cat.id">
+                    <span style="display: block;"
+                          [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
         <mat-form-field class="nombre margin-right"
                         subscriptSizing="dynamic">
             <mat-label>Nombre, etiquetas...</mat-label>

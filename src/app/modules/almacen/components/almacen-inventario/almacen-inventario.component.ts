@@ -73,6 +73,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   buscador: WritableSignal<BuscadorAlmacenInterface> = signal({
     idProveedor: null,
     idMarca: null,
+    idCategoria: null,
     nombre: null,
     descuento: false,
     orderBy: null,

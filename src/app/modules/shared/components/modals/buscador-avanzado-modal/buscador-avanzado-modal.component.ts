@@ -59,6 +59,7 @@ export default class BuscadorAvanzadoModalComponent implements OnInit {
   buscador: WritableSignal<BuscadorAlmacenInterface> = signal({
     idProveedor: null,
     idMarca: null,
+    idCategoria: null,
     nombre: null,
     descuento: false,
     orderBy: null,

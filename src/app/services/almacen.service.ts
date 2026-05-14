@@ -21,6 +21,7 @@ export default class AlmacenService extends BaseService {
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,
     idMarca: null,
+    idCategoria: null,
     nombre: null,
     descuento: false,
     orderBy: null,
@@ -57,7 +58,7 @@ export default class AlmacenService extends BaseService {
   saveAllInventario(list: InventarioItemInterface[]): Observable<StatusIdMessageErrorsResult> {
     return this.http.post<StatusIdMessageErrorsResult>(
       this.apiUrl + '-almacen/save-all-inventario',
-      { list }
+      { list },
     );
   }
 
