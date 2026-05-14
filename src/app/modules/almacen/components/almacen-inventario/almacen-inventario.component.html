@@ -139,11 +139,12 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <mat-select [(ngModel)]="element.idCategoria">
+                <mat-select [(ngModel)]="element.idCategoria"
+                            panelWidth="250px">
                     @for (cat of categoriesPlain(); track cat.id) {
                     <mat-option [value]="cat.id">
                         <span style="display: block;"
-                              [style]="{'margin-left': (5 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
+                              [style]="{'margin-left': (15 * cat.profundidad) + 'px'}">{{cat.nombre}}</span>
                     </mat-option>
                     }
                 </mat-select>
