@@ -378,6 +378,9 @@
                                     </button>
                                 </div>
                             </mat-tab>
+                            <mat-tab label="VENTAS">
+                                <otpv-ventas-cliente [selectedClient]="selectedClient" />
+                            </mat-tab>
                             <mat-tab label="ESTADÍSTICAS">
                                 <div class="stats-box">
                                     <label>Últimas ventas</label>
@@ -467,9 +470,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </mat-tab>
-                            <mat-tab label="VENTAS">
-                                <otpv-ventas-cliente [selectedClient]="selectedClient" />
                             </mat-tab>
                             }
                         </mat-tab-group>

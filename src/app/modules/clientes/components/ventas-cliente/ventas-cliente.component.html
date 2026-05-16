@@ -21,7 +21,7 @@
                         (ngModelChange)="searchVentasCliente()">
                 @for (year of yearList; track year) {
                 <mat-option [value]="year">
-                    {{ year }}
+                    {{ year !== -1 ? year : 'Todos' }}
                 </mat-option>
                 }
             </mat-select>

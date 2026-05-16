@@ -205,7 +205,7 @@ export default class UnArticuloGeneralComponent {
       const checkD = new Date(
         2000 + parseInt(checkFecCadStr[1]),
         parseInt(checkFecCadStr[0]) - 1,
-        month.days,
+        month.days!,
         23,
         59,
         59,

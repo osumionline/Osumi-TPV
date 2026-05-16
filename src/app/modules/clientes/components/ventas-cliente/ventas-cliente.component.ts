@@ -47,8 +47,8 @@ export default class VentasClienteComponent implements OnInit {
   monthList: Month[] = [];
   yearList: number[] = [];
 
-  ventasMonth: number | null = null;
-  ventasYear: number | null = null;
+  ventasMonth: number = -1;
+  ventasYear: number = -1;
   ventasDisplayedColumns: string[] = ['fecha', 'total', 'nombreTipoPago', 'options'];
   ventasDataSource: MatTableDataSource<VentaHistorico> = new MatTableDataSource<VentaHistorico>();
   ventaSelected: VentaHistorico | null = null;
@@ -74,20 +74,22 @@ export default class VentasClienteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.monthList = this.config.monthList;
+    this.monthList = [{ id: -1, name: 'Todos', days: -1 }, ...this.config.monthList];
     const currentYear: number = new Date().getFullYear();
-    this.yearList = Array.from({ length: 5 }, (_, i) => currentYear - i);
+    this.yearList = [-1, ...Array.from({ length: 5 }, (_, i) => currentYear - i)];
   }
 
   searchVentasCliente(): void {
     this.ventaSelected = null;
     this.ventaSelectedDataSource.data = [];
+    const ventasMonth: number | null = this.ventasMonth !== -1 ? this.ventasMonth : null;
+    const ventasYear: number | null = this.ventasYear !== -1 ? this.ventasYear : null;
     if (
-      (this.ventasMonth === null && this.ventasYear === null) ||
-      (this.ventasMonth !== null && this.ventasYear !== null)
+      (ventasMonth === null && ventasYear === null) ||
+      (ventasMonth !== null && ventasYear !== null)
     ) {
       this.cs
-        .searchVentasCliente(this.selectedClient().id as number, this.ventasMonth, this.ventasYear)
+        .searchVentasCliente(this.selectedClient().id as number, ventasMonth, ventasYear)
         .subscribe((result: VentasClienteResult): void => {
           if (result.status === ApiStatusEnum.OK) {
             const ventasCliente: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
@@ -131,7 +133,7 @@ export default class VentasClienteComponent implements OnInit {
         if (result === true) {
           this.sendTicketConfirm(
             this.ventaSelected!.id as number,
-            this.selectedClient().email as string
+            this.selectedClient().email as string,
           );
         }
       });

@@ -1,9 +1,9 @@
 import { TipoPagoInterface } from '@interfaces/tipo-pago.interface';
 
 export interface Month {
-  id: number;
+  id: number | null;
   name: string;
-  days: number;
+  days: number | null;
 }
 
 export interface ProvinceInterface {
