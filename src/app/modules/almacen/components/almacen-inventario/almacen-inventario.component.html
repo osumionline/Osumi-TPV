@@ -339,7 +339,7 @@
             *matHeaderCellDef>
             Opciones
         </th>
-        <td class="center"
+        <td class="opciones"
             mat-cell
             *matCellDef="let element">
             <button mat-icon-button
@@ -353,6 +353,10 @@
                     matTooltip="Eliminar">
                 <mat-icon>delete</mat-icon>
             </button>
+            @if (element.sinVentas) {
+            <mat-icon matTooltip="Sin ventas en los últimos 12 meses"
+                      class="warning">warning</mat-icon>
+            }
         </td>
     </ng-container>
 

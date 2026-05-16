@@ -61,3 +61,13 @@
     padding-right: 26px;
     margin-top: 16px;
 }
+
+.opciones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .warning {
+        color: var(--color-yellow);
+    }
+}

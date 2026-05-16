@@ -25,6 +25,7 @@ export interface InventarioItemInterface {
   hasCodigosBarras: boolean;
   codigoBarras?: string | null;
   observaciones: string | null;
+  sinVentas: boolean;
 }
 
 export interface BuscadorAlmacenResult {

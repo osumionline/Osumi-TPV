@@ -22,6 +22,7 @@ export default class InventarioItem {
     public pvp: number | null = null,
     public hasCodigosBarras: boolean = false,
     public observaciones: string | null = null,
+    public sinVentas: boolean = false,
   ) {
     this._idCategoria = idCategoria;
     this._palb = palb;
@@ -69,6 +70,7 @@ export default class InventarioItem {
     this._pvp = ii.pvp;
     this.hasCodigosBarras = ii.hasCodigosBarras;
     this.observaciones = urldecode(ii.observaciones);
+    this.sinVentas = ii.sinVentas;
 
     return this;
   }
@@ -89,6 +91,7 @@ export default class InventarioItem {
       hasCodigosBarras: this.hasCodigosBarras,
       codigoBarras: this.codigoBarras,
       observaciones: urlencode(this.observaciones),
+      sinVentas: this.sinVentas,
     };
   }
 }
