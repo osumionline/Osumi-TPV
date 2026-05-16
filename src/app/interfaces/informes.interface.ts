@@ -96,6 +96,8 @@ export interface InformeVentasArticuloInterface {
   idMarca: number;
   marca: string;
   importe: number;
+  unidades: number;
+  margen: number;
 }
 
 export interface InformeVentasCategoriaInterface {
@@ -104,6 +106,8 @@ export interface InformeVentasCategoriaInterface {
   total: number;
   articulos: InformeVentasArticuloInterface[];
   subcategorias: InformeVentasCategoriaInterface[];
+  unidades: number;
+  margen: number;
 }
 
 export interface InformeVentasResult {

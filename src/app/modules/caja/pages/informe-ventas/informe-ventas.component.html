@@ -21,7 +21,7 @@
                  let-categoria="categoria"
                  let-nivel="nivel">
         <div class="ventas-row categoria-row">
-            <div class="row-main"
+            <div class="row-main categoria-main"
                  [style.padding-left.px]="nivel * 28"
                  [style.--print-indent]="(nivel * 14) + 'px'">
                 @if (hasChildren(categoria)) {
@@ -37,6 +37,8 @@
                 }
 
                 <span class="categoria-name">{{ categoria.nombre }}</span>
+                <span class="categoria-meta">Margen: {{ categoria.margen | number: '1.2-2' }} %</span>
+                <span class="categoria-meta">Uds: {{ categoria.unidades }}</span>
             </div>
 
             <span class="row-amount">{{ categoria.total | currency: 'EUR' : 'symbol' : '1.2-2' }}</span>
@@ -51,6 +53,8 @@
                     <span class="toggle-spacer"></span>
                     <span class="marca-name">{{ articulo.marca }}</span>
                     <span class="articulo-name">{{ articulo.nombre }}</span>
+                    <span class="articulo-meta">Margen: {{ articulo.margen | number: '1.2-2' }} %</span>
+                    <span class="articulo-meta">Uds: {{ articulo.unidades }}</span>
                 </div>
 
                 <span class="row-amount">{{ articulo.importe | currency: 'EUR' : 'symbol' : '1.2-2' }}</span>
