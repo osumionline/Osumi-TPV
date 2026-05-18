@@ -11,7 +11,7 @@
                    autocomplete="off"
                    #elegirClienteBoxName>
         </mat-form-field>
-        @if (searched) {
+        @if (searched()) {
         <div class="elegir-clientes-result">
             <table mat-table
                    [dataSource]="buscadorDataSource"

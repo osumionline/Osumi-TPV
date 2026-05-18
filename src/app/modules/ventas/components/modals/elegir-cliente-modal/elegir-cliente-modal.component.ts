@@ -65,8 +65,8 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
   elegirClienteNombre: string = '';
   searchTimer: number | undefined = undefined;
   searching: boolean = false;
-  searched: boolean = false;
-  searchResult: Cliente[] = [];
+  searched: WritableSignal<boolean> = signal<boolean>(false);
+  searchResult: WritableSignal<Cliente[]> = signal<Cliente[]>([]);
 
   buscadorDisplayedColumns: string[] = ['nombreApellidos', 'telefono', 'ultimaVenta'];
   buscadorDataSource: MatTableDataSource<Cliente> = new MatTableDataSource<Cliente>();
@@ -81,7 +81,7 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
     this.elegirClienteSelectedTab = 0;
     this.elegirClienteNombre = '';
     this.searching = false;
-    this.searched = false;
+    this.searched.set(false);
     this.nuevoCliente = new Cliente();
     setTimeout((): void => {
       this.elegirClienteBoxName().nativeElement.focus();
@@ -113,17 +113,17 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
     if (this.searching) {
       return;
     }
-    this.searchResult = [];
+    this.searchResult.set([]);
     if (this.elegirClienteNombre === null || this.elegirClienteNombre === '') {
       return;
     }
     this.searching = true;
     this.cs.searchClientes(this.elegirClienteNombre).subscribe((result: ClientesResult): void => {
       this.searching = false;
-      this.searched = true;
+      this.searched.set(true);
       if (result.status === ApiStatusEnum.OK) {
-        this.searchResult = this.cms.getClientes(result.list);
-        this.buscadorDataSource.data = this.searchResult;
+        this.searchResult.set(this.cms.getClientes(result.list));
+        this.buscadorDataSource.data = this.searchResult();
       } else {
         this.dialog.alert({
           title: 'Error',
@@ -179,6 +179,7 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
     this.cs
       .saveCliente(this.nuevoCliente.toInterface())
       .subscribe((result: ClienteSaveResult): void => {
+        this.searching = false;
         if (result.status === ApiStatusEnum.OK) {
           this.cs.resetClientes();
           this.nuevoCliente.id = result.id;
