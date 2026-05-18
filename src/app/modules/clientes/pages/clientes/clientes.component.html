@@ -2,480 +2,472 @@
 
 <mat-card class="clientes">
     <mat-card-content class="full-height">
-        <div class="flex-content">
-            <aside>
-                <mat-form-field class="search full-width"
-                                subscriptSizing="dynamic">
-                    <input matInput
-                           placeholder="Nombre, apellidos..."
-                           [(ngModel)]="search"
-                           #searchBox>
-                    <span matTextPrefix>
-                        <mat-icon>search</mat-icon>
-                    </span>
-                </mat-form-field>
-                <mat-action-list class="clientes-list">
-                    @for (cliente of filteredClientes(); track cliente.id) {
-                    <button mat-list-item
-                            (click)="selectCliente(cliente)"
-                            [class]="{'selected-client': selectedClient.id === cliente.id}">
-                        {{ cliente.nombreApellidos }}
-                    </button>
-                    }
-                </mat-action-list>
-                <div class="new-client">
-                    <button mat-flat-button
-                            color="primary"
-                            (click)="newCliente()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        Añadir cliente
-                    </button>
-                </div>
-            </aside>
-            <main>
-                <div [class]="{'show': start}"
-                     class="start-message">Elige un cliente de la lista.</div>
-                <div [class]="{'show': !start}"
-                     class="main-body">
-                    <form [formGroup]="form"
-                          (ngSubmit)="onSubmit()">
-                        <mat-tab-group dynamicHeight
-                                       [selectedIndex]="selectedIndex"
-                                       (selectedIndexChange)="selectedIndex = $event"
-                                       #clienteTabs>
-                            <mat-tab label="DATOS">
-                                <div>
-                                    <div class="form-field half-width">
-                                        <label>Nombre y apellidos (*)</label>
-                                        <mat-form-field class="max-width form-title">
-                                            <input matInput
-                                                   placeholder="Nombre y apellidos"
-                                                   formControlName="nombreApellidos"
-                                                   #nameBox>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field half-width">
-                                        <label>Email</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Email"
-                                                   formControlName="email"
-                                                   #emailBox>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field third-width">
-                                        <label>DNI / CIF</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="DNI / CIF"
-                                                   formControlName="dniCif">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Teléfono</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Teléfono"
-                                                   formControlName="telefono">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Descuento</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   type="number"
-                                                   min="0"
-                                                   max="100"
-                                                   step="1"
-                                                   placeholder="Descuento"
-                                                   formControlName="descuento">
-                                            <span matTextSuffix>%</span>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Dirección</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Dirección"
-                                                   formControlName="direccion">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field third-width">
-                                        <label>Código postal</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Código postal"
-                                                   formControlName="codigoPostal">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Población</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Población"
-                                                   formControlName="poblacion">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Provincia</label>
-                                        <mat-form-field class="max-width">
-                                            <mat-select formControlName="provincia">
-                                                @for (provincia of provincias; track provincia.id) {
-                                                <mat-option [value]="provincia.id">
-                                                    {{ provincia.name }}
-                                                </mat-option>
-                                                }
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Observaciones</label>
-                                        <mat-form-field class="max-width">
-                                            <textarea matInput
-                                                      placeholder="Observaciones"
-                                                      formControlName="observaciones"
-                                                      rows="5"></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <div class="delete">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="warn"
-                                                type="button"
-                                                (click)="deleteCliente()">Eliminar</button>
+        <div class="header">
+            <span class="title">Clientes</span>
+            <div class="select-client">
+                @if (start()) {
+                <span class="client-button"
+                      (click)="findCliente()"
+                      matTooltip="Elegir cliente">
+                    <mat-icon>search</mat-icon>
+                </span>
+                }
+                @else {
+                <span class="client-name">{{ selectedClient.nombreApellidos }}</span>
+                <span class="client-button"
+                      (click)="removeCliente()"
+                      matTooltip="Quitar cliente">
+                    <mat-icon>close</mat-icon>
+                </span>
+                }
+                <span class="client-button"
+                      (click)="newCliente()"
+                      matTooltip="Añadir cliente">
+                    <mat-icon>person_add</mat-icon>
+                </span>
+            </div>
+        </div>
+        <div [class]="{'show': start()}"
+             class="start-message">Elige un cliente usando el buscador.</div>
+        <div [class]="{'show': !start()}"
+             class="main-body">
+            <form [formGroup]="form"
+                  (ngSubmit)="onSubmit()">
+                <mat-tab-group dynamicHeight
+                               [selectedIndex]="selectedIndex"
+                               (selectedIndexChange)="selectedIndex = $event"
+                               #clienteTabs>
+                    <mat-tab label="DATOS">
+                        <div>
+                            <div class="form-field half-width">
+                                <label>Nombre y apellidos (*)</label>
+                                <mat-form-field class="max-width form-title">
+                                    <input matInput
+                                           placeholder="Nombre y apellidos"
+                                           formControlName="nombreApellidos"
+                                           #nameBox>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field half-width">
+                                <label>Email</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Email"
+                                           formControlName="email"
+                                           #emailBox>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field third-width">
+                                <label>DNI / CIF</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="DNI / CIF"
+                                           formControlName="dniCif">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Teléfono</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Teléfono"
+                                           formControlName="telefono">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Descuento</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="1"
+                                           placeholder="Descuento"
+                                           formControlName="descuento">
+                                    <span matTextSuffix>%</span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Dirección</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Dirección"
+                                           formControlName="direccion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field third-width">
+                                <label>Código postal</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Código postal"
+                                           formControlName="codigoPostal">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Población</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Población"
+                                           formControlName="poblacion">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Provincia</label>
+                                <mat-form-field class="max-width">
+                                    <mat-select formControlName="provincia">
+                                        @for (provincia of provincias; track provincia.id) {
+                                        <mat-option [value]="provincia.id">
+                                            {{ provincia.name }}
+                                        </mat-option>
                                         }
-                                    </div>
-                                    <div class="others">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="primary"
-                                                type="button"
-                                                (click)="imprimirLOPD()">Imprimir LOPD</button>
-                                        }
-                                        <button mat-flat-button
-                                                color="primary"
-                                                [disabled]="!form.dirty"
-                                                type="button"
-                                                (click)="resetForm()">Cancelar</button>
-                                        <button mat-flat-button
-                                                type="submit"
-                                                color="primary"
-                                                [disabled]="!form.valid">Guardar</button>
-                                    </div>
-                                </div>
-                            </mat-tab>
-                            <mat-tab label="DATOS FACTURACIÓN">
-                                <div class="same-data"
-                                     [class]="{'selected': !selectedClient.factIgual}">
-                                    <mat-checkbox formControlName="factIgual">
-                                        Mismos datos para la facturación.
-                                    </mat-checkbox>
-                                </div>
-                                @if ( !form.value.factIgual ) {
-                                <div>
-                                    <div class="form-field half-width">
-                                        <label>Nombre y apellidos</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Nombre y apellidos"
-                                                   formControlName="factNombreApellidos">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field half-width">
-                                        <label>DNI / CIF</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="DNI / CIF"
-                                                   formControlName="factDniCif">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field half-width">
-                                        <label>Teléfono</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Teléfono"
-                                                   formControlName="factTelefono">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field half-width">
-                                        <label>Email</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Email"
-                                                   formControlName="factEmail">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Dirección</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Dirección"
-                                                   formControlName="factDireccion">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field third-width">
-                                        <label>Código postal</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Código postal"
-                                                   formControlName="factCodigoPostal">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Población</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Población"
-                                                   formControlName="factPoblacion">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form-field third-width">
-                                        <label>Provincia</label>
-                                        <mat-form-field class="max-width">
-                                            <mat-select formControlName="factProvincia">
-                                                @for (provincia of provincias; track provincia.id) {
-                                                <mat-option [value]="provincia.id">
-                                                    {{ provincia.name }}
-                                                </mat-option>
-                                                }
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <div class="delete">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="warn"
-                                                type="button"
-                                                (click)="deleteCliente()">Eliminar</button>
-                                        }
-                                    </div>
-                                    <div class="others">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="primary"
-                                                type="button"
-                                                (click)="imprimirLOPD()">Imprimir LOPD</button>
-                                        }
-                                        <button mat-flat-button
-                                                color="primary"
-                                                [disabled]="!form.dirty"
-                                                type="button"
-                                                (click)="resetForm()">Cancelar</button>
-                                        <button mat-flat-button
-                                                type="submit"
-                                                color="primary"
-                                                [disabled]="!form.valid">Guardar</button>
-                                    </div>
-                                </div>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Observaciones</label>
+                                <mat-form-field class="max-width">
+                                    <textarea matInput
+                                              placeholder="Observaciones"
+                                              formControlName="observaciones"
+                                              rows="5"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="warn"
+                                        type="button"
+                                        (click)="deleteCliente()">Eliminar</button>
                                 }
-                            </mat-tab>
-                            @if (form.value.id) {
-                            <mat-tab label="FACTURAS">
-                                <table [class]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
-                                       mat-table
-                                       [dataSource]="facturasDataSource"
-                                       matSort
-                                       class="mat-elevation-z2"
-                                       #facturasTable>
-
-                                    <!-- Id -->
-                                    <ng-container matColumnDef="id">
-                                        <th mat-header-cell
-                                            *matHeaderCellDef>
-                                            Factura
-                                        </th>
-                                        <td mat-cell
-                                            *matCellDef="let element"> {{ element.id }} </td>
-                                    </ng-container>
-
-                                    <!-- Fecha -->
-                                    <ng-container matColumnDef="fecha">
-                                        <th mat-header-cell
-                                            *matHeaderCellDef>
-                                            Fecha
-                                        </th>
-                                        <td mat-cell
-                                            *matCellDef="let element"> {{ element.fecha }} </td>
-                                    </ng-container>
-
-                                    <!-- Importe -->
-                                    <ng-container matColumnDef="importe">
-                                        <th class="center"
-                                            mat-header-cell
-                                            *matHeaderCellDef>
-                                            Importe
-                                        </th>
-                                        <td class="center"
-                                            mat-cell
-                                            *matCellDef="let element"> {{ element.importe | fixedNumber }} € </td>
-                                    </ng-container>
-
-                                    <!-- Opciones -->
-                                    <ng-container matColumnDef="opciones">
-                                        <th class="center"
-                                            mat-header-cell
-                                            *matHeaderCellDef>
-                                            Imprimir
-                                        </th>
-                                        <td class="center"
-                                            mat-cell
-                                            *matCellDef="let element">
-                                            @if (element.impresa && selectedClient.email !== null && selectedClient.email !== '') {
-                                            <button class="facturas-btn"
-                                                    type="button"
-                                                    mat-icon-button
-                                                    (click)="enviarFactura($event, element)">
-                                                <mat-icon>email</mat-icon>
-                                            </button>
-                                            }
-                                            @if (element.impresa) {
-                                            <button class="facturas-btn"
-                                                    type="button"
-                                                    mat-icon-button
-                                                    (click)="imprimirFactura($event, element)">
-                                                <mat-icon>print</mat-icon>
-                                            </button>
-                                            }
-                                        </td>
-                                    </ng-container>
-
-                                    <tr mat-header-row
-                                        *matHeaderRowDef="facturasDisplayedColumns"></tr>
-                                    <tr class="clickable"
-                                        mat-row
-                                        (click)="selectFactura(i)"
-                                        *matRowDef="let row; columns: facturasDisplayedColumns; let i = index;"></tr>
-                                </table>
-                                @if (selectedClient.facturas.length === 0) {
-                                <div class="no-facturas">
-                                    Este cliente todavía no tiene ninguna factura.
-                                </div>
+                            </div>
+                            <div class="others">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="primary"
+                                        type="button"
+                                        (click)="imprimirLOPD()">Imprimir LOPD</button>
                                 }
-                                <div class="new-factura">
-                                    <button mat-flat-button
+                                <button mat-flat-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-flat-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="DATOS FACTURACIÓN">
+                        <div class="same-data"
+                             [class]="{'selected': !selectedClient.factIgual}">
+                            <mat-checkbox formControlName="factIgual">
+                                Mismos datos para la facturación.
+                            </mat-checkbox>
+                        </div>
+                        @if ( !form.value.factIgual ) {
+                        <div>
+                            <div class="form-field half-width">
+                                <label>Nombre y apellidos</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Nombre y apellidos"
+                                           formControlName="factNombreApellidos">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field half-width">
+                                <label>DNI / CIF</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="DNI / CIF"
+                                           formControlName="factDniCif">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field half-width">
+                                <label>Teléfono</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Teléfono"
+                                           formControlName="factTelefono">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field half-width">
+                                <label>Email</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Email"
+                                           formControlName="factEmail">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Dirección</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Dirección"
+                                           formControlName="factDireccion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field third-width">
+                                <label>Código postal</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Código postal"
+                                           formControlName="factCodigoPostal">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Población</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Población"
+                                           formControlName="factPoblacion">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-field third-width">
+                                <label>Provincia</label>
+                                <mat-form-field class="max-width">
+                                    <mat-select formControlName="factProvincia">
+                                        @for (provincia of provincias; track provincia.id) {
+                                        <mat-option [value]="provincia.id">
+                                            {{ provincia.name }}
+                                        </mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="warn"
+                                        type="button"
+                                        (click)="deleteCliente()">Eliminar</button>
+                                }
+                            </div>
+                            <div class="others">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="primary"
+                                        type="button"
+                                        (click)="imprimirLOPD()">Imprimir LOPD</button>
+                                }
+                                <button mat-flat-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-flat-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
+                            </div>
+                        </div>
+                        }
+                    </mat-tab>
+                    @if (form.value.id) {
+                    <mat-tab label="FACTURAS">
+                        <table [class]="{'tabla-facturas-hide': selectedClient.facturas.length === 0}"
+                               mat-table
+                               [dataSource]="facturasDataSource"
+                               matSort
+                               class="mat-elevation-z2"
+                               #facturasTable>
+
+                            <!-- Id -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Factura
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let element"> {{ element.id }} </td>
+                            </ng-container>
+
+                            <!-- Fecha -->
+                            <ng-container matColumnDef="fecha">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Fecha
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let element"> {{ element.fecha }} </td>
+                            </ng-container>
+
+                            <!-- Importe -->
+                            <ng-container matColumnDef="importe">
+                                <th class="center"
+                                    mat-header-cell
+                                    *matHeaderCellDef>
+                                    Importe
+                                </th>
+                                <td class="center"
+                                    mat-cell
+                                    *matCellDef="let element"> {{ element.importe | fixedNumber }} € </td>
+                            </ng-container>
+
+                            <!-- Opciones -->
+                            <ng-container matColumnDef="opciones">
+                                <th class="center"
+                                    mat-header-cell
+                                    *matHeaderCellDef>
+                                    Imprimir
+                                </th>
+                                <td class="center"
+                                    mat-cell
+                                    *matCellDef="let element">
+                                    @if (element.impresa && selectedClient.email !== null && selectedClient.email !== '') {
+                                    <button class="facturas-btn"
                                             type="button"
-                                            color="primary"
-                                            (click)="nuevaFactura()">
-                                        Nueva factura
+                                            mat-icon-button
+                                            (click)="enviarFactura($event, element)">
+                                        <mat-icon>email</mat-icon>
                                     </button>
+                                    }
+                                    @if (element.impresa) {
+                                    <button class="facturas-btn"
+                                            type="button"
+                                            mat-icon-button
+                                            (click)="imprimirFactura($event, element)">
+                                        <mat-icon>print</mat-icon>
+                                    </button>
+                                    }
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row
+                                *matHeaderRowDef="facturasDisplayedColumns"></tr>
+                            <tr class="clickable"
+                                mat-row
+                                (click)="selectFactura(i)"
+                                *matRowDef="let row; columns: facturasDisplayedColumns; let i = index;"></tr>
+                        </table>
+                        @if (selectedClient.facturas.length === 0) {
+                        <div class="no-facturas">
+                            Este cliente todavía no tiene ninguna factura.
+                        </div>
+                        }
+                        <div class="new-factura">
+                            <button mat-flat-button
+                                    type="button"
+                                    color="primary"
+                                    (click)="nuevaFactura()">
+                                Nueva factura
+                            </button>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="VENTAS">
+                        <otpv-ventas-cliente [selectedClient]="selectedClient" />
+                    </mat-tab>
+                    <mat-tab label="ESTADÍSTICAS">
+                        <div class="stats-box">
+                            <label>Últimas ventas</label>
+                            <div class="stats-table">
+                                <div class="stats-table-header">
+                                    <div class="stats-table-col">Fecha</div>
+                                    <div class="stats-table-col">Localizador</div>
+                                    <div class="stats-table-col stats-table-col-3">Nombre</div>
+                                    <div class="stats-table-col">Unidades</div>
+                                    <div class="stats-table-col">PVP</div>
+                                    <div class="stats-table-col">Importe</div>
                                 </div>
-                            </mat-tab>
-                            <mat-tab label="VENTAS">
-                                <otpv-ventas-cliente [selectedClient]="selectedClient" />
-                            </mat-tab>
-                            <mat-tab label="ESTADÍSTICAS">
-                                <div class="stats-box">
-                                    <label>Últimas ventas</label>
-                                    <div class="stats-table">
-                                        <div class="stats-table-header">
-                                            <div class="stats-table-col">Fecha</div>
-                                            <div class="stats-table-col">Localizador</div>
-                                            <div class="stats-table-col stats-table-col-3">Nombre</div>
-                                            <div class="stats-table-col">Unidades</div>
-                                            <div class="stats-table-col">PVP</div>
-                                            <div class="stats-table-col">Importe</div>
-                                        </div>
-                                        <div class="stats-table-data">
-                                            @for (venta of selectedClient.ultimasVentas; track venta) {
-                                            <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">{{ venta.fecha }}</div>
-                                                <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
-                                                <div class="stats-table-col stats-table-col-3">{{ venta.nombre }}</div>
-                                                <div class="stats-table-col stats-table-col-center">{{ venta.unidades }}</div>
-                                                <div class="stats-table-col stats-table-col-right">{{ (venta.pvp ?? 0) | fixedNumber }} €</div>
-                                                <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
-                                            </div>
-                                            }
-                                            @empty {
-                                            <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
-                                            </div>
-                                            }
-                                        </div>
+                                <div class="stats-table-data">
+                                    @for (venta of selectedClient.ultimasVentas; track venta) {
+                                    <div class="stats-table-row">
+                                        <div class="stats-table-col stats-table-col-center">{{ venta.fecha }}</div>
+                                        <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
+                                        <div class="stats-table-col stats-table-col-3">{{ venta.nombre }}</div>
+                                        <div class="stats-table-col stats-table-col-center">{{ venta.unidades }}</div>
+                                        <div class="stats-table-col stats-table-col-right">{{ (venta.pvp ?? 0) | fixedNumber }} €</div>
+                                        <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
                                     </div>
-                                </div>
-                                <div class="stats-box">
-                                    <label>Top ventas</label>
-                                    <div class="stats-table">
-                                        <div class="stats-table-header">
-                                            <div class="stats-table-col">Localizador</div>
-                                            <div class="stats-table-col stats-table-col-5">Nombre</div>
-                                            <div class="stats-table-col">Importe</div>
-                                        </div>
-                                        <div class="stats-table-data">
-                                            @for (venta of selectedClient.topVentas; track venta.localizador) {
-                                            <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
-                                                <div class="stats-table-col stats-table-col-5">{{ venta.nombre }}</div>
-                                                <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
-                                            </div>
-                                            }
-                                            @empty {
-                                            <div class="stats-table-row">
-                                                <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
-                                            </div>
-                                            }
-                                        </div>
+                                    }
+                                    @empty {
+                                    <div class="stats-table-row">
+                                        <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
                                     </div>
+                                    }
                                 </div>
-                                <div class="stats-box">
-                                    <label>Consumo mensual</label>
-                                    <div class="stats-data"></div>
-                                    <div class="stats-controls">
-                                        <div class="form-field">
-                                            <label>Mes</label>
-                                            <mat-form-field>
-                                                <mat-select [(ngModel)]="stats.month"
-                                                            [ngModelOptions]="{standalone: true}">
-                                                    <mat-option [value]="-1">Todos</mat-option>
-                                                    @for (month of monthList; track month.id) {
-                                                    <mat-option [value]="month.id">
-                                                        {{ month.name }}
-                                                    </mat-option>
-                                                    }
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field">
-                                            <label>Año</label>
-                                            <mat-form-field>
-                                                <mat-select [(ngModel)]="stats.year"
-                                                            [ngModelOptions]="{standalone: true}">
-                                                    <mat-option [value]="-1">Todos</mat-option>
-                                                    @for (year of yearList; track year) {
-                                                    <mat-option [value]="year">
-                                                        {{ year }}
-                                                    </mat-option>
-                                                    }
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
+                            </div>
+                        </div>
+                        <div class="stats-box">
+                            <label>Top ventas</label>
+                            <div class="stats-table">
+                                <div class="stats-table-header">
+                                    <div class="stats-table-col">Localizador</div>
+                                    <div class="stats-table-col stats-table-col-5">Nombre</div>
+                                    <div class="stats-table-col">Importe</div>
+                                </div>
+                                <div class="stats-table-data">
+                                    @for (venta of selectedClient.topVentas; track venta.localizador) {
+                                    <div class="stats-table-row">
+                                        <div class="stats-table-col stats-table-col-center">{{ venta.localizador }}</div>
+                                        <div class="stats-table-col stats-table-col-5">{{ venta.nombre }}</div>
+                                        <div class="stats-table-col stats-table-col-right">{{ (venta.importe ?? 0) | fixedNumber }} €</div>
                                     </div>
+                                    }
+                                    @empty {
+                                    <div class="stats-table-row">
+                                        <div class="stats-table-col stats-table-col-center">El cliente todavía no tiene ninguna venta.</div>
+                                    </div>
+                                    }
                                 </div>
-                            </mat-tab>
-                            }
-                        </mat-tab-group>
-                    </form>
-                </div>
-            </main>
+                            </div>
+                        </div>
+                        <div class="stats-box">
+                            <label>Consumo mensual</label>
+                            <div class="stats-data"></div>
+                            <div class="stats-controls">
+                                <div class="form-field">
+                                    <label>Mes</label>
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="stats.month"
+                                                    [ngModelOptions]="{standalone: true}">
+                                            <mat-option [value]="-1">Todos</mat-option>
+                                            @for (month of monthList; track month.id) {
+                                            <mat-option [value]="month.id">
+                                                {{ month.name }}
+                                            </mat-option>
+                                            }
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field">
+                                    <label>Año</label>
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="stats.year"
+                                                    [ngModelOptions]="{standalone: true}">
+                                            <mat-option [value]="-1">Todos</mat-option>
+                                            @for (year of yearList; track year) {
+                                            <mat-option [value]="year">
+                                                {{ year }}
+                                            </mat-option>
+                                            }
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    }
+                </mat-tab-group>
+            </form>
         </div>
     </mat-card-content>
 </mat-card>

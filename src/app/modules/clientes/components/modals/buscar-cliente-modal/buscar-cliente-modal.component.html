@@ -1,0 +1,69 @@
+<div class="buscar-clientes">
+    <mat-form-field class="buscador">
+        <input matInput
+               placeholder="Introduce el nombre, apellidos, teléfono o email del cliente a buscar"
+               [(ngModel)]="elegirClienteNombre"
+               (input)="searchStart()"
+               autocomplete="off"
+               #buscarClienteBoxName>
+    </mat-form-field>
+    @if (searched()) {
+    <div class="elegir-clientes-result">
+        <table mat-table
+               [dataSource]="buscadorDataSource"
+               matSort
+               class="mat-elevation-z2 ">
+
+            <!-- Nombre y apellidos -->
+            <ng-container matColumnDef="nombreApellidos">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por nombre y apellidos">
+                    Nombre
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{ element.nombreApellidos }} </td>
+            </ng-container>
+
+            <!-- Teléfono -->
+            <ng-container matColumnDef="telefono">
+                <th mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por teléfono">
+                    Teléfono
+                </th>
+                <td mat-cell
+                    *matCellDef="let element"> {{ element.telefono }} </td>
+            </ng-container>
+
+            <!-- Última venta -->
+            <ng-container matColumnDef="ultimaVenta">
+                <th class="center"
+                    mat-header-cell
+                    *matHeaderCellDef
+                    mat-sort-header
+                    sortActionDescription="Ordenar por última venta">
+                    Última venta
+                </th>
+                <td class="center"
+                    mat-cell
+                    *matCellDef="let element"> {{ element.ultimaVenta ? element.ultimaVenta : '-' }} </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="buscadorDisplayedColumns"></tr>
+            <tr mat-row
+                class="clickable"
+                (click)="selectCliente(row)"
+                *matRowDef="let row; columns: buscadorDisplayedColumns;"></tr>
+        </table>
+        @if (searchResult().length === 0) {
+        <div class="elegir-clientes-no-result">
+            No se han encontrado resultados.
+        </div>
+        }
+    </div>
+    }
+</div>

@@ -1,114 +1,108 @@
 .clientes {
   margin: 16px;
-  height: calc(100% - 96px);
 
   .full-height {
     height: 100%;
   }
 
-  aside {
-    padding: 16px;
-    border-right: 1px solid var(--separator-color);
-    flex: 1;
-    height: 100%;
-    box-sizing: border-box;
+  .header {
+    display: flex;
+    margin-bottom: 8px;
+    height: 48px;
+    align-items: center;
 
-    .search {
-      .mat-form-field-wrapper {
-        padding-bottom: 0;
-      }
+    .title {
+      font-size: 24px;
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
-    .clientes-list {
-      height: calc(100% - 101px);
-      overflow-y: auto;
+    .select-client {
+      display: flex;
+      align-items: center;
 
-      .selected-client {
-        background-color: var(--color-very-light-grey);
-      }
-    }
+      .client-button {
+        display: inline-flex;
+        margin: 0 8px;
+        font-weight: bold;
+        height: 48px;
+        align-items: center;
+        width: 50px;
+        justify-content: center;
+        cursor: pointer;
 
-    .new-client {
-      border-top: 1px solid var(--separator-color);
-      margin-top: 16px;
-
-      button {
-        width: 100%;
-        display: block;
-        margin-top: 8px;
-        text-align: left;
-
-        .sub-line {
-          color: var(--color-dark-grey);
-          margin-top: 4px;
+        &:hover {
+          background-color: var(--color-medium-light-grey);
+          border-radius: 6px;
         }
+      }
+
+      .client-name {
+        font-weight: bold;
       }
     }
   }
 
-  main {
-    padding: 16px;
-    flex: 8;
+  .start-message {
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
 
-    .start-message {
-      width: 100%;
-      height: 100%;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5em;
+    &.show {
+      display: flex;
+    }
+  }
 
-      &.show {
-        display: flex;
+  .main-body {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    .same-data {
+      height: 40px;
+
+      &.selected {
+        border-bottom: 1px solid var(--color-light-grey);
+        margin-bottom: 16px;
       }
     }
 
-    .main-body {
+    .no-facturas {
+      text-align: center;
+      font-size: 1.2em;
+      margin: 32px 0;
+    }
+
+    .new-factura {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .tabla-facturas-hide {
       display: none;
+    }
 
-      &.show {
-        display: block;
+    .actions {
+      display: flex;
+
+      .delete {
+        flex: 2;
       }
 
-      .same-data {
-        height: 40px;
-
-        &.selected {
-          border-bottom: 1px solid var(--color-light-grey);
-          margin-bottom: 16px;
-        }
-      }
-
-      .no-facturas {
-        text-align: center;
-        font-size: 1.2em;
-        margin: 32px 0;
-      }
-
-      .new-factura {
-        text-align: center;
-        margin-bottom: 32px;
-      }
-
-      .tabla-facturas-hide {
-        display: none;
-      }
-
-      .actions {
+      .others {
+        flex: 1;
         display: flex;
+        justify-content: space-around;
 
-        .delete {
-          flex: 2;
-        }
-
-        .others {
-          flex: 1;
-          display: flex;
-          justify-content: space-around;
-
-          button {
-            margin-left: 16px;
-          }
+        button {
+          margin-left: 16px;
         }
       }
     }

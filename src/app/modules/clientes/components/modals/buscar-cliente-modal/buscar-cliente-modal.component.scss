@@ -1,0 +1,17 @@
+.buscar-clientes {
+    min-width: 500px;
+
+    .buscador {
+        width: 100%;
+    }
+
+    .elegir-clientes-result {
+        height: 500px;
+        overflow-y: auto;
+
+        .elegir-clientes-no-result {
+            padding: 4px;
+            text-align: center;
+        }
+    }
+}

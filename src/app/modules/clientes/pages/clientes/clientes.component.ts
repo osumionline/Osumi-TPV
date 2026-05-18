@@ -1,6 +1,5 @@
 import {
   Component,
-  computed,
   ElementRef,
   inject,
   input,
@@ -24,11 +23,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatTooltip } from '@angular/material/tooltip';
 import { ChartSelectInterface } from '@interfaces/articulo.interface';
 import {
   ClienteSaveResult,
@@ -40,9 +39,10 @@ import { FacturaModal } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
+import BuscarClienteModalComponent from '@modules/clientes/components/modals/buscar-cliente-modal/buscar-cliente-modal.component';
 import EditFacturaModalComponent from '@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component';
 import VentasClienteComponent from '@modules/clientes/components/ventas-cliente/ventas-cliente.component';
-import { DialogService, OverlayService } from '@osumi/angular-tools';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import ConfigService from '@services/config.service';
@@ -66,14 +66,13 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatButton,
     MatIconButton,
     MatIcon,
-    MatActionList,
-    MatListItem,
     MatTabGroup,
     MatTab,
     MatSelect,
     MatOption,
     MatTableModule,
     MatCheckbox,
+    MatTooltip,
     VentasClienteComponent,
   ],
 })
@@ -86,28 +85,13 @@ export default class ClientesComponent implements OnInit {
 
   isnew: InputSignal<string | undefined> = input.required<string | undefined>();
   broadcastChannel: BroadcastChannel = new BroadcastChannel('cliente-facturas');
-  search: WritableSignal<string> = signal<string>('');
-  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
-  start: boolean = true;
+  start: WritableSignal<boolean> = signal<boolean>(true);
   clienteTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('clienteTabs');
   selectedIndex: number = 0;
   selectedClient: Cliente = new Cliente();
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
   emailBox: Signal<ElementRef> = viewChild.required<ElementRef>('emailBox');
   focusEmail: boolean = false;
-
-  clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([...this.cs.clientes()]);
-  filteredClientes: Signal<Cliente[]> = computed<Cliente[]>((): Cliente[] => {
-    const term: string = (this.search() || '').trim().toLowerCase();
-    if (!term) {
-      return this.clientes();
-    }
-
-    return this.clientes().filter((c: Cliente): boolean => {
-      const nombre: string = c?.nombreApellidos ?? '';
-      return nombre.toLowerCase().includes(term);
-    });
-  });
 
   provincias: ProvinceInterface[] = this.config.provincias();
 
@@ -167,13 +151,32 @@ export default class ClientesComponent implements OnInit {
         this.focusEmail = true;
         this.selectCliente(this.cs.clientes()[ind]);
       }
-    } else {
-      this.searchBox().nativeElement.focus();
     }
   }
 
+  findCliente(): void {
+    const modalData: Modal = {
+      modalTitle: 'Seleccionar cliente',
+      modalColor: 'blue',
+    };
+    const dialog = this.overlayService.open(BuscarClienteModalComponent, modalData);
+    dialog.afterClosed$.subscribe((data): void => {
+      if (data.data !== null) {
+        const cliente: Cliente = data.data;
+        this.selectCliente(cliente);
+      }
+    });
+  }
+
+  removeCliente(): void {
+    this.start.set(true);
+    this.selectedClient = new Cliente();
+    this.form.reset();
+    this.facturasDataSource.data = [];
+  }
+
   selectCliente(cliente: Cliente): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedClient = cliente;
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
@@ -183,7 +186,7 @@ export default class ClientesComponent implements OnInit {
       .subscribe((result: EstadisticasClienteResult): void => {
         if (result.status === ApiStatusEnum.OK) {
           this.selectedClient.ultimasVentas = this.cms.getUltimaVentaArticulos(
-            result.ultimasVentas
+            result.ultimasVentas,
           );
           this.selectedClient.topVentas = this.cms.getTopVentaArticulos(result.topVentas);
         }
@@ -216,7 +219,7 @@ export default class ClientesComponent implements OnInit {
   }
 
   newCliente(): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedClient = new Cliente();
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
@@ -277,7 +280,7 @@ export default class ClientesComponent implements OnInit {
       .subscribe((result: StatusResult): void => {
         if (result.status === ApiStatusEnum.OK) {
           this.cs.resetClientes();
-          this.start = true;
+          this.start.set(true);
           this.dialog.alert({
             title: 'Cliente borrado',
             content:

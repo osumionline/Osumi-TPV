@@ -63,7 +63,7 @@
                     (click)="selectCliente(row)"
                     *matRowDef="let row; columns: buscadorDisplayedColumns;"></tr>
             </table>
-            @if (searchResult.length === 0) {
+            @if (searchResult().length === 0) {
             <div class="elegir-clientes-no-result">
                 No se han encontrado resultados.
             </div>
