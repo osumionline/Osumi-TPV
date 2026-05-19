@@ -114,6 +114,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
   reList: number[] = [];
   tipoIva: string = this.config.tipoIva;
   proveedores: Proveedor[] = this.ps.proveedores();
+  btnAddProveedor: Signal<MatButton> = viewChild.required<MatButton>('btnAddProveedor');
 
   metodosPago: string[] = [
     'Domiciliación bancaria',
@@ -396,6 +397,9 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     const dialog = this.overlayService.open<NewProveedorModalResult>(
       NewProveedorModalComponent,
       modalnewProveedorData,
+      [],
+      true,
+      this.btnAddProveedor()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null && data.data.result !== null) {

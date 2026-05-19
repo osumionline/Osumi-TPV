@@ -8,7 +8,7 @@
                 (click)="back()">
             <mat-icon>chevron_left</mat-icon>
         </button>
-        <span>{{titulo}}</span>
+        <span>{{ titulo }}</span>
         <div class="actions">
             @if (pedido.id !== null && !pedido.recepcionado) {
             <button mat-flat-button
@@ -44,7 +44,7 @@
                             <mat-option [value]="-1">Elige proveedor</mat-option>
                             @for (proveedor of proveedores; track proveedor.id) {
                             <mat-option [value]="proveedor.id">
-                                {{proveedor.nombre}}
+                                {{ proveedor.nombre }}
                             </mat-option>
                             }
                         </mat-select>
@@ -52,7 +52,8 @@
                     <button mat-icon-button
                             matTooltip="Añadir nuevo proveedor"
                             type="button"
-                            (click)="openProveedor()">
+                            (click)="openProveedor()"
+                            #btnAddProveedor>
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
@@ -62,7 +63,7 @@
                         <mat-select [(ngModel)]="pedido.idMetodoPago">
                             @for (metodo of metodosPago; track metodo; let i = $index) {
                             <mat-option [value]="i">
-                                {{metodo}}
+                                {{ metodo }}
                             </mat-option>
                             }
                         </mat-select>
@@ -82,7 +83,7 @@
                     <label>&nbsp;</label>
                     <mat-form-field subscriptSizing="dynamic">
                         <input matInput
-                               placeholder="Número {{pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo}}"
+                               [placeholder]="`Número ${ pedido.tipo === 'albaran' ? 'albarán' : pedido.tipo }`"
                                [(ngModel)]="pedido.num"
                                #numAlbaranFacturaBox>
                     </mat-form-field>
@@ -140,7 +141,7 @@
                             @if (!option.default) {
                             <mat-option [value]="option.id"
                                         (click)="tosslePerOne()">
-                                {{option.value}}
+                                {{ option.value }}
                             </mat-option>
                             }
                             }
@@ -181,7 +182,7 @@
                         Loc.
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.localizador}} </td>
+                        *matCellDef="let element">{{ element.localizador }}</td>
                 </ng-container>
 
                 <!-- Nombre artículo -->
@@ -195,7 +196,7 @@
                         <a href="#"
                            tabindex="-1"
                            (click)="goToArticulo(element.localizador, $event)">
-                            {{element.nombreArticulo}}
+                            {{ element.nombreArticulo }}
                         </a>
                         @if (element.mostrarObsPedidos) {
                         <mat-icon [matTooltip]="element.observaciones"
@@ -211,7 +212,7 @@
                         Referencia
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.referencia}} </td>
+                        *matCellDef="let element">{{ element.referencia }}</td>
                 </ng-container>
 
                 <!-- Marca -->
@@ -221,7 +222,7 @@
                         Marca
                     </th>
                     <td mat-cell
-                        *matCellDef="let element"> {{element.marca}} </td>
+                        *matCellDef="let element">{{ element.marca }}</td>
                 </ng-container>
 
                 <!-- Código barras -->
@@ -242,14 +243,14 @@
                                         subscriptSizing="dynamic">
                             <input matInput
                                    placeholder="Cod. Barras"
-                                   id="tabla-codBarras-{{element.localizador}}"
+                                   [id]="`tabla-codBarras-${element.localizador}`"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    [(ngModel)]="element.codBarras">
                         </mat-form-field>
                         }
                         @if (pedido.recepcionado) {
-                        <span>{{element.codBarras}}</span>
+                        <span>{{ element.codBarras }}</span>
                         }
                     </td>
                 </ng-container>
@@ -270,7 +271,7 @@
                             <input matInput
                                    placeholder="Unidades"
                                    type="number"
-                                   id="tabla-unidades-{{element.localizador}}"
+                                   [id]="`tabla-unidades-${element.localizador}`"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
@@ -278,7 +279,7 @@
                         </mat-form-field>
                         }
                         @else {
-                        <span>{{element.unidades}}</span>
+                        <span>{{ element.unidades }}</span>
                         }
                     </td>
                 </ng-container>
@@ -292,7 +293,7 @@
                     </th>
                     <td class="right"
                         mat-cell
-                        *matCellDef="let element"> {{element.stock}} </td>
+                        *matCellDef="let element">{{ element.stock }}</td>
                 </ng-container>
 
                 <!-- Stock final -->
@@ -304,7 +305,7 @@
                     </th>
                     <td class="right"
                         mat-cell
-                        *matCellDef="let element"> {{element.stock + element.unidades}} </td>
+                        *matCellDef="let element">{{ element.stock + element.unidades }}</td>
                 </ng-container>
 
                 <!-- Precio Albarán -->
@@ -323,7 +324,7 @@
                             <input matInput
                                    placeholder="P. Alb."
                                    type="number"
-                                   id="tabla-palb-{{element.localizador}}"
+                                   [id]="`tabla-palb-${element.localizador}`"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
@@ -333,7 +334,7 @@
                         </mat-form-field>
                         }
                         @else {
-                        <span>{{element.palb | fixedNumber}} €</span>
+                        <span>{{ element.palb | fixedNumber }} €</span>
                         }
                     </td>
                 </ng-container>
@@ -354,7 +355,7 @@
                             <input matInput
                                    placeholder="Descuento"
                                    type="number"
-                                   id="tabla-descuento-{{element.localizador}}"
+                                   [id]="`tabla-descuento-${element.localizador}`"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
@@ -363,7 +364,7 @@
                         </mat-form-field>
                         }
                         @else {
-                        <span>{{element.descuento}} %</span>
+                        <span>{{ element.descuento }} %</span>
                         }
                     </td>
                 </ng-container>
@@ -377,7 +378,7 @@
                     </th>
                     <td mat-cell
                         class="right"
-                        *matCellDef="let element"> {{element.subtotal | fixedNumber}} € </td>
+                        *matCellDef="let element">{{ element.subtotal | fixedNumber }} €</td>
                 </ng-container>
 
                 <!-- IVA -->
@@ -385,7 +386,7 @@
                     <th mat-header-cell
                         *matHeaderCellDef
                         class="right">
-                        IVA {{pedido.re ? ' + RE' : ''}}
+                        IVA {{ pedido.re ? ' + RE' : '' }}
                     </th>
                     <td mat-cell
                         class="right"
@@ -397,7 +398,7 @@
                                         (ngModelChange)="updateIva($event, element)">
                                 @for (iva of ivaList; track iva) {
                                 <mat-option [value]="iva">
-                                    {{iva}} %
+                                    {{ iva }} %
                                 </mat-option>
                                 }
                             </mat-select>
@@ -410,7 +411,7 @@
                                         (ngModelChange)="updateRe($event, element)">
                                 @for (re of reList; track re) {
                                 <mat-option [value]="re">
-                                    {{re}} %
+                                    {{ re }} %
                                 </mat-option>
                                 }
                             </mat-select>
@@ -418,7 +419,7 @@
                         }
                         @if (pedido.recepcionado) {
                         <span>
-                            {{element.iva}} %{{pedido.re ? ' + ' + element.re + ' %' : ''}}
+                            {{ element.iva }} %{{ pedido.re ? ' + ' + element.re + ' %' : '' }}
                         </span>
                         }
                     </td>
@@ -433,7 +434,7 @@
                     </th>
                     <td mat-cell
                         class="right"
-                        *matCellDef="let element"> {{element.puc | fixedNumber}} € </td>
+                        *matCellDef="let element">{{ element.puc | fixedNumber }} €</td>
                 </ng-container>
 
                 <!-- Total -->
@@ -445,7 +446,7 @@
                     </th>
                     <td mat-cell
                         class="right"
-                        *matCellDef="let element"> {{element.total | fixedNumber}} € </td>
+                        *matCellDef="let element">{{ element.total | fixedNumber }} €</td>
                 </ng-container>
 
                 <!-- PVP -->
@@ -464,7 +465,7 @@
                             <input matInput
                                    placeholder="PVP"
                                    type="number"
-                                   id="tabla-pvp-{{element.localizador}}"
+                                   [id]="`tabla-pvp-${element.localizador}`"
                                    (keydown)="checkArrows($event)"
                                    (focus)="$event.target.select()"
                                    (blur)="checkNull(element)"
@@ -474,7 +475,7 @@
                         </mat-form-field>
                         }
                         @else {
-                        <span>{{element.pvp | fixedNumber}} €</span>
+                        <span>{{ element.pvp | fixedNumber }} €</span>
                         }
                     </td>
                 </ng-container>
@@ -488,7 +489,7 @@
                     </th>
                     <td mat-cell
                         class="right"
-                        *matCellDef="let element"> {{element.margen | fixedNumber}} % </td>
+                        *matCellDef="let element">{{ element.margen | fixedNumber }} %</td>
                 </ng-container>
 
                 <!-- Borrar -->
@@ -553,11 +554,11 @@
                                 @if (item.id !== null && pedido.id !== null) {
                                 <a target="_blank"
                                    [href]="pdfsUrl + pedido.id + '/' + item.id + '.pdf'"
-                                   [matTooltip]="item.nombre">{{item.nombre}}</a>
+                                   [matTooltip]="item.nombre">{{ item.nombre }}</a>
                                 }
                                 @if (item.id === null || pedido.id === null) {
                                 <span [matTooltip]="item.nombre"
-                                      (click)="previewPdf(item)">{{item.nombre}}</span>
+                                      (click)="previewPdf(item)">{{ item.nombre }}</span>
                                 }
                                 <button mat-icon-button
                                         (click)="deletePDF(i, item)">
@@ -603,16 +604,16 @@
                 <div class="totales-box">
                     <div class="totales-col">
                         <div class="totales-row">
-                            <span>Total líneas:</span>{{pedido.lineas.length}}
+                            <span>Total líneas:</span>{{ pedido.lineas.length }}
                         </div>
                         <div class="totales-row">
-                            <span>Total artículos:</span>{{pedido.totalArticulos}}
+                            <span>Total artículos:</span>{{ pedido.totalArticulos }}
                         </div>
                         <div class="totales-row">
-                            <span>Total beneficios:</span>{{pedido.totalBeneficios | fixedNumber}} €
+                            <span>Total beneficios:</span>{{ pedido.totalBeneficios | fixedNumber }} €
                         </div>
                         <div class="totales-row">
-                            <span>Total PVP:</span>{{pedido.totalPVP | fixedNumber}} €
+                            <span>Total PVP:</span>{{ pedido.totalPVP | fixedNumber }} €
                         </div>
                         <div class="totales-row">
                             <span>Portes:</span>
@@ -633,28 +634,28 @@
                             €
                         </div>
                         <div class="totales-row">
-                            <span>Media margen:</span>{{pedido.mediaMargen | fixedNumber}} %
+                            <span>Media margen:</span>{{ pedido.mediaMargen | fixedNumber }} %
                         </div>
                     </div>
                     <div class="totales-col">
                         <div class="totales-row">
-                            <span>Subtotal:</span>{{pedido.subtotal | fixedNumber}} €
+                            <span>Subtotal:</span>{{ pedido.subtotal | fixedNumber }} €
                         </div>
                         <div class="totales-row totales-iva-row"
                              [class]="{'no-iva': pedido.ue}">
-                            @for (ivaOption of pedido.ivaList; track ivaOption) {
+                            @for (ivaOption of pedido.ivaList; track $index) {
                             @if (ivaOption.iva !== undefined || ivaOption.re !== undefined) {
                             <div class="iva-row">
                                 @if (ivaOption.iva !== undefined) {
-                                <div class="iva-col">IVA {{ivaOption.ivaOption}}%</div>
+                                <div class="iva-col">IVA {{ ivaOption.ivaOption }}%</div>
                                 <div class="iva-col"
                                      [class]="{'iva-center': ivaOption.re !== undefined, 'iva-num': ivaOption.re === undefined}">
-                                    {{ivaOption.iva | fixedNumber}} €
+                                    {{ ivaOption.iva | fixedNumber }} €
                                 </div>
                                 }
                                 @if (ivaOption.re !== undefined) {
-                                <div class="iva-col">R.E. {{ivaOption.reOption}}%</div>
-                                <div class="iva-col iva-num">{{ivaOption.re | fixedNumber}} €</div>
+                                <div class="iva-col">R.E. {{ ivaOption.reOption }}%</div>
+                                <div class="iva-col iva-num">{{ ivaOption.re | fixedNumber }} €</div>
                                 }
                             </div>
                             }
@@ -679,11 +680,11 @@
                         </div>
                         <div class="totales-row mark"
                              [class]="{'mark-iva': !pedido.ue}">
-                            <span>Total {{pedido.nombreTipo}}:</span>{{pedido.total | fixedNumber}} €
+                            <span>Total {{ pedido.nombreTipo }}:</span>{{ pedido.total | fixedNumber }} €
                         </div>
                         @if (pedido.ue) {
                         <div class="totales-row mark mark-iva">
-                            <span>Total sin IVA:</span>{{pedido.subtotal | fixedNumber}} €
+                            <span>Total sin IVA:</span>{{ pedido.subtotal | fixedNumber }} €
                         </div>
                         }
                         <div class="totales-row center">

@@ -1,9 +1,10 @@
 .pedido-header {
-    margin: 16px;
+    margin: 8px 16px;
 
     .pedido-header-bar {
         display: flex;
         align-items: center;
+        padding: 6px;
 
         span {
             flex: 1;
@@ -19,7 +20,7 @@
 }
 
 .pedido-main {
-    margin: 16px;
+    margin: 8px 16px;
 
     .pedido-options {
         .row {
