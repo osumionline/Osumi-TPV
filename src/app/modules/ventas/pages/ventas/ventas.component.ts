@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   inject,
   input,
   InputSignalWithTransform,
@@ -101,7 +102,7 @@ export default class VentasComponent implements OnInit {
   onKeyDown(ev: KeyboardEvent): void {
     if (ev.key === '+') {
       ev.preventDefault();
-      this.endVenta();
+      this.endVenta(undefined);
     }
   }
 
@@ -223,7 +224,7 @@ export default class VentasComponent implements OnInit {
       this.startFocus();
     } else {
       const ventaFin: VentaFin = this.vs.loadFinVenta(this.ventas()[this.selected()]);
-      this.abreFinalizarVenta(ventaFin);
+      this.abreFinalizarVenta(ventaFin, undefined);
     }
   }
 
@@ -288,7 +289,7 @@ export default class VentasComponent implements OnInit {
     });
   }
 
-  endVenta(): void {
+  endVenta(btnTerminar: ElementRef | undefined): void {
     const selected: number = this.selected();
     const venta: Venta = this.ventas()[selected];
 
@@ -297,10 +298,11 @@ export default class VentasComponent implements OnInit {
     }
 
     const ventaFin: VentaFin = this.vs.loadFinVenta(venta);
-    this.abreFinalizarVenta(ventaFin);
+    this.abreFinalizarVenta(ventaFin, btnTerminar);
   }
 
-  abreFinalizarVenta(ventaFin: VentaFin): void {
+  abreFinalizarVenta(ventaFin: VentaFin, btnTerminar: ElementRef | undefined): void {
+    console.log({ btnTerminar: btnTerminar?.nativeElement });
     const modalFinalizarVentaData: FinalizarVentaModal = {
       modalTitle: 'Finalizar venta',
       modalColor: 'blue',
@@ -309,6 +311,9 @@ export default class VentasComponent implements OnInit {
     const dialog = this.overlayService.open<FinalizarVentaModalResult>(
       VentaFinalizarModalComponent,
       modalFinalizarVentaData,
+      [],
+      true,
+      btnTerminar?.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {

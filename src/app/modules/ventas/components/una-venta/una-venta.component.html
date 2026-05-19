@@ -34,7 +34,7 @@
 			@if (linea.idArticulo !== null && linea.fromVenta === null) {
 			<mat-icon class="delete-linea"
 					  [matTooltip]="(linea.fromReserva !== null && (linea.cantidad ?? 0) < 0) ? 'Recuperar línea': '¿Borrar línea?'"
-					  (click)="borraLinea(i)">{{(linea.fromReserva !== null && (linea.cantidad ?? 0) < 0) ? 'refresh': 'delete'}}</mat-icon>
+					  (click)="borraLinea(i)">{{ (linea.fromReserva !== null && (linea.cantidad ?? 0) < 0) ? 'refresh': 'delete' }}</mat-icon>
 			}
 			@if (linea.idArticulo === null && linea.fromVenta === null) {
 			<mat-icon class="accesos-directos"
@@ -53,7 +53,7 @@
 			}
 			@else {
 			<span (click)="goToArticulo(linea, i)">
-				{{linea.descripcion}}
+				{{ linea.descripcion }}
 				@if (linea.observaciones) {
 				<mat-icon (click)="showObservaciones($event, linea.observaciones)"
 						  matTooltip="Mostrar observaciones del artículo">info_outline</mat-icon>
@@ -67,7 +67,7 @@
 			}
 			@else {
 			<span>
-				{{linea.marca}}
+				{{ linea.marca }}
 			</span>
 			}
 		</div>
@@ -105,7 +105,7 @@
 			&nbsp;
 			}
 			@else {
-			<span>{{linea.pvp | fixedNumber}} €</span>
+			<span>{{ linea.pvp | fixedNumber }} €</span>
 			<mat-icon matTooltip="Marcar como regalo"
 					  [class]="{'selected': linea.regalo}"
 					  (click)="setRegalo(i)">loyalty</mat-icon>
@@ -153,7 +153,7 @@
 			<span class="editar-linea-descuento"
 				  (click)="editarLineaDescuento(i)"
 				  [class]="{'con-descuento':linea.descuento !== 0}">
-				{{ (linea.descuento ?? 0) | fixedNumber}}
+				{{ (linea.descuento ?? 0) | fixedNumber }}
 				@if (!linea.descuentoManual) {
 				%
 				}
@@ -162,7 +162,8 @@
 				}
 				@if (!linea.descuentoManual && venta().modificarImportes) {
 				<span (click)="abreDescuento($event, linea)"
-					  matTooltip="introducir un importe como descuento">
+					  matTooltip="Introducir un importe como descuento"
+					  [id]="`desc-new-${ind()}`">
 					<mat-icon>euro</mat-icon>
 				</span>
 				}
@@ -281,7 +282,8 @@
 		<span>Última venta: {{ ultimaVentaImporte() | fixedNumber }} €</span>
 		<span>Cambio: {{ ultimaVentaCambio() | fixedNumber }} €</span>
 	</div>
-	<div class="controles-venta">
+	<div class="controles-venta"
+		 #btnTerminar>
 		<mat-icon class="handle-icon"
 				  cdkDragHandle>drag_indicator</mat-icon>
 		<button class="cancel-btn"

@@ -1,15 +1,18 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import {
   Component,
+  ElementRef,
   InputSignal,
   ModelSignal,
   OutputEmitterRef,
+  Signal,
   WritableSignal,
   inject,
   input,
   model,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -81,7 +84,7 @@ export default class UnaVentaComponent {
   ind: InputSignal<number> = input.required<number>();
   venta: ModelSignal<Venta> = model.required<Venta>();
   deleteVentaLineaEvent: OutputEmitterRef<number> = output<number>();
-  endVentaEvent: OutputEmitterRef<void> = output<void>();
+  endVentaEvent: OutputEmitterRef<ElementRef | undefined> = output<ElementRef | undefined>();
   openCajaEvent: OutputEmitterRef<void> = output<void>();
   searching: WritableSignal<boolean> = signal<boolean>(false);
   observacionesOpen: boolean = false;
@@ -101,6 +104,7 @@ export default class UnaVentaComponent {
   devolucionList: DevolucionSelectedInterface[] = [];
 
   showBuscador: boolean = false;
+  btnTerminar: Signal<ElementRef | undefined> = viewChild<ElementRef>('btnTerminar');
 
   private cloneVenta(venta: Venta): Venta {
     const newVenta: Venta = new Venta(venta.id, venta.idEmpleado, venta.lineas, venta.importe);
@@ -182,6 +186,9 @@ export default class UnaVentaComponent {
       const dialog = this.overlayService.open<BuscadorModalResult>(
         BuscadorModalComponent,
         modalBuscadorData,
+        [],
+        true,
+        document.getElementById(`loc-new-${this.ind()}`) as HTMLElement,
       );
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
@@ -402,6 +409,9 @@ export default class UnaVentaComponent {
       const dialog = this.overlayService.open<DevolucionModalResult>(
         DevolucionModalComponent,
         modalDevolucionData,
+        [],
+        true,
+        document.getElementById(`loc-new-${this.ind()}`) as HTMLElement,
       );
       dialog.afterClosed$.subscribe((data): void => {
         this.afterDevolucion(data);
@@ -572,6 +582,9 @@ export default class UnaVentaComponent {
     const dialog = this.overlayService.open<VariosModalResult>(
       VentaVariosModalComponent,
       modalVariosData,
+      [],
+      true,
+      document.getElementById(`loc-new-${this.ind()}`) as HTMLElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
@@ -781,6 +794,7 @@ export default class UnaVentaComponent {
           title: 'Atención',
           content:
             'La línea se ha marcado como "regalo", de modo que no se puede modificar su descuento',
+          from: document.getElementById(`desc-new-${this.ind()}`) as HTMLElement,
         })
         .subscribe((): void => {
           this.setFocus();
@@ -796,6 +810,9 @@ export default class UnaVentaComponent {
     const dialog = this.overlayService.open<DescuentoModalResult>(
       VentaDescuentoModalComponent,
       modalDescuentoData,
+      [],
+      true,
+      document.getElementById(`desc-new-${this.ind()}`) as HTMLElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
@@ -823,6 +840,9 @@ export default class UnaVentaComponent {
     const dialog = this.overlayService.open<VentaAccesosDirectosModalResult>(
       VentaAccesosDirectosModalComponent,
       modalAccesosDirectosData,
+      [],
+      true,
+      document.getElementById(`loc-new-${this.ind()}`) as HTMLElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.result !== null) {
@@ -870,7 +890,8 @@ export default class UnaVentaComponent {
       }
     }
     if (status === ApiStatusEnum.OK) {
-      this.endVentaEvent.emit();
+      console.log(this.btnTerminar()?.nativeElement);
+      this.endVentaEvent.emit(this.btnTerminar());
     }
   }
 
