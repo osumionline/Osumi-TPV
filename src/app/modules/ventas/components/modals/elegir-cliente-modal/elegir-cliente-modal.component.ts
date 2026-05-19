@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  effect,
   inject,
   OnInit,
   signal,
@@ -73,11 +74,21 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
 
   buscadorDisplayedColumns: string[] = ['nombreApellidos', 'telefono', 'ultimaVenta'];
   buscadorDataSource: MatTableDataSource<Cliente> = new MatTableDataSource<Cliente>();
-  sort: Signal<MatSort> = viewChild.required<MatSort>(MatSort);
+  sort: Signal<MatSort | undefined> = viewChild(MatSort);
 
   nuevoCliente: Cliente = new Cliente();
   nuevoClienteBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('nuevoClienteBoxName');
   nuevoClienteSaving: boolean = false;
+
+  constructor() {
+    effect((): void => {
+      const s: MatSort | undefined = this.sort();
+      if (!s) {
+        return;
+      }
+      this.buscadorDataSource.sort = s;
+    });
+  }
 
   ngOnInit(): void {
     this.selectClienteFrom = this.customOverlayRef.data.from;
@@ -92,7 +103,6 @@ export default class ElegirClienteModalComponent implements OnInit, AfterViewIni
   }
 
   ngAfterViewInit(): void {
-    this.buscadorDataSource.sort = this.sort();
     this.elegirClienteTabs().realignInkBar();
   }
 

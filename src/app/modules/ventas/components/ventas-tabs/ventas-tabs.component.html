@@ -20,7 +20,8 @@
 		</div>
 		<div class="show-reservas"
 			 (click)="showReservas()"
-			 matTooltip="Abrir reservas">
+			 matTooltip="Abrir reservas"
+			 #btnReservas>
 			<mat-icon>grading</mat-icon>
 		</div>
 		@if (ventas().length > 0 && !cliente()) {

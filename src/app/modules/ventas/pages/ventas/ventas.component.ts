@@ -170,9 +170,34 @@ export default class VentasComponent implements OnInit {
     this.updateVentas((ventas: Venta[]): Venta[] => ventas.toSpliced(ind, 1, venta));
   }
 
+  removeSelectedClient(): void {
+    const idx: number = this.selected();
+    const ventasArr: Venta[] = this.ventas();
+    const venta: Venta = ventasArr[idx];
+    if (!venta) {
+      this.startFocus();
+      return;
+    }
+
+    const cliente: Cliente | null = venta.cliente;
+    venta.cliente = null;
+
+    if (cliente !== null && cliente.descuento !== 0) {
+      for (const linea of venta.lineas) {
+        if (linea.localizador !== null && !linea.descuentoManual) {
+          linea.descuento = 0;
+        }
+      }
+      venta.updateImporte();
+    }
+
+    this.updateVentas((arr: Venta[]): Venta[] => arr.toSpliced(idx, 1, venta));
+    this.startFocus();
+  }
+
   selectClient(selected: SelectClienteInterface | null): void {
     if (!selected) {
-      this.startFocus();
+      this.removeSelectedClient();
       return;
     }
 

@@ -48,6 +48,7 @@ export default class VentasTabsComponent {
 
   selectClienteFrom: string | null = null;
   btnElegirCliente: Signal<ElementRef | undefined> = viewChild<ElementRef>('btnElegirCliente');
+  btnReservas: Signal<ElementRef | undefined> = viewChild<ElementRef>('btnReservas');
 
   selectTab(ind: number): void {
     this.changeTabEvent.emit(ind);
@@ -108,6 +109,9 @@ export default class VentasTabsComponent {
     const dialog = this.overlayService.open<ReservasModalResult>(
       ReservasModalComponent,
       modalReservasData,
+      [],
+      true,
+      this.btnReservas()?.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
