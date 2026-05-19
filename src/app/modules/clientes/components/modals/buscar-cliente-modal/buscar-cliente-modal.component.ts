@@ -15,9 +15,10 @@ import { MatInput } from '@angular/material/input';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ClientesResult } from '@interfaces/cliente.interface';
+import { BuscarClienteModalResult } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
-import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
+import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 
@@ -31,7 +32,8 @@ export default class BuscarClienteModalComponent implements OnInit, AfterViewIni
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly cs: ClientesService = inject(ClientesService);
   private readonly dialog: DialogService = inject(DialogService);
-  private readonly customOverlayRef: CustomOverlayRef<null> = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<BuscarClienteModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   elegirClienteNombre: string = '';
   searchTimer: number | undefined = undefined;
@@ -84,6 +86,6 @@ export default class BuscarClienteModalComponent implements OnInit, AfterViewIni
 
   selectCliente(cliente: Cliente): void {
     console.log(cliente);
-    this.customOverlayRef.close(cliente);
+    this.customOverlayRef.close({ cliente });
   }
 }

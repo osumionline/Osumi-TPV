@@ -4,7 +4,11 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import Venta from '@app/model/ventas/venta.model';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
-import { ElegirClienteModal } from '@interfaces/modals.interface';
+import {
+  ElegirClienteModal,
+  ElegirClienteModalResult,
+  ReservasModalResult,
+} from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Reserva from '@model/ventas/reserva.model';
 import ElegirClienteModalComponent from '@modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component';
@@ -62,10 +66,13 @@ export default class VentasTabsComponent {
       modalColor: 'blue',
       from: from,
     };
-    const dialog = this.overlayService.open(ElegirClienteModalComponent, modalnewProveedorData);
+    const dialog = this.overlayService.open<ElegirClienteModalResult>(
+      ElegirClienteModalComponent,
+      modalnewProveedorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        const cliente: Cliente = data.data;
+      if (data.data !== null && data.data.cliente !== null) {
+        const cliente: Cliente = data.data.cliente;
         this.selectClientEvent.emit({
           cliente: cliente,
           from: this.selectClienteFrom as string,
@@ -84,10 +91,16 @@ export default class VentasTabsComponent {
       modalColor: 'blue',
       css: 'modal-wide',
     };
-    const dialog = this.overlayService.open(ReservasModalComponent, modalReservasData);
+    const dialog = this.overlayService.open<ReservasModalResult>(
+      ReservasModalComponent,
+      modalReservasData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
-        this.selectReservaEvent.emit(data.data);
+        const list: Reserva[] = data.data.list.filter(
+          (x: Reserva | null): x is Reserva => x !== null,
+        );
+        this.selectReservaEvent.emit(list);
       }
     });
   }

@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
+import { DescuentoModalResult } from '@app/interfaces/modals.interface';
+import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 
 @Component({
   selector: 'otpv-venta-descuento-modal',
@@ -13,7 +14,8 @@ import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 })
 export default class VentaDescuentoModalComponent implements OnInit {
   private readonly dialog: DialogService = inject(DialogService);
-  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<DescuentoModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   descuentoImporte: number | null = null;
   descuentoValue: Signal<ElementRef> = viewChild.required<ElementRef>('descuentoValue');
@@ -44,6 +46,6 @@ export default class VentaDescuentoModalComponent implements OnInit {
         });
       return;
     }
-    this.customOverlayRef.close(this.descuentoImporte);
+    this.customOverlayRef.close({ result: this.descuentoImporte });
   }
 }

@@ -15,12 +15,13 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ReservasModalResult } from '@app/interfaces/modals.interface';
 import { ReservasResult } from '@interfaces/cliente.interface';
 import { StatusResult } from '@interfaces/interfaces';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import ReservaLinea from '@model/ventas/reserva-linea.model';
 import Reserva from '@model/ventas/reserva.model';
-import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
+import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
@@ -44,7 +45,8 @@ export default class ReservasModalComponent implements OnInit {
   private readonly cs: ClientesService = inject(ClientesService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
-  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<ReservasModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   list: WritableSignal<Reserva[]> = signal<Reserva[]>([]);
   reservaSelected: Reserva | null = null;
@@ -200,7 +202,7 @@ export default class ReservasModalComponent implements OnInit {
   }
 
   cargarVenta(): void {
-    this.customOverlayRef.close([this.reservaSelected]);
+    this.customOverlayRef.close({ list: [this.reservaSelected] });
   }
 
   cargarVentas(): void {
@@ -217,6 +219,6 @@ export default class ReservasModalComponent implements OnInit {
         return;
       }
     }
-    this.customOverlayRef.close(this.selection.selected);
+    this.customOverlayRef.close({ list: this.selection.selected });
   }
 }

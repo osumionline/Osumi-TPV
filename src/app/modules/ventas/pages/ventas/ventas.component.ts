@@ -11,7 +11,7 @@ import {
   viewChildren,
   WritableSignal,
 } from '@angular/core';
-import { FinalizarVentaModal } from '@app/interfaces/modals.interface';
+import { FinalizarVentaModal, FinalizarVentaModalResult } from '@app/interfaces/modals.interface';
 import Cliente from '@app/model/clientes/cliente.model';
 import ApiStatusEnum from '@app/model/enum/api-status.enum';
 import VentaFin from '@app/model/ventas/venta-fin.model';
@@ -281,7 +281,10 @@ export default class VentasComponent implements OnInit {
       modalColor: 'blue',
       fin: ventaFin,
     };
-    const dialog = this.overlayService.open(VentaFinalizarModalComponent, modalFinalizarVentaData);
+    const dialog = this.overlayService.open<FinalizarVentaModalResult>(
+      VentaFinalizarModalComponent,
+      modalFinalizarVentaData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         if (data.data.status === ApiStatusEnum.CLIENTE) {
@@ -304,7 +307,11 @@ export default class VentasComponent implements OnInit {
           this.setVentas([...ventas]);
           this.ventasComponents()[this.selected()]?.setFocus();
         }
-        if (data.data.status === ApiStatusEnum.FIN) {
+        if (
+          data.data.status === ApiStatusEnum.FIN &&
+          data.data.importe !== undefined &&
+          data.data.cambio !== undefined
+        ) {
           const ventas: Venta[] = this.ventas();
           ventas[this.selected()].cliente = null;
           ventas[this.selected()].resetearVenta();

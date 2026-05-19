@@ -1,6 +1,7 @@
 import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { StatusResult } from '@interfaces/interfaces';
+import { DarDeBajaModal, DarDeBajaModalResult } from '@interfaces/modals.interface';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 
@@ -13,8 +14,8 @@ import ArticulosService from '@services/articulos.service';
 export default class ArticuloDarDeBajaModalComponent implements OnInit {
   private readonly dialog: DialogService = inject(DialogService);
   private readonly ars: ArticulosService = inject(ArticulosService);
-  private readonly customOverlayRef: CustomOverlayRef<null, { id: number; nombre: string }> =
-    inject(CustomOverlayRef<null, { id: number; nombre: string }>);
+  private readonly customOverlayRef: CustomOverlayRef<DarDeBajaModalResult, DarDeBajaModal> =
+    inject(CustomOverlayRef);
 
   id: number | null = null;
   nombre: string | null = null;
@@ -35,7 +36,7 @@ export default class ArticuloDarDeBajaModalComponent implements OnInit {
             content: 'El artículo "' + this.nombre + '" ha sido dado de baja.',
           })
           .subscribe((): void => {
-            this.customOverlayRef.close(true);
+            this.customOverlayRef.close({ result: true });
           });
       } else {
         this.dialog

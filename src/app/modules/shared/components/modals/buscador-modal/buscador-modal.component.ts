@@ -16,6 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
+import { BuscadorModal, BuscadorModalResult } from '@interfaces/modals.interface';
 import ArticuloBuscador from '@model/articulos/articulo-buscador.model';
 import { CustomOverlayRef } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
@@ -40,7 +41,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 export default class BuscadorModalComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly vs: VentasService = inject(VentasService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
-  private readonly customOverlayRef: CustomOverlayRef<null, { key: string; showSelect?: boolean }> =
+  private readonly customOverlayRef: CustomOverlayRef<BuscadorModalResult, BuscadorModal> =
     inject(CustomOverlayRef);
 
   searchBoxName: Signal<ElementRef> = viewChild.required<ElementRef>('searchBoxName');
@@ -84,7 +85,7 @@ export default class BuscadorModalComponent implements OnInit, AfterViewInit, On
 
   focusRow(): void {
     const element: HTMLElement | null = document.getElementById(
-      'buscador-row-' + this.buscadorResultadosList[this.buscadorResultadosRow].localizador
+      'buscador-row-' + this.buscadorResultadosList[this.buscadorResultadosRow].localizador,
     );
     if (element !== null && !this.checkVisible(element)) {
       element.scrollIntoView();
@@ -153,7 +154,7 @@ export default class BuscadorModalComponent implements OnInit, AfterViewInit, On
   }
 
   selectBuscadorResultadosRow(row: ArticuloBuscador): void {
-    this.customOverlayRef.close(row.localizador);
+    this.customOverlayRef.close({ result: row.localizador });
   }
 
   selectLine(row: ArticuloBuscador, ev: MouseEvent): void {
@@ -162,7 +163,7 @@ export default class BuscadorModalComponent implements OnInit, AfterViewInit, On
     }
     if (this.selectedLines.includes(row.localizador as number)) {
       this.selectedLines = this.selectedLines.filter(
-        (line: number): boolean => line !== row.localizador
+        (line: number): boolean => line !== row.localizador,
       );
     } else {
       this.selectedLines.push(row.localizador as number);
@@ -170,7 +171,7 @@ export default class BuscadorModalComponent implements OnInit, AfterViewInit, On
   }
 
   selectBuscadorLines(): void {
-    this.customOverlayRef.close(this.selectedLines);
+    this.customOverlayRef.close({ result: this.selectedLines });
   }
 
   ngOnDestroy(): void {

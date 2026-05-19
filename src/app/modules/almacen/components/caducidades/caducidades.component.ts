@@ -25,6 +25,7 @@ import {
   BuscadorCaducidadResult,
 } from '@interfaces/caducidad.interface';
 import { Month, StatusResult } from '@interfaces/interfaces';
+import { CaducidadModalResult } from '@interfaces/modals.interface';
 import Caducidad from '@model/almacen/caducidad.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
@@ -131,7 +132,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       for (const cad of caducidades) {
         if (!marcas['marca_' + cad.articulo!.idMarca]) {
           marcas['marca_' + cad.articulo!.idMarca] = this.ms.findById(
-            cad.articulo!.idMarca as number
+            cad.articulo!.idMarca as number,
           );
         }
         cad.articulo!.marca = marcas['marca_' + cad.articulo!.idMarca]!.nombre;
@@ -156,12 +157,15 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
       modalTitle: 'Nueva caducidad',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(CaducidadModalComponent, modalCaducidadData);
+    const dialog = this.overlayService.open<CaducidadModalResult>(
+      CaducidadModalComponent,
+      modalCaducidadData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data !== null) {
+      if (data !== null && data.data !== null && data.data.result !== null) {
         const cad: AddCaducidadInterface = {
-          idArticulo: data.data.articulo.id,
-          unidades: data.data.unidades,
+          idArticulo: data.data.result.articulo!.id as number,
+          unidades: data.data.result.unidades as number,
         };
         this.cs.addCaducidad(cad).subscribe((result: StatusResult): void => {
           if (result.status === ApiStatusEnum.OK) {

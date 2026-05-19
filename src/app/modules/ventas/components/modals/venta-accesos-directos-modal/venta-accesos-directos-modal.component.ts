@@ -2,8 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AccesoDirectoResult } from '@interfaces/articulo.interface';
+import { VentaAccesosDirectosModalResult } from '@interfaces/modals.interface';
 import AccesoDirecto from '@model/articulos/acceso-directo.model';
-import { CustomOverlayRef } from '@osumi/angular-tools';
+import { CustomOverlayRef, Modal } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 
@@ -15,7 +16,8 @@ import ClassMapperService from '@services/class-mapper.service';
 export default class VentaAccesosDirectosModalComponent implements OnInit {
   private readonly ars: ArticulosService = inject(ArticulosService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
-  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<VentaAccesosDirectosModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   accesosDirectosList: AccesoDirecto[] = [];
   accesosDirectosDisplayedColumns: string[] = ['accesoDirecto', 'nombre'];
@@ -30,6 +32,6 @@ export default class VentaAccesosDirectosModalComponent implements OnInit {
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
-    this.customOverlayRef.close(row.accesoDirecto);
+    this.customOverlayRef.close({ result: row.accesoDirecto });
   }
 }

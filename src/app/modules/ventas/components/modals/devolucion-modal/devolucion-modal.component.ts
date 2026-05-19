@@ -8,6 +8,7 @@ import { MatInput } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HistoricoVentasResult } from '@interfaces/caja.interface';
 import { DateValues } from '@interfaces/interfaces';
+import { DevolucionModal, DevolucionModalResult } from '@interfaces/modals.interface';
 import { DevolucionSelectedInterface } from '@interfaces/venta.interface';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
@@ -34,10 +35,8 @@ export default class DevolucionModalComponent implements OnInit {
   private readonly vs: VentasService = inject(VentasService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
-  private readonly customOverlayRef: CustomOverlayRef<
-    null,
-    { idVenta: number; list: DevolucionSelectedInterface[] }
-  > = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<DevolucionModalResult, DevolucionModal> =
+    inject(CustomOverlayRef);
 
   venta: VentaHistorico = new VentaHistorico();
   devolucionDataSource: MatTableDataSource<VentaLineaHistorico> =
@@ -52,7 +51,7 @@ export default class DevolucionModalComponent implements OnInit {
   ];
   selection: SelectionModel<VentaLineaHistorico> = new SelectionModel<VentaLineaHistorico>(
     true,
-    []
+    [],
   );
   continueEvent: OutputEmitterRef<DevolucionSelectedInterface[]> =
     output<DevolucionSelectedInterface[]>();
@@ -76,27 +75,29 @@ export default class DevolucionModalComponent implements OnInit {
     }
   }
 
-  continueDevolucion(idVenta: number, list: DevolucionSelectedInterface[]): void {
-    const data: DateValues = {
-      modo: 'id',
-      fecha: null,
-      id: idVenta,
-      desde: null,
-      hasta: null,
-    };
-    this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
-      this.selection.clear();
-      const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
-      this.venta = ventas[0];
-      for (const item of list) {
-        const ind: number = this.venta.lineas.findIndex((x: VentaLineaHistorico): boolean => {
-          return x.id === item.id;
-        });
-        this.venta.lineas[ind].devolver = item.unidades;
-        this.selection.select(this.venta.lineas[ind]);
-      }
-      this.devolucionDataSource.data = this.venta.lineas;
-    });
+  continueDevolucion(idVenta: number | null, list: DevolucionSelectedInterface[]): void {
+    if (idVenta !== null) {
+      const data: DateValues = {
+        modo: 'id',
+        fecha: null,
+        id: idVenta,
+        desde: null,
+        hasta: null,
+      };
+      this.vs.getHistorico(data).subscribe((result: HistoricoVentasResult): void => {
+        this.selection.clear();
+        const ventas: VentaHistorico[] = this.cms.getHistoricoVentas(result.list);
+        this.venta = ventas[0];
+        for (const item of list) {
+          const ind: number = this.venta.lineas.findIndex((x: VentaLineaHistorico): boolean => {
+            return x.id === item.id;
+          });
+          this.venta.lineas[ind].devolver = item.unidades;
+          this.selection.select(this.venta.lineas[ind]);
+        }
+        this.devolucionDataSource.data = this.venta.lineas;
+      });
+    }
   }
 
   isAllSelected(): boolean {
@@ -110,7 +111,7 @@ export default class DevolucionModalComponent implements OnInit {
       this.selection.clear();
     } else {
       this.devolucionDataSource.data.forEach((row: VentaLineaHistorico): boolean | void =>
-        this.selection.select(row)
+        this.selection.select(row),
       );
     }
   }
@@ -130,7 +131,7 @@ export default class DevolucionModalComponent implements OnInit {
       });
     } else {
       this.selection.clear();
-      this.customOverlayRef.close(list);
+      this.customOverlayRef.close({ result: list });
     }
   }
 }

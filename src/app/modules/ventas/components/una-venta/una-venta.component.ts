@@ -17,7 +17,16 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ArticuloInterface, ArticuloResult } from '@interfaces/articulo.interface';
-import { BuscadorModal, DevolucionModal, VariosModal } from '@interfaces/modals.interface';
+import {
+  BuscadorModal,
+  BuscadorModalResult,
+  DescuentoModalResult,
+  DevolucionModal,
+  DevolucionModalResult,
+  VariosModal,
+  VariosModalResult,
+  VentaAccesosDirectosModalResult,
+} from '@interfaces/modals.interface';
 import {
   DevolucionSelectedInterface,
   LineasTicketResult,
@@ -170,16 +179,19 @@ export default class UnaVentaComponent {
         key: ev.key,
         showSelect: true,
       };
-      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
+      const dialog = this.overlayService.open<BuscadorModalResult>(
+        BuscadorModalComponent,
+        modalBuscadorData,
+      );
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
         if (data.data !== null) {
           // Si es un array, es que se han elegido varias líneas
-          if (data.data instanceof Array) {
-            this.loadMultiArticulos(data.data);
+          if (data.data.result instanceof Array) {
+            this.loadMultiArticulos(data.data.result);
           } else {
             // Si no es un array, es que se ha elegido una línea
-            this.setFocus(data.data);
+            this.setFocus(data.data.result);
           }
         } else {
           this.setFocus();
@@ -387,7 +399,10 @@ export default class UnaVentaComponent {
         idVenta: this.devolucionVenta,
         list: null,
       };
-      const dialog = this.overlayService.open(DevolucionModalComponent, modalDevolucionData);
+      const dialog = this.overlayService.open<DevolucionModalResult>(
+        DevolucionModalComponent,
+        modalDevolucionData,
+      );
       dialog.afterClosed$.subscribe((data): void => {
         this.afterDevolucion(data);
       });
@@ -410,28 +425,31 @@ export default class UnaVentaComponent {
       idVenta: this.devolucionVenta,
       list: list,
     };
-    const dialog = this.overlayService.open(DevolucionModalComponent, modalDevolucionData);
-    dialog.afterClosed$.subscribe(
-      (data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void => {
-        this.afterDevolucion(data);
-      },
+    const dialog = this.overlayService.open<DevolucionModalResult>(
+      DevolucionModalComponent,
+      modalDevolucionData,
     );
+    dialog.afterClosed$.subscribe((data: OverlayCloseEvent<DevolucionModalResult | null>): void => {
+      this.afterDevolucion(data);
+    });
   }
 
-  afterDevolucion(data: OverlayCloseEvent<DevolucionSelectedInterface[]>): void {
+  afterDevolucion(data: OverlayCloseEvent<DevolucionModalResult | null>): void {
     const venta: Venta = this.venta();
     const checkList: VentaLinea[] = venta.lineas.filter((x: VentaLinea): boolean => {
       return x.fromVenta !== null;
     });
 
-    if (data !== null && data.data.length > 0) {
+    if (data !== null && data.data !== null && data.data.result.length > 0) {
       // Busco si hay alguna línea que haya que borrar
       const toBeDeleted: number[] = [];
       for (const linea of checkList) {
         if (linea.localizador !== null) {
-          const ind: number = data.data.findIndex((x: DevolucionSelectedInterface): boolean => {
-            return x.id === linea.id;
-          });
+          const ind: number = data.data.result.findIndex(
+            (x: DevolucionSelectedInterface): boolean => {
+              return x.id === linea.id;
+            },
+          );
 
           if (ind === -1) {
             toBeDeleted.push(linea.id as number);
@@ -448,7 +466,7 @@ export default class UnaVentaComponent {
 
       // Busco líneas nuevas
       const toBeAddded: number[] = [];
-      for (const item of data.data) {
+      for (const item of data.data.result) {
         const addInd: number = venta.lineas.findIndex((x: VentaLinea): boolean => x.id === item.id);
         if (addInd === -1) {
           toBeAddded.push(item.id as number);
@@ -456,7 +474,7 @@ export default class UnaVentaComponent {
       }
 
       // Actualizo cantidades
-      for (const item of data.data) {
+      for (const item of data.data.result) {
         const updateInd: number = venta.lineas.findIndex(
           (x: VentaLinea): boolean => x.id === item.id,
         );
@@ -466,7 +484,7 @@ export default class UnaVentaComponent {
       }
       this.setVenta(venta);
 
-      this.devolucionList = data.data;
+      this.devolucionList = data.data.result;
       if (toBeAddded.length > 0) {
         this.vs
           .getLineasTicket(toBeAddded.join(','))
@@ -551,14 +569,17 @@ export default class UnaVentaComponent {
       pvp: this.venta().lineas[ind].pvp,
       iva: !this.venta().lineas[ind].iva ? 21 : this.venta().lineas[ind].iva,
     };
-    const dialog = this.overlayService.open(VentaVariosModalComponent, modalVariosData);
+    const dialog = this.overlayService.open<VariosModalResult>(
+      VentaVariosModalComponent,
+      modalVariosData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const venta = this.venta();
-        if (this.variosInd !== null) {
-          venta.lineas[this.variosInd].descripcion = data.data.nombre;
-          venta.lineas[this.variosInd].pvp = data.data.pvp;
-          venta.lineas[this.variosInd].iva = data.data.iva;
+        if (this.variosInd !== null && data.data.result !== null) {
+          venta.lineas[this.variosInd].descripcion = data.data.result.nombre;
+          venta.lineas[this.variosInd].pvp = data.data.result.pvp;
+          venta.lineas[this.variosInd].iva = data.data.result.iva;
           venta.updateImporte();
         }
         this.setVenta(venta);
@@ -772,14 +793,17 @@ export default class UnaVentaComponent {
       modalTitle: 'Introducir descuento',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(VentaDescuentoModalComponent, modalDescuentoData);
+    const dialog = this.overlayService.open<DescuentoModalResult>(
+      VentaDescuentoModalComponent,
+      modalDescuentoData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         const venta: Venta = this.venta();
         const ind: number = venta.lineas.findIndex(
           (x: VentaLinea): boolean => x.idArticulo === this.descuentoSelected,
         );
-        venta.lineas[ind].descuento = data.data;
+        venta.lineas[ind].descuento = data.data.result;
         venta.lineas[ind].descuentoManual = true;
         venta.updateImporte();
         this.setVenta(venta);
@@ -796,13 +820,13 @@ export default class UnaVentaComponent {
       modalTitle: 'Accesos Directos',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(
+    const dialog = this.overlayService.open<VentaAccesosDirectosModalResult>(
       VentaAccesosDirectosModalComponent,
       modalAccesosDirectosData,
     );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.setFocus(data.data);
+      if (data.data !== null && data.data.result !== null) {
+        this.setFocus(data.data.result);
       } else {
         this.setFocus();
       }

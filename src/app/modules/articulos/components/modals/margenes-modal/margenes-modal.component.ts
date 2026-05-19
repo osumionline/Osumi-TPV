@@ -1,4 +1,5 @@
 import { Component, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import { MargenesModal, MargenesModalResult } from '@interfaces/modals.interface';
 import { CustomOverlayRef } from '@osumi/angular-tools';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
@@ -9,8 +10,8 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
   imports: [FixedNumberPipe],
 })
 export default class MargenesModalComponent implements OnInit {
-  private readonly customOverlayRef: CustomOverlayRef<null, { puc: number; list: number[] }> =
-    inject(CustomOverlayRef<null, { puc: number; list: number[] }>);
+  private readonly customOverlayRef: CustomOverlayRef<MargenesModalResult, MargenesModal> =
+    inject(CustomOverlayRef);
 
   puc: WritableSignal<number> = signal<number>(0);
   marginList: WritableSignal<number[]> = signal<number[]>([]);
@@ -21,6 +22,6 @@ export default class MargenesModalComponent implements OnInit {
   }
 
   selectMargen(margin: number): void {
-    this.customOverlayRef.close(margin);
+    this.customOverlayRef.close({ result: margin });
   }
 }

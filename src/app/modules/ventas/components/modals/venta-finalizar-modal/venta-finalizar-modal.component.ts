@@ -18,6 +18,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { FinalizarVentaModal, FinalizarVentaModalResult } from '@interfaces/modals.interface';
 import { FinVentaResult } from '@interfaces/venta.interface';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import TipoPago from '@model/tpv/tipo-pago.model';
@@ -55,8 +56,10 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
   private readonly config: ConfigService = inject(ConfigService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly router: Router = inject(Router);
-  private readonly customOverlayRef: CustomOverlayRef<null, { fin: VentaFin }> =
-    inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<
+    FinalizarVentaModalResult,
+    FinalizarVentaModal
+  > = inject(CustomOverlayRef);
 
   efectivoValue: Signal<ElementRef> = viewChild.required<ElementRef>('efectivoValue');
   tarjetaValue: Signal<ElementRef> = viewChild.required<ElementRef>('tarjetaValue');

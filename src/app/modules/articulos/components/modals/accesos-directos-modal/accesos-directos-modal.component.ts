@@ -18,6 +18,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AccesoDirectoResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
+import { AccesosDirectosModal, AccesosDirectosModalResult } from '@interfaces/modals.interface';
 import AccesoDirecto from '@model/articulos/acceso-directo.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
@@ -43,9 +44,10 @@ export default class AccesosDirectosModalComponent implements OnInit, AfterViewI
   private readonly dialog: DialogService = inject(DialogService);
   private readonly ars: ArticulosService = inject(ArticulosService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
-  private readonly customOverlayRef: CustomOverlayRef<null, { idArticulo: number }> = inject(
-    CustomOverlayRef<null, { idArticulo: number }>
-  );
+  private readonly customOverlayRef: CustomOverlayRef<
+    AccesosDirectosModalResult,
+    AccesosDirectosModal
+  > = inject(CustomOverlayRef);
 
   idArticulo: WritableSignal<number | null> = signal<number | null>(null);
   accesosDirectosList: AccesoDirecto[] = [];
@@ -78,7 +80,7 @@ export default class AccesosDirectosModalComponent implements OnInit, AfterViewI
   }
 
   selectAccesoDirecto(row: AccesoDirecto): void {
-    this.customOverlayRef.close(row.accesoDirecto);
+    this.customOverlayRef.close({ result: row.accesoDirecto });
   }
 
   borrarAccesoDirecto(ev: MouseEvent, id: number): void {
@@ -112,7 +114,7 @@ export default class AccesosDirectosModalComponent implements OnInit, AfterViewI
 
   asignarAccesoDirecto(): void {
     const ind: number = this.accesosDirectosList.findIndex(
-      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto
+      (x: AccesoDirecto): boolean => x.accesoDirecto === this.accesoDirecto,
     );
     if (ind != -1) {
       this.dialog

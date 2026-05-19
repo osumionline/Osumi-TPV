@@ -20,7 +20,7 @@
     "@angular/material": "^21.2.11",
     "@angular/platform-browser": "^21.2.13",
     "@angular/router": "^21.2.13",
-    "@osumi/angular-tools": "^1.3.0",
+    "@osumi/angular-tools": "^1.4.2",
     "@osumi/tools": "^1.7.1",
     "angularx-qrcode": "^21.0.5",
     "ng-apexcharts": "^2.4.0",

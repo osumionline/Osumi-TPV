@@ -12,7 +12,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CategoriaArticulosResult, CategoriaArticulosSave } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import { BuscadorModal } from '@interfaces/modals.interface';
+import { BuscadorModal, BuscadorModalResult } from '@interfaces/modals.interface';
 import { LocalizadoresResult } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Categoria from '@model/articulos/categoria.model';
@@ -72,10 +72,13 @@ export default class CategoriaDetalleComponent {
       key: '',
       showSelect: true,
     };
-    const dialog = this.overlayService.open(BuscadorAvanzadoModalComponent, modalBuscadorData);
+    const dialog = this.overlayService.open<BuscadorModalResult>(
+      BuscadorAvanzadoModalComponent,
+      modalBuscadorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.loadSearchResults(data.data);
+      if (data.data !== null && data.data.result !== null) {
+        this.loadSearchResults(data.data.result);
       }
     });
   }

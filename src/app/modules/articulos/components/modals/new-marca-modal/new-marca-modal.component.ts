@@ -5,9 +5,10 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { IdSaveResult } from '@interfaces/interfaces';
+import { NewMarcaModalResult } from '@interfaces/modals.interface';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
-import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
+import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 
 @Component({
@@ -18,7 +19,8 @@ import MarcasService from '@services/marcas.service';
 export default class NewMarcaModalComponent implements OnInit {
   private readonly dialog: DialogService = inject(DialogService);
   private readonly ms: MarcasService = inject(MarcasService);
-  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<NewMarcaModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   marca: Marca = new Marca();
@@ -43,7 +45,7 @@ export default class NewMarcaModalComponent implements OnInit {
     this.ms.saveMarca(this.marca.toInterface()).subscribe((result: IdSaveResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
-        this.customOverlayRef.close(result.id);
+        this.customOverlayRef.close({ result: result.id });
       }
       if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog

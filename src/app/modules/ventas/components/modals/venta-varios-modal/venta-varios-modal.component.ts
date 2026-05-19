@@ -16,6 +16,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { VariosModal, VariosModalResult } from '@app/interfaces/modals.interface';
 import { VentaVariosInterface } from '@interfaces/venta.interface';
 import IVAOption from '@model/tpv/iva-option.model';
 import { CustomOverlayRef } from '@osumi/angular-tools';
@@ -37,10 +38,8 @@ import ConfigService from '@services/config.service';
 })
 export default class VentaVariosModalComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);
-  private readonly customOverlayRef: CustomOverlayRef<
-    null,
-    { nombre: string; pvp: number; iva: number }
-  > = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<VariosModalResult, VariosModal> =
+    inject(CustomOverlayRef);
 
   ivaList: number[] = [];
   selectedIvaOption: IVAOption = new IVAOption();
@@ -74,9 +73,9 @@ export default class VentaVariosModalComponent implements OnInit {
     }
     this.model.update((): VentaVariosInterface => {
       return {
-        nombre: this.customOverlayRef.data.nombre,
-        pvp: this.customOverlayRef.data.pvp,
-        iva: this.customOverlayRef.data.iva,
+        nombre: this.customOverlayRef.data.nombre!,
+        pvp: this.customOverlayRef.data.pvp!,
+        iva: this.customOverlayRef.data.iva!,
       };
     });
     setTimeout((): void => {
@@ -86,6 +85,6 @@ export default class VentaVariosModalComponent implements OnInit {
 
   actualizarVarios(): void {
     this.sending.set(true);
-    this.customOverlayRef.close(this.model());
+    this.customOverlayRef.close({ result: this.model() });
   }
 }

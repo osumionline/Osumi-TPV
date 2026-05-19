@@ -22,7 +22,14 @@ import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ArticuloResult, ArticuloSaveResult } from '@interfaces/articulo.interface';
-import { AccesosDirectosModal, BuscadorModal, DarDeBajaModal } from '@interfaces/modals.interface';
+import {
+  AccesosDirectosModal,
+  AccesosDirectosModalResult,
+  BuscadorModal,
+  BuscadorModalResult,
+  DarDeBajaModal,
+  DarDeBajaModalResult,
+} from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
@@ -153,11 +160,14 @@ export default class UnArticuloComponent {
         css: 'modal-wide',
         key: ev.key,
       };
-      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
+      const dialog = this.overlayService.open<BuscadorModalResult>(
+        BuscadorModalComponent,
+        modalBuscadorData,
+      );
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
-        if (data.data !== null) {
-          this.articulo.localizador = data.data;
+        if (data.data !== null && data.data.result !== null) {
+          this.articulo.localizador = data.data.result as number;
           this.loadArticulo();
         } else {
           this.focus();
@@ -242,13 +252,13 @@ export default class UnArticuloComponent {
       modalColor: 'blue',
       idArticulo: this.articulo.id,
     };
-    const dialog = this.overlayService.open(
+    const dialog = this.overlayService.open<AccesosDirectosModalResult>(
       AccesosDirectosModalComponent,
       modalAccesosDirectosData,
     );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        this.articulo.localizador = data.data;
+      if (data.data !== null && data.data.result !== null) {
+        this.articulo.localizador = data.data.result as number;
         this.loadArticulo();
       }
       this.focus();
@@ -277,9 +287,12 @@ export default class UnArticuloComponent {
       id: this.articulo.id,
       nombre: this.articulo.nombre,
     };
-    const dialog = this.overlayService.open(ArticuloDarDeBajaModalComponent, modalDarDeBajaData);
+    const dialog = this.overlayService.open<DarDeBajaModalResult>(
+      ArticuloDarDeBajaModalComponent,
+      modalDarDeBajaData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data === true) {
+      if (data.data !== null && data.data.result === true) {
         this.focus();
       }
     });

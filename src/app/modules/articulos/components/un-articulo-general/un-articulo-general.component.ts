@@ -20,7 +20,12 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { CategoriaInterface } from '@interfaces/articulo.interface';
 import { Month } from '@interfaces/interfaces';
-import { MargenesModal } from '@interfaces/modals.interface';
+import {
+  MargenesModal,
+  MargenesModalResult,
+  NewMarcaModalResult,
+  NewProveedorModalResult,
+} from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
@@ -91,11 +96,16 @@ export default class UnArticuloGeneralComponent {
       modalTitle: 'Nueva marca',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(NewMarcaModalComponent, modalnewMarcaData);
+    const dialog = this.overlayService.open<NewMarcaModalResult>(
+      NewMarcaModalComponent,
+      modalnewMarcaData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null) {
         this.articulo.update((value: Articulo): Articulo => {
-          value.idMarca = data.data;
+          if (data.data !== null) {
+            value.idMarca = data.data.result;
+          }
           return value;
         });
       }
@@ -107,11 +117,16 @@ export default class UnArticuloGeneralComponent {
       modalTitle: 'Nuevo proveedor',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(NewProveedorModalComponent, modalnewProveedorData);
+    const dialog = this.overlayService.open<NewProveedorModalResult>(
+      NewProveedorModalComponent,
+      modalnewProveedorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null) {
         this.articulo.update((value: Articulo): Articulo => {
-          value.idProveedor = data.data;
+          if (data.data !== null) {
+            value.idProveedor = data.data.result;
+          }
           return value;
         });
       }
@@ -378,12 +393,17 @@ export default class UnArticuloGeneralComponent {
       puc: this.articulo().puc,
       list: this.marginList,
     };
-    const dialog = this.overlayService.open(MargenesModalComponent, modalMargenesData);
+    const dialog = this.overlayService.open<MargenesModalResult>(
+      MargenesModalComponent,
+      modalMargenesData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null) {
         this.articulo.update((value: Articulo): Articulo => {
-          value.margen = data.data;
-          value.pvp = getTwoNumberDecimal((value.puc * 100) / (100 - data.data));
+          if (data.data !== null && data.data.result !== null) {
+            value.margen = data.data.result;
+            value.pvp = getTwoNumberDecimal((value.puc * 100) / (100 - data.data.result));
+          }
           return this.cloneArticulo(value);
         });
       }
@@ -397,12 +417,18 @@ export default class UnArticuloGeneralComponent {
       puc: this.articulo().puc,
       list: this.marginList,
     };
-    const dialog = this.overlayService.open(MargenesModalComponent, modalMargenesData);
+    const dialog = this.overlayService.open<MargenesModalResult>(
+      MargenesModalComponent,
+      modalMargenesData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null) {
-        setTimeout((): void => {
-          this.updatePorcentajeDescuento(data.data);
-        }, 0);
+        const result: number | null = data.data.result;
+        if (result !== null) {
+          setTimeout((): void => {
+            this.updatePorcentajeDescuento(result);
+          }, 0);
+        }
       }
     });
   }

@@ -35,7 +35,11 @@ import {
   FacturasResult,
 } from '@interfaces/cliente.interface';
 import { Month, ProvinceInterface, StatusResult } from '@interfaces/interfaces';
-import { FacturaModal } from '@interfaces/modals.interface';
+import {
+  BuscarClienteModalResult,
+  FacturaModal,
+  FacturaModalResult,
+} from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
@@ -159,10 +163,13 @@ export default class ClientesComponent implements OnInit {
       modalTitle: 'Seleccionar cliente',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(BuscarClienteModalComponent, modalData);
+    const dialog = this.overlayService.open<BuscarClienteModalResult>(
+      BuscarClienteModalComponent,
+      modalData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data.data !== null) {
-        const cliente: Cliente = data.data;
+      if (data.data !== null && data.data.cliente !== null) {
+        const cliente: Cliente = data.data.cliente;
         this.selectCliente(cliente);
       }
     });
@@ -347,7 +354,10 @@ export default class ClientesComponent implements OnInit {
       id: cliente.id,
       factura: null,
     };
-    const dialog = this.overlayService.open(EditFacturaModalComponent, modalnewProveedorData);
+    const dialog = this.overlayService.open<FacturaModalResult>(
+      EditFacturaModalComponent,
+      modalnewProveedorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();
@@ -363,7 +373,10 @@ export default class ClientesComponent implements OnInit {
       id: null,
       factura: this.facturasDataSource.data[ind],
     };
-    const dialog = this.overlayService.open(EditFacturaModalComponent, modalnewProveedorData);
+    const dialog = this.overlayService.open<FacturaModalResult>(
+      EditFacturaModalComponent,
+      modalnewProveedorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null) {
         this.loadFacturasCliente();

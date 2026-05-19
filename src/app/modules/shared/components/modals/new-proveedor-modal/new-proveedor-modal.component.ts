@@ -6,10 +6,11 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { IdSaveResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
+import { NewProveedorModalResult } from '@interfaces/modals.interface';
 import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
-import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
+import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
@@ -25,7 +26,8 @@ export default class NewProveedorModalComponent implements OnInit {
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
   private readonly ps: ProveedoresService = inject(ProveedoresService);
-  private readonly customOverlayRef: CustomOverlayRef = inject(CustomOverlayRef);
+  private readonly customOverlayRef: CustomOverlayRef<NewProveedorModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   nombreBox: Signal<ElementRef> = viewChild.required('nombreBox');
   proveedor: Proveedor = new Proveedor();
@@ -36,7 +38,7 @@ export default class NewProveedorModalComponent implements OnInit {
     this.marcas = this.cms.getMarcas(
       this.ms.marcas().map((m: Marca): MarcaInterface => {
         return m.toInterface();
-      })
+      }),
     );
     this.nombreBox().nativeElement.focus();
   }
@@ -138,7 +140,7 @@ export default class NewProveedorModalComponent implements OnInit {
             content:
               'Has elegido alguna marca que ya tenía asignado un proveedor, ¿quieres continuar? En caso de continuar será reemplazado y los artículos de dicha marca también cambiarán a este nuevo proveedor.',
           })
-          .subscribe((result) => {
+          .subscribe((result: boolean): void => {
             if (result === true) {
               this.guardarProveedorMarcas(false);
             }
@@ -157,7 +159,7 @@ export default class NewProveedorModalComponent implements OnInit {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result: IdSaveResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         this.ps.resetProveedores();
-        this.customOverlayRef.close(result.id);
+        this.customOverlayRef.close({ result: result.id });
       }
       if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog.alert({

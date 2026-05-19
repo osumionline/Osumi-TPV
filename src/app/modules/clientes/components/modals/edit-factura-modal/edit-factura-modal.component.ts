@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { VentasClienteResult } from '@interfaces/cliente.interface';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
+import { FacturaModal, FacturaModalResult } from '@interfaces/modals.interface';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Factura from '@model/clientes/factura.model';
@@ -25,7 +26,7 @@ export default class EditFacturaModalComponent implements OnInit {
   private readonly cs: ClientesService = inject(ClientesService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
   private readonly dialog: DialogService = inject(DialogService);
-  private readonly customOverlayRef: CustomOverlayRef<null, { id: number; factura: Factura }> =
+  private readonly customOverlayRef: CustomOverlayRef<FacturaModalResult, FacturaModal> =
     inject(CustomOverlayRef);
 
   title: string = 'Selecciona las ventas que quieras incluir en la factura:';
@@ -128,7 +129,7 @@ export default class EditFacturaModalComponent implements OnInit {
     });
     this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult) => {
       if (result.status === ApiStatusEnum.OK) {
-        this.customOverlayRef.close(result.id);
+        this.customOverlayRef.close({ result: result.id });
       }
     });
   }
@@ -155,7 +156,7 @@ export default class EditFacturaModalComponent implements OnInit {
             content: 'La factura ha sido correctamente borrada.',
           })
           .subscribe((): void => {
-            this.customOverlayRef.close(0);
+            this.customOverlayRef.close({ result: 0 });
           });
       } else {
         this.dialog.alert({
@@ -174,7 +175,7 @@ export default class EditFacturaModalComponent implements OnInit {
     this.cs.saveFactura(this.factura.toSaveInterface()).subscribe((result: IdSaveResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         window.open('/clientes/factura/' + result.id + '/preview');
-        this.customOverlayRef.close(result.id);
+        this.customOverlayRef.close({ result: result.id });
       }
     });
   }
@@ -189,7 +190,7 @@ export default class EditFacturaModalComponent implements OnInit {
       .subscribe((result: IdSaveResult): void => {
         if (result.status === ApiStatusEnum.OK) {
           window.open('/clientes/factura/' + result.id);
-          this.customOverlayRef.close(result.id);
+          this.customOverlayRef.close({ result: result.id });
         }
       });
   }

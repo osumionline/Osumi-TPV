@@ -29,7 +29,11 @@ import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import { BuscadorModal } from '@interfaces/modals.interface';
+import {
+  BuscadorModal,
+  BuscadorModalResult,
+  NewProveedorModalResult,
+} from '@interfaces/modals.interface';
 import { PedidoResult, PedidoSaveResult, PedidosColOption } from '@interfaces/pedido.interface';
 import Articulo from '@model/articulos/articulo.model';
 import PedidoLinea from '@model/compras/pedido-linea.model';
@@ -294,7 +298,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       if (this.pedido.recepcionado) {
         const borrarId: number = 18;
         const borrarInd: number = this.colOptions.findIndex(
-          (x: PedidosColOption): boolean => x.id === borrarId
+          (x: PedidosColOption): boolean => x.id === borrarId,
         );
         this.colOptions.splice(borrarInd, 1);
       }
@@ -339,7 +343,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     if (this.ars.returnInfo !== null && this.ars.returnInfo.extra !== null) {
       this.nuevoLocalizador = this.ars.returnInfo.extra;
       const loc: HTMLInputElement = document.getElementById(
-        'nuevo-localizador'
+        'nuevo-localizador',
       ) as HTMLInputElement;
       const ev: KeyboardEvent = new KeyboardEvent('keydown', {
         code: 'Enter',
@@ -389,10 +393,13 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       modalTitle: 'Nuevo proveedor',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open(NewProveedorModalComponent, modalnewProveedorData);
+    const dialog = this.overlayService.open<NewProveedorModalResult>(
+      NewProveedorModalComponent,
+      modalnewProveedorData,
+    );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data !== null) {
-        this.pedido.idProveedor = data.data;
+      if (data !== null && data.data !== null && data.data.result !== null) {
+        this.pedido.idProveedor = data.data.result;
       }
     });
   }
@@ -480,7 +487,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     linea.puc = getTwoNumberDecimal(
       (linea.palb ?? 0) *
         (1 - (linea.descuento ?? 0) / 100) *
-        (1 + ((linea.iva ?? 0) + (linea.re ?? 0)) / 100)
+        (1 + ((linea.iva ?? 0) + (linea.re ?? 0)) / 100),
     );
     this.updateMargen(linea);
   }
@@ -499,7 +506,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
 
   updateMargen(linea: PedidoLinea): void {
     linea.margen = getTwoNumberDecimal(
-      (100 * ((linea.pvp ?? 0) - (linea.puc ?? 0))) / (linea.pvp ?? 1)
+      (100 * ((linea.pvp ?? 0) - (linea.puc ?? 0))) / (linea.pvp ?? 1),
     );
   }
 
@@ -518,11 +525,14 @@ export default class PedidoComponent implements OnInit, OnDestroy {
         css: 'modal-wide',
         key: ev.key,
       };
-      const dialog = this.overlayService.open(BuscadorModalComponent, modalBuscadorData);
+      const dialog = this.overlayService.open<BuscadorModalResult>(
+        BuscadorModalComponent,
+        modalBuscadorData,
+      );
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
-        if (data.data !== null) {
-          this.nuevoLocalizador = data.data;
+        if (data.data !== null && data.data.result !== null) {
+          this.nuevoLocalizador = data.data.result as number;
           this.loadArticulo();
         } else {
           this.localizadorBox().nativeElement.focus();
@@ -636,7 +646,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
       }
       if (newLocalizador !== null) {
         const obj: HTMLElement | null = document.getElementById(
-          target[0] + '-' + target[1] + '-' + newLocalizador
+          target[0] + '-' + target[1] + '-' + newLocalizador,
         );
         if (obj !== null) {
           obj.focus();
@@ -758,7 +768,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     this.pedido.vista = [];
     for (const opt of this.colOptions) {
       this.pedido.vista.push(
-        new PedidoVista(opt.id, opt.default || this.colOptionsSelected.includes(opt.id))
+        new PedidoVista(opt.id, opt.default || this.colOptionsSelected.includes(opt.id)),
       );
     }
   }

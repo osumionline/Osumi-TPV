@@ -13,11 +13,15 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { ArticuloResult } from '@interfaces/articulo.interface';
-import { BuscadorModal } from '@interfaces/modals.interface';
+import {
+  BuscadorModal,
+  BuscadorModalResult,
+  CaducidadModalResult,
+} from '@interfaces/modals.interface';
 import Caducidad from '@model/almacen/caducidad.model';
 import Articulo from '@model/articulos/articulo.model';
 import ApiStatusEnum from '@model/enum/api-status.enum';
-import { CustomOverlayRef, OverlayService } from '@osumi/angular-tools';
+import { CustomOverlayRef, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
@@ -32,9 +36,8 @@ export default class CaducidadModalComponent {
   private readonly os: OverlayService = inject(OverlayService);
   private readonly ars: ArticulosService = inject(ArticulosService);
   private readonly cms: ClassMapperService = inject(ClassMapperService);
-  private readonly customOverlayRef: CustomOverlayRef<null, { caducidad: Caducidad }> = inject(
-    CustomOverlayRef<null, { caducidad: Caducidad }>
-  );
+  private readonly customOverlayRef: CustomOverlayRef<CaducidadModalResult, Modal> =
+    inject(CustomOverlayRef);
 
   articulo: Articulo = new Articulo();
   articuloSelected: WritableSignal<boolean> = signal<boolean>(false);
@@ -64,11 +67,11 @@ export default class CaducidadModalComponent {
         css: 'modal-wide',
         key: ev.key,
       };
-      const dialog = this.os.open(BuscadorModalComponent, modalBuscadorData);
+      const dialog = this.os.open<BuscadorModalResult>(BuscadorModalComponent, modalBuscadorData);
       dialog.afterClosed$.subscribe((data): void => {
         this.showBuscador = false;
-        if (data.data !== null) {
-          this.articulo.localizador = data.data;
+        if (data.data !== null && data.data.result !== null) {
+          this.articulo.localizador = data.data.result as number;
           this.loadArticulo();
         } else {
           this.focus();
@@ -101,6 +104,6 @@ export default class CaducidadModalComponent {
     const cad: Caducidad = new Caducidad();
     cad.articulo = this.articulo;
     cad.unidades = this.unidades;
-    this.customOverlayRef.close(cad);
+    this.customOverlayRef.close({ result: cad });
   }
 }
