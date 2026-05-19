@@ -26,7 +26,8 @@
 		@if (ventas().length > 0 && !cliente()) {
 		<div class="select-client">
 			<span (click)="selectClient()"
-				  matTooltip="Elegir cliente">
+				  matTooltip="Elegir cliente"
+				  #btnElegirCliente>
 				<mat-icon>person_add</mat-icon>
 			</span>
 		</div>
@@ -34,8 +35,9 @@
 		@if (cliente()) {
 		<div class="select-client">
 			<a [routerLink]="`/clientes/${cliente()!.id}`">{{ cliente()!.nombreApellidos }}</a>
-			<span matTooltip="Quitar cliente">
-				<mat-icon (click)="removeClient()">close</mat-icon>
+			<span matTooltip="Quitar cliente"
+				  (click)="removeClient()">
+				<mat-icon>close</mat-icon>
 			</span>
 		</div>
 		}

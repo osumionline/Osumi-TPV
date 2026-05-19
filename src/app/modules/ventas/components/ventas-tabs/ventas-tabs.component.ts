@@ -1,4 +1,14 @@
-import { Component, InputSignal, OutputEmitterRef, inject, input, output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  InputSignal,
+  OutputEmitterRef,
+  Signal,
+  inject,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
@@ -37,6 +47,7 @@ export default class VentasTabsComponent {
   selectReservaEvent: OutputEmitterRef<Reserva[]> = output<Reserva[]>();
 
   selectClienteFrom: string | null = null;
+  btnElegirCliente: Signal<ElementRef | undefined> = viewChild<ElementRef>('btnElegirCliente');
 
   selectTab(ind: number): void {
     this.changeTabEvent.emit(ind);
@@ -69,6 +80,9 @@ export default class VentasTabsComponent {
     const dialog = this.overlayService.open<ElegirClienteModalResult>(
       ElegirClienteModalComponent,
       modalnewProveedorData,
+      [],
+      true,
+      this.btnElegirCliente()?.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.cliente !== null) {

@@ -11,6 +11,7 @@
 				  (selectClientEvent)="selectClient($event)"
 				  (selectReservaEvent)="selectReserva($event)"
 				  #tabs />
+
 @for (venta of ventas(); track venta.id; let i = $index) {
 <otpv-una-venta [ind]="i"
 				[venta]="venta"
