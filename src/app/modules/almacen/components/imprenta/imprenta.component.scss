@@ -5,7 +5,12 @@
         width: 20%;
         border-right: 1px solid var(--color-light-grey);
         margin-right: 16px;
+        padding-right: 16px;
         box-sizing: border-box;
+
+        .search {
+            width: 100%;
+        }
     }
 
     .col-seleccionados {

@@ -100,6 +100,7 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
   ];
   caducidadesDataSource: MatTableDataSource<Caducidad> = new MatTableDataSource<Caducidad>();
   sort: Signal<MatSort> = viewChild.required(MatSort);
+  btnAddCaducidad: Signal<MatButton> = viewChild.required('btnAddCaducidad');
 
   ngOnInit(): void {
     this.monthList = this.config.monthList;
@@ -160,6 +161,9 @@ export default class CaducidadesComponent implements OnInit, OnDestroy {
     const dialog = this.overlayService.open<CaducidadModalResult>(
       CaducidadModalComponent,
       modalCaducidadData,
+      [],
+      true,
+      this.btnAddCaducidad()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null && data.data.result !== null) {
