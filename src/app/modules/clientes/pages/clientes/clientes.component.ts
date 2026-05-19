@@ -135,6 +135,10 @@ export default class ClientesComponent implements OnInit {
   monthList: Month[] = [];
   yearList: number[] = [];
 
+  btnFindCliente: Signal<ElementRef | undefined> = viewChild.required<ElementRef | undefined>(
+    'btnFindCliente',
+  );
+
   ngOnInit(): void {
     this.monthList = this.config.monthList;
     const currentYear: number = new Date().getFullYear();
@@ -166,6 +170,9 @@ export default class ClientesComponent implements OnInit {
     const dialog = this.overlayService.open<BuscarClienteModalResult>(
       BuscarClienteModalComponent,
       modalData,
+      [],
+      true,
+      this.btnFindCliente()?.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.cliente !== null) {
