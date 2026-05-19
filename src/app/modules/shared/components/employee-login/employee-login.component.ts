@@ -32,6 +32,9 @@ export default class EmployeeLoginComponent {
     const dialog = this.overlayService.open<EmpleadoLoginModalResult>(
       EmployeeLoginModalComponent,
       modalEmpleadoLoginData,
+      [],
+      true,
+      document.getElementById(`empleado_${empleado.id}`) as HTMLElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.result === true) {

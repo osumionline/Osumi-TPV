@@ -2,7 +2,8 @@
     @for (empleado of empleados(); track empleado.id) {
     <div class="empleado"
          [style]="{'background-color': empleado.color, 'color': empleado.textColor}"
-         (click)="abreLogin(empleado)">
+         (click)="abreLogin(empleado)"
+         [id]="`empleado_${empleado.id}`">
         {{ empleado.nombre }}
     </div>
     }
