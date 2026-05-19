@@ -85,7 +85,9 @@ export default class UnArticuloGeneralComponent {
   fecCadValue: Signal<ElementRef> = viewChild.required<ElementRef>('fecCadValue');
 
   marcas: Marca[] = this.ms.marcas();
+  btnNewMarca: Signal<MatIconButton> = viewChild.required<MatIconButton>('btnNewMarca');
   proveedores: Proveedor[] = this.ps.proveedores();
+  btnNewProveedor: Signal<MatIconButton> = viewChild.required<MatIconButton>('btnNewProveedor');
 
   categoriesPlain: WritableSignal<CategoriaInterface[]> = signal<CategoriaInterface[]>(
     this.cs.categoriasPlain,
@@ -99,6 +101,9 @@ export default class UnArticuloGeneralComponent {
     const dialog = this.overlayService.open<NewMarcaModalResult>(
       NewMarcaModalComponent,
       modalnewMarcaData,
+      [],
+      true,
+      this.btnNewMarca()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null) {
@@ -120,6 +125,9 @@ export default class UnArticuloGeneralComponent {
     const dialog = this.overlayService.open<NewProveedorModalResult>(
       NewProveedorModalComponent,
       modalnewProveedorData,
+      [],
+      true,
+      this.btnNewProveedor()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null) {

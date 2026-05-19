@@ -11,10 +11,10 @@
             </mat-select>
         </mat-form-field>
         <button matIconButton
-                aria-label="Añadir nueva marca"
-                title="Añadir nueva marca"
+                matTooltip="Añadir nueva marca"
                 type="button"
-                (click)="newMarca()">
+                (click)="newMarca()"
+                #btnNewMarca>
             <mat-icon>add_circle_outline</mat-icon>
         </button>
     </div>
@@ -70,9 +70,10 @@
             </mat-select>
         </mat-form-field>
         <button matIconButton
-                title="Añadir nuevo proveedor"
+                matTooltip="Añadir nuevo proveedor"
                 type="button"
-                (click)="openProveedor()">
+                (click)="openProveedor()"
+                #btnNewProveedor>
             <mat-icon>add_circle_outline</mat-icon>
         </button>
     </div>

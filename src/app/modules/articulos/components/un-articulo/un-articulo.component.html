@@ -15,7 +15,8 @@
                         aria-label="Añadir acceso directo"
                         matTooltip="Añadir acceso directo"
                         type="button"
-                        (click)="abrirAccesosDirectos()">
+                        (click)="abrirAccesosDirectos()"
+                        #btnAccesosDirectos>
                     <mat-icon>launch</mat-icon>
                 </button>
             </div>
@@ -74,7 +75,8 @@
                     <button mat-flat-button
                             color="warn"
                             type="button"
-                            (click)="darDeBaja()">Dar de baja</button>
+                            (click)="darDeBaja()"
+                            #btnDarDeBaja>Dar de baja</button>
                 </div>
             </mat-tab>
             }

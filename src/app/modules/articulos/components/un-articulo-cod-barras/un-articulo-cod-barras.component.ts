@@ -2,13 +2,14 @@ import { Component, ElementRef, ModelSignal, Signal, model, viewChild } from '@a
 import { FormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 import Articulo from '@model/articulos/articulo.model';
 import CodigoBarras from '@model/articulos/codigo-barras.model';
 import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'otpv-un-articulo-cod-barras',
-  imports: [QRCodeComponent, MatIconButton, MatButton, MatIcon, FormsModule],
+  imports: [QRCodeComponent, MatIconButton, MatButton, MatIcon, FormsModule, MatTooltip],
   templateUrl: './un-articulo-cod-barras.component.html',
   styleUrls: [
     './un-articulo-cod-barras.component.scss',
@@ -56,7 +57,7 @@ export default class UnArticuloCodBarrasComponent {
 
   deleteCodBarras(codBarras: CodigoBarras): void {
     const ind: number = this.articulo().codigosBarras.findIndex(
-      (x: CodigoBarras): boolean => x.codigoBarras == codBarras.codigoBarras
+      (x: CodigoBarras): boolean => x.codigoBarras == codBarras.codigoBarras,
     );
     this.articulo.update((value: Articulo): Articulo => {
       value.codigosBarras.splice(ind, 1);

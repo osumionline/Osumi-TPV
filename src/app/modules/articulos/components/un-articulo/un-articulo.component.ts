@@ -115,6 +115,8 @@ export default class UnArticuloComponent {
 
   saving: WritableSignal<boolean> = signal<boolean>(false);
   showBuscador: boolean = false;
+  btnAccesosDirectos: Signal<MatButton> = viewChild.required<MatButton>('btnAccesosDirectos');
+  btnDarDeBaja: Signal<MatButton> = viewChild.required<MatButton>('btnDarDeBaja');
 
   load(articulo: Articulo, ind: number): void {
     this.articulo = articulo;
@@ -255,6 +257,9 @@ export default class UnArticuloComponent {
     const dialog = this.overlayService.open<AccesosDirectosModalResult>(
       AccesosDirectosModalComponent,
       modalAccesosDirectosData,
+      [],
+      true,
+      this.btnAccesosDirectos()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.result !== null) {
@@ -290,6 +295,9 @@ export default class UnArticuloComponent {
     const dialog = this.overlayService.open<DarDeBajaModalResult>(
       ArticuloDarDeBajaModalComponent,
       modalDarDeBajaData,
+      [],
+      true,
+      this.btnDarDeBaja()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data.data !== null && data.data.result === true) {
