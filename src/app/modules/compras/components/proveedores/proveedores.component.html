@@ -1,5 +1,31 @@
 <mat-card class="proveedores">
     <mat-card-content class="full-height">
+        <div class="section-header">
+            <span class="section-title">Proveedores</span>
+            <div class="section-options">
+                @if (start()) {
+                <span class="section-button"
+                      (click)="findProveedor()"
+                      matTooltip="Elegir proveedor"
+                      #btnFindProveedor>
+                    <mat-icon>search</mat-icon>
+                </span>
+                }
+                @else {
+                <span class="section-info">{{ selectedProveedor.nombre }}</span>
+                <span class="section-button"
+                      (click)="removeProveedor()"
+                      matTooltip="Quitar proveedor">
+                    <mat-icon>close</mat-icon>
+                </span>
+                }
+                <span class="section-button"
+                      (click)="newProveedor()"
+                      matTooltip="Añadir proveedor">
+                    <mat-icon>person_add</mat-icon>
+                </span>
+            </div>
+        </div>
         <div class="flex-content">
             <aside>
                 <mat-form-field class="search full-width"
@@ -32,9 +58,9 @@
                 </div>
             </aside>
             <main>
-                <div [class]="{'show': start}"
+                <div [class]="{'show': start()}"
                      class="start-message">Elige un proveedor de la lista.</div>
-                <div [class]="{'show': !start}"
+                <div [class]="{'show': !start()}"
                      class="main-body">
                     <mat-tab-group dynamicHeight
                                    [selectedIndex]="selectedTab"

@@ -25,6 +25,7 @@ import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTooltip } from '@angular/material/tooltip';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { SelectMarcaInterface } from '@interfaces/marca.interface';
 import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
@@ -55,6 +56,7 @@ import ProveedoresService from '@services/proveedores.service';
     MatSelect,
     MatOption,
     MatCheckbox,
+    MatTooltip,
   ],
 })
 export default class ProveedoresComponent implements OnInit {
@@ -64,7 +66,6 @@ export default class ProveedoresComponent implements OnInit {
 
   search: WritableSignal<string> = signal<string>('');
   searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
-  start: boolean = true;
   selectedProveedor: Proveedor = new Proveedor();
   proveedorTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('proveedorTabs');
   selectedTab: number = 0;
@@ -89,6 +90,7 @@ export default class ProveedoresComponent implements OnInit {
   private compareMarca(a: SelectMarcaInterface, b: SelectMarcaInterface): number {
     return Number(b.selected) - Number(a.selected) || a.nombre.localeCompare(b.nombre);
   }
+
   filteredMarcasList: Signal<SelectMarcaInterface[]> = computed<SelectMarcaInterface[]>(
     (): SelectMarcaInterface[] => {
       const term: string = (this.searchMarcas() ?? '').trim().toLowerCase();
@@ -101,9 +103,9 @@ export default class ProveedoresComponent implements OnInit {
       return base
         .slice()
         .sort((a: SelectMarcaInterface, b: SelectMarcaInterface): number =>
-          this.compareMarca(a, b)
+          this.compareMarca(a, b),
         );
-    }
+    },
   );
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
@@ -134,6 +136,7 @@ export default class ProveedoresComponent implements OnInit {
   comercialNameBox: Signal<ElementRef> = viewChild.required<ElementRef>('comercialNameBox');
   selectedComercial: Comercial = new Comercial();
   canSeeStatistics: boolean = false;
+  start: WritableSignal<boolean> = signal<boolean>(true);
 
   ngOnInit(): void {
     const marcasList: SelectMarcaInterface[] = [];
@@ -153,8 +156,18 @@ export default class ProveedoresComponent implements OnInit {
     }, 100);
   }
 
+  findProveedor(): void {
+    console.log('findProveedor');
+  }
+
+  removeProveedor(): void {
+    this.start.set(true);
+    this.selectedProveedor = new Proveedor();
+    this.form.reset();
+  }
+
   selectProveedor(proveedor: Proveedor): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedProveedor = proveedor;
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
@@ -166,7 +179,7 @@ export default class ProveedoresComponent implements OnInit {
   }
 
   newProveedor(): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedProveedor = new Proveedor();
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
@@ -263,7 +276,7 @@ export default class ProveedoresComponent implements OnInit {
       .subscribe((result: StatusResult): void => {
         if (result.status === ApiStatusEnum.OK) {
           this.ps.resetProveedores();
-          this.start = true;
+          this.start.set(true);
           this.dialog.alert({
             title: 'Proveedor borrado',
             content:
@@ -288,11 +301,11 @@ export default class ProveedoresComponent implements OnInit {
 
   selectComercial(id: number): void {
     const comercialInd: number = this.selectedProveedor.comerciales.findIndex(
-      (x: Comercial): boolean => x.id === id
+      (x: Comercial): boolean => x.id === id,
     );
     this.selectedComercial = new Comercial().fromInterface(
       this.selectedProveedor.comerciales[comercialInd],
-      false
+      false,
     );
     this.formComercial.patchValue(this.selectedComercial.toInterface(false));
     this.originalValue = this.form.getRawValue();

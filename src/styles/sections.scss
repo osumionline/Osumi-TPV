@@ -1,0 +1,39 @@
+.section-header {
+    display: flex;
+    margin-bottom: 8px;
+    height: 48px;
+    align-items: center;
+
+    .section-title {
+        font-size: 24px;
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-options {
+        display: flex;
+        align-items: center;
+
+        .section-button {
+            display: inline-flex;
+            margin: 0 8px;
+            font-weight: bold;
+            height: 48px;
+            align-items: center;
+            width: 50px;
+            justify-content: center;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--color-medium-light-grey);
+                border-radius: 6px;
+            }
+        }
+
+        .section-info {
+            font-weight: bold;
+        }
+    }
+}

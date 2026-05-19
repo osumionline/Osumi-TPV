@@ -2,11 +2,11 @@
 
 <mat-card class="clientes">
     <mat-card-content class="full-height">
-        <div class="header">
-            <span class="title">Clientes</span>
-            <div class="select-client">
+        <div class="section-header">
+            <span class="section-title">Clientes</span>
+            <div class="section-options">
                 @if (start()) {
-                <span class="client-button"
+                <span class="section-button"
                       (click)="findCliente()"
                       matTooltip="Elegir cliente"
                       #btnFindCliente>
@@ -14,14 +14,14 @@
                 </span>
                 }
                 @else {
-                <span class="client-name">{{ selectedClient.nombreApellidos }}</span>
-                <span class="client-button"
+                <span class="section-info">{{ selectedClient.nombreApellidos }}</span>
+                <span class="section-button"
                       (click)="removeCliente()"
                       matTooltip="Quitar cliente">
                     <mat-icon>close</mat-icon>
                 </span>
                 }
-                <span class="client-button"
+                <span class="section-button"
                       (click)="newCliente()"
                       matTooltip="Añadir cliente">
                     <mat-icon>person_add</mat-icon>
