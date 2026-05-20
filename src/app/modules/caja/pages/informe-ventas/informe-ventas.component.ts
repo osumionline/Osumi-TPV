@@ -10,9 +10,11 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
+  InformeVentasArticuloInterface,
   InformeVentasCategoriaInterface,
   InformeVentasResult,
 } from '@interfaces/informes.interface';
@@ -20,11 +22,20 @@ import { Month } from '@interfaces/interfaces';
 import ConfigService from '@services/config.service';
 import InformesService from '@services/informes.service';
 
+interface InformeVentasMarcaInterface {
+  idMarca: number;
+  marca: string;
+  importe: number;
+  unidades: number;
+  margen: number;
+}
+
 @Component({
   selector: 'otpv-informe-ventas',
   imports: [
     NgTemplateOutlet,
     MatButtonModule,
+    MatCheckbox,
     MatIconModule,
     CurrencyPipe,
     CommonModule,
@@ -36,9 +47,14 @@ import InformesService from '@services/informes.service';
 export default class InformeVentasComponent implements OnInit {
   private readonly config: ConfigService = inject(ConfigService);
   private readonly is: InformesService = inject(InformesService);
+  private readonly marcasByCategoria: WeakMap<
+    InformeVentasCategoriaInterface,
+    InformeVentasMarcaInterface[]
+  > = new WeakMap<InformeVentasCategoriaInterface, InformeVentasMarcaInterface[]>();
 
   loaded: WritableSignal<boolean> = signal<boolean>(false);
   expandedCategories: WritableSignal<Set<number>> = signal<Set<number>>(new Set<number>());
+  groupByBrand: WritableSignal<boolean> = signal<boolean>(false);
   idCategoria: InputSignalWithTransform<number, unknown> = input.required({
     transform: numberAttribute,
   });
@@ -91,6 +107,55 @@ export default class InformeVentasComponent implements OnInit {
 
       return next;
     });
+  }
+
+  getMarcas(categoria: InformeVentasCategoriaInterface): InformeVentasMarcaInterface[] {
+    const cachedMarcas: InformeVentasMarcaInterface[] | undefined =
+      this.marcasByCategoria.get(categoria);
+
+    if (cachedMarcas) {
+      return cachedMarcas;
+    }
+
+    const marcas: Map<number, InformeVentasMarcaInterface & { margenImporte: number }> = new Map<
+      number,
+      InformeVentasMarcaInterface & { margenImporte: number }
+    >();
+
+    categoria.articulos.forEach((articulo: InformeVentasArticuloInterface): void => {
+      const marca: InformeVentasMarcaInterface & { margenImporte: number } = marcas.get(
+        articulo.idMarca,
+      ) ?? {
+        idMarca: articulo.idMarca,
+        marca: articulo.marca,
+        importe: 0,
+        unidades: 0,
+        margen: 0,
+        margenImporte: 0,
+      };
+
+      marca.importe += articulo.importe;
+      marca.unidades += articulo.unidades;
+      marca.margenImporte += articulo.importe * articulo.margen;
+
+      marcas.set(articulo.idMarca, marca);
+    });
+
+    const result: InformeVentasMarcaInterface[] = Array.from(marcas.values()).map(
+      (marca: InformeVentasMarcaInterface & { margenImporte: number }): InformeVentasMarcaInterface => {
+        return {
+          idMarca: marca.idMarca,
+          marca: marca.marca,
+          importe: marca.importe,
+          unidades: marca.unidades,
+          margen: marca.importe === 0 ? 0 : marca.margenImporte / marca.importe,
+        };
+      },
+    );
+
+    this.marcasByCategoria.set(categoria, result);
+
+    return result;
   }
 
   private getCategoryIds(categoria: InformeVentasCategoriaInterface): Set<number> {

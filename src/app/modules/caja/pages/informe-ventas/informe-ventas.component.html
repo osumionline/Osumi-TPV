@@ -1,13 +1,23 @@
 <div class="informe-ventas">
     <header class="informe-header">
-        <h1>Informe de ventas</h1>
-        <p>{{ monthName() }} {{ year() }}</p>
+        <div>
+            <h1>Informe de ventas</h1>
+            <p>{{ monthName() }} {{ year() }}</p>
+        </div>
+
+        <mat-checkbox class="brand-group-toggle"
+                      [checked]="groupByBrand()"
+                      (change)="groupByBrand.set($event.checked)">
+            Agrupar por marca
+        </mat-checkbox>
     </header>
 
     @if (loaded() && data(); as informe) {
     <section class="ventas-table">
         <div class="ventas-head">
             <span>Concepto</span>
+            <span>Margen</span>
+            <span>Unidades</span>
             <span>Importe</span>
         </div>
 
@@ -37,14 +47,30 @@
                 }
 
                 <span class="categoria-name">{{ categoria.nombre }}</span>
-                <span class="categoria-meta">Margen: {{ categoria.margen | number: '1.2-2' }} %</span>
-                <span class="categoria-meta">Uds: {{ categoria.unidades }}</span>
             </div>
 
+            <span class="row-meta">{{ categoria.margen | number: '1.2-2' }} %</span>
+            <span class="row-meta">{{ categoria.unidades }}</span>
             <span class="row-amount">{{ categoria.total | currency: 'EUR' : 'symbol' : '1.2-2' }}</span>
         </div>
 
         <div [class.children-hidden]="!isExpanded(categoria)">
+            @if (groupByBrand()) {
+            @for (marca of getMarcas(categoria); track marca.idMarca) {
+            <div class="ventas-row marca-row">
+                <div class="row-main marca-main"
+                     [style.padding-left.px]="(nivel + 1) * 28"
+                     [style.--print-indent]="((nivel + 1) * 14) + 'px'">
+                    <span class="toggle-spacer"></span>
+                    <span class="marca-name">{{ marca.marca }}</span>
+                </div>
+
+                <span class="row-meta">{{ marca.margen | number: '1.2-2' }} %</span>
+                <span class="row-meta">{{ marca.unidades }}</span>
+                <span class="row-amount">{{ marca.importe | currency: 'EUR' : 'symbol' : '1.2-2' }}</span>
+            </div>
+            }
+            } @else {
             @for (articulo of categoria.articulos; track articulo.id) {
             <div class="ventas-row articulo-row">
             <div class="row-main articulo-main"
@@ -53,12 +79,13 @@
                     <span class="toggle-spacer"></span>
                     <span class="marca-name">{{ articulo.marca }}</span>
                     <span class="articulo-name">{{ articulo.nombre }}</span>
-                    <span class="articulo-meta">Margen: {{ articulo.margen | number: '1.2-2' }} %</span>
-                    <span class="articulo-meta">Uds: {{ articulo.unidades }}</span>
                 </div>
 
+                <span class="row-meta">{{ articulo.margen | number: '1.2-2' }} %</span>
+                <span class="row-meta">{{ articulo.unidades }}</span>
                 <span class="row-amount">{{ articulo.importe | currency: 'EUR' : 'symbol' : '1.2-2' }}</span>
             </div>
+            }
             }
 
             @for (subcategoria of categoria.subcategorias; track subcategoria.id) {
