@@ -2,6 +2,7 @@ import { DevolucionSelectedInterface, VentaVariosInterface } from '@interfaces/v
 import Caducidad from '@model/almacen/caducidad.model';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
+import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import Reserva from '@model/ventas/reserva.model';
 import VentaFin from '@model/ventas/venta-fin.model';
@@ -127,6 +128,10 @@ export interface BuscarProveedorModalResult {
 
 export interface NewMarcaModalResult {
   result: number | null;
+}
+
+export interface BuscarMarcaModalResult {
+  marca: Marca | null;
 }
 
 export interface CaducidadModalResult {

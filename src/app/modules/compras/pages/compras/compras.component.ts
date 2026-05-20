@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import ComprasPedidosListComponent from '@modules/compras/components/compras-pedidos-list/compras-pedidos-list.component';
 import MarcasComponent from '@modules/compras/components/marcas/marcas.component';
@@ -28,8 +28,6 @@ export default class ComprasComponent implements OnInit {
   private readonly router: Router = inject(Router);
 
   compras: Signal<ComprasPedidosListComponent> = viewChild.required(ComprasPedidosListComponent);
-  marcas: Signal<MarcasComponent | undefined> = viewChild(MarcasComponent);
-  proveedores: Signal<ProveedoresComponent | undefined> = viewChild(ProveedoresComponent);
 
   ngOnInit(): void {
     if (this.comprasService.pedidoCargado !== null) {
@@ -41,11 +39,5 @@ export default class ComprasComponent implements OnInit {
       return;
     }
     this.compras().load();
-  }
-
-  tabChange(ev: MatTabChangeEvent): void {
-    if (ev.index === 1) {
-      this.marcas()?.searchFocus();
-    }
   }
 }

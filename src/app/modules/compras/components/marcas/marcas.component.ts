@@ -1,6 +1,5 @@
 import {
   Component,
-  computed,
   ElementRef,
   inject,
   signal,
@@ -16,18 +15,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { BuscarMarcaModalResult } from '@app/interfaces/modals.interface';
 import ApiStatusEnum from '@enum/api-status.enum';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
-import { DialogService } from '@osumi/angular-tools';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
+import BuscarMarcaModalComponent from '../../modals/buscar-marca-modal/buscar-marca-modal.component';
 
 @Component({
   selector: 'otpv-marcas',
@@ -36,12 +35,8 @@ import MarcasService from '@services/marcas.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    MatCard,
-    MatCardContent,
     MatFormField,
     MatInput,
-    MatActionList,
-    MatListItem,
     MatIcon,
     MatButton,
     MatTabGroup,
@@ -50,16 +45,16 @@ import MarcasService from '@services/marcas.service';
 })
 export default class MarcasComponent {
   private readonly ms: MarcasService = inject(MarcasService);
+  private readonly os: OverlayService = inject(OverlayService);
   private readonly dialog: DialogService = inject(DialogService);
 
-  search: WritableSignal<string> = signal<string>('');
-  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
-  start: boolean = true;
+  start: WritableSignal<boolean> = signal<boolean>(true);
   marcaTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('marcaTabs');
   selectedMarca: Marca = new Marca();
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
-  logo: string = '/img/default.jpg';
+  btnFindMarca: Signal<ElementRef> = viewChild.required<ElementRef>('btnFindMarca');
+  logo: WritableSignal<string> = signal<string>('/img/default.jpg');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -73,31 +68,38 @@ export default class MarcasComponent {
   originalValue: MarcaInterface | null = null;
   canSeeStatistics: boolean = false;
 
-  marcas: WritableSignal<Marca[]> = signal<Marca[]>([...this.ms.marcas()]);
-  filteredMarcas: Signal<Marca[]> = computed<Marca[]>((): Marca[] => {
-    const term: string = (this.search() || '').trim().toLowerCase();
-    if (!term) {
-      return this.marcas();
-    }
-
-    return this.marcas().filter((m: Marca): boolean => {
-      const nombre: string = m?.nombre ?? '';
-      return nombre.toLowerCase().includes(term);
+  findMarca(): void {
+    const modalBuscadorData: Modal = {
+      modalTitle: 'Marcas',
+      modalColor: 'blue',
+      css: 'modal-wide',
+    };
+    const dialog = this.os.open<BuscarMarcaModalResult>(
+      BuscarMarcaModalComponent,
+      modalBuscadorData,
+      [],
+      true,
+      this.btnFindMarca().nativeElement,
+    );
+    dialog.afterClosed$.subscribe((data): void => {
+      if (data && data.data && data.data.marca) {
+        this.selectMarca(data.data.marca);
+      }
     });
-  });
+  }
 
-  searchFocus(): void {
-    setTimeout((): void => {
-      this.searchBox().nativeElement.focus();
-    }, 100);
+  removeMarca(): void {
+    this.start.set(true);
+    this.selectedMarca = new Marca();
+    this.form.reset();
   }
 
   selectMarca(marca: Marca): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedMarca = marca;
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.logo = marca.foto || '/img/default.jpg';
+    this.logo.set(marca.foto || '/img/default.jpg');
     this.marcaTabs().realignInkBar();
     setTimeout((): void => {
       this.nameBox().nativeElement.focus();
@@ -105,11 +107,11 @@ export default class MarcasComponent {
   }
 
   newMarca(): void {
-    this.start = false;
+    this.start.set(false);
     this.selectedMarca = new Marca();
     this.form.patchValue(this.selectedMarca.toInterface(false));
     this.originalValue = this.form.getRawValue();
-    this.logo = '/img/default.jpg';
+    this.logo.set('/img/default.jpg');
     this.marcaTabs().realignInkBar();
     setTimeout((): void => {
       this.nameBox().nativeElement.focus();
@@ -135,7 +137,7 @@ export default class MarcasComponent {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
-        this.logo = reader.result as string;
+        this.logo.set(reader.result as string);
         (document.getElementById('logo-file') as HTMLInputElement).value = '';
       };
     }
@@ -143,7 +145,7 @@ export default class MarcasComponent {
 
   onSubmit(): void {
     const data: MarcaInterface = JSON.parse(JSON.stringify(this.form.value));
-    data.foto = this.logo;
+    data.foto = this.logo();
 
     this.selectedMarca.fromInterface(data, false);
     this.ms.saveMarca(data).subscribe((result: IdSaveResult): void => {
@@ -186,7 +188,7 @@ export default class MarcasComponent {
     this.ms.deleteMarca(this.selectedMarca.id as number).subscribe((result: StatusResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
-        this.start = true;
+        this.start.set(true);
         this.dialog.alert({
           title: 'Marca borrada',
           content: 'La marca "' + this.selectedMarca.nombre + '" ha sido correctamente borrada.',

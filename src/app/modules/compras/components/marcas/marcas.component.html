@@ -1,161 +1,151 @@
-<mat-card class="marcas">
-    <mat-card-content class="full-height">
-        <div class="flex-content">
-            <aside>
-                <mat-form-field class="search full-width"
-                                subscriptSizing="dynamic">
-                    <input matInput
-                           placeholder="Nombre"
-                           [(ngModel)]="search"
-                           name="searchMarcas"
-                           #searchBox>
-                    <span matPrefix>
-                        <mat-icon>search</mat-icon>
-                    </span>
-                </mat-form-field>
-                <div class="list">
-                    <mat-action-list>
-                        @for (marca of filteredMarcas(); track marca.id) {
-                        <button mat-list-item
-                                (click)="selectMarca(marca)"
-                                [class.selected-client]="selectedMarca.id === marca.id">
-                            {{marca.nombre}}
-                        </button>
-                        }
-                    </mat-action-list>
-                </div>
-                <div class="new-brand">
-                    <button mat-flat-button
-                            color="primary"
-                            (click)="newMarca()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        Añadir marca
-                    </button>
-                </div>
-            </aside>
-            <main>
-                <div [class]="{'show': start}"
-                     class="start-message">Elige una marca de la lista.</div>
-                <div [class]="{'show': !start}"
-                     class="main-body">
-                    <mat-tab-group dynamicHeight
-                                   #marcaTabs>
-                        <mat-tab label="DATOS">
-                            <form [formGroup]="form"
-                                  (ngSubmit)="onSubmit()">
-                                <div class="group-row">
-                                    <div class="form-field half-width">
-                                        <div class="form-field max-width">
-                                            <label>Nombre (*)</label>
-                                            <mat-form-field class="max-width form-title">
-                                                <input matInput
-                                                       placeholder="Nombre"
-                                                       formControlName="nombre"
-                                                       name="nombre"
-                                                       #nameBox>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field max-width">
-                                            <label>Teléfono</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Teléfono"
-                                                       formControlName="telefono"
-                                                       name="telefono">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field max-width">
-                                            <label>Email</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Email"
-                                                       formControlName="email"
-                                                       name="email">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="form-field half-width">
-                                        <div class="logo-row">
-                                            <input type="file"
-                                                   name="logo-file"
-                                                   id="logo-file"
-                                                   accept="image/png, image/gif, image/jpeg"
-                                                   (change)="onLogoChange($event)">
-                                            <div class="logo">
-                                                <img [src]="logo"
-                                                     [alt]="selectedMarca.nombre">
-                                            </div>
-                                            <button mat-flat-button
-                                                    color="primary"
-                                                    type="button"
-                                                    (click)="addLogo()">Cambiar logo</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Dirección</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Dirección"
-                                                   formControlName="direccion"
-                                                   name="direccion">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Web</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Web"
-                                                   formControlName="web"
-                                                   name="web">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Observaciones</label>
-                                        <mat-form-field class="max-width">
-                                            <textarea matInput
-                                                      placeholder="Observaciones"
-                                                      formControlName="observaciones"
-                                                      name="observaciones"
-                                                      rows="5"></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <div class="delete">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="warn"
-                                                type="button"
-                                                (click)="deleteMarca()">Eliminar</button>
-                                        }
-                                    </div>
-                                    <div class="others">
-                                        <button mat-flat-button
-                                                color="primary"
-                                                [disabled]="!form.dirty"
-                                                type="button"
-                                                (click)="resetForm()">Cancelar</button>
-                                        <button mat-flat-button
-                                                type="submit"
-                                                color="primary"
-                                                [disabled]="!form.valid">Guardar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </mat-tab>
-                        @if (canSeeStatistics) {
-                        <!--mat-tab label="ESTADÍSTICAS">
-                        </mat-tab-->
-                        }
-                    </mat-tab-group>
-                </div>
-            </main>
+<div class="full-height">
+    <div class="section-header">
+        <span class="section-title">Marcas</span>
+        <div class="section-options">
+            @if (start()) {
+            <span class="section-button"
+                  (click)="findMarca()"
+                  matTooltip="Elegir marca"
+                  #btnFindMarca>
+                <mat-icon>search</mat-icon>
+            </span>
+            }
+            @else {
+            <span class="section-info">{{ selectedMarca.nombre }}</span>
+            <span class="section-button"
+                  (click)="removeMarca()"
+                  matTooltip="Quitar marca">
+                <mat-icon>close</mat-icon>
+            </span>
+            }
+            <span class="section-button"
+                  (click)="newMarca()"
+                  matTooltip="Añadir marca">
+                <mat-icon>person_add</mat-icon>
+            </span>
         </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+    <div class="flex-content marcas-content">
+        <div [class]="{'show': start()}"
+             class="start-message">Elige una marca de la lista.</div>
+        <div [class]="{'show': !start()}"
+             class="main-body">
+            <mat-tab-group dynamicHeight
+                           #marcaTabs>
+                <mat-tab label="DATOS">
+                    <form [formGroup]="form"
+                          (ngSubmit)="onSubmit()">
+                        <div class="group-row">
+                            <div class="form-field half-width">
+                                <div class="form-field max-width">
+                                    <label>Nombre (*)</label>
+                                    <mat-form-field class="max-width form-title">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               formControlName="nombre"
+                                               name="nombre"
+                                               #nameBox>
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               formControlName="telefono"
+                                               name="telefono">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field max-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               formControlName="email"
+                                               name="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="form-field half-width">
+                                <div class="logo-row">
+                                    <input type="file"
+                                           name="logo-file"
+                                           id="logo-file"
+                                           accept="image/png, image/gif, image/jpeg"
+                                           (change)="onLogoChange($event)">
+                                    <div class="logo">
+                                        <img [src]="logo()"
+                                             [alt]="selectedMarca.nombre">
+                                    </div>
+                                    <button mat-flat-button
+                                            color="primary"
+                                            type="button"
+                                            (click)="addLogo()">Cambiar logo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Dirección</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Dirección"
+                                           formControlName="direccion"
+                                           name="direccion">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Web</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Web"
+                                           formControlName="web"
+                                           name="web">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Observaciones</label>
+                                <mat-form-field class="max-width">
+                                    <textarea matInput
+                                              placeholder="Observaciones"
+                                              formControlName="observaciones"
+                                              name="observaciones"
+                                              rows="5"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="warn"
+                                        type="button"
+                                        (click)="deleteMarca()">Eliminar</button>
+                                }
+                            </div>
+                            <div class="others">
+                                <button mat-flat-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-flat-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+                @if (canSeeStatistics) {
+                <!--mat-tab label="ESTADÍSTICAS">
+                        </mat-tab-->
+                }
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

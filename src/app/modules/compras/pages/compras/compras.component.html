@@ -2,13 +2,13 @@
 
 <mat-card class="compras">
     <mat-card-content class="full-height">
-        <mat-tab-group (selectedTabChange)="tabChange($event)">
+        <mat-tab-group>
             <mat-tab label="PEDIDOS">
                 <otpv-compras-pedidos-list #compras />
             </mat-tab>
             <mat-tab label="MARCAS">
                 @defer (on viewport) {
-                <otpv-marcas #marcas />
+                <otpv-marcas />
                 }
                 @placeholder {
                 <div>Marcas</div>
@@ -16,7 +16,7 @@
             </mat-tab>
             <mat-tab label="PROVEEDORES">
                 @defer (on viewport) {
-                <otpv-proveedores #proveedores />
+                <otpv-proveedores />
                 }
                 @placeholder {
                 <div>Proveedores</div>

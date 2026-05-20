@@ -1,21 +1,21 @@
-<div class="buscar-proveedor">
+<div class="buscar-marca">
     <mat-form-field class="buscador">
         <input matInput
                placeholder="Introduce el nombre a buscar"
                [(ngModel)]="search"
                autocomplete="off"
-               #buscarProveedorBoxName>
+               #buscarMarcaBoxName>
     </mat-form-field>
     <div class="grid-items">
-        @for (prov of filteredProveedores(); track prov.id) {
+        @for (marca of filteredMarcas(); track marca.id) {
         <div class="item"
-             (click)="selectProveedor(prov)">
-            @if (prov.foto !== null) {
+             (click)="selectMarca(marca)">
+            @if (marca.foto !== null) {
             <img class="photo"
-                 [src]="prov.foto"
-                 [alt]="`Foto de ${prov.nombre}`">
+                 [src]="marca.foto"
+                 [alt]="`Foto de ${marca.nombre}`">
             }
-            {{ prov.nombre }}
+            {{ marca.nombre }}
         </div>
         }
     </div>
