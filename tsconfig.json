@@ -21,6 +21,7 @@
       "@guard/*": ["./src/app/guard/*"],
       "@interfaces/*": ["./src/app/interfaces/*"],
       "@model/*": ["./src/app/model/*"],
+      "@enum/*": ["./src/app/model/enum/*"],
       "@modules/*": ["./src/app/modules/*"],
       "@shared/*": ["./src/app/modules/shared/*"],
       "@services/*": ["./src/app/services/*"]

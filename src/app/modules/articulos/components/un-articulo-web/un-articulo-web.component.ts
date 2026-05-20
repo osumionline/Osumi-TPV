@@ -5,9 +5,9 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import ApiStatusEnum from '@enum/api-status.enum';
 import Articulo from '@model/articulos/articulo.model';
 import Foto from '@model/articulos/foto.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 
 @Component({

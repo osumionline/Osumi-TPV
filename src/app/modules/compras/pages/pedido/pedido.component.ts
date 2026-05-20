@@ -26,6 +26,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { environment } from '@env/environment';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import { StatusResult } from '@interfaces/interfaces';
@@ -40,7 +41,6 @@ import PedidoLinea from '@model/compras/pedido-linea.model';
 import PedidoPDF from '@model/compras/pedido-pdf.model';
 import PedidoVista from '@model/compras/pedido-vista.model';
 import Pedido from '@model/compras/pedido.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import IVAOption from '@model/tpv/iva-option.model';
@@ -53,8 +53,8 @@ import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 import HeaderComponent from '@shared/components/header/header.component';
-import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
-import NewProveedorModalComponent from '@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component';
+import BuscadorModalComponent from '@shared/modals/buscador-modal/buscador-modal.component';
+import NewProveedorModalComponent from '@shared/modals/new-proveedor-modal/new-proveedor-modal.component';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({

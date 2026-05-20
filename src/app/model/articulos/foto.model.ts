@@ -1,6 +1,6 @@
+import ApiStatusEnum from '@enum/api-status.enum';
 import { environment } from '@env/environment';
 import { FotoInterface } from '@interfaces/articulo.interface';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 
 export default class Foto {
   status: string = ApiStatusEnum.NEW;

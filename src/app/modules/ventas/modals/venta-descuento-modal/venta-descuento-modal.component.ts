@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { DescuentoModalResult } from '@app/interfaces/modals.interface';
+import { DescuentoModalResult } from '@interfaces/modals.interface';
 import { CustomOverlayRef, DialogService, Modal } from '@osumi/angular-tools';
 
 @Component({

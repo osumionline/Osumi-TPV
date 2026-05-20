@@ -1,4 +1,5 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import { HistoricoVentasResult } from '@interfaces/caja.interface';
 import { EstadisticasClienteResult } from '@interfaces/cliente.interface';
@@ -10,7 +11,6 @@ import {
 } from '@interfaces/venta.interface';
 import Articulo from '@model/articulos/articulo.model';
 import Cliente from '@model/clientes/cliente.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Empleado from '@model/tpv/empleado.model';
 import VentaFin from '@model/ventas/venta-fin.model';
 import VentaLinea from '@model/ventas/venta-linea.model';

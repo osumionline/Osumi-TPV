@@ -1,8 +1,8 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   effect,
+  ElementRef,
   inject,
   OnInit,
   signal,
@@ -19,11 +19,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ClienteSaveResult, ClientesResult } from '@interfaces/cliente.interface';
 import { ProvinceInterface } from '@interfaces/interfaces';
 import { ElegirClienteModal, ElegirClienteModalResult } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';

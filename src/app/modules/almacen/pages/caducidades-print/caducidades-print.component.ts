@@ -14,9 +14,9 @@ import {
   InformeCaducidadesResult,
   InformeCaducidadesYearInterface,
 } from '@interfaces/informes.interface';
-import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
-import MonthNamePipe from '@modules/shared/pipes/month-name.pipe';
 import InformesService from '@services/informes.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
+import MonthNamePipe from '@shared/pipes/month-name.pipe';
 
 @Component({
   selector: 'otpv-caducidades-print',
@@ -65,20 +65,20 @@ export default class CaducidadesPrintComponent implements OnInit {
           this.years().reduce(
             (sum: number, year: InformeCaducidadesYearInterface): number =>
               sum + year.totalUnidades,
-            0
-          )
+            0,
+          ),
         );
         this.totalPVP.set(
           this.years().reduce(
             (sum: number, year: InformeCaducidadesYearInterface): number => sum + year.totalPVP,
-            0
-          )
+            0,
+          ),
         );
         this.totalPUC.set(
           this.years().reduce(
             (sum: number, year: InformeCaducidadesYearInterface): number => sum + year.totalPUC,
-            0
-          )
+            0,
+          ),
         );
       });
   }

@@ -15,8 +15,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 import {
   InformeVentasCategoriaInterface,
   InformeVentasResult,
-} from '@app/interfaces/informes.interface';
-import { Month } from '@app/interfaces/interfaces';
+} from '@interfaces/informes.interface';
+import { Month } from '@interfaces/interfaces';
 import ConfigService from '@services/config.service';
 import InformesService from '@services/informes.service';
 

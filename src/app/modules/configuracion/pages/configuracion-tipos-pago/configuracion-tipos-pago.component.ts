@@ -26,13 +26,13 @@ import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem, MatListItemIcon } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import {
   TipoPagoInterface,
   TiposPagoOrderInterface,
   TiposPagoResult,
 } from '@interfaces/tipo-pago.interface';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import TipoPago from '@model/tpv/tipo-pago.model';
 import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';

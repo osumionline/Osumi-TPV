@@ -4,17 +4,17 @@ import { MatButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatIcon } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { VentasClienteResult } from '@interfaces/cliente.interface';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { FacturaModal, FacturaModalResult } from '@interfaces/modals.interface';
 import VentaHistorico from '@model/caja/venta-historico.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Factura from '@model/clientes/factura.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
-import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
 import { CustomOverlayRef, DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-edit-factura-modal',

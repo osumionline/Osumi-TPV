@@ -28,6 +28,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { MatTooltip } from '@angular/material/tooltip';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ChartSelectInterface } from '@interfaces/articulo.interface';
 import {
   ClienteSaveResult,
@@ -42,10 +43,9 @@ import {
 } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
-import BuscarClienteModalComponent from '@modules/clientes/components/modals/buscar-cliente-modal/buscar-cliente-modal.component';
-import EditFacturaModalComponent from '@modules/clientes/components/modals/edit-factura-modal/edit-factura-modal.component';
 import VentasClienteComponent from '@modules/clientes/components/ventas-cliente/ventas-cliente.component';
+import BuscarClienteModalComponent from '@modules/clientes/modals/buscar-cliente-modal/buscar-cliente-modal.component';
+import EditFacturaModalComponent from '@modules/clientes/modals/edit-factura-modal/edit-factura-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';
 import ClientesService from '@services/clientes.service';

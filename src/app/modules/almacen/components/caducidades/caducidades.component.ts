@@ -19,6 +19,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import {
   AddCaducidadInterface,
   BuscadorCaducidadesInterface,
@@ -27,16 +28,15 @@ import {
 import { Month, StatusResult } from '@interfaces/interfaces';
 import { CaducidadModalResult } from '@interfaces/modals.interface';
 import Caducidad from '@model/almacen/caducidad.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
-import CaducidadModalComponent from '@modules/almacen/components/modals/caducidad-modal/caducidad-modal.component';
-import FixedNumberPipe from '@modules/shared/pipes/fixed-number.pipe';
+import CaducidadModalComponent from '@modules/almacen/modals/caducidad-modal/caducidad-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import CaducidadesService from '@services/caducidades.service';
 import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
+import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 
 @Component({
   selector: 'otpv-caducidades',

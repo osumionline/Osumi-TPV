@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ArticuloResult, ArticuloSaveResult } from '@interfaces/articulo.interface';
 import {
   AccesosDirectosModal,
@@ -31,16 +32,15 @@ import {
   DarDeBajaModalResult,
 } from '@interfaces/modals.interface';
 import Articulo from '@model/articulos/articulo.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
-import AccesosDirectosModalComponent from '@modules/articulos/components/modals/accesos-directos-modal/accesos-directos-modal.component';
-import ArticuloDarDeBajaModalComponent from '@modules/articulos/components/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component';
 import UnArticuloCodBarrasComponent from '@modules/articulos/components/un-articulo-cod-barras/un-articulo-cod-barras.component';
 import UnArticuloEstadisticasComponent from '@modules/articulos/components/un-articulo-estadisticas/un-articulo-estadisticas.component';
 import UnArticuloGeneralComponent from '@modules/articulos/components/un-articulo-general/un-articulo-general.component';
 import UnArticuloHistoricoComponent from '@modules/articulos/components/un-articulo-historico/un-articulo-historico.component';
 import UnArticuloObservacionesComponent from '@modules/articulos/components/un-articulo-observaciones/un-articulo-observaciones.component';
 import UnArticuloWebComponent from '@modules/articulos/components/un-articulo-web/un-articulo-web.component';
+import AccesosDirectosModalComponent from '@modules/articulos/modals/accesos-directos-modal/accesos-directos-modal.component';
+import ArticuloDarDeBajaModalComponent from '@modules/articulos/modals/articulo-dar-de-baja-modal/articulo-dar-de-baja-modal.component';
 import { DialogService, OverlayService } from '@osumi/angular-tools';
 import { getTwoNumberDecimal, urldecode } from '@osumi/tools';
 import AlmacenService from '@services/almacen.service';
@@ -49,8 +49,8 @@ import ClassMapperService from '@services/class-mapper.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
 import VentasService from '@services/ventas.service';
-import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
 import CustomPaginatorIntl from '@shared/custom-paginator-intl.class';
+import BuscadorModalComponent from '@shared/modals/buscador-modal/buscador-modal.component';
 
 @Component({
   selector: 'otpv-un-articulo',

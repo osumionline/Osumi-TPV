@@ -11,6 +11,7 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
@@ -24,7 +25,6 @@ import {
   StatusResult,
 } from '@interfaces/interfaces';
 import InventarioItem from '@model/almacen/inventario-item.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import { DialogService } from '@osumi/angular-tools';

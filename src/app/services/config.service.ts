@@ -1,12 +1,12 @@
 import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import ApiStatusEnum from '@enum/api-status.enum';
 import {
   AllProvincesInterface,
   AppDataResult,
   Month,
   ProvinceInterface,
 } from '@interfaces/interfaces';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import IVAOption from '@model/tpv/iva-option.model';
 import TipoPago from '@model/tpv/tipo-pago.model';
 import ApiService from '@services/api.service';

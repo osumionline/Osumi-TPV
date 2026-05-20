@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import ApiStatusEnum from '@model/enum/api-status.enum';
+import ApiStatusEnum from '@enum/api-status.enum';
 import ConfigService from '@services/config.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +20,7 @@ const isOpenedGuardFn: CanActivateFn = (): Observable<boolean> => {
           router.navigate(['/']);
         }
         return isBoxOpened;
-      })
+      }),
     );
 };
 

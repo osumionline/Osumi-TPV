@@ -16,7 +16,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { VariosModal, VariosModalResult } from '@app/interfaces/modals.interface';
+import { VariosModal, VariosModalResult } from '@interfaces/modals.interface';
 import { VentaVariosInterface } from '@interfaces/venta.interface';
 import IVAOption from '@model/tpv/iva-option.model';
 import { CustomOverlayRef } from '@osumi/angular-tools';

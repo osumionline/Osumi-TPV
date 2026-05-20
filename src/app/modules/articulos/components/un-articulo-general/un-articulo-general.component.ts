@@ -30,15 +30,15 @@ import Articulo from '@model/articulos/articulo.model';
 import Marca from '@model/marcas/marca.model';
 import Proveedor from '@model/proveedores/proveedor.model';
 import IVAOption from '@model/tpv/iva-option.model';
-import MargenesModalComponent from '@modules/articulos/components/modals/margenes-modal/margenes-modal.component';
-import NewMarcaModalComponent from '@modules/articulos/components/modals/new-marca-modal/new-marca-modal.component';
+import MargenesModalComponent from '@modules/articulos/modals/margenes-modal/margenes-modal.component';
+import NewMarcaModalComponent from '@modules/articulos/modals/new-marca-modal/new-marca-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import { getTwoNumberDecimal } from '@osumi/tools';
 import CategoriasService from '@services/categorias.service';
 import ConfigService from '@services/config.service';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
-import NewProveedorModalComponent from '@shared/components/modals/new-proveedor-modal/new-proveedor-modal.component';
+import NewProveedorModalComponent from '@shared/modals/new-proveedor-modal/new-proveedor-modal.component';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 import { setTwoNumberDecimal } from '@shared/utils';
 

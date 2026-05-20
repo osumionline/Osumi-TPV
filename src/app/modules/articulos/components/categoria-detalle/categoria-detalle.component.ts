@@ -20,7 +20,7 @@ import { DialogService, OverlayService } from '@osumi/angular-tools';
 import CategoriasService from '@services/categorias.service';
 import ClassMapperService from '@services/class-mapper.service';
 import VentasService from '@services/ventas.service';
-import BuscadorAvanzadoModalComponent from '@shared/components/modals/buscador-avanzado-modal/buscador-avanzado-modal.component';
+import BuscadorAvanzadoModalComponent from '@shared/modals/buscador-avanzado-modal/buscador-avanzado-modal.component';
 
 @Component({
   selector: 'otpv-categoria-detalle',

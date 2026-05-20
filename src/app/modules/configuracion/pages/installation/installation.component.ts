@@ -9,6 +9,7 @@ import { MatInput } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { environment } from '@env/environment';
 import {
   AppDataInterface,
@@ -17,7 +18,6 @@ import {
   MarginOptionInterface,
   StatusResult,
 } from '@interfaces/interfaces';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import { DialogService } from '@osumi/angular-tools';
 import ApiService from '@services/api.service';
 import ConfigService from '@services/config.service';
@@ -145,7 +145,7 @@ export default class InstallationComponent implements OnInit {
       this.selectedOption = this.config.tipoIva;
       for (const ivaOption of this.config.ivaOptions) {
         const ivaInd: number = this.ivaOptionsList.findIndex(
-          (x: IvaOptionInterface): boolean => x.option === ivaOption.iva
+          (x: IvaOptionInterface): boolean => x.option === ivaOption.iva,
         );
         this.ivaOptionsList[ivaInd].selected = true;
       }
@@ -156,7 +156,7 @@ export default class InstallationComponent implements OnInit {
       }
       for (const marginOption of this.config.marginList) {
         const marginInd: number = this.marginList.findIndex(
-          (x: MarginOptionInterface): boolean => x.value === marginOption
+          (x: MarginOptionInterface): boolean => x.value === marginOption,
         );
         this.marginList[marginInd].checked = true;
       }

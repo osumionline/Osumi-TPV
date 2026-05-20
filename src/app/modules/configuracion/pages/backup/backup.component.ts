@@ -2,8 +2,8 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatList, MatListItem } from '@angular/material/list';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { BackupResult, StatusResult } from '@interfaces/interfaces';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Backup from '@model/tpv/backup.model';
 import { DialogService } from '@osumi/angular-tools';
 import ClassMapperService from '@services/class-mapper.service';

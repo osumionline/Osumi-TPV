@@ -26,9 +26,9 @@ import { MatInput } from '@angular/material/input';
 import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { EmpleadoSaveInterface } from '@interfaces/empleado.interface';
 import { StatusResult } from '@interfaces/interfaces';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Empleado from '@model/tpv/empleado.model';
 import { DialogService } from '@osumi/angular-tools';
 import EmpleadosService from '@services/empleados.service';
@@ -281,7 +281,7 @@ export default class ConfiguracionEmpleadosComponent implements OnInit {
 
   originalRolGroupOrder = (
     a: KeyValue<string, RolGroup>,
-    b: KeyValue<string, RolGroup>
+    b: KeyValue<string, RolGroup>,
   ): number => {
     return 0;
   };

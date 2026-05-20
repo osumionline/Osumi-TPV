@@ -3,7 +3,7 @@ import { EmpleadoLoginModal, EmpleadoLoginModalResult } from '@interfaces/modals
 import Empleado from '@model/tpv/empleado.model';
 import { OverlayService } from '@osumi/angular-tools';
 import EmpleadosService from '@services/empleados.service';
-import EmployeeLoginModalComponent from '@shared/components/modals/employee-login-modal/employee-login-modal.component';
+import EmployeeLoginModalComponent from '@shared/modals/employee-login-modal/employee-login-modal.component';
 
 @Component({
   selector: 'otpv-employee-login',

@@ -19,6 +19,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ArticuloInterface, ArticuloResult } from '@interfaces/articulo.interface';
 import {
   BuscadorModal,
@@ -38,22 +39,21 @@ import {
 import Articulo from '@model/articulos/articulo.model';
 import VentaLineaHistorico from '@model/caja/venta-linea-historico.model';
 import Cliente from '@model/clientes/cliente.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import Marca from '@model/marcas/marca.model';
 import Empleado from '@model/tpv/empleado.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import Venta from '@model/ventas/venta.model';
-import DevolucionModalComponent from '@modules/ventas/components/modals/devolucion-modal/devolucion-modal.component';
-import VentaAccesosDirectosModalComponent from '@modules/ventas/components/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component';
-import VentaDescuentoModalComponent from '@modules/ventas/components/modals/venta-descuento-modal/venta-descuento-modal.component';
-import VentaVariosModalComponent from '@modules/ventas/components/modals/venta-varios-modal/venta-varios-modal.component';
+import DevolucionModalComponent from '@modules/ventas/modals/devolucion-modal/devolucion-modal.component';
+import VentaAccesosDirectosModalComponent from '@modules/ventas/modals/venta-accesos-directos-modal/venta-accesos-directos-modal.component';
+import VentaDescuentoModalComponent from '@modules/ventas/modals/venta-descuento-modal/venta-descuento-modal.component';
+import VentaVariosModalComponent from '@modules/ventas/modals/venta-varios-modal/venta-varios-modal.component';
 import { DialogService, Modal, OverlayCloseEvent, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
 import MarcasService from '@services/marcas.service';
 import VentasService from '@services/ventas.service';
 import EmployeeLoginComponent from '@shared/components/employee-login/employee-login.component';
-import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
+import BuscadorModalComponent from '@shared/modals/buscador-modal/buscador-modal.component';
 import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
 import { rolList } from '@shared/rol.class';
 

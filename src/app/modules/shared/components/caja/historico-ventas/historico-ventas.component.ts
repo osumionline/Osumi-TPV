@@ -22,7 +22,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import ApiStatusEnum from '@app/model/enum/api-status.enum';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { environment } from '@env/environment';
 import { HistoricoVentasResult, VentaHistoricoOtrosInterface } from '@interfaces/caja.interface';
 import { DateValues, IdSaveResult, StatusResult } from '@interfaces/interfaces';

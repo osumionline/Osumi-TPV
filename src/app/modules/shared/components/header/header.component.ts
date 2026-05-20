@@ -3,7 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
 import { CajaModal } from '@interfaces/modals.interface';
-import CajaModalComponent from '@modules/caja/components/modals/caja-modal/caja-modal.component';
+import CajaModalComponent from '@modules/caja/modals/caja-modal/caja-modal.component';
 import { OverlayService } from '@osumi/angular-tools';
 import ConfigService from '@services/config.service';
 

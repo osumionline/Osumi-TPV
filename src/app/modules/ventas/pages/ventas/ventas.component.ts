@@ -12,17 +12,17 @@ import {
   viewChildren,
   WritableSignal,
 } from '@angular/core';
-import { FinalizarVentaModal, FinalizarVentaModalResult } from '@app/interfaces/modals.interface';
-import Cliente from '@app/model/clientes/cliente.model';
-import ApiStatusEnum from '@app/model/enum/api-status.enum';
-import VentaFin from '@app/model/ventas/venta-fin.model';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
+import { FinalizarVentaModal, FinalizarVentaModalResult } from '@interfaces/modals.interface';
+import Cliente from '@model/clientes/cliente.model';
 import Reserva from '@model/ventas/reserva.model';
+import VentaFin from '@model/ventas/venta-fin.model';
 import VentaLinea from '@model/ventas/venta-linea.model';
 import Venta from '@model/ventas/venta.model';
-import VentaFinalizarModalComponent from '@modules/ventas/components/modals/venta-finalizar-modal/venta-finalizar-modal.component';
 import UnaVentaComponent from '@modules/ventas/components/una-venta/una-venta.component';
 import VentasTabsComponent from '@modules/ventas/components/ventas-tabs/ventas-tabs.component';
+import VentaFinalizarModalComponent from '@modules/ventas/modals/venta-finalizar-modal/venta-finalizar-modal.component';
 import { OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ConfigService from '@services/config.service';

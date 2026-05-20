@@ -12,6 +12,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
+import ApiStatusEnum from '@enum/api-status.enum';
 import { ArticuloResult } from '@interfaces/articulo.interface';
 import {
   BuscadorModal,
@@ -20,11 +21,10 @@ import {
 } from '@interfaces/modals.interface';
 import Caducidad from '@model/almacen/caducidad.model';
 import Articulo from '@model/articulos/articulo.model';
-import ApiStatusEnum from '@model/enum/api-status.enum';
 import { CustomOverlayRef, Modal, OverlayService } from '@osumi/angular-tools';
 import ArticulosService from '@services/articulos.service';
 import ClassMapperService from '@services/class-mapper.service';
-import BuscadorModalComponent from '@shared/components/modals/buscador-modal/buscador-modal.component';
+import BuscadorModalComponent from '@shared/modals/buscador-modal/buscador-modal.component';
 
 @Component({
   selector: 'otpv-caducidad-modal',

@@ -12,7 +12,6 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import Venta from '@app/model/ventas/venta.model';
 import { SelectClienteInterface } from '@interfaces/cliente.interface';
 import {
   ElegirClienteModal,
@@ -21,8 +20,9 @@ import {
 } from '@interfaces/modals.interface';
 import Cliente from '@model/clientes/cliente.model';
 import Reserva from '@model/ventas/reserva.model';
-import ElegirClienteModalComponent from '@modules/ventas/components/modals/elegir-cliente-modal/elegir-cliente-modal.component';
-import ReservasModalComponent from '@modules/ventas/components/modals/reservas-modal/reservas-modal.component';
+import Venta from '@model/ventas/venta.model';
+import ElegirClienteModalComponent from '@modules/ventas/modals/elegir-cliente-modal/elegir-cliente-modal.component';
+import ReservasModalComponent from '@modules/ventas/modals/reservas-modal/reservas-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 
 @Component({
