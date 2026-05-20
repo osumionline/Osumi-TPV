@@ -2,6 +2,7 @@ import { DevolucionSelectedInterface, VentaVariosInterface } from '@interfaces/v
 import Caducidad from '@model/almacen/caducidad.model';
 import Cliente from '@model/clientes/cliente.model';
 import Factura from '@model/clientes/factura.model';
+import Proveedor from '@model/proveedores/proveedor.model';
 import Reserva from '@model/ventas/reserva.model';
 import VentaFin from '@model/ventas/venta-fin.model';
 import { Modal } from '@osumi/angular-tools';
@@ -118,6 +119,10 @@ export interface ReservasModalResult {
 
 export interface NewProveedorModalResult {
   result: number | null;
+}
+
+export interface BuscarProveedorModalResult {
+  proveedor: Proveedor | null;
 }
 
 export interface NewMarcaModalResult {

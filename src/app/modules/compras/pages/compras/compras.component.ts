@@ -47,8 +47,5 @@ export default class ComprasComponent implements OnInit {
     if (ev.index === 1) {
       this.marcas()?.searchFocus();
     }
-    if (ev.index === 2) {
-      this.proveedores()?.searchFocus();
-    }
   }
 }

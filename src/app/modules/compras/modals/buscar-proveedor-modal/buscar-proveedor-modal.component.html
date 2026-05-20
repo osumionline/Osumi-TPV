@@ -1,0 +1,22 @@
+<div class="buscar-proveedor">
+    <mat-form-field class="buscador">
+        <input matInput
+               placeholder="Introduce el nombre a buscar"
+               [(ngModel)]="search"
+               autocomplete="off"
+               #buscarProveedorBoxName>
+    </mat-form-field>
+    <div class="elegir-proveedores">
+        @for (prov of filteredProveedores(); track prov.id) {
+        <div class="proveedor"
+             (click)="selectProveedor(prov)">
+            @if (prov.foto !== null) {
+            <img class="foto"
+                 [src]="prov.foto"
+                 [alt]="`Foto de ${prov.nombre}`">
+            }
+            {{ prov.nombre }}
+        </div>
+        }
+    </div>
+</div>

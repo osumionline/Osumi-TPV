@@ -1,308 +1,274 @@
-<mat-card class="proveedores">
-    <mat-card-content class="full-height">
-        <div class="section-header">
-            <span class="section-title">Proveedores</span>
-            <div class="section-options">
-                @if (start()) {
-                <span class="section-button"
-                      (click)="findProveedor()"
-                      matTooltip="Elegir proveedor"
-                      #btnFindProveedor>
-                    <mat-icon>search</mat-icon>
-                </span>
-                }
-                @else {
-                <span class="section-info">{{ selectedProveedor.nombre }}</span>
-                <span class="section-button"
-                      (click)="removeProveedor()"
-                      matTooltip="Quitar proveedor">
-                    <mat-icon>close</mat-icon>
-                </span>
-                }
-                <span class="section-button"
-                      (click)="newProveedor()"
-                      matTooltip="Añadir proveedor">
-                    <mat-icon>person_add</mat-icon>
-                </span>
-            </div>
+<div class="full-height">
+    <div class="section-header">
+        <span class="section-title">Proveedores</span>
+        <div class="section-options">
+            @if (start()) {
+            <span class="section-button"
+                  (click)="findProveedor()"
+                  matTooltip="Elegir proveedor"
+                  #btnFindProveedor>
+                <mat-icon>search</mat-icon>
+            </span>
+            }
+            @else {
+            <span class="section-info">{{ selectedProveedor.nombre }}</span>
+            <span class="section-button"
+                  (click)="removeProveedor()"
+                  matTooltip="Quitar proveedor">
+                <mat-icon>close</mat-icon>
+            </span>
+            }
+            <span class="section-button"
+                  (click)="newProveedor()"
+                  matTooltip="Añadir proveedor">
+                <mat-icon>person_add</mat-icon>
+            </span>
         </div>
-        <div class="flex-content">
-            <aside>
-                <mat-form-field class="search full-width"
-                                subscriptSizing="dynamic">
-                    <input matInput
-                           placeholder="Nombre"
-                           [(ngModel)]="search"
-                           name="searchProveedores"
-                           #searchBox>
-                    <span matPrefix>
-                        <mat-icon>search</mat-icon>
-                    </span>
-                </mat-form-field>
-                <mat-action-list class="proveedores-list">
-                    @for (proveedor of filteredProveedores(); track proveedor.id) {
-                    <button mat-list-item
-                            (click)="selectProveedor(proveedor)"
-                            [class]="{'selected-provider': selectedProveedor.id === proveedor.id}">
-                        {{proveedor.nombre}}
-                    </button>
-                    }
-                </mat-action-list>
-                <div class="new-provider">
-                    <button mat-flat-button
-                            color="primary"
-                            (click)="newProveedor()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        Añadir proveedor
-                    </button>
-                </div>
-            </aside>
-            <main>
-                <div [class]="{'show': start()}"
-                     class="start-message">Elige un proveedor de la lista.</div>
-                <div [class]="{'show': !start()}"
-                     class="main-body">
-                    <mat-tab-group dynamicHeight
-                                   [selectedIndex]="selectedTab"
-                                   (selectedIndexChange)="selectedTab = $event"
-                                   (selectedTabChange)="checkMarcasTab($event)"
-                                   #proveedorTabs>
-                        <mat-tab label="DATOS">
-                            <form [formGroup]="form"
-                                  (ngSubmit)="onSubmit()">
-                                <div class="group-row">
-                                    <div class="form-field half-width">
-                                        <div class="form-field max-width">
-                                            <label>Nombre (*)</label>
-                                            <mat-form-field class="max-width form-title">
-                                                <input matInput
-                                                       placeholder="Nombre"
-                                                       formControlName="nombre"
-                                                       name="nombre"
-                                                       #nameBox>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field max-width">
-                                            <label>Teléfono</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Teléfono"
-                                                       name="telefono"
-                                                       formControlName="telefono">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field max-width">
-                                            <label>Email</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Email"
-                                                       name="email"
-                                                       formControlName="email">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="form-field half-width">
-                                        <div class="logo-row">
-                                            <input type="file"
-                                                   name="logo-file"
-                                                   id="logo-file"
-                                                   accept="image/png, image/gif, image/jpeg"
-                                                   (change)="onLogoChange($event)">
-                                            <div class="logo">
-                                                <img [src]="logo"
-                                                     [alt]="selectedProveedor.nombre">
-                                            </div>
-                                            <button mat-flat-button
-                                                    color="primary"
-                                                    type="button"
-                                                    (click)="addLogo()">Cambiar logo</button>
-                                        </div>
-                                    </div>
+    </div>
+    <div class="flex-content proveedores-content">
+        <div [class]="{'show': start()}"
+             class="start-message">Elige un proveedor de la lista.</div>
+        <div [class]="{'show': !start()}"
+             class="main-body">
+            <mat-tab-group dynamicHeight
+                           [selectedIndex]="selectedTab"
+                           (selectedIndexChange)="selectedTab = $event"
+                           (selectedTabChange)="checkMarcasTab($event)"
+                           #proveedorTabs>
+                <mat-tab label="DATOS">
+                    <form [formGroup]="form"
+                          (ngSubmit)="onSubmit()">
+                        <div class="group-row">
+                            <div class="form-field half-width">
+                                <div class="form-field max-width">
+                                    <label>Nombre (*)</label>
+                                    <mat-form-field class="max-width form-title">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               formControlName="nombre"
+                                               name="nombre"
+                                               #nameBox>
+                                    </mat-form-field>
                                 </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Dirección</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Dirección"
-                                                   name="direccion"
-                                                   formControlName="direccion">
-                                        </mat-form-field>
-                                    </div>
+                                <div class="form-field max-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               name="telefono"
+                                               formControlName="telefono">
+                                    </mat-form-field>
                                 </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Web</label>
-                                        <mat-form-field class="max-width">
-                                            <input matInput
-                                                   placeholder="Web"
-                                                   name="web"
-                                                   formControlName="web">
-                                        </mat-form-field>
-                                    </div>
+                                <div class="form-field max-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               name="email"
+                                               formControlName="email">
+                                    </mat-form-field>
                                 </div>
-                                <div>
-                                    <div class="form-field max-width">
-                                        <label>Observaciones</label>
-                                        <mat-form-field class="max-width">
-                                            <textarea matInput
-                                                      placeholder="Observaciones"
-                                                      formControlName="observaciones"
-                                                      rows="5"></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <div class="delete">
-                                        @if (form.value.id) {
-                                        <button mat-flat-button
-                                                color="warn"
-                                                type="button"
-                                                (click)="deleteProveedor()">Eliminar</button>
-                                        }
-                                    </div>
-                                    <div class="others">
-                                        <button mat-flat-button
-                                                color="primary"
-                                                [disabled]="!form.dirty"
-                                                type="button"
-                                                (click)="resetForm()">Cancelar</button>
-                                        <button mat-flat-button
-                                                type="submit"
-                                                color="primary"
-                                                [disabled]="!form.valid">Guardar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </mat-tab>
-                        <mat-tab label="MARCAS">
-                            <mat-form-field class="search-marcas"
-                                            subscriptSizing="dynamic">
-                                <input matInput
-                                       placeholder="Nombre"
-                                       name="searchMarcas"
-                                       [(ngModel)]="searchMarcas"
-                                       #searchMarcasBox>
-                                <span matPrefix>
-                                    <mat-icon>search</mat-icon>
-                                </span>
-                            </mat-form-field>
-                            <div class="marcas-list">
-                                @for (marca of filteredMarcasList(); track marca.id) {
-                                <div>
-                                    <mat-checkbox [(ngModel)]="marca.selected">{{ marca.nombre }}</mat-checkbox>
-                                </div>
-                                }
                             </div>
-                        </mat-tab>
-                        <mat-tab label="COMERCIALES">
-                            <div class="comerciales-options">
-                                <div class="comerciales-select">
-                                    <div class="form-field max-width">
-                                        <label>Elige comercial</label>
-                                        <mat-form-field class="max-width">
-                                            <mat-select [(ngModel)]="selectedComercialId"
-                                                        (ngModelChange)="selectComercial($event)"
-                                                        [disabled]="selectedProveedor.comerciales.length===0">
-                                                @for (comercial of selectedProveedor.comerciales; track comercial.id) {
-                                                <mat-option [value]="comercial.id">
-                                                    {{ comercial.nombre }}
-                                                </mat-option>
-                                                }
-                                                @empty {
-                                                <mat-option [value]="-1">No hay ningún comercial todavía.</mat-option>
-                                                }
-                                            </mat-select>
-                                        </mat-form-field>
+                            <div class="form-field half-width">
+                                <div class="logo-row">
+                                    <input type="file"
+                                           name="logo-file"
+                                           id="logo-file"
+                                           accept="image/png, image/gif, image/jpeg"
+                                           (change)="onLogoChange($event)">
+                                    <div class="logo">
+                                        <img [src]="logo()"
+                                             [alt]="selectedProveedor.nombre">
                                     </div>
-                                </div>
-                                <div class="comerciales-new">
                                     <button mat-flat-button
                                             color="primary"
-                                            (click)="newComercial()">
-                                        <mat-icon>add_circle_outline</mat-icon>
-                                        Añadir nuevo comercial
-                                    </button>
+                                            type="button"
+                                            (click)="addLogo()">Cambiar logo</button>
                                 </div>
                             </div>
-                            <div class="comercial-datos"
-                                 [class]="{'show': showComercial}">
-                                <form [formGroup]="formComercial"
-                                      (ngSubmit)="onComercialSubmit()">
-                                    <div>
-                                        <div class="form-field max-width">
-                                            <label>Nombre</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Nombre"
-                                                       name="nombre"
-                                                       formControlName="nombre"
-                                                       required
-                                                       #comercialNameBox>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="form-field half-width">
-                                            <label>Teléfono</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Teléfono"
-                                                       name="telefono"
-                                                       formControlName="telefono">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="form-field half-width">
-                                            <label>Email</label>
-                                            <mat-form-field class="max-width">
-                                                <input matInput
-                                                       placeholder="Email"
-                                                       name="email"
-                                                       formControlName="email">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="form-field max-width">
-                                            <label>Observaciones</label>
-                                            <mat-form-field class="max-width">
-                                                <textarea matInput
-                                                          placeholder="Observaciones"
-                                                          formControlName="observaciones"
-                                                          rows="5"></textarea>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="actions">
-                                        <div class="delete">
-                                            <button mat-flat-button
-                                                    color="warn"
-                                                    [disabled]="!formComercial.value.id"
-                                                    type="button"
-                                                    (click)="deleteComercial()">Borrar</button>
-                                        </div>
-                                        <div class="others">
-                                            <button mat-flat-button
-                                                    color="primary"
-                                                    [disabled]="!formComercial.dirty"
-                                                    type="button"
-                                                    (click)="resetComercialForm()">Cancelar</button>
-                                            <button mat-flat-button
-                                                    type="submit"
-                                                    color="primary"
-                                                    [disabled]="!formComercial.valid">Guardar</button>
-                                        </div>
-                                    </div>
-                                </form>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Dirección</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Dirección"
+                                           name="direccion"
+                                           formControlName="direccion">
+                                </mat-form-field>
                             </div>
-                        </mat-tab>
-                        @if (canSeeStatistics) {
-                        <!--mat-tab label="ESTADÍSTICAS">
-                        </mat-tab-->
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Web</label>
+                                <mat-form-field class="max-width">
+                                    <input matInput
+                                           placeholder="Web"
+                                           name="web"
+                                           formControlName="web">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-field max-width">
+                                <label>Observaciones</label>
+                                <mat-form-field class="max-width">
+                                    <textarea matInput
+                                              placeholder="Observaciones"
+                                              formControlName="observaciones"
+                                              rows="5"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="delete">
+                                @if (form.value.id) {
+                                <button mat-flat-button
+                                        color="warn"
+                                        type="button"
+                                        (click)="deleteProveedor()">Eliminar</button>
+                                }
+                            </div>
+                            <div class="others">
+                                <button mat-flat-button
+                                        color="primary"
+                                        [disabled]="!form.dirty"
+                                        type="button"
+                                        (click)="resetForm()">Cancelar</button>
+                                <button mat-flat-button
+                                        type="submit"
+                                        color="primary"
+                                        [disabled]="!form.valid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="MARCAS">
+                    <mat-form-field class="search-marcas"
+                                    subscriptSizing="dynamic">
+                        <input matInput
+                               placeholder="Nombre"
+                               name="searchMarcas"
+                               [(ngModel)]="searchMarcas"
+                               #searchMarcasBox>
+                        <span matPrefix>
+                            <mat-icon>search</mat-icon>
+                        </span>
+                    </mat-form-field>
+                    <div class="marcas-list">
+                        @for (marca of filteredMarcasList(); track marca.id) {
+                        <div>
+                            <mat-checkbox [(ngModel)]="marca.selected">{{ marca.nombre }}</mat-checkbox>
+                        </div>
                         }
-                    </mat-tab-group>
-                </div>
-            </main>
+                    </div>
+                </mat-tab>
+                <mat-tab label="COMERCIALES">
+                    <div class="comerciales-options">
+                        <div class="comerciales-select">
+                            <div class="form-field max-width">
+                                <label>Elige comercial</label>
+                                <mat-form-field class="max-width">
+                                    <mat-select [(ngModel)]="selectedComercialId"
+                                                (ngModelChange)="selectComercial($event)"
+                                                [disabled]="selectedProveedor.comerciales.length===0">
+                                        @for (comercial of selectedProveedor.comerciales; track comercial.id) {
+                                        <mat-option [value]="comercial.id">
+                                            {{ comercial.nombre }}
+                                        </mat-option>
+                                        }
+                                        @empty {
+                                        <mat-option [value]="-1">No hay ningún comercial todavía.</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="comerciales-new">
+                            <button mat-flat-button
+                                    color="primary"
+                                    (click)="newComercial()">
+                                <mat-icon>add_circle_outline</mat-icon>
+                                Añadir nuevo comercial
+                            </button>
+                        </div>
+                    </div>
+                    <div class="comercial-datos"
+                         [class]="{'show': showComercial}">
+                        <form [formGroup]="formComercial"
+                              (ngSubmit)="onComercialSubmit()">
+                            <div>
+                                <div class="form-field max-width">
+                                    <label>Nombre</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Nombre"
+                                               name="nombre"
+                                               formControlName="nombre"
+                                               required
+                                               #comercialNameBox>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-field half-width">
+                                    <label>Teléfono</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Teléfono"
+                                               name="telefono"
+                                               formControlName="telefono">
+                                    </mat-form-field>
+                                </div>
+                                <div class="form-field half-width">
+                                    <label>Email</label>
+                                    <mat-form-field class="max-width">
+                                        <input matInput
+                                               placeholder="Email"
+                                               name="email"
+                                               formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-field max-width">
+                                    <label>Observaciones</label>
+                                    <mat-form-field class="max-width">
+                                        <textarea matInput
+                                                  placeholder="Observaciones"
+                                                  formControlName="observaciones"
+                                                  rows="5"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <div class="delete">
+                                    <button mat-flat-button
+                                            color="warn"
+                                            [disabled]="!formComercial.value.id"
+                                            type="button"
+                                            (click)="deleteComercial()">Borrar</button>
+                                </div>
+                                <div class="others">
+                                    <button mat-flat-button
+                                            color="primary"
+                                            [disabled]="!formComercial.dirty"
+                                            type="button"
+                                            (click)="resetComercialForm()">Cancelar</button>
+                                    <button mat-flat-button
+                                            type="submit"
+                                            color="primary"
+                                            [disabled]="!formComercial.valid">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-tab>
+                @if (canSeeStatistics) {
+                <!--mat-tab label="ESTADÍSTICAS">
+                        </mat-tab-->
+                }
+            </mat-tab-group>
         </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>

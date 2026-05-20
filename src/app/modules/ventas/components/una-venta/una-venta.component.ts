@@ -79,7 +79,7 @@ export default class UnaVentaComponent {
   private readonly vs: VentasService = inject(VentasService);
   private readonly ars: ArticulosService = inject(ArticulosService);
   private readonly router: Router = inject(Router);
-  private readonly overlayService: OverlayService = inject(OverlayService);
+  private readonly os: OverlayService = inject(OverlayService);
 
   ind: InputSignal<number> = input.required<number>();
   venta: ModelSignal<Venta> = model.required<Venta>();
@@ -183,7 +183,7 @@ export default class UnaVentaComponent {
         key: ev.key,
         showSelect: true,
       };
-      const dialog = this.overlayService.open<BuscadorModalResult>(
+      const dialog = this.os.open<BuscadorModalResult>(
         BuscadorModalComponent,
         modalBuscadorData,
         [],
@@ -406,7 +406,7 @@ export default class UnaVentaComponent {
         idVenta: this.devolucionVenta,
         list: null,
       };
-      const dialog = this.overlayService.open<DevolucionModalResult>(
+      const dialog = this.os.open<DevolucionModalResult>(
         DevolucionModalComponent,
         modalDevolucionData,
         [],
@@ -435,7 +435,7 @@ export default class UnaVentaComponent {
       idVenta: this.devolucionVenta,
       list: list,
     };
-    const dialog = this.overlayService.open<DevolucionModalResult>(
+    const dialog = this.os.open<DevolucionModalResult>(
       DevolucionModalComponent,
       modalDevolucionData,
     );
@@ -579,7 +579,7 @@ export default class UnaVentaComponent {
       pvp: this.venta().lineas[ind].pvp,
       iva: !this.venta().lineas[ind].iva ? 21 : this.venta().lineas[ind].iva,
     };
-    const dialog = this.overlayService.open<VariosModalResult>(
+    const dialog = this.os.open<VariosModalResult>(
       VentaVariosModalComponent,
       modalVariosData,
       [],
@@ -807,7 +807,7 @@ export default class UnaVentaComponent {
       modalTitle: 'Introducir descuento',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open<DescuentoModalResult>(
+    const dialog = this.os.open<DescuentoModalResult>(
       VentaDescuentoModalComponent,
       modalDescuentoData,
       [],
@@ -837,7 +837,7 @@ export default class UnaVentaComponent {
       modalTitle: 'Accesos Directos',
       modalColor: 'blue',
     };
-    const dialog = this.overlayService.open<VentaAccesosDirectosModalResult>(
+    const dialog = this.os.open<VentaAccesosDirectosModalResult>(
       VentaAccesosDirectosModalComponent,
       modalAccesosDirectosData,
       [],

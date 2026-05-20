@@ -17,22 +17,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatActionList, MatListItem } from '@angular/material/list';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatTooltip } from '@angular/material/tooltip';
 import ApiStatusEnum from '@enum/api-status.enum';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { SelectMarcaInterface } from '@interfaces/marca.interface';
+import { BuscarProveedorModalResult } from '@interfaces/modals.interface';
 import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
 import Comercial from '@model/proveedores/comercial.model';
 import Proveedor from '@model/proveedores/proveedor.model';
-import { DialogService } from '@osumi/angular-tools';
+import BuscarProveedorModalComponent from '@modules/compras/modals/buscar-proveedor-modal/buscar-proveedor-modal.component';
+import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 
@@ -43,12 +43,8 @@ import ProveedoresService from '@services/proveedores.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    MatCard,
-    MatCardContent,
     MatFormField,
     MatInput,
-    MatActionList,
-    MatListItem,
     MatButton,
     MatIcon,
     MatTabGroup,
@@ -62,26 +58,12 @@ import ProveedoresService from '@services/proveedores.service';
 export default class ProveedoresComponent implements OnInit {
   private readonly ps: ProveedoresService = inject(ProveedoresService);
   private readonly ms: MarcasService = inject(MarcasService);
+  private readonly os: OverlayService = inject(OverlayService);
   private readonly dialog: DialogService = inject(DialogService);
 
-  search: WritableSignal<string> = signal<string>('');
-  searchBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchBox');
   selectedProveedor: Proveedor = new Proveedor();
   proveedorTabs: Signal<MatTabGroup> = viewChild.required<MatTabGroup>('proveedorTabs');
   selectedTab: number = 0;
-
-  proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([...this.ps.proveedores()]);
-  filteredProveedores: Signal<Proveedor[]> = computed<Proveedor[]>((): Proveedor[] => {
-    const term: string = (this.search() || '').trim().toLowerCase();
-    if (!term) {
-      return this.proveedores();
-    }
-
-    return this.proveedores().filter((p: Proveedor): boolean => {
-      const nombre: string = p?.nombre ?? '';
-      return nombre.toLowerCase().includes(term);
-    });
-  });
 
   searchMarcas: WritableSignal<string> = signal<string>('');
   searchMarcasBox: Signal<ElementRef> = viewChild.required<ElementRef>('searchMarcasBox');
@@ -109,6 +91,7 @@ export default class ProveedoresComponent implements OnInit {
   );
 
   nameBox: Signal<ElementRef> = viewChild.required<ElementRef>('nameBox');
+  btnFindProveedor: Signal<ElementRef> = viewChild.required<ElementRef>('btnFindProveedor');
 
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
@@ -121,7 +104,7 @@ export default class ProveedoresComponent implements OnInit {
   });
   originalValue: ProveedorInterface | null = null;
 
-  logo: string = '/img/default.jpg';
+  logo: WritableSignal<string> = signal<string>('/img/default.jpg');
 
   selectedComercialId: number = -1;
   showComercial: boolean = false;
@@ -150,14 +133,24 @@ export default class ProveedoresComponent implements OnInit {
     this.marcasList.set([...marcasList]);
   }
 
-  searchFocus(): void {
-    setTimeout((): void => {
-      this.searchBox().nativeElement.focus();
-    }, 100);
-  }
-
   findProveedor(): void {
-    console.log('findProveedor');
+    const modalBuscadorData: Modal = {
+      modalTitle: 'Proveedores',
+      modalColor: 'blue',
+      css: 'modal-wide',
+    };
+    const dialog = this.os.open<BuscarProveedorModalResult>(
+      BuscarProveedorModalComponent,
+      modalBuscadorData,
+      [],
+      true,
+      this.btnFindProveedor().nativeElement,
+    );
+    dialog.afterClosed$.subscribe((data): void => {
+      if (data && data.data && data.data.proveedor) {
+        this.selectProveedor(data.data.proveedor);
+      }
+    });
   }
 
   removeProveedor(): void {
@@ -169,6 +162,11 @@ export default class ProveedoresComponent implements OnInit {
   selectProveedor(proveedor: Proveedor): void {
     this.start.set(false);
     this.selectedProveedor = proveedor;
+    if (this.selectedProveedor.foto) {
+      this.logo.set(this.selectedProveedor.foto);
+    } else {
+      this.logo.set('/img/default.jpg');
+    }
     this.form.patchValue(this.selectedProveedor.toInterface(false));
     this.originalValue = this.form.getRawValue();
     this.proveedorTabs().realignInkBar();
@@ -221,7 +219,7 @@ export default class ProveedoresComponent implements OnInit {
       const file = files[0];
       reader.readAsDataURL(file);
       reader.onload = (): void => {
-        this.logo = reader.result as string;
+        this.logo.set(reader.result as string);
         (document.getElementById('logo-file') as HTMLInputElement).value = '';
       };
     }
@@ -229,7 +227,7 @@ export default class ProveedoresComponent implements OnInit {
 
   onSubmit(): void {
     const data: ProveedorInterface = JSON.parse(JSON.stringify(this.form.value));
-    data.foto = this.logo;
+    data.foto = this.logo();
     this.selectedProveedor.fromInterface(data, null, false);
 
     const proveedorMarcasList: number[] = [];
