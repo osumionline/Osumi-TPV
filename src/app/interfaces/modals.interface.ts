@@ -119,7 +119,7 @@ export interface ReservasModalResult {
 }
 
 export interface NewProveedorModalResult {
-  result: number | null;
+  result: Proveedor | null;
 }
 
 export interface BuscarProveedorModalResult {
@@ -127,7 +127,7 @@ export interface BuscarProveedorModalResult {
 }
 
 export interface NewMarcaModalResult {
-  result: number | null;
+  result: Marca | null;
 }
 
 export interface BuscarMarcaModalResult {

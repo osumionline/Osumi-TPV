@@ -106,12 +106,13 @@ export default class UnArticuloGeneralComponent {
       this.btnNewMarca()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data !== null) {
+      if (data !== null && data.data !== null && data.data.result !== null) {
+        const marca: Marca = data.data.result;
+        this.marcas.push(marca);
+        this.marcas.sort((a: Marca, b: Marca): number => a.nombre!.localeCompare(b.nombre!));
         this.articulo.update((value: Articulo): Articulo => {
-          if (data.data !== null) {
-            value.idMarca = data.data.result;
-          }
-          return value;
+          value.idMarca = marca.id;
+          return this.cloneArticulo(value);
         });
       }
     });
@@ -130,12 +131,17 @@ export default class UnArticuloGeneralComponent {
       this.btnNewProveedor()._elementRef.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
-      if (data !== null && data.data !== null) {
+      if (data !== null && data.data !== null && data.data.result !== null) {
+        const proveedor: Proveedor = data.data.result;
+        this.proveedores.push(proveedor);
+        this.proveedores.sort((a: Proveedor, b: Proveedor): number =>
+          a.nombre!.localeCompare(b.nombre!),
+        );
         this.articulo.update((value: Articulo): Articulo => {
           if (data.data !== null) {
-            value.idProveedor = data.data.result;
+            value.idProveedor = proveedor.id;
           }
-          return value;
+          return this.cloneArticulo(value);
         });
       }
     });

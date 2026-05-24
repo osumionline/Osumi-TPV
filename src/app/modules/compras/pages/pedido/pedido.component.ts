@@ -403,7 +403,7 @@ export default class PedidoComponent implements OnInit, OnDestroy {
     );
     dialog.afterClosed$.subscribe((data): void => {
       if (data !== null && data.data !== null && data.data.result !== null) {
-        this.pedido.idProveedor = data.data.result;
+        this.pedido.idProveedor = data.data.result.id as number;
       }
     });
   }

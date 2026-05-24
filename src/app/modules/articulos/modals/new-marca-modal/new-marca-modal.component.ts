@@ -45,7 +45,8 @@ export default class NewMarcaModalComponent implements OnInit {
     this.ms.saveMarca(this.marca.toInterface()).subscribe((result: IdSaveResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         this.ms.resetMarcas();
-        this.customOverlayRef.close({ result: result.id });
+        this.marca.id = result.id;
+        this.customOverlayRef.close({ result: this.marca });
       }
       if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog

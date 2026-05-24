@@ -98,7 +98,7 @@ export default class NewProveedorModalComponent implements OnInit {
           title: 'Error',
           content: '¡No puedes dejar el nombre del proveedor en blanco!',
         })
-        .subscribe(() => {
+        .subscribe((): void => {
           setTimeout((): void => {
             this.nombreBox().nativeElement.focus();
           });
@@ -112,7 +112,7 @@ export default class NewProveedorModalComponent implements OnInit {
           title: 'Confirmar',
           content: 'No has elegido ninguna marca para el proveedor, ¿quieres continuar?',
         })
-        .subscribe((result) => {
+        .subscribe((result: boolean): void => {
           if (result === true) {
             this.guardarProveedorMarcas();
           }
@@ -159,7 +159,8 @@ export default class NewProveedorModalComponent implements OnInit {
     this.ps.saveProveedor(this.proveedor.toInterface()).subscribe((result: IdSaveResult): void => {
       if (result.status === ApiStatusEnum.OK) {
         this.ps.resetProveedores();
-        this.customOverlayRef.close({ result: result.id });
+        this.proveedor.id = result.id;
+        this.customOverlayRef.close({ result: this.proveedor });
       }
       if (result.status === ApiStatusEnum.ERROR_NOMBRE) {
         this.dialog.alert({
