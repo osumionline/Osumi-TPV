@@ -62,6 +62,7 @@ export default class InventarioItem {
   fromInterface(ii: InventarioItemInterface): InventarioItem {
     this.id = ii.id;
     this.localizador = ii.localizador;
+    this._idCategoria = ii.idCategoria;
     this.idCategoria = ii.idCategoria;
     this.marca = urldecode(ii.marca);
     this.proveedor = ii.proveedor !== null ? urldecode(ii.proveedor) : null;
