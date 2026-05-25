@@ -81,7 +81,9 @@ export default class AlmacenService extends BaseService {
         item.stock = articulo.stock;
         item._stock = articulo.stock;
         item.palb = articulo.palb;
+        item._palb = articulo.palb;
         item.puc = articulo.puc;
+        item._puc = articulo.puc;
         item.pvp = articulo.pvp;
         item._pvp = articulo.pvp;
         item.hasCodigosBarras = articulo.hasCodigoBarras;

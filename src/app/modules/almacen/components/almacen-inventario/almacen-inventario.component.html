@@ -28,7 +28,7 @@
         </mat-form-field>
         <mat-form-field subscriptSizing="dynamic"
                         class="margin-right">
-            <mat-select [(ngModel)]="buscador().idCategoria"
+            <mat-select [ngModel]="buscador().idCategoria"
                         (ngModelChange)="updateBuscador({ idCategoria: $event }); resetBuscar()">
                 @for (cat of categoriesPlain(); track cat.id) {
                 <mat-option [value]="cat.id">
@@ -201,9 +201,13 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [ngModel]="element.stock"
-                       (ngModelChange)="updateItemStock(element, $event)"
-                       type="number"
+                <input [ngModel]="getNumericFieldValue(element, 'stock')"
+                       (ngModelChange)="updateNumericFieldDraft(element, 'stock', $event)"
+                       (blur)="commitNumericFieldDraft(element, 'stock')"
+                       (keydown.enter)="commitNumericFieldDraft(element, 'stock')"
+                       (keydown.escape)="cancelNumericFieldDraft(element, 'stock')"
+                       type="text"
+                       inputmode="decimal"
                        placeholder="Stock"
                        (focus)="$event.target.select()"
                        matInput>
@@ -385,7 +389,7 @@
 <mat-paginator [length]="pags"
                [pageSize]="buscador().num"
                [pageSizeOptions]="[20, 50, 100, 200]"
-               [pageIndex]="pageIndex"
+               [pageIndex]="pageIndex()"
                (page)="changePage($event)" />
 <div class="total-inventario">
     Media margen: <strong>{{ mediaMargen() | fixedNumber }}</strong> %

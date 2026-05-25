@@ -346,10 +346,12 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   }
 
   updateItemStock(item: InventarioItem, value: number | string | null): void {
+    this.clearNumericFieldDrafts(item, ['stock']);
     this.updateItem(item, { stock: this.getNullableNumber(value) });
   }
 
   resetItemStock(item: InventarioItem): void {
+    this.clearNumericFieldDrafts(item, ['stock']);
     this.updateItem(item, { stock: item._stock });
   }
 
@@ -397,6 +399,9 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     }
 
     switch (field) {
+      case 'stock':
+        this.updateItemStock(item, parsedValue);
+        break;
       case 'palb':
         this.updateItemPalb(item, parsedValue);
         break;
@@ -458,7 +463,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   }
 
   resetItemChanges(item: InventarioItem): void {
-    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.clearNumericFieldDrafts(item, ['stock', 'palb', 'puc', 'pvp']);
     this.updateItem(item, {
       idCategoria: item._idCategoria,
       stock: item._stock,
@@ -535,7 +540,10 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   private updateItem(item: InventarioItem, changes: Partial<InventarioItem>): void {
     this.list.update((value: InventarioItem[]): InventarioItem[] => {
-      const index: number = value.indexOf(item);
+      const index: number =
+        item.id !== null
+          ? value.findIndex((listItem: InventarioItem): boolean => listItem.id === item.id)
+          : value.indexOf(item);
       if (index === -1) {
         return value;
       }
@@ -581,6 +589,8 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     field: NumericEditableField,
   ): number | null {
     switch (field) {
+      case 'stock':
+        return item.stock;
       case 'palb':
         return item.palb;
       case 'puc':
@@ -691,4 +701,4 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
   }
 }
 
-type NumericEditableField = 'palb' | 'puc' | 'pvp';
+type NumericEditableField = 'stock' | 'palb' | 'puc' | 'pvp';
