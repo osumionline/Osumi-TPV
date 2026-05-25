@@ -383,19 +383,19 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     );
   }
 
-  commitNumericFieldDraft(item: InventarioItem, field: NumericEditableField): void {
+  commitNumericFieldDraft(item: InventarioItem, field: NumericEditableField): boolean {
     const draftKey: string = this.getNumericFieldDraftKey(item, field);
     const draftValue: string | undefined = this.numericFieldDrafts()[draftKey];
 
     if (draftValue === undefined) {
-      return;
+      return true;
     }
 
     this.clearNumericFieldDrafts(item, [field]);
 
     const parsedValue: number | null | undefined = this.parseNullableDecimal(draftValue);
     if (parsedValue === undefined) {
-      return;
+      return false;
     }
 
     switch (field) {
@@ -412,6 +412,23 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
         this.updateItemPvp(item, parsedValue);
         break;
     }
+
+    return true;
+  }
+
+  commitAndNext(ev: Event, item: InventarioItem, field: NumericEditableField): void {
+    ev.preventDefault();
+
+    const nextItem: InventarioItem | null = this.getNextItem(item);
+    const committed: boolean = this.commitNumericFieldDraft(item, field);
+
+    if (!committed || nextItem === null) {
+      return;
+    }
+
+    setTimeout((): void => {
+      this.focusNumericField(nextItem, field);
+    });
   }
 
   cancelNumericFieldDraft(item: InventarioItem, field: NumericEditableField): void {
@@ -602,6 +619,29 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   private getNumericFieldDraftKey(item: InventarioItem, field: NumericEditableField): string {
     return `${item.id ?? 'new'}:${field}`;
+  }
+
+  private getNextItem(item: InventarioItem): InventarioItem | null {
+    const list: InventarioItem[] = this.inventarioDataSource.data;
+    const index: number =
+      item.id !== null
+        ? list.findIndex((listItem: InventarioItem): boolean => listItem.id === item.id)
+        : list.indexOf(item);
+
+    return index !== -1 && index < list.length - 1 ? list[index + 1] : null;
+  }
+
+  private focusNumericField(item: InventarioItem, field: NumericEditableField): void {
+    const input: HTMLInputElement | null = document.querySelector(
+      `input[data-inventory-id="${item.id ?? 'new'}"][data-inventory-field="${field}"]`,
+    );
+
+    if (input === null) {
+      return;
+    }
+
+    input.focus();
+    input.select();
   }
 
   private clearNumericFieldDrafts(item: InventarioItem, fields: NumericEditableField[]): void {
