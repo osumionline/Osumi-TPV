@@ -162,10 +162,6 @@
                     }
                 </mat-select>
             </mat-form-field>
-            @if (element.categoriaChanged) {
-            <mat-icon (click)="resetItemCategoria(element)"
-                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
-            }
         </td>
     </ng-container>
 
@@ -212,10 +208,6 @@
                        (focus)="$event.target.select()"
                        matInput>
             </mat-form-field>
-            @if (element.stockChanged) {
-            <mat-icon (click)="resetItemStock(element)"
-                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
-            }
         </td>
     </ng-container>
 
@@ -234,18 +226,18 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [ngModel]="element.palb"
-                       (ngModelChange)="updateItemPalb(element, $event)"
-                       type="number"
+                <input [ngModel]="getNumericFieldValue(element, 'palb')"
+                       (ngModelChange)="updateNumericFieldDraft(element, 'palb', $event)"
+                       (blur)="commitNumericFieldDraft(element, 'palb')"
+                       (keydown.enter)="commitNumericFieldDraft(element, 'palb')"
+                       (keydown.escape)="cancelNumericFieldDraft(element, 'palb')"
+                       type="text"
+                       inputmode="decimal"
                        placeholder="Precio albarán"
                        (focus)="$event.target.select()"
                        matInput>
                 <span matTextSuffix>€</span>
             </mat-form-field>
-            @if (element.palbChanged) {
-            <mat-icon (click)="resetItemPalb(element)"
-                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
-            }
         </td>
     </ng-container>
 
@@ -264,18 +256,18 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [ngModel]="element.puc"
-                       (ngModelChange)="updateItemPuc(element, $event)"
-                       type="number"
+                <input [ngModel]="getNumericFieldValue(element, 'puc')"
+                       (ngModelChange)="updateNumericFieldDraft(element, 'puc', $event)"
+                       (blur)="commitNumericFieldDraft(element, 'puc')"
+                       (keydown.enter)="commitNumericFieldDraft(element, 'puc')"
+                       (keydown.escape)="cancelNumericFieldDraft(element, 'puc')"
+                       type="text"
+                       inputmode="decimal"
                        placeholder="PUC"
                        (focus)="$event.target.select()"
                        matInput>
                 <span matTextSuffix>€</span>
             </mat-form-field>
-            @if (element.pucChanged) {
-            <mat-icon (click)="resetItemPuc(element)"
-                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
-            }
         </td>
     </ng-container>
 
@@ -294,18 +286,18 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [ngModel]="element.pvp"
-                       (ngModelChange)="updateItemPvp(element, $event)"
-                       type="number"
+                <input [ngModel]="getNumericFieldValue(element, 'pvp')"
+                       (ngModelChange)="updateNumericFieldDraft(element, 'pvp', $event)"
+                       (blur)="commitNumericFieldDraft(element, 'pvp')"
+                       (keydown.enter)="commitNumericFieldDraft(element, 'pvp')"
+                       (keydown.escape)="cancelNumericFieldDraft(element, 'pvp')"
+                       type="text"
+                       inputmode="decimal"
                        placeholder="PVP"
                        (focus)="$event.target.select()"
                        matInput>
                 <span matTextSuffix>€</span>
             </mat-form-field>
-            @if (element.pvpChanged) {
-            <mat-icon (click)="resetItemPvp(element)"
-                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
-            }
         </td>
     </ng-container>
 
@@ -320,7 +312,7 @@
         </th>
         <td class="center"
             mat-cell
-            *matCellDef="let element">{{ element.margen | fixedNumber }} %</td>
+            *matCellDef="let element">{{ element.margenActualizado | fixedNumber }} %</td>
     </ng-container>
 
     <!-- Código de barras -->
@@ -361,6 +353,12 @@
         <td class="opciones"
             mat-cell
             *matCellDef="let element">
+            <button mat-icon-button
+                    [disabled]="!itemHasChanges(element)"
+                    (click)="resetItemChanges(element)"
+                    matTooltip="Deshacer cambios">
+                <mat-icon>restart_alt</mat-icon>
+            </button>
             <button mat-icon-button
                     [disabled]="!itemHasChanges(element)"
                     (click)="saveInventario(element)"

@@ -90,6 +90,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     num: 50,
   });
   list: WritableSignal<InventarioItem[]> = signal<InventarioItem[]>([]);
+  numericFieldDrafts: WritableSignal<Record<string, string>> = signal<Record<string, string>>({});
   hasChanges = computed((): boolean => {
     return this.list().some((item: InventarioItem): boolean => this.itemHasChanges(item));
   });
@@ -352,28 +353,120 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     this.updateItem(item, { stock: item._stock });
   }
 
+  getNumericFieldValue(item: InventarioItem, field: NumericEditableField): string | number | null {
+    const draftValue: string | undefined =
+      this.numericFieldDrafts()[this.getNumericFieldDraftKey(item, field)];
+
+    if (draftValue !== undefined) {
+      return draftValue;
+    }
+
+    return this.getCurrentNumericFieldValue(item, field);
+  }
+
+  updateNumericFieldDraft(
+    item: InventarioItem,
+    field: NumericEditableField,
+    value: string | null,
+  ): void {
+    const draftKey: string = this.getNumericFieldDraftKey(item, field);
+
+    this.numericFieldDrafts.update(
+      (currentDrafts: Record<string, string>): Record<string, string> => {
+        return {
+          ...currentDrafts,
+          [draftKey]: value ?? '',
+        };
+      },
+    );
+  }
+
+  commitNumericFieldDraft(item: InventarioItem, field: NumericEditableField): void {
+    const draftKey: string = this.getNumericFieldDraftKey(item, field);
+    const draftValue: string | undefined = this.numericFieldDrafts()[draftKey];
+
+    if (draftValue === undefined) {
+      return;
+    }
+
+    this.clearNumericFieldDrafts(item, [field]);
+
+    const parsedValue: number | null | undefined = this.parseNullableDecimal(draftValue);
+    if (parsedValue === undefined) {
+      return;
+    }
+
+    switch (field) {
+      case 'palb':
+        this.updateItemPalb(item, parsedValue);
+        break;
+      case 'puc':
+        this.updateItemPuc(item, parsedValue);
+        break;
+      case 'pvp':
+        this.updateItemPvp(item, parsedValue);
+        break;
+    }
+  }
+
+  cancelNumericFieldDraft(item: InventarioItem, field: NumericEditableField): void {
+    this.clearNumericFieldDrafts(item, [field]);
+  }
+
   updateItemPalb(item: InventarioItem, value: number | string | null): void {
-    this.updateItem(item, { palb: this.getNullableNumber(value) });
+    const palb: number | null = this.getNullableNumber(value);
+    const puc: number | null = this.calculatePucFromPalb(item, palb);
+    const pvp: number | null = this.calculatePvpFromPuc(item, puc);
+
+    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.updateItem(item, { palb, puc, pvp });
   }
 
   resetItemPalb(item: InventarioItem): void {
-    this.updateItem(item, { palb: item._palb });
+    const puc: number | null = this.calculatePucFromPalb(item, item._palb);
+    const pvp: number | null = this.calculatePvpFromPuc(item, puc);
+
+    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.updateItem(item, { palb: item._palb, puc, pvp });
   }
 
   updateItemPuc(item: InventarioItem, value: number | string | null): void {
-    this.updateItem(item, { puc: this.getNullableNumber(value) });
+    const puc: number | null = this.getNullableNumber(value);
+    const palb: number | null = this.calculatePalbFromPuc(item, puc);
+    const pvp: number | null = this.calculatePvpFromPuc(item, puc);
+
+    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.updateItem(item, { palb, puc, pvp });
   }
 
   resetItemPuc(item: InventarioItem): void {
-    this.updateItem(item, { puc: item._puc });
+    const palb: number | null = this.calculatePalbFromPuc(item, item._puc);
+    const pvp: number | null = this.calculatePvpFromPuc(item, item._puc);
+
+    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.updateItem(item, { palb, puc: item._puc, pvp });
   }
 
   updateItemPvp(item: InventarioItem, value: number | string | null): void {
+    this.clearNumericFieldDrafts(item, ['pvp']);
     this.updateItem(item, { pvp: this.getNullableNumber(value) });
   }
 
   resetItemPvp(item: InventarioItem): void {
+    this.clearNumericFieldDrafts(item, ['pvp']);
     this.updateItem(item, { pvp: item._pvp });
+  }
+
+  resetItemChanges(item: InventarioItem): void {
+    this.clearNumericFieldDrafts(item, ['palb', 'puc', 'pvp']);
+    this.updateItem(item, {
+      idCategoria: item._idCategoria,
+      stock: item._stock,
+      palb: item._palb,
+      puc: item._puc,
+      pvp: item._pvp,
+      codigoBarras: null,
+    });
   }
 
   updateItemCodigoBarras(item: InventarioItem, value: string | null): void {
@@ -468,6 +561,98 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     return Number.isFinite(parsedValue) ? parsedValue : null;
   }
 
+  private parseNullableDecimal(value: string): number | null | undefined {
+    const normalizedValue: string = value.trim().replace(',', '.');
+
+    if (normalizedValue === '') {
+      return null;
+    }
+
+    if (!/^-?\d*(?:\.\d*)?$/.test(normalizedValue)) {
+      return undefined;
+    }
+
+    const parsedValue: number = Number(normalizedValue);
+    return Number.isFinite(parsedValue) ? parsedValue : undefined;
+  }
+
+  private getCurrentNumericFieldValue(
+    item: InventarioItem,
+    field: NumericEditableField,
+  ): number | null {
+    switch (field) {
+      case 'palb':
+        return item.palb;
+      case 'puc':
+        return item.puc;
+      case 'pvp':
+        return item.pvp;
+    }
+  }
+
+  private getNumericFieldDraftKey(item: InventarioItem, field: NumericEditableField): string {
+    return `${item.id ?? 'new'}:${field}`;
+  }
+
+  private clearNumericFieldDrafts(item: InventarioItem, fields: NumericEditableField[]): void {
+    this.numericFieldDrafts.update(
+      (currentDrafts: Record<string, string>): Record<string, string> => {
+        const nextDrafts: Record<string, string> = { ...currentDrafts };
+
+        for (const field of fields) {
+          delete nextDrafts[this.getNumericFieldDraftKey(item, field)];
+        }
+
+        return nextDrafts;
+      },
+    );
+  }
+
+  private getTaxFactor(item: InventarioItem): number {
+    return 1 + this.getPercentageFactor(item.iva) + this.getPercentageFactor(item.re);
+  }
+
+  private getMargenFactor(item: InventarioItem): number {
+    return 1 + this.getPercentageFactor(item.margen);
+  }
+
+  private getPercentageFactor(value: number | null): number {
+    return (value ?? 0) / 100;
+  }
+
+  private calculatePucFromPalb(item: InventarioItem, palb: number | null): number | null {
+    if (palb === null) {
+      return null;
+    }
+
+    return this.roundPrice(palb * this.getTaxFactor(item));
+  }
+
+  private calculatePalbFromPuc(item: InventarioItem, puc: number | null): number | null {
+    if (puc === null) {
+      return null;
+    }
+
+    const taxFactor: number = this.getTaxFactor(item);
+    if (taxFactor === 0) {
+      return null;
+    }
+
+    return this.roundPrice(puc / taxFactor);
+  }
+
+  private calculatePvpFromPuc(item: InventarioItem, puc: number | null): number | null {
+    if (puc === null) {
+      return null;
+    }
+
+    return this.roundPrice(puc * this.getMargenFactor(item));
+  }
+
+  private roundPrice(value: number): number {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+
   private getSavedItem(item: InventarioItem): InventarioItem {
     const savedItem: InventarioItem = this.cloneInventarioItem(item);
     savedItem._idCategoria = savedItem.idCategoria;
@@ -505,3 +690,5 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     return Object.assign(new InventarioItem(), item);
   }
 }
+
+type NumericEditableField = 'palb' | 'puc' | 'pvp';
