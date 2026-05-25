@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, WritableSignal, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  WritableSignal,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -82,6 +90,9 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     num: 50,
   });
   list: WritableSignal<InventarioItem[]> = signal<InventarioItem[]>([]);
+  hasChanges = computed((): boolean => {
+    return this.list().some((item: InventarioItem): boolean => this.itemHasChanges(item));
+  });
   pags: WritableSignal<number> = signal<number>(0);
   pageIndex: WritableSignal<number> = signal<number>(0);
   mediaMargen: WritableSignal<number> = signal<number>(0);
@@ -227,10 +238,6 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     return suma / array.length;
   }
 
-  hasChanges(): boolean {
-    return this.list().some((item: InventarioItem): boolean => this.itemHasChanges(item));
-  }
-
   itemHasChanges(item: InventarioItem): boolean {
     return (
       item.categoriaChanged ||
@@ -329,6 +336,50 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
       });
   }
 
+  updateItemCategoria(item: InventarioItem, value: number | null): void {
+    this.updateItem(item, { idCategoria: value });
+  }
+
+  resetItemCategoria(item: InventarioItem): void {
+    this.updateItem(item, { idCategoria: item._idCategoria });
+  }
+
+  updateItemStock(item: InventarioItem, value: number | string | null): void {
+    this.updateItem(item, { stock: this.getNullableNumber(value) });
+  }
+
+  resetItemStock(item: InventarioItem): void {
+    this.updateItem(item, { stock: item._stock });
+  }
+
+  updateItemPalb(item: InventarioItem, value: number | string | null): void {
+    this.updateItem(item, { palb: this.getNullableNumber(value) });
+  }
+
+  resetItemPalb(item: InventarioItem): void {
+    this.updateItem(item, { palb: item._palb });
+  }
+
+  updateItemPuc(item: InventarioItem, value: number | string | null): void {
+    this.updateItem(item, { puc: this.getNullableNumber(value) });
+  }
+
+  resetItemPuc(item: InventarioItem): void {
+    this.updateItem(item, { puc: item._puc });
+  }
+
+  updateItemPvp(item: InventarioItem, value: number | string | null): void {
+    this.updateItem(item, { pvp: this.getNullableNumber(value) });
+  }
+
+  resetItemPvp(item: InventarioItem): void {
+    this.updateItem(item, { pvp: item._pvp });
+  }
+
+  updateItemCodigoBarras(item: InventarioItem, value: string | null): void {
+    this.updateItem(item, { codigoBarras: value });
+  }
+
   exportInventario(): void {
     this.as.exportInventario(this.buscador()).subscribe((result): void => {
       const data: Blob = new Blob([result], {
@@ -387,6 +438,34 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
       });
     });
     this.inventarioDataSource.data = this.list();
+  }
+
+  private updateItem(item: InventarioItem, changes: Partial<InventarioItem>): void {
+    this.list.update((value: InventarioItem[]): InventarioItem[] => {
+      const index: number = value.indexOf(item);
+      if (index === -1) {
+        return value;
+      }
+
+      const list: InventarioItem[] = [...value];
+      list[index] = this.cloneInventarioItem(Object.assign({}, list[index], changes));
+
+      return list;
+    });
+    this.inventarioDataSource.data = this.list();
+  }
+
+  private getNullableNumber(value: number | string | null): number | null {
+    if (value === null || value === '') {
+      return null;
+    }
+
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : null;
+    }
+
+    const parsedValue: number = Number(value);
+    return Number.isFinite(parsedValue) ? parsedValue : null;
   }
 
   private getSavedItem(item: InventarioItem): InventarioItem {

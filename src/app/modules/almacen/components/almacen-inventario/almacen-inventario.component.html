@@ -151,7 +151,8 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <mat-select [(ngModel)]="element.idCategoria"
+                <mat-select [ngModel]="element.idCategoria"
+                            (ngModelChange)="updateItemCategoria(element, $event)"
                             panelWidth="250px">
                     @for (cat of categoriesPlain(); track cat.id) {
                     <mat-option [value]="cat.id">
@@ -162,7 +163,7 @@
                 </mat-select>
             </mat-form-field>
             @if (element.categoriaChanged) {
-            <mat-icon (click)="element.idCategoria = element._idCategoria"
+            <mat-icon (click)="resetItemCategoria(element)"
                       matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
@@ -204,14 +205,15 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [(ngModel)]="element.stock"
+                <input [ngModel]="element.stock"
+                       (ngModelChange)="updateItemStock(element, $event)"
                        type="number"
                        placeholder="Stock"
                        (focus)="$event.target.select()"
                        matInput>
             </mat-form-field>
             @if (element.stockChanged) {
-            <mat-icon (click)="element.stock = element._stock"
+            <mat-icon (click)="resetItemStock(element)"
                       matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
@@ -232,7 +234,8 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [(ngModel)]="element.palb"
+                <input [ngModel]="element.palb"
+                       (ngModelChange)="updateItemPalb(element, $event)"
                        type="number"
                        placeholder="Precio albarán"
                        (focus)="$event.target.select()"
@@ -240,7 +243,7 @@
                 <span matTextSuffix>€</span>
             </mat-form-field>
             @if (element.palbChanged) {
-            <mat-icon (click)="element.palb = element._palb"
+            <mat-icon (click)="resetItemPalb(element)"
                       matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
@@ -261,7 +264,8 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [(ngModel)]="element.puc"
+                <input [ngModel]="element.puc"
+                       (ngModelChange)="updateItemPuc(element, $event)"
                        type="number"
                        placeholder="PUC"
                        (focus)="$event.target.select()"
@@ -269,7 +273,7 @@
                 <span matTextSuffix>€</span>
             </mat-form-field>
             @if (element.pucChanged) {
-            <mat-icon (click)="element.puc = element._puc"
+            <mat-icon (click)="resetItemPuc(element)"
                       matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
@@ -290,7 +294,8 @@
             *matCellDef="let element">
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [(ngModel)]="element.pvp"
+                <input [ngModel]="element.pvp"
+                       (ngModelChange)="updateItemPvp(element, $event)"
                        type="number"
                        placeholder="PVP"
                        (focus)="$event.target.select()"
@@ -298,7 +303,7 @@
                 <span matTextSuffix>€</span>
             </mat-form-field>
             @if (element.pvpChanged) {
-            <mat-icon (click)="element.pvp = element._pvp"
+            <mat-icon (click)="resetItemPvp(element)"
                       matTooltip="Deshacer cambio">restart_alt</mat-icon>
             }
         </td>
@@ -335,7 +340,8 @@
             @else {
             <mat-form-field class="campo-numero-small x-small"
                             subscriptSizing="dynamic">
-                <input [(ngModel)]="element.codigoBarras"
+                <input [ngModel]="element.codigoBarras"
+                       (ngModelChange)="updateItemCodigoBarras(element, $event)"
                        type="text"
                        placeholder="Código de barras"
                        (focus)="$event.target.select()"
