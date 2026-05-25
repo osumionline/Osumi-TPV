@@ -391,7 +391,9 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
 
   private getSavedItem(item: InventarioItem): InventarioItem {
     const savedItem: InventarioItem = this.cloneInventarioItem(item);
+    savedItem._idCategoria = savedItem.idCategoria;
     savedItem._palb = savedItem.palb;
+    savedItem._puc = savedItem.puc;
     savedItem._pvp = savedItem.pvp;
     savedItem._stock = savedItem.stock;
     if (this.hasCodigoBarrasValue(savedItem)) {
