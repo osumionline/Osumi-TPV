@@ -235,6 +235,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     return (
       item.categoriaChanged ||
       item.palbChanged ||
+      item.pucChanged ||
       item.pvpChanged ||
       item.stockChanged ||
       this.hasCodigoBarrasValue(item)

@@ -5,6 +5,7 @@ export default class InventarioItem {
   _idCategoria: number | null = null;
   _stock: number | null = null;
   _palb: number | null = null;
+  _puc: number | null = null;
   _pvp: number | null = null;
   codigoBarras: string | null = null;
 
@@ -26,8 +27,9 @@ export default class InventarioItem {
   ) {
     this._idCategoria = idCategoria;
     this._palb = palb;
-    this._stock = stock;
+    this._puc = puc;
     this._pvp = pvp;
+    this._stock = stock;
   }
 
   get categoriaChanged(): boolean {
@@ -40,6 +42,10 @@ export default class InventarioItem {
 
   get palbChanged(): boolean {
     return this._palb !== this.palb;
+  }
+
+  get pucChanged(): boolean {
+    return this._puc !== this.puc;
   }
 
   get pvpChanged(): boolean {
@@ -66,6 +72,7 @@ export default class InventarioItem {
     this.palb = ii.palb;
     this._palb = ii.palb;
     this.puc = ii.puc;
+    this._puc = ii.puc;
     this.pvp = ii.pvp;
     this._pvp = ii.pvp;
     this.hasCodigosBarras = ii.hasCodigosBarras;

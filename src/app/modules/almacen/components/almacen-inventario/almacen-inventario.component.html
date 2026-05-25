@@ -256,9 +256,22 @@
             PUC
         </th>
         <td class="center"
+            [class]="{'modified': element.pucChanged}"
             mat-cell
             *matCellDef="let element">
-            {{ element.puc | fixedNumber }} €
+            <mat-form-field class="campo-numero-small x-small"
+                            subscriptSizing="dynamic">
+                <input [(ngModel)]="element.puc"
+                       type="number"
+                       placeholder="PUC"
+                       (focus)="$event.target.select()"
+                       matInput>
+                <span matTextSuffix>€</span>
+            </mat-form-field>
+            @if (element.pucChanged) {
+            <mat-icon (click)="element.puc = element._puc"
+                      matTooltip="Deshacer cambio">restart_alt</mat-icon>
+            }
         </td>
     </ng-container>
 
