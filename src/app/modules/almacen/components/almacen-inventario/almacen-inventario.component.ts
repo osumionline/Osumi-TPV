@@ -232,7 +232,7 @@ export default class AlmacenInventarioComponent implements OnInit, OnDestroy {
     if (!array.length) return 0;
 
     const suma: number = array.reduce(
-      (total: number, item: InventarioItem): number => total + item.margen,
+      (total: number, item: InventarioItem): number => total + item.margenActualizado,
       0,
     );
     return suma / array.length;

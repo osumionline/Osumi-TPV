@@ -18,6 +18,9 @@ export default class InventarioItem {
     public referencia: string | null = null,
     public nombre: string | null = null,
     public stock: number | null = null,
+    public iva: number | null = null,
+    public re: number | null = null,
+    public margen: number | null = null,
     public palb: number | null = null,
     public puc: number | null = null,
     public pvp: number | null = null,
@@ -52,7 +55,7 @@ export default class InventarioItem {
     return this._pvp !== this.pvp;
   }
 
-  get margen(): number {
+  get margenActualizado(): number {
     if (this.pvp === 0) {
       return 0;
     }
@@ -70,6 +73,9 @@ export default class InventarioItem {
     this.nombre = urldecode(ii.nombre);
     this.stock = ii.stock;
     this._stock = ii.stock;
+    this.iva = ii.iva;
+    this.re = ii.re;
+    this.margen = ii.margen;
     this.palb = ii.palb;
     this._palb = ii.palb;
     this.puc = ii.puc;
@@ -93,6 +99,9 @@ export default class InventarioItem {
       referencia: urlencode(this.referencia),
       nombre: urlencode(this.nombre),
       stock: this.stock,
+      iva: this.iva,
+      re: this.re,
+      margen: this.margen,
       palb: this.palb,
       puc: this.puc,
       pvp: this.pvp,

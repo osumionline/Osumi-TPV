@@ -19,6 +19,9 @@ export interface InventarioItemInterface {
   referencia: string | null;
   nombre: string | null;
   stock: number | null;
+  iva: number | null;
+  re: number | null;
+  margen: number | null;
   palb: number | null;
   puc: number | null;
   pvp: number | null;
