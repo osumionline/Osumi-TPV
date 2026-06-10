@@ -23,7 +23,7 @@ export default class ImprentaTableComponent implements OnInit {
     filas: number = 4,
     columnas: number = 5,
     seleccionados: ArticuloBuscador[] = [],
-    mostrarPVP: boolean = true
+    mostrarPVP: boolean = true,
   ): void {
     this.filas = filas;
     this.columnas = columnas;

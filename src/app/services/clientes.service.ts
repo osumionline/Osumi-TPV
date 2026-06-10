@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Service, WritableSignal, signal } from '@angular/core';
 import {
   ClienteInterface,
   ClienteResult,
@@ -16,9 +16,7 @@ import Cliente from '@model/clientes/cliente.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ClientesService extends BaseService {
   clientes: WritableSignal<Cliente[]> = signal<Cliente[]>([]);
   loaded: boolean = false;
@@ -75,7 +73,7 @@ export default class ClientesService extends BaseService {
   getEstadisticasCliente(id: number): Observable<EstadisticasClienteResult> {
     return this.http.post<EstadisticasClienteResult>(
       this.apiUrl + '-clientes/get-estadisticas-cliente',
-      { id }
+      { id },
     );
   }
 
@@ -144,7 +142,7 @@ export default class ClientesService extends BaseService {
   searchVentasCliente(
     id: number,
     month: number | null,
-    year: number | null
+    year: number | null,
   ): Observable<VentasClienteResult> {
     return this.http.post<VentasClienteResult>(this.apiUrl + '-clientes/search-ventas-cliente', {
       id,

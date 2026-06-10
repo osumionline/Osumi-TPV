@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   CategoriaArticulosResult,
   CategoriaArticulosSave,
@@ -10,9 +10,7 @@ import Categoria from '@model/articulos/categoria.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class CategoriasService extends BaseService {
   categorias: Categoria[] = [];
   categoriasPlain: Categoria[] = [];

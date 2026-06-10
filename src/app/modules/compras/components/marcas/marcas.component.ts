@@ -24,9 +24,9 @@ import ApiStatusEnum from '@enum/api-status.enum';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
+import BuscarMarcaModalComponent from '@modules/compras/modals/buscar-marca-modal/buscar-marca-modal.component';
 import { DialogService, Modal, OverlayService } from '@osumi/angular-tools';
 import MarcasService from '@services/marcas.service';
-import BuscarMarcaModalComponent from '../../modals/buscar-marca-modal/buscar-marca-modal.component';
 
 @Component({
   selector: 'otpv-marcas',

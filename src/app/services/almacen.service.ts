@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   BuscadorAlmacenInterface,
   BuscadorAlmacenResult,
@@ -14,9 +14,7 @@ import Articulo from '@model/articulos/articulo.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class AlmacenService extends BaseService {
   buscador: BuscadorAlmacenInterface = {
     idProveedor: null,

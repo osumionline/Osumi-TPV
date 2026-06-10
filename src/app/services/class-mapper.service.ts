@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { InventarioItemInterface } from '@interfaces/almacen.interface';
 import {
   AccesoDirectoInterface,
@@ -25,10 +25,7 @@ import { InformeMensualItemInterface } from '@interfaces/informes.interface';
 import { BackupInterface } from '@interfaces/interfaces';
 import { MarcaInterface } from '@interfaces/marca.interface';
 import { PedidoInterface } from '@interfaces/pedido.interface';
-import {
-  ComercialInterface,
-  ProveedorInterface,
-} from '@interfaces/proveedor.interface';
+import { ComercialInterface, ProveedorInterface } from '@interfaces/proveedor.interface';
 import { TipoPagoInterface } from '@interfaces/tipo-pago.interface';
 import {
   ArticuloTopVentaInterface,
@@ -62,9 +59,7 @@ import TipoPago from '@model/tpv/tipo-pago.model';
 import Reserva from '@model/ventas/reserva.model';
 import VentaFin from '@model/ventas/venta-fin.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ClassMapperService {
   getMarca(m: MarcaInterface): Marca {
     return new Marca().fromInterface(m);
@@ -161,20 +156,14 @@ export default class ClassMapperService {
     });
   }
 
-  getUltimaVentaArticulo(
-    uva: ArticuloUltimaVentaInterface
-  ): ArticuloUltimaVenta {
+  getUltimaVentaArticulo(uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta {
     return new ArticuloUltimaVenta().fromInterface(uva);
   }
 
-  getUltimaVentaArticulos(
-    uvas: ArticuloUltimaVentaInterface[]
-  ): ArticuloUltimaVenta[] {
-    return uvas.map(
-      (uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta => {
-        return this.getUltimaVentaArticulo(uva);
-      }
-    );
+  getUltimaVentaArticulos(uvas: ArticuloUltimaVentaInterface[]): ArticuloUltimaVenta[] {
+    return uvas.map((uva: ArticuloUltimaVentaInterface): ArticuloUltimaVenta => {
+      return this.getUltimaVentaArticulo(uva);
+    });
   }
 
   getTopVentaArticulo(tva: ArticuloTopVentaInterface): ArticuloTopVenta {
@@ -213,14 +202,10 @@ export default class ClassMapperService {
     });
   }
 
-  getHistoricoVentaLineas(
-    hvls: VentaLineaHistoricoInterface[]
-  ): VentaLineaHistorico[] {
-    return hvls.map(
-      (hvl: VentaLineaHistoricoInterface): VentaLineaHistorico => {
-        return new VentaLineaHistorico().fromInterface(hvl);
-      }
-    );
+  getHistoricoVentaLineas(hvls: VentaLineaHistoricoInterface[]): VentaLineaHistorico[] {
+    return hvls.map((hvl: VentaLineaHistoricoInterface): VentaLineaHistorico => {
+      return new VentaLineaHistorico().fromInterface(hvl);
+    });
   }
 
   getSalidaCaja(sc: SalidaCajaInterface): SalidaCaja {
@@ -275,9 +260,7 @@ export default class ClassMapperService {
     return new InformeMensualItem().fromInterface(imi);
   }
 
-  getInformeMensualItems(
-    imis: InformeMensualItemInterface[]
-  ): InformeMensualItem[] {
+  getInformeMensualItems(imis: InformeMensualItemInterface[]): InformeMensualItem[] {
     return imis.map((imi: InformeMensualItemInterface): InformeMensualItem => {
       return this.getInformeMensualItem(imi);
     });
@@ -299,9 +282,7 @@ export default class ClassMapperService {
     return new HistoricoArticulo().fromInterface(ha);
   }
 
-  getHistoricoArticulos(
-    has: HistoricoArticuloInterface[]
-  ): HistoricoArticulo[] {
+  getHistoricoArticulos(has: HistoricoArticuloInterface[]): HistoricoArticulo[] {
     return has.map((ha: HistoricoArticuloInterface): HistoricoArticulo => {
       return this.getHistoricoArticulo(ha);
     });

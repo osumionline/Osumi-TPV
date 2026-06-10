@@ -142,7 +142,9 @@ export default class InformeVentasComponent implements OnInit {
     });
 
     const result: InformeVentasMarcaInterface[] = Array.from(marcas.values()).map(
-      (marca: InformeVentasMarcaInterface & { margenImporte: number }): InformeVentasMarcaInterface => {
+      (
+        marca: InformeVentasMarcaInterface & { margenImporte: number },
+      ): InformeVentasMarcaInterface => {
         return {
           idMarca: marca.idMarca,
           marca: marca.marca,

@@ -172,7 +172,7 @@ export default class ImprentaComponent {
       this.filas(),
       this.columnas(),
       this.seleccionados(),
-      this.mostrarPVP()
+      this.mostrarPVP(),
     );
   }
 
@@ -192,7 +192,7 @@ export default class ImprentaComponent {
   getCantidadTotal(): number {
     return this.seleccionados().reduce(
       (total: number, item: ArticuloBuscador): number => total + item.num,
-      0
+      0,
     );
   }
 

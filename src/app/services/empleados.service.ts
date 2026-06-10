@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Service, WritableSignal, signal } from '@angular/core';
 import {
   EmpleadoLoginInterface,
   EmpleadoSaveInterface,
@@ -9,9 +9,7 @@ import Empleado from '@model/tpv/empleado.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class EmpleadosService extends BaseService {
   empleados: WritableSignal<Empleado[]> = signal<Empleado[]>([]);
   colors: Record<number, string | null> = {};

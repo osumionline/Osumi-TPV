@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { Service, WritableSignal, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import ApiStatusEnum from '@enum/api-status.enum';
 import {
@@ -18,9 +18,7 @@ import MarcasService from '@services/marcas.service';
 import ProveedoresService from '@services/proveedores.service';
 import { Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ConfigService {
   private readonly title: Title = inject(Title);
   private readonly apiService: ApiService = inject(ApiService);

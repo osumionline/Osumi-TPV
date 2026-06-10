@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Service, signal, WritableSignal } from '@angular/core';
 import ApiStatusEnum from '@enum/api-status.enum';
 import { ArticuloBuscadorResult } from '@interfaces/articulo.interface';
 import { HistoricoVentasResult } from '@interfaces/caja.interface';
@@ -21,9 +21,7 @@ import BaseService from '@services/base.service';
 import ClientesService from '@services/clientes.service';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class VentasService extends BaseService {
   private readonly cs: ClientesService = inject(ClientesService);
   private readonly dialog: DialogService = inject(DialogService);

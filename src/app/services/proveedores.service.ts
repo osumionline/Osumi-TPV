@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Service, WritableSignal, signal } from '@angular/core';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import {
   ComercialInterface,
@@ -9,9 +9,7 @@ import Proveedor from '@model/proveedores/proveedor.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ProveedoresService extends BaseService {
   proveedores: WritableSignal<Proveedor[]> = signal<Proveedor[]>([]);
   loaded: boolean = false;

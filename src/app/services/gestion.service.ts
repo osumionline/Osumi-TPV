@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { environment } from '@env/environment';
 import { BackupResult, StatusResult } from '@interfaces/interfaces';
 import Empleado from '@model/tpv/empleado.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class GestionService extends BaseService {
   empleado: Empleado | null = null;
 

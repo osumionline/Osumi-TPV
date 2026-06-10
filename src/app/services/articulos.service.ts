@@ -1,4 +1,4 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Service, signal, WritableSignal } from '@angular/core';
 import {
   AccesoDirectoResult,
   ArticuloInterface,
@@ -14,9 +14,7 @@ import Articulo from '@model/articulos/articulo.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ArticulosService extends BaseService {
   selected: WritableSignal<number> = signal<number>(-1);
   list: WritableSignal<Articulo[]> = signal<Articulo[]>([]);
@@ -69,11 +67,11 @@ export default class ArticulosService extends BaseService {
   }
 
   getHistoricoArticulo(
-    data: HistoricoArticuloBuscadorInterface
+    data: HistoricoArticuloBuscadorInterface,
   ): Observable<HistoricoArticuloResult> {
     return this.http.post<HistoricoArticuloResult>(
       this.apiUrl + '-articulos/get-historico-articulo',
-      data
+      data,
     );
   }
 

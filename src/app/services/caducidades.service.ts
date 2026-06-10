@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   AddCaducidadInterface,
   BuscadorCaducidadesInterface,
@@ -9,9 +9,7 @@ import Caducidad from '@model/almacen/caducidad.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class CaducidadesService extends BaseService {
   buscador: BuscadorCaducidadesInterface = {
     year: null,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { StatusResult } from '@interfaces/interfaces';
 import {
   PedidoInterface,
@@ -12,9 +12,7 @@ import Pedido from '@model/compras/pedido.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class ComprasService extends BaseService {
   pedidoTemporal: Pedido | null = null;
   pedidoCargado: number | null = null;
@@ -30,7 +28,7 @@ export default class ComprasService extends BaseService {
   getPedidosRecepcionados(filters: PedidosFilterInterface): Observable<PedidosResult> {
     return this.http.post<PedidosResult>(
       this.apiUrl + '-compras/get-pedidos-recepcionados',
-      filters
+      filters,
     );
   }
 

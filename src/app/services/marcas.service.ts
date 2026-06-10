@@ -1,13 +1,11 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Service, WritableSignal, signal } from '@angular/core';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
 import { MarcaInterface, MarcasResult } from '@interfaces/marca.interface';
 import Marca from '@model/marcas/marca.model';
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class MarcasService extends BaseService {
   marcas: WritableSignal<Marca[]> = signal<Marca[]>([]);
   loaded: boolean = false;

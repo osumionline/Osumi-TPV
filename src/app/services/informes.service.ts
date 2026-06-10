@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { BuscadorCaducidadesInterface } from '@interfaces/caducidad.interface';
 import {
   InformeCaducidadesResult,
@@ -9,9 +9,7 @@ import {
 import BaseService from '@services/base.service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export default class InformesService extends BaseService {
   getInformeSimple(month: number, year: number): Observable<InformeMensualResult> {
     return this.http.post<InformeMensualResult>(this.apiUrl + '-informes/get-informe-simple', {

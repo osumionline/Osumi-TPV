@@ -113,7 +113,7 @@ export default class InformeDetalladoComponent implements OnInit, AfterViewInit 
         const articulos: InformeDetalladoArticuloInterface[] = result.data.articulos;
         for (const item of articulos) {
           this.taTotalUnidadesVendidas.update(
-            (x: number): number => x + item.total_unidades_vendidas
+            (x: number): number => x + item.total_unidades_vendidas,
           );
           this.taTotalVentasPVP.update((x: number): number => x + item.total_ventas_pvp);
           this.taTotalBeneficio.update((x: number): number => x + item.total_beneficio);

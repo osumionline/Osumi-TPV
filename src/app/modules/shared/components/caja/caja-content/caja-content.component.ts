@@ -4,7 +4,6 @@ import {
   OnInit,
   OutputEmitterRef,
   Signal,
-  inject,
   input,
   output,
   viewChild,
@@ -12,7 +11,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import GenerarInformeComponent from '@modules/caja/components/generar-informe/generar-informe.component';
-import ConfigService from '@services/config.service';
 import CierreCajaComponent from '@shared/components/caja/cierre-caja/cierre-caja.component';
 import HistoricoVentasComponent from '@shared/components/caja/historico-ventas/historico-ventas.component';
 import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-caja.component';
@@ -32,8 +30,6 @@ import SalidasCajaComponent from '@shared/components/caja/salidas-caja/salidas-c
   ],
 })
 export default class CajaContentComponent implements OnInit {
-  private readonly config: ConfigService = inject(ConfigService);
-
   cerrarVentanaEvent: OutputEmitterRef<number> = output<number>();
   from: InputSignal<string> = input<string>('modal');
   cajaSelectedTab: number = 0;

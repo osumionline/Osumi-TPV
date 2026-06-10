@@ -216,7 +216,13 @@ export default class CategoriasComponent {
                 return newCat;
               }
 
-              const newCat = new Categoria(cat.id, cat.idPadre, cat.nombre, cat.profundidad, children);
+              const newCat = new Categoria(
+                cat.id,
+                cat.idPadre,
+                cat.nombre,
+                cat.profundidad,
+                children,
+              );
 
               newCat.deployed = cat.deployed;
               return newCat;
