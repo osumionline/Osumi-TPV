@@ -302,7 +302,7 @@ export default class VentasComponent implements OnInit {
   }
 
   abreFinalizarVenta(ventaFin: VentaFin, btnTerminar: ElementRef | undefined): void {
-    console.log({ btnTerminar: btnTerminar?.nativeElement });
+    console.log('abreFinalizarVenta', ventaFin);
     const modalFinalizarVentaData: FinalizarVentaModal = {
       modalTitle: 'Finalizar venta',
       modalColor: 'blue',
@@ -316,6 +316,7 @@ export default class VentasComponent implements OnInit {
       btnTerminar?.nativeElement,
     );
     dialog.afterClosed$.subscribe((data): void => {
+      console.log('FinalizarVentaModalResult', data);
       if (data.data !== null) {
         if (data.data.status === ApiStatusEnum.CLIENTE) {
           this.tabs().selectClient('venta');

@@ -153,10 +153,10 @@ export default class VentasService extends BaseService {
     return this.http.post<FinVentaResult>(this.apiUrl + '-ventas/save-venta', fin.toInterface());
   }
 
-  guardarReserva(): Observable<FinVentaResult> {
+  guardarReserva(fin: VentaFin): Observable<FinVentaResult> {
     return this.http.post<FinVentaResult>(
       this.apiUrl + '-clientes/save-reserva',
-      this.fin.toInterface(),
+      fin.toInterface(),
     );
   }
 

@@ -267,7 +267,7 @@ export default class VentaFinalizarModalComponent implements OnInit, AfterViewIn
     const total: number = toNumber(this.ventaFin.total);
 
     if (this.ventaFin.imprimir === 'reserva' || this.ventaFin.imprimir === 'reserva-sin-ticket') {
-      this.vs.guardarReserva().subscribe((result: FinVentaResult): void => {
+      this.vs.guardarReserva(this.ventaFin).subscribe((result: FinVentaResult): void => {
         if (result.status === ApiStatusEnum.OK) {
           this.customOverlayRef.close({
             status: 'fin-reserva',

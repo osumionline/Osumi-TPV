@@ -890,7 +890,6 @@ export default class UnaVentaComponent {
       }
     }
     if (status === ApiStatusEnum.OK) {
-      console.log(this.btnTerminar()?.nativeElement);
       this.endVentaEvent.emit(this.btnTerminar());
     }
   }
