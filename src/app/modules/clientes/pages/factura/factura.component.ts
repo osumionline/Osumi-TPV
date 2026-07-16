@@ -5,6 +5,8 @@ import {
   InputSignalWithTransform,
   numberAttribute,
   OnInit,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -43,10 +45,10 @@ export default class FacturaComponent implements OnInit {
   deployedAll: boolean = false;
   factura: Factura = new Factura();
   list: FacturaItem[] = [];
-  subtotal: number = 0;
+  subtotal: WritableSignal<number> = signal(0);
   ivas: FacturaIVAInterface[] = [];
-  descuento: number = 0;
-  total: number = 0;
+  descuento: WritableSignal<number> = signal(0);
+  total: WritableSignal<number> = signal(0);
 
   nombreComercial: string = this.config.nombreComercial;
   cif: string = this.config.cif;
@@ -82,6 +84,9 @@ export default class FacturaComponent implements OnInit {
   }
 
   loadData(): void {
+    let subtotal: number = 0;
+    let descuento: number = 0;
+    let total: number = 0;
     for (const venta of this.factura.ventas) {
       const temp: FacturaItem = new FacturaItem();
       temp.concepto = 'Ticket Nº ' + venta.id;
@@ -120,16 +125,19 @@ export default class FacturaComponent implements OnInit {
           temp.descuento = 0;
         }
         temp.descuento += ventaLinea.descuento;
-        this.subtotal += ventaLinea.subtotal;
+        subtotal += ventaLinea.subtotal;
         this.addIva(ventaLinea.iva ?? 0, ventaLinea.ivaImporte);
-        this.descuento += ventaLinea.descuento;
-        this.total += ventaLinea.total ?? 0;
+        descuento += ventaLinea.descuento;
+        total += ventaLinea.total ?? 0;
 
         temp.lineas.push(ventaLinea);
       }
 
       this.list.push(temp);
     }
+    this.subtotal.set(subtotal);
+    this.descuento.set(descuento);
+    this.total.set(total);
   }
 
   addIva(iva: number, importe: number): void {

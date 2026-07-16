@@ -105,7 +105,7 @@
         <table>
             <tr>
                 <td class="label">SUBTOTAL</td>
-                <td class="importe">{{ subtotal | fixedNumber }} €</td>
+                <td class="importe">{{ subtotal() | fixedNumber }} €</td>
             </tr>
             @for (iva of ivas; track iva.iva) {
             <tr>
@@ -115,11 +115,11 @@
             }
             <tr>
                 <td class="label">DESCUENTO</td>
-                <td class="importe">{{ descuento !==0 ? '-' : '' }}{{ descuento | fixedNumber }} €</td>
+                <td class="importe">{{ descuento() !==0 ? '-' : '' }}{{ descuento() | fixedNumber }} €</td>
             </tr>
             <tr>
                 <td class="label importe-total">TOTAL</td>
-                <td class="importe importe-total">{{ total | fixedNumber }} €</td>
+                <td class="importe importe-total">{{ total() | fixedNumber }} €</td>
             </tr>
         </table>
     </div>
