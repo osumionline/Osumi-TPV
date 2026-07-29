@@ -9,6 +9,7 @@ import {
   FacturaSaveInterface,
   FacturasResult,
   ReservasResult,
+  SumaVentasResult,
   VentasClienteResult,
 } from '@interfaces/cliente.interface';
 import { IdSaveResult, StatusResult } from '@interfaces/interfaces';
@@ -148,6 +149,12 @@ export default class ClientesService extends BaseService {
       id,
       month,
       year,
+    });
+  }
+
+  getSumacliente(id: number): Observable<SumaVentasResult> {
+    return this.http.post<SumaVentasResult>(this.apiUrl + '-clientes/get-suma-cliente', {
+      id,
     });
   }
 }

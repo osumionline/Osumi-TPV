@@ -431,6 +431,113 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if (sumaVentas().length > 0) {
+                        <div class="stats-box">
+                            <label>Suma de ventas</label>
+                            <mat-accordion>
+                                @for (yearItem of sumaVentas(); track yearItem.year) {
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            {{ yearItem.year }}
+                                        </mat-panel-title>
+
+                                        <mat-panel-description>
+                                            <div class="stats-row">
+                                                <div class="stats-col">
+                                                    PUC: {{ yearItem.totalPUC | fixedNumber }} €
+                                                </div>
+                                                <div class="stats-col">
+                                                    PVP: {{ yearItem.totalPVP | fixedNumber }} €
+                                                </div>
+                                                <div class="stats-col">
+                                                    Beneficio: {{ yearItem.totalBeneficio | fixedNumber }} €
+                                                </div>
+                                                <div class="stats-col">
+                                                    Margen: {{ yearItem.margen | fixedNumber }} %
+                                                </div>
+                                            </div>
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+
+                                    <table mat-table
+                                           [dataSource]="yearItem.months"
+                                           class="suma-ventas-table">
+                                        <ng-container matColumnDef="month">
+                                            <th mat-header-cell
+                                                *matHeaderCellDef>Mes</th>
+                                            <td mat-cell
+                                                *matCellDef="let monthItem">
+                                                {{ monthItem.monthName }}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="puc">
+                                            <th mat-header-cell
+                                                *matHeaderCellDef>PUC</th>
+                                            <td mat-cell
+                                                *matCellDef="let monthItem">
+                                                {{ monthItem.puc | fixedNumber }} €
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="pvp">
+                                            <th mat-header-cell
+                                                *matHeaderCellDef>PVP</th>
+                                            <td mat-cell
+                                                *matCellDef="let monthItem">
+                                                {{ monthItem.pvp | fixedNumber }} €
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="beneficio">
+                                            <th mat-header-cell
+                                                *matHeaderCellDef>Beneficio</th>
+                                            <td mat-cell
+                                                *matCellDef="let monthItem">
+                                                {{ monthItem.beneficio | fixedNumber }} €
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="margen">
+                                            <th mat-header-cell
+                                                *matHeaderCellDef>Margen</th>
+                                            <td mat-cell
+                                                *matCellDef="let monthItem">
+                                                {{ monthItem.margen | fixedNumber }} %
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row
+                                            *matHeaderRowDef="displayedColumnsSumaVentas"></tr>
+                                        <tr mat-row
+                                            *matRowDef="let row; columns: displayedColumnsSumaVentas"></tr>
+                                    </table>
+                                </mat-expansion-panel>
+                                }
+                            </mat-accordion>
+
+                            <div class="stats-row totals">
+                                <div class="stats-col">
+                                    PUC: {{ sumaVentasTotal().totalPUC | fixedNumber }} €
+                                </div>
+                                <div class="stats-col">
+                                    PVP: {{ sumaVentasTotal().totalPVP | fixedNumber }} €
+                                </div>
+                                <div class="stats-col">
+                                    Beneficio: {{ sumaVentasTotal().totalBeneficio | fixedNumber }} €
+                                </div>
+                                <div class="stats-col">
+                                    Margen: {{ sumaVentasTotal().margen | fixedNumber }} %
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        @else {
+                        <p class="no-results">No hay ventas para este cliente.</p>
+                        }
+
                         <div class="stats-box">
                             <label>Consumo mensual</label>
                             <div class="stats-data"></div>

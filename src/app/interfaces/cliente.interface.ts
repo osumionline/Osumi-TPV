@@ -129,3 +129,50 @@ export interface FacturaIVAInterface {
   iva: number;
   importe: number;
 }
+
+export interface SumaVentaInterface {
+  year: number;
+  month: number;
+  puc: number;
+  pvp: number;
+}
+
+export interface SumaVentasResult {
+  status: string;
+  list: SumaVentaInterface[];
+}
+
+export interface SumaVentaMonthInterface {
+  month: number;
+  puc: number;
+  pvp: number;
+}
+
+export interface SumaVentaYearInterface {
+  year: number;
+  totalPUC: number;
+  totalPVP: number;
+  months: SumaVentaMonthInterface[];
+}
+
+export interface SumaVentaMonthViewInterface extends SumaVentaMonthInterface {
+  monthName: string;
+  beneficio: number;
+  margen: number;
+}
+
+export interface SumaVentaYearViewInterface {
+  year: number;
+  totalPUC: number;
+  totalPVP: number;
+  totalBeneficio: number;
+  margen: number;
+  months: SumaVentaMonthViewInterface[];
+}
+
+export interface SumaVentaTotalInterface {
+  totalPUC: number;
+  totalPVP: number;
+  totalBeneficio: number;
+  margen: number;
+}

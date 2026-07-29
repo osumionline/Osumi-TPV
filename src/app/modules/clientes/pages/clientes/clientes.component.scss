@@ -72,3 +72,32 @@
 .facturas-btn {
   margin: 0 16px;
 }
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  &.totals {
+    border: 1px solid #ccc;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .stats-col {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.suma-ventas-table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.no-results {
+  margin: 16px 0;
+  color: var(--mat-sys-on-surface-variant);
+}

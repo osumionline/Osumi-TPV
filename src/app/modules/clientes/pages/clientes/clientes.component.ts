@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   input,
@@ -20,6 +21,7 @@ import {
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -34,6 +36,13 @@ import {
   ClienteSaveResult,
   EstadisticasClienteResult,
   FacturasResult,
+  SumaVentaInterface,
+  SumaVentaMonthInterface,
+  SumaVentaMonthViewInterface,
+  SumaVentasResult,
+  SumaVentaTotalInterface,
+  SumaVentaYearInterface,
+  SumaVentaYearViewInterface,
 } from '@interfaces/cliente.interface';
 import { Month, ProvinceInterface, StatusResult } from '@interfaces/interfaces';
 import {
@@ -77,6 +86,7 @@ import FixedNumberPipe from '@shared/pipes/fixed-number.pipe';
     MatTableModule,
     MatCheckbox,
     MatTooltip,
+    MatExpansionModule,
     VentasClienteComponent,
   ],
 })
@@ -134,6 +144,36 @@ export default class ClientesComponent implements OnInit {
   };
   monthList: Month[] = [];
   yearList: number[] = [];
+  sumaVentas: WritableSignal<SumaVentaYearViewInterface[]> = signal<SumaVentaYearViewInterface[]>(
+    [],
+  );
+  sumaVentasTotal: Signal<SumaVentaTotalInterface> = computed((): SumaVentaTotalInterface => {
+    const list: SumaVentaYearViewInterface[] = this.sumaVentas();
+
+    const totalPUC: number = this.roundMoney(
+      list.reduce(
+        (total: number, item: SumaVentaYearViewInterface): number => total + item.totalPUC,
+        0,
+      ),
+    );
+
+    const totalPVP: number = this.roundMoney(
+      list.reduce(
+        (total: number, item: SumaVentaYearViewInterface): number => total + item.totalPVP,
+        0,
+      ),
+    );
+
+    const totalBeneficio: number = this.roundMoney(totalPVP - totalPUC);
+
+    return {
+      totalPUC,
+      totalPVP,
+      totalBeneficio,
+      margen: this.calculateMargin(totalPUC, totalPVP),
+    };
+  });
+  displayedColumnsSumaVentas: string[] = ['month', 'puc', 'pvp', 'beneficio', 'margen'];
 
   btnFindCliente: Signal<ElementRef | undefined> = viewChild.required<ElementRef | undefined>(
     'btnFindCliente',
@@ -195,6 +235,20 @@ export default class ClientesComponent implements OnInit {
     this.form.patchValue(this.selectedClient.toInterface(false));
     this.selectedIndex = 0;
     this.clienteTabs().realignInkBar();
+    this.loadEstadisticasCliente();
+    this.loadSumaVentas();
+    this.loadFacturasCliente();
+    setTimeout((): void => {
+      if (!this.focusEmail) {
+        this.nameBox().nativeElement.focus();
+      } else {
+        this.focusEmail = false;
+        this.emailBox().nativeElement.focus();
+      }
+    });
+  }
+
+  loadEstadisticasCliente(): void {
     this.cs
       .getEstadisticasCliente(this.selectedClient.id as number)
       .subscribe((result: EstadisticasClienteResult): void => {
@@ -205,15 +259,97 @@ export default class ClientesComponent implements OnInit {
           this.selectedClient.topVentas = this.cms.getTopVentaArticulos(result.topVentas);
         }
       });
-    this.loadFacturasCliente();
-    setTimeout((): void => {
-      if (!this.focusEmail) {
-        this.nameBox().nativeElement.focus();
-      } else {
-        this.focusEmail = false;
-        this.emailBox().nativeElement.focus();
-      }
+  }
+
+  loadSumaVentas(): void {
+    this.cs
+      .getSumacliente(this.selectedClient.id as number)
+      .subscribe((result: SumaVentasResult): void => {
+        if (result.status === ApiStatusEnum.OK) {
+          this.sumaVentas.set(this.buildSumaVentasView(result.list));
+          console.log(this.sumaVentas());
+        }
+      });
+  }
+
+  private buildSumaVentasView(list: SumaVentaInterface[]): SumaVentaYearViewInterface[] {
+    const grouped: SumaVentaYearInterface[] = this.groupSumaVentasByYear(list);
+
+    return grouped.map((yearItem: SumaVentaYearInterface): SumaVentaYearViewInterface => {
+      const totalBeneficio: number = this.roundMoney(yearItem.totalPVP - yearItem.totalPUC);
+
+      return {
+        year: yearItem.year,
+        totalPUC: yearItem.totalPUC,
+        totalPVP: yearItem.totalPVP,
+        totalBeneficio,
+        margen: this.calculateMargin(yearItem.totalPUC, yearItem.totalPVP),
+        months: yearItem.months.map(
+          (monthItem: SumaVentaMonthInterface): SumaVentaMonthViewInterface => ({
+            ...monthItem,
+            monthName: this.getMonthName(monthItem.month),
+            beneficio: this.roundMoney(monthItem.pvp - monthItem.puc),
+            margen: this.calculateMargin(monthItem.puc, monthItem.pvp),
+          }),
+        ),
+      };
     });
+  }
+
+  private getMonthName(value: number): string {
+    const month: Month | undefined = this.config.monthList.find(
+      (m: Month): boolean => m.id === value,
+    );
+    return month ? month.name : '';
+  }
+
+  private calculateMargin(puc: number, pvp: number): number {
+    if (pvp === 0) {
+      return 0;
+    }
+
+    return this.roundMoney((100 * (pvp - puc)) / pvp);
+  }
+
+  private groupSumaVentasByYear(list: SumaVentaInterface[]): SumaVentaYearInterface[] {
+    const map: Map<number, SumaVentaYearInterface> = new Map<number, SumaVentaYearInterface>();
+
+    list.forEach((item: SumaVentaInterface): void => {
+      const yearData: SumaVentaYearInterface = map.get(item.year) ?? {
+        year: item.year,
+        totalPUC: 0,
+        totalPVP: 0,
+        months: [],
+      };
+
+      yearData.totalPUC += item.puc;
+      yearData.totalPVP += item.pvp;
+
+      yearData.months.push({
+        month: item.month,
+        puc: item.puc,
+        pvp: item.pvp,
+      });
+
+      map.set(item.year, yearData);
+    });
+
+    return Array.from(map.values())
+      .map(
+        (item: SumaVentaYearInterface): SumaVentaYearInterface => ({
+          ...item,
+          totalPUC: this.roundMoney(item.totalPUC),
+          totalPVP: this.roundMoney(item.totalPVP),
+          months: item.months.sort(
+            (a: SumaVentaMonthInterface, b: SumaVentaMonthInterface): number => a.month - b.month,
+          ),
+        }),
+      )
+      .sort((a: SumaVentaYearInterface, b: SumaVentaYearInterface): number => a.year - b.year);
+  }
+
+  private roundMoney(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 
   loadFacturasCliente(): void {
